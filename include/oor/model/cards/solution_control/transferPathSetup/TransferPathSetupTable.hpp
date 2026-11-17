@@ -19,9 +19,9 @@ struct TransferPathSetupFormat
     static void write(const TransferPathSetupCard& card, FieldWriter& writer);
 };
 
-// All the TPADEFN cards, in the category TransferPathSet: the ID is unique per card type (IdSpace::PerCardType) and is
-// what the Case Control TPASET names. The cards are kept whole next to their ID. GRIDSET and every OUTSET are Set
-// references.
+// All the TransferPathSetup cards, in the category TransferPathSet: the ID is unique per card type
+// (IdSpace::PerCardType) and is what the Case Control TPASET names. The cards are kept whole next to their ID. GRIDSET
+// and every OUTSET are Set references.
 class TransferPathSetupTable final : public TypedTable<TransferPathSetupTable, TransferPathSetupCard>
 {
 public:

@@ -592,12 +592,12 @@ void FatigueMatTable::visitReferences(std::uint32_t row, ReferenceVisitor& visit
     FatigueMatCard& card = m_cards.edit(row);
     if (!card.materials)
     {
-        // The ID is the one of the MAT1 that the card serves.
+        // The ID is the one of the IsoMat that the card serves.
         card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
         m_id.set(row, card.id);
         return;
     }
-    // With a MATID line the ID is the card's own and the single MIDi are the MAT1 that it serves.
+    // With a MATID line the ID is the card's own and the single MIDi are the IsoMat that it serves.
     for (FatigueMatIdRun& run : card.materials->matIds)
     {
         if (run.first == run.last)

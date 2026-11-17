@@ -106,7 +106,7 @@ void AeroPrismNodeSet2Table::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AeroPrismNodeSet2Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The macro element is a CAERO1 to CAERO5, in the space of the aerodynamic elements.
+    // The macro element is an AeroLiftingPanel1 to AeroPistonPanel5, in the space of the aerodynamic elements.
     m_aeroPanelId.set(row, visitor.visit("aeroPanelId", ReferenceTarget::AeroElement, m_aeroPanelId.get(row)));
 }
 

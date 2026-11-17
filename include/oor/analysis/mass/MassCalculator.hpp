@@ -16,18 +16,18 @@
 namespace oor::analysis
 {
 
-// Where the mass of an element with offsets is: the shells with a ZOFFS (CQUAD4, CTRIA3, CQUADR, CTRIAR, CQUAD8,
-// CTRIA6, ...) and the bars and beams with WA, WB (CBAR, CBEAM; CBEAM3 with WC). The amount of mass is the same
-// either way (a bar's or a beam's that of its length between the offset ends); only where it is changes.
+// Where the mass of an element with offsets is: the shells with a ZOFFS (ShellQuad4, ShellTria3, ShellQuad4Drilling,
+// ShellTria3Drilling, ShellQuad8, ShellTria6, ...) and the bars and beams with WA, WB (Bar2, Beam2; Beam3 with WC). The
+// amount of mass is the same either way (a bar's or a beam's that of its length between the offset ends); only where it
+// is changes.
 //
-//   Model       as the MDLPRM OFFDEF of the model says (MassCalculator::offsetMassOf)
-//   GridPoints  at the grid points, as the solver's default ELMOFF: a shell's mass on
+//   Model       as the ModelParams OffsetDefinition of the model says (MassCalculator::offsetMassOf)
+//   GridPoints  at the grid points, as the solver's default ElemOffsetsOnly: a shell's mass on
 //               the plane of its grid points, a bar's or a beam's between its grid points (the point at a fraction of
 //               the length between the offset ends goes to the same fraction between the grid points; the
 //               non-structural mass off the axis keeps its place in the element axes)
-//   Offsets     on the offsets, as the solver's LROFF and ELMZ: a shell's mass ZOFFS from its grid points along its
-//   normal,
-//               a bar's or a beam's between its offset ends
+//   Offsets     on the offsets, as the solver's LoadRecoveryOffsets and ElemOffsetZ: a shell's mass ZOFFS from its grid
+//               points along its normal, a bar's or a beam's between its offset ends
 enum class OffsetMass : std::uint8_t
 {
     Model,
@@ -37,10 +37,12 @@ enum class OffsetMass : std::uint8_t
 
 // What the mass of the elements depends on besides the cards.
 //
-//   weightFactor   multiplies every mass and inertia (PARAM,WTMASS; 1.0 gives the masses of the deck's unit system)
-//   nonStructural  the non-structural mass of an NSM set (NonStructuralMass::resolve), added on top of the NSM fields
+//   weightFactor   multiplies every mass and inertia (PARAM,WeightToMass; 1.0 gives the masses of the deck's unit
+//   system) nonStructural  the non-structural mass of an NSM set (NonStructuralMass::resolve), added on top of the NSM
+//                          fields
 //                  of the properties; none when null
-//   offsets        where the mass of the elements with offsets is (OffsetMass; the model's MDLPRM OFFDEF by default)
+//   offsets        where the mass of the elements with offsets is (OffsetMass; the model's ModelParams OffsetDefinition
+//                  by default)
 struct MassOptions
 {
     double weightFactor = 1.0;
@@ -61,7 +63,8 @@ struct OwnInertia
 // has no mass (a spring, a rigid element) has 0.
 struct ElementMasses
 {
-    std::vector<double> mass;              // everything: the structural mass, the NSM of the property and the NSM cards
+    // everything: the structural mass, the NSM of the property and the NonStructMass cards
+    std::vector<double> mass;
     std::vector<double> structural;        // the part that is the mass of the material
     std::vector<double> nonStructural;     // the NSM of the property, of the element and of the NSM set
     std::vector<base::Vec3> center;        // where the mass is (NaN for an element with no place)
@@ -105,22 +108,23 @@ struct MassGroups
 
 // The mass of every mass-bearing element of a model, in the basic system.
 //
-//   shells         PSHELL, PSHEAR: area times (density times thickness + NSM); PCOMP, PCOMPG: area times (the plies'
-//   density
-//                  times thickness + NSM); PLPLANE and the axisymmetric elements: density times volume
-//   solids         PSOLID, PLSOLID: density times the isoparametric volume
+//   shells         ShellProp, ShearPanelProp: area times (density times thickness + NSM); CompProp, CompPropGlobal:
+//   area times (the plies' density
+//                  times thickness + NSM); PlanePropNonlinear and the axisymmetric elements: density times volume
+//   solids         SolidProp, SolidPropHyperelastic: density times the isoparametric volume
 //   rods and bars  (density times area + NSM) times length, the section varying linearly between the stations of a beam
-//   CONROD         the same with the section on the element
-//   CONM1, CONM2   the concentrated mass with its centre and inertia; CMASS1, CMASS2 on grid points; CBUSH and CFAST
-//   with
+//   Rod2InlineSection  the same with the section on the element
+//   PointMassMatrix, PointMassInertia  the concentrated mass with its centre and inertia; MassDofProperty,
+//                                      MassDofInline on grid points; Bushing and Fastener with
 //                  the mass of their property
-//   all the rest   no mass: springs, dampers, gaps, rigid elements, plot elements, CMASS3 and CMASS4 (scalar points)
+//   all the rest   no mass: springs, dampers, gaps, rigid elements, plot elements, MassScalarProperty and
+//                  MassScalarInline (scalar points)
 // The NSM sets add non-structural mass; the weight factor scales everything.
 class MassCalculator
 {
 public:
     // The mass of the elements in `rows` of the table of `typeIndex`, which must be live rows. A card type that has no
-    // mass gives zeros, a CCONEAX (whose geometry is not computed) gives NaN.
+    // mass gives zeros, a ShellConical2 (whose geometry is not computed) gives NaN.
     [[nodiscard]] static ElementMasses compute(const model::Model& model, std::uint16_t typeIndex,
                                                std::span<const std::uint32_t> rows, const MassOptions& options = {},
                                                base::ThreadPool* pool = nullptr);
@@ -142,14 +146,15 @@ public:
                                           MassGrouping grouping, const MassOptions& options = {},
                                           base::ThreadPool* pool = nullptr);
 
-    // The factor of PARAM,WTMASS in the model (1.0 when the parameter is not there).
+    // The factor of PARAM,WeightToMass in the model (1.0 when the parameter is not there).
     [[nodiscard]] static double weightFactorOf(const model::Model& model);
 
-    // Where the model's MDLPRM OFFDEF puts the mass of the elements with offsets (the last MDLPRM
-    // that gives it): GridPoints for ELMOFF, the default when no card gives it, and for NOMASS and NDMTZ (LROFF "but
-    // the no mass effects are included", and its variant with the element z direction); Offsets for LROFF, NODIF,
-    // NOTHRM, NODT and ELMZ (LROFF and its variants that keep the mass effects; the offset of a shell is taken along
-    // its element normal under each of them). Throws MassError for another value.
+    // Where the model's ModelParams OffsetDefinition puts the mass of the elements with offsets (the last ModelParams
+    // that gives it): GridPoints for ElemOffsetsOnly, the default when no card gives it, and for NoMassOffsets and
+    // NoDampingOffsets (LoadRecoveryOffsets "but the no mass effects are included", and its variant with the element z
+    // direction); Offsets for LoadRecoveryOffsets, NoOffsetDifference, NoThermalOffsets, NoTemperatureGradientOffsets
+    // and ElemOffsetZ (LoadRecoveryOffsets and its variants that keep the mass effects; the offset of a shell is taken
+    // along its element normal under each of them). Throws MassError for another value.
     [[nodiscard]] static OffsetMass offsetMassOf(const model::Model& model);
 };
 

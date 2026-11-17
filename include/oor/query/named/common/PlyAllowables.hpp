@@ -11,23 +11,23 @@ namespace oor::query
 {
 
 // The allowables of the plies of the slots of a block (COMPOSITE-API-AUDIT P2): for the element of each row and the
-// ply number of each slot, the ply of its laminate (PCOMP, PCOMPG), its material and what the failure theories read of
-// it, as the margins and the composite queries resolve them. The plies are listed once each (row r: a ply of a
-// property, whatever the elements of the property), and `slots` gives the row of each slot.
+// ply number of each slot, the ply of its laminate (CompProp, CompPropGlobal), its material and what the failure
+// theories read of it, as the margins and the composite queries resolve them. The plies are listed once each (row r: a
+// ply of a property, whatever the elements of the property), and `slots` gives the row of each slot.
 struct PlyAllowables
 {
     std::vector<std::int32_t> pid;
     std::vector<std::int32_t> ply;   // the number of the ply in its stack (1 the first)
-    std::vector<std::int32_t> plyId; // the global ID of a PCOMPG ply, 0 for a PCOMP
+    std::vector<std::int32_t> plyId; // the global ID of a CompPropGlobal ply, 0 for a CompProp
     std::vector<std::int32_t> mid;   // 0 for none
     std::vector<double> theta;
     std::vector<double> thickness;
     // The theory of the ply by its code (the position in plyTheoryNames: the theory asked for, else the FT of the
     // property, HFAIL as Hashin), -1 for none.
     std::vector<std::int8_t> theory;
-    // What the theory of the ply reads, as the MAT8 holds it (a blank as the card reads it): the strengths of
-    // its HFAIL group for Hashin when the MAT8 has one (st its HF11; NaN otherwise, Hashin then taking S), the F12 of
-    // Tsai-Wu, the moduli of the maximum strain theory and STRN; NaN (and false) without a MAT8.
+    // What the theory of the ply reads, as the OrthoMat2D holds it (a blank as the card reads it): the strengths of
+    // its HFAIL group for Hashin when the OrthoMat2D has one (st its HF11; NaN otherwise, Hashin then taking S), the
+    // F12 of Tsai-Wu, the moduli of the maximum strain theory and STRN; NaN (and false) without an OrthoMat2D.
     std::vector<double> xt;
     std::vector<double> xc;
     std::vector<double> yt;

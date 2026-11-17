@@ -19,9 +19,9 @@ struct MetadataRealPairsFormat
     static void write(const MetadataRealPairsCard& card, FieldWriter& writer);
 };
 
-// All the ABSNMVR cards. The ID is the ID of the meta data group, shared by the cards that belong to it
-// (IdSpace::Group, category Other: the group itself is the ABSTRCT cards, category MetadataGroup), and a reference to
-// them. The cards are kept whole next to a column of their IDs.
+// All the MetadataRealPairs cards. The ID is the ID of the meta data group, shared by the cards that belong to it
+// (IdSpace::Group, category Other: the group itself is the MetadataGroup cards, category MetadataGroup), and a
+// reference to them. The cards are kept whole next to a column of their IDs.
 class MetadataRealPairsTable final : public TypedTable<MetadataRealPairsTable, MetadataRealPairsCard>
 {
 public:

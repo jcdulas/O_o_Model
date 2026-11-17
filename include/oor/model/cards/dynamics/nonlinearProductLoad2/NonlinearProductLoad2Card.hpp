@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One NOLIN2 card: a nonlinear load that is the product of two variables (selected by the Case Control command
-// NONLINEAR).
+// One NonlinearProductLoad2 card: a nonlinear load that is the product of two variables (selected by the Case Control
+// command NONLINEAR).
 //
-// Card layout: NOLIN2  SID  GI  CI  S  GJ  CJ  GK  CK
+// Card layout: NonlinearProductLoad2  SID  GI  CI  S  GJ  CJ  GK  CK
 // The load at point GI, component CI, is S times XJ times XK, where XJ is the displacement of point GJ, component CJ,
 // and XK that of point GK, component CK (each a velocity when its component is 10 more than the component: 11 to 16 for
 // a grid point, 10 for a scalar or extra point). The components are 0 (blank) for a scalar or extra point. The three

@@ -5,12 +5,12 @@
 namespace oor::model
 {
 
-// One MAT11 card: an orthotropic material for solid elements (the format reference of this library does not describe
-// it).
+// One OrthoMat3D card: an orthotropic material for solid elements (the format reference of this library does not
+// describe it).
 //
 // Layout (the fields are numbered across the lines, eight to a line):
-//   MAT11  MID   E1    E2    E3    NU12  NU13  NU23  G12      fields 1 to 8
-//          G13   G23   RHO   A1    A2    A3    TREF  GE       9 to 16
+//   OrthoMat3D  MID   E1    E2    E3    NU12  NU13  NU23  G12  fields 1 to 8
+//               G13   G23   RHO   A1    A2    A3    TREF  GE       9 to 16
 //
 // E1, E2, E3, the three Poisson ratios and the three shear moduli are required; RHO, the
 // expansion coefficients, TREF and GE are 0.0 when blank.

@@ -19,10 +19,10 @@ struct PoroElasticMatFreqFormat
     static void write(const PoroElasticMatFreqCard& card, FieldWriter& writer);
 };
 
-// All the MATF1 cards. The ID space is the card type's own: the ID is the one of the MAT1 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEMi cards (ReferenceTarget::MaterialTable). The cards are kept whole (CardRows); the query engine reads the ID
-// only.
+// All the PoroElasticMatFreq cards. The ID space is the card type's own: the ID is the one of the IsoMat that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables are
+// references to TABLEMi cards (ReferenceTarget::MaterialTable). The cards are kept whole (CardRows); the query engine
+// reads the ID only.
 class PoroElasticMatFreqTable final : public TypedTable<PoroElasticMatFreqTable, PoroElasticMatFreqCard>
 {
 public:

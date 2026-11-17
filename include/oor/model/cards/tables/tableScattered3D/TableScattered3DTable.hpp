@@ -19,9 +19,9 @@ struct TableScattered3DFormat
     static void write(const TableScattered3DCard& card, FieldWriter& writer);
 };
 
-// All the TABLE3D cards, in the category MultiDimensionalTable: the TID is unique per card type
-// (IdSpace::PerCardType) and is what the THETAID fields of a CORD3G of form TABLE name. The cards are kept whole
-// (CardRows) next to a column of their TIDs. A TABLE3D names no other card.
+// All the TableScattered3D cards, in the category MultiDimensionalTable: the TID is unique per card type
+// (IdSpace::PerCardType) and is what the THETAID fields of a GeneralFrame3 of form TABLE name. The cards are kept whole
+// (CardRows) next to a column of their TIDs. A TableScattered3D names no other card.
 class TableScattered3DTable final : public TypedTable<TableScattered3DTable, TableScattered3DCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TABLE3D refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TableScattered3D refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

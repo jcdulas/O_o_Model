@@ -15,7 +15,7 @@ namespace oor::query
 namespace
 {
 
-// The MAT1 with this ID, or nothing (another kind of material, a missing one).
+// The IsoMat with this ID, or nothing (another kind of material, a missing one).
 std::optional<model::IsoMatCard> isotropicMaterial(const model::Model& model, base::EntityId mid, std::string& why)
 {
     const auto location = model.locate(base::IdSpace::Material, mid);

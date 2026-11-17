@@ -19,10 +19,10 @@ struct LoadCaseSubcaseLabelFormat
     static void write(const LoadCaseSubcaseLabelCard& card, FieldWriter& writer);
 };
 
-// All the LOADCSUB cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load): the LOAD Case
-// Control command selects it. The card names no other card (the subcase numbers and the names are those of the parts,
-// which the model does not hold). The cards are kept whole next to a column of their LIDs: the items are a list of
-// structures with a name.
+// All the LoadCaseSubcaseLabel cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load): the
+// LOAD Case Control command selects it. The card names no other card (the subcase numbers and the names are those of
+// the parts, which the model does not hold). The cards are kept whole next to a column of their LIDs: the items are a
+// list of structures with a name.
 class LoadCaseSubcaseLabelTable final : public TypedTable<LoadCaseSubcaseLabelTable, LoadCaseSubcaseLabelCard>
 {
 public:

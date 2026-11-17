@@ -13,12 +13,12 @@
 namespace oor::model
 {
 
-// The motion of a rigid contact body, as BCBODY (RIGID) and BCRIGID give it: the line of the loads and the velocity,
-// the approaching velocity and the growth. One kind of value used inside one family.
+// The motion of a rigid contact body, as ContactBody (RIGID) and ContactRigidMotion give it: the line of the loads and
+// the velocity, the approaching velocity and the growth. One kind of value used inside one family.
 
 // The line that follows the first line: NLOAD  ANGVEL  DCOS1  DCOS2  DCOS3  VELRB1  VELRB2  VELRB3. ANGVEL, DCOSi and
-// VELRBi are a real or, as an integer, the ID of a TABLED1, TABLED2 or TABL3D (a function of time); a blank field is
-// the default (0.0, and 1.0 for DCOS3 of a 2D body), kept as blank.
+// VELRBi are a real or, as an integer, the ID of a TableDynamic1, TableDynamic2 or TABL3D (a function of time); a blank
+// field is the default (0.0, and 1.0 for DCOS3 of a 2D body), kept as blank.
 struct ContactMotion
 {
     base::EntityId loadNode = 0;  // the grid point of the moments or rotations of a load controlled body; 0 when blank
@@ -44,7 +44,8 @@ struct ContactApproach
 struct ContactGrowth
 {
     std::array<double, 3> factors{1.0, 1.0, 1.0}; // GF1 to GF3
-    std::array<base::EntityId, 3> tables{};       // TAB-GF1 to TAB-GF3: a TABLED1, TABLED2 or TABL3D; 0 when blank
+    // TAB-GF1 to TAB-GF3: a TableDynamic1, TableDynamic2 or TABL3D; 0 when blank
+    std::array<base::EntityId, 3> tables{};
 
     [[nodiscard]] bool operator==(const ContactGrowth&) const noexcept = default;
 };

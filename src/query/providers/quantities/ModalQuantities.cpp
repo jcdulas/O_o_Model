@@ -274,10 +274,10 @@ public:
 // --------------------------------------------------------------------
 
 // Effective mass, second way: from the eigenvectors and the mass matrix of the model when that is made of concentrated
-// masses (CONM2 with no offset and no inertia, in the basic system): the participation of a mode in a rigid body motion
-// about the origin of the basic system, squared and over the generalized mass, as a fraction of the mass of that
-// motion. Not given for a model with other mass (a density, an NSM, an offset): the consistent mass matrix is not
-// assembled here.
+// masses (PointMassInertia with no offset and no inertia, in the basic system): the participation of a mode in a rigid
+// body motion about the origin of the basic system, squared and over the generalized mass, as a fraction of the mass of
+// that motion. Not given for a model with other mass (a density, a NonStructMass, an offset): the consistent mass
+// matrix is not assembled here.
 class LumpedEffectiveMassProvider final : public ModalProvider
 {
 public:

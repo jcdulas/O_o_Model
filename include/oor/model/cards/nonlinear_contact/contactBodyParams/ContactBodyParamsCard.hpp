@@ -8,11 +8,12 @@
 namespace oor::model
 {
 
-// One BCBDPRP card: the parameters of a contact body (SOLs 101 and 400): friction, spline smoothing of the surface,
-// check of the contact conditions, heat transfer coefficients, as (name, value) pairs. The format
-// lists the names. A BCBODY1, BCSURF or BCGRID names the card by its BPID.
+// One ContactBodyParams card: the parameters of a contact body (SOLs 101 and 400): friction, spline smoothing of the
+// surface, check of the contact conditions, heat transfer coefficients, as (name, value) pairs. The format
+// lists the names. A ContactBody1, ContactFaceRegion or ContactNodeRegion names the card by its BPID.
 //
-// Card layout: BCBDPRP  PID  (blank)  PARAM1  VAL1  PARAM2  VAL2  PARAM3  VAL3  / PARAM4  VAL4  PARAM5  VAL5 ...
+// Card layout: ContactBodyParams  PID  (blank)  PARAM1  VAL1  PARAM2  VAL2  PARAM3  VAL3  / PARAM4  VAL4  PARAM5  VAL5
+//                                 ...
 // (the pairs go on in the continuation lines).
 struct ContactBodyParamsCard
 {

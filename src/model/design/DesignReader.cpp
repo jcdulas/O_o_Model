@@ -135,8 +135,9 @@ private:
                   [](const DesignVariable& left, const DesignVariable& right) { return left.id < right.id; });
     }
 
-    // A variable is dependent when a DLINK gives it. a dependent variable is not
-    // independent in another DLINK, so the values of the independent variables are always the ones of the point.
+    // A variable is dependent when a DesignVarLink gives it. a dependent variable is not
+    // independent in another DesignVarLink, so the values of the independent variables are always the ones of the
+    // point.
     void readLinks()
     {
         std::set<base::EntityId> independent;
@@ -220,7 +221,8 @@ private:
     }
 
     // The relations of each card type, by ID (cards that share an ID stay in file order), the types in the order
-    // DVPREL1, DVPREL2, DVMREL1, DVMREL2, DVCREL1, DVCREL2.
+    // DesignPropRelation1, DesignPropRelation2, DesignMatRelation1, DesignMatRelation2, DesignElemRelation1,
+    // DesignElemRelation2.
     void readRelations()
     {
         DesignRelation relation;
@@ -312,8 +314,8 @@ private:
         sortSinceFirst();
     }
 
-    // The DVGRID cards (applied by analysis::DesignApplication, which has the coordinate systems), and the cards that
-    // carry a design variable into the model without a field to write: the model cannot apply them.
+    // The DesignNodeMove cards (applied by analysis::DesignApplication, which has the coordinate systems), and the
+    // cards that carry a design variable into the model without a field to write: the model cannot apply them.
     void readCardsThatAreNotApplied()
     {
         // the keyword of a card type in the messages
@@ -391,8 +393,8 @@ private:
             });
     }
 
-    // The design variables something uses: a relation, a card that moves grid points or shapes, a DRESP2 or DRESP3, and
-    // the independent variables of a DLINK whose dependent variable is used.
+    // The design variables something uses: a relation, a card that moves grid points or shapes, a DesignResp2 or
+    // DesignResp3, and the independent variables of a DesignVarLink whose dependent variable is used.
     void collectUsedVariables()
     {
         std::set<base::EntityId>& used = m_design.m_used;
@@ -408,9 +410,9 @@ private:
                                            { used.insert(card.designVarId); });
         forEachCard<DesignBoundaryShapeTable>(m_model, [&](const DesignBoundaryShapeCard& card, std::uint32_t,
                                                            base::CardKey) { used.insert(card.designVarId); });
-        // A designed load (DVLREL1) and a designed control surface setting (DVPSURF) use their variables too, though
-        // the design model does not apply them. The TOMVAR and BEADVAR cards name no DESVAR: the solver makes the
-        // variables of their regions.
+        // A designed load (DesignLoadRelation1) and a designed control surface setting (DesignControlSurface) use their
+        // variables too, though the design model does not apply them. The DesignTopometryRegion and DesignBeadRegion
+        // cards name no DesignVar: the solver makes the variables of their regions.
         forEachCard<DesignLoadRelation1Table>(m_model,
                                               [&](const DesignLoadRelation1Card& card, std::uint32_t, base::CardKey)
                                               {
@@ -443,7 +445,7 @@ private:
                          double upperLimit) const
     {
         DesignRelation relation;
-        // the name the messages give the relation: the keyword of its card type ("DVPREL1")
+        // the name the messages give the relation: the keyword of its card type ("DesignPropRelation1")
         relation.card = std::string(CardRegistry::instance().entry(type).info.name);
         relation.cardType = type;
         relation.row = row;
@@ -522,7 +524,7 @@ private:
         relation.applicable = true;
     }
 
-    // An equation needs its DEQATN, the design variables and the constants of its arguments.
+    // An equation needs its DesignEquation, the design variables and the constants of its arguments.
     template <typename Refuse>
     bool resolveEquation(DesignRelation& relation, const Refuse& refuse) const
     {
@@ -565,11 +567,11 @@ private:
         return true;
     }
 
-    // PMIN blank is 1.0E-15 for a field that can only be positive and -1.0E35 for the others; for a DVPREL2 it
-    // is 1.0E-15 for every field except a stress recovery location (see DesignLowerLimit). The defaults are not applied
-    // when a linear relation is a function of one variable with a zero constant (a DVPREL1, DVMREL1 or
-    // DVCREL1): the bounds of the DESVAR keep the field in range. A PMIN or a PMAX the
-    // card gives is always applied.
+    // PMIN blank is 1.0E-15 for a field that can only be positive and -1.0E35 for the others; for a DesignPropRelation2
+    // it is 1.0E-15 for every field except a stress recovery location (see DesignLowerLimit). The defaults are not
+    // applied when a linear relation is a function of one variable with a zero constant (a DesignPropRelation1,
+    // DesignMatRelation1 or DesignElemRelation1): the bounds of the DesignVar keep the field in range. A PMIN or a PMAX
+    // the card gives is always applied.
     static void computeLimits(DesignRelation& relation)
     {
         const bool oneVariable =
@@ -684,8 +686,8 @@ std::optional<double> DesignModel::constant(const Model& model, const std::strin
         return fail("the constant " + label + " is not defined by a " + std::string("DesignConstants") + " or a " +
                     fieldConstantsCard);
 
-    // A DTABLE2 entry: the field of a card of the model, as the model holds it before the design changes it (format
-    // reference).
+    // A DesignFieldConstants entry: the field of a card of the model, as the model holds it before the design changes
+    // it (format reference).
     const FieldConstant& entry = source->second;
     const DesignableCard* fields = findDesignableCard(entry.cardName);
     if (fields == nullptr)
@@ -698,7 +700,7 @@ std::optional<double> DesignModel::constant(const Model& model, const std::strin
     else if (target && *target == ReferenceTarget::Material)
         kind = DesignTargetKind::Material;
     const std::optional<CardLocation> location = model.locate(spaceOf(kind), entry.id);
-    // The card of a DTABLE2 entry is a neutral card name.
+    // The card of a DesignFieldConstants entry is a neutral card name.
     if (!location || CardRegistry::instance().entry(location->table).info.name != entry.cardName)
         return fail("the " + fieldConstantsCard + " constant " + label + " reads " + std::string(entry.cardName) + " " +
                     std::to_string(entry.id) + ", which the model does not have");

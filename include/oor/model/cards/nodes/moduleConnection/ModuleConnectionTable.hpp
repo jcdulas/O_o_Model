@@ -19,7 +19,7 @@ struct ModuleConnectionFormat
     static void write(const ModuleConnectionCard& card, FieldWriter& writer);
 };
 
-// All the MDCONCT cards. The BID is the ID, unique among them (IdSpace::PerCardType, category Other). CID is a
+// All the ModuleConnection cards. The BID is the ID, unique among them (IdSpace::PerCardType, category Other). CID is a
 // coordinate system of module 0 (`Coordinate`); GRID, and the points of the pairs whose module is 0, are looked up in
 // this model (`Node`, and `ScalarOrGridPoint` for the pairs, which may name a scalar point); the points of another
 // module are plain IDs. The cards are kept whole next to their ID.

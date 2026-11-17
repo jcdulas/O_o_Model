@@ -24,7 +24,8 @@ struct BarShapePropFormat
     [[nodiscard]] static std::size_t dimensionCount(std::string_view type) noexcept;
 };
 
-// All the PBARL cards. The dimensions of every section are one list in CSR form (the number depends on the type).
+// All the BarShapeProp cards. The dimensions of every section are one list in CSR form (the number depends on the
+// type).
 class BarShapePropTable final : public TypedTable<BarShapePropTable, BarShapePropCard>
 {
 public:

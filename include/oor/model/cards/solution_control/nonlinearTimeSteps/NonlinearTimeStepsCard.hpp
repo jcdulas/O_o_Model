@@ -15,19 +15,20 @@ enum class NonlinearTransientMethod : std::uint8_t
 {
     NotGiven, // blank
     Auto,     // AUTO
-    Iter,     // ITER
+    Iter,     // IterativeSolverOptions
     Adapt,    // ADAPT
     Semi,     // SEMI
     Fnt,      // FNT
     Pfnt      // PFNT
 };
 
-// One TSTEPNL card: the controls of a nonlinear transient analysis (selected by TSTEP in Case Control, or TSTEPNL).
+// One NonlinearTimeSteps card: the controls of a nonlinear transient analysis (selected by TransientTimeSteps in Case
+// Control, or NonlinearTimeSteps).
 //
 // Card layout:
-//   TSTEPNL  ID     NDT     DT     NO      METHOD  KSTEP  MAXITER  CONV
-//            EPSU   EPSP    EPSW   MAXDIV  MAXQN   MAXLS  FSTRESS
-//            MAXBIS ADJUST  MSTEP  RB      MAXR    UTOL   RTOLB    MINITER
+//   NonlinearTimeSteps  ID     NDT     DT     NO  METHOD  KSTEP  MAXITER  CONV
+//                       EPSU   EPSP  EPSW   MAXDIV  MAXQN   MAXLS  FSTRESS
+//                       MAXBIS ADJUST  MSTEP  RB  MAXR    UTOL   RTOLB    MINITER
 // A blank field takes the default of the format reference, which sometimes depends on the solution sequence (SOLs 129
 // and 159 or SOL 400), that the card does not know: those fields are kept "not given" when blank (KSTEP and MAXITER
 // when METHOD is not given, EPSP, EPSW, MSTEP, CONV, MINITER, and MAXBIS when MAXITER is negative). A default that

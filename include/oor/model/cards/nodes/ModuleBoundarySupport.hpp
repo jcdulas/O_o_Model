@@ -11,18 +11,20 @@
 #include <string_view>
 #include <vector>
 
-// What the multi-module cards of the first part of the family share (MDBULK, MDLABEL, MDBNDRY, MDEXCLD, MDCONCT,
-// MDFSET, MDSSET, MDDMIG, MDBKSYS, MDBOLT, MDBUSH): the module that is a number or the word ALL, the label of a module,
+// What the multi-module cards of the first part of the family share (ModuleBulkOptions, ModuleLabel,
+// ModuleBoundaryNodes, ModuleExcludedNodes, ModuleConnection, ModuleFluidSet, ModuleStructureSet, ModuleDirectMatrix,
+// ModuleBrakeSystem, ModuleBolt, ModuleBushing): the module that is a number or the word ALL, the label of a module,
 // and the reference to an ID that lives in a module. Each helper moves one kind of value; no helper describes the
 // fields of a card. The names carry "Boundary" where a shorter one would be taken by the other groups of the
 // multi-module family.
 //
 // A module is a `BEGIN MODULE=n` section of the deck, a part of the deck that no card defines, so a module number is a
 // plain integer: it names no card and is never visited. Module 0 is the main Bulk Data, and a blank module field means
-// module 0 (the format reference says so for MIDA of MDBNDRY and MDEXCLD, MODC of MDBUSH and
-// MODID of MDCONCT; the other module fields give no default and are read the same way, as MDBCNCT and MDBCTB1 do). The
-// IDs that a card lists in a module are the IDs of that module: they are looked up in the main Bulk Data for module 0
-// and in the part of the module otherwise (`visitBoundaryId`, `visitBoundaryRuns`, ReferenceVisitor::visitInPart).
+// module 0 (the format reference says so for MIDA of ModuleBoundaryNodes and ModuleExcludedNodes, MODC of ModuleBushing
+// and MODID of ModuleConnection; the other module fields give no default and are read the same way, as
+// ModuleContactPair and ModuleContactTable do). The IDs that a card lists in a module are the IDs of that module: they
+// are looked up in the main Bulk Data for module 0 and in the part of the module otherwise (`visitBoundaryId`,
+// `visitBoundaryRuns`, ReferenceVisitor::visitInPart).
 namespace oor::model
 {
 
@@ -30,7 +32,8 @@ namespace oor::model
 // A module number or the word ALL
 // ---------------------------------------------------------------------------------------------------------------------
 
-// The MODID of an MDBULK and the MIDB of an MDBNDRY or MDEXCLD: a module number, or ALL. ALL is a flag, not a number.
+// The MODID of a ModuleBulkOptions and the MIDB of a ModuleBoundaryNodes or ModuleExcludedNodes: a module number, or
+// ALL. ALL is a flag, not a number.
 struct ModuleOrAll
 {
     bool all = false;
@@ -41,7 +44,8 @@ struct ModuleOrAll
     {
         return ModuleOrAll{false, moduleNumber};
     }
-    // The number the ID index of an MDBULK keeps: 0 for ALL (no module has the number 0 there: MODID is positive).
+    // The number the ID index of a ModuleBulkOptions keeps: 0 for ALL (no module has the number 0 there: MODID is
+    // positive).
     [[nodiscard]] base::EntityId idOf() const noexcept { return all ? 0 : number; }
     [[nodiscard]] static ModuleOrAll fromId(base::EntityId id) noexcept { return id == 0 ? everything() : module(id); }
 
@@ -70,7 +74,7 @@ void writeModuleOrAll(FieldWriter& writer, int field, const ModuleOrAll& value, 
 // The label of a module
 // ---------------------------------------------------------------------------------------------------------------------
 
-// The longest label of an MDLABEL: seven fields of eight characters (fields 2 to 8).
+// The longest label of a ModuleLabel: seven fields of eight characters (fields 2 to 8).
 
 // The problem with a label that is written over several fields, if there is one: not empty, at most 56 characters, not
 // beginning or ending with a blank (the lexer trims the fields), and no '$', comma, tab or line break (the line would

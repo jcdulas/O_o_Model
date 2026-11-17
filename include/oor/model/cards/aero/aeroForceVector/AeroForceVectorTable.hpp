@@ -19,8 +19,8 @@ struct AeroForceVectorFormat
     static void write(const AeroForceVectorCard& card, FieldWriter& writer);
 };
 
-// All the AEFORCE cards. An AEFORCE has no numeric ID of its own (IdSpace::None, category Aero): there is one for each
-// Mach number, symmetry and control vector, so a deck has many. The UXID names a UXVEC
+// All the AeroForceVector cards. An AeroForceVector has no numeric ID of its own (IdSpace::None, category Aero): there
+// is one for each Mach number, symmetry and control vector, so a deck has many. The UXID names an AeroControlVector
 // (ReferenceTarget::ControlVector), the LSET a load set (ReferenceTarget::LoadCombinationSet); the DMIK is a matrix
 // name, not a reference. The cards are kept whole next to a column of their UXIDs, which is what the query engine and
 // the Arrow export see.

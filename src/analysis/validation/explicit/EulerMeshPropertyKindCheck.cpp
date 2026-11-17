@@ -12,9 +12,9 @@ namespace oor::analysis
 namespace
 {
 
-// A MESH whose PID names a property that is not an Eulerian one. The PID field says "a PEULER or PEULER1" and the
-// property space is shared by every property card, so a PSHELL with that number resolves as a reference: only the kind
-// of card tells the mistake.
+// An EulerMeshGenerator whose PID names a property that is not an Eulerian one. The PID field says "an EulerProp or
+// EulerRegionProp" and the property space is shared by every property card, so a ShellProp with that number resolves as
+// a reference: only the kind of card tells the mistake.
 class EulerMeshPropertyKindCheck final : public ValidationCheck
 {
 public:

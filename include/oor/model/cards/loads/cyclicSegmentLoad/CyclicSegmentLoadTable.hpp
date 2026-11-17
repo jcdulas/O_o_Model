@@ -18,8 +18,8 @@ struct CyclicSegmentLoadFormat
     static void write(const CyclicSegmentLoadCard& card, FieldWriter& writer);
 };
 
-// All the LOADCYN cards. The ID is a load set ID shared by many cards (IdSpace::Group): the LOAD Case Control command
-// selects it.
+// All the CyclicSegmentLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group): the LOAD Case Control
+// command selects it.
 class CyclicSegmentLoadTable final : public TypedTable<CyclicSegmentLoadTable, CyclicSegmentLoadCard>
 {
 public:

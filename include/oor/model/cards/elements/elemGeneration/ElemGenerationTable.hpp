@@ -20,10 +20,11 @@ struct ElemGenerationFormat
     static void write(const ElemGenerationCard& card, FieldWriter& writer);
 };
 
-// All the CGEN cards (category Other). A card has no ID of its own (IdSpace::None): its FIELD_EID is the first of the
-// element IDs it generates, which no card of the model holds, so a deck may have as many CGEN cards as it likes. The
-// PID is a reference to a property (ReferenceTarget::Property); the FIELD_ID names a GRIDG card, which no step types,
-// so it is a plain number. The cards are kept whole next to the columns of their four leading fields.
+// All the ElemGeneration cards (category Other). A card has no ID of its own (IdSpace::None): its FIELD_EID is the
+// first of the element IDs it generates, which no card of the model holds, so a deck may have as many ElemGeneration
+// cards as it likes. The PID is a reference to a property (ReferenceTarget::Property); the FIELD_ID names a GRIDG card,
+// which no step types, so it is a plain number. The cards are kept whole next to the columns of their four leading
+// fields.
 class ElemGenerationTable final : public TypedTable<ElemGenerationTable, ElemGenerationCard>
 {
 public:

@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One CELAS3 card: a scalar spring between two scalar points, with a PELAS property.
+// One SpringScalarProperty card: a scalar spring between two scalar points, with a SpringProp property.
 //
 // Card layout:
-//   CELAS3  EID  PID  S1  S2
+//   SpringScalarProperty  EID  PID  S1  S2
 //
 // S1 and S2 are scalar points; 0 (or blank) is a grounded end.
 struct SpringScalarPropertyCard

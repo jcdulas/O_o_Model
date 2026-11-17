@@ -19,7 +19,8 @@ namespace oor::query
 namespace
 {
 
-// The card types of the direct matrix input the query reads (DMI, DMIG, DMIJ, DMIJI, DMIK), in the order of its rows.
+// The card types of the direct matrix input the query reads (DirectMatrix, DirectMatrixNodal, DirectMatrixAeroJ,
+// DirectMatrixAeroJInterference, DirectMatrixAeroK), in the order of its rows.
 constexpr std::string_view DIRECT_MATRIX = "DirectMatrix";
 constexpr std::string_view DIRECT_MATRIX_NODAL = "DirectMatrixNodal";
 constexpr std::string_view DIRECT_MATRIX_AERO_J = "DirectMatrixAeroJ";
@@ -43,13 +44,15 @@ std::vector<model::CooMatrix> matricesOf(const model::Model& model, std::string_
     return model::pointMatrices(model, model::PointMatrixCard::AeroK, names);
 }
 
-// The matrices a solution reads by a fixed name, by their role: the downwash and the forces of the j-set (a DMI, DMIJ
-// or DMIJI named W2GJ or FA2J), the weights and factors of the ks-set (a DMI or DMIK named WKK or WTFACT). A matrix
-// takes its role by the name the format gives it or by the neutral name of the role, in any case.
+// The matrices a solution reads by a fixed name, by their role: the downwash and the forces of the j-set (a
+// DirectMatrix, DirectMatrixAeroJ or DirectMatrixAeroJInterference named W2GJ or FA2J), the weights and factors of the
+// ks-set (a DirectMatrix or DirectMatrixAeroK named WKK or WTFACT). A matrix takes its role by the name the format
+// gives it or by the neutral name of the role, in any case.
 struct FixedMatrix
 {
     std::string_view role;
-    bool downwashCards; // a DMI, DMIJ or DMIJI; else a DMI or DMIK
+    // a DirectMatrix, DirectMatrixAeroJ or DirectMatrixAeroJInterference; else a DirectMatrix or DirectMatrixAeroK
+    bool downwashCards;
 };
 
 constexpr std::array<FixedMatrix, 4> FIXED_MATRICES{{
@@ -103,7 +106,8 @@ public:
                     asked + "\"");
             cards.insert(*found);
         }
-        // a DMI of a fixed name is used in place of a DMIJ, DMIJI or DMIK of that name
+        // a DirectMatrix of a fixed name is used in place of a DirectMatrixAeroJ, DirectMatrixAeroJInterference or
+        // DirectMatrixAeroK of that name
         const std::vector<std::string> directNames = model::directMatrixNames(model);
 
         std::vector<model::CooMatrix> matrices;
@@ -157,8 +161,8 @@ private:
                 column.push_back(c);
                 real.push_back(matrix.real[index]);
                 imag.push_back(matrix.complex ? matrix.imag[index] : 0.0);
-                // a DMI is indexed by its row and column numbers, a matrix at points by the labels of its degrees of
-                // freedom
+                // a DirectMatrix is indexed by its row and column numbers, a matrix at points by the labels of its
+                // degrees of freedom
                 rowId.push_back(labelled ? matrix.rowId[static_cast<std::size_t>(r)] : r + 1);
                 rowComponent.push_back(labelled ? matrix.rowComponent[static_cast<std::size_t>(r)] : 0);
                 columnId.push_back(labelled ? matrix.columnId[static_cast<std::size_t>(c)] : c + 1);

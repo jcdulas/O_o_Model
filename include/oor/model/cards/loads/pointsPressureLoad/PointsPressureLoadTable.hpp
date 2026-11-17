@@ -19,7 +19,7 @@ struct PointsPressureLoadFormat
     static void write(const PointsPressureLoadCard& card, FieldWriter& writer);
 };
 
-// All the PLOAD cards. The ID is a load set ID shared by many cards (IdSpace::Group).
+// All the PointsPressureLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group).
 class PointsPressureLoadTable final : public TypedTable<PointsPressureLoadTable, PointsPressureLoadCard>
 {
 public:

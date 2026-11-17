@@ -12,9 +12,9 @@ namespace oor::model
 {
 
 // A field of a design card that holds an integer, a real or a word depending on the response or the relation it is in:
-// the attributes of a DRESP1 (an item code, a mode number, a frequency, the word ALL), the first coefficient of a
-// DVPREL1 (a real or PVAL), the PTYPE of a DRESP1 (a property name, or the number of a RANDPS). The deck decides which,
-// by what the field looks like.
+// the attributes of a DesignResp1 (an item code, a mode number, a frequency, the word ALL), the first coefficient of a
+// DesignPropRelation1 (a real or PVAL), the PTYPE of a DesignResp1 (a property name, or the number of a
+// RandomSpectralDensity). The deck decides which, by what the field looks like.
 struct DesignValue
 {
     enum class Kind : std::uint8_t

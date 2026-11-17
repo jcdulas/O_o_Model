@@ -8,19 +8,20 @@
 namespace oor::model
 {
 
-// One PFASTT card: the frequency dependent and nonlinear properties of the PFAST with the same ID.
+// One FastenerPropFreq card: the frequency dependent and nonlinear properties of the FastenerProp with the same ID.
 //
 // Card layout: after the PID, groups that each start on a line with a flag in field 2 of the line, in any order, each
-// at most once, then the optional fuse lines (the same fields as the PBUSHT ones, see BushPropFreqCard):
-//   PFASTT  PID
-//           "K"    TKID1   TKID2   TKID3   TKID4   TKID5   TKID6    stiffness against frequency
-//           "GE"   TGEID                                           structural damping against frequency
-//           "KN"   TKNID1  TKNID2  TKNID3  TKNID4  TKNID5  TKNID6   nonlinear force against deflection
+// at most once, then the optional fuse lines (the same fields as the BushPropFreq ones, see BushPropFreqCard):
+//   FastenerPropFreq  PID
+//                     "K"    TKID1   TKID2   TKID3   TKID4   TKID5   TKID6    stiffness against frequency
+//                     "GE"   TGEID                                           structural damping against frequency
+//                     "KN"   TKNID1  TKNID2  TKNID3  TKNID4  TKNID5  TKNID6   nonlinear force against deflection
 //                  FDC     FUSE    DIR     OPTION  LOWER   UPPER
 //                  FSR     LRGR
 //
-// The ID is the one of the PFAST it extends (the card has an ID space of its own: one PFASTT per PFAST). The tables are
-// TABLEDi entries, 0 when blank. A group with only zeros is the same as a group that is left out.
+// The ID is the one of the FastenerProp it extends (the card has an ID space of its own: one FastenerPropFreq per
+// FastenerProp). The tables are TABLEDi entries, 0 when blank. A group with only zeros is the same as a group that is
+// left out.
 struct FastenerPropFreqCard
 {
     static constexpr double DEFAULT_FUSE_STIFFNESS_RETENTION = 1.0e-5;

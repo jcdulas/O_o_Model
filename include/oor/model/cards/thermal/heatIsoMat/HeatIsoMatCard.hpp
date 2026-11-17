@@ -7,11 +7,12 @@
 namespace oor::model
 {
 
-// One MAT4 card: the heat transfer material of a conduction element, and the fluid of a forced convection (CONVM).
+// One HeatIsoMat card: the heat transfer material of a conduction element, and the fluid of a forced convection
+// (ForcedConvection).
 //
 // Card layout:
-//   MAT4  MID  K  CP  RHO  H  MU  HGEN  REFENTH
-//         TCH  TDELTA  QLAT
+//   HeatIsoMat  MID  K  CP  RHO  H  MU  HGEN  REFENTH
+//               TCH  TDELTA  QLAT
 // The format reference draws the symbols RHO and MU where the text of the format loses them; the order is the one of
 // the layout above.
 //
@@ -25,7 +26,7 @@ struct HeatIsoMatCard
     double density = 1.0;                         // density
     std::optional<double> convectionCoefficient;  // free convection heat transfer coefficient
     std::optional<double> viscosity;              // dynamic viscosity (a forced convection fluid needs it)
-    double heatGenerationFactor = 1.0;            // heat generation capability (the multiplier of QVOL)
+    double heatGenerationFactor = 1.0;            // heat generation capability (the multiplier of HeatVolumeSourceLoad)
     std::optional<double> referenceEnthalpy;      // reference enthalpy
     std::optional<double> phaseChangeTemperature; // lower temperature of the phase change region
     std::optional<double> phaseChangeRange;       // temperature range of the phase change

@@ -36,7 +36,7 @@ void reportMissingSelection(const ValidationContext& context, FindingSink& sink,
                 return;
         }
     }
-    // The commands by their keywords: "a TSTEP or TSTEPNL command".
+    // The commands by their keywords: "a TransientTimeSteps or NonlinearTimeSteps command".
     std::string keywords;
     for (const std::string_view command : commands)
     {

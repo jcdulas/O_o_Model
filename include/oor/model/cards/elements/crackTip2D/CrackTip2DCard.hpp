@@ -8,15 +8,15 @@
 namespace oor::model
 {
 
-// One CRAC2D card: a two-dimensional crack tip element (a dummy element of the format reference: the deck needs an
-// ADUM8 entry for it, a rule between cards that is not checked here).
+// One CrackTip2D card: a two-dimensional crack tip element (a dummy element of the format reference: the deck needs an
+// UserDefined8Attributes entry for it, a rule between cards that is not checked here).
 //
 // Card layout:
-//   CRAC2D  EID  PID  G1   G2   G3   G4   G5   G6
-//           G7   G8   G9   G10  G11  G12  G13  G14
-//           G15  G16  G17  G18
+//   CrackTip2D  EID  PID  G1   G2   G3   G4   G5  G6
+//               G7   G8   G9  G10  G11  G12  G13  G14
+//               G15  G16  G17  G18
 //
-// PID names a PRAC2D. The element has two forms, drawn in the format reference figure of the element:
+// PID names a CrackTipProp2D. The element has two forms, drawn in the format reference figure of the element:
 //   - the full crack: G1 to G10 are required and G11 to G18 are optional (the quadrilateral form);
 //   - the symmetric half crack: G1 to G7 are required, G11 to G14 are optional, and G8 to G10 and G15 to G18 must not
 //     be given.

@@ -19,8 +19,9 @@ struct StepControlCriteriaFormat
     static void write(const StepControlCriteriaCard& card, FieldWriter& writer);
 };
 
-// All the TABSCTL cards. The ID is unique among them (IdSpace::PerCardType, category LoadStepControl): the CRITTID of
-// an NLSTEP names it. The SET3_IDi of a criterion name a SET3 (`Set`). The cards are kept whole next to their ID.
+// All the StepControlCriteria cards. The ID is unique among them (IdSpace::PerCardType, category LoadStepControl): the
+// CRITTID of a NonlinearStepControl names it. The SET3_IDi of a criterion name a TypedListSet3 (`Set`). The cards are
+// kept whole next to their ID.
 class StepControlCriteriaTable final : public TypedTable<StepControlCriteriaTable, StepControlCriteriaCard>
 {
 public:

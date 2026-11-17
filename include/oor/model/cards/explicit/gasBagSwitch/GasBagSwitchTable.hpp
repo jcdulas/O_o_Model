@@ -19,8 +19,8 @@ struct GasBagSwitchFormat
     static void write(const GasBagSwitchCard& card, FieldWriter& writer);
 };
 
-// All the GBAGCOU cards. The ID is unique among them (IdSpace::PerCardType) and nothing names it, so the category is
-// Other. CID names a COUPLE and GID a GBAG.
+// All the GasBagSwitch cards. The ID is unique among them (IdSpace::PerCardType) and nothing names it, so the category
+// is Other. CID names an EulerLagrangeCoupling and GID a GasBag.
 class GasBagSwitchTable final : public TypedTable<GasBagSwitchTable, GasBagSwitchCard>
 {
 public:

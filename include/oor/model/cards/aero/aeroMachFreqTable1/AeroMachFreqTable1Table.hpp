@@ -21,8 +21,8 @@ struct AeroMachFreqTable1Format
     static void write(const AeroMachFreqTable1Card& card, FieldWriter& writer);
 };
 
-// All the MKAERO1 cards, in the category Aero. A card has no ID (IdSpace::None) and a model may have as many as it
-// likes. The Mach numbers and the frequencies of the cards are two columns of lists.
+// All the AeroMachFreqTable1 cards, in the category Aero. A card has no ID (IdSpace::None) and a model may have as many
+// as it likes. The Mach numbers and the frequencies of the cards are two columns of lists.
 class AeroMachFreqTable1Table final : public TypedTable<AeroMachFreqTable1Table, AeroMachFreqTable1Card>
 {
 public:

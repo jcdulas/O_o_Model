@@ -41,7 +41,8 @@ protected:
         request.names = arguments.texts("names");
         for (const std::string& card : arguments.texts("cards"))
         {
-            // a card type ("MonitorIntegratedLoad1") or its keyword in the standard dictionary ("MONPNT1")
+            // a card type ("MonitorIntegratedLoad1") or its keyword in the standard dictionary
+            // ("MonitorIntegratedLoad1")
             request.cards.push_back(card);
         }
         MonitorLoadSet set;

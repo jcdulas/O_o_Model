@@ -36,7 +36,7 @@ namespace oor::analysis
 namespace
 {
 
-constexpr int MAX_DEPTH = 8; // a LOAD of LOADs deeper than this is a loop or a mistake
+constexpr int MAX_DEPTH = 8; // a LoadCombination of LOADs deeper than this is a loop or a mistake
 
 template <typename TableT>
 std::uint16_t typeOf()
@@ -53,8 +53,8 @@ void addNodes(ElementaryLoad& load, std::initializer_list<base::EntityId> nodes)
     }
 }
 
-// The grid points of an ACCEL1 run that the model has: a single ID as it is, a range ID by ID while it is short, else
-// through the GRID cards (so that a range over a wide span of IDs costs the number of grid points, not the span).
+// The grid points of an AccelNodeLoad run that the model has: a single ID as it is, a range ID by ID while it is short,
+// else through the Node cards (so that a range over a wide span of IDs costs the number of grid points, not the span).
 void addGridsInRun(const model::Model& model, const model::ContactRun& run, std::vector<base::EntityId>& nodes)
 {
     constexpr std::int64_t LONG_SPAN = 65536;
@@ -89,7 +89,7 @@ void addGridsInRun(const model::Model& model, const model::ContactRun& run, std:
     nodes.insert(nodes.end(), found.begin(), found.end());
 }
 
-// The load of one card (not a LOAD): kind, nodes, elements.
+// The load of one card (not a LoadCombination): kind, nodes, elements.
 bool describe(const model::Model& model, model::CardLocation location, ElementaryLoad& load)
 {
     const std::uint16_t type = location.table;
@@ -174,8 +174,8 @@ bool describe(const model::Model& model, model::CardLocation location, Elementar
     else if (type == typeOf<model::AccelNodeLoadTable>())
     {
         load.kind = LoadKind::PointAcceleration;
-        // format reference ACCEL1: the grid points between the ends of a THRU need not exist; the load acts on those
-        // that do.
+        // format reference AccelNodeLoad: the grid points between the ends of a THRU need not exist; the load acts on
+        // those that do.
         for (const model::ContactRun& run : static_cast<const model::AccelNodeLoadTable&>(table).card(row).grids)
             addGridsInRun(model, run, load.nodes);
     }

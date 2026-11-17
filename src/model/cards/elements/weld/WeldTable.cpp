@@ -328,7 +328,7 @@ void WeldTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
     // MCID -1 is blank and 0 the basic system: neither refers to a card.
     if (const base::EntityId matFrameId = m_matFrameId.get(row); matFrameId > 0)
         m_matFrameId.set(row, visitor.visit("matFrameId", ReferenceTarget::Coordinate, matFrameId));
-    // IDA and IDB are two PSHELL properties (PARTPAT) or two shell elements (ELPAT, ELEMID).
+    // IDA and IDB are two ShellProp properties (PARTPAT) or two shell elements (ELPAT, ELEMID).
     const std::string& type = m_kind.get(row);
     if (type == "PartPatch" || type == "ElemPatch" || type == "ElemIdPatch")
     {

@@ -57,7 +57,7 @@ std::optional<ConnectorSearchParamsCard> ConnectorSearchParamsFormat::read(Field
     ConnectorSearchParamsCard card;
     int pairNumber = 0;
     const int last = reader.lastUsedField();
-    // The fields are a run of name and value pairs; a keyword (CFAST, CWELD, CSEAM) takes one field and starts a
+    // The fields are a run of name and value pairs; a keyword (Fastener, Weld, Seam) takes one field and starts a
     // section, and blank fields between the pairs are for readability.
     for (int field = 1; field <= last;)
     {

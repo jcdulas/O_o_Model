@@ -7,7 +7,7 @@
 namespace oor::model
 {
 
-// One (ROTORIDi, HYBDAMPi) pair of a ROTHYBD: the hybrid damping a rotor takes.
+// One (ROTORIDi, HYBDAMPi) pair of a RotorHybridDamping: the hybrid damping a rotor takes.
 struct RotorHybridPair
 {
     base::EntityId rotorId = 0;
@@ -16,14 +16,14 @@ struct RotorHybridPair
     [[nodiscard]] bool operator==(const RotorHybridPair&) const noexcept = default;
 };
 
-// One ROTHYBD card (hybrid damping for rotors): any number of pairs of a rotor and the HYBDAMP that gives its hybrid
-// modal damping.
+// One RotorHybridDamping card (hybrid damping for rotors): any number of pairs of a rotor and the HYBDAMP that gives
+// its hybrid modal damping.
 //
-// Card layout: ROTHYBD  ROTORID1  HYBDAMP1  ROTORID2  HYBDAMP2  ROTORID3  HYBDAMP3  ROTORID4  HYBDAMP4
-//                      ROTORID5  HYBDAMP5  -etc.-
+// Card layout: RotorHybridDamping  ROTORID1  HYBDAMP1  ROTORID2  HYBDAMP2  ROTORID3  HYBDAMP3  ROTORID4  HYBDAMP4
+//                                 ROTORID5  HYBDAMP5  -etc.-
 // The pairs are written one after the other, four to a line; both numbers of a pair are required. The ROTORID names a
-// rotor of the model (a ROTORG, ROTOR, ROTORAX or ROTORSE: ReferenceTarget::Rotor); the solver
-// ignores a rotor that no deck card defines, and the reference is reported as unresolved all the same. The
+// rotor of the model (a RotorLineNodes, RotorModel3D, RotorAxisym or RotorSuperelement: ReferenceTarget::Rotor); the
+// solver ignores a rotor that no deck card defines, and the reference is reported as unresolved all the same. The
 // HYBDAMP must exist. The card has no ID of its own (IdSpace::None) and a deck may have several.
 struct RotorHybridDampingCard
 {

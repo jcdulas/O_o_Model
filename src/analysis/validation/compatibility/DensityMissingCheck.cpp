@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// A structural material with no mass density, when the analysis needs mass: a dynamic solution, or PARAM,GRDPNT or
-// PARAM,WTMASS (the grid point weight and the mass of the model are asked for).
+// A structural material with no mass density, when the analysis needs mass: a dynamic solution, or
+// PARAM,WeightReferenceNode or PARAM,WeightToMass (the grid point weight and the mass of the model are asked for).
 class DensityMissingCheck final : public ValidationCheck
 {
 public:

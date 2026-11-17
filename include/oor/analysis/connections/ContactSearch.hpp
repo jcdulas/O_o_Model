@@ -48,7 +48,7 @@ struct ContactMeeting
 struct ContactPairResult
 {
     // The distance used: the pair's, else the caller's, else 5 % of the median secondary edge (the components' rule);
-    // the ERROR of the pair, else of BCPARA, else the solver's automatic value (the the solver rule).
+    // the ERROR of the pair, else of ContactParams, else the solver's automatic value (the the solver rule).
     double tolerance = 0.0;
     // True when at least one grid point of the secondary surface meets the primary surface (or, for a pair that
     // searches both ways, one of the primary surface meets the secondary surface).
@@ -63,13 +63,13 @@ struct ContactPairResult
 // every contact table of the Bulk Data (ContactPairs) and, for each pair, the grid points of the secondary surface that
 // meet the primary surface, by one of two rules (ContactRule).
 //
-// The components' rule: the distance of a pair is its ERROR or DQNEAR (the MAXD of a BCTSET pair), else `tolerance`,
-// else 5 % of the median edge length of the secondary surface (of the primary surface when the secondary one is a
-// BCGRID, which has no edge). A grid point meets a face when the gap between their skins is at most that distance, and
-// when it overlaps a shell however deep (a stiffener whose edge lies on the mid surface of a panel). A pair that finds
-// no meeting from its secondary body and searches both ways (format reference BCTABLE and BCONPRG, ISEARCH 0 or 2) is searched from
-// its primary body; the meetings then name the primary body as the body of the grid point. The pairs of a Bulk Data
-// with no table (every two bodies) are kept only when they meet.
+// The components' rule: the distance of a pair is its ERROR or DQNEAR (the MAXD of a ContactSet pair), else
+// `tolerance`, else 5 % of the median edge length of the secondary surface (of the primary surface when the secondary
+// one is a ContactNodeRegion, which has no edge). A grid point meets a face when the gap between their skins is at most
+// that distance, and when it overlaps a shell however deep (a stiffener whose edge lies on the mid surface of a panel).
+// A pair that finds no meeting from its secondary body and searches both ways (format reference ContactTable and
+// ContactPairGeomParams, ISEARCH 0 or 2) is searched from its primary body; the meetings then name the primary body as
+// the body of the grid point. The pairs of a Bulk Data with no table (every two bodies) are kept only when they meet.
 //
 // The the solver rule: the selection of the solver for a glued pair, see
 // SolverContactSelection.

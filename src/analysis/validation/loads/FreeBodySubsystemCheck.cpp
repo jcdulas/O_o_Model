@@ -13,10 +13,10 @@ namespace oor::analysis
 namespace
 {
 
-// An FBODYLD names the subsystem of its load by the NAMES of an FBODYSB (format reference, FBODYLD: "name of a FBODYSB
-// Bulk Data entry that defines the subsystem for this load"). A name is not an ID, so no reference resolves it and
-// `ref.unresolved` does not see it: this check matches the names, without regard to the case, as every name a card
-// gives another card is.
+// A FreeBodyLoad names the subsystem of its load by the NAMES of a FreeBodyLoadSubcase (format reference, FreeBodyLoad:
+// "name of a FreeBodyLoadSubcase Bulk Data entry that defines the subsystem for this load"). A name is not an ID, so no
+// reference resolves it and `ref.unresolved` does not see it: this check matches the names, without regard to the case,
+// as every name a card gives another card is.
 class FreeBodySubsystemCheck final : public ValidationCheck
 {
 public:

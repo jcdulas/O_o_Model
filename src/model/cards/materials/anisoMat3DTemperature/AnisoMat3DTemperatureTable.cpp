@@ -159,7 +159,7 @@ void AnisoMat3DTemperatureTable::keepRows(const std::vector<std::uint32_t>& rows
 
 void AnisoMat3DTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT9 that the card extends; the tables are TABLEMi cards.
+    // The ID is the one of the AnisoMat3D that the card extends; the tables are TABLEMi cards.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     std::array<base::EntityId, 21> stiffnessTables = m_stiffnessTableIds.get(row);
     if (visitTables(visitor, STIFFNESS_TABLE_NAMES, stiffnessTables))

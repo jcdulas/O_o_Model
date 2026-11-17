@@ -19,8 +19,9 @@ struct EulerBodyForceFormat
     static void write(const EulerBodyForceCard& card, FieldWriter& writer);
 };
 
-// All the EULFOR cards. The BID is unique among the EULFOR cards (IdSpace::PerCardType) and is in the category
-// EulerBodyForce, shared with EULFOR1, which a PEULER or PEULER1 names. CID is a coordinate system, TID a TABLED1.
+// All the EulerBodyForce cards. The BID is unique among the EulerBodyForce cards (IdSpace::PerCardType) and is in the
+// category EulerBodyForce, shared with EulerBodyForceSet, which an EulerProp or EulerRegionProp names. CID is a
+// coordinate system, TID a TableDynamic1.
 class EulerBodyForceTable final : public TypedTable<EulerBodyForceTable, EulerBodyForceCard>
 {
 public:

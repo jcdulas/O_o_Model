@@ -19,7 +19,8 @@ struct ContactBoxRegionFormat
     static void write(const ContactBoxRegionCard& card, FieldWriter& writer);
 };
 
-// All the BCBOX cards (category ContactSurface, unique among them). The grid points of form 1 are references.
+// All the ContactBoxRegion cards (category ContactSurface, unique among them). The grid points of form 1 are
+// references.
 class ContactBoxRegionTable final : public TypedTable<ContactBoxRegionTable, ContactBoxRegionCard>
 {
 public:

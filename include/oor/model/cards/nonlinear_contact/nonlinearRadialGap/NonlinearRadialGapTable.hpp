@@ -19,9 +19,9 @@ struct NonlinearRadialGapFormat
     static void write(const NonlinearRadialGapCard& card, FieldWriter& writer);
 };
 
-// All the NLRGAP cards. The SID is a nonlinear load set ID shared by the NOLIN cards and the other nonlinear loads
-// (IdSpace::Group, category DynamicLoad): the NONLINEAR Case Control command selects it. GA and GB are grid points; the
-// three tables are TABLEDi cards (the table of TABK is the absolute value of the field).
+// All the NonlinearRadialGap cards. The SID is a nonlinear load set ID shared by the NOLIN cards and the other
+// nonlinear loads (IdSpace::Group, category DynamicLoad): the NONLINEAR Case Control command selects it. GA and GB are
+// grid points; the three tables are TABLEDi cards (the table of TABK is the absolute value of the field).
 class NonlinearRadialGapTable final : public TypedTable<NonlinearRadialGapTable, NonlinearRadialGapCard>
 {
 public:

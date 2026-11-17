@@ -8,15 +8,15 @@
 namespace oor::model
 {
 
-// One MDSSET card: the structural grid points or elements of a module that an ACMODL with SSET = -1 couples to the
-// fluid.
+// One ModuleStructureSet card: the structural grid points or elements of a module that a FluidStructureInterface with
+// SSET = -1 couples to the fluid.
 //
-// Card layout: MDSSET  MODID  ID1  ID2  ID3  ID4  ID5  ID6  ID7
-//                     ID8    -etc.-
-// or:         MDSSET  MODID  ID1  "THRU"  ID2  ...
+// Card layout: ModuleStructureSet  MODID  ID1  ID2  ID3  ID4  ID5  ID6  ID7
+//                                 ID8  -etc.-
+// or:         ModuleStructureSet  MODID  ID1  "THRU"  ID2  ...
 // MODID is the module (zero or more; the format reference gives no default and a blank field is read as 0, the main
 // Bulk Data, as everywhere in the multi-module cards). The IDs are kept as written: single IDs and THRU ranges, in
-// order, over as many lines as it takes. Several MDSSET cards may name the same or other modules. The card
+// order, over as many lines as it takes. Several ModuleStructureSet cards may name the same or other modules. The card
 // can only be used when the deck has modules and belongs in the main Bulk Data; the reader keeps it wherever
 // it stands.
 //

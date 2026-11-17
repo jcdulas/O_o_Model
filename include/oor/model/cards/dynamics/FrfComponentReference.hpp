@@ -18,19 +18,20 @@
 // moves one kind of value (a component, a point of a component, a single component number); every card still lays out,
 // reads, writes and checks its own fields by hand.
 //
-// An FRF component is an FRFCOMP card of the deck: the cards that use it (FRFCONN, FRFFLEX, FRFRELS, FRFSPC1, FBADLAY,
-// FBALOAD, FBAPHAS) write "COMPID/COMPNAM" in one field, which holds the ID of the component or its name. The two are
-// told apart by what the field is: a whole number is an ID, any other text is a name. The point that goes with the
-// component is a point of the component's own model (a previous solver run made it), so it is a plain number in the
-// deck being read: no GRID is looked up for it.
+// An FRF component is a FrfComponent card of the deck: the cards that use it (FrfConnection, FrfFlexibleConnection,
+// FrfReleasedDofs, FrfSinglePointConstr, FrfAssemblyLoadDelay, FrfAssemblyLoadScale, FrfAssemblyLoadPhase) write
+// "COMPID/COMPNAM" in one field, which holds the ID of the component or its name. The two are told apart by what the
+// field is: a whole number is an ID, any other text is a name. The point that goes with the component is a point of the
+// component's own model (a previous solver run made it), so it is a plain number in the deck being read: no Node is
+// looked up for it.
 namespace oor::model
 {
 
-// The component that a card names: the ID of an FRFCOMP (a reference, renumbered with the FRF components) or its name
-// (kept as written, never an ID, compared without regard to the case). A blank field has neither.
+// The component that a card names: the ID of a FrfComponent (a reference, renumbered with the FRF components) or its
+// name (kept as written, never an ID, compared without regard to the case). A blank field has neither.
 struct FrfComponentRef
 {
-    base::EntityId id = 0; // the ID of the FRFCOMP; 0 when the card names the component by its name
+    base::EntityId id = 0; // the ID of the FrfComponent; 0 when the card names the component by its name
     std::string name;      // the name of the component; empty when the card names it by its ID
 
     [[nodiscard]] static FrfComponentRef byId(base::EntityId id) { return FrfComponentRef{id, {}}; }
@@ -40,8 +41,9 @@ struct FrfComponentRef
     [[nodiscard]] bool operator==(const FrfComponentRef&) const noexcept = default;
 };
 
-// A component and one of its connection points (the COMPIDi/COMPNAMi and POINTi of an FRFCONN, FRFFLEX, FRFRELS and
-// FRFSPC1). A group that a card may leave out is blank in both members.
+// A component and one of its connection points (the COMPIDi/COMPNAMi and POINTi of a FrfConnection,
+// FrfFlexibleConnection, FrfReleasedDofs and FrfSinglePointConstr). A group that a card may leave out is blank in both
+// members.
 struct FrfComponentPoint
 {
     FrfComponentRef component;
@@ -160,8 +162,8 @@ inline void writeFrfComponentPoint(FieldWriter& writer, int firstField, const Fr
     writer.integer(firstField + 1, group.point);
 }
 
-// A single component number (the C of an FRFFLEX, an FRFXIT and the three FBA cards): 1 to 6 for a grid point, 0 or
-// blank for a scalar point.
+// A single component number (the C of a FrfFlexibleConnection, a FrfExcitationDof and the three FBA cards): 1 to 6 for
+// a grid point, 0 or blank for a scalar point.
 [[nodiscard]] inline std::optional<CardProblem> checkSingleComponent(std::int32_t component, const char* field)
 {
     if (component < 0 || component > 6)

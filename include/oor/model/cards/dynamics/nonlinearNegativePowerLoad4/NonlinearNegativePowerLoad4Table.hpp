@@ -18,8 +18,8 @@ struct NonlinearNegativePowerLoad4Format
     static void write(const NonlinearNegativePowerLoad4Card& card, FieldWriter& writer);
 };
 
-// All the NOLIN4 cards. The ID is a nonlinear load set ID shared by many cards (IdSpace::Group, category DynamicLoad):
-// the NONLINEAR Case Control command selects it.
+// All the NonlinearNegativePowerLoad4 cards. The ID is a nonlinear load set ID shared by many cards (IdSpace::Group,
+// category DynamicLoad): the NONLINEAR Case Control command selects it.
 class NonlinearNegativePowerLoad4Table final
     : public TypedTable<NonlinearNegativePowerLoad4Table, NonlinearNegativePowerLoad4Card>
 {

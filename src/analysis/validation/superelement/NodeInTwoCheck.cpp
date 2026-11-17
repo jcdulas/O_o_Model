@@ -10,7 +10,7 @@ namespace oor::analysis
 namespace
 {
 
-// One run of points of an SESET card, with the superelement and the card it came from.
+// One run of points of a SuperelementInteriorNodes card, with the superelement and the card it came from.
 struct ListedRun
 {
     base::EntityId first;
@@ -19,7 +19,7 @@ struct ListedRun
     model::CardLocation where;
 };
 
-// A grid point that two SESET lists name: a point is interior to one superelement only. The
+// A grid point that two SuperelementInteriorNodes lists name: a point is interior to one superelement only. The
 // lists are the runs as written, a THRU range included, so that a range over millions of points costs one
 // comparison. The finding is on the later card of the pair, with the first point they share.
 class NodeInTwoCheck final : public ValidationCheck
@@ -35,7 +35,7 @@ public:
     {
         const model::Model& model = context.model();
         if (model.partInfo())
-            return; // an SESET in a part is ignored: superelement.card-in-part says so
+            return; // a SuperelementInteriorNodes in a part is ignored: superelement.card-in-part says so
         std::vector<ListedRun> runs;
         forEachCard<model::SuperelementInteriorNodesTable>(
             model,

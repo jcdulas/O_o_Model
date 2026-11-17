@@ -30,7 +30,7 @@ struct Row
     std::int32_t node = 0;
     std::string dof;
     double enforced = NOT_A_NUMBER;
-    double scale = NOT_A_NUMBER; // the factors of the LOAD combinations an SPCD was reached through
+    double scale = NOT_A_NUMBER; // the factors of the LOAD combinations an EnforcedMotionConstr was reached through
 };
 
 std::string digits(std::int32_t components)
@@ -38,8 +38,8 @@ std::string digits(std::int32_t components)
     return components != 0 ? std::to_string(components) : std::string();
 }
 
-// singlePointConstrTable: the single point constraints of the sets asked for, SPCADD expanded, with the enforced
-// motions and the permanent constraints of the grid points.
+// singlePointConstrTable: the single point constraints of the sets asked for, SinglePointConstrUnion expanded, with the
+// enforced motions and the permanent constraints of the grid points.
 class SinglePointConstrTableQuery final : public QueryBase
 {
 public:
@@ -51,7 +51,8 @@ public:
         // the cards of every load set, read once for all the sets
         const analysis::LoadSetIndex loadSetCards(model);
         const bool permanent = run.arguments.boolOr("includePermanent", true);
-        // The constraint sets asked for (SPC command), else all that SPC and SPC1 cards define (and SPCADD).
+        // The constraint sets asked for (SPC command), else all that SinglePointConstr and SinglePointConstrList cards
+        // define (and SinglePointConstrUnion).
         std::set<base::EntityId> sets;
         bool asked = false;
         if (const auto ids = run.arguments.ids("setIds"))
@@ -60,7 +61,7 @@ public:
             for (const std::int64_t id : *ids)
                 sets.insert(static_cast<base::EntityId>(id));
         }
-        std::set<base::EntityId> loadSets; // the sets of SPCD cards asked for: they are load sets
+        std::set<base::EntityId> loadSets; // the sets of EnforcedMotionConstr cards asked for: they are load sets
         if (const auto numbers = run.arguments.ids("subcases"))
         {
             asked = true;
@@ -86,16 +87,18 @@ public:
             analysis::forEachCard<model::SinglePointConstrUnionTable>(
                 model,
                 [&](const model::SinglePointConstrUnionCard& card, model::CardLocation) { sets.insert(card.id); });
-            // Every load set: an SPCD is listed under its own set and under each LOAD combination that reaches it.
+            // Every load set: an EnforcedMotionConstr is listed under its own set and under each LOAD combination that
+            // reaches it.
             for (const base::EntityId sid : allLoadSets(model))
                 loadSets.insert(sid);
         }
         else if (const auto ids = run.arguments.ids("setIds"))
         {
             for (const std::int64_t id : *ids)
-                loadSets.insert(static_cast<base::EntityId>(id)); // a set asked for may be a set of SPCD cards
+                // a set asked for may be a set of EnforcedMotionConstr cards
+                loadSets.insert(static_cast<base::EntityId>(id));
         }
-        // The grid points that exist, for the THRU ranges of SPC1.
+        // The grid points that exist, for the THRU ranges of SinglePointConstrList.
         std::vector<std::int32_t> gridIds;
         if (const model::NodeTable* grids = model.findTable<model::NodeTable>())
         {
@@ -159,10 +162,10 @@ public:
                 });
         }
         // The enforced motions of the load sets, LOAD combinations expanded. in the
-        // static solution sequences the LOAD command selects the SPCD set, so a LOAD card combines it as any other load
-        // set: an SPCD reached through a LOAD is listed under the set asked for, its value multiplied by the factors of
-        // the combination (given in `scale`). Unexpanded (expandCombinations=False), each set of SPCD cards once, its
-        // values as given (scale 1).
+        // static solution sequences the LOAD command selects the EnforcedMotionConstr set, so a LoadCombination card
+        // combines it as any other load set: an EnforcedMotionConstr reached through a LoadCombination is listed under
+        // the set asked for, its value multiplied by the factors of the combination (given in `scale`). Unexpanded
+        // (expandCombinations=False), each set of EnforcedMotionConstr cards once, its values as given (scale 1).
         const model::EnforcedMotionConstrTable* spcds = model.findTable<model::EnforcedMotionConstrTable>();
         const LoadSetListing listing(model, loadSetCards, run.arguments,
                                      std::vector<base::EntityId>(loadSets.begin(), loadSets.end()));

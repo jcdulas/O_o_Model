@@ -11,13 +11,13 @@ namespace oor::model
 
 struct EchoOffMarkerFormat
 {
-    // An ECHOOFF has no value that can be wrong: nothing to check.
+    // An EchoOffMarker has no value that can be wrong: nothing to check.
     [[nodiscard]] static std::optional<CardProblem> check(const EchoOffMarkerCard& card);
     [[nodiscard]] static std::optional<EchoOffMarkerCard> read(FieldReader& reader);
     static void write(const EchoOffMarkerCard& card, FieldWriter& writer);
 };
 
-// All the ECHOOFF cards: a row each and nothing else, since the card has no field and no ID (IdSpace::None).
+// All the EchoOffMarker cards: a row each and nothing else, since the card has no field and no ID (IdSpace::None).
 class EchoOffMarkerTable final : public TypedTable<EchoOffMarkerTable, EchoOffMarkerCard>
 {
 public:

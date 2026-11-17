@@ -68,9 +68,9 @@ void FrfExcitationDofListTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void FrfExcitationDofListTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // A single point is a grid point or a scalar point (a scalar point that no SPOINT defines is not reported); the two
-    // ends of a THRU range are visited as the ends of a range, and the points between them keep their IDs (the points
-    // of a range need not all exist).
+    // A single point is a grid point or a scalar point (a scalar point that no ScalarPoint defines is not reported);
+    // the two ends of a THRU range are visited as the ends of a range, and the points between them keep their IDs (the
+    // points of a range need not all exist).
     visitIdRuns(m_runs, row, visitor, "pointIds", ReferenceTarget::ScalarOrGridPoint, ReferenceTarget::NodeInRange);
 }
 

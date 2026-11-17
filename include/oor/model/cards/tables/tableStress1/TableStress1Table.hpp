@@ -21,8 +21,8 @@ struct TableStress1Format
     static void write(const TableStress1Card& card, FieldWriter& writer);
 };
 
-// All the TABLES1 cards. The ID is in the stress table space it shares with TABLEST (IdSpace::StressTable). The points
-// of every table are two lists (x, y) in CSR form.
+// All the TableStress1 cards. The ID is in the stress table space it shares with TableStressTemperature
+// (IdSpace::StressTable). The points of every table are two lists (x, y) in CSR form.
 class TableStress1Table final : public TypedTable<TableStress1Table, TableStress1Card>
 {
 public:

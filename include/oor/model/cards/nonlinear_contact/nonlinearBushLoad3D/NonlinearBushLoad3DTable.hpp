@@ -18,9 +18,10 @@ struct NonlinearBushLoad3DFormat
     static void write(const NonlinearBushLoad3DCard& card, FieldWriter& writer);
 };
 
-// All the NLBSH3D cards. The SID is a nonlinear load set ID shared by the NOLIN cards and the other nonlinear loads
-// (IdSpace::Group, category DynamicLoad, as the NLRGAP): the NONLINEAR Case Control command selects it. GA and GB are
-// grid points; the two LIDs name LBSH3DG cards (ReferenceTarget::BushingForceSet).
+// All the NonlinearBushLoad3D cards. The SID is a nonlinear load set ID shared by the NOLIN cards and the other
+// nonlinear loads (IdSpace::Group, category DynamicLoad, as the NonlinearRadialGap): the NONLINEAR Case Control command
+// selects it. GA and GB are grid points; the two LIDs name NonlinearBushForceTables cards
+// (ReferenceTarget::BushingForceSet).
 class NonlinearBushLoad3DTable final : public TypedTable<NonlinearBushLoad3DTable, NonlinearBushLoad3DCard>
 {
 public:

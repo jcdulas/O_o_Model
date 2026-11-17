@@ -18,7 +18,8 @@ namespace oor::analysis
 namespace
 {
 
-// Below this length a direction is taken as no direction: the three points of a SELOC or SEMPLN are on a line.
+// Below this length a direction is taken as no direction: the three points of a SuperelementLocation or
+// SuperelementMirrorPlane are on a line.
 constexpr double DEGENERATE_LENGTH = 1.0e-12;
 
 // An orthonormal frame by three points: the origin at the first, x towards the second, z normal to the plane of the
@@ -130,7 +131,8 @@ PlacedPoints PartPlacement::place(const SuperelementCatalogue& catalogue, const 
 
     const std::string mirrorCard = std::string("SuperelementMirrorPlane");
     const std::string locationCard = std::string("SuperelementLocation");
-    // The mirror of a point through the plane of the SEMPLN; the identity when there is none or it cannot be used.
+    // The mirror of a point through the plane of the SuperelementMirrorPlane; the identity when there is none or it
+    // cannot be used.
     std::optional<std::pair<base::Vec3, base::Vec3>> plane; // a point of the plane and its unit normal
     if (mirror)
     {

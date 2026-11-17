@@ -1,8 +1,9 @@
-// Checks of the explicit solver cards that have no group of their own: the ATB cards of SOL 700 (ATBACC, ATBJNT,
-// ATBSEG), the rigid joint RBJOINT, the external ellipsoid RELEX, the contact cards of several modules (MDBCATP,
-// MDBCNCT, MDBCPAR, MDBCTB1), the acceleration loads ACCEL and ACCEL1, and the legacy contact cards (BCTSET, BCTPARM,
-// BCTPARA) with the BCTADD that joins them: field positions, defaults, references, ID spaces, renumbering and
-// refused values.
+// Checks of the explicit solver cards that have no group of their own: the ATB cards of SOL 700 (OccupantAccelField,
+// OccupantJoint, OccupantSegment), the rigid joint RigidBodyJoint, the external ellipsoid RigidEllipsoidExternal, the
+// contact cards of several modules (ModuleContactDetectParams, ModuleContactPair, ModuleContactCandidates,
+// ModuleContactTable), the acceleration loads AccelFieldLoad and AccelNodeLoad, and the legacy contact cards
+// (ContactSet, ContactControlParams, ContactSurfaceParams) with the ContactSetUnion that joins them: field positions,
+// defaults, references, ID spaces, renumbering and refused values.
 
 #include "oor/model/cards/explicit/occupantAccelField/OccupantAccelFieldTable.hpp"
 #include "oor/model/cards/explicit/occupantJoint/OccupantJointTable.hpp"
@@ -241,7 +242,8 @@ TEST_CASE("an MDBCATP is a parameter list from field 3 that takes the names of i
     REQUIRE((example.params[1].name == "DeleteSolids" && std::get<std::string>(example.params[1].value) == "Yes"));
     requireRoundTrip(model);
 
-    // The words of the format, a table ID in FRIC, FTYPE as a word or a number, and the names of BCPARA and BCONPRG.
+    // The words of the format, a table ID in FRIC, FTYPE as a word or a number, and the names of ContactParams and
+    // ContactPairGeomParams.
     Model rich = readBulk(
         "ModuleContactDetectParams;ContactKind;PermanentGlue;DetectionDistance;0.5;BeamContact;Yes;EdgeContact;No;"
         "FrictionKind;"
@@ -319,7 +321,8 @@ TEST_CASE("an MDBCTB1 is a contact table of pairs of module and contact pair, re
     REQUIRE(
         (pairs.pairs[3] == ModuleId{402, 502} && pairs.pairs[5] == ModuleId{702, 38})); // MOD4 and ID4 are on two lines
 
-    // The pairs of the main Bulk Data are contact pairs (a BCONECT or an MDBCNCT); the others are in another module.
+    // The pairs of the main Bulk Data are contact pairs (a ContactPair or a ModuleContactPair); the others are in
+    // another module.
     REQUIRE(unresolvedFields<ModuleContactTableTable>(model, 0).empty());
     REQUIRE(unresolvedFields<ModuleContactTableTable>(model, 1).empty());
     const RecordingVisitor visitor = referencesOf<ModuleContactTableTable>(model, 1);
@@ -529,7 +532,7 @@ TEST_CASE("a BCTSET is a contact set of pairs of regions, joined by a BCTADD and
             std::vector<ContactSetPair>{{5, 6, 0.2, -0.1, 3.5}, {7, 8, 0.4, 0.05, 1.5}});
 
     // The regions may be BSURFS cards, which are not typed: they are not looked up. The set is a contact table, which a
-    // BCTADD, a BCTPARA and a BCTPARM name.
+    // ContactSetUnion, a ContactSurfaceParams and a ContactControlParams name.
     REQUIRE(referencesOf<ContactSetTable>(model).fields.empty());
     REQUIRE(unresolvedIn(model) == 0);
     REQUIRE(referencesOf<ContactSetUnionTable>(model).targets ==
@@ -541,7 +544,8 @@ TEST_CASE("a BCTSET is a contact set of pairs of regions, joined by a BCTADD and
     REQUIRE(unresolvedFields<ContactSurfaceParamsTable>(lacking) == std::vector<std::string>{"contactSetId"});
     requireRoundTrip(model);
 
-    // A renumbering of the contact tables moves the sets, the BCTADD that names them and the parameters of a set.
+    // A renumbering of the contact tables moves the sets, the ContactSetUnion that names them and the parameters of a
+    // set.
     Renumbering::apply(model, RenumberSpace::ContactTable, Renumbering::offset(1000));
     REQUIRE((cardAt<ContactSetTable>(model, 0).id == 1101 && cardAt<ContactSetTable>(model, 1).id == 1103));
     REQUIRE(cardAt<ContactSetUnionTable>(model).id == 1100);

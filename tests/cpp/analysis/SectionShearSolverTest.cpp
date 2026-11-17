@@ -33,8 +33,8 @@ TEST_CASE("the shear factors of a rectangle are 5/6 in both planes, whatever its
 
 TEST_CASE("a square box has the shear factors and torsional constant the solver records", "[analysis][section]")
 {
-    // A PBARL BOX 2 x 2, walls 0.1: the solver writes the derived PBAR with K1 0.4277577, K2 0.4277586, J 0.70349 (EPT
-    // table).
+    // A BarShapeProp BOX 2 x 2, walls 0.1: the solver writes the derived BarProp with K1 0.4277577, K2 0.4277586, J
+    // 0.70349 (EPT table).
     const double box[4] = {2.0, 2.0, 0.1, 0.1};
     const SectionProperties section = SectionFormulas::standard("Box", box, ShearFactorRule::Solver);
     REQUIRE(section.k1 == Approx(0.4277577).epsilon(1e-3));
@@ -46,12 +46,12 @@ TEST_CASE("a square box has the shear factors and torsional constant the solver 
 
 TEST_CASE("the beam library equations give the legacy records of two older solvers", "[analysis][section]")
 {
-    // A PBEAML in the first older solver: BOX 0.6, 0.2, 0.0025, 0.0025 gives K1 0.24528, K2 0.74843.
+    // A BeamShapeProp in the first older solver: BOX 0.6, 0.2, 0.0025, 0.0025 gives K1 0.24528, K2 0.74843.
     const double narrow[4] = {0.6, 0.2, 0.0025, 0.0025};
     const SectionProperties first = SectionFormulas::standard("Box", narrow, ShearFactorRule::BeamLibrary);
     REQUIRE(first.k1 == Approx(0.24528).epsilon(1e-4));
     REQUIRE(first.k2 == Approx(0.74843).epsilon(1e-4));
-    // A PBEAML in the second older solver: BOX 6, 1, 0.1, 0.1 gives K1 0.11765, K2 0.85294.
+    // A BeamShapeProp in the second older solver: BOX 6, 1, 0.1, 0.1 gives K1 0.11765, K2 0.85294.
     const double wide[4] = {6.0, 1.0, 0.1, 0.1};
     const SectionProperties second = SectionFormulas::standard("Box", wide, ShearFactorRule::BeamLibrary);
     REQUIRE(second.k1 == Approx(0.11765).epsilon(1e-4));

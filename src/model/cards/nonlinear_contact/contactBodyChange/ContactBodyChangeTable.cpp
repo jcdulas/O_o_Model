@@ -52,7 +52,7 @@ std::optional<CardProblem> ContactBodyChangeFormat::check(const ContactBodyChang
     {
         if (range.bodyId <= 0)
             return CardProblem{"card.bad-id", "a body ID must be a positive integer", "bodyId"};
-        // NODE has N1 > 0 and N2 > 0; EXCLUDE may begin a patch with -N1.
+        // NODE has N1 > 0 and N2 > 0; ModuleEntryExclusion may begin a patch with -N1.
         if (range.firstNode == 0 || (range.firstNode < 0 && !exclude))
             return CardProblem{"card.bad-id", std::string(CardProblem::FIELD) + " must be a positive grid point ID",
                                "firstNode"};

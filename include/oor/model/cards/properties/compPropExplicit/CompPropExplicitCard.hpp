@@ -41,26 +41,27 @@ enum class CompPropExplicitYesNo : std::uint8_t
 
 inline constexpr std::array<std::string_view, 2> COMP_PROP_EXPLICIT_YES_NO_WORDS{"No", "Yes"};
 
-// One PCOMPA card (SOL 700 only): the additional data of a PCOMP, with the options of the explicit shell elements. The
-// card extends the PCOMP of the same number, so its ID space is its own (one PCOMPA per PCOMP) and its PID is a
-// reference to a property.
+// One CompPropExplicit card (SOL 700 only): the additional data of a CompProp, with the options of the explicit shell
+// elements. The card extends the CompProp of the same number, so its ID space is its own (one CompPropExplicit per
+// CompProp) and its PID is a reference to a property.
 //
 // Card layout (the fields are numbered across the lines, eight to a line):
-//   PCOMPA  PID  FORM  SHFACT  REF  STRDEF  DT1D  STRNOUT  ICLT                      fields 1 to 8
-//           SPINCOR                                                                  field 9
+//   CompPropExplicit  PID  FORM  SHFACT  REF  STRDEF  DT1D  STRNOUT  ICLT            fields 1 to 8
+//                     SPINCOR                                                                  field 9
 // The format names the eighth field both CLT and ICLT: the card uses ICLT. FORM is the element formulation. The
-// format lists no word for it (it only gives the defaults: KEYHOFF for a CQUAD4, C0-TRIA for a CTRIA3, which depend on
-// the element and stay blank), and BLT is a common value: the words of the same field of the PSHELL1 are HUGHES, BLT,
-// KEYHOFF, C0-TRIA, MEMB and DUMMY, but since the format does not say that they are the set of this card, FORM is kept
-// as a word of at most eight characters and no word is refused. SHFACT is not negative (0.83333 when blank) and is
-// ignored by the classical lamination theory (ICLT = 1). ICLT is 0 (the integration technique, the default) or 1 (the
-// classical lamination theory): the format asks for a positive integer and lists the values 0 and 1. The format has
-// SPINCOR on by default and gives the default NO in the description of the field: the card follows the description.
+// format lists no word for it (it only gives the defaults: KEYHOFF for a ShellQuad4, C0-TRIA for a ShellTria3, which
+// depend on the element and stay blank), and BLT is a common value: the words of the same field of the ShellPropNodal
+// are HUGHES, BLT, KEYHOFF, C0-TRIA, MEMB and DUMMY, but since the format does not say that they are the set of this
+// card, FORM is kept as a word of at most eight characters and no word is refused. SHFACT is not negative (0.83333 when
+// blank) and is ignored by the classical lamination theory (ICLT = 1). ICLT is 0 (the integration technique, the
+// default) or 1 (the classical lamination theory): the format asks for a positive integer and lists the values 0 and 1.
+// The format has SPINCOR on by default and gives the default NO in the description of the field: the card follows the
+// description.
 struct CompPropExplicitCard
 {
     static constexpr double DEFAULT_SHEAR_FACTOR = 0.83333;
 
-    base::EntityId id = 0;   // the PCOMP that the card extends
+    base::EntityId id = 0;   // the CompProp that the card extends
     std::string formulation; // blank (empty): the formulation depends on the element
     double shearFactor = DEFAULT_SHEAR_FACTOR;
     CompPropExplicitReference referenceSurface = CompPropExplicitReference::Middle;

@@ -27,9 +27,9 @@ struct ViscoElasticMatFormat
     [[nodiscard]] static bool isFixedLayout(ViscoElasticMatModel model) noexcept;
 };
 
-// All the MATVE cards. The ID space is the card type's own: the ID is the one of the material that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it). The terms of every card are one
-// list in CSR form with four values to a term (G or WD, TD, K or WV, TV), the terms of ORTHO another with ten.
+// All the ViscoElasticMat cards. The ID space is the card type's own: the ID is the one of the material that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it). The terms of every card
+// are one list in CSR form with four values to a term (G or WD, TD, K or WV, TV), the terms of ORTHO another with ten.
 class ViscoElasticMatTable final : public TypedTable<ViscoElasticMatTable, ViscoElasticMatCard>
 {
 public:

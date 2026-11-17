@@ -1,9 +1,10 @@
-// Checks of the trim, property and user cards: the perforated shell property PSHLPF, the distributions of property
-// data over elements PDISTB and PDISTBM, the user service cards ELEMUDS and THPAD of a PBUSH2D, and the trim component
-// cards ACPEMCP, ACPMCP1, TRMCPL and TCOMPG. Per card: the fields in their format reference positions, the defaults,
-// the references it lists and what each one points to, the renumbering of the spaces it owns or names, the refused
-// values and the round trip through the three formats. The generic tests of CardRoundTripTest.cpp read, write and copy
-// every sample; this file covers what each card means.
+// Checks of the trim, property and user cards: the perforated shell property PerforatedShellProp, the distributions of
+// property data over elements PropDistribution and PropMatDistribution, the user service cards UserElemService and
+// TiltingPadBearingProp of a BushProp2D, and the trim component cards TrimComponentCoupling, TrimComponentCoupling1D,
+// TrimCouplingTolerances and TrimLayeredComponent. Per card: the fields in their format reference positions, the
+// defaults, the references it lists and what each one points to, the renumbering of the spaces it owns or names, the
+// refused values and the round trip through the three formats. The generic tests of CardRoundTripTest.cpp read, write
+// and copy every sample; this file covers what each card means.
 
 #include "oor/model/cards/properties/perforatedShellProp/PerforatedShellPropTable.hpp"
 #include "oor/model/cards/properties/propDistribution/PropDistributionTable.hpp"
@@ -78,7 +79,8 @@ PartReferenceRecorder partReferencesOf(Model& model, std::uint32_t row)
     return visitor;
 }
 
-// A material, four grid points, a shell property and three shell elements: what the elements of a PDISTB name.
+// A material, four grid points, a shell property and three shell elements: what the elements of a PropDistribution
+// name.
 const std::string SHELLS_TEXT =
     "IsoMat;1;2.1E+11;;0.3\n"
     "Node;1\n"
@@ -103,7 +105,7 @@ std::string setCards(int first, int last, const std::string& name, const std::st
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PSHLPF
+// PerforatedShellProp
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PSHLPF is a property of a perforated shell: a material, a hole pattern, and a flag that defaults to 1",
@@ -196,11 +198,11 @@ TEST_CASE("a PSHLPF is a property of a perforated shell: a material, a hole patt
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PDISTB
+// PropDistribution
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PDISTBM
+// PropMatDistribution
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PDISTBM gives the material that replaces one material of a property for each element",
@@ -278,7 +280,7 @@ TEST_CASE("a PDISTBM gives the material that replaces one material of a property
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ELEMUDS
+// UserElemService
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ELEMUDS extends a PBUSH2D with the user service that computes it and the data the service is given",
@@ -324,8 +326,9 @@ TEST_CASE("an ELEMUDS extends a PBUSH2D with the user service that computes it a
 
     // Written in the order of the format reference: INT, REAL, CHAR, each on a line of its own, seven values to a line.
 
-    // The PID is the one of the PBUSH2D that the card extends: it is a reference, and a renumbering of the properties
-    // moves both. The ELEMUDS has an ID space of its own: the PBUSH2D 17 and the ELEMUDS 17 coexist.
+    // The PID is the one of the BushProp2D that the card extends: it is a reference, and a renumbering of the
+    // properties moves both. The UserElemService has an ID space of its own: the BushProp2D 17 and the UserElemService
+    // 17 coexist.
     const Visited visited = visitedBy<UserElemServiceTable>(model, 0);
     REQUIRE(visited.fields == std::vector<std::string>{"id"});
     REQUIRE(visited.targets == std::vector<ReferenceTarget>{ReferenceTarget::Property});
@@ -356,7 +359,7 @@ TEST_CASE("an ELEMUDS extends a PBUSH2D with the user service that computes it a
     REQUIRE_FALSE(UserElemServiceFormat::check(edited).has_value());
 
     expectInvalid("UserElemService;0;BushProp2D;G", "id");
-    expectInvalid("UserElemService;1;PBUSH1D;G", "propType"); // PBUSH2D is the one property the format supports
+    expectInvalid("UserElemService;1;PBUSH1D;G", "propType"); // BushProp2D is the one property the format supports
     expectInvalid("UserElemService;1;;G", "propType");
     expectInvalid("UserElemService;1;BushProp2D", "groupName"); // no default
     oor::testing::requireModelFileRoundTrip(readModelText("UserElemService;1;BushProp2D;GROUPNAME12", true));
@@ -375,15 +378,15 @@ TEST_CASE("an ELEMUDS extends a PBUSH2D with the user service that computes it a
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// THPAD
+// TiltingPadBearingProp
 // ---------------------------------------------------------------------------------------------------------------------
 
 namespace
 {
 
 // A tilting pad bearing of five pads and two speed and load cases, with a blank cell where the layout has one, a pad
-// arc written as an integer and the pivot line at its defaults; the test adds the PBUSH2D and the ELEMUDS of the same
-// number.
+// arc written as an integer and the pivot line at its defaults; the test adds the BushProp2D and the UserElemService of
+// the same number.
 const std::string TILTING_PAD_FIVE_PADS =
     "TiltingPadBearingProp;200;1500.;Five pad journal bearing of the project test rig;Load between "
     "pads;1.75;0.0025;2.6;2.2;2.9E+7;6.2E-6;6.4E-6;6.6E-6;5;24;0;56.;0.55;0.25;36.;0.0012;0.;0.;0.;56.;0.55;0.25;108.;"
@@ -488,12 +491,12 @@ TEST_CASE("a THPAD holds the grid of a tilting pad bearing: titles, counts, a li
     // Defaults are not written (the pivot line is blank, a line of its own that the writer marks with a plus sign), the
     // blank cells of the grid stay blank, and the text of a title keeps its blanks in the small format.
 
-    // The RID is the number of the PBUSH2D and of the ELEMUDS: the three coexist, are resolved, and follow a
+    // The RID is the number of the BushProp2D and of the UserElemService: the three coexist, are resolved, and follow a
     // renumbering.
     const Visited visited = visitedBy<TiltingPadBearingPropTable>(model, 0);
     REQUIRE(visited.fields == std::vector<std::string>{"id"});
     REQUIRE(visited.targets == std::vector<ReferenceTarget>{ReferenceTarget::Property});
-    REQUIRE(unresolvedIn(model) == 1); // the second card names a PBUSH2D 201 that does not exist
+    REQUIRE(unresolvedIn(model) == 1); // the second card names a BushProp2D 201 that does not exist
     Renumbering::apply(model, RenumberSpace::Property, Renumbering::offset(1000));
     REQUIRE(
         (cardAt<TiltingPadBearingPropTable>(model, 0).id == 1200 && cardAt<UserElemServiceTable>(model).id == 1200));
@@ -566,7 +569,7 @@ TEST_CASE("a THPAD holds the grid of a tilting pad bearing: titles, counts, a li
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ACPEMCP
+// TrimComponentCoupling
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ACPEMCP names a set of grids for each interface and each zero constraint of a trim component",
@@ -659,7 +662,7 @@ TEST_CASE("an ACPEMCP names a set of grids for each interface and each zero cons
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ACPMCP1
+// TrimComponentCoupling1D
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ACPMCP1 names a set of surfaces for each interface of a 1D analytical trim component",
@@ -667,7 +670,7 @@ TEST_CASE("an ACPMCP1 names a set of surfaces for each interface of a 1D analyti
 {
     REQUIRE((TrimComponentCoupling1DTable::INFO.category == CardCategory::Other &&
              TrimComponentCoupling1DTable::INFO.idSpace == base::IdSpace::Group));
-    // The TypedListSet3 records list the grid points 1 and 2, which a SET3 names as nodes: they exist.
+    // The TypedListSet3 records list the grid points 1 and 2, which a TypedListSet3 names as nodes: they exist.
     Model model = readBulk(
         "[model]\n"
         "TrimComponentCoupling1D;1;30;;32;;;OneDimensional\n"
@@ -732,7 +735,7 @@ TEST_CASE("an ACPMCP1 names a set of surfaces for each interface of a 1D analyti
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TRMCPL
+// TrimCouplingTolerances
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TRMCPL gives the tolerances of one interface coupling type, each projection defaulting to the one before",
@@ -812,7 +815,7 @@ TEST_CASE("a TRMCPL gives the tolerances of one interface coupling type, each pr
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TCOMPG
+// TrimLayeredComponent
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TCOMPG lists the layers of a 1D trim from the bottom, a layer to a line, and is keyed by its SET3",
@@ -845,7 +848,7 @@ TEST_CASE("a TCOMPG lists the layers of a 1D trim from the bottom, a layer to a 
     REQUIRE((cardAt<TrimLayeredComponentTable>(columns).layers.size() == 2 &&
              cardAt<TrimLayeredComponentTable>(columns).layers[1].thickness == 0.0015));
 
-    // The SET3 and the materials are references; the SET3 is also the ID of the card.
+    // The TypedListSet3 and the materials are references; the TypedListSet3 is also the ID of the card.
     const Visited visited = visitedBy<TrimLayeredComponentTable>(model, 0);
     REQUIRE(visited.fields == std::vector<std::string>{"id", "plyMatId", "plyMatId"});
     REQUIRE(visited.targets ==
@@ -867,7 +870,7 @@ TEST_CASE("a TCOMPG lists the layers of a 1D trim from the bottom, a layer to a 
     REQUIRE(unresolvedIn(model) == 0);
     requireRoundTrip(model);
 
-    // The format only recommends one TCOMPG for each SET3: the ID is shared, not unique.
+    // The format only recommends one TrimLayeredComponent for each TypedListSet3: the ID is shared, not unique.
     REQUIRE_NOTHROW(readBulk("TrimLayeredComponent;10;1;101;0.02\nTrimLayeredComponent;10;1;101;0.03"));
 
     // What the Python layer does when it edits a card: the values are checked, then stored in the row.

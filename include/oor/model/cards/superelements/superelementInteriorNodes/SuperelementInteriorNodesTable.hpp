@@ -19,8 +19,9 @@ struct SuperelementInteriorNodesFormat
     static void write(const SuperelementInteriorNodesCard& card, FieldWriter& writer);
 };
 
-// All the SESET cards. The cards of a superelement share its number, which is their ID (IdSpace::Group, category
-// Superelement): the number defines the superelement. The cards are kept whole next to a column of their SEIDs.
+// All the SuperelementInteriorNodes cards. The cards of a superelement share its number, which is their ID
+// (IdSpace::Group, category Superelement): the number defines the superelement. The cards are kept whole next to a
+// column of their SEIDs.
 class SuperelementInteriorNodesTable final
     : public TypedTable<SuperelementInteriorNodesTable, SuperelementInteriorNodesCard>
 {

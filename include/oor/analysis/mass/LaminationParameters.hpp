@@ -9,7 +9,7 @@
 // Lamination parameters (a companion package and R22, a companion package RW1 and RW2): the material invariants of a ply
 // (Tsai and Pagano, 1968), the lamination parameters of a stack and the moments of each angle of a finite set, the
 // A, B, D matrices of lamination parameters, the feasibility rows of a finite set of angles with the coupling, and the
-// fields of the PSHELL and MAT2 that give an A, B, D. First and second derivatives in closed form.
+// fields of the ShellProp and AnisoMat2D that give an A, B, D. First and second derivatives in closed form.
 //
 // Conventions: z from the mid-plane of the stack, z' = 2 z / h in [-1, 1], f(theta) = (cos 2 theta, sin 2 theta,
 // cos 4 theta, sin 4 theta), angles in degrees (from the x axis of the laminate to the fibres, as Laminate), the plies
@@ -111,8 +111,8 @@ void momentFeasibility(std::span<const double> v, std::span<const double> b, std
 [[nodiscard]] std::vector<double> angleMomentMap(std::span<const double> angles);
 
 // The transverse shear stiffness (H_x, H_y) of a stack of layers (bottom first) from the equilibrium of cylindrical
-// bending in each direction, as a companion package's PCOMP takes it (its docs/developer/shells.md section 8): E the Q-bar 11
-// (x) or 22 (y) of each layer, the neutral axis zn = B/A and D* = D - B^2/A of E, the shear per unit force
+// bending in each direction, as a companion package's CompProp takes it (its docs/developer/shells.md section 8): E the
+// Q-bar 11 (x) or 22 (y) of each layer, the neutral axis zn = B/A and D* = D - B^2/A of E, the shear per unit force
 // tau(z) = -S(z) / D*, S(z) = int_bottom^z E (zeta - zn), and 1/H = int tau^2 / G dz, G the layer's turned transverse
 // shear modulus (`shear` 2 x 2 row by row: G_xz on the first diagonal entry, G_yz on the second). One material gives
 // 5/6 G h. A layer of infinite G in a direction makes the stack rigid in it (H infinite), as in a companion package.

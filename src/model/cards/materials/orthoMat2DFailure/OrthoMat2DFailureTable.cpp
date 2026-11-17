@@ -329,7 +329,7 @@ void OrthoMat2DFailureTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void OrthoMat2DFailureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT8 that the card extends.
+    // The ID is the one of the OrthoMat2D that the card extends.
     OrthoMat2DFailureCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);

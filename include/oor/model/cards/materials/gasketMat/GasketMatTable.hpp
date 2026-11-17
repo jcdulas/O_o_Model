@@ -18,9 +18,9 @@ struct GasketMatFormat
     static void write(const GasketMatCard& card, FieldWriter& writer);
 };
 
-// All the MATG cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). IDMEM
-// refers to a MAT1 (ReferenceTarget::Material) and the loading and unloading tables to TABLES1 cards (StressTable). The
-// four tables that the program does not use yet (TABYPRS, TABEPL, TABGPL, TABGAP) are not visited.
+// All the GasketMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). IDMEM
+// refers to an IsoMat (ReferenceTarget::Material) and the loading and unloading tables to TableStress1 cards
+// (StressTable). The four tables that the program does not use yet (TABYPRS, TABEPL, TABGPL, TABGAP) are not visited.
 class GasketMatTable final : public TypedTable<GasketMatTable, GasketMatCard>
 {
 public:

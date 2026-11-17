@@ -8,11 +8,12 @@
 namespace oor::model
 {
 
-// One CRAC3D card: a three-dimensional crack tip element (a dummy element of the format reference: the deck needs an
-// ADUM9 entry for it, a rule between cards that is not checked here).
+// One CrackTip3D card: a three-dimensional crack tip element (a dummy element of the format reference: the deck needs
+// an UserDefined9Attributes entry for it, a rule between cards that is not checked here).
 //
-// Card layout: CRAC3D  EID  PID  G1  G2  G3  G4  G5  G6, then eight grid points to each continuation line (G7 to G14,
-// G15 to G22, ... G55 to G62) and a last line with G63 and G64. PID names a PRAC3D and is positive, like
+// Card layout: CrackTip3D  EID  PID  G1  G2  G3  G4  G5  G6, then eight grid points to each continuation line (G7 to
+//                          G14,
+// G15 to G22, ... G55 to G62) and a last line with G63 and G64. PID names a CrackTipProp3D and is positive, like
 // every other property ID (the format gives it a negative range by mistake).
 //
 // The element is a block of two faces (G1 to G18 and G19 to G36) and a mid-plane (G37 to G46, with the surface points

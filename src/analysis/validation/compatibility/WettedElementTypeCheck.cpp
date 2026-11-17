@@ -11,9 +11,10 @@ namespace oor::analysis
 namespace
 {
 
-// A WETELME gives a side of a structural element as a wetted element. The format reference (WETELME, EID) allows the
-// shells CQUAD4, CQUAD8, CQUADR, CTRIA3, CTRIA6 and CTRIAR and the solids CTETRA, CPENTA and CHEXA; the card cannot
-// tell the kind of the element it names, so the rule is a check of the model.
+// A WettedElemSide gives a side of a structural element as a wetted element. The format reference (WettedElemSide, EID)
+// allows the shells ShellQuad4, ShellQuad8, ShellQuad4Drilling, ShellTria3, ShellTria6 and ShellTria3Drilling and the
+// solids SolidTetra, SolidPenta and SolidHexa; the card cannot tell the kind of the element it names, so the rule is a
+// check of the model.
 class WettedElementTypeCheck final : public ValidationCheck
 {
 public:

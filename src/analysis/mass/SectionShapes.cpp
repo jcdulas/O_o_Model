@@ -13,13 +13,13 @@
 #include <utility>
 #include <vector>
 
-// The cross-section library of PBARL and PBEAML (the standard GROUP), one function per section type. The dimensions are
-// read from the format reference figures 9-106 to 9-109: every function says how it cuts its figure. Each section is
-// drawn in its own (y, z) coordinates with y vertical and z horizontal, exactly as the figures show them; `Figure`
-// integrates the pieces and moves everything to the centroid at the end, so the properties are about the neutral axis
-// and the stress recovery points C, D, E, F are measured from it. The formulas are templates on their scalar T: double
-// for the properties, or a number with its first and second derivatives (a companion package: the closed forms
-// differentiated through the same operations; T = double computes what it did with doubles).
+// The cross-section library of BarShapeProp and BeamShapeProp (the standard GROUP), one function per section type. The
+// dimensions are read from the format reference figures 9-106 to 9-109: every function says how it cuts its figure.
+// Each section is drawn in its own (y, z) coordinates with y vertical and z horizontal, exactly as the figures show
+// them; `Figure` integrates the pieces and moves everything to the centroid at the end, so the properties are about the
+// neutral axis and the stress recovery points C, D, E, F are measured from it. The formulas are templates on their
+// scalar T: double for the properties, or a number with its first and second derivatives (a companion package: the
+// closed forms differentiated through the same operations; T = double computes what it did with doubles).
 
 namespace oor::analysis
 {
@@ -136,8 +136,8 @@ SectionStiffness solveRectangles(const std::vector<SectionRectangle>& pieces)
 // The pieces of a section and their integrals about the drawing origin. Rectangles, disks and one polygon are enough
 // for the whole library. Each rectangle is drawn as what it is in the beam library equations: a vertical wall (its area
 // carries the shear along y), a horizontal wall (along z) or a corner square where two walls meet, which carries
-// neither (the rule the solver applies under MDLPRM,TWBRBML,1). Under the solver's finite element rule the
-// rectangles together are the region SectionShearSolver meshes, whatever their role.
+// neither (the rule the solver applies under ModelParams,BeamLibraryShearFactor,1). Under the solver's finite element
+// rule the rectangles together are the region SectionShearSolver meshes, whatever their role.
 template <typename T>
 class Figure
 {

@@ -27,8 +27,8 @@ struct HeatFluxNodeSetLoadFormat
     [[nodiscard]] static std::size_t maximumNodeCount(std::string_view flag) noexcept;
 };
 
-// All the QHBDY cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). The absent area
-// factor is NaN.
+// All the HeatFluxNodeSetLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). The
+// absent area factor is NaN.
 class HeatFluxNodeSetLoadTable final : public TypedTable<HeatFluxNodeSetLoadTable, HeatFluxNodeSetLoadCard>
 {
 public:

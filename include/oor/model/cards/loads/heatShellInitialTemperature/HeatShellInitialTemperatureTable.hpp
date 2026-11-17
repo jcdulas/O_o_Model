@@ -19,9 +19,9 @@ struct HeatShellInitialTemperatureFormat
     static void write(const HeatShellInitialTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the TEMPN1 cards. The ID is a temperature set ID shared by many cards (IdSpace::Group, category Load), so that
-// `TEMP(INIT) = n`, `IC = n` and a TLOAD1 EXCITEID find it. The points are three lists in CSR form (the grid points,
-// the components and the temperatures); each grid point is a Node reference.
+// All the HeatShellInitialTemperature cards. The ID is a temperature set ID shared by many cards (IdSpace::Group,
+// category Load), so that `TEMP(INIT) = n`, `IC = n` and a TransientTableLoad1 EXCITEID find it. The points are three
+// lists in CSR form (the grid points, the components and the temperatures); each grid point is a Node reference.
 class HeatShellInitialTemperatureTable final
     : public TypedTable<HeatShellInitialTemperatureTable, HeatShellInitialTemperatureCard>
 {

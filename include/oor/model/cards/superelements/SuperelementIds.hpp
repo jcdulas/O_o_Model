@@ -13,9 +13,10 @@ namespace oor::model
 // SEID of every card; a renumbering of the superelements needs the whole list).
 //
 // A number is defined when the deck has the part BEGIN SUPER=n (a part that carries a MASSID defines nothing: it is a
-// mass increment of its superelement), when a card of the family that defines superelements names it (SESET, SEELT,
-// SEBULK, CSUPEXT, CSUPER: the cards of the category Superelement that have an ID space of their own), or when a grid
-// point of the residual structure puts itself in it with the SEID of its GRID card (or of the GRDSET that gave it
+// mass increment of its superelement), when a card of the family that defines superelements names it
+// (SuperelementInteriorNodes, SuperelementElemTransfer, SuperelementBulkOptions, SuperelementExteriorPoints,
+// SuperelementCopyPoints: the cards of the category Superelement that have an ID space of their own), or when a grid
+// point of the residual structure puts itself in it with the SEID of its Node card (or of the NodeDefaults that gave it
 // one). Number 0, the residual structure, is always defined and is not in the list.
 //
 // The list is taken from the residual structure of the deck the model belongs to, so asking from a part gives the same

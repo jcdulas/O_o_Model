@@ -14,17 +14,19 @@ namespace oor::analysis
 namespace
 {
 
-// What the axisymmetric harmonic elements (CQUADX and CTRIAX) do with a point that an RBAX3D names.
+// What the axisymmetric harmonic elements (AxisymQuad and AxisymTria) do with a point that a RigidAxisymConnection
+// names.
 struct PointUse
 {
     base::EntityId element = 0;       // an element that has the point, 0 when none
-    base::EntityId wrongElement = 0;  // an element of a PAXSYMH with a harmonic index other than 1, 0 when none
-    base::EntityId wrongProperty = 0; // the PAXSYMH of that element
+    // an element of an AxisymHarmonicProp with a harmonic index other than 1, 0 when none
+    base::EntityId wrongElement = 0;
+    base::EntityId wrongProperty = 0; // the AxisymHarmonicProp of that element
     base::EntityId wrongHarmonic = 0; // its NHARM
 };
 
-// The harmonic index NHARM of the PAXSYMH with this ID, or -1 when the property is not a PAXSYMH (it is then another
-// check's business: an unresolved reference, or a property of the wrong kind).
+// The harmonic index NHARM of the AxisymHarmonicProp with this ID, or -1 when the property is not an AxisymHarmonicProp
+// (it is then another check's business: an unresolved reference, or a property of the wrong kind).
 base::EntityId harmonicIndexOf(const model::Model& model, base::EntityId pid)
 {
     const std::optional<model::CardLocation> property = model.locate(base::IdSpace::Property, pid);
@@ -33,7 +35,7 @@ base::EntityId harmonicIndexOf(const model::Model& model, base::EntityId pid)
     return cardAt<model::AxisymHarmonicPropTable>(model, *property).harmonicIndex;
 }
 
-// Notes the elements of a table that have one of the points that the RBAX3D cards name.
+// Notes the elements of a table that have one of the points that the RigidAxisymConnection cards name.
 template <typename TableT>
 void scanElements(const model::Model& model, std::unordered_map<base::EntityId, PointUse>& uses)
 {
@@ -63,9 +65,9 @@ void scanElements(const model::Model& model, std::unordered_map<base::EntityId, 
 }
 
 // the point G3D, on the axis of symmetry, may not belong to an axisymmetric
-// harmonic element (a CQUADX or a CTRIAX), and the point GAX must belong to one, whose PAXSYMH has harmonic index 1.
-// The solver stops with a fatal message when it does not. A point that no card defines is reported by `ref.unresolved`,
-// and a property that is not a PAXSYMH is not judged here.
+// harmonic element (an AxisymQuad or an AxisymTria), and the point GAX must belong to one, whose AxisymHarmonicProp has
+// harmonic index 1. The solver stops with a fatal message when it does not. A point that no card defines is reported by
+// `ref.unresolved`, and a property that is not an AxisymHarmonicProp is not judged here.
 class RigidAxisymConnectionPointsCheck final : public ValidationCheck
 {
 public:

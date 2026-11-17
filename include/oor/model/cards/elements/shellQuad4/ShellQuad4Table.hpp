@@ -19,7 +19,7 @@ struct ShellQuad4Format
     static void write(const ShellQuad4Card& card, FieldWriter& writer);
 };
 
-// All the CQUAD4 elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without copy).
+// All the ShellQuad4 elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without copy).
 class ShellQuad4Table final : public TypedTable<ShellQuad4Table, ShellQuad4Card>
 {
 public:

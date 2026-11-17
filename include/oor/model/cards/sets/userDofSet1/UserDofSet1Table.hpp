@@ -22,8 +22,8 @@ struct UserDofSet1Format
     static void write(const UserDofSet1Card& card, FieldWriter& writer);
 };
 
-// All the USET1 cards. A card has no ID (IdSpace::None): its set name is not an ID. The points of every card are one
-// column of (first, last) runs.
+// All the UserDofSet1 cards. A card has no ID (IdSpace::None): its set name is not an ID. The points of every card are
+// one column of (first, last) runs.
 class UserDofSet1Table final : public TypedTable<UserDofSet1Table, UserDofSet1Card>
 {
 public:

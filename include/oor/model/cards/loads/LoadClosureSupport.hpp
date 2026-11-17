@@ -13,9 +13,9 @@
 #include <string_view>
 
 // What the cards of the load closure have in common. Two kinds of value, one helper each: the
-// name of a part or of a load in a PAA combination (LOADCLID, LOADCNAM, LOADCSUB) and the set of components of a grid
-// point of a heat shell element (TEMPN1, SLOADN1). Nothing here describes the fields of a card: every card still lays
-// out, reads, writes and checks its own fields by hand.
+// name of a part or of a load in a PAA combination (LoadCaseIdLabel, LoadCaseNameLabel, LoadCaseSubcaseLabel) and the
+// set of components of a grid point of a heat shell element (HeatShellInitialTemperature, HeatShellNodalLoad). Nothing
+// here describes the fields of a card: every card still lays out, reads, writes and checks its own fields by hand.
 namespace oor::model
 {
 
@@ -54,9 +54,9 @@ inline void writePaaName(FieldWriter& writer, int firstField, const std::string&
 // The components of a grid point of a heat shell element
 // ---------------------------------------------------------------------------------------------------------------------
 //
-// The C of a TEMPN1 and an SLOADN1 says where in the thickness the value acts: 1 the top, 2 the bottom, 3 the middle,
-// as the digits of one integer written with no blank ("13" is the top and the middle, whatever the order of the
-// digits). A blank field is 1. The library keeps the digits in ascending order.
+// The C of a HeatShellInitialTemperature and a HeatShellNodalLoad says where in the thickness the value acts: 1 the
+// top, 2 the bottom, 3 the middle, as the digits of one integer written with no blank ("13" is the top and the middle,
+// whatever the order of the digits). A blank field is 1. The library keeps the digits in ascending order.
 
 inline constexpr std::int32_t SHELL_DEFAULT_COMPONENTS = 1;
 

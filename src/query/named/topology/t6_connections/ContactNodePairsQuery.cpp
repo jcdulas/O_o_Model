@@ -88,7 +88,7 @@ public:
                 meeting.face->appendLayout(faceNodes);
                 faceOffsets.push_back(static_cast<std::int64_t>(faceNodes.size()));
                 xi.push_back(meeting.coordinates.xi);
-                // a segment of a BLSEG line has one coordinate
+                // a segment of a SlidelineSegments line has one coordinate
                 eta.push_back(meeting.face->cornerCount == 2 ? std::nan("") : meeting.coordinates.eta);
                 gap.push_back(meeting.gap);
                 searchedFrom.emplace_back(analysis::searchSideName(meeting.searchedFrom));

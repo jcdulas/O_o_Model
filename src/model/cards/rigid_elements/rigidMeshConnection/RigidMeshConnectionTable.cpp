@@ -103,7 +103,8 @@ void RigidMeshConnectionTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void RigidMeshConnectionTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     RigidMeshConnectionCard& card = m_cards.edit(row);
-    // With STYPE GRID, SID is a SET1 or a BCGRID: two kinds of card the card cannot tell apart, so it is left alone.
+    // With STYPE GRID, SID is an IdListSet1 or a ContactNodeRegion: two kinds of card the card cannot tell apart, so it
+    // is left alone.
     if (card.secondaryType == RigidMeshConnectionSecondary::Surface)
         visitId(visitor, "secondaryId", ReferenceTarget::ContactSurface, card.secondaryId);
     visitId(visitor, "primaryId", ReferenceTarget::ContactSurface, card.primaryId);

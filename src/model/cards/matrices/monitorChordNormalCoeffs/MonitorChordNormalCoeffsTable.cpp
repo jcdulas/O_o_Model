@@ -108,8 +108,8 @@ void MonitorChordNormalCoeffsTable::keepRows(const std::vector<std::uint32_t>& r
 
 void MonitorChordNormalCoeffsTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The format reference supports CAERO1 elements only; the target is every aerodynamic element, and a rule between
-    // cards says which ones are CAERO1.
+    // The format reference supports AeroLiftingPanel1 elements only; the target is every aerodynamic element, and a
+    // rule between cards says which ones are AeroLiftingPanel1.
     for (base::EntityId& id : m_cards.edit(row).aeroPanelIds)
         visitId(visitor, "aeroPanelIds", ReferenceTarget::AeroElement, id);
 }

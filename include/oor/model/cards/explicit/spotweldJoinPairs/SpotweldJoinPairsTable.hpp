@@ -19,10 +19,10 @@ struct SpotweldJoinPairsFormat
     static void write(const SpotweldJoinPairsCard& card, FieldWriter& writer);
 };
 
-// All the BJOIN cards. The BID is unique among them (IdSpace::PerCardType) and no other card names it, so the category
-// is Other. The SID is a BCGRID, a card of the contact body category: the reference is visited with that target
-// (ReferenceTarget::ContactBody), so that renumbering the BCGRID cards follows into the join. The cards are kept whole
-// (CardRows) next to their ID.
+// All the SpotweldJoinPairs cards. The BID is unique among them (IdSpace::PerCardType) and no other card names it, so
+// the category is Other. The SID is a ContactNodeRegion, a card of the contact body category: the reference is visited
+// with that target (ReferenceTarget::ContactBody), so that renumbering the ContactNodeRegion cards follows into the
+// join. The cards are kept whole (CardRows) next to their ID.
 class SpotweldJoinPairsTable final : public TypedTable<SpotweldJoinPairsTable, SpotweldJoinPairsCard>
 {
 public:

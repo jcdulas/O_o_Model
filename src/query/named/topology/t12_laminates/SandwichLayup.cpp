@@ -23,7 +23,8 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// The allowable shear stress of the core material: the S of a MAT8, the SS of a MAT1; NaN when blank or another card.
+// The allowable shear stress of the core material: the S of an OrthoMat2D, the SS of an IsoMat; NaN when blank or
+// another card.
 double coreShearAllowable(const model::Model& model, std::int32_t mid)
 {
     if (const std::optional<PlyMaterial> ortho = orthoMat2DAllowables(model, mid))

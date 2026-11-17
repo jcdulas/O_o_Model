@@ -19,9 +19,10 @@ struct EulerDefaultFlowBoundaryFormat
     static void write(const EulerDefaultFlowBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the FLOWDEF cards. The FID is unique among them (IdSpace::PerCardType) and no other card names it, so the
-// category is Other. A default boundary is not excited by a load, so the table does not define an excitation ID. A
-// MATERIAL or HYDSTAT property names a MATDEUL or a HYDSTAT. The cards are kept whole (CardRows) next to their ID.
+// All the EulerDefaultFlowBoundary cards. The FID is unique among them (IdSpace::PerCardType) and no other card names
+// it, so the category is Other. A default boundary is not excited by a load, so the table does not define an excitation
+// ID. A MATERIAL or EulerHydrostaticPreset property names an EulerMat or an EulerHydrostaticPreset. The cards are kept
+// whole (CardRows) next to their ID.
 class EulerDefaultFlowBoundaryTable final
     : public TypedTable<EulerDefaultFlowBoundaryTable, EulerDefaultFlowBoundaryCard>
 {

@@ -39,7 +39,8 @@ std::optional<Beam2Card> Beam2Format::read(FieldReader& reader)
     Beam2Card card;
     card.id = reader.requiredInteger(1, "id");
     card.propId =
-        reader.integer(2, "propId", card.id); // format reference: PID defaults to EID (unless a BEAMOR says otherwise)
+        // format reference: PID defaults to EID (unless a Beam2Defaults says otherwise)
+        reader.integer(2, "propId", card.id);
     card.nodeA = reader.requiredInteger(3, "nodeA");
     card.nodeB = reader.requiredInteger(4, "nodeB");
     // Field 5 is G0 (an integer) or X1 (a real); a blank field 5 is the vector form too.
@@ -71,7 +72,7 @@ std::optional<Beam2Card> Beam2Format::read(FieldReader& reader)
     }
     card.warpingPointA = reader.integer(17, "warpingPointA", 0);
     card.warpingPointB = reader.integer(18, "warpingPointB", 0);
-    // Which of the fields a BEAMOR gives a default to were blank (a zero is not blank).
+    // Which of the fields a Beam2Defaults gives a default to were blank (a zero is not blank).
     if (reader.isBlank(2))
         card.blankFields |= Beam2Card::BLANK_PROP_ID;
     if (reader.isBlank(5))
@@ -131,8 +132,8 @@ void Beam2Format::write(const Beam2Card& card, FieldWriter& writer)
     }
     else
     {
-        // With a BEAMOR in the model, a blank field would take its default when the deck is read again, so the vector
-        // is written as it is, zeros included. Otherwise a zero vector is written as blanks.
+        // With a Beam2Defaults in the model, a blank field would take its default when the deck is read again, so the
+        // vector is written as it is, zeros included. Otherwise a zero vector is written as blanks.
         if (writer.governedFieldsExplicit())
         {
             writer.real(5, card.orientation[0]);
@@ -243,7 +244,7 @@ void Beam2Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
     m_nodeB.set(row, visitor.visit("nodeB", ReferenceTarget::Node, m_nodeB.get(row)));
     if (const base::EntityId orientationNode = m_orientationNode.get(row); orientationNode > 0)
         m_orientationNode.set(row, visitor.visit("orientationNode", ReferenceTarget::Node, orientationNode));
-    // SA and SB are grid points or scalar points (a scalar point may be one no SPOINT defines).
+    // SA and SB are grid points or scalar points (a scalar point may be one no ScalarPoint defines).
     if (const base::EntityId warpingPointA = m_warpingPointA.get(row); warpingPointA > 0)
         m_warpingPointA.set(row, visitor.visit("warpingPointA", ReferenceTarget::ScalarOrGridPoint, warpingPointA));
     if (const base::EntityId warpingPointB = m_warpingPointB.get(row); warpingPointB > 0)
@@ -260,8 +261,8 @@ void Beam2Table::finishRead(Model& model, const ReadContext&)
 {
     if (!m_blankFields.isMaterialised())
         return;
-    // The defaults of the (only) BEAMOR, for the fields that were blank on the card. Without a BEAMOR the blank fields
-    // stay noted: one added later (and Model::applyDefaults) gives them their defaults.
+    // The defaults of the (only) Beam2Defaults, for the fields that were blank on the card. Without a Beam2Defaults the
+    // blank fields stay noted: one added later (and Model::applyDefaults) gives them their defaults.
     const Beam2DefaultsTable* defaults = model.findTable<Beam2DefaultsTable>();
     if (defaults == nullptr || defaults->rows().aliveCount() == 0)
         return;
@@ -284,7 +285,8 @@ void Beam2Table::finishRead(Model& model, const ReadContext&)
             std::array<double, 3> vector = m_orientation.get(row);
             if ((blank & Beam2Card::BLANK_ORIENTATION1) != 0 && set.usesGridPoint())
             {
-                // A blank X1/G0 takes the grid point of the BEAMOR; the vector fields of the card are then unused.
+                // A blank X1/G0 takes the grid point of the Beam2Defaults; the vector fields of the card are then
+                // unused.
                 m_orientationNode.set(row, set.orientationNode);
                 m_orientation.set(row, std::array<double, 3>{});
                 continue;
@@ -297,7 +299,7 @@ void Beam2Table::finishRead(Model& model, const ReadContext&)
                 vector[2] = set.orientation[2];
             m_orientation.set(row, vector);
         }
-        break; // only one BEAMOR counts (Beam2DefaultsTable::finishRead reports a second one)
+        break; // only one Beam2Defaults counts (Beam2DefaultsTable::finishRead reports a second one)
     }
     // The defaults are applied: the cards no longer remember what was blank.
     m_blankFields = Column<std::uint8_t>(0);

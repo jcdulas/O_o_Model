@@ -21,9 +21,10 @@ struct AeroBoxListFormat
     static void write(const AeroBoxListCard& card, FieldWriter& writer);
 };
 
-// All the AELIST cards, in the category AeroList. The SID is unique among the AELIST cards (IdSpace::PerCardType) and
-// is what an AESURF, an AECOMP, a SPLINE4 or a SPLINE5 names (ReferenceTarget::AeroList). The items of every card are
-// one column of (first, last) runs; each item is an aerodynamic box (ReferenceTarget::AeroBox, which may name nothing).
+// All the AeroBoxList cards, in the category AeroList. The SID is unique among the AeroBoxList cards
+// (IdSpace::PerCardType) and is what an AeroControlSurface, an AeroComponent, an AeroSurfaceSpline4 or an
+// AeroBeamSpline5 names (ReferenceTarget::AeroList). The items of every card are one column of (first, last) runs; each
+// item is an aerodynamic box (ReferenceTarget::AeroBox, which may name nothing).
 class AeroBoxListTable final : public TypedTable<AeroBoxListTable, AeroBoxListCard>
 {
 public:

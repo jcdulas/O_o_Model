@@ -20,7 +20,7 @@ struct RigidTriaPlate1Format
     static void write(const RigidTriaPlate1Card& card, FieldWriter& writer);
 };
 
-// All the RTRPLT1 cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
+// All the RigidTriaPlate1 cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
 class RigidTriaPlate1Table final : public TypedTable<RigidTriaPlate1Table, RigidTriaPlate1Card>
 {
 public:

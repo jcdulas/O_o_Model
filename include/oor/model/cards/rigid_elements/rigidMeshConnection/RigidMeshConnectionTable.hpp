@@ -19,10 +19,11 @@ struct RigidMeshConnectionFormat
     static void write(const RigidMeshConnectionCard& card, FieldWriter& writer);
 };
 
-// All the RCONN cards. The connection number is unique per card type (IdSpace::PerCardType, category Other) and no
-// other card names it. SID names a BSURF (ReferenceTarget::ContactSurface) only when STYPE is SURF; with GRID it is the
-// ID of a SET1 or of a BCGRID, which the card cannot tell apart, so it is not visited. MID always names a BSURF. The
-// cards are kept whole (CardRows) next to the column of their CID: they are few and nobody reads them as columns.
+// All the RigidMeshConnection cards. The connection number is unique per card type (IdSpace::PerCardType, category
+// Other) and no other card names it. SID names a ContactElemSurface (ReferenceTarget::ContactSurface) only when STYPE
+// is SURF; with GRID it is the ID of an IdListSet1 or of a ContactNodeRegion, which the card cannot tell apart, so it
+// is not visited. MID always names a ContactElemSurface. The cards are kept whole (CardRows) next to the column of
+// their CID: they are few and nobody reads them as columns.
 class RigidMeshConnectionTable final : public TypedTable<RigidMeshConnectionTable, RigidMeshConnectionCard>
 {
 public:

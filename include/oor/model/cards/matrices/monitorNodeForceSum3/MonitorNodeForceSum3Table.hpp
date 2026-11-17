@@ -20,8 +20,8 @@ struct MonitorNodeForceSum3Format
     static void write(const MonitorNodeForceSum3Card& card, FieldWriter& writer);
 };
 
-// All the MONPNT3 cards. A monitor point has no numeric ID (IdSpace::None): it is found by its NAME, which the format
-// reference says is unique (a repeated NAME is reported when the deck is read).
+// All the MonitorNodeForceSum3 cards. A monitor point has no numeric ID (IdSpace::None): it is found by its NAME, which
+// the format reference says is unique (a repeated NAME is reported when the deck is read).
 class MonitorNodeForceSum3Table final : public TypedTable<MonitorNodeForceSum3Table, MonitorNodeForceSum3Card>
 {
 public:
@@ -38,7 +38,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Two MONPNT3 cards of one NAME are reported.
+    // Two MonitorNodeForceSum3 cards of one NAME are reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<std::string>& nameColumn() noexcept { return m_name; }

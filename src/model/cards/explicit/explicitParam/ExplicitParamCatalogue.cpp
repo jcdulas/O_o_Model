@@ -77,8 +77,8 @@ CardProblem outOfRange(const ExplicitParamSlot& slot)
     return CardProblem{"card.bad-value", std::string(slot.name) + " " + slot.range.describe(), slot.name};
 }
 
-// RigidAssembly(id) or RigidMat(id): the kind of body ('F' for a FULLRIG assembly of an RBE2, 'M' for a MATRIG) and its
-// number.
+// RigidAssembly(id) or RigidMat(id): the kind of body ('F' for a FULLRIG assembly of a RigidBodyStar, 'M' for a
+// RigidMat) and its number.
 struct RigidBodyName
 {
     char kind;

@@ -1,7 +1,12 @@
 // Checks of the thermal, radiation and acoustic cards: field positions, defaults, variants, references, ID
-// spaces, renumbering and rules of MAT4, MAT5, PHBDY, CHBDYE, CHBDYG, CHBDYP, CONV, CONVM, PCONV, PCONVM, TEMPBC, RADM,
-// RADBC, RADCAV, RADLST, RADMTX, RADSET, VIEW, VIEW3D, QVOL, QBDY1, QBDY2, QBDY3, QHBDY, QVECT and the acoustic cards
-// (ACMODL, MFLUID, PACABS, PACBAR, PAABSF, CAABSF, CHACAB, CHACBR, CFLUID2 to CFLUID4, FSLIST, BDYLIST, FLSYM, PANEL).
+// spaces, renumbering and rules of HeatIsoMat, HeatAnisoMat, HeatSurfaceProp, HeatSurfaceSide, HeatSurfaceNodes,
+// HeatSurfaceProperty, FreeConvection, ForcedConvection, FreeConvectionProp, ForcedConvectionProp, TemperatureBoundary,
+// RadiationProp, RadiationToSpace, RadiationCavity, RadiationCavityList, RadiationExchangeMatrix, RadiationCavitySet,
+// ViewFactorFace, ViewFactorIntegration, HeatVolumeSourceLoad, HeatFluxSurfaceLoad1, HeatFluxNodalLoad2,
+// HeatFluxBoundaryLoad3, HeatFluxNodeSetLoad, HeatFluxVectorLoad and the acoustic cards (FluidStructureInterface,
+// FluidVirtualMass, AcousticAbsorberBrickProp, AcousticBarrierProp, AcousticAbsorberProp, AcousticAbsorber,
+// AcousticAbsorberHexa, AcousticBarrierHexa, AxisymFluid2 to AxisymFluid4, AxisymFluidFreeSurface,
+// AxisymFluidBoundaryList, AxisymFluidSymmetry, FluidStructurePanels).
 
 #include "oor/model/cards/elements/acousticAbsorberProp/AcousticAbsorberPropTable.hpp"
 #include "oor/model/cards/materials/heatIsoMatTemperature/HeatIsoMatTemperatureTable.hpp"
@@ -124,8 +129,8 @@ void requireRoundTrip(const Model& model)
     oor::testing::requireModelFileRoundTrip(model);
 }
 
-// A hexahedron (element 1) on grid points 1 to 8, with a PSOLID and a thermal material, the surface elements of its six
-// sides, and a convection property: a small heat transfer model.
+// A hexahedron (element 1) on grid points 1 to 8, with a SolidProp and a thermal material, the surface elements of its
+// six sides, and a convection property: a small heat transfer model.
 std::string heatBlock()
 {
     return "Node;1;;1.;0.;1.\nNode;2;;1.;0.;0.\nNode;3;;0.;0.;0.\nNode;4;;0.;0.;1.\n"
@@ -208,14 +213,14 @@ TEST_CASE("MAT5 is a conductivity matrix, with CP, RHO and HGEN on its two lines
 TEST_CASE("MAT4 and MAT5 share one ID space, apart from the structural materials and the other way round",
           "[model][cards][thermal]")
 {
-    // A MAT1 and a MAT4 of one ID are two materials.
+    // An IsoMat and a HeatIsoMat of one ID are two materials.
     Model model = readBulk("IsoMat;1;2.1E+11;;0.3\nHeatIsoMat;1;1.\nHeatAnisoMat;2;1.");
     REQUIRE(model.cardCount() == 3);
     REQUIRE(model.locate(base::IdSpace::Material, 1).has_value());
     REQUIRE(model.locate(base::IdSpace::ThermalMaterial, 1).has_value());
-    // Two thermal materials of one ID clash, a MAT4 and a MAT5 included.
+    // Two thermal materials of one ID clash, a HeatIsoMat and a HeatAnisoMat included.
     REQUIRE_THROWS_AS(readBulk("HeatIsoMat;1;1.\nHeatAnisoMat;1;1."), base::DeckError);
-    // The MATT4 and MATT5 of a thermal material resolve to it (and only to it).
+    // The HeatIsoMatTemperature and HeatAnisoMatTemperature of a thermal material resolve to it (and only to it).
     Model companions = readBulk(
         "HeatIsoMat;1;1.\n"
         "HeatAnisoMat;2;1.\n"
@@ -226,12 +231,13 @@ TEST_CASE("MAT4 and MAT5 share one ID space, apart from the structural materials
     REQUIRE(unresolvedIn(companions) == 0);
     Model lacking =
         readBulk("IsoMat;1;2.1E+11;;0.3\nHeatIsoMatTemperature;1;5\nTableMaterial1;5;;;0.;1.;100.;2.;EndTable");
-    REQUIRE(unresolvedIn(lacking) == 1); // a MATT4 needs a MAT4: the MAT1 of that ID is not one
-    // A thermal property names its material in the same field: the material of a PSOLID is a MAT4 in a heat analysis.
+    REQUIRE(unresolvedIn(lacking) == 1); // a HeatIsoMatTemperature needs a HeatIsoMat: the IsoMat of that ID is not one
+    // A thermal property names its material in the same field: the material of a SolidProp is a HeatIsoMat in a heat
+    // analysis.
     Model solid = readBulk("HeatIsoMat;3;1.\nSolidProp;1;3");
     REQUIRE(unresolvedIn(solid) == 0);
-    // Renumbering the thermal materials follows into the companions and into the PSOLID that names one, and leaves the
-    // MAT1 and the property that names it alone.
+    // Renumbering the thermal materials follows into the companions and into the SolidProp that names one, and leaves
+    // the IsoMat and the property that names it alone.
     Model both = readBulk(
         "IsoMat;1;2.1E+11;;0.3\nHeatIsoMat;2;1.\nSolidProp;1;1\nSolidProp;2;2\nHeatIsoMatTemperature;2;"
         "5\nTableMaterial1;5;;;0.;1.;100.;2.;EndTable");
@@ -250,15 +256,15 @@ TEST_CASE("CHBDYE is a side of a conduction element and has no space with the co
 {
     Model model = readBulk(heatBlock() + "HeatSurfaceSide;20;1;3;4;5;6;7");
     REQUIRE(rowCount<HeatSurfaceSideTable>(model) == 7);
-    // The CHBDYE 1 and the CHEXA 1 coexist: the surface elements have a space of their own (the verification deck of
-    // the solver, htflw47, does it).
+    // The HeatSurfaceSide 1 and the SolidHexa 1 coexist: the surface elements have a space of their own (the
+    // verification deck of the solver, htflw47, does it).
     REQUIRE(model.locate(base::IdSpace::Element, 1).has_value());
     REQUIRE(model.locate(base::IdSpace::SurfaceElement, 1).has_value());
     const HeatSurfaceSideCard card = cardAt<HeatSurfaceSideTable>(model, 6);
     REQUIRE((card.id == 20 && card.conductionElemId == 1 && card.sideCode == 3 && card.frontViewId == 4 &&
              card.backViewId == 5));
     REQUIRE((card.frontRadiationPropId == 6 && card.backRadiationPropId == 7));
-    REQUIRE(unresolvedIn(model) == 4); // the VIEW 4 and 5 and the RADM 6 and 7 of the last card
+    REQUIRE(unresolvedIn(model) == 4); // the ViewFactorFace 4 and 5 and the RadiationProp 6 and 7 of the last card
     requireRoundTrip(model);
     // Surface elements of the three kinds share the surface element space.
     REQUIRE_THROWS_AS(readBulk("HeatSurfaceSide;1;1;1\nHeatSurfaceNodes;1;AreaTria3;;;;;1;2;3"),
@@ -284,7 +290,7 @@ TEST_CASE("the surface element and the conduction element of a CHBDYE are refere
     Renumbering::apply(model, RenumberSpace::Element, Renumbering::offset(100));
     REQUIRE(cardAt<HeatSurfaceSideTable>(model).conductionElemId == 101);
     REQUIRE(cardAt<HeatSurfaceSideTable>(model).id == 1); // a surface element is not an element of the other space
-    // The CONV that applies to a surface element follows the surface element space.
+    // The FreeConvection that applies to a surface element follows the surface element space.
     Renumbering::apply(model, RenumberSpace::SurfaceElement, Renumbering::offset(1000));
     REQUIRE(cardAt<HeatSurfaceSideTable>(model, 5).id == 1006);
     REQUIRE(cardAt<FreeConvectionTable>(model, 0).id == 1001);
@@ -312,8 +318,8 @@ TEST_CASE("CHBDYG has a type and as many grid points as the type needs", "[model
             "AreaTria3");
 
     expectInvalid("HeatSurfaceNodes;1;AREA9;;;;;1;2;3", "kind");
-    // A blank TYPE takes the one of the BDYOR, checked with the grid points; with no
-    // BDYOR, or a BDYOR type of a CHBDYP, it is missing.
+    // A blank TYPE takes the one of the HeatSurfaceDefaults, checked with the grid points; with no
+    // HeatSurfaceDefaults, or a HeatSurfaceDefaults type of a HeatSurfaceProperty, it is missing.
     const Model fromBdyor = readBulk("HeatSurfaceDefaults;AreaTria3\nHeatSurfaceNodes;8;;;;;;1;2;3");
     REQUIRE(cardAt<HeatSurfaceNodesTable>(fromBdyor).kind == "AreaTria3");
     REQUIRE_FALSE(fromBdyor.diagnostics().hasErrors());
@@ -345,9 +351,10 @@ TEST_CASE("CHBDYP has a type, two grid points (one for a POINT), a PHBDY and an 
     card = cardAt<HeatSurfacePropertyTable>(model, 2);
     REQUIRE((card.kind == "Line" && card.midsideNode == 111 && card.directionFrameId == 10 &&
              card.direction1.value() == 1.0));
-    REQUIRE(unresolvedIn(model) == 9); // the VIEW 4, 1, 2 and the RADM 6, 6, 3, 4 of the cards, and the CE 10
+    // the ViewFactorFace 4, 1, 2 and the RadiationProp 6, 6, 3, 4 of the cards, and the CE 10
+    REQUIRE(unresolvedIn(model) == 9);
     requireRoundTrip(model);
-    // The PID names a PHBDY, and a PHBDY of the same number as a PSHELL is not that PSHELL.
+    // The PID names a HeatSurfaceProp, and a HeatSurfaceProp of the same number as a ShellProp is not that ShellProp.
     Model withShell = readBulk(
         "IsoMat;1;2.1E+11;;0.3\nHeatSurfaceProp;5;0.02\nShellProp;5;1;0.1\nNode;1;;0.;0.;0.\nHeatSurfaceProperty;1;5;"
         "Point;;;1");
@@ -377,7 +384,7 @@ TEST_CASE("PHBDY has an area factor and two diameters, and a blank D2 is D1", "[
     card = cardAt<HeatSurfacePropTable>(model, 3);
     REQUIRE((!card.area.has_value() && card.diameter1.value() == 3.0 && card.diameter2.value() == 4.0));
     requireRoundTrip(model);
-    // The PIDs of the PHBDY cards are a space of their own.
+    // The PIDs of the HeatSurfaceProp cards are a space of their own.
     REQUIRE_NOTHROW(readBulk("HeatSurfaceProp;1;0.1\nShellProp;1;1;0.1"));
     REQUIRE_THROWS_AS(readBulk("HeatSurfaceProp;1;0.1\nHeatSurfaceProp;1;0.2"), base::DeckError);
     expectInvalid("HeatSurfaceProp;1;-1.", "area");
@@ -414,7 +421,7 @@ TEST_CASE("CONV resolves the ambient points of TA2 to TA8 from TA1 and refers to
     REQUIRE(visitor.fields.front() == "id");
     REQUIRE(visitor.targets.front() == ReferenceTarget::SurfaceElement);
     REQUIRE(visitor.targets[1] == ReferenceTarget::ConvectionProperty);
-    // A scalar point may be named without an SPOINT.
+    // A scalar point may be named without a ScalarPoint.
     Model scalar = readBulk(
         "HeatSurfaceProperty;1;1;Point;;;1\n"
         "Node;1;;0.;0.;0.\n"
@@ -424,8 +431,8 @@ TEST_CASE("CONV resolves the ambient points of TA2 to TA8 from TA1 and refers to
         "FreeConvection;1;1;;;77");
     REQUIRE(unresolvedIn(scalar) == 0);
     Model lacking = readBulk("Node;1;;0.;0.;0.\nFreeConvection;9;2;;;1");
-    REQUIRE(unresolvedIn(lacking) == 2); // the surface element 9 and the PCONV 2
-    // The ID of a CONV is the surface element it applies to: renumbering the surface elements renumbers it.
+    REQUIRE(unresolvedIn(lacking) == 2); // the surface element 9 and the FreeConvectionProp 2
+    // The ID of a FreeConvection is the surface element it applies to: renumbering the surface elements renumbers it.
     Renumbering::apply(model, RenumberSpace::SurfaceElement, Renumbering::offset(100));
     REQUIRE(cardAt<FreeConvectionTable>(model, 0).id == 101);
     Renumbering::apply(model, RenumberSpace::ConvectionProperty, Renumbering::offset(30));
@@ -484,7 +491,7 @@ TEST_CASE("PCONV has the layout of FTYPE 0 to 2 or the alternate layout of FTYPE
             std::array<double, 8>{10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0});
     requireRoundTrip(model);
 
-    // A PCONV may name a thermal material, a table, an inlet point and a coordinate system.
+    // A FreeConvectionProp may name a thermal material, a table, an inlet point and a coordinate system.
     Model references = readBulk(
         "Node;237;;0.;0.;0.\n"
         "HeatIsoMat;23;1.\n"
@@ -518,7 +525,8 @@ TEST_CASE("PCONVM has a fluid material, a formula, a flag and four coefficients"
     REQUIRE((card.matrixForm == 0 && card.massFlowConvection == 0 && card.reynoldsExponent == 0.0));
     REQUIRE(unresolvedIn(model) == 0);
     requireRoundTrip(model);
-    // A PCONV and a PCONVM may have one number (a CONV names the first, a CONVM the second).
+    // A FreeConvectionProp and a ForcedConvectionProp may have one number (a FreeConvection names the first, a
+    // ForcedConvection the second).
     REQUIRE_NOTHROW(readBulk("FreeConvectionProp;1;1\nForcedConvectionProp;1;1;;;1."));
     expectInvalid("ForcedConvectionProp;1;1;2;;1.", "matrixForm");
     expectInvalid("ForcedConvectionProp;1;1;;2;1.", "massFlowConvection");
@@ -666,7 +674,8 @@ TEST_CASE("QBDY2 holds the flux at each point, QHBDY a face of grid points of a 
     REQUIRE((face.faceKind == "AreaQuad4" && face.heatFlux == 17.5 && !face.area.has_value() && face.nodes[3] == 103));
     REQUIRE(cardAt<HeatFluxNodeSetLoadTable>(model, 1).area.value() == Approx(0.1));
     REQUIRE(cardAt<HeatFluxNodeSetLoadTable>(model, 2).nodes[3] == 104); // AREA6 has four to six points
-    REQUIRE(unresolvedIn(model) == 2);                                   // the elements 723 and 5 of the QBDY2 cards
+    // the elements 723 and 5 of the HeatFluxNodalLoad2 cards
+    REQUIRE(unresolvedIn(model) == 2);
     requireRoundTrip(model);
     Renumbering::apply(model, RenumberSpace::Node, Renumbering::offset(10));
     REQUIRE(cardAt<HeatFluxNodeSetLoadTable>(model, 0).nodes[2] == 114);
@@ -720,7 +729,7 @@ TEST_CASE("TEMPBC has a type and pairs of a temperature and a grid point or a ra
     requireRoundTrip(model);
     // A group is written whole on one line; the type STAT is not written.
 
-    // A TEMPBC STAT is the SPC set of a subcase; a TRAN one is the EXCITEID of a TLOADi.
+    // A TemperatureBoundary STAT is the SPC set of a subcase; a TRAN one is the EXCITEID of a TLOADi.
     Model decks = readModelText(
         "[executive]\n"
         "SolutionSequence;153\n"
@@ -806,7 +815,8 @@ TEST_CASE("the surface elements name their RADM and VIEW, the VIEW and RADCAV th
     REQUIRE(visitor.fields.front() == "frontViewId");
     REQUIRE(visitor.targets.front() == ReferenceTarget::ViewFactorFaceFactor);
     REQUIRE(visitor.targets[1] == ReferenceTarget::RadiationMaterial);
-    // The cavity of a VIEW, a RADSET, a RADLST, a RADMTX: the cards of one cavity share its number.
+    // The cavity of a ViewFactorFace, a RadiationCavitySet, a RadiationCavityList, a RadiationExchangeMatrix: the cards
+    // of one cavity share its number.
     Model lacking = readBulk("ViewFactorFace;10;4\nRadiationCavitySet;7");
     REQUIRE(unresolvedIn(lacking) == 2);
     Renumbering::apply(model, RenumberSpace::RadiationCavity, Renumbering::offset(40));
@@ -823,7 +833,7 @@ TEST_CASE("the surface elements name their RADM and VIEW, the VIEW and RADCAV th
     Renumbering::apply(model, RenumberSpace::ViewFactorFaceFactor, Renumbering::offset(5));
     REQUIRE(cardAt<ViewFactorFaceTable>(model).id == 15);
     REQUIRE(cardAt<HeatSurfaceNodesTable>(model).frontViewId == 15);
-    // The SETs of the RADCAV are Bulk Data sets.
+    // The SETs of the RadiationCavity are Bulk Data sets.
     Renumbering::apply(model, RenumberSpace::Set, Renumbering::offset(100));
     REQUIRE(cardAt<RadiationCavityTable>(model).sets == std::vector<base::EntityId>{103, 105});
 }
@@ -922,7 +932,7 @@ TEST_CASE("RADBC applies to surface elements, with an ambient point", "[model][c
     REQUIRE((card.ambientNode == 7 && card.ambientViewFactor == 1.0 && card.controlNode == 107 &&
              card.elements.size() == 1));
     REQUIRE(cardAt<RadiationToSpaceTable>(model, 1).elements == std::vector<ThermalRun>{{1, 9, 2}});
-    // Several RADBC cards may share an ambient point: it is not an ID.
+    // Several RadiationToSpace cards may share an ambient point: it is not an ID.
     REQUIRE(rowCount<RadiationToSpaceTable>(model) == 3);
     requireRoundTrip(model);
     expectInvalid("RadiationToSpace;5;0.;;1", "ambientViewFactor");
@@ -1008,8 +1018,8 @@ TEST_CASE("CAABSF has one to four fluid points, CHACAB and CHACBR eight corners 
     REQUIRE((brick.nodes[11] == 12 && brick.nodes[12] == 17 && brick.nodes[15] == 20));
     REQUIRE(cardAt<AcousticBarrierHexaTable>(model).propId == 22);
     requireRoundTrip(model);
-    // The acoustic elements are elements of the common space and have properties (PACABS, PACBAR, PAABSF) of the common
-    // space.
+    // The acoustic elements are elements of the common space and have properties (AcousticAbsorberBrickProp,
+    // AcousticBarrierProp, AcousticAbsorberProp) of the common space.
     REQUIRE_THROWS_AS(readBulk("AcousticAbsorber;1;1;1\nAcousticAbsorberHexa;1;1;1;2;3;4;5;6;7;8"),
                       base::DeckError);
     REQUIRE_THROWS_AS(readBulk("AcousticBarrierProp;1;1.;1.;5.\nAcousticAbsorberProp;1;1"), base::DeckError);
@@ -1051,7 +1061,7 @@ TEST_CASE("ACMODL has the layout of BW and BWKD or the shorter one of CP, and NO
         cardAt<FluidStructureInterfaceTable>(readBulk("FluidStructureInterface;DifferenceForm;All;;;;ClosedPressure"));
     REQUIRE((pressure.methodName == "ClosedPressure" && pressure.interfaceInput == "All"));
     requireRoundTrip(model);
-    // The sets of the interface are SET1 cards.
+    // The sets of the interface are IdListSet1 cards.
     Model sets = readBulk("IdListSet1;10;1;2\nIdListSet1;20;3\nFluidStructureInterface;DifferenceForm;NodesList;10;20");
     REQUIRE(unresolvedIn(sets) == 0);
     Model lacking = readBulk("FluidStructureInterface;DifferenceForm;NodesList;10;20");
@@ -1059,7 +1069,7 @@ TEST_CASE("ACMODL has the layout of BW and BWKD or the shorter one of CP, and NO
     Renumbering::apply(sets, RenumberSpace::Set, Renumbering::offset(5));
     REQUIRE((cardAt<FluidStructureInterfaceTable>(sets).fluidSetId == 15 &&
              cardAt<FluidStructureInterfaceTable>(sets).structureSetId == 25));
-    // Only one ACMODL is allowed.
+    // Only one FluidStructureInterface is allowed.
     const Model twice = readModelText(
         "[model]\nFluidStructureInterface;IdenticalMesh\nFluidStructureInterface;DifferenceForm\n", false);
     REQUIRE(twice.diagnostics().firstError()->code == "deck.duplicate-fluid-structure-interface");

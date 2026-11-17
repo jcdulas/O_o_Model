@@ -19,10 +19,10 @@ struct OrthoMat2DFreqFormat
     static void write(const OrthoMat2DFreqCard& card, FieldWriter& writer);
 };
 
-// All the MAT8F cards. The ID space is the card type's own: the ID is the one of the MAT8 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEDi cards (ReferenceTarget::DynamicTable). The cards are kept whole (CardRows); the query engine reads the ID
-// only.
+// All the OrthoMat2DFreq cards. The ID space is the card type's own: the ID is the one of the OrthoMat2D that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables are
+// references to TABLEDi cards (ReferenceTarget::DynamicTable). The cards are kept whole (CardRows); the query engine
+// reads the ID only.
 class OrthoMat2DFreqTable final : public TypedTable<OrthoMat2DFreqTable, OrthoMat2DFreqCard>
 {
 public:

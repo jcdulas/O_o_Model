@@ -20,7 +20,8 @@ std::optional<AcousticAxisymFluid3Card> AcousticAxisymFluid3Format::read(FieldRe
     card.id = reader.requiredInteger(1, "id");
     card.fluidPoints = {reader.requiredInteger(2, "fluidPointId1"), reader.requiredInteger(3, "fluidPointId2"),
                         reader.requiredInteger(4, "fluidPointId3")};
-    // The grid of the format reference leaves field 5 blank for this card (CAXIF4 has its fourth point there).
+    // The grid of the format reference leaves field 5 blank for this card (AcousticAxisymFluid4 has its fourth point
+    // there).
     requireBlankFields(reader, {5}, LAST_FIELD);
     card.density = reader.optionalReal(6, "density");
     card.bulkModulus = reader.optionalReal(7, "bulkModulus");
@@ -86,7 +87,8 @@ void AcousticAxisymFluid3Table::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void AcousticAxisymFluid3Table::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // The points are GRIDF fluid points, which no card of the library defines: there is nothing to follow.
+    // The points are AcousticSlotFluidPoint fluid points, which no card of the library defines: there is nothing to
+    // follow.
 }
 
 } // namespace oor::model

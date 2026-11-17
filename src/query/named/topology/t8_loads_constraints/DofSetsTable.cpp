@@ -34,8 +34,8 @@ namespace
 struct DofRow
 {
     std::string card;
-    std::optional<std::int32_t> sid;    // SUPORT1
-    std::optional<std::string> setName; // USET, USET1
+    std::optional<std::int32_t> sid;    // FreeBodySupportSet
+    std::optional<std::string> setName; // UserDofSet, UserDofSet1
     std::int32_t node = 0;
     std::int32_t components = 0; // the digits, 0 for a scalar point
 };
@@ -53,7 +53,8 @@ public:
         std::sort(m_pointIds.begin(), m_pointIds.end());
     }
 
-    // The cards that list (point, components) pairs: ASET, BSET, CSET, QSET, OMIT, SUPORT, SUPORT1, USET.
+    // The cards that list (point, components) pairs: AnalysisDofSet, FixedBoundaryDofSet, FreeBoundaryDofSet,
+    // GeneralizedDofSet, OmittedDofSet, FreeBodySupport, FreeBodySupportSet, UserDofSet.
     template <typename TableT>
     void pairs(const char* card)
     {
@@ -65,8 +66,9 @@ public:
                                       });
     }
 
-    // The cards that give one set of components for a list of points with THRU: ASET1, BSET1, CSET1, QSET1, OMIT1,
-    // USET1. A THRU range gives the grid and scalar points of the model that lie in it.
+    // The cards that give one set of components for a list of points with THRU: AnalysisDofSet1, FixedBoundaryDofSet1,
+    // FreeBoundaryDofSet1, GeneralizedDofSet1, OmittedDofSet1, UserDofSet1. A THRU range gives the grid and scalar
+    // points of the model that lie in it.
     template <typename TableT>
     void lists(const char* card)
     {
@@ -140,8 +142,9 @@ public:
         if (!onlyCards.empty())
             std::erase_if(rows, [&](const DofRow& row) { return !onlyCards.contains(std::string(row.card)); });
 
-        // The subcases whose SUPORT1 command selects each set (the Case Control
-        // SUPORT1 requests the SUPORT1 cards of a set, whose components join those of the SUPORT cards).
+        // The subcases whose FreeBodySupportSet command selects each set (the Case Control
+        // FreeBodySupportSet requests the FreeBodySupportSet cards of a set, whose components join those of the
+        // FreeBodySupport cards).
         std::map<std::int32_t, std::vector<std::int32_t>> subcasesOfSet;
         const model::CaseControl& caseControl = model.control().caseControl;
         const model::CaseLineages lineages(caseControl);

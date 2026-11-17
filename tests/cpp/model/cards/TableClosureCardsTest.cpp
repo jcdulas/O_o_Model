@@ -1,8 +1,9 @@
-// Checks of the remaining table cards: the multi-dimensional tables of SOL 400 (TABL3D0, TABL3D1, TABL3D2 and
-// TABLE3D), the fatigue loading table TABLFTG, the user defined function TABLUDS, and the references that the SOL 400
-// materials (MATS3, MATS8, MATSORT, MATVP and MATTUSR) and the CORD3G make to them. Per card: the fields in their
-// format reference positions, the defaults, the lists over the continuation lines, the references and the ID spaces,
-// the refused values and the round trip through a model file.
+// Checks of the remaining table cards: the multi-dimensional tables of SOL 400 (TableMultiVariable0,
+// TableMultiVariable1, TableMultiVariable2 and TableScattered3D), the fatigue loading table TableFatigueHistory, the
+// user defined function TableUserRoutine, and the references that the SOL 400 materials (AxisymOrthoMatStressDependent,
+// OrthoMat2DStressDependent, OrthoMat3DNonlinearStressDependent, ViscoPlasticMat and UserMatTable) and the
+// GeneralFrame3 make to them. Per card: the fields in their format reference positions, the defaults, the lists over
+// the continuation lines, the references and the ID spaces, the refused values and the round trip through a model file.
 
 #include "oor/model/cards/coordinate_systems/generalFrame3/GeneralFrame3Table.hpp"
 #include "oor/model/cards/materials/axisymOrthoMatStressDependent/AxisymOrthoMatStressDependentTable.hpp"
@@ -39,19 +40,19 @@ std::size_t unresolvedIn(Model&& model)
 
 using Values = std::vector<double>;
 
-// After the NW1 of a TABL3D1 or TABL3D2 of one variable (kind 12) with two values of X: the blank fields of the other
-// variables, the two values of X and the two values of Y.
+// After the NW1 of a TableMultiVariable1 or TableMultiVariable2 of one variable (kind 12) with two values of X: the
+// blank fields of the other variables, the two values of X and the two values of Y.
 const std::string ONE_VARIABLE_DATA = ";;;;;;;;;;;;;;;;;;;;1.;2.;5.;6.";
 
-// A TABL3D1 of two variables: three values of the first (kind 12, EXTRP 1, SM 1) and two of the second (kind 1), so six
-// values of Y: the lists of X, then the values of Y.
+// A TableMultiVariable1 of two variables: three values of the first (kind 12, EXTRP 1, SM 1) and two of the second
+// (kind 1), so six values of Y: the lists of X, then the values of Y.
 const std::string GRID_TABLE =
     "TableMultiVariable1;86011;2;12;1;;;3;2;;;1;;;;;;;;;;;;1;;;;0.;0.5;1.;10.;20.;1.;2.;3.;4.;5.;6.";
 
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TABL3D0
+// TableMultiVariable0
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TABL3D0 has one variable, its flags have the format reference defaults and its pairs run over the lines",
@@ -97,7 +98,7 @@ TEST_CASE("a TABL3D0 has one variable, its flags have the format reference defau
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TABL3D1 and TABL3D2
+// TableMultiVariable1 and TableMultiVariable2
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TABL3D1 has its lists of X on lines of their own, then one Y for each point of the grid",
@@ -210,7 +211,8 @@ TEST_CASE("a TABL3D2 reads the layout of the TABL3D1 and has the same rules", "[
 TEST_CASE("the multi-dimensional tables share a category, each type has its own numbers and a reference finds any",
           "[model][cards][tables3d]")
 {
-    // The ID is unique per card type: a TABL3D0 5, a TABL3D1 5, a TABL3D2 5 and a TABLE3D 5 coexist.
+    // The ID is unique per card type: a TableMultiVariable0 5, a TableMultiVariable1 5, a TableMultiVariable2 5 and a
+    // TableScattered3D 5 coexist.
     Model model = readBulk("TableMultiVariable0;5;12;;;;;0.;1.;1.;2.\nTableMultiVariable1;5;1;12;;;;2" +
                            ONE_VARIABLE_DATA + "\nTableMultiVariable2;5;1;12;;;;2" + ONE_VARIABLE_DATA +
                            "\nTableScattered3D;5;;;;;0.;0.;0.;0.;1.;1.;1.;1.;EndTable");
@@ -222,7 +224,8 @@ TEST_CASE("the multi-dimensional tables share a category, each type has its own 
                                "0.;0.;1.;1.;1.;1.;EndTable"),
                       base::DeckError);
 
-    // The materials and a CORD3G name them with ReferenceTarget::MultiDimensionalTable, and the space renumbers them.
+    // The materials and a GeneralFrame3 name them with ReferenceTarget::MultiDimensionalTable, and the space renumbers
+    // them.
     Model materials = readBulk(
         "OrthoMat2D;34;1.;1.;0.3\nOrthoMat2DStressDependent;34;12;;;;;;;1\nTableMultiVariable0;12;5;;;;;0.;1.;1.;2."
         "\nTableMultiVariable1;1;1;5;;;;2" +
@@ -239,7 +242,7 @@ TEST_CASE("the multi-dimensional tables share a category, each type has its own 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TABLE3D
+// TableScattered3D
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TABLE3D has offsets, points of four fields and ends with ENDT", "[model][cards][tables3d]")
@@ -286,7 +289,7 @@ TEST_CASE("a TABLE3D has offsets, points of four fields and ends with ENDT", "[m
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TABLFTG
+// TableFatigueHistory
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TABLFTG is a list of reals that ends with ENDT and that an FTGLOAD names", "[model][cards][tables3d]")
@@ -304,7 +307,7 @@ TEST_CASE("a TABLFTG is a list of reals that ends with ENDT and that an FTGLOAD 
              TableFatigueHistoryTable::INFO.idSpace == base::IdSpace::PerCardType));
     requireRoundTrip(model);
 
-    // A TID is unique among the TABLFTG cards, and a table of another kind may have the same number.
+    // A TID is unique among the TableFatigueHistory cards, and a table of another kind may have the same number.
     REQUIRE_THROWS_AS(readBulk("TableFatigueHistory;1;1.;EndTable\nTableFatigueHistory;1;2.;EndTable"),
                       base::DeckError);
     REQUIRE_NOTHROW(readBulk("TableFatigueHistory;1;1.;EndTable\nTableDynamic1;1;;;0.;1.;1.;2.;EndTable"));
@@ -325,7 +328,7 @@ TEST_CASE("a TABLFTG is a list of reals that ends with ENDT and that an FTGLOAD 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TABLUDS
+// TableUserRoutine
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TABLUDS has a group and a routine and is numbered with the dynamic tables", "[model][cards][tables3d]")
@@ -348,8 +351,8 @@ TEST_CASE("a TABLUDS has a group and a routine and is numbered with the dynamic 
     REQUIRE_THROWS_AS(readBulk("TableUserRoutine;5;grp\nTableUserRoutine;5;other"), base::DeckError);
     REQUIRE_NOTHROW(readBulk("TableDynamic1;6;;;0.;1.;1.;2.;EndTable\nTableUserRoutine;5;grp"));
 
-    // A field that names a dynamic table finds it: a TLOAD1 whose table is a TABLUDS has as many unresolved
-    // references as one whose table is a TABLED1, and one more when no card has the number.
+    // A field that names a dynamic table finds it: a TransientTableLoad1 whose table is a TableUserRoutine has as many
+    // unresolved references as one whose table is a TableDynamic1, and one more when no card has the number.
     const std::string load = "TransientTableLoad1;1;2;;;;7\n";
     const std::size_t withUds = unresolvedIn(readBulk(load + "TableUserRoutine;7;grp"));
     REQUIRE(withUds == unresolvedIn(readBulk(load + "TableDynamic1;7;;;0.;1.;1.;2.;EndTable")));
@@ -399,7 +402,7 @@ TEST_CASE("MATS3, MATS8, MATSORT and MATVP name their tables as multi-dimensiona
     for (std::size_t index = 1; index < ortho3D.targets.size(); ++index)
         REQUIRE(ortho3D.targets[index] == ReferenceTarget::MultiDimensionalTable);
 
-    // MATVP: IT3D of a power-law card (not the blank one, and not an Anand card, which has none).
+    // ViscoPlasticMat: IT3D of a power-law card (not the blank one, and not an Anand card, which has none).
     RecordingVisitor power;
     model.table<ViscoPlasticMatTable>().visitReferences(0, power);
     REQUIRE((power.fields == std::vector<std::string>{"id", "rateTableId"}));
@@ -428,7 +431,7 @@ TEST_CASE("the tables of the SOL 400 materials resolve, are reported when missin
         "UserMat;50;0;1;1.\n"
         "UserMatTable;50;;;;;12\n" +
         tables);
-    REQUIRE(unresolvedIn(model) == 0); // the TGE of a MATTUSR may name a TABL3Di too
+    REQUIRE(unresolvedIn(model) == 0); // the TGE of an UserMatTable may name a TABL3Di too
     REQUIRE(unresolvedIn(readBulk("OrthoMat2D;34;1.;1.;0.3\nOrthoMat2DStressDependent;34;12;;;;;;;1")) == 2);
     REQUIRE(unresolvedIn(readBulk("IsoMat;10;2.1E+11;;0.3\nViscoPlasticMat;10;0.8;20;1.3;1.2;0.9;0.7")) == 1);
 
@@ -470,7 +473,7 @@ TEST_CASE("a CORD3G names equations or tables as its FORM says", "[model][cards]
     REQUIRE((tables.targets == std::vector<ReferenceTarget>(3, ReferenceTarget::MultiDimensionalTable)));
     REQUIRE(unresolvedIn(byTable) == 0);
 
-    // The tables follow their space; the equations of a CORD3G of the other FORM are not touched by it.
+    // The tables follow their space; the equations of a GeneralFrame3 of the other FORM are not touched by it.
     Renumbering::apply(byTable, RenumberSpace::MultiDimensionalTable, Renumbering::offset(1000));
     REQUIRE((cardAt<GeneralFrame3Table>(byTable).angleFunctionIds == std::array<base::EntityId, 3>{1030, 1031, 1032}));
     REQUIRE(unresolvedIn(byTable) == 0);

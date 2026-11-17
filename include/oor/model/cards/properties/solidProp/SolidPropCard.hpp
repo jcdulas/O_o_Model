@@ -8,10 +8,10 @@
 namespace oor::model
 {
 
-// One PSOLID card: the property of solid elements (CHEXA, CPENTA, CTETRA).
+// One SolidProp card: the property of solid elements (SolidHexa, SolidPenta, SolidTetra).
 //
 // Card layout:
-//   PSOLID  PID  MID  CORDM  IN  STRESS  ISOP  FCTN
+//   SolidProp  PID  MID  CORDM  IN  STRESS  ISOP  FCTN
 //
 // IN, STRESS and ISOP take an integer or a word on the card; they are kept as the word (0 is BUBBLE, 2 is TWO, ...)
 // and an empty text is a blank, whose meaning depends on the element type and so is not resolved. CORDM is the

@@ -25,14 +25,16 @@ constexpr auto MATRIX = std::to_array<NamedArrayInfo>({
     {"column", "int32", "(n)", "the column of each stored term, from 0"},
     {"value", "float or complex", "(n)",
      "the value of each term (real or complex, single or double precision as the type of the table says)"},
-    // The labels of the degrees of freedom a matrix made in memory or read from DMIG cards carries: the point (a grid,
-    // scalar or extra point, or a response or design variable) and component of every row and every column index.
+    // The labels of the degrees of freedom a matrix made in memory or read from DirectMatrixNodal cards carries: the
+    // point (a grid, scalar or extra point, or a response or design variable) and component of every row and every
+    // column index.
     {"rowIds", "int32", "(rows)", "the identification number of each row (a point, a response, a variable)", false,
      true},
     {"rowComponents", "int32", "(rows)", "the component of each row (0 where there is none)", false, true},
     {"columnIds", "int32", "(columns)", "the identification number of each column", false, true},
     {"columnComponents", "int32", "(columns)", "the component of each column (0 where there is none)", false, true},
-    // The harmonic number of a DMIAX degree of freedom (axisymmetric analysis), given with the four labels above.
+    // The harmonic number of a DirectMatrixAxisym degree of freedom (axisymmetric analysis), given with the four labels
+    // above.
     {"rowHarmonics", "int32", "(rows)", "the harmonic number of each row (-2147483648 where the field is blank)", false,
      true},
     {"columnHarmonics", "int32", "(columns)", "the harmonic number of each column (-2147483648 where blank)", false,
@@ -254,8 +256,8 @@ constexpr auto MODAL_EFFECTIVE_MASS = std::to_array<NamedArrayInfo>({
      true},
 });
 
-// The integrated loads of the monitor points (MONPNT1, MONPNT2, MONPNT3, ...): a row a point, component, step and
-// contribution.
+// The integrated loads of the monitor points (MonitorIntegratedLoad1, MonitorElemLoad2, MonitorNodeForceSum3, ...): a
+// row a point, component, step and contribution.
 constexpr auto MONITOR_POINT_LOADS = std::to_array<NamedArrayInfo>({
     {"subcase", "int32", "(n)", "the subcase"},
     {"step", "float", "(n)", "the frequency or the time of the value; NaN for a static or a trim subcase"},

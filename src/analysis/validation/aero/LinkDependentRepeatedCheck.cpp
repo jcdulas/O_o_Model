@@ -14,9 +14,9 @@ namespace oor::analysis
 namespace
 {
 
-// An AELINK makes one trim variable (LABLD) a linear combination of others, and a variable can be constrained only
-// once: not twice in the cards of one ID, and not in a card of the ID and in one that applies to every subcase (the ID
-// 0 or the word ALWAYS).
+// An AeroTrimLink makes one trim variable (LABLD) a linear combination of others, and a variable can be constrained
+// only once: not twice in the cards of one ID, and not in a card of the ID and in one that applies to every subcase
+// (the ID 0 or the word ALWAYS).
 class LinkDependentRepeatedCheck final : public ValidationCheck
 {
 public:

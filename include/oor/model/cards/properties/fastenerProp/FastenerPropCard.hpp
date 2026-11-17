@@ -7,11 +7,11 @@
 namespace oor::model
 {
 
-// One PFAST card: the property of a fastener element (CFAST).
+// One FastenerProp card: the property of a fastener element (Fastener).
 //
 // Card layout:
-//   PFAST  PID  D    MCID  MFLAG  KT1  KT2  KT3  KR1
-//          KR2  KR3  MASS  GE     ALPHA TREF COINL
+//   FastenerProp  PID  D  MCID  MFLAG  KT1  KT2  KT3  KR1
+//                 KR2  KR3  MASS  GE  ALPHA TREF COINL
 //
 // MCID is the element stiffness coordinate system (-1, the default, is none); MFLAG says whether it is relative (0) or
 // absolute (1). The translational stiffnesses KT1 to KT3 are required, the rotational ones are 0.0 when blank.

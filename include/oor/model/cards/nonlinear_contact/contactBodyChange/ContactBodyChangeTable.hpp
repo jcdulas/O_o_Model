@@ -21,9 +21,10 @@ struct ContactBodyChangeFormat
     static void write(const ContactBodyChangeCard& card, FieldWriter& writer);
 };
 
-// All the BCHANGE cards. Several cards may have the same ID (a body may be entered more than once): IdSpace::Group,
-// category Other. The bodies are references to BCBODY and BCBODY1 cards, the ends of the ranges to grid points that may
-// not exist (they are the ends of a range). The ranges are one CSR column of (body, N1, N2, INC) rows.
+// All the ContactBodyChange cards. Several cards may have the same ID (a body may be entered more than once):
+// IdSpace::Group, category Other. The bodies are references to ContactBody and ContactBody1 cards, the ends of the
+// ranges to grid points that may not exist (they are the ends of a range). The ranges are one CSR column of (body, N1,
+// N2, INC) rows.
 class ContactBodyChangeTable final : public TypedTable<ContactBodyChangeTable, ContactBodyChangeCard>
 {
 public:

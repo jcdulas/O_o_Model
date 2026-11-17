@@ -1,9 +1,9 @@
-// The user dummy elements: the 27 cards ADUM1 to ADUM9 (the attributes of an element), CDUM1 to
-// CDUM9 (its connection) and PDUM1 to PDUM9 (its property). Each number is a card of its own, so each test runs over
-// the nine tables of a kind. What is checked: the fields in their positions of the format reference (the examples of
-// the formats), the default of a blank, the fields of a connection card that are grid points and the ones that are not,
-// the references a card lists and what a renumbering rewrites, the ID spaces, the refused values with their field, and
-// the round trip through a model file.
+// The user dummy elements: the 27 cards UserDefined1Attributes to UserDefined9Attributes (the attributes of an
+// element), UserDefined1 to UserDefined9 (its connection) and UserDefined1Prop to UserDefined9Prop (its property). Each
+// number is a card of its own, so each test runs over the nine tables of a kind. What is checked: the fields in their
+// positions of the format reference (the examples of the formats), the default of a blank, the fields of a connection
+// card that are grid points and the ones that are not, the references a card lists and what a renumbering rewrites, the
+// ID spaces, the refused values with their field, and the round trip through a model file.
 
 #include "oor/model/cards/elements/DummyFieldList.hpp"
 #include "oor/model/cards/elements/rod2/Rod2Table.hpp"

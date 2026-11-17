@@ -19,9 +19,10 @@ struct BushProp2DFreqFormat
     static void write(const BushProp2DFreqCard& card, FieldWriter& writer);
 };
 
-// All the PBSH2DT cards. The ID space is the card type's own: the ID is the one of the PBUSH2D that the card extends
-// (one PBSH2DT per PBUSH2D), so it is also a reference to a property, as for the PBUSHT. The three groups of terms are
-// (N, 4) NumPy views without copy; the tables are TABLED1 entries (ReferenceTarget::DynamicTable).
+// All the BushProp2DFreq cards. The ID space is the card type's own: the ID is the one of the BushProp2D that the card
+// extends (one BushProp2DFreq per BushProp2D), so it is also a reference to a property, as for the BushPropFreq. The
+// three groups of terms are (N, 4) NumPy views without copy; the tables are TableDynamic1 entries
+// (ReferenceTarget::DynamicTable).
 class BushProp2DFreqTable final : public TypedTable<BushProp2DFreqTable, BushProp2DFreqCard>
 {
 public:

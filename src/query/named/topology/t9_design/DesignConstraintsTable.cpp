@@ -14,7 +14,7 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// designConstraintsTable: the DCONSTR cards, with the subcases whose DESSUB or DESGLB selects their set.
+// designConstraintsTable: the DesignConstr cards, with the subcases whose DESSUB or DESGLB selects their set.
 class DesignConstraintsTableQuery final : public QueryBase
 {
 public:

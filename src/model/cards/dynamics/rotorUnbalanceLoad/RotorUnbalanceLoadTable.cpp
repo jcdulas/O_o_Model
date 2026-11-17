@@ -12,8 +12,8 @@ namespace oor::model
 namespace
 {
 
-// The field of each EPOINT: UFT1..3 and UFR1..3 on the third line, MCT1..3 and MCR1..3 on the fourth, SCR1..3 on the
-// fifth, each line starting at field 17, 25 and 33.
+// The field of each ExtraPoint: UFT1..3 and UFR1..3 on the third line, MCT1..3 and MCR1..3 on the fourth, SCR1..3 on
+// the fifth, each line starting at field 17, 25 and 33.
 constexpr int EXTRA_POINT_FIELDS[RotorUnbalanceLoadCard::EXTRA_POINT_COUNT] = {17, 18, 19, 20, 21, 22, 25, 26,
                                                                                27, 28, 29, 30, 33, 34, 35};
 constexpr const char* EXTRA_POINT_NAMES[RotorUnbalanceLoadCard::EXTRA_POINT_COUNT] = {

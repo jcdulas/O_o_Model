@@ -15,10 +15,10 @@ enum class FrfMedium : std::uint8_t
     UniversalFile      // a universal file
 };
 
-// One FRFCOMP card: a component whose frequency response functions were made by an earlier run and that an FRF based
-// assembly (FBA) puts together with others.
+// One FrfComponent card: a component whose frequency response functions were made by an earlier run and that an FRF
+// based assembly (FBA) puts together with others.
 //
-// Card layout: FRFCOMP  COMPID  COMPNAME  MEDIUM  UNITNO  LSCALFAC  FSCALFAC
+// Card layout: FrfComponent  COMPID  COMPNAME  MEDIUM  UNITNO  LSCALFAC  FSCALFAC
 //
 // The ID is the number that the other FRF cards write in their COMPID fields; the name is the other way to name the
 // component (they write either) and the one the ASMOUT keyword of the Case Control FRF command takes. COMPNAME is kept

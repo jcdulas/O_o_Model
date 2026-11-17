@@ -8,15 +8,15 @@
 namespace oor::model
 {
 
-// One MDFSET card: the fluid grid points or elements of a module that an ACMODL with FSET = -1 couples to the
-// structure.
+// One ModuleFluidSet card: the fluid grid points or elements of a module that a FluidStructureInterface with FSET = -1
+// couples to the structure.
 //
-// Card layout: MDFSET  MODID  ID1  ID2  ID3  ID4  ID5  ID6  ID7
-//                     ID8    -etc.-
-// or:         MDFSET  MODID  ID1  "THRU"  ID2  ...
+// Card layout: ModuleFluidSet  MODID  ID1  ID2  ID3  ID4  ID5  ID6  ID7
+//                             ID8  -etc.-
+// or:         ModuleFluidSet  MODID  ID1  "THRU"  ID2  ...
 // MODID is the module (zero or more; the format reference gives no default and a blank field is read as 0, the main
 // Bulk Data, as everywhere in the multi-module cards). The IDs are kept as written: single IDs and THRU ranges, in
-// order, over as many lines as it takes. Several MDFSET cards may name the same or other modules. The card
+// order, over as many lines as it takes. Several ModuleFluidSet cards may name the same or other modules. The card
 // can only be used when the deck has modules and belongs in the main Bulk Data; the reader keeps it wherever
 // it stands.
 //

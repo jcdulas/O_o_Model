@@ -16,10 +16,12 @@
 namespace oor::model
 {
 
-// What the cards that list points share: the degree-of-freedom sets (ASET, BSET, CSET, OMIT, QSET, USET and their
-// "1" forms, SUPORT, SUPORT1, SPCOFF, SPCOFF1, BNDGRID) and the lists of IDs (SET1, SET3). Two kinds of list, each used
-// by a dozen cards of the constraints and sets families: a list of (point, components) pairs, and a list of IDs with
-// "Through" between two of them. Each card still has its own fields, layout and rules.
+// What the cards that list points share: the degree-of-freedom sets (AnalysisDofSet, FixedBoundaryDofSet,
+// FreeBoundaryDofSet, OmittedDofSet, GeneralizedDofSet, UserDofSet and their "1" forms, FreeBodySupport,
+// FreeBodySupportSet, AutoConstrExclusion, AutoConstrExclusionList, ShapeBoundaryNodeSet) and the lists of IDs
+// (IdListSet1, TypedListSet3). Two kinds of list, each used by a dozen cards of the constraints and sets families: a
+// list of (point, components) pairs, and a list of IDs with "Through" between two of them. Each card still has its own
+// fields, layout and rules.
 
 // A run of IDs in the list of a card: a single ID (first == last) or "first Through last".
 struct IdRun
@@ -38,8 +40,8 @@ struct IdRun
 // Through ranges. A range stays together within the internal slot mapping.
 int writeIdRuns(FieldWriter& writer, int first, const std::vector<IdRun>& runs, bool compress);
 
-// Which IDs a list accepts: positive ones (the points of the DOF sets), any but zero (SET1: the ZONA decks list
-// negative IDs), or zero and above (SET3).
+// Which IDs a list accepts: positive ones (the points of the DOF sets), any but zero (IdListSet1: the ZONA decks list
+// negative IDs), or zero and above (TypedListSet3).
 enum class IdSign : std::uint8_t
 {
     Positive,
@@ -48,7 +50,7 @@ enum class IdSign : std::uint8_t
 };
 
 // The first problem of a list of runs (IDs of the right sign, a range going up), reported on field `name`. A list with
-// no ID is a problem too, unless `mayBeEmpty` (SET1 with SKIN).
+// no ID is a problem too, unless `mayBeEmpty` (IdListSet1 with SKIN).
 [[nodiscard]] std::optional<CardProblem> checkIdRuns(const std::vector<IdRun>& runs, const char* name,
                                                      IdSign sign = IdSign::Positive, bool mayBeEmpty = false);
 

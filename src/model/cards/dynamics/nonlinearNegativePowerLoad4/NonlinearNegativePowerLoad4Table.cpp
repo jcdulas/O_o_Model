@@ -109,7 +109,7 @@ void NonlinearNegativePowerLoad4Table::keepRows(const std::vector<std::uint32_t>
 void NonlinearNegativePowerLoad4Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     // The points are grid, scalar or extra points (extra points are in the node ID space); a scalar point may be named
-    // without an SPOINT that defines it.
+    // without a ScalarPoint that defines it.
     m_nodeI.set(row, visitor.visit("nodeI", ReferenceTarget::ScalarOrGridPoint, m_nodeI.get(row)));
     m_nodeJ.set(row, visitor.visit("nodeJ", ReferenceTarget::ScalarOrGridPoint, m_nodeJ.get(row)));
 }

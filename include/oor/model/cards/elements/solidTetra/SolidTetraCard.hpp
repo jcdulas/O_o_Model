@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One CTETRA card: a four-sided solid element with four to ten grid points.
+// One SolidTetra card: a four-sided solid element with four to ten grid points.
 //
 // Card layout:
-//   CTETRA  EID  PID  G1  G2  G3  G4  G5  G6
-//           G7   G8   G9  G10
+//   SolidTetra  EID  PID  G1  G2  G3  G4  G5  G6
+//               G7   G8  G9  G10
 //
 // G1 to G4 are the corners; G5 to G10 are the optional points on the edges. `nodes` always has room for all ten: an
 // edge point that is blank on the card (or zero) is 0, so that the edge a point belongs to is its position.

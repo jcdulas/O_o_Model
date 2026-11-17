@@ -20,8 +20,8 @@ struct MultiPointConstrFormat
     static void write(const MultiPointConstrCard& card, FieldWriter& writer);
 };
 
-// All the MPC cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The terms of every card are
-// three lists (points, components, coefficients) in CSR form.
+// All the MultiPointConstr cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The terms of
+// every card are three lists (points, components, coefficients) in CSR form.
 class MultiPointConstrTable final : public TypedTable<MultiPointConstrTable, MultiPointConstrCard>
 {
 public:

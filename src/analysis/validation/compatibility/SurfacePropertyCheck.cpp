@@ -9,9 +9,9 @@ namespace oor::analysis
 namespace
 {
 
-// A CHBDYP whose PHBDY lacks what its type needs: the area factor AF for a
+// A HeatSurfaceProperty whose HeatSurfaceProp lacks what its type needs: the area factor AF for a
 // POINT (the area), a LINE or an ELCYL (the effective width), and the diameter D1 for an ELCYL, a TUBE or an FTUBE.
-// Without them the surface has no area and carries no heat. A PHBDY that does not exist is the business of
+// Without them the surface has no area and carries no heat. A HeatSurfaceProp that does not exist is the business of
 // ref.unresolved.
 class SurfacePropertyCheck final : public ValidationCheck
 {

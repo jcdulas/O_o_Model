@@ -10,8 +10,8 @@ namespace oor::analysis
 namespace
 {
 
-// A degree of freedom that is the dependent term of an MPC equation and is also fixed by an SPC, SPC1 or the PS field
-// of its grid point. The two commands are taken together for each subcase.
+// A degree of freedom that is the dependent term of an MPC equation and is also fixed by a SinglePointConstr,
+// SinglePointConstrList or the PS field of its grid point. The two commands are taken together for each subcase.
 class SpcOnMpcDependentCheck final : public ValidationCheck
 {
 public:

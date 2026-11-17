@@ -21,10 +21,12 @@ struct StoredFrameInfo
     results::StoredFrame kind = results::StoredFrame::Unknown;
     std::int32_t system = 0; // the system of a Coordinate, Cylindrical or Spherical frame
     std::string reason;      // why the frame is unknown; empty otherwise
-    std::string source;      // where the frame comes from: "the table name", "PARAM,OMID", "PSOLID CORDM", ...
+    // where the frame comes from: "the table name", "PARAM,OutputMaterialFrame", "SolidProp CORDM", ...
+    std::string source;
 };
 
-// PARAM,OMID of a model: whether shell results are written in the material system (format reference, PARAM OMID).
+// PARAM,OutputMaterialFrame of a model: whether shell results are written in the material system (format reference,
+// PARAM OutputMaterialFrame).
 enum class MaterialFrameOutput : std::uint8_t
 {
     No,     // absent or NO: the element system
@@ -47,14 +49,12 @@ public:
     //   nodal tables           the output system CD of each grid point (the BOUG tables: the basic system), from the
     //   name
     //                          of the table; the model gives each grid point its system
-    //   shells                 the element system, or the material system when PARAM,OMID is YES (not for CQUADR, which
-    //   the
-    //                          format reference does not list); BOTH writes two forms that the file does not tell
-    //                          apart: unknown
+    //   shells                 the element system, or the material system when PARAM,OutputMaterialFrame is YES (not
+    //                          for ShellQuad4Drilling, which the format reference does not list); BOTH writes two forms
+    //                          that the file does not tell apart: unknown
     //   plies of laminates     the ply system
-    //   solids                 PSOLID CORDM: 0 the basic system, a rectangular system its own; a cylindrical or
-    //   spherical
-    //                          system or an element system (CORDM < 0) is unknown
+    //   solids                 SolidProp CORDM: 0 the basic system, a rectangular system its own; a cylindrical or
+    //                          spherical system or an element system (CORDM < 0) is unknown
     //   a table made by a frame change   the frame it was changed to
     // Never throws for a frame it does not know: the answer is Unknown with the reason.
     [[nodiscard]] static StoredFrameInfo describe(const model::Model& model,
@@ -65,8 +65,8 @@ public:
     [[nodiscard]] static StoredFrameInfo describeWithoutModel(const results::ResultTable& table);
 
     // A number that changes when what decides the frames of the results changes: the displacement systems (CD) of the
-    // grid points and the systems they resolve to, and PARAM,OMID. The position of a grid point in a cylindrical or
-    // spherical CD is not part of it.
+    // grid points and the systems they resolve to, and PARAM,OutputMaterialFrame. The position of a grid point in a
+    // cylindrical or spherical CD is not part of it.
     [[nodiscard]] static std::uint64_t signature(const model::Model& model, base::ThreadPool* pool = nullptr);
 
     // Throws StaleAttachmentError when the attachment cannot be trusted for a frame change: the model's structure

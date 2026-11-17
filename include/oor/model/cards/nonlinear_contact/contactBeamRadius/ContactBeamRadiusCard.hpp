@@ -8,13 +8,13 @@
 namespace oor::model
 {
 
-// One BCBMRAD card: the equivalent radius of beams for the node-to-segment beam-to-beam contact (SOLs 101 and 400): the
-// radius of the beam elements or bodies it lists, or the default radius of all beam elements. The radius of an element
-// overrides the one of its body, which overrides the default.
+// One ContactBeamRadius card: the equivalent radius of beams for the node-to-segment beam-to-beam contact (SOLs 101 and
+// 400): the radius of the beam elements or bodies it lists, or the default radius of all beam elements. The radius of
+// an element overrides the one of its body, which overrides the default.
 //
-// Card layout: BCBMRAD  RADIUS  TYPE  ID1  ID2  ID3 ...    with ranges   ID1  THRU  ID2  BY  N
-// over as many continuation lines as needed. TYPE is EID (the IDs are beam elements: CROD, CBAR, CBEAM, CBEAM3; the
-// default), BODY (the IDs are BCBODY entries) or ALL (no ID: the default radius of every beam).
+// Card layout: ContactBeamRadius  RADIUS  TYPE  ID1  ID2  ID3 ...  with ranges   ID1  THRU  ID2  BY  N
+// over as many continuation lines as needed. TYPE is EID (the IDs are beam elements: Rod2, Bar2, Beam2, Beam3; the
+// default), BODY (the IDs are ContactBody entries) or ALL (no ID: the default radius of every beam).
 struct ContactBeamRadiusCard
 {
     double radius = 0.0;           // the outer radius of a tube or round bar; for another section an equivalent radius

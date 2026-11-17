@@ -7,20 +7,20 @@
 namespace oor::model
 {
 
-// One MDBOLT card: a rigid bolt between two modules made of multi-point constraints (SOLs 101, 103, 400): each pair
+// One ModuleBolt card: a rigid bolt between two modules made of multi-point constraints (SOLs 101, 103, 400): each pair
 // (GTi, GBi) of grid points on the two sides of the cut is tied to the control grid point GRIDC in all six degrees of
-// freedom, so that the load or enforced motion of GRIDC pretensions the bolt. The rules of the BOLT apply
+// freedom, so that the load or enforced motion of GRIDC pretensions the bolt. The rules of the BoltConnection apply
 // to it.
 //
-// Card layout: MDBOLT  ID  GRIDC  MODC  MODT  MODB                                  fields 1 to 5
+// Card layout: ModuleBolt  ID  GRIDC  MODC  MODT  MODB                              fields 1 to 5
 //             (line)  TOP     GT1  GT2  GT3 ... GT7 / GT8  GT9 ...                  a keyword and its grid points
 //             (line)  BOTTOM  GB1  GB2  GB3 ... GB7 / GB8  GB9 ...
 // ID is the element ID of the bolt (required). GRIDC is the control grid point (required). MODC, MODT and MODB are the
 // modules that hold GRIDC, the grid points GTi and the grid points GBi (0, the main Bulk Data, when blank); a MODC
 // above zero must be MODT or MODB. The lists go on over continuation lines (the format reference draws the grid points
 // in the fields after the keyword and numbers them GT1 to GT6 and then GT8: the card reads every field of a line and
-// writes seven after the keyword). As in the BOLT the lists have the same number of grid points, one pair after the
-// other, and GRIDC is not in the BOTTOM list; with the modules, that is checked only when GRIDC and the
+// writes seven after the keyword). As in the BoltConnection the lists have the same number of grid points, one pair
+// after the other, and GRIDC is not in the BOTTOM list; with the modules, that is checked only when GRIDC and the
 // bottom grid points are in the same module. The card belongs in the main Bulk Data.
 //
 // The modules are plain integers. The grid points are looked up in this model (`Node`) only for the module that is 0,

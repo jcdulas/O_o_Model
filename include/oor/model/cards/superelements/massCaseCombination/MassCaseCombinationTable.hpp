@@ -19,8 +19,8 @@ struct MassCaseCombinationFormat
     static void write(const MassCaseCombinationCard& card, FieldWriter& writer);
 };
 
-// All the MASSSET cards, filed under their ID (IdSpace::PerCardType, category MassCombination). The cards are kept
-// whole next to a column of their IDs.
+// All the MassCaseCombination cards, filed under their ID (IdSpace::PerCardType, category MassCombination). The cards
+// are kept whole next to a column of their IDs.
 class MassCaseCombinationTable final : public TypedTable<MassCaseCombinationTable, MassCaseCombinationCard>
 {
 public:

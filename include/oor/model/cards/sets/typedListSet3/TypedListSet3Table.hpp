@@ -27,10 +27,10 @@ struct TypedListSet3Format
     [[nodiscard]] static std::optional<TypedListSet3Kind> kindFromName(std::string_view name);
 };
 
-// All the SET3 cards, in the category Set. The ID is a set ID shared by the cards that have it (IdSpace::Group); the
-// ReferenceTarget::Set of other cards resolves to it. The IDs of every card are one column of (first, last) runs, and
-// they are references of the kind DES says: grid points, elements (also the rigid elements of RBEin and RBEex) and
-// properties follow a renumbering; points and modules are not references.
+// All the TypedListSet3 cards, in the category Set. The ID is a set ID shared by the cards that have it
+// (IdSpace::Group); the ReferenceTarget::Set of other cards resolves to it. The IDs of every card are one column of
+// (first, last) runs, and they are references of the kind DES says: grid points, elements (also the rigid elements of
+// RBEin and RBEex) and properties follow a renumbering; points and modules are not references.
 class TypedListSet3Table final : public TypedTable<TypedListSet3Table, TypedListSet3Card>
 {
 public:

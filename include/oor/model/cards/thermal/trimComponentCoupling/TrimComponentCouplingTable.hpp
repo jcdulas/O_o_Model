@@ -19,10 +19,10 @@ struct TrimComponentCouplingFormat
     static void write(const TrimComponentCouplingCard& card, FieldWriter& writer);
 };
 
-// All the ACPEMCP cards, in the category Other. The TID is the trim component, which no card defines (Case Control
-// TRIMGRP is text) and which several ACPEMCP cards share (IdSpace::Group). The twelve sets are references to SET1 and
-// SET3 cards of the part BEGIN BULK TRMC=TID (ReferenceTarget::Set, ReferenceVisitor::visitInPart). The cards are kept
-// whole next to a column of their TIDs.
+// All the TrimComponentCoupling cards, in the category Other. The TID is the trim component, which no card defines
+// (Case Control TRIMGRP is text) and which several TrimComponentCoupling cards share (IdSpace::Group). The twelve sets
+// are references to IdListSet1 and TypedListSet3 cards of the part BEGIN BULK TRMC=TID (ReferenceTarget::Set,
+// ReferenceVisitor::visitInPart). The cards are kept whole next to a column of their TIDs.
 class TrimComponentCouplingTable final : public TypedTable<TrimComponentCouplingTable, TrimComponentCouplingCard>
 {
 public:

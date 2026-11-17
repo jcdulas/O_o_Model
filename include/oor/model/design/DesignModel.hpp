@@ -16,23 +16,26 @@
 #include <string>
 #include <vector>
 
-// The design model of a deck (SOL 200): the design variables, the DLINK cards that make some of them depend on others,
-// the constants of the DTABLE and DTABLE2 cards, the equations, and the relations (DVPREL1/2, DVMREL1/2, DVCREL1/2)
-// that turn the values of the variables into fields of properties, materials and elements. `DesignModel::read` takes
-// all of that from a model; `evaluate` computes the fields a design point gives; `applyDesign` (DesignUpdate.hpp)
-// writes them in one atomic operation. The DVGRID cards (`shapeTerms`) move grid points: their moves need the
-// coordinate systems, so `analysis::DesignApplication` computes them and hands them to `applyDesign`.
+// The design model of a deck (SOL 200): the design variables, the DesignVarLink cards that make some of them depend on
+// others, the constants of the DesignConstants and DesignFieldConstants cards, the equations, and the relations
+// (DesignPropRelation1/2, DesignMatRelation1/2, DesignElemRelation1/2) that turn the values of the variables into
+// fields of properties, materials and elements. `DesignModel::read` takes all of that from a model; `evaluate` computes
+// the fields a design point gives; `applyDesign` (DesignUpdate.hpp) writes them in one atomic operation. The
+// DesignNodeMove cards (`shapeTerms`) move grid points: their moves need the coordinate systems, so
+// `analysis::DesignApplication` computes them and hands them to `applyDesign`.
 //
-// What is not applied: DVSHAP and DVBSHAP (they move grid points along basis vectors that are not in the deck), TOPVAR,
-// TOMVAR and BEADVAR (the regions of a topology, topometry and topography optimisation: the solver makes their
-// variables), DVLREL1 (a designed load) and DVPSURF (a designed control surface setting of a trim), and a DVPREL1 on a
-// ply of the laminates by its global ply ID (TYPE GPLY). They are listed in `notApplied()` and left alone. A DVLREL1
-// and a DVPSURF name design variables, which count as used (`isUsed`); a TOMVAR and a BEADVAR name none.
+// What is not applied: DesignShapeBasis and DesignBoundaryShape (they move grid points along basis vectors that are not
+// in the deck), DesignTopologyRegion, DesignTopometryRegion and DesignBeadRegion (the regions of a topology, topometry
+// and topography optimisation: the solver makes their variables), DesignLoadRelation1 (a designed load) and
+// DesignControlSurface (a designed control surface setting of a trim), and a DesignPropRelation1 on a ply of the
+// laminates by its global ply ID (TYPE GPLY). They are listed in `notApplied()` and left alone. A DesignLoadRelation1
+// and a DesignControlSurface name design variables, which count as used (`isUsed`); a DesignTopometryRegion and a
+// DesignBeadRegion name none.
 
 namespace oor::model
 {
 
-// A DESVAR. `link` is the ID of the DLINK that makes the variable dependent (0 for an independent one).
+// A DesignVar. `link` is the ID of the DesignVarLink that makes the variable dependent (0 for an independent one).
 struct DesignVariable
 {
     base::EntityId id = 0;
@@ -40,15 +43,18 @@ struct DesignVariable
     double initial = 0.0; // XINIT
     double lower = 0.0;   // XLB
     double upper = 0.0;   // XUB
-    // The fraction the variable may change in one cycle: DELXV of the card, else DELX of the DOPTPRM (0.5 without one).
+    // The fraction the variable may change in one cycle: DELXV of the card, else DELX of the DesignOptimParams (0.5
+    // without one).
     double moveLimit = 0.5;
     base::EntityId link = 0;
-    base::EntityId discreteValues = 0; // DDVAL: the DDVAL card of the values the variable may take (0: continuous)
+    // DesignDiscreteValues: the DesignDiscreteValues card of the values the variable may take (0: continuous)
+    base::EntityId discreteValues = 0;
     base::CardKey key;
     std::uint32_t row = 0;
 };
 
-// A DLINK: `dependent` = `constant` + `multiplier` * (the sum of the coefficient times the independent variable).
+// A DesignVarLink: `dependent` = `constant` + `multiplier` * (the sum of the coefficient times the independent
+// variable).
 struct DesignLink
 {
     base::EntityId id = 0;
@@ -68,7 +74,7 @@ enum class DesignTargetKind : std::uint8_t
 enum class DesignRelationShape : std::uint8_t
 {
     Linear,   // DVxREL1: C0 + the sum of the coefficient times the variable
-    Equation, // DVxREL2: a DEQATN of the variables and the constants
+    Equation, // DVxREL2: a DesignEquation of the variables and the constants
 };
 
 // One relation card. The members before `applicable` say what the card says; the members after it are what the model
@@ -76,7 +82,8 @@ enum class DesignRelationShape : std::uint8_t
 // applied.
 struct DesignRelation
 {
-    std::string card; // the card as the messages name it, the keyword of its type: "DVPREL1", "DVMREL2", ...
+    // the card as the messages name it, the keyword of its type: "DesignPropRelation1", "DesignMatRelation2", ...
+    std::string card;
     std::uint16_t cardType = 0;
     base::CardKey key;
     std::uint32_t row = 0;
@@ -84,7 +91,7 @@ struct DesignRelation
     DesignTargetKind targetKind = DesignTargetKind::Property;
     DesignRelationShape shape = DesignRelationShape::Linear;
     std::string targetCard;  // TYPE: the neutral card name ("ShellProp", "IsoMat", "PointMassInertia")
-    std::string targetLabel; // the keyword of targetCard that the messages show ("PSHELL")
+    std::string targetLabel; // the keyword of targetCard that the messages show ("ShellProp")
     base::EntityId targetId = 0;
     DesignField field;                // as the deck wrote it
     std::optional<double> lowerLimit; // PMIN, MPMIN, CPMIN as written
@@ -93,7 +100,7 @@ struct DesignRelation
     double constant = 0.0;
     std::vector<DesignTerm> terms;
     bool fromProperty = false;
-    // Equation: the DEQATN, the variables and the labels of the constants it receives, in this order.
+    // Equation: the DesignEquation, the variables and the labels of the constants it receives, in this order.
     base::EntityId equationId = 0;
     std::vector<base::EntityId> variables;
     std::vector<std::string> labels;
@@ -115,8 +122,8 @@ struct DesignRelation
     [[nodiscard]] bool usesVariable(base::EntityId variable) const;
 };
 
-// A DVGRID: the design variable moves the grid point by `coefficient` * (X - X0) * `vector`, X its value and X0 its
-// initial value, the vector given in the coordinate system `system` (0: basic) at the grid point (
+// A DesignNodeMove: the design variable moves the grid point by `coefficient` * (X - X0) * `vector`, X its value and X0
+// its initial value, the vector given in the coordinate system `system` (0: basic) at the grid point (
 // the vector is not made a unit vector). Several cards on one grid point add.
 struct DesignShapeTerm
 {
@@ -160,7 +167,8 @@ struct DesignRelationValue
 
 struct DesignEvaluation
 {
-    std::vector<double> variables;              // the values of the variables, the dependent ones from their DLINK
+    // the values of the variables, the dependent ones from their DesignVarLink
+    std::vector<double> variables;
     std::vector<std::int8_t> variableBounds;    // -1 under the lower bound, 0 within, 1 over the upper bound
     std::vector<DesignRelationValue> relations; // aligned with `DesignModel::relations()`
 };
@@ -175,15 +183,15 @@ public:
     [[nodiscard]] const std::vector<DesignLink>& links() const noexcept { return m_links; }
     [[nodiscard]] const std::vector<DesignRelation>& relations() const noexcept { return m_relations; }
     [[nodiscard]] const std::vector<DesignNotApplied>& notApplied() const noexcept { return m_notApplied; }
-    // The DVGRID cards, in the order of the deck.
+    // The DesignNodeMove cards, in the order of the deck.
     [[nodiscard]] const std::vector<DesignShapeTerm>& shapeTerms() const noexcept { return m_shapeTerms; }
-    // The problems of the cards that make the variables undefined (a DLINK that names a variable no DESVAR defines, two
-    // DLINK cards for one variable): a point cannot be evaluated while there is one.
+    // The problems of the cards that make the variables undefined (a DesignVarLink that names a variable no DesignVar
+    // defines, two DesignVarLink cards for one variable): a point cannot be evaluated while there is one.
     [[nodiscard]] const std::vector<std::string>& problems() const noexcept { return m_problems; }
 
-    // True when some card uses the design variable: a relation, a DVGRID, DVSHAP or DVBSHAP, a DVLREL1 or a DVPSURF,
-    // the DESVAR group of a DRESP2 or DRESP3, or a DLINK whose dependent variable is used (its independent variables
-    // are then).
+    // True when some card uses the design variable: a relation, a DesignNodeMove, DesignShapeBasis or
+    // DesignBoundaryShape, a DesignLoadRelation1 or a DesignControlSurface, the DesignVar group of a DesignResp2 or
+    // DesignResp3, or a DesignVarLink whose dependent variable is used (its independent variables are then).
     [[nodiscard]] bool isUsed(base::EntityId variable) const { return m_used.contains(variable); }
 
     // The design variable that drives a property, a material or an element: the first variable of the first relation
@@ -200,30 +208,30 @@ public:
     // The initial values: the XINIT of every variable.
     [[nodiscard]] DesignPoint initialPoint() const;
 
-    // The constant a label names (a DTABLE value, or the field of the card a DTABLE2 entry names in `model`, as the
-    // model holds it now); nullopt when the label is unknown or has no value, and `reason` then says why (a table of a
-    // frequency or a time, a DTABLE2 on a field the library cannot read).
+    // The constant a label names (a DesignConstants value, or the field of the card a DesignFieldConstants entry names
+    // in `model`, as the model holds it now); nullopt when the label is unknown or has no value, and `reason` then says
+    // why (a table of a frequency or a time, a DesignFieldConstants on a field the library cannot read).
     [[nodiscard]] std::optional<double> constant(const Model& model, const std::string& label,
                                                  std::string* reason = nullptr) const;
 
-    // The value every relation gives at a point, and the values of the variables (the dependent ones from their DLINK:
-    // a value given for them is ignored). `model` is the model this design was read from, unchanged since. A relation
-    // that cannot be applied or evaluated has NaN values and its problem in the evaluation; with `applyLimits` a value
-    // outside the limits of its relation is brought to the limit (`limit` says which was crossed either way). Throws
-    // DesignError when the model changed since the design was read, the point has the wrong number of values, or a card
-    // of the design model has a problem that leaves the variables undefined (`problems()`).
+    // The value every relation gives at a point, and the values of the variables (the dependent ones from their
+    // DesignVarLink: a value given for them is ignored). `model` is the model this design was read from, unchanged
+    // since. A relation that cannot be applied or evaluated has NaN values and its problem in the evaluation; with
+    // `applyLimits` a value outside the limits of its relation is brought to the limit (`limit` says which was crossed
+    // either way). Throws DesignError when the model changed since the design was read, the point has the wrong number
+    // of values, or a card of the design model has a problem that leaves the variables undefined (`problems()`).
     [[nodiscard]] DesignEvaluation evaluate(const Model& model, const DesignPoint& point, bool applyLimits) const;
 
     // The number of the model's content this was read from.
     [[nodiscard]] std::uint64_t contentVersion() const noexcept { return m_contentVersion; }
 
-    // The equations of the model that parse, by DEQATN ID.
+    // The equations of the model that parse, by DesignEquation ID.
     [[nodiscard]] const EquationSet* equation(base::EntityId id) const;
 
 private:
     friend class DesignReader;
 
-    // A DTABLE2 entry: the field of a card of the model that a label stands for.
+    // A DesignFieldConstants entry: the field of a card of the model that a label stands for.
     struct FieldConstant
     {
         std::string cardName;
@@ -239,9 +247,9 @@ private:
     std::vector<std::string> m_problems;
     std::set<base::EntityId> m_used;
     std::map<base::EntityId, EquationSet> m_equations;
-    std::map<std::string, double> m_values;                // the DTABLE constants, by upper case label
+    std::map<std::string, double> m_values;                // the DesignConstants constants, by upper case label
     std::map<std::string, std::string> m_unavailable;      // the labels that have no value, and why
-    std::map<std::string, FieldConstant> m_fieldConstants; // the DTABLE2 entries
+    std::map<std::string, FieldConstant> m_fieldConstants; // the DesignFieldConstants entries
     std::uint64_t m_contentVersion = 0;
 };
 

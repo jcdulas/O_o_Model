@@ -19,10 +19,10 @@ struct ModuleMultiPointConstrFormat
     static void write(const ModuleMultiPointConstrCard& card, FieldWriter& writer);
 };
 
-// All the MDMPC cards. The SID is a constraint set ID shared by many cards (IdSpace::Group, category Constraint): the
-// Case Control MPC command selects it, together with the MPC cards of the same number. A point is a reference to a grid
-// or scalar point in its module: the main Bulk Data, or the part of another module. The cards are kept
-// whole next to their ID.
+// All the ModuleMultiPointConstr cards. The SID is a constraint set ID shared by many cards (IdSpace::Group, category
+// Constraint): the Case Control MPC command selects it, together with the MultiPointConstr cards of the same number. A
+// point is a reference to a grid or scalar point in its module: the main Bulk Data, or the part of another module. The
+// cards are kept whole next to their ID.
 class ModuleMultiPointConstrTable final : public TypedTable<ModuleMultiPointConstrTable, ModuleMultiPointConstrCard>
 {
 public:

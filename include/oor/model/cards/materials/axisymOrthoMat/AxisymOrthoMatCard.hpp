@@ -5,12 +5,12 @@
 namespace oor::model
 {
 
-// One MAT3 card: a linear orthotropic material for the axisymmetric elements (CTRIAX6) and the PLCOMP and PSHLN2
-// entries; x, theta (the azimuthal direction) and z are the material axes.
+// One AxisymOrthoMat card: a linear orthotropic material for the axisymmetric elements (AxisymTria6) and the
+// PlaneCompProp and PlanePropNonlinearExt entries; x, theta (the azimuthal direction) and z are the material axes.
 //
 // Card layout:
-//   MAT3  MID  EX    ETH   EZ    NUXTH  NUTHZ  NUZX  RHO
-//              (blank)  GZX   AX    ATH    AZ     TREF  GE
+//   AxisymOrthoMat  MID  EX    ETH   EZ  NUXTH  NUTHZ  NUZX  RHO
+//                        (blank)  GZX   AX    ATH    AZ  TREF  GE
 // The second line has its first two fields blank: GZX is field 11 (the format reference grid draws the two blank
 // cells).
 //

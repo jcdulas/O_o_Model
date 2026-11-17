@@ -18,10 +18,10 @@ struct OrthoMat3DNonlinearStressDependentFormat
     static void write(const OrthoMat3DNonlinearStressDependentCard& card, FieldWriter& writer);
 };
 
-// All the MATSORT cards. The ID space is the card type's own: the ID is the one of the MATORT that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it). Every table field is a reference to
-// a TABL3D0, TABL3D1 or TABL3D2 (ReferenceTarget::MultiDimensionalTable), so a renumbering of those tables follows into
-// the card.
+// All the OrthoMat3DNonlinearStressDependent cards. The ID space is the card type's own: the ID is the one of the
+// OrthoMat3DNonlinear that the card extends, so it is also a reference to a material (renumbering the materials follows
+// into it). Every table field is a reference to a TableMultiVariable0, TableMultiVariable1 or TableMultiVariable2
+// (ReferenceTarget::MultiDimensionalTable), so a renumbering of those tables follows into the card.
 class OrthoMat3DNonlinearStressDependentTable final
     : public TypedTable<OrthoMat3DNonlinearStressDependentTable, OrthoMat3DNonlinearStressDependentCard>
 {

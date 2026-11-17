@@ -19,8 +19,9 @@ struct CosimulationInputsFormat
     static void write(const CosimulationInputsCard& card, FieldWriter& writer);
 };
 
-// All the COSMINP cards, in the category CosimulationInput: the PHYIN is unique among them (IdSpace::PerCardType) and a
-// COSMSRV names a card by it. The card names nothing itself. The cards are kept whole next to a column of their PHYINs.
+// All the CosimulationInputs cards, in the category CosimulationInput: the PHYIN is unique among them
+// (IdSpace::PerCardType) and a CosimulationService names a card by it. The card names nothing itself. The cards are
+// kept whole next to a column of their PHYINs.
 class CosimulationInputsTable final : public TypedTable<CosimulationInputsTable, CosimulationInputsCard>
 {
 public:

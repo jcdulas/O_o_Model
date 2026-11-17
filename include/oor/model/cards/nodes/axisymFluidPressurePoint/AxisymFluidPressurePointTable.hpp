@@ -14,13 +14,14 @@ struct AxisymFluidPressurePointFormat
 {
     // The first thing wrong with the values of a pressure point, if anything (used by read and by editing).
     [[nodiscard]] static std::optional<CardProblem> check(const AxisymFluidPressurePointCard& card);
-    // One PRESPT card gives one point per pair IDPi PHIi it lists, all on the same fluid point.
+    // One AxisymFluidPressurePoint card gives one point per pair IDPi PHIi it lists, all on the same fluid point.
     [[nodiscard]] static std::vector<AxisymFluidPressurePointCard> readAll(FieldReader& reader);
     static void write(const AxisymFluidPressurePointCard& card, FieldWriter& writer);
 };
 
-// All the pressure points defined by PRESPT cards: one row per point, in the node ID space (IdSpace::Node, category
-// Point), kept in columns. The IDF names the RINGFL fluid point the point is on (a node reference).
+// All the pressure points defined by AxisymFluidPressurePoint cards: one row per point, in the node ID space
+// (IdSpace::Node, category Point), kept in columns. The IDF names the AxisymFluidRing fluid point the point is on (a
+// node reference).
 class AxisymFluidPressurePointTable final
     : public TypedTable<AxisymFluidPressurePointTable, AxisymFluidPressurePointCard>
 {

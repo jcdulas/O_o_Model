@@ -23,8 +23,8 @@ namespace oor::model
 namespace
 {
 
-// A degree of freedom of a matrix: a point, a component and, for DMIAX, a harmonic (0 for the other cards). The order
-// is the one the degrees of freedom are numbered in.
+// A degree of freedom of a matrix: a point, a component and, for DirectMatrixAxisym, a harmonic (0 for the other
+// cards). The order is the one the degrees of freedom are numbered in.
 struct Dof
 {
     base::EntityId point = 0;
@@ -67,8 +67,9 @@ std::vector<Dof> sortedUnique(std::vector<Dof> list)
     return list;
 }
 
-// The terms of a matrix of the DMIG family (DMIG, DMIJ, DMIJI, DMIK: one layout, one term type) from its header and
-// its column cards in the order of the deck: an amplitude and phase matrix converted to real and imaginary parts.
+// The terms of a matrix of the DirectMatrixNodal family (DirectMatrixNodal, DirectMatrixAeroJ,
+// DirectMatrixAeroJInterference, DirectMatrixAeroK: one layout, one term type) from its header and its column cards in
+// the order of the deck: an amplitude and phase matrix converted to real and imaginary parts.
 template <typename CardT>
 LabelledTerms pointTermsOfCards(const CardT& header, const std::vector<CardT>& columns)
 {
@@ -103,8 +104,8 @@ LabelledTerms pointTermsOfCards(const CardT& header, const std::vector<CardT>& c
     return terms;
 }
 
-// The terms of the matrix `requested` of a table of the DMIG family: the first header of that name, then every column
-// card of that name in the order of the deck.
+// The terms of the matrix `requested` of a table of the DirectMatrixNodal family: the first header of that name, then
+// every column card of that name in the order of the deck.
 template <typename TableT>
 std::optional<LabelledTerms> pointTermsOf(const Model& model, std::string_view requested)
 {
@@ -223,8 +224,8 @@ CooMatrix pointCoo(std::string_view cardType, std::string_view name, const Label
     throw base::UsageError(message);
 }
 
-// The cards of a matrix of the DMIG family for `terms`: the header, then one column card for each column in the order
-// the columns first appear, with its terms in the order given.
+// The cards of a matrix of the DirectMatrixNodal family for `terms`: the header, then one column card for each column
+// in the order the columns first appear, with its terms in the order given.
 template <typename CardT, typename FormatT>
 std::vector<CardT> makePointCards(std::string_view cardType, std::string_view requested, const LabelledTerms& terms)
 {
@@ -375,8 +376,8 @@ std::vector<std::pair<typename TableT::CardType, std::vector<typename TableT::Ca
     return groups;
 }
 
-// Every matrix of a table of the DMIG family in the coordinate form of pointCoo, in the order of the headers.
-// True when `names` (upper case) is empty or holds `name`.
+// Every matrix of a table of the DirectMatrixNodal family in the coordinate form of pointCoo, in the order of the
+// headers. True when `names` (upper case) is empty or holds `name`.
 bool isAsked(const std::vector<std::string>& names, const std::string& name)
 {
     return names.empty() || std::find(names.begin(), names.end(), name) != names.end();
@@ -394,7 +395,8 @@ std::vector<CooMatrix> pointMatricesOf(const Model& model, const std::vector<std
     return matrices;
 }
 
-// The coordinate form of a DMI matrix from its header and its column cards in the order of the deck (directMatrixCoo).
+// The coordinate form of a DirectMatrix matrix from its header and its column cards in the order of the deck
+// (directMatrixCoo).
 CooMatrix directMatrixOfCards(const DirectMatrixCard& header, const std::vector<DirectMatrixCard>& columns)
 {
     const std::string& name = header.entryName;
@@ -554,7 +556,8 @@ std::string_view matrixFormName(std::int32_t form, std::string_view card) noexce
 {
     if (card != DirectMatrixTable::NAME)
     {
-        // the matrices at points (DMIG, DMIJ, DMIJI, DMIK, DMIAX): IFO 1 square, 6 symmetric, 2 or 9 rectangular
+        // the matrices at points (DirectMatrixNodal, DirectMatrixAeroJ, DirectMatrixAeroJInterference,
+        // DirectMatrixAeroK, DirectMatrixAxisym): IFO 1 square, 6 symmetric, 2 or 9 rectangular
         switch (form)
         {
         case 1:
@@ -593,8 +596,8 @@ CooMatrix madeMatrix(const CooMatrix& stored)
     {
         if (stored.form == 3)
         {
-            // a diagonal matrix is given as its column of M elements (format reference DMI: FORM 3 has N = 1, made a
-            // FORM 6 one)
+            // a diagonal matrix is given as its column of M elements (format reference DirectMatrix: FORM 3 has N = 1,
+            // made a FORM 6 one)
             matrix.columnCount = stored.rowCount;
             matrix.column = stored.row;
         }

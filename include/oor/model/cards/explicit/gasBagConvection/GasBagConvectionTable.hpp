@@ -19,8 +19,9 @@ struct GasBagConvectionFormat
     static void write(const GasBagConvectionCard& card, FieldWriter& writer);
 };
 
-// All the HTRCONV cards. The HTRID is the ID of the table (IdSpace::PerCardType, category HeatTransferModel): a HEATLOS
-// names it, in the same category as an HTRRAD, which has a number space of its own. The coefficient may be a TABLED1.
+// All the GasBagConvection cards. The HTRID is the ID of the table (IdSpace::PerCardType, category HeatTransferModel):
+// a GasBagHeatTransfer names it, in the same category as a GasBagRadiation, which has a number space of its own. The
+// coefficient may be a TableDynamic1.
 class GasBagConvectionTable final : public TypedTable<GasBagConvectionTable, GasBagConvectionCard>
 {
 public:

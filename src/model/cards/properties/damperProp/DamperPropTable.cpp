@@ -74,7 +74,7 @@ void DamperPropTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void DamperPropTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // A PDAMP refers to no other card.
+    // A DamperProp refers to no other card.
 }
 
 } // namespace oor::model

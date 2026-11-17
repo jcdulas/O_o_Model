@@ -15,21 +15,22 @@ enum class StiffnessMethod : std::uint8_t
 {
     NotGiven, // blank
     Auto,     // AUTO
-    Iter,     // ITER
+    Iter,     // IterativeSolverOptions
     Semi,     // SEMI
     Fnt,      // FNT (SOL 400)
     Pfnt      // PFNT (SOL 400)
 };
 
-// One NLPARM card: the iteration strategy of a nonlinear static analysis (selected by NLPARM in Case Control).
+// One NonlinearStaticParams card: the iteration strategy of a nonlinear static analysis (selected by
+// NonlinearStaticParams in Case Control).
 //
 // Card layout:
-//   NLPARM  ID     NINC    DT     KMETHOD  KSTEP  MAXITER  CONV   INTOUT
-//           EPSU   EPSP    EPSW   MAXDIV   MAXQN  MAXLS    FSTRESS LSTOL
-//           MAXBIS                         MAXR           RTOLB   MINITER
+//   NonlinearStaticParams  ID     NINC    DT  KMETHOD  KSTEP  MAXITER  CONV   INTOUT
+//                          EPSU   EPSP    EPSW   MAXDIV   MAXQN  MAXLS  FSTRESS LSTOL
+//                          MAXBIS          MAXR           RTOLB   MINITER
 // A blank field takes the default of the format reference. The defaults that depend on the solution sequence, which the
 // card does not know, stay "not given" (NINC, KMETHOD, KSTEP, CONV, MINITER), and so do the tolerances EPSU, EPSP and
-// EPSW: when they are blank the tolerances of PARAM,NLTOL apply, which a value
+// EPSW: when they are blank the tolerances of PARAM,NonlinearTolerance apply, which a value
 // given, even the default 1.0E-2, overrides. A default that follows from this card's own KMETHOD or MAXITER is stored
 // resolved and always written (MAXQN, MAXLS, MAXBIS); the other defaults do not depend on anything and are left blank
 // when written. INTOUT is YES, NO, ALL or (SOL 400) a positive integer, kept as text.

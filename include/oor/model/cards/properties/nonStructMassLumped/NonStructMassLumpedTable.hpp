@@ -20,8 +20,8 @@ struct NonStructMassLumpedFormat
     static void write(const NonStructMassLumpedCard& card, FieldWriter& writer);
 };
 
-// All the NSML cards. The ID is a set ID shared by many cards (IdSpace::Group); the IDs and the values of every card
-// are two lists in CSR form.
+// All the NonStructMassLumped cards. The ID is a set ID shared by many cards (IdSpace::Group); the IDs and the values
+// of every card are two lists in CSR form.
 class NonStructMassLumpedTable final : public TypedTable<NonStructMassLumpedTable, NonStructMassLumpedCard>
 {
 public:

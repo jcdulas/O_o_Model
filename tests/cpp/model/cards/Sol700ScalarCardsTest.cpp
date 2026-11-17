@@ -1,8 +1,9 @@
 // Checks of the SOL 700 scalar elements and properties, the failure material and the moving coordinate system:
-// CELAS1D, CELAS2D, CDAMP1D, CDAMP2D, PELAS1, PVISC1, PSHELL1, PCOMPA, COMPUDS and CORD3R. Per card:
-// the fields in their format reference positions, the defaults, the references the card lists, the renumbering of the
-// ID spaces it takes part in, the refused values and the round trip through a model file. The geometry of the four
-// elements is in tests/cpp/analysis/Sol700ScalarGeometryTest.cpp.
+// SpringDofPropertyExplicit, SpringDofInlineExplicit, DamperDofPropertyExplicit, DamperDofInlineExplicit,
+// SpringPropTable, ViscousDamperPropNonlinear, ShellPropNodal, CompPropExplicit, UserCompositeFailureMat and
+// RectFrame3. Per card: the fields in their format reference positions, the defaults, the references the card lists,
+// the renumbering of the ID spaces it takes part in, the refused values and the round trip through a model file. The
+// geometry of the four elements is in tests/cpp/analysis/Sol700ScalarGeometryTest.cpp.
 
 #include "oor/model/cards/coordinate_systems/rectFrame3/RectFrame3Table.hpp"
 #include "oor/model/cards/elements/damperDofPropertyExplicit/DamperDofPropertyExplicitTable.hpp"
@@ -90,7 +91,8 @@ TEST_CASE("a CELAS1D has the fields of a CELAS1 and a continuation line with a c
     REQUIRE((lower.follow == ScalarFollow::Cord && lower.components1 == 0 && lower.frameId == 0));
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The references: the property (a PELAS or a PELAS1), the two points (grid or scalar) and the coordinate system.
+    // The references: the property (a SpringProp or a SpringPropTable), the two points (grid or scalar) and the
+    // coordinate system.
     RecordingVisitor visitor;
     model.table<SpringDofPropertyExplicitTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"propId", "node1", "node2", "frameId"});
@@ -144,7 +146,7 @@ TEST_CASE("a CELAS2D has its stiffness and no S or GE, and the same continuation
     visitor = RecordingVisitor{};
     model.table<SpringDofInlineExplicitTable>().visitReferences(1, visitor); // one end at ground, no coordinate system
     REQUIRE(visitor.fields == std::vector<std::string>{"node1"});
-    // The fields of a CELAS2 that the SOL 700 format does not have are refused.
+    // The fields of a SpringDofInline that the SOL 700 format does not have are refused.
     requireRoundTrip(model);
 }
 
@@ -232,7 +234,7 @@ TEST_CASE("a PELAS1 is a spring property of the one property space and names the
     REQUIRE(visitor.fields == std::vector<std::string>{"tableId"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::DynamicTable});
 
-    // All the PELAS and PELAS1 IDs are one space: it is the space of every property.
+    // All the SpringProp and SpringPropTable IDs are one space: it is the space of every property.
     REQUIRE_THROWS_AS(readBulk("SpringPropTable;5;10\nSpringProp;5;100."), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("SpringPropTable;5;10\nSpringPropTable;5;11"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("SpringPropTable;5;10\nShellProp;5;1;0.1"), base::DeckError);
@@ -303,8 +305,9 @@ TEST_CASE("a PSHELL1 reads its words, keeps a blank FORM blank and resolves the 
              example.thickness4 == 1.75));
     REQUIRE((!example.transverseShear && !example.shearLocking));
 
-    // The formulation of a blank FORM depends on the element (KEYHOFF for a CQUAD4, C0-TRIA for a CTRIA3): it stays
-    // blank, and so do TRANSHR and SHRLCK, whose defaults depend on it. The other defaults are the ones of the format.
+    // The formulation of a blank FORM depends on the element (KEYHOFF for a ShellQuad4, C0-TRIA for a ShellTria3): it
+    // stays blank, and so do TRANSHR and SHRLCK, whose defaults depend on it. The other defaults are the ones of the
+    // format.
     const ShellPropNodalCard defaults = cardAt<ShellPropNodalTable>(model, 1);
     REQUIRE(!defaults.formulation);
     REQUIRE((defaults.quadrature == ShellPropNodalQuadrature::Gauss && defaults.integrationPointCount == 3 &&
@@ -396,7 +399,7 @@ TEST_CASE("a PCOMPA extends the PCOMP of its number and keeps the defaults of it
              full.spinCorrection == CompPropExplicitYesNo::No));
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The ID space is the card type's own (one PCOMPA to a PCOMP) and the ID is a property reference.
+    // The ID space is the card type's own (one CompPropExplicit to a CompProp) and the ID is a property reference.
     RecordingVisitor visitor;
     model.table<CompPropExplicitTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"id"});
@@ -428,7 +431,7 @@ TEST_CASE("the values a PCOMPA refuses are reported by field", "[model][cards][s
 namespace
 {
 
-// A COMPUDS with the least it needs: the elastic constants, the density and the four failure stresses.
+// An UserCompositeFailureMat with the least it needs: the elastic constants, the density and the four failure stresses.
 const std::vector<std::pair<int, std::string>> USER_COMPOSITE_FAILURE_FIELDS = {
     {1, "1"},       {2, "LAYGRP1"}, {9, "18E6"}, {10, "1.2E6"}, {11, "0.31"}, {12, "0.7E6"},
     {15, "0.0582"}, {25, "215"},    {26, "165"}, {27, "55"},    {28, "120"}};
@@ -469,7 +472,7 @@ TEST_CASE("a COMPUDS reads the six lines of its format, resolves G1Z and G2Z and
              example.matrixTensionDegradation == "0110"));
     REQUIRE((example.matrixCompressionDegradation == "0110" && example.matrixShearDegradation == "0001"));
 
-    // A blank G1Z or G2Z is the G12 (the format for G1Z, the MAT8 for G2Z), stored resolved.
+    // A blank G1Z or G2Z is the G12 (the format for G1Z, the OrthoMat2D for G2Z), stored resolved.
     const UserCompositeFailureMatCard blank = cardAt<UserCompositeFailureMatTable>(model, 1);
     REQUIRE((blank.groupName == "GRP" && blank.shearModulus12 == 0.7E6 && blank.shearModulus1Z == 0.7E6 &&
              blank.shearModulus2Z == 0.7E6));

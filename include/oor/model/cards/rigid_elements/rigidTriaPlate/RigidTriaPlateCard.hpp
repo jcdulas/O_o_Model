@@ -8,10 +8,10 @@
 namespace oor::model
 {
 
-// One RTRPLT card: a rigid triangular plate.
+// One RigidTriaPlate card: a rigid triangular plate.
 //
-// Card layout: RTRPLT  EID  GA  GB  GC  CNA  CNB  CNC
-//                     CMA  CMB  CMC  ALPHA  TREF
+// Card layout: RigidTriaPlate  EID  GA  GB  GC  CNA  CNB  CNC
+//                             CMA  CMB  CMC  ALPHA  TREF
 // The first line ends at CNC (field 8 is blank) and CMA is the first field of the continuation line. CNi are the
 // independent components at the three grid points, CMi the dependent ones, each the digits 1 to 6 as one number (0 when
 // blank: the format reference gives the default 0 of CMi, so the dependent components are taken as written). With CNA,

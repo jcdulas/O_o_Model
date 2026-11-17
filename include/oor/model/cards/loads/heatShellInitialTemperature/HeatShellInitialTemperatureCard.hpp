@@ -19,15 +19,15 @@ struct HeatShellInitialTemperaturePoint
     [[nodiscard]] bool operator==(const HeatShellInitialTemperaturePoint&) const noexcept = default;
 };
 
-// One TEMPN1 card (SOL 400): the initial temperature of the grid points of heat shell elements (those of a PSHLN1 heat
-// transfer property) with a linear or quadratic temperature distribution across the thickness. It complements the TEMP
-// card, which only gives the temperature of the top points.
+// One HeatShellInitialTemperature card (SOL 400): the initial temperature of the grid points of heat shell elements
+// (those of a ShellPropNonlinear heat transfer property) with a linear or quadratic temperature distribution across the
+// thickness. It complements the TEMP card, which only gives the temperature of the top points.
 //
-// Card layout: TEMPN1  SID  G1  C1  T1  G2  C2  T2        fields 1 to 7
+// Card layout: HeatShellInitialTemperature  SID  G1  C1  T1  G2  C2  T2  fields 1 to 7
 // The format draws two points on the line and no continuation, so a card holds one or two points, written back as it
 // was read. Ci is a set of the digits 1, 2 and 3 with no blank (1 is the top, 2 the bottom, 3 the middle), 1 when blank
 // (`LoadClosureSupport.hpp`). Gi and Ti are required. SID is a temperature set: the TEMP(INIT) and IC Case Control
-// commands select it, like the TEMP and TEMPD cards.
+// commands select it, like the NodeTemperatureLoad and DefaultTemperatureLoad cards.
 struct HeatShellInitialTemperatureCard
 {
     static constexpr std::size_t MAX_POINTS = 2;

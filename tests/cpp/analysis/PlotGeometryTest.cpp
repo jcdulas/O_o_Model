@@ -1,6 +1,6 @@
-// The geometry of the dummy plot elements PLOTEL3 and PLOTEL4: surfaces with no thickness, as the
-// acoustic absorber CAABSF is: the centre, the normal by the right-hand rule on the order of the points and the area.
-// The plot elements have an ID space of their own, so they are found by their card type.
+// The geometry of the dummy plot elements PlotTria3 and PlotQuad4: surfaces with no thickness, as the
+// acoustic absorber AcousticAbsorber is: the centre, the normal by the right-hand rule on the order of the points and
+// the area. The plot elements have an ID space of their own, so they are found by their card type.
 
 #include "oor/analysis/geometry/ElementGeometry.hpp"
 #include "oor/model/cards/elements/plotQuad4/PlotQuad4Table.hpp"

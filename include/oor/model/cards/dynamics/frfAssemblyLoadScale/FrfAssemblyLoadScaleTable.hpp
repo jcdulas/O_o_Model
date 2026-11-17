@@ -19,10 +19,11 @@ struct FrfAssemblyLoadScaleFormat
     static void write(const FrfAssemblyLoadScaleCard& card, FieldWriter& writer);
 };
 
-// All the FBALOAD cards. The SID is a set ID shared by many cards, in the category of the DAREA cards (IdSpace::Group,
-// category DynamicLoad), so the EXCITEID of a dynamic load finds it (ReferenceTarget::ExcitationSet). A component given
-// by its ID is a reference to an FRFCOMP (ReferenceTarget::FrfComponent); one given by its name is kept as written; the
-// point is a plain number of the component's own model.
+// All the FrfAssemblyLoadScale cards. The SID is a set ID shared by many cards, in the category of the DynamicLoadScale
+// cards (IdSpace::Group, category DynamicLoad), so the EXCITEID of a dynamic load finds it
+// (ReferenceTarget::ExcitationSet). A component given by its ID is a reference to a FrfComponent
+// (ReferenceTarget::FrfComponent); one given by its name is kept as written; the point is a plain number of the
+// component's own model.
 class FrfAssemblyLoadScaleTable final : public TypedTable<FrfAssemblyLoadScaleTable, FrfAssemblyLoadScaleCard>
 {
 public:

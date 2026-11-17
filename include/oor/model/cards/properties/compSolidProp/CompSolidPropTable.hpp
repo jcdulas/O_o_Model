@@ -19,8 +19,9 @@ struct CompSolidPropFormat
     static void write(const CompSolidPropCard& card, FieldWriter& writer);
 };
 
-// All the PCOMPS cards, kept whole next to a column of their PIDs. A PCOMPS is a property (IdSpace::Property): the PID
-// of a solid element finds it, and it shares its number with the PSOLID, PCOMPLS and every other property.
+// All the CompSolidProp cards, kept whole next to a column of their PIDs. A CompSolidProp is a property
+// (IdSpace::Property): the PID of a solid element finds it, and it shares its number with the SolidProp,
+// CompSolidPropNonlinear and every other property.
 class CompSolidPropTable final : public TypedTable<CompSolidPropTable, CompSolidPropCard>
 {
 public:

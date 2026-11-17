@@ -7,7 +7,7 @@ namespace oor::analysis
 namespace
 {
 
-// The orientation vector of a CBAR or CBEAM (X1, X2, X3, or the line from GA to G0) that is zero or parallel to the
+// The orientation vector of a Bar2 or Beam2 (X1, X2, X3, or the line from GA to G0) that is zero or parallel to the
 // axis GA-GB: the element system, which the section axes follow, is then undefined.
 class BarOrientationCheck final : public ValidationCheck
 {

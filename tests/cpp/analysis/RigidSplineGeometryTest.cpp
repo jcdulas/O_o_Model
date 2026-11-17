@@ -1,4 +1,4 @@
-// The geometry of the RBE2GS: the element has no connectivity, only the grid or point GS where the solver
+// The geometry of the RigidBodySearched: the element has no connectivity, only the grid or point GS where the solver
 // starts its search, so its only node is GS and every quantity is NaN.
 
 #include "oor/analysis/adjacency/MeshAdjacency.hpp"

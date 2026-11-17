@@ -8,17 +8,18 @@
 namespace oor::model
 {
 
-// One FBALOAD card: the scale factor of a dynamic load on one degree of freedom of an FRF component, in an FRF based
-// assembly (FBA). It plays the part of a DAREA card there (the program turns each into an equivalent DAREA),
-// and the EXCITEID field of an RLOAD1, an RLOAD2 and an ACSRCE names it by its SID.
+// One FrfAssemblyLoadScale card: the scale factor of a dynamic load on one degree of freedom of an FRF component, in an
+// FRF based assembly (FBA). It plays the part of a DynamicLoadScale card there (the program turns each into an
+// equivalent DynamicLoadScale), and the EXCITEID field of a FreqResponseLoad1, a FreqResponseLoad2 and an
+// AcousticSourceLoad names it by its SID.
 //
-// Card layout: FBALOAD  SID  COMPID/COMPNAME  PNTID  C  A
-// SID is a set ID shared by the cards of the set, as that of a DAREA. The component is the ID of an FRFCOMP or its name
-// (a whole number is an ID, anything else a name). The format marks COMPNAME optional on this card only, but its
-// layout has one COMPID/COMPNAME field and its description of COMPID says nothing of a default, so the card reads
-// both forms like the other FRF cards and requires one of the two. PNTID is a grid or scalar point of that component's
-// own model, a plain number never looked up. C is one component: 1 to 6 for a grid point, 0 or blank for a scalar
-// point. A is the scale factor, any real. Unlike a DAREA, a card holds one group only.
+// Card layout: FrfAssemblyLoadScale  SID  COMPID/COMPNAME  PNTID  C  A
+// SID is a set ID shared by the cards of the set, as that of a DynamicLoadScale. The component is the ID of a
+// FrfComponent or its name (a whole number is an ID, anything else a name). The format marks COMPNAME optional on this
+// card only, but its layout has one COMPID/COMPNAME field and its description of COMPID says nothing of a default, so
+// the card reads both forms like the other FRF cards and requires one of the two. PNTID is a grid or scalar point of
+// that component's own model, a plain number never looked up. C is one component: 1 to 6 for a grid point, 0 or blank
+// for a scalar point. A is the scale factor, any real. Unlike a DynamicLoadScale, a card holds one group only.
 struct FrfAssemblyLoadScaleCard
 {
     base::EntityId id = 0;

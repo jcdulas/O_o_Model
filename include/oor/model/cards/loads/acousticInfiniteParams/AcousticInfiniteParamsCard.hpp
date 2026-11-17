@@ -33,17 +33,17 @@ struct AcousticInfiniteParamsParameter
     [[nodiscard]] bool operator==(const AcousticInfiniteParamsParameter&) const noexcept = default;
 };
 
-// One ACIFPRM card: values for the parameters of the acoustic conjugate infinite elements (the two that the format
-// reference lists are in `AcousticInfiniteParamsCatalogue.hpp`: the geometric tolerance TOLER and the first
+// One AcousticInfiniteParams card: values for the parameters of the acoustic conjugate infinite elements (the two that
+// the format reference lists are in `AcousticInfiniteParamsCatalogue.hpp`: the geometric tolerance TOLER and the first
 // identification number of the extra points EPTID1).
 //
-// Card layout: ACIFPRM  PARAM1  VAL1  PARAM2  VAL2  PARAM3  VAL3  PARAM4  VAL4     fields 1 to 8
-//                      PARAM5  VAL5  -etc.-                                        fields 9 to 16, and so on
+// Card layout: AcousticInfiniteParams  PARAM1  VAL1  PARAM2  VAL2  PARAM3  VAL3  PARAM4  VAL4  fields 1 to 8
+//                                     PARAM5  VAL5  -etc.-                         fields 9 to 16, and so on
 // A pair is a name and a value in the next field. The format draws two pairs and no continuation, but it lists only two
 // names, so the card keeps any number of pairs and reads a pair whose two fields are blank as padding. A name the
 // catalogue does not list is kept with its value as written (a later release may add names); a listed name takes the
-// values the catalogue gives it. Only one ACIFPRM entry is allowed in the Bulk Data (the table reports a
-// second one, as for SWLDPRM).
+// values the catalogue gives it. Only one AcousticInfiniteParams entry is allowed in the Bulk Data (the table reports a
+// second one, as for ConnectorSearchParams).
 struct AcousticInfiniteParamsCard
 {
     std::vector<AcousticInfiniteParamsParameter> parameters;

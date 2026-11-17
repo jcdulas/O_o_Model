@@ -289,7 +289,7 @@ void ViscoElasticMatTemperatureTable::setIdAtRow(std::uint32_t row, base::Entity
 
 void ViscoElasticMatTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MATVE that the card extends.
+    // The ID is the one of the ViscoElasticMat that the card extends.
     ViscoElasticMatTemperatureCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);

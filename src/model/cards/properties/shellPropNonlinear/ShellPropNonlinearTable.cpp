@@ -75,10 +75,10 @@ void ShellPropNonlinearTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void ShellPropNonlinearTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     ShellPropNonlinearCard& card = m_cards.edit(row);
-    // The ID is the one of the PSHELL, PCOMP or PCOMPG that the card extends.
+    // The ID is the one of the ShellProp, CompProp or CompPropGlobal that the card extends.
     card.id = visitor.visit("id", ReferenceTarget::Property, card.id);
     m_id.set(row, card.id);
-    // The materials may be a MAT4 or MAT5 for the heat analysis: the Material target falls back to them.
+    // The materials may be a HeatIsoMat or HeatAnisoMat for the heat analysis: the Material target falls back to them.
     visitId(visitor, "matId1", ReferenceTarget::Material, card.matId1);
     visitId(visitor, "matId2", ReferenceTarget::Material, card.matId2);
 }

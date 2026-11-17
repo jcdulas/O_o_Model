@@ -70,8 +70,9 @@ struct Sample
 {
     const char* label;
     const char* text;      // the card record as it appears in a model file, with its prerequisites ignored
-    std::size_t cards = 1; // the cards the text gives (a CORD1R with two systems gives two)
-    // A model may have one card of this type (ACMODL, FLSYM): the model of all the samples keeps the first one only.
+    std::size_t cards = 1; // the cards the text gives (a RectFrame1 with two systems gives two)
+    // A model may have one card of this type (FluidStructureInterface, AxisymFluidSymmetry): the model of all the
+    // samples keeps the first one only.
     bool onePerDeck = false;
 };
 

@@ -1,10 +1,11 @@
-// Checks of the monitor and output cards. MONCARL, MONGRP, MONSUM, MONSUM1 and
-// MONSUMT (the Monte-Carlo parameters and the monitor groups and sums), STOCHAS, ITER, NHRMPRM, CYSYM, ECHOON, ECHOOFF
-// and METADATA (the solution control entries) and ABSNMVB, ABSNMVI, ABSNMVR and ABSNMVS (the name and value pairs of a
-// meta data group, which the ABSTRCT cards define). Per card: the fields in their format reference positions, the
-// defaults, the references the card lists and what each one points to, the renumbering of the spaces it owns or names,
-// the refused values and the round trip through the three formats. The generic tests of CardRoundTripTest.cpp read,
-// write and copy every sample; this file covers what each card means.
+// Checks of the monitor and output cards. MonteCarloParams, MonitorGroup, MonitorSum, MonitorSumLocated and
+// MonitorSumTotal (the Monte-Carlo parameters and the monitor groups and sums), StochasticParams,
+// IterativeSolverOptions, NonlinearHarmonicSolverParams, CyclicSymmetry, EchoOnMarker, EchoOffMarker and ResultMetadata
+// (the solution control entries) and MetadataBooleanPairs, MetadataIntegerPairs, MetadataRealPairs and
+// MetadataTextPairs (the name and value pairs of a meta data group, which the MetadataGroup cards define). Per card:
+// the fields in their format reference positions, the defaults, the references the card lists and what each one points
+// to, the renumbering of the spaces it owns or names, the refused values and the round trip through the three formats.
+// The generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
 
 #include "oor/model/cards/loads/metadataBooleanPairs/MetadataBooleanPairsTable.hpp"
 #include "oor/model/cards/loads/metadataGroup/MetadataGroupTable.hpp"
@@ -53,7 +54,7 @@ std::int64_t globalCommand(const Model& model, const char* name)
     return entry->value.integer;
 }
 
-// A term of a MONSUM or a MONSUM1.
+// A term of a MonitorSum or a MonitorSumLocated.
 MonitorSumTerm term(std::int32_t newAxes, MonitorResultType type, const char* name, std::int32_t axes,
                     double coefficient = 1.0)
 {
@@ -103,7 +104,7 @@ constexpr MonitorResultType LOAD_POINT = MonitorResultType::LoadPoint;
 } // namespace
 
 // --------------------------------------------------------------------------------------------------------------------
-// MONCARL
+// MonteCarloParams
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a MONCARL has a type and a structural and a fluid line of three variabilities",
@@ -185,11 +186,11 @@ TEST_CASE("a MONCARL can be edited and is selected by the Case Control MONCARL, 
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// MONGRP
+// MonitorGroup
 // --------------------------------------------------------------------------------------------------------------------
 
 // --------------------------------------------------------------------------------------------------------------------
-// MONSUM
+// MonitorSum
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a MONSUM has an alternate layout with the type before the new component", "[model][cards][monitoroutput]")
@@ -271,7 +272,7 @@ TEST_CASE("a MONSUM refuses what its format forbids, and an edited MONSUM is che
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// MONSUM1
+// MonitorSumLocated
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a MONSUM1 has a location line before the terms and names its coordinate systems",
@@ -355,11 +356,11 @@ TEST_CASE("a MONSUM1 has a location line before the terms and names its coordina
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// MONSUMT
+// MonitorSumTotal
 // --------------------------------------------------------------------------------------------------------------------
 
 // --------------------------------------------------------------------------------------------------------------------
-// STOCHAS
+// StochasticParams
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a STOCHAS has a group of statistics for each of its flags, in any order", "[model][cards][monitoroutput]")
@@ -426,7 +427,7 @@ TEST_CASE("a STOCHAS has a group of statistics for each of its flags, in any ord
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// ITER
+// IterativeSolverOptions
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ITER lists OPTION=VALUE items that the table of its format types", "[model][cards][monitoroutput]")
@@ -540,7 +541,7 @@ TEST_CASE("an ITER is selected by the Case Control SMETHOD, which follows its re
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// NHRMPRM
+// NonlinearHarmonicSolverParams
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an NHRMPRM lists the parameters of its table as pairs of name and value", "[model][cards][monitoroutput]")
@@ -611,7 +612,7 @@ TEST_CASE("an NHRMPRM lists the parameters of its table as pairs of name and val
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// CYSYM
+// CyclicSymmetry
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CYSYM has a number of segments and a symmetry type", "[model][cards][monitoroutput]")
@@ -644,7 +645,7 @@ TEST_CASE("a CYSYM has a number of segments and a symmetry type", "[model][cards
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// ECHOON and ECHOOFF
+// EchoOnMarker and EchoOffMarker
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("ECHOON and ECHOOFF are Bulk Data cards with no field, kept in place, also inside a part",
@@ -694,7 +695,7 @@ TEST_CASE("ECHOON and ECHOOFF are Bulk Data cards with no field, kept in place, 
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// METADATA
+// ResultMetadata
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a METADATA has a handle and lines of text with blanks inside", "[model][cards][monitoroutput]")
@@ -757,7 +758,7 @@ TEST_CASE("a METADATA has a handle and lines of text with blanks inside", "[mode
 }
 
 // --------------------------------------------------------------------------------------------------------------------
-// ABSNMVB, ABSNMVI, ABSNMVR, ABSNMVS and ABSTRCT
+// MetadataBooleanPairs, MetadataIntegerPairs, MetadataRealPairs, MetadataTextPairs and MetadataGroup
 // --------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ABSNMVB has Boolean pairs from its fourth field, an ABSNMVI integer pairs and an ABSNMVR real pairs",
@@ -796,7 +797,7 @@ TEST_CASE("an ABSNMVB has Boolean pairs from its fourth field, an ABSNMVI intege
             std::vector<MetadataRealPairsPair>{{"SMALL", 1.5e-5}, {"BIG", -2.5e10}});
     requireRoundTrip(model);
 
-    // The group is a reference: the ABSTID names the ABSTRCT cards that share it.
+    // The group is a reference: the ABSTID names the MetadataGroup cards that share it.
     for (std::uint32_t row = 0; row < 2; ++row)
     {
         const Visited visited = visitedBy<MetadataBooleanPairsTable>(model, row);
@@ -847,7 +848,7 @@ TEST_CASE("the pairs of a meta data group name the ABSTRCT cards and follow thei
         "MetadataRealPairs;2;V;1.5\n"
         "MetadataTextPairs;2;ABSNAME;x");
     REQUIRE(unresolvedIn(model) == 0);
-    // Two ABSTRCT cards share the ID 2: the group of a pair card is all of them.
+    // Two MetadataGroup cards share the ID 2: the group of a pair card is all of them.
     Renumbering::apply(model, RenumberSpace::MetadataGroup, Renumbering::offset(10));
     REQUIRE((cardAt<MetadataGroupTable>(model, 0).id == 11 && cardAt<MetadataGroupTable>(model, 1).id == 12));
     REQUIRE(cardAt<MetadataGroupTable>(model, 2).id == 12);
@@ -858,7 +859,7 @@ TEST_CASE("the pairs of a meta data group name the ABSTRCT cards and follow thei
     REQUIRE(cardAt<MetadataTextPairsTable>(model, 1).metadataGroupId == 12);
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The ID of a pair card that no ABSTRCT has is an unresolved reference.
+    // The ID of a pair card that no MetadataGroup has is an unresolved reference.
     Model dangling = readBulk(
         "MetadataBooleanPairs;3;A;True\nMetadataIntegerPairs;3;A;1\nMetadataRealPairs;3;A;1.\nMetadataTextPairs;3;A;b");
     REQUIRE(unresolvedIn(dangling) == 4);

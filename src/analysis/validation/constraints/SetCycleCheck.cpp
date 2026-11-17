@@ -12,7 +12,8 @@ namespace oor::analysis
 namespace
 {
 
-// SPCADD or MPCADD sets that combine one another in a circle (a set that contains itself through other sets).
+// SinglePointConstrUnion or MultiPointConstrUnion sets that combine one another in a circle (a set that contains itself
+// through other sets).
 class SetCycleCheck final : public ValidationCheck
 {
 public:

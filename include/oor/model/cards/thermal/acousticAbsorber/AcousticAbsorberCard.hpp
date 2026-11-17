@@ -8,9 +8,9 @@
 namespace oor::model
 {
 
-// One CAABSF card: a frequency-dependent acoustic absorber element on the fluid-structure boundary.
+// One AcousticAbsorber card: a frequency-dependent acoustic absorber element on the fluid-structure boundary.
 //
-// Card layout: CAABSF  EID  PID  G1  G2  G3  G4
+// Card layout: AcousticAbsorber  EID  PID  G1  G2  G3  G4
 // One grid point is a point impedance, two a line impedance, three a triangle and four a quadrilateral face. A blank
 // PID is EID (format reference): stored resolved and always written. `nodes` has the grid points, 0 where one is absent
 // (G1 is required).

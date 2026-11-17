@@ -149,8 +149,8 @@ void ImperfectionGeometryTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void ImperfectionGeometryTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     ImperfectionGeometryCard& card = m_cards.edit(row);
-    // The default set of the card, then the set of each group: all name a SET1 or a SET3 of grid points, and a zero
-    // names nothing.
+    // The default set of the card, then the set of each group: all name an IdListSet1 or a TypedListSet3 of grid
+    // points, and a zero names nothing.
     visitId(visitor, "nodeSetId", ReferenceTarget::Set, card.nodeSetId);
     for (ImperfectionGeometryGroup& group : card.groups)
         visitId(visitor, "nodeSetId", ReferenceTarget::Set, group.nodeSetId);

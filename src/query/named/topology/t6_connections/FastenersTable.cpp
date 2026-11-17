@@ -43,7 +43,7 @@ struct Fastener
     std::int32_t pid = 0;
     std::int32_t cid = -1; // -1: none
     bool scalarSpring = false;
-    double elementStiffness = NOT_A_NUMBER; // CELAS2 and CELAS4 carry K on the card
+    double elementStiffness = NOT_A_NUMBER; // SpringDofInline and SpringScalarInline carry K on the card
 };
 
 template <typename TableT>
@@ -236,7 +236,8 @@ public:
             component1Valid[index] = first != 0 ? 1 : 0;
             component2Valid[index] = second != 0 ? 1 : 0;
 
-            // The stiffnesses and the diameter come from the property (or from the card: CELAS2, CELAS4).
+            // The stiffnesses and the diameter come from the property (or from the card: SpringDofInline,
+            // SpringScalarInline).
             if (!std::isnan(fastener.elementStiffness))
                 stiffness[0][index] = fastener.elementStiffness;
             if (fastener.pid != 0)
@@ -271,7 +272,7 @@ public:
                     }
                     else
                     {
-                        // PBUSH1D and any other spring property: its stiffness K when it has one.
+                        // BushProp1D and any other spring property: its stiffness K when it has one.
                         stiffness[0][index] = facts.realField(model, *property, "stiffness");
                     }
                 }

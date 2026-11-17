@@ -1,5 +1,6 @@
 // Checks of the loads, the constraints and the rigid elements: the defaults, the variants, the
-// references (including the set IDs of LOAD and SPCADD) and the layout of the cards with variable lists.
+// references (including the set IDs of LoadCombination and SinglePointConstrUnion) and the layout of the cards with
+// variable lists.
 
 #include "oor/model/cards/constraints/multiPointConstr/MultiPointConstrTable.hpp"
 #include "oor/model/cards/constraints/singlePointConstr/SinglePointConstrTable.hpp"
@@ -139,13 +140,14 @@ TEST_CASE("LOAD reads its scale factors and load sets over continuation lines", 
     REQUIRE(card.terms.size() == 5);
     REQUIRE(card.terms[1] == LoadCombinationTerm{4.5, 4});
     REQUIRE(card.terms[4] == LoadCombinationTerm{5.0, 7});
-    REQUIRE_THROWS_AS(readBulk("LoadCombination;1;1.;1.;1"), base::DeckError); // a LOAD refers to itself
+    REQUIRE_THROWS_AS(readBulk("LoadCombination;1;1.;1.;1"), base::DeckError); // a LoadCombination refers to itself
     REQUIRE_THROWS_AS(readBulk("LoadCombination;1;1.;1."), base::DeckError);   // a scale factor without a load set
 }
 
 TEST_CASE("the load sets of a LOAD and the constraint sets of an SPCADD are resolved by category", "[model][cards]")
 {
-    // Every reference resolves: load sets 10 and 11 (a LOAD may use another LOAD), constraint sets 5, 6 and 8.
+    // Every reference resolves: load sets 10 and 11 (a LoadCombination may use another LoadCombination), constraint
+    // sets 5, 6 and 8.
     Model model = readBulk(
         "Node;1;;0.;0.;0.\n"
         "Node;2;;1.;0.;0.\n"

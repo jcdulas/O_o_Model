@@ -15,7 +15,7 @@ namespace oor::query
 namespace
 {
 
-// designParametersTable: the parameters of the optimisation (DOPTPRM), the deck's value or the default.
+// designParametersTable: the parameters of the optimisation (DesignOptimParams), the deck's value or the default.
 class DesignParametersTableQuery final : public QueryBase
 {
 public:
@@ -24,8 +24,8 @@ public:
     [[nodiscard]] std::shared_ptr<const QueryTable> run(const QueryRun& run) const override
     {
         const model::Model& model = *run.model;
-        // The catalogue in the order of the format reference, then the names a DOPTPRM gives that it does not list, as
-        // written.
+        // The catalogue in the order of the format reference, then the names a DesignOptimParams gives that it does not
+        // list, as written.
         std::vector<std::string> names;
         for (const model::DesignOptimParamsInfo& item : model::designOptimParamsCatalogue())
             names.emplace_back(item.name);

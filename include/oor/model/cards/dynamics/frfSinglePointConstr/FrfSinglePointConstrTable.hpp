@@ -19,10 +19,11 @@ struct FrfSinglePointConstrFormat
     static void write(const FrfSinglePointConstrCard& card, FieldWriter& writer);
 };
 
-// All the FRFSPC1 cards. The SID is a constraint set ID shared by many cards (IdSpace::Group, category Constraint, as
-// SPC1), so a Case Control SPC finds it (ReferenceTarget::ConstraintSet). A component given by its ID is a reference to
-// an FRFCOMP (ReferenceTarget::FrfComponent), one given by its name is kept as written; the points are plain numbers of
-// the components' own models. The cards are kept whole next to columns of their IDs and component digits.
+// All the FrfSinglePointConstr cards. The SID is a constraint set ID shared by many cards (IdSpace::Group, category
+// Constraint, as SinglePointConstrList), so a Case Control SPC finds it (ReferenceTarget::ConstraintSet). A component
+// given by its ID is a reference to a FrfComponent (ReferenceTarget::FrfComponent), one given by its name is kept as
+// written; the points are plain numbers of the components' own models. The cards are kept whole next to columns of
+// their IDs and component digits.
 class FrfSinglePointConstrTable final : public TypedTable<FrfSinglePointConstrTable, FrfSinglePointConstrCard>
 {
 public:

@@ -20,10 +20,11 @@ struct TrimmedMaterialMatricesFormat
     static void write(const TrimmedMaterialMatricesCard& card, FieldWriter& writer);
 };
 
-// All the ACTRIM cards. An ACTRIM has no numeric ID (IdSpace::None, category Aero): the Case Control ACTRIM names it by
-// its NAME, which Python uses as the key (`model.actrim["FLOOR"]`). A repeated NAME is not refused by the card: a check
-// of the model reports it. The card refers to no other card (the unit numbers belong to the FMS section). The cards are
-// kept whole next to a column of their names.
+// All the TrimmedMaterialMatrices cards. A TrimmedMaterialMatrices has no numeric ID (IdSpace::None, category Aero):
+// the Case Control TrimmedMaterialMatrices names it by its NAME, which Python uses as the key
+// (`model.actrim["FLOOR"]`). A repeated NAME is not refused by the card: a check of the model reports it. The card
+// refers to no other card (the unit numbers belong to the FMS section). The cards are kept whole next to a column of
+// their names.
 class TrimmedMaterialMatricesTable final : public TypedTable<TrimmedMaterialMatricesTable, TrimmedMaterialMatricesCard>
 {
 public:

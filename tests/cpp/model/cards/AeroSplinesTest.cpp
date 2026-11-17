@@ -1,7 +1,7 @@
-// Checks of the splines of the aeroelastic cards: SPLINE1 to SPLINE7 and SPLINEX. Each card is read with
-// its fields in the places of the format reference, written back in the small format with its defaults left blank and
-// its required continuation line written, and shown to list the references it has (and to follow the renumbering of
-// what it names). The values the cards refuse are listed with the field that reports them.
+// Checks of the splines of the aeroelastic cards: AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline. Each
+// card is read with its fields in the places of the format reference, written back in the small format with its
+// defaults left blank and its required continuation line written, and shown to list the references it has (and to
+// follow the renumbering of what it names). The values the cards refuse are listed with the field that reports them.
 
 #include "oor/base/text/NumberParser.hpp"
 #include "oor/model/cards/aero/aeroBeamSpline2/AeroBeamSpline2Table.hpp"
@@ -27,10 +27,11 @@ using namespace oor::testing;
 namespace
 {
 
-// The panel the splines of the tests lie on: 10 boxes, numbered from 211 to 220 (the PAERO1 is not in the decks).
+// The panel the splines of the tests lie on: 10 boxes, numbered from 211 to 220 (the AeroLiftingPanelProp1 is not in
+// the decks).
 const char* const PANEL = "AeroLiftingPanel1;211;1;;5;2;;;1;0.;0.;0.;1.;0.;1.;0.;1.\n";
 
-// The structural points a SET1 lists: 1 to 3.
+// The structural points an IdListSet1 lists: 1 to 3.
 const char* const POINTS = "IdListSet1;17;1;2;3\nNode;1\nNode;2\nNode;3\n";
 
 } // namespace
@@ -96,7 +97,7 @@ TEST_CASE(
 TEST_CASE("a SPLINE1 names a CAERO, two boxes and a set, and follows their renumbering", "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + POINTS + "AeroSurfaceSpline1;2;211;214;219;17;0.");
-    REQUIRE(unresolvedIn(model) == 1); // the PAERO1 of the panel only
+    REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
     RecordingVisitor visitor;
     model.table<AeroSurfaceSpline1Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"aeroPanelId", "firstBox", "lastBox", "nodeSetId"});
@@ -156,7 +157,7 @@ TEST_CASE("a SPLINE2 names a CAERO, two boxes, a set and a coordinate system", "
                            "RectFrame2;3;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"
                            "AeroBeamSpline2;21;211;214;219;17;0.;1.;3;2.\n"
                            "AeroBeamSpline2;22;211;211;211;17;;;;0.;0.");
-    REQUIRE(unresolvedIn(model) == 1); // the PAERO1 of the panel only
+    REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
     RecordingVisitor visitor;
     model.table<AeroBeamSpline2Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"aeroPanelId", "firstBox", "lastBox", "nodeSetId", "frameId"});
@@ -216,7 +217,7 @@ TEST_CASE("a SPLINE3 is a constraint on one box component with independent point
 TEST_CASE("a SPLINE3 names a CAERO, a box and its independent points", "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + "Node;6\nNode;47\nAeroSplineEquation3;7400;211;214;4;6;2;1.;;47;3;-1.");
-    REQUIRE(unresolvedIn(model) == 1); // the PAERO1 of the panel only
+    REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
     RecordingVisitor visitor;
     model.table<AeroSplineEquation3Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"aeroPanelId", "boxId", "nodes", "nodes"});
@@ -290,12 +291,12 @@ TEST_CASE("a SPLINE4 names a CAERO, an AELIST and a set, and follows their renum
 {
     Model model = readBulk(std::string(PANEL) + POINTS +
                            "AeroBoxList;214;214;Through;219\nAeroSurfaceSpline4;31;211;214;17;0.;InfinitePlateSpline");
-    REQUIRE(unresolvedIn(model) == 1); // the PAERO1 of the panel only
+    REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
     RecordingVisitor visitor;
     model.table<AeroSurfaceSpline4Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"aeroPanelId", "aeroBoxListId", "nodeSetId"});
-    // format reference SPLINE4: CAERO is the aerodynamic component, a CAERO panel or the component of an aerodynamic
-    // mesh.
+    // format reference AeroSurfaceSpline4: CAERO is the aerodynamic component, a CAERO panel or the component of an
+    // aerodynamic mesh.
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::AeroPanelOrComponent,
                                                             ReferenceTarget::AeroList, ReferenceTarget::Set});
 
@@ -385,7 +386,7 @@ TEST_CASE("a SPLINE5 names a CAERO, an AELIST, a set and a coordinate system", "
                            "RectFrame2;3;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"
                            "AeroBoxList;214;214;Through;219\n"
                            "AeroBeamSpline5;41;211;214;17;;;3;1.;1.");
-    REQUIRE(unresolvedIn(model) == 1); // the PAERO1 of the panel only
+    REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
     RecordingVisitor visitor;
     model.table<AeroBeamSpline5Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"aeroPanelId", "aeroBoxListId", "nodeSetId", "frameId"});
@@ -464,7 +465,7 @@ TEST_CASE("a SPLINE6 names a CAERO, two AELIST cards and a set", "[model][cards]
                            "AeroBoxList;2;211;Through;213\n"
                            "AeroFiniteSurfaceSpline6;51;211;12;17;;;;AeroMesh;2\n"
                            "AeroFiniteSurfaceSpline6;52;;12;17;;;;;2");
-    REQUIRE(unresolvedIn(model) == 1); // the PAERO1 of the panel only
+    REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
     RecordingVisitor visitor;
     model.table<AeroFiniteSurfaceSpline6Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields ==
@@ -525,7 +526,7 @@ TEST_CASE("a SPLINE7 names a CAERO, an AELIST, a set and a coordinate system", "
                            "AeroBoxList;214;214;Through;219\n"
                            "AeroFiniteBeamSpline7;61;211;214;17;;;3\n"
                            "AeroFiniteBeamSpline7;62;;214;17");
-    REQUIRE(unresolvedIn(model) == 1); // the PAERO1 of the panel only
+    REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
     RecordingVisitor visitor;
     model.table<AeroFiniteBeamSpline7Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"aeroPanelId", "aeroBoxListId", "nodeSetId", "frameId"});

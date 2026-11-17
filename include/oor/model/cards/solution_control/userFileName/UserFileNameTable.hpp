@@ -19,10 +19,10 @@ struct UserFileNameFormat
     static void write(const UserFileNameCard& card, FieldWriter& writer);
 };
 
-// All the UDNAME cards. The UDID is unique among them (IdSpace::PerCardType) and is what an FTGLOAD, a
-// TableTimeHistoryFile, a MATDIGI and an HDF5DA name: the category UserDefinedName. A UDNAME names no other card. The
-// cards are kept whole (CardRows) next to their ID: the name is a text of any length, and the query engine reads the
-// ID.
+// All the UserFileName cards. The UDID is unique among them (IdSpace::PerCardType) and is what a FatigueLoad, a
+// TableTimeHistoryFile, a MicromechanicsCompositeMat and a ResultFileModules name: the category UserDefinedName. An
+// UserFileName names no other card. The cards are kept whole (CardRows) next to their ID: the name is a text of any
+// length, and the query engine reads the ID.
 class UserFileNameTable final : public TypedTable<UserFileNameTable, UserFileNameCard>
 {
 public:
@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a UDNAME refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an UserFileName refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

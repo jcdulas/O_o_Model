@@ -15,10 +15,10 @@ namespace oor::analysis
 namespace
 {
 
-// A GBAGCOU whose COUPLE and GBAG do not have the same BSID. The switch moves one air bag from the gas dynamics model
-// (the COUPLE) to the uniform pressure model (the GBAG), so the surface that each of them encloses must be the same
-// one. A GBAGCOU with no GBAG, or whose COUPLE or GBAG does not exist
-// (`ref.unresolved` says so), has nothing to compare.
+// A GasBagSwitch whose EulerLagrangeCoupling and GasBag do not have the same BSID. The switch moves one air bag from
+// the gas dynamics model (the EulerLagrangeCoupling) to the uniform pressure model (the GasBag), so the surface that
+// each of them encloses must be the same one. A GasBagSwitch with no GasBag, or whose EulerLagrangeCoupling or GasBag
+// does not exist (`ref.unresolved` says so), has nothing to compare.
 class GasBagSwitchSurfaceCheck final : public ValidationCheck
 {
 public:

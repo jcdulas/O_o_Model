@@ -19,10 +19,10 @@ struct AeroMachBoxPanel3Format
     static void write(const AeroMachBoxPanel3Card& card, FieldWriter& writer);
 };
 
-// All the CAERO3 cards, kept whole next to a column of their EIDs. The EID is in the space of the aerodynamic elements
-// (IdSpace::AeroElement, category AeroElement) that CAERO1 to CAERO5 share. The PID is a PAERO3
-// (ReferenceTarget::AeroProperty), CP a coordinate system, LISTW, LISTC1 and LISTC2 AEFACT cards
-// (ReferenceTarget::AeroFactor).
+// All the AeroMachBoxPanel3 cards, kept whole next to a column of their EIDs. The EID is in the space of the
+// aerodynamic elements (IdSpace::AeroElement, category AeroElement) that AeroLiftingPanel1 to AeroPistonPanel5 share.
+// The PID is an AeroMachBoxProp3 (ReferenceTarget::AeroProperty), CP a coordinate system, LISTW, LISTC1 and LISTC2
+// AeroFactorList cards (ReferenceTarget::AeroFactor).
 class AeroMachBoxPanel3Table final : public TypedTable<AeroMachBoxPanel3Table, AeroMachBoxPanel3Card>
 {
 public:

@@ -19,10 +19,10 @@ struct Beam3DistributedLoadFormat
     static void write(const Beam3DistributedLoadCard& card, FieldWriter& writer);
 };
 
-// All the PLOADB3 cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load): the LOAD Case
-// Control command, an LSEQ or the EXCITEID of a dynamic load names it. The EID is an element, and the CID, when it is
-// the ID of a coordinate system, a coordinate system. The cards are kept whole next to a column of their SIDs (the CID
-// is a word or a number, so the card is one value).
+// All the Beam3DistributedLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load): the
+// LOAD Case Control command, a StaticLoadSequence or the EXCITEID of a dynamic load names it. The EID is an element,
+// and the CID, when it is the ID of a coordinate system, a coordinate system. The cards are kept whole next to a column
+// of their SIDs (the CID is a word or a number, so the card is one value).
 class Beam3DistributedLoadTable final : public TypedTable<Beam3DistributedLoadTable, Beam3DistributedLoadCard>
 {
 public:

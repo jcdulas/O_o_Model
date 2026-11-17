@@ -19,9 +19,9 @@ struct EulerBarrierFormat
     static void write(const EulerBarrierCard& card, FieldWriter& writer);
 };
 
-// All the BARRIER cards. The BID is unique among them (IdSpace::PerCardType) and no other card names it, so the
-// category is Other. The BCID names a set of BCSEG cards (ContactSurface) and the MESH an Euler mesh. The cards are
-// kept whole (CardRows) next to their ID.
+// All the EulerBarrier cards. The BID is unique among them (IdSpace::PerCardType) and no other card names it, so the
+// category is Other. The BCID names a set of ContactSegment cards (ContactSurface) and the MESH an Euler mesh. The
+// cards are kept whole (CardRows) next to their ID.
 class EulerBarrierTable final : public TypedTable<EulerBarrierTable, EulerBarrierCard>
 {
 public:

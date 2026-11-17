@@ -9,8 +9,8 @@ namespace oor::analysis
 namespace
 {
 
-// A rod or bar with no cross-section: it has no axial stiffness and no mass (a PROD with a torsion constant alone is a
-// legal shaft, so J counts for a PROD).
+// A rod or bar with no cross-section: it has no axial stiffness and no mass (a RodProp with a torsion constant alone is
+// a legal shaft, so J counts for a RodProp).
 class ZeroSectionAreaCheck final : public ValidationCheck
 {
 public:

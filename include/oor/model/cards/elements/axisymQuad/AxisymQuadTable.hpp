@@ -19,7 +19,7 @@ struct AxisymQuadFormat
     static void write(const AxisymQuadCard& card, FieldWriter& writer);
 };
 
-// All the CQUADX elements: the nodes are one column of nine IDs per element, 0 for an absent edge point (an (N, 9)
+// All the AxisymQuad elements: the nodes are one column of nine IDs per element, 0 for an absent edge point (an (N, 9)
 // NumPy view without copy).
 class AxisymQuadTable final : public TypedTable<AxisymQuadTable, AxisymQuadCard>
 {

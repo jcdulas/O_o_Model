@@ -10,13 +10,13 @@
 #include <string>
 #include <string_view>
 
-// The IDs that the contact cards across modules (MDBCNCT, MDBCTB1) give as a pair: the number of the module that
-// defines a card and the ID of that card inside the module. One kind of value; each card says where its pairs are in
-// its fields.
+// The IDs that the contact cards across modules (ModuleContactPair, ModuleContactTable) give as a pair: the number of
+// the module that defines a card and the ID of that card inside the module. One kind of value; each card says where its
+// pairs are in its fields.
 //
-// Module 0 is the main Bulk Data (where an MDBCPAR belongs), and a blank module field means the same: the pair is
-// stored with module 0. The other modules are the BEGIN MODULE sections of a deck, which are parts of the deck (models
-// of their own): an ID that a pair places in module n is looked up in the part of module n
+// Module 0 is the main Bulk Data (where a ModuleContactCandidates belongs), and a blank module field means the same:
+// the pair is stored with module 0. The other modules are the BEGIN MODULE sections of a deck, which are parts of the
+// deck (models of their own): an ID that a pair places in module n is looked up in the part of module n
 // (ReferenceVisitor::visitInPart).
 namespace oor::model
 {
@@ -43,7 +43,7 @@ struct ModuleId
 }
 
 // Writes a pair. The module of the main Bulk Data is left blank, unless `explicitModule` says the layout allows no
-// blank before the ID (MDBCTB1 refuses a blank between IDs).
+// blank before the ID (ModuleContactTable refuses a blank between IDs).
 inline void writeModuleId(FieldWriter& writer, int moduleField, int idField, const ModuleId& pair, bool explicitModule)
 {
     if (explicitModule)

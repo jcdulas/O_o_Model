@@ -19,8 +19,8 @@ struct PropMatDistributionFormat
     static void write(const PropMatDistributionCard& card, FieldWriter& writer);
 };
 
-// All the PDISTBM cards, in the category Other: the ID is unique per card type (IdSpace::PerCardType). The PID is a
-// reference to a property (the target Property: that the property is of the kind TYPE says is not part of the
+// All the PropMatDistribution cards, in the category Other: the ID is unique per card type (IdSpace::PerCardType). The
+// PID is a reference to a property (the target Property: that the property is of the kind TYPE says is not part of the
 // reference), each EID to an element and each MIDV to a material. The cards are kept whole next to a column of their
 // IDs.
 class PropMatDistributionTable final : public TypedTable<PropMatDistributionTable, PropMatDistributionCard>

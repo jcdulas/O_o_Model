@@ -10,7 +10,7 @@ std::optional<CompPropFreqDampingCard> CompPropFreqDampingFormat::read(FieldRead
 {
     CompPropFreqDampingCard card;
     card.id = reader.requiredInteger(1, "id");
-    card.structuralDamping = reader.integer(7, "structuralDamping", 0); // the same column as the GE of a PCOMP
+    card.structuralDamping = reader.integer(7, "structuralDamping", 0); // the same column as the GE of a CompProp
     requireUnusedFields(reader, {2, 3, 4, 5, 6, 8});
     if (reader.lastUsedField() > 8)
         reader.error("card.bad-value",
@@ -62,7 +62,7 @@ void CompPropFreqDampingTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void CompPropFreqDampingTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the PCOMP or PCOMPG that the card extends (the two share the property space).
+    // The ID is the one of the CompProp or CompPropGlobal that the card extends (the two share the property space).
     m_id.set(row, visitor.visit("id", ReferenceTarget::Property, m_id.get(row)));
     if (const base::EntityId structuralDamping = m_structuralDamping.get(row); structuralDamping > 0)
         m_structuralDamping.set(row,

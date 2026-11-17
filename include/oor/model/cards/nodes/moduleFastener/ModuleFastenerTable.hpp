@@ -19,11 +19,11 @@ struct ModuleFastenerFormat
     static void write(const ModuleFastenerCard& card, FieldWriter& writer);
 };
 
-// All the MDFAST cards. The EID is an element number, which the rules of the CFAST want unique among all the
-// elements; the table only keeps it unique among the MDFAST cards (IdSpace::PerCardType, category Other) and a
-// validation check looks for a number that another kind of element shares. PID is a reference to a PFAST of the main
-// Bulk Data; IDA and IDB are references to properties or elements (TYPE) in their module (the main Bulk Data, or the
-// part of another module); GS, GA and GB are grid points of the main Bulk Data. The cards are kept whole
+// All the ModuleFastener cards. The EID is an element number, which the rules of the Fastener want unique among all the
+// elements; the table only keeps it unique among the ModuleFastener cards (IdSpace::PerCardType, category Other) and a
+// validation check looks for a number that another kind of element shares. PID is a reference to a FastenerProp of the
+// main Bulk Data; IDA and IDB are references to properties or elements (TYPE) in their module (the main Bulk Data, or
+// the part of another module); GS, GA and GB are grid points of the main Bulk Data. The cards are kept whole
 // next to their ID.
 class ModuleFastenerTable final : public TypedTable<ModuleFastenerTable, ModuleFastenerCard>
 {

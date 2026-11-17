@@ -18,7 +18,7 @@ struct MassDofInlineFormat
     static void write(const MassDofInlineCard& card, FieldWriter& writer);
 };
 
-// All the CMASS2 elements.
+// All the MassDofInline elements.
 class MassDofInlineTable final : public TypedTable<MassDofInlineTable, MassDofInlineCard>
 {
 public:

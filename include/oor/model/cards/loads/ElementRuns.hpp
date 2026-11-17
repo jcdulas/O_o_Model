@@ -24,9 +24,9 @@ struct ElementRun
     [[nodiscard]] bool operator==(const ElementRun&) const noexcept = default;
 };
 
-// The element lists of PLOAD2, TEMPP1 and TEMPRB, which all read and write a list of IDs with "Through" between two of
-// them as the format reference shows it. One kind of value used by three cards of the family: each card still has its
-// own fields.
+// The element lists of ShellPressureLoad, PlateTemperatureLoad and LineElemTemperatureLoad, which all read and write a
+// list of IDs with "Through" between two of them as the format reference shows it. One kind of value used by three
+// cards of the family: each card still has its own fields.
 
 // Reads the list in fields `first` to the last used one: IDs, blank internal slots skipped,
 // and "a Through b" making a run. Reports the problems it finds (Through without a start, a range that runs backwards).

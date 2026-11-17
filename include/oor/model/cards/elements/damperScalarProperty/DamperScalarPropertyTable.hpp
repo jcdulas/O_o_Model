@@ -18,7 +18,7 @@ struct DamperScalarPropertyFormat
     static void write(const DamperScalarPropertyCard& card, FieldWriter& writer);
 };
 
-// All the CDAMP3 elements.
+// All the DamperScalarProperty elements.
 class DamperScalarPropertyTable final : public TypedTable<DamperScalarPropertyTable, DamperScalarPropertyCard>
 {
 public:

@@ -16,9 +16,9 @@ struct SequencedPoint
     [[nodiscard]] bool operator==(const SequencedPoint&) const noexcept = default;
 };
 
-// One SEQGP card: the sequence in which grid and scalar points are ordered (manual resequencing).
+// One NodeSequence card: the sequence in which grid and scalar points are ordered (manual resequencing).
 //
-// Card layout: SEQGP  ID1  SEQID1  ID2  SEQID2  ID3  SEQID3  ID4  SEQID4
+// Card layout: NodeSequence  ID1  SEQID1  ID2  SEQID2  ID3  SEQID3  ID4  SEQID4
 // From one to four points. SEQID is an integer or a real greater than zero; both are kept as a real, and the writer
 // writes a whole number as an integer (a SEQID of 20. and one of 20 are the same sequence number). The card has no ID.
 struct NodeSequenceCard

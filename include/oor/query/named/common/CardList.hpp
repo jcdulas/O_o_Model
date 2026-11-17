@@ -39,7 +39,8 @@ struct CardList
                                  const std::optional<std::vector<std::int64_t>>& only = std::nullopt);
 
 // The card types of a category whose cards share the ID space of the category (the properties and materials proper, not
-// the cards that complete them: MATT1, MATS1, PBUSHT ... have IDs of their own per card type).
+// the cards that complete them: IsoMatTemperature, IsoMatStressDependent, BushPropFreq ... have IDs of their own per
+// card type).
 [[nodiscard]] std::vector<std::uint16_t> typesInSpace(model::CardCategory category, base::IdSpace space);
 
 // The type indexes of the cards named (any case); throws QueryError for a name that is not a card type of `category`.

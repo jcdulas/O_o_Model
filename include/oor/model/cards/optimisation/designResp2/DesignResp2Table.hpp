@@ -13,7 +13,7 @@
 namespace oor::model
 {
 
-// The functions the third field may name instead of a DEQATN.
+// The functions the third field may name instead of a DesignEquation.
 inline constexpr std::array<std::string_view, 9> DESIGN_RESP2_FUNCTIONS{
     "Sum",     "SafetyFactorMax", "Average",      "SumOfSquares",    "RootSumSquare",
     "Maximum", "Minimum",         "BetaFunction", "MatchedResponses"};
@@ -29,9 +29,9 @@ struct DesignResp2Format
     static void write(const DesignResp2Card& card, FieldWriter& writer);
 };
 
-// All the DRESP2 cards. The ID is in the number space the three response cards share (category DesignResponse,
+// All the DesignResp2 cards. The ID is in the number space the three response cards share (category DesignResponse,
 // IdSpace::PerCardType: the check `design.response-id-repeated` reports a number two of them have); the EQID is a
-// DEQATN, the groups name design variables, responses, relations and grid points.
+// DesignEquation, the groups name design variables, responses, relations and grid points.
 class DesignResp2Table final : public TypedTable<DesignResp2Table, DesignResp2Card>
 {
 public:

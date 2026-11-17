@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One CHEXA card: a six-sided solid element with eight to twenty grid points.
+// One SolidHexa card: a six-sided solid element with eight to twenty grid points.
 //
 // Card layout:
-//   CHEXA   EID  PID  G1  G2  G3  G4  G5  G6
-//           G7   G8   G9  G10 G11 G12 G13 G14
-//           G15  G16  G17 G18 G19 G20
+//   SolidHexa  EID  PID  G1  G2  G3  G4  G5  G6
+//               G7   G8  G9  G10 G11 G12 G13 G14
+//               G15  G16  G17 G18 G19 G20
 //
 // G1 to G8 are the corners; G9 to G20 are the optional points on the edges. `nodes` always has room for all twenty: an
 // edge point that is blank on the card (or zero) is 0, so that the edge a point belongs to is its position.

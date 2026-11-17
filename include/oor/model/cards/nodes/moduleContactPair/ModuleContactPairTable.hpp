@@ -19,10 +19,11 @@ struct ModuleContactPairFormat
     static void write(const ModuleContactPairCard& card, FieldWriter& writer);
 };
 
-// All the MDBCNCT cards. The ID is unique among them (IdSpace::PerCardType, category ContactPair, the category of the
-// BCONECT: an MDBCTB1 names either, and BCONTACT may select either). BCGPID and BCPPID are references to BCONPRG and
-// BCONPRP cards. The bodies are references to BCBODY1 cards (the body category) in their module: the main Bulk Data,
-// or the part of another module. The cards are kept whole next to their ID.
+// All the ModuleContactPair cards. The ID is unique among them (IdSpace::PerCardType, category ContactPair, the
+// category of the ContactPair: a ModuleContactTable names either, and BCONTACT may select either). BCGPID and BCPPID
+// are references to ContactPairGeomParams and ContactPairPhysicalParams cards. The bodies are references to
+// ContactBody1 cards (the body category) in their module: the main Bulk Data, or the part of another module. The cards
+// are kept whole next to their ID.
 class ModuleContactPairTable final : public TypedTable<ModuleContactPairTable, ModuleContactPairCard>
 {
 public:

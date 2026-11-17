@@ -33,7 +33,7 @@ const char* kindName(analysis::SurfaceKind kind)
     return "";
 }
 
-// thermalBoundaryElementsTable: the surface elements CHBDYE, CHBDYG and CHBDYP.
+// thermalBoundaryElementsTable: the surface elements HeatSurfaceSide, HeatSurfaceNodes and HeatSurfaceProperty.
 class ThermalBoundaryElementsTableQuery final : public QueryBase
 {
 public:
@@ -107,7 +107,7 @@ public:
             }
             const analysis::SurfaceDescription description = analysis::describeSurface(model, where);
             if (surfaceType[index].empty())
-                surfaceType[index] = kindName(description.kind); // the kind of the side of a CHBDYE
+                surfaceType[index] = kindName(description.kind); // the kind of the side of a HeatSurfaceSide
             nodes[index].assign(description.nodes.begin(), description.nodes.end());
             if (const thermal::SurfaceElement* surface = surfaces.find(list.ids[index]);
                 surface != nullptr && surface->location == where)

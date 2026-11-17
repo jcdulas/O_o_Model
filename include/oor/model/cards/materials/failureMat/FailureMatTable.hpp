@@ -19,9 +19,9 @@ struct FailureMatFormat
     static void write(const FailureMatCard& card, FieldWriter& writer);
 };
 
-// All the MATF cards. The ID space is the card type's own: the ID is the one of the material that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it). The cards are kept whole (CardRows:
-// the criteria have a count of their own); the query engine reads the ID only.
+// All the FailureMat cards. The ID space is the card type's own: the ID is the one of the material that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it). The cards are kept
+// whole (CardRows: the criteria have a count of their own); the query engine reads the ID only.
 class FailureMatTable final : public TypedTable<FailureMatTable, FailureMatCard>
 {
 public:

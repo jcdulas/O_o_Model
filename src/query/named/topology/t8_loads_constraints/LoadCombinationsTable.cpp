@@ -18,7 +18,7 @@ namespace oor::query
 namespace
 {
 
-// The LOAD cards of a model by their set ID (the first of a set ID given twice).
+// The LoadCombination cards of a model by their set ID (the first of a set ID given twice).
 std::map<base::EntityId, model::LoadCombinationCard> loadCards(const model::Model& model)
 {
     std::map<base::EntityId, model::LoadCombinationCard> cards;

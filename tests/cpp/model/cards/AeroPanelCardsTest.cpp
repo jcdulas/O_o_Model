@@ -1,7 +1,8 @@
-// The cards that describe the aerodynamic panels and bodies: CAERO2 (a slender body), CAERO3
-// (a Mach box surface), CAERO4 (strips), CAERO5 (piston theory strips) and their properties PAERO1, PAERO2 and PAERO3.
-// Each case reads the fields of a card in the places of the format reference, the references it lists, what a
-// renumbering moves, the ID space it shares with the other panel cards and the values it refuses.
+// The cards that describe the aerodynamic panels and bodies: AeroBody2 (a slender body), AeroMachBoxPanel3
+// (a Mach box surface), AeroStripPanel4 (strips), AeroPistonPanel5 (piston theory strips) and their properties
+// AeroLiftingPanelProp1, AeroBodyProp2 and AeroMachBoxProp3. Each case reads the fields of a card in the places of the
+// format reference, the references it lists, what a renumbering moves, the ID space it shares with the other panel
+// cards and the values it refuses.
 
 #include "oor/model/cards/aero/AeroBoxRanges.hpp"
 #include "oor/model/cards/aero/aeroBody2/AeroBody2Table.hpp"
@@ -57,24 +58,25 @@ TEST_CASE("a CAERO2 body has two cuts, a group that may be zero, and the element
              second.interferenceGroupId == 0 && second.length == 50.0));
     requireRoundTrip(model);
 
-    // The aerodynamic elements are apart from the structural ones: a CQUAD4 1400 and a CAERO2 1400 coexist.
+    // The aerodynamic elements are apart from the structural ones: a ShellQuad4 1400 and an AeroBody2 1400 coexist.
     REQUIRE(model.locate(base::IdSpace::AeroElement, 1400).has_value());
     REQUIRE(model.locate(base::IdSpace::Element, 1400).has_value());
 
-    // The elements: NSB + NINT, the numbers or else one less than the points of the AEFACT.
+    // The elements: NSB + NINT, the numbers or else one less than the points of the AeroFactorList.
     const AeroBoxRanges ranges(model);
     REQUIRE(ranges.ranges().size() == 2);
     REQUIRE((ranges.ranges()[0].panelId == 1400 && ranges.ranges()[0].boxCount == 7));
     REQUIRE((ranges.ranges()[1].panelId == 1600 && ranges.ranges()[1].boxCount == 5));
 
-    // The property, the coordinate system and the list of the slender body; the PAERO2 cards are not in this deck.
+    // The property, the coordinate system and the list of the slender body; the AeroBodyProp2 cards are not in this
+    // deck.
     REQUIRE(referencesOf<AeroBody2Table>(model, 0).fields ==
             std::vector<std::string>{"propId", "positionFrameId", "slenderListId"});
     REQUIRE(referencesOf<AeroBody2Table>(model, 0).targets ==
             std::vector<ReferenceTarget>{ReferenceTarget::AeroProperty, ReferenceTarget::Coordinate,
                                          ReferenceTarget::AeroFactor});
     REQUIRE(referencesOf<AeroBody2Table>(model, 1).fields == std::vector<std::string>{"propId"});
-    REQUIRE(unresolvedIn(model) == 7); // two PAERO2, and the property and four grid points of the CQUAD4
+    REQUIRE(unresolvedIn(model) == 7); // two AeroBodyProp2, and the property and four grid points of the ShellQuad4
 
     Renumbering::apply(model, RenumberSpace::AeroFactor, Renumbering::offset(100));
     REQUIRE(cardAt<AeroBody2Table>(model, 0).slenderListId == 198);
@@ -125,16 +127,16 @@ TEST_CASE("a PAERO1 lists up to six bodies with no blank between them", "[model]
     REQUIRE(referencesOf<AeroLiftingPanelProp1Table>(model, 1).fields.empty());
     REQUIRE(unresolvedIn(model) == 6); // the bodies 3 to 8 of the last card
 
-    // The bodies follow their CAERO2 when the aerodynamic elements are renumbered.
+    // The bodies follow their AeroBody2 when the aerodynamic elements are renumbered.
     Renumbering::apply(model, RenumberSpace::AeroElement, Renumbering::offset(500));
     REQUIRE((cardAt<AeroBody2Table>(model, 0).id == 2000 && cardAt<AeroBody2Table>(model, 1).id == 2100));
     REQUIRE(cardAt<AeroLiftingPanelProp1Table>(model, 0).bodies == Bodies{2000, 2100, 0, 0, 0, 0});
-    // The PID is in the space that every PAERO shares, so the CAERO2 that names the PAERO2 follows it.
+    // The PID is in the space that every PAERO shares, so the AeroBody2 that names the AeroBodyProp2 follows it.
     Renumbering::apply(model, RenumberSpace::AeroProperty, Renumbering::offset(100));
     REQUIRE((cardAt<AeroLiftingPanelProp1Table>(model, 0).id == 110 && cardAt<AeroBodyProp2Table>(model).id == 120));
     REQUIRE(cardAt<AeroBody2Table>(model, 0).propId == 120);
 
-    // A PAERO1 and a PAERO2 cannot have the same PID.
+    // An AeroLiftingPanelProp1 and an AeroBodyProp2 cannot have the same PID.
     REQUIRE_THROWS_AS(readBulk("AeroLiftingPanelProp1;5\nAeroBodyProp2;5;ZDirection;1.;1."), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("AeroLiftingPanelProp1;5\nAeroLiftingPanelProp1;5"), base::DeckError);
 
@@ -173,7 +175,7 @@ TEST_CASE("a PAERO2 has its half-width lists, its angle arrays and two ranges of
     // The word is written as the format reference has it, whatever the case it was read in, and the second line only
     // when it is used.
 
-    // The four AEFACT lists are references, the ranges are element numbers of the body and are not.
+    // The four AeroFactorList lists are references, the ranges are element numbers of the body and are not.
     const RecordingVisitor lists = referencesOf<AeroBodyProp2Table>(model, 2);
     REQUIRE(lists.fields == std::vector<std::string>{"slenderHalfWidthListId", "interferenceHalfWidthListId",
                                                      "angleListId1", "angleListId2"});
@@ -233,7 +235,7 @@ TEST_CASE("a CAERO3 has the wing and two control surface lists, and owns one ID 
     REQUIRE((ranges.ranges()[0].panelId == 2500 && ranges.ranges()[0].boxCount == 5));
     REQUIRE((ranges.ranges()[1].panelId == 4301 && ranges.ranges()[1].boxCount == 1));
 
-    // The PAERO3, the system CP and the three lists; a blank CP and a blank list are not visited.
+    // The AeroMachBoxProp3, the system CP and the three lists; a blank CP and a blank list are not visited.
     REQUIRE(referencesOf<AeroMachBoxPanel3Table>(model, 0).fields ==
             std::vector<std::string>{"propId", "wingPointListId", "controlPointListId1"});
     const RecordingVisitor every = referencesOf<AeroMachBoxPanel3Table>(model, 2);
@@ -291,7 +293,7 @@ TEST_CASE("a CAERO4 is a panel of strips: NSPAN or LSPAN, the chords of a trapez
              triangle.tipChord == 0.0));
     requireRoundTrip(model);
 
-    // One strip a division of the span: three from the four points of the AEFACT, the numbers of the others.
+    // One strip a division of the span: three from the four points of the AeroFactorList, the numbers of the others.
     const AeroBoxRanges ranges(model);
     REQUIRE(ranges.ranges().size() == 3);
     REQUIRE((ranges.ranges()[0].panelId == 4402 && ranges.ranges()[0].boxCount == 4));
@@ -303,14 +305,15 @@ TEST_CASE("a CAERO4 is a panel of strips: NSPAN or LSPAN, the chords of a trapez
     REQUIRE(listed.targets == std::vector<ReferenceTarget>{ReferenceTarget::AeroProperty, ReferenceTarget::Coordinate,
                                                            ReferenceTarget::AeroFactor});
     REQUIRE(referencesOf<AeroStripPanel4Table>(model, 2).fields == std::vector<std::string>{"propId"});
-    REQUIRE(unresolvedIn(model) == 5); // the PAERO4 of the three cards, and the AEFACT 5 and the system 3 of the second
+    // the AeroStripProp4 of the three cards, and the AeroFactorList 5 and the system 3 of the second
+    REQUIRE(unresolvedIn(model) == 5);
 
     Renumbering::apply(model, RenumberSpace::AeroFactor, Renumbering::offset(100));
     REQUIRE(cardAt<AeroStripPanel4Table>(model, 0).spanDivisionListId == 418);
     Renumbering::apply(model, RenumberSpace::AeroElement, Renumbering::offset(10000));
     REQUIRE((cardAt<AeroStripPanel4Table>(model, 0).id == 16200 && cardAt<AeroStripPanel4Table>(model, 2).id == 14403));
 
-    // A CAERO1 and a CAERO4 cannot have the same ID.
+    // An AeroLiftingPanel1 and an AeroStripPanel4 cannot have the same ID.
     REQUIRE_THROWS_AS(readBulk("AeroStripPanel4;5;1;;2;;;;;1.\nAeroLiftingPanel1;5;1;;1;1;;;1;0.;0.;0.;1.;0.;1.;0.;1."),
                       base::DeckError);
 
@@ -351,7 +354,7 @@ TEST_CASE("a CAERO5 adds the theory and the thickness integrals to the strips of
     REQUIRE((ranges.ranges()[0].panelId == 4502 && ranges.ranges()[0].boxCount == 4));
     REQUIRE((ranges.ranges()[2].panelId == 7000 && ranges.ranges()[2].boxCount == 3));
 
-    // The thickness integrals are an AEFACT; the theory is a number and names nothing.
+    // The thickness integrals are an AeroFactorList; the theory is a number and names nothing.
     const RecordingVisitor thick = referencesOf<AeroPistonPanel5Table>(model, 1);
     REQUIRE(thick.fields ==
             std::vector<std::string>{"propId", "positionFrameId", "spanDivisionListId", "thicknessIntegralListId"});

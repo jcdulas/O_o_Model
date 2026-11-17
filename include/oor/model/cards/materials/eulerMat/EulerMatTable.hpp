@@ -19,7 +19,7 @@ struct EulerMatFormat
     static void write(const EulerMatCard& card, FieldWriter& writer);
 };
 
-// All the MATDEUL cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). The IDs
+// All the EulerMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). The IDs
 // of the models are references to the cards of the equation of state, shear, yield, failure and spall categories. The
 // cards are kept whole (CardRows); the query engine reads the ID only.
 class EulerMatTable final : public TypedTable<EulerMatTable, EulerMatCard>

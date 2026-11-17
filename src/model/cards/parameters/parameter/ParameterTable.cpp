@@ -54,9 +54,9 @@ std::optional<ParameterCard> ParameterFormat::read(FieldReader& reader)
         card.kind = ParameterKind::Text;
         card.textValue = std::string(first); // a word is a neutral name (Yes, Automatic), case-sensitive
     }
-    // A parameter of the format reference given a value of another kind (PARAM,WTMASS,YES) is kept as written, with a
-    // warning: the solver refuses it, but the card is the deck's. The options a format reference entry lists are for
-    // the validation check.
+    // A parameter of the format reference given a value of another kind (PARAM,WeightToMass,YES) is kept as written,
+    // with a warning: the solver refuses it, but the card is the deck's. The options a format reference entry lists are
+    // for the validation check.
     if (reader.failed())
         return card;
     if (const auto problem = ParameterCatalogue::instance().problemWith(card);

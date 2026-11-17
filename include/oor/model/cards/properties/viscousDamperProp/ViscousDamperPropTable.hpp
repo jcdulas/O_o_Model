@@ -19,7 +19,7 @@ struct ViscousDamperPropFormat
     static void write(const ViscousDamperPropCard& card, FieldWriter& writer);
 };
 
-// All the PVISC properties, one row each.
+// All the ViscousDamperProp properties, one row each.
 class ViscousDamperPropTable final : public TypedTable<ViscousDamperPropTable, ViscousDamperPropCard>
 {
 public:

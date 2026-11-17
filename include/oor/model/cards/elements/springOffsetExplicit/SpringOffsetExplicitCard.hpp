@@ -7,12 +7,12 @@
 namespace oor::model
 {
 
-// One CSPR card: a spring with offsets, for the SOL 700 explicit solver only.
+// One SpringOffsetExplicit card: a spring with offsets, for the SOL 700 explicit solver only.
 //
 // Card layout:
-//   CSPR  EID  PID  G1  G2
+//   SpringOffsetExplicit  EID  PID  G1  G2
 //
-// PID names a PSPRMAT, a property card: the reference is a property reference and resolves. All
+// PID names a SpringOffsetProp, a property card: the reference is a property reference and resolves. All
 // four fields are required positive integers. The format reference says nothing about the two grid points being
 // different, so the card does not require it.
 struct SpringOffsetExplicitCard

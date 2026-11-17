@@ -20,7 +20,7 @@ struct RigidSplineFormat
     static void write(const RigidSplineCard& card, FieldWriter& writer);
 };
 
-// All the RSPLINE cards. A rigid element is an element: its ID is in the ID space shared by all the elements. The
+// All the RigidSpline cards. A rigid element is an element: its ID is in the ID space shared by all the elements. The
 // points and the components of every card are two lists in CSR form.
 class RigidSplineTable final : public TypedTable<RigidSplineTable, RigidSplineCard>
 {

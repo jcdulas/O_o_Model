@@ -19,8 +19,8 @@ struct LoadCombinationFormat
     static void write(const LoadCombinationCard& card, FieldWriter& writer);
 };
 
-// All the LOAD cards. The ID is a load set ID shared by many cards (IdSpace::Group). The terms of every card are two
-// lists (scale factors, load set IDs) in CSR form.
+// All the LoadCombination cards. The ID is a load set ID shared by many cards (IdSpace::Group). The terms of every card
+// are two lists (scale factors, load set IDs) in CSR form.
 class LoadCombinationTable final : public TypedTable<LoadCombinationTable, LoadCombinationCard>
 {
 public:

@@ -19,8 +19,8 @@ struct SuperelementConnectionFormat
     static void write(const SuperelementConnectionCard& card, FieldWriter& writer);
 };
 
-// All the SECONCT cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to columns
-// of the two superelements.
+// All the SuperelementConnection cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole
+// next to columns of the two superelements.
 class SuperelementConnectionTable final : public TypedTable<SuperelementConnectionTable, SuperelementConnectionCard>
 {
 public:

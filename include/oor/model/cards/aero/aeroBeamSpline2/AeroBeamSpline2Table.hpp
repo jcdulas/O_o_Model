@@ -20,10 +20,11 @@ struct AeroBeamSpline2Format
     static void write(const AeroBeamSpline2Card& card, FieldWriter& writer);
 };
 
-// All the SPLINE2 cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7
-// and SPLINEX; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the others).
-// The CAERO is an aerodynamic element (ReferenceTarget::AeroElement), ID1 and ID2 aerodynamic boxes
-// (ReferenceTarget::AeroBox), SETG a SET1 or SET3 (ReferenceTarget::Set) and CID a coordinate system.
+// All the AeroBeamSpline2 cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline; IdSpace::PerCardType refuses a repeat inside this
+// type and a check across the types reports the others). The CAERO is an aerodynamic element
+// (ReferenceTarget::AeroElement), ID1 and ID2 aerodynamic boxes (ReferenceTarget::AeroBox), SETG an IdListSet1 or
+// TypedListSet3 (ReferenceTarget::Set) and CID a coordinate system.
 class AeroBeamSpline2Table final : public TypedTable<AeroBeamSpline2Table, AeroBeamSpline2Card>
 {
 public:

@@ -302,23 +302,22 @@ struct FatigueParamsVibration
     [[nodiscard]] bool operator==(const FatigueParamsVibration&) const noexcept = default;
 };
 
-// One FTGPARM card: the parameters of a fatigue analysis (type, combination of the stresses, mean stress correction,
-// location of the results, and the lines for rainflow counting, certainty of survival, factor of safety, spot welds,
-// seam welds, multiaxial assessment, nodal averaging, and vibration fatigue).
+// One FatigueParams card: the parameters of a fatigue analysis (type, combination of the stresses, mean stress
+// correction, location of the results, and the lines for rainflow counting, certainty of survival, factor of safety,
+// spot welds, seam welds, multiaxial assessment, nodal averaging, and vibration fatigue).
 //
 // Card layout, SOL 101, 103, 112:
-//   FTGPARM  ID  TYPE  FACTOR  NTHRD  LOGLVL  LAYER                                      fields 1 to 6
-//            STRESS or STRAIN  COMB  CORR  PLAST  LOC  INTERP  RECOVER  SRESOLVE         the line, then NANGLE in field
-//            3 of the next RAINFLOW  RTYPE CERTNTY  SURV FOS  OPTION  LIFE  BACKACC  MAXFAC  MINFAC SPOTW  COMB  CORR
-//            NANGLE  SWLOC  MIDDLE  TORSION SEAMW  COMB  CORR  THICK  LOCSM  RESENT MULTI  MMTHD  NONLWR  NONUPR
-//            BIAXLWR  BIAXMID  BIAXUPR  ZERO              the line, then GATE in field 3 of the next NAVG  MTHD  OUTPUT
-//            NORMAL
+//   FatigueParams  ID  TYPE  FACTOR  NTHRD  LOGLVL  LAYER                                fields 1 to 6
+//                  STRESS or STRAIN  COMB  CORR  PLAST  LOC  INTERP  RECOVER  SRESOLVE   the line, then NANGLE in field
+//                  3 of the next RAINFLOW  RTYPE CERTNTY  SURV FOS  OPTION  LIFE  BACKACC  MAXFAC  MINFAC SPOTW  COMB
+//                  CORR NANGLE  SWLOC  MIDDLE  TORSION SEAMW  COMB  CORR  THICK  LOCSM  RESENT MULTI  MMTHD  NONLWR
+//                  NONUPR BIAXLWR  BIAXMID BIAXUPR ZERO the line, then GATE in field 3 of the next NAVG MTHD OUTPUT
+//                                  NORMAL
 // Card layout, SOL 108, 111:
-//   FTGPARM  ID  TYPE  (blank)  (blank)  LOGLVL  LAYER                                   fields 1 to 6
-//            STRESS  COMB  CORR  PLAST  LOC  (blank)  RECOVER                              the same line with fewer
-//            fields FOS  (blank)  LIFE                                                            the same line with
-//            LIFE alone VIBFTG  ATYPE  MAXSTR  CLIPLVL  MAXPEAK  STRBINS  MAXFREQ  NCALC              only in this
-//            format
+//   FatigueParams  ID  TYPE  (blank)  (blank)  LOGLVL  LAYER                             fields 1 to 6
+//                  STRESS  COMB  CORR  PLAST  LOC  (blank)  RECOVER                            the same line with fewer
+//                  fields FOS  (blank)  LIFE                                                         the same line with
+//                  LIFE alone VIBFTG  ATYPE MAXSTR CLIPLVL MAXPEAK STRBINS MAXFREQ NCALC only in this format
 // The format of SOL 108 and 111 puts the same fields in the same places as the other and has fewer of them, so one card
 // reads both: the lines of the one are read from the fields of the other (a blank TYPE is SN in both), and only the
 // VIBFTG line is its own. The card cannot know the solution; a line of the other format is not refused.
@@ -335,8 +334,8 @@ struct FatigueParamsVibration
 // a stress-life analysis). The OUTPUT of the NAVG line is the number of a coordinate system when it is positive: a
 // Coordinate reference, so a renumbering of the systems follows it.
 //
-// The ID is unique among the FTGPARM cards (IdSpace::PerCardType, category Other: a FATIGUE command of the Case Control
-// selects it).
+// The ID is unique among the FatigueParams cards (IdSpace::PerCardType, category Other: a FATIGUE command of the Case
+// Control selects it).
 //
 // The values control the fatigue calculation of another program: a linear analysis does not use them. They are kept,
 // each under a name that says what it is, so that a deck is written back as it was read.

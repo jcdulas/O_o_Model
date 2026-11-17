@@ -362,8 +362,9 @@ TEST_CASE("DLOAD keeps its terms in order and refuses a set that contains itself
 
 TEST_CASE("the dynamic load sets, the excitation sets and the tables are resolved", "[model][cards]")
 {
-    // Every reference resolves: DLOAD 20 uses the dynamic load sets 5 (TLOAD1) and 6 (TLOAD2, RLOAD2 shares set 7 with
-    // DAREA); the TLOAD1 excites the DAREA set 7, the TLOAD2 the static load set 10; the tables 13 and 14 exist.
+    // Every reference resolves: DynamicLoadCombination 20 uses the dynamic load sets 5 (TransientTableLoad1) and 6
+    // (TransientFormulaLoad2, FreqResponseLoad2 shares set 7 with DynamicLoadScale); the TransientTableLoad1 excites
+    // the DynamicLoadScale set 7, the TransientFormulaLoad2 the static load set 10; the tables 13 and 14 exist.
     Model model = readBulk(
         "Node;1;;0.;0.;0.\n"
         "PointForceLoad;10;1;;1.;1.;0.;0.\n"
@@ -381,8 +382,8 @@ TEST_CASE("the dynamic load sets, the excitation sets and the tables are resolve
     Model wrong = readBulk(
         "TransientTableLoad1;5;7;;;;13\nTransientFormulaLoad2;6;10;;;;0.;1.;2.\nFreqResponseLoad1;8;7;;;;;"
         "14\nDynamicLoadCombination;20;1.;1.;5;2.;6;3.;7\nDynamicLoadScale;7;1;1;1.");
-    // The GRID 1 of the DAREA, the static load set 10, and the tables 13 and 14. The set 7 of the DLOAD resolves: the
-    // DAREA is a card of the dynamic load category.
+    // The GRID 1 of the DynamicLoadScale, the static load set 10, and the tables 13 and 14. The set 7 of the
+    // DynamicLoadCombination resolves: the DynamicLoadScale is a card of the dynamic load category.
     REQUIRE(unresolvedIn(wrong) == 4);
 
     REQUIRE(categoriesOfSet(ReferenceTarget::DynamicLoadSet).size() == 1);
@@ -390,10 +391,10 @@ TEST_CASE("the dynamic load sets, the excitation sets and the tables are resolve
     REQUIRE(categoriesOfSet(ReferenceTarget::ExcitationSet).size() == 2);
     REQUIRE_FALSE(categoryOfSet(ReferenceTarget::ExcitationSet).has_value()); // two categories
     REQUIRE(categoriesOfSet(ReferenceTarget::Node).empty());
-    REQUIRE(resolveReference(model, ReferenceTarget::ExcitationSet, 7).has_value());  // a DAREA
-    REQUIRE(resolveReference(model, ReferenceTarget::ExcitationSet, 10).has_value()); // a FORCE
+    REQUIRE(resolveReference(model, ReferenceTarget::ExcitationSet, 7).has_value());  // a DynamicLoadScale
+    REQUIRE(resolveReference(model, ReferenceTarget::ExcitationSet, 10).has_value()); // a PointForceLoad
     REQUIRE_FALSE(resolveReference(model, ReferenceTarget::ExcitationSet, 99).has_value());
-    // The category is the grain: a set of TLOAD1 cards is a dynamic load set, and an excitation set too.
+    // The category is the grain: a set of TransientTableLoad1 cards is a dynamic load set, and an excitation set too.
     REQUIRE(resolveReference(model, ReferenceTarget::ExcitationSet, 5).has_value());
     REQUIRE(resolveReference(model, ReferenceTarget::DynamicLoadSet, 5).has_value());
     REQUIRE_FALSE(resolveReference(model, ReferenceTarget::DynamicLoadSet, 10).has_value());
@@ -404,15 +405,15 @@ TEST_CASE("the dynamic load sets, the excitation sets and the tables are resolve
 
 TEST_CASE("the excitation of an enforced motion is not looked up and a removed set stops resolving", "[model][cards]")
 {
-    // TYPE other than LOAD: the EXCITEID is the set of an SPCD, which is not a typed card yet.
+    // TYPE other than LOAD: the EXCITEID is the set of an EnforcedMotionConstr, which is not a typed card yet.
     Model motion = readBulk("TransientTableLoad1;5;99;;;Displacement;;5.");
     REQUIRE(unresolvedIn(motion) == 0);
     Model applied = readBulk("TransientTableLoad1;5;99;;;;;5.");
     REQUIRE(unresolvedIn(applied) == 1);
     Model model = readBulk("DynamicLoadScale;7;1;1;1.\nTransientTableLoad1;5;7;;;;;5.");
-    REQUIRE(unresolvedIn(model) == 1); // only the GRID 1 of the DAREA
+    REQUIRE(unresolvedIn(model) == 1); // only the GRID 1 of the DynamicLoadScale
     model.remove(*cardsOfSet(model, CardCategory::DynamicLoad, 7).begin());
-    REQUIRE(unresolvedIn(model) == 1); // the TLOAD1 now has no set 7
+    REQUIRE(unresolvedIn(model) == 1); // the TransientTableLoad1 now has no set 7
 }
 
 TEST_CASE("the dynamic loads list their references with what each points to", "[model][cards]")

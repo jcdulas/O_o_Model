@@ -8,9 +8,9 @@ namespace oor::analysis
 {
 
 // A point of a superelement: the superelement whose ID space it is named in (0 for the residual structure) and its ID
-// there. A part (BEGIN SUPER) has an ID space of its own; a list superelement (SESET, the SEID of GRID) shares the one
-// of the main Bulk Data; an image (REPEAT, MIRROR, CSUPER) uses the IDs of its primary under its own number (the solver's
-// GPLS table of an image lists the primary's IDs).
+// there. A part (BEGIN SUPER) has an ID space of its own; a list superelement (SuperelementInteriorNodes, the SEID of
+// GRID) shares the one of the main Bulk Data; an image (REPEAT, MIRROR, SuperelementCopyPoints) uses the IDs of its
+// primary under its own number (the solver's GPLS table of an image lists the primary's IDs).
 struct SuperelementPoint
 {
     base::EntityId seid = 0;

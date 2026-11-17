@@ -77,7 +77,7 @@ public:
     // The interface nodes of a group, sorted, with the outside entities that act on each (`connectionCount`, MPC
     // equations included; `connectionElements`: their element IDs).
     [[nodiscard]] std::vector<BoundaryNode> interfaceOf(std::int32_t unit) const;
-    // The cards of a group (its elements and absorbed MPC cards), for its revision stamp.
+    // The cards of a group (its elements and absorbed MultiPointConstr cards), for its revision stamp.
     [[nodiscard]] std::vector<model::CardLocation> memberCards(std::int32_t unit) const;
     // The absorbed entities that are connections (ElementRoles) or MPC equations.
     [[nodiscard]] std::size_t connectionCount(std::int32_t unit) const;

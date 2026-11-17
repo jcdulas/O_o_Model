@@ -14,9 +14,9 @@ namespace
 // How many copies of copies are followed before the search gives up (a loop of copies has no end).
 constexpr int MAX_COPY_STEPS = 8;
 
-// The part a superelement that is the image of another one (SEBULK REPEAT or MIRROR) copies: a part has no card of the
-// IDs it uses that the image holds, so its references are looked up there too. Null for a model that is not such a
-// part.
+// The part a superelement that is the image of another one (SuperelementBulkOptions REPEAT or MIRROR) copies: a part
+// has no card of the IDs it uses that the image holds, so its references are looked up there too. Null for a model that
+// is not such a part.
 const Model* imageOf(const Model& model)
 {
     const Model* owner = model.owner();
@@ -41,7 +41,7 @@ const Model* imageOf(const Model& model)
     return nullptr;
 }
 
-// The primary module that module `module` copies (the RMODID of its MDBULK), 0 when it copies none.
+// The primary module that module `module` copies (the RMODID of its ModuleBulkOptions), 0 when it copies none.
 std::int64_t primaryModuleOf(const Model& root, std::int64_t module)
 {
     const ModuleBulkOptionsTable* bulks = root.findTable<ModuleBulkOptionsTable>();

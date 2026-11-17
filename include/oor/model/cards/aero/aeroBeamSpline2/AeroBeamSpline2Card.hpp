@@ -6,19 +6,20 @@
 namespace oor::model
 {
 
-// One SPLINE2 card: a beam spline, a line along which the structure bends and twists, that carries the displacements of
-// a set of structural grid points to a row of aerodynamic boxes (or the elements of a body) and the forces back.
+// One AeroBeamSpline2 card: a beam spline, a line along which the structure bends and twists, that carries the
+// displacements of a set of structural grid points to a row of aerodynamic boxes (or the elements of a body) and the
+// forces back.
 //
-// Card layout: SPLINE2  EID   CAERO  ID1  ID2  SETG  DZ  DTOR  CID
-//                      DTHX  DTHY        USAGE
-// Field 11 (the blank cell before USAGE) is not used. CAERO is the aerodynamic element (a CAERO1 to CAERO5,
-// ReferenceTarget::AeroElement) that is interpolated: a panel, or a slender body (CAERO2). ID1 to ID2 are the first and
-// last box of the panel, or body element, that the spline moves (ReferenceTarget::AeroBox: a number that no CAERO owns
-// is not an error here, because with the Mach box method the numbers count the (x, y) pairs of an AEFACT). ID2 is not
-// below ID1 (the format reference field table says ID2 >= ID1; its text loses the sign). SETG is the SET1 or SET3 of
-// structural grid points. CID is the rectangular coordinate system whose y axis, projected on the plane of the panel,
-// is the axis of the beam; a body takes its axis from the aerodynamic x axis and ignores it. The basic system (0) is
-// the default.
+// Card layout: AeroBeamSpline2  EID  CAERO  ID1  ID2  SETG  DZ  DTOR  CID
+//                              DTHX  DTHY  USAGE
+// Field 11 (the blank cell before USAGE) is not used. CAERO is the aerodynamic element (an AeroLiftingPanel1 to
+// AeroPistonPanel5, ReferenceTarget::AeroElement) that is interpolated: a panel, or a slender body (AeroBody2). ID1 to
+// ID2 are the first and last box of the panel, or body element, that the spline moves (ReferenceTarget::AeroBox: a
+// number that no CAERO owns is not an error here, because with the Mach box method the numbers count the (x, y) pairs
+// of an AeroFactorList). ID2 is not below ID1 (the format reference field table says ID2 >= ID1; its text loses the
+// sign). SETG is the IdListSet1 or TypedListSet3 of structural grid points. CID is the rectangular coordinate system
+// whose y axis, projected on the plane of the panel, is the axis of the beam; a body takes its axis from the
+// aerodynamic x axis and ignores it. The basic system (0) is the default.
 //
 // The three flexibilities smooth the fit: DZ (zero or more, 0.0 by default) for the linear attachment, DTHX and DTHY
 // for the rotations about the x and y axes of the spline. A zero value attaches rigidly and a NEGATIVE DTHX or DTHY

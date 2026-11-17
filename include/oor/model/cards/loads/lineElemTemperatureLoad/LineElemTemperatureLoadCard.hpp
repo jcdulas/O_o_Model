@@ -11,11 +11,12 @@
 namespace oor::model
 {
 
-// One TEMPRB card: the temperature field of one-dimensional elements (CBAR, CBEAM, CBEND, CROD, CTUBE, CONROD).
+// One LineElemTemperatureLoad card: the temperature field of one-dimensional elements (Bar2, Beam2, CurvedBeam2, Rod2,
+// Tube2, Rod2InlineSection).
 //
-// Card layout: TEMPRB  SID  EID1  TA    TB    TP1A  TP1B  TP2A  TP2B
-//                     TCA  TDA   TEA   TFA   TCB   TDB   TEB   TFB
-//                     EID2 EID3  EID4  EID5  EID6  EID7  -etc.-
+// Card layout: LineElemTemperatureLoad  SID  EID1  TA    TB  TP1A  TP1B  TP2A  TP2B
+//                                      TCA  TDA   TEA   TFA   TCB   TDB   TEB  TFB
+//                                      EID2 EID3  EID4  EID5  EID6  EID7  -etc.-
 // or, on the second continuation, ranges: EID2  "THRU"  EIDi  EIDj  "THRU"  EIDk
 // The elements are EID1, then the second continuation lines, kept as written: single elements and THRU ranges.
 //

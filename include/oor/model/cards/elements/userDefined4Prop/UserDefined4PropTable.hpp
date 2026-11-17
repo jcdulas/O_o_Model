@@ -18,8 +18,8 @@ struct UserDefined4PropFormat
     static void write(const UserDefined4PropCard& card, FieldWriter& writer);
 };
 
-// All the PDUM4 properties. The ID is a property ID, in the space every property shares (IdSpace::Property); MID names
-// a material. The additional fields are kept as two columns, the kind and the number of each field.
+// All the UserDefined4Prop properties. The ID is a property ID, in the space every property shares (IdSpace::Property);
+// MID names a material. The additional fields are kept as two columns, the kind and the number of each field.
 class UserDefined4PropTable final : public TypedTable<UserDefined4PropTable, UserDefined4PropCard>
 {
 public:

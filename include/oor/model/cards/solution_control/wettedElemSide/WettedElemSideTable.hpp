@@ -19,9 +19,9 @@ struct WettedElemSideFormat
     static void write(const WettedElemSideCard& card, FieldWriter& writer);
 };
 
-// All the WETELME cards, in the category WettedElement with the WETELMG cards: the WEID is unique among the WETELME
-// cards (IdSpace::PerCardType) and a WETSURF names a wetted element by it. The structural element is a reference
-// (ReferenceTarget::Element). The cards are kept whole next to a column of their WEIDs.
+// All the WettedElemSide cards, in the category WettedElement with the WettedElemNodes cards: the WEID is unique among
+// the WettedElemSide cards (IdSpace::PerCardType) and a WettedSurface names a wetted element by it. The structural
+// element is a reference (ReferenceTarget::Element). The cards are kept whole next to a column of their WEIDs.
 class WettedElemSideTable final : public TypedTable<WettedElemSideTable, WettedElemSideCard>
 {
 public:

@@ -60,7 +60,7 @@ void SpringPropTableTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void SpringPropTableTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The force-deflection curve is a TABLED1, the dynamic table space (the TABLEDi cards).
+    // The force-deflection curve is a TableDynamic1, the dynamic table space (the TABLEDi cards).
     if (const base::EntityId tableId = m_tableId.get(row); tableId > 0)
         m_tableId.set(row, visitor.visit("tableId", ReferenceTarget::DynamicTable, tableId));
 }

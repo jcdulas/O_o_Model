@@ -23,11 +23,12 @@ enum class BucklingNorm : std::uint8_t
     Point // POINT: the component of point G and component C is one
 };
 
-// One EIGB card: the data for a buckling analysis (selected by METHOD in Case Control, with EIGRL).
+// One BucklingEigenMethod card: the data for a buckling analysis (selected by METHOD in Case Control, with
+// LanczosEigenMethod).
 //
 // Card layout:
-//   EIGB  SID  METHOD  L1  L2  NEP  NDP  NDN
-//         NORM G       C
+//   BucklingEigenMethod  SID  METHOD  L1  L2  NEP  NDP  NDN
+//                        NORM G  C
 // The eigenvalue range of interest is [L1, L2]. NEP estimates the roots in the positive range (not used by SINV); NDP
 // and NDN are the roots wanted in the positive and the negative range, 3 * NEP when blank: stored resolved (0 is a
 // blank NEP, NDP or NDN that has nothing to resolve from) and written when not zero. G and C are the point for NORM =

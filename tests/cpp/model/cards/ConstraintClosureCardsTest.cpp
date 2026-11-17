@@ -1,10 +1,12 @@
-// Checks of the remaining constraint cards: CYSUP (the fictitious supports of a cyclic symmetry model), GMBNDC (a
-// geometric boundary along a curve), MPCD and SPCR (the load selectable values of the non-homogeneous constraints and
-// of the relative enforced motion), MPCY (the non-homogeneous multipoint constraint), DEFUSET (the names of the sets of
-// degrees of freedom), SET2 and SET4 (the lists of grid points over a macro element and of properties), MONCNCM (a
-// monitor point of the strips of the CAERO1 panels) and PSHLN1 and PSHLN2 (the nonlinear extensions of the shell and
-// plane properties). Per card: the fields in their format reference positions, the defaults, the references the card
-// lists, the renumbering of the spaces it owns, the refused values and the round trip through a model file.
+// Checks of the remaining constraint cards: CyclicSupport (the fictitious supports of a cyclic symmetry model),
+// GeomBoundaryCurve (a geometric boundary along a curve), MultiPointConstrValue and RelativeEnforcedMotionConstr (the
+// load selectable values of the non-homogeneous constraints and of the relative enforced motion),
+// MultiPointConstrWithValue (the non-homogeneous multipoint constraint), DofSetRenames (the names of the sets of
+// degrees of freedom), AeroPrismNodeSet2 and PropertyListSet4 (the lists of grid points over a macro element and of
+// properties), MonitorChordNormalCoeffs (a monitor point of the strips of the AeroLiftingPanel1 panels) and
+// ShellPropNonlinear and PlanePropNonlinearExt (the nonlinear extensions of the shell and plane properties). Per card:
+// the fields in their format reference positions, the defaults, the references the card lists, the renumbering of the
+// spaces it owns, the refused values and the round trip through a model file.
 
 #include "oor/model/cards/aero/aeroSurfaceSpline1/AeroSurfaceSpline1Table.hpp"
 #include "oor/model/cards/constraints/cyclicSupport/CyclicSupportTable.hpp"
@@ -49,7 +51,7 @@ ShellWords words(ShellBehavior behavior, ShellIntegration integration)
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// CYSUP
+// CyclicSupport
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CYSUP supports the components of a grid point and follows its renumbering",
@@ -86,11 +88,11 @@ TEST_CASE("a CYSUP supports the components of a grid point and follows its renum
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// GMBNDC
+// GeomBoundaryCurve
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
-// MPCD and SPCR
+// MultiPointConstrValue and RelativeEnforcedMotionConstr
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an SPCR keeps the digits of its components and shares the load set of an SPCD",
@@ -116,7 +118,7 @@ TEST_CASE("an SPCR keeps the digits of its components and shares the load set of
              RelativeEnforcedMotionConstrTable::INFO.idSpace == base::IdSpace::Group));
     requireRoundTrip(model);
 
-    // An SPCR and an SPCD may have the same SID: they are cards of one load set.
+    // A RelativeEnforcedMotionConstr and an EnforcedMotionConstr may have the same SID: they are cards of one load set.
     REQUIRE_NOTHROW(
         readBulk("RelativeEnforcedMotionConstr;2501;2432;1;0.\nEnforcedMotionConstr;2501;2433;1;0."
                  "\nRelativeEnforcedMotionConstr;2501;2434;1;0."));
@@ -139,15 +141,15 @@ TEST_CASE("an SPCR keeps the digits of its components and shares the load set of
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// MPCY
+// MultiPointConstrWithValue
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
-// DEFUSET
+// DofSetRenames
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
-// SET2
+// AeroPrismNodeSet2
 // ---------------------------------------------------------------------------------------------------------------------
 
 namespace
@@ -167,7 +169,8 @@ TEST_CASE("a SET2 names a CAERO and a SPLINEi finds it as a set", "[model][cards
     model.table<AeroPrismNodeSet2Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"aeroPanelId"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::AeroElement});
-    // The spline resolves its structural set among the SET1, SET2, SET3 and SET4 cards.
+    // The spline resolves its structural set among the IdListSet1, AeroPrismNodeSet2, TypedListSet3 and
+    // PropertyListSet4 cards.
     REQUIRE(unresolvedIn(model) == 0);
     REQUIRE(unresolvedIn(readBulk(PANEL_AND_SPLINES +
                                   "AeroPrismNodeSet2;5;1000;0.;1.;0.;1.\nAeroSurfaceSpline1;3;1000;1001;1002;6")) == 1);
@@ -182,16 +185,16 @@ TEST_CASE("a SET2 names a CAERO and a SPLINEi finds it as a set", "[model][cards
              cardAt<AeroSurfaceSpline1Table>(model, 0).aeroPanelId == 11000));
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The SID may be shared with a SET1 or a SET3: they are cards of one set space.
+    // The SID may be shared with an IdListSet1 or a TypedListSet3: they are cards of one set space.
     REQUIRE_NOTHROW(readBulk("IdListSet1;5;1;2\nAeroPrismNodeSet2;5;1000;0.;1.;0.;1.\nTypedListSet3;5;Node;3"));
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// SET4
+// PropertyListSet4
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
-// MONCNCM
+// MonitorChordNormalCoeffs
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a MONCNCM has its label over fields 2 to 8, MREF and the CAERO1 list on the second line",
@@ -217,7 +220,7 @@ TEST_CASE("a MONCNCM has its label over fields 2 to 8, MREF and the CAERO1 list 
 
     // The small format puts the label in the fields 2 to 8 and MREF in the first field of the second line.
 
-    // The CAERO1 elements are references to aerodynamic elements; ALL lists none.
+    // The AeroLiftingPanel1 elements are references to aerodynamic elements; ALL lists none.
     RecordingVisitor visitor;
     model.table<MonitorChordNormalCoeffsTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"aeroPanelIds", "aeroPanelIds"});
@@ -229,7 +232,7 @@ TEST_CASE("a MONCNCM has its label over fields 2 to 8, MREF and the CAERO1 list 
     Renumbering::apply(model, RenumberSpace::AeroElement, Renumbering::offset(10000));
     REQUIRE(cardAt<MonitorChordNormalCoeffsTable>(model, 1).aeroPanelIds == std::vector<base::EntityId>{11000, 13001});
 
-    // The name is unique among the MONCNCM cards.
+    // The name is unique among the MonitorChordNormalCoeffs cards.
     const Model twice = readModelText("MonitorChordNormalCoeffs;A;;;1\nMonitorChordNormalCoeffs;A;;;2\n");
     REQUIRE(twice.diagnostics().hasErrors());
     CHECK(twice.diagnostics().firstError()->code == "deck.duplicate-monitor-chord-normal-coeffs");
@@ -246,7 +249,7 @@ TEST_CASE("a MONCNCM has its label over fields 2 to 8, MREF and the CAERO1 list 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PSHLN1
+// ShellPropNonlinear
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PSHLN1 gives each keyword line the defaults of its keyword and keeps the words it is given",
@@ -359,7 +362,7 @@ TEST_CASE("a PSHLN1 gives each keyword line the defaults of its keyword and keep
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PSHLN2
+// PlanePropNonlinearExt
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PSHLN2 has its MID, DIRECT and T before ANAL and takes the plane element tables for its lines",
@@ -421,7 +424,7 @@ TEST_CASE("a PSHLN2 has its MID, DIRECT and T before ANAL and takes the plane el
 
     (void)0; // the line of the full card
 
-    // The material is required; both it and the PLPLANE are references.
+    // The material is required; both it and the PlanePropNonlinear are references.
     REQUIRE_NOTHROW(readBulk("PlanePropNonlinear;5;1\nPlanePropNonlinearExt;5;2"));
     REQUIRE_THROWS_AS(readBulk("PlanePropNonlinearExt;5;1\nPlanePropNonlinearExt;5;1"), base::DeckError);
     RecordingVisitor visitor;

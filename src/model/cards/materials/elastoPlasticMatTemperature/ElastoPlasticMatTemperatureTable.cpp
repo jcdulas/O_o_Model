@@ -195,7 +195,8 @@ void ElastoPlasticMatTemperatureTable::setIdAtRow(std::uint32_t row, base::Entit
 void ElastoPlasticMatTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     ElastoPlasticMatTemperatureCard& card = m_cards.edit(row);
-    // The ID is the one of the MATEP that the card extends; the tables are TABLEMi and TABLEST cards.
+    // The ID is the one of the ElastoPlasticMat that the card extends; the tables are TABLEMi and
+    // TableStressTemperature cards.
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);
     if (card.yieldStressTableId != 0)

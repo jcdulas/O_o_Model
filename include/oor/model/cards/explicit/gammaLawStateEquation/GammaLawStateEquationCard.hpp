@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One EOSGAM card (SOL 700): the gamma law equation of state of a gas, p = (gamma - 1) rho e. A MATDEUL names it in its
-// EID field.
+// One GammaLawStateEquation card (SOL 700): the gamma law equation of state of a gas, p = (gamma - 1) rho e. An
+// EulerMat names it in its EID field.
 //
-// Card layout: EOSGAM  EID  GAMMA  R  CV  CP  VISC            fields 1 to 6
+// Card layout: GammaLawStateEquation  EID  GAMMA  R  CV  CP  VISC  fields 1 to 6
 // GAMMA is the ratio of the specific heats and R, CV and CP are the gas constants: the format reference ties the four
 // together (gamma = cp / cv, R = cp - cv), so a card gives the ratio or two of the constants, and the temperature of
 // the gas is computed when a constant is given. A blank field is a quantity the card does not give. VISC is the dynamic

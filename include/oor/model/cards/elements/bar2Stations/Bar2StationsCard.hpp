@@ -9,13 +9,13 @@
 namespace oor::model
 {
 
-// One CBARAO card: extra stations along a bar element where stresses and forces are recovered.
+// One Bar2Stations card: extra stations along a bar element where stresses and forces are recovered.
 //
 // Card layout (a list of stations, or equally spaced ones):
-//   CBARAO  EID  SCALE  X1    X2      X3  X4  X5  X6
-//   CBARAO  EID  SCALE  NPTS  X1  DELTAX
+//   Bar2Stations  EID  SCALE  X1    X2  X3  X4  X5  X6
+//   Bar2Stations  EID  SCALE  NPTS  X1  DELTAX
 //
-// EID is the ID of a CBAR element, not a new element. SCALE is "FractionalLength" (the stations are fractions of the
+// EID is the ID of a Bar2 element, not a new element. SCALE is "FractionalLength" (the stations are fractions of the
 // bar length) or "ActualLength" (they are distances along the bar). A card is in one of the two forms, kept as written:
 // `npts == 0` is the list form, with up to six stations in `listedStations`; `npts > 0` is the equally spaced form,
 // with NPTS stations first, first + stationSpacing,

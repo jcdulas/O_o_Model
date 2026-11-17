@@ -19,9 +19,9 @@ struct ShellNormalFormat
     static void write(const ShellNormalCard& card, FieldWriter& writer);
 };
 
-// All the SNORM cards of a model. The ID is the grid point, unique per card type (IdSpace::PerCardType: one normal for
-// a grid point, and the same number as a GRID or another card is the same point). The normals are one column of
-// (n1, n2, n3) triples (an (N, 3) NumPy view). The GID names a grid point and the CID a coordinate system.
+// All the ShellNormal cards of a model. The ID is the grid point, unique per card type (IdSpace::PerCardType: one
+// normal for a grid point, and the same number as a Node or another card is the same point). The normals are one column
+// of (n1, n2, n3) triples (an (N, 3) NumPy view). The GID names a grid point and the CID a coordinate system.
 class ShellNormalTable final : public TypedTable<ShellNormalTable, ShellNormalCard>
 {
 public:

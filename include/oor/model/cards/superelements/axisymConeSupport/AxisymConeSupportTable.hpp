@@ -19,8 +19,8 @@ struct AxisymConeSupportFormat
     static void write(const AxisymConeSupportCard& card, FieldWriter& writer);
 };
 
-// All the SUPAX cards, category Other, no ID (IdSpace::None). They are kept whole next to a column of their number of
-// degrees of freedom.
+// All the AxisymConeSupport cards, category Other, no ID (IdSpace::None). They are kept whole next to a column of their
+// number of degrees of freedom.
 class AxisymConeSupportTable final : public TypedTable<AxisymConeSupportTable, AxisymConeSupportCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    // The rings are RINGAX cards, which are not typed: nothing to visit.
+    // The rings are AxisymConeRing cards, which are not typed: nothing to visit.
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
 
     [[nodiscard]] Column<std::int32_t>& countColumn() noexcept { return m_count; }

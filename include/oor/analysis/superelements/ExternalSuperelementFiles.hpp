@@ -9,11 +9,11 @@ namespace oor::analysis
 {
 
 // The file an external superelement's matrices are read from (the `assigned_file` column of `parts_table`): for the
-// SEBULK TYPE of the external binary results, of the external matrix file and EXTROM the file of the File Management
-// ASSIGN statement whose UNIT is the SEBULK UNITNO (ASSIGN INPUTT4='se.mat' UNIT=31 for UNITNO 31), as the statement
-// writes it. EXTERNAL reads a database that DBLOCATE
-// or the ASSIGN of a DBset names, and EXTPCH the DMIG entries of its own part: neither has a unit, so neither has a
-// file here.
+// SuperelementBulkOptions TYPE of the external binary results, of the external matrix file and EXTROM the file of the
+// File Management ASSIGN statement whose UNIT is the SuperelementBulkOptions UNITNO (ASSIGN INPUTT4='se.mat' UNIT=31
+// for UNITNO 31), as the statement writes it. EXTERNAL reads a database that DBLOCATE
+// or the ASSIGN of a DBset names, and EXTPCH the DirectMatrixNodal entries of its own part: neither has a unit, so
+// neither has a file here.
 class ExternalSuperelementFiles
 {
 public:

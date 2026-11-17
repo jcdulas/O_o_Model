@@ -18,8 +18,8 @@ struct UserDefined3PropFormat
     static void write(const UserDefined3PropCard& card, FieldWriter& writer);
 };
 
-// All the PDUM3 properties. The ID is a property ID, in the space every property shares (IdSpace::Property); MID names
-// a material. The additional fields are kept as two columns, the kind and the number of each field.
+// All the UserDefined3Prop properties. The ID is a property ID, in the space every property shares (IdSpace::Property);
+// MID names a material. The additional fields are kept as two columns, the kind and the number of each field.
 class UserDefined3PropTable final : public TypedTable<UserDefined3PropTable, UserDefined3PropCard>
 {
 public:

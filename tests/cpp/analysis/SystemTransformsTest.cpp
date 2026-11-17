@@ -27,8 +27,8 @@ void requireNear(const base::Vec3& actual, const base::Vec3& expected, double ma
     REQUIRE(actual.z == Approx(expected.z).margin(margin));
 }
 
-// Every kind of system, nested: a rotated CORD2R, a CORD2C in it, a CORD2S in that, a CORD1R, CORD1C and CORD1S on
-// grid points that sit in the curvilinear systems.
+// Every kind of system, nested: a rotated RectFrame2, a CylindricalFrame2 in it, a SphericalFrame2 in that, a
+// RectFrame1, CylindricalFrame1 and SphericalFrame1 on grid points that sit in the curvilinear systems.
 model::Model nestedSystems()
 {
     return readModelText(

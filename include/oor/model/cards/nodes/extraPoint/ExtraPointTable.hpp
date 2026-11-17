@@ -14,13 +14,13 @@ struct ExtraPointFormat
 {
     // The first thing wrong with the values of a card, if anything (used by read and by editing).
     [[nodiscard]] static std::optional<CardProblem> check(const ExtraPointCard& card);
-    // One EPOINT card gives one point per ID listed, a THRU range giving all the IDs of the range.
+    // One ExtraPoint card gives one point per ID listed, a THRU range giving all the IDs of the range.
     [[nodiscard]] static std::vector<ExtraPointCard> readAll(FieldReader& reader);
     static void write(const ExtraPointCard& card, FieldWriter& writer);
 };
 
-// All the extra points defined by EPOINT cards: one row per point, in the node ID space (so an extra point and a GRID
-// cannot have the same ID). The same point listed twice in a deck is one point.
+// All the extra points defined by ExtraPoint cards: one row per point, in the node ID space (so an extra point and a
+// Node cannot have the same ID). The same point listed twice in a deck is one point.
 class ExtraPointTable final : public TypedTable<ExtraPointTable, ExtraPointCard>
 {
 public:

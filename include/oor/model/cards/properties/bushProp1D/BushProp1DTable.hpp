@@ -19,8 +19,8 @@ struct BushProp1DFormat
     static void write(const BushProp1DCard& card, FieldWriter& writer);
 };
 
-// All the PBUSH1D cards. The continuations are columns of their own (a bit per continuation that the card has, then the
-// definition type and the values of each); a continuation that a card does not have holds zeros.
+// All the BushProp1D cards. The continuations are columns of their own (a bit per continuation that the card has, then
+// the definition type and the values of each); a continuation that a card does not have holds zeros.
 class BushProp1DTable final : public TypedTable<BushProp1DTable, BushProp1DCard>
 {
 public:

@@ -19,8 +19,8 @@ struct FixedBoundaryDofsFormat
     static void write(const FixedBoundaryDofsCard& card, FieldWriter& writer);
 };
 
-// All the BNDFIX cards. A card has no ID (IdSpace::None, category Set, like the BSET it equals). The points and the
-// components of every card are two lists in CSR form.
+// All the FixedBoundaryDofs cards. A card has no ID (IdSpace::None, category Set, like the FixedBoundaryDofSet it
+// equals). The points and the components of every card are two lists in CSR form.
 class FixedBoundaryDofsTable final : public TypedTable<FixedBoundaryDofsTable, FixedBoundaryDofsCard>
 {
 public:

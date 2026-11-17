@@ -19,8 +19,9 @@ struct EulerMeshBiasFormat
     static void write(const EulerMeshBiasCard& card, FieldWriter& writer);
 };
 
-// All the BIAS cards. The BID is unique among the BIAS cards (IdSpace::PerCardType) and is in the category MeshBias,
-// which the IBIDX, IBIDY and IBIDZ of a MESH name. A BIAS names no other card.
+// All the EulerMeshBias cards. The BID is unique among the EulerMeshBias cards (IdSpace::PerCardType) and is in the
+// category MeshBias, which the IBIDX, IBIDY and IBIDZ of an EulerMeshGenerator name. An EulerMeshBias names no other
+// card.
 class EulerMeshBiasTable final : public TypedTable<EulerMeshBiasTable, EulerMeshBiasCard>
 {
 public:
@@ -36,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a BIAS refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an EulerMeshBias refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

@@ -12,9 +12,9 @@ namespace oor::analysis
 namespace
 {
 
-// The pair of a rotor and the superelement it is defined in must be unique among the RSPINR cards, and among the RSPINT
-// cards (the ROTORID and the ROTRSEID fields need not be unique one by one). An
-// RSPINR and an RSPINT of one rotor are for different analyses and do not count.
+// The pair of a rotor and the superelement it is defined in must be unique among the RotorRelativeSpin cards, and among
+// the RotorTransientSpin cards (the ROTORID and the ROTRSEID fields need not be unique one by one). An
+// RotorRelativeSpin and a RotorTransientSpin of one rotor are for different analyses and do not count.
 class RotorSpinRepeatedCheck final : public ValidationCheck
 {
 public:

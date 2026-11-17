@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One RBAX3D card: a rigid connection between a point of an axisymmetric harmonic element (CQUADX or CTRIAX) and a
-// point of the three-dimensional model on the axis of symmetry.
+// One RigidAxisymConnection card: a rigid connection between a point of an axisymmetric harmonic element (AxisymQuad or
+// AxisymTria) and a point of the three-dimensional model on the axis of symmetry.
 //
-// Card layout:  RBAX3D  EID  G3D  GAX        fields 1 to 3
+// Card layout:  RigidAxisymConnection  EID  G3D  GAX  fields 1 to 3
 // EID is an element number from 1 to 99,999,999 (the format says 0 < EID < 100,000,000), unique among all the elements.
 // GAX is a grid point that an axisymmetric harmonic element references, from 1 to 99,999,999 too; it is
 // the dependent point and need not be on the axis. G3D is the independent point, on the axis of

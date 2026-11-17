@@ -44,7 +44,7 @@ struct Panel
     std::optional<base::EntityId> group;
     std::array<double, 3> point1 = {};
     double chord1 = 0.0;
-    std::optional<std::array<double, 3>> point4; // a body (CAERO2) has one point only
+    std::optional<std::array<double, 3>> point4; // a body (AeroBody2) has one point only
     double chord4 = 0.0;
 };
 
@@ -140,7 +140,8 @@ struct PanelColumns
     }
 };
 
-// aeroPanelsTable: the CAERO1 to CAERO5 cards with their leading edge in the basic system and the boxes they own.
+// aeroPanelsTable: the AeroLiftingPanel1 to AeroPistonPanel5 cards with their leading edge in the basic system and the
+// boxes they own.
 class AeroPanelsTableQuery final : public QueryBase
 {
 public:

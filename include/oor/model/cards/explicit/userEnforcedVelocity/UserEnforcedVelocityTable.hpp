@@ -19,10 +19,11 @@ struct UserEnforcedVelocityFormat
     static void write(const UserEnforcedVelocityCard& card, FieldWriter& writer);
 };
 
-// All the FORCUDS cards. The LID is a set ID shared by the cards of the set (IdSpace::Group, category Other: it is not
-// selected by a LOAD command). It is the excitation set that a TLOAD1 names in its EXCITEID, so the table says it
-// defines excitation IDs (CardTable::definesExcitationIds). The grid points are nodes (a node inside a THRU range may
-// be missing). The cards are kept whole (CardRows) next to their ID, because the list of runs has a length of its own.
+// All the UserEnforcedVelocity cards. The LID is a set ID shared by the cards of the set (IdSpace::Group, category
+// Other: it is not selected by a LOAD command). It is the excitation set that a TransientTableLoad1 names in its
+// EXCITEID, so the table says it defines excitation IDs (CardTable::definesExcitationIds). The grid points are nodes (a
+// node inside a THRU range may be missing). The cards are kept whole (CardRows) next to their ID, because the list of
+// runs has a length of its own.
 class UserEnforcedVelocityTable final : public TypedTable<UserEnforcedVelocityTable, UserEnforcedVelocityCard>
 {
 public:

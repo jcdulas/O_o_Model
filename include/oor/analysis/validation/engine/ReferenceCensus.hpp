@@ -39,19 +39,23 @@ struct CardReference
 struct ReferenceCensus
 {
     std::vector<UnresolvedUse> unresolved;        // the cards in table and row order, then the Case Control commands
-    std::vector<CardReference> elementProperties; // the property of each element card (CQUAD4 pid, ...)
-    std::vector<CardReference> propertyMaterials; // the materials of each property card (PSHELL mid1, a ply's mid, ...)
+    std::vector<CardReference> elementProperties; // the property of each element card (ShellQuad4 pid, ...)
+    // the materials of each property card (ShellProp mid1, a ply's mid, ...)
+    std::vector<CardReference> propertyMaterials;
     std::vector<CardReference>
-        elementListMembers; // the elements an ELIST card names (the ends of a THRU range included)
+        elementListMembers; // the elements a FluidMassElemList card names (the ends of a THRU range included)
     std::vector<CardReference>
-        propertyExtensions; // the property that a property card names (the PID of a PBARN1, PCOMPA, ...)
+        // the property that a property card names (the PID of a BarPropNonlinear, CompPropExplicit, ...)
+        propertyExtensions;
     std::unordered_set<base::EntityId> nodes;       // grid and scalar point IDs some card names
     std::unordered_set<base::EntityId> properties;  // property IDs
     std::unordered_set<base::EntityId> materials;   // material IDs
     std::unordered_set<base::EntityId> coordinates; // coordinate system IDs
     std::unordered_set<base::EntityId>
-        loadSets; // load set IDs a LOAD, DLOAD or dynamic load card or the Case Control names
-    std::unordered_set<base::EntityId> constraintSets; // constraint set IDs an SPCADD, MPCADD or the Case Control names
+        // load set IDs a LoadCombination, DynamicLoadCombination or dynamic load card or the Case Control names
+        loadSets;
+    // constraint set IDs a SinglePointConstrUnion, MultiPointConstrUnion or the Case Control names
+    std::unordered_set<base::EntityId> constraintSets;
 
     [[nodiscard]] static ReferenceCensus build(const model::Model& model);
 };

@@ -32,16 +32,16 @@ enum class Beam3DistributedLoadType : std::uint8_t
 
 inline constexpr std::array<std::string_view, 3> BEAM3_LOAD_TYPE_WORDS{"Force", "Moment", "WarpingBimoment"};
 
-// One PLOADB3 card: a distributed load on a CBEAM3 element, over the whole length of the beam axis, along the line of
-// the shear center.
+// One Beam3DistributedLoad card: a distributed load on a Beam3 element, over the whole length of the beam axis, along
+// the line of the shear center.
 //
-// Card layout: PLOADB3  SID  EID  CID  N1  N2  N3  TYPE  SCALE        fields 1 to 8
-//                      P(A) P(B) P(C)                                 fields 9 to 11
+// Card layout: Beam3DistributedLoad  SID  EID  CID  N1  N2  N3  TYPE  SCALE  fields 1 to 8
+//                                   P(A) P(B) P(C)                    fields 9 to 11
 // The load at the node j of the element (j = A, B, C) is SCALE x P(j) x N: N gives the direction, and its
 // length counts in the magnitude (it is not normalised). At least one of N1, N2 and N3 is not zero; the format gives no
 // default for them, so a blank one is 0.0. CID is BASIC when blank; the words and the integer are the `frame` and, for
 // a coordinate system, `cid` (0 for the three words). SCALE is 1.0 and each P(j) is 0.0 when blank; TYPE is required.
-// EID is a CBEAM3, an element of the structural model (the card visits it as any element: that it is a CBEAM3 is a rule
+// EID is a Beam3, an element of the structural model (the card visits it as any element: that it is a Beam3 is a rule
 // between cards).
 struct Beam3DistributedLoadCard
 {

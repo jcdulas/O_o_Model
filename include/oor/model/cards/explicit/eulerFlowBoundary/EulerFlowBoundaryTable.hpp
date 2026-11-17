@@ -19,10 +19,11 @@ struct EulerFlowBoundaryFormat
     static void write(const EulerFlowBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the FLOW cards. The LID is a set ID shared by the cards of the set (IdSpace::Group, category Other: no typed card
-// names it). It is the excitation set that a TLOAD1 names in its EXCITEID, so the table says it defines excitation IDs
-// (CardTable::definesExcitationIds). The BCID names a set of BCSEG cards (ContactSurface), the MESH an Euler mesh, and
-// a MATERIAL or HYDSTAT property a MATDEUL or a HYDSTAT. The cards are kept whole (CardRows) next to their ID.
+// All the EulerFlowBoundary cards. The LID is a set ID shared by the cards of the set (IdSpace::Group, category Other:
+// no typed card names it). It is the excitation set that a TransientTableLoad1 names in its EXCITEID, so the table says
+// it defines excitation IDs (CardTable::definesExcitationIds). The BCID names a set of ContactSegment cards
+// (ContactSurface), the MESH an Euler mesh, and a MATERIAL or EulerHydrostaticPreset property an EulerMat or an
+// EulerHydrostaticPreset. The cards are kept whole (CardRows) next to their ID.
 class EulerFlowBoundaryTable final : public TypedTable<EulerFlowBoundaryTable, EulerFlowBoundaryCard>
 {
 public:

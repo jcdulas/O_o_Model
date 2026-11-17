@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One CTRIA3 card: a three-node shell element.
+// One ShellTria3 card: a three-node shell element.
 //
 // Card layout:
-//   CTRIA3  EID  PID  G1  G2  G3  THETA or MCID  ZOFFS
-//                TFLAG  T1  T2  T3
+//   ShellTria3  EID  PID  G1  G2  G3  THETA or MCID  ZOFFS
+//                    TFLAG  T1  T2  T3
 struct ShellTria3Card
 {
     static constexpr base::EntityId NO_MAT_FRAME_ID = -1;
@@ -28,7 +28,7 @@ struct ShellTria3Card
 
     double offset = 0.0;
     std::int32_t thicknessFlag = 0;
-    // T1..T3: thicknesses at the corners; NO_THICKNESS where blank (the PSHELL thickness is used).
+    // T1..T3: thicknesses at the corners; NO_THICKNESS where blank (the ShellProp thickness is used).
     std::array<double, 3> cornerThickness = {NO_THICKNESS, NO_THICKNESS, NO_THICKNESS};
 
     [[nodiscard]] bool usesMaterialSystem() const noexcept { return matFrameId != NO_MAT_FRAME_ID; }

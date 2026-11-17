@@ -20,12 +20,12 @@ struct FatigueLoadFormat
     static void write(const FatigueLoadCard& card, FieldWriter& writer);
 };
 
-// What the TID of a card names, from its TYPE: a TABLFTG when TYPE is blank, a UDNAME for DB, a data acquisition file,
-// the load history file word, PSD and STATIC, and nothing for CONST, SINE and NARROW (the field is ignored or blank) or
-// when the field is blank.
+// What the TID of a card names, from its TYPE: a TableFatigueHistory when TYPE is blank, an UserFileName for DB, a data
+// acquisition file, the load history file word, PSD and STATIC, and nothing for CONST, SINE and NARROW (the field is
+// ignored or blank) or when the field is blank.
 [[nodiscard]] std::optional<ReferenceTarget> fatigueLoadTidTarget(const FatigueLoadCard& card) noexcept;
 
-// All the FTGLOAD cards, in the category FatigueLoad that an FTGEVNT names (IdSpace::PerCardType). The TID is a
+// All the FatigueLoad cards, in the category FatigueLoad that a FatigueEvent names (IdSpace::PerCardType). The TID is a
 // FatigueTable or a UserDefinedName reference according to the TYPE (fatigueLoadTidTarget), the LCID of a PSD load a
 // RandomSet. The cards are kept whole (CardRows) next to their ID: they have optional lines of any length, and the
 // query engine reads the ID.

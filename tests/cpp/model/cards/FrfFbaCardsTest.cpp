@@ -1,8 +1,9 @@
-// Checks of the cards of an FRF based assembly: FRFCOMP, FRFCONN, FRFFLEX, FRFRELS, FRFSPC1,
-// FRFXIT, FRFXIT1, FBADLAY, FBALOAD and FBAPHAS. Per card: the fields in their format reference positions, the
-// defaults, what a component named by ID or by name means, the references it lists and what each one points to, the
-// renumbering of the spaces it uses, the refused values and the round trip through a model file. The generic tests
-// of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
+// Checks of the cards of an FRF based assembly: FrfComponent, FrfConnection, FrfFlexibleConnection, FrfReleasedDofs,
+// FrfSinglePointConstr, FrfExcitationDof, FrfExcitationDofList, FrfAssemblyLoadDelay, FrfAssemblyLoadScale and
+// FrfAssemblyLoadPhase. Per card: the fields in their format reference positions, the defaults, what a component named
+// by ID or by name means, the references it lists and what each one points to, the renumbering of the spaces it uses,
+// the refused values and the round trip through a model file. The generic tests of CardRoundTripTest.cpp read, write
+// and copy every sample; this file covers what each card means.
 
 #include "oor/model/cards/dynamics/acousticSourceLoad/AcousticSourceLoadTable.hpp"
 #include "oor/model/cards/dynamics/freqResponseLoad1/FreqResponseLoad1Table.hpp"
@@ -38,7 +39,7 @@ const std::string COMPONENTS_TEXT =
     "FrfComponent;5;ONE;Database\nFrfComponent;15;TWO;Database\nFrfComponent;30;BODY;Database\nFrfComponent;40;WING;"
     "Database\n";
 
-// A TABLED1 of this number.
+// A TableDynamic1 of this number.
 std::string tabled(int id)
 {
     return "TableDynamic1;" + std::to_string(id) + ";;;0.;0.;1.;1.;EndTable\n";
@@ -114,7 +115,7 @@ TEST_CASE("an FRFCOMP has a unique ID, a name that may be blank, a medium and th
     edited.name = "two words";
     REQUIRE_FALSE(FrfComponentFormat::check(edited).has_value());
 
-    // The ID is unique among the FRFCOMP cards.
+    // The ID is unique among the FrfComponent cards.
     REQUIRE_THROWS_AS(readBulk("FrfComponent;10;A;Database\nFrfComponent;10;B;Database"), base::DeckError);
 
     expectInvalid("FrfComponent;0;A;Database", "id");
@@ -150,7 +151,7 @@ TEST_CASE("an FRFCONN joins a point of one FRF component to a point of another, 
     REQUIRE((byName.points[0].component == FrfComponentRef::byName("BODY") && byName.points[0].point == 25));
     REQUIRE((byName.points[1].component == FrfComponentRef::byName("WING") && byName.points[1].point == 35));
     const FrfConnectionCard mixed = cardAt<FrfConnectionTable>(model, 2);
-    // The name is kept as written; the match with the FRFCOMP does not look at the case.
+    // The name is kept as written; the match with the FrfComponent does not look at the case.
     REQUIRE((mixed.points[0].component.name == "Body" && mixed.points[0].component.id == 0));
     REQUIRE((mixed.points[1].component.id == 15 && mixed.points[1].component.name.empty()));
     requireRoundTrip(model);
@@ -163,7 +164,8 @@ TEST_CASE("an FRFCONN joins a point of one FRF component to a point of another, 
     REQUIRE(visitedBy<FrfConnectionTable>(model, 2).fields == std::vector<std::string>{"frfComponent2"});
     REQUIRE(unresolvedIn(model) == 0);
 
-    // A component that no FRFCOMP has is an unresolved reference when it is given by ID, and nothing when it is a name.
+    // A component that no FrfComponent has is an unresolved reference when it is given by ID, and nothing when it is a
+    // name.
     Model missing = readBulk("FrfComponent;5;ONE;Database\nFrfConnection;10;5;100;16;200");
     REQUIRE(unresolvedIn(missing) == 1);
     Model namesOnly = readBulk("FrfConnection;10;ELSE;100;OTHER;200");
@@ -385,7 +387,8 @@ TEST_CASE("an FRFSPC1 is a constraint set that the Case Control SPC selects", "[
 
     // the blank C of a scalar point
 
-    // Cards of one number are one constraint set, found by the targets of the constraint sets, as the SPC1 cards are.
+    // Cards of one number are one constraint set, found by the targets of the constraint sets, as the
+    // SinglePointConstrList cards are.
     const std::span<const CardCategory> categories = categoriesOfSet(ReferenceTarget::ConstraintSet);
     REQUIRE((categories.size() == 1 && categories.front() == CardCategory::Constraint));
     const std::optional<CardLocation> found = resolveReference(model, ReferenceTarget::ConstraintSet, 10);
@@ -531,7 +534,8 @@ TEST_CASE("an FRFXIT1 lists points with THRU ranges and the components they shar
     REQUIRE(unresolvedIn(model) == 0); // none of them is reported when it does not exist
     Renumbering::apply(model, RenumberSpace::Node, Renumbering::offset(100));
     REQUIRE(cardAt<FrfExcitationDofListTable>(model, 1).pointIds == std::vector<IdRun>{{105, 115}});
-    REQUIRE(cardAt<FrfExcitationDofListTable>(model, 2).pointIds == std::vector<IdRun>{{107, 107}}); // the SPOINT 7
+    // the ScalarPoint 7
+    REQUIRE(cardAt<FrfExcitationDofListTable>(model, 2).pointIds == std::vector<IdRun>{{107, 107}});
     REQUIRE(cardAt<FrfExcitationDofListTable>(model, 3).pointIds ==
             std::vector<IdRun>{{101, 101}, {102, 104}, {109, 109}});
     REQUIRE(cardAt<FrfExcitationDofListTable>(model, 0).components == 123);
@@ -551,7 +555,8 @@ TEST_CASE(
     "an FBADLAY, an FBALOAD and an FBAPHAS are the delay, load and phase sets that RLOAD1, RLOAD2 and ACSRCE name",
     "[model][cards][frf]")
 {
-    // The categories and ID spaces of the cards they stand for (DELAY, DAREA, DPHASE), so that the references resolve.
+    // The categories and ID spaces of the cards they stand for (DynamicLoadDelay, DynamicLoadScale, DynamicLoadPhase),
+    // so that the references resolve.
     REQUIRE((FrfAssemblyLoadDelayTable::INFO.category == CardCategory::Delay &&
              FrfAssemblyLoadDelayTable::INFO.idSpace == base::IdSpace::Group));
     REQUIRE((FrfAssemblyLoadScaleTable::INFO.category == CardCategory::DynamicLoad &&
@@ -607,8 +612,9 @@ TEST_CASE(
     REQUIRE(visitedBy<FrfAssemblyLoadPhaseTable>(model, 0).fields == std::vector<std::string>{"frfComponent"});
     REQUIRE(visitedBy<FrfAssemblyLoadPhaseTable>(model, 1).fields.empty());
 
-    // The set IDs are found by the dynamic loads: the DELAY, the DPHASE and the EXCITEID of an RLOAD1, an RLOAD2 and an
-    // ACSRCE name them as they name a DELAY, a DPHASE and a DAREA.
+    // The set IDs are found by the dynamic loads: the DynamicLoadDelay, the DynamicLoadPhase and the EXCITEID of a
+    // FreqResponseLoad1, a FreqResponseLoad2 and an AcousticSourceLoad name them as they name a DynamicLoadDelay, a
+    // DynamicLoadPhase and a DynamicLoadScale.
     REQUIRE(unresolvedIn(model) == 0);
     const std::optional<CardLocation> delaySet = resolveReference(model, ReferenceTarget::DelaySet, 15);
     REQUIRE((delaySet.has_value() && delaySet->table == typeIndexOf<FrfAssemblyLoadDelayTable>()));
@@ -619,7 +625,8 @@ TEST_CASE(
     REQUIRE(cardsOfSet(model, CardCategory::Delay, 15).size() == 2);
     REQUIRE(cardsOfSet(model, CardCategory::DynamicLoad, 7).size() == 2);
     REQUIRE(cardsOfSet(model, CardCategory::PhaseLead, 16).size() == 2);
-    // Without the cards the same dynamic loads name nothing: the EXCITEID, the DELAY and the DPHASE.
+    // Without the cards the same dynamic loads name nothing: the EXCITEID, the DynamicLoadDelay and the
+    // DynamicLoadPhase.
     Model alone = readBulk("FreqResponseLoad1;100;7;15;;16;;;;;3.");
     REQUIRE(unresolvedIn(alone) == 3);
 

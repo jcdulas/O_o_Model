@@ -151,11 +151,11 @@ void TrimLayeredComponentTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void TrimLayeredComponentTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID of the card is the SET3 it names: the ID column follows the reference.
+    // The ID of the card is the TypedListSet3 it names: the ID column follows the reference.
     TrimLayeredComponentCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Set, card.id);
     m_id.set(row, card.id);
-    // The materials are a MATPE1, MAT1 or MAT10.
+    // The materials are a PoroElasticMat, IsoMat or FluidMat.
     for (TrimLayeredComponentLayer& layer : card.layers)
         visitId(visitor, "plyMatId", ReferenceTarget::Material, layer.matId);
 }

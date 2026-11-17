@@ -19,9 +19,9 @@ struct AdaptiveRefineCriterionFormat
     static void write(const AdaptiveRefineCriterionCard& card, FieldWriter& writer);
 };
 
-// All the HADACRI cards, in the category AdaptivityCriterion: the CRITID is unique per card type
-// (IdSpace::PerCardType) and a HADAPTL names it. A HADACRI names no other card. The cards are kept whole next to a
-// column of their CRITIDs.
+// All the AdaptiveRefineCriterion cards, in the category AdaptivityCriterion: the CRITID is unique per card type
+// (IdSpace::PerCardType) and an AdaptiveRefineControl names it. An AdaptiveRefineCriterion names no other card. The
+// cards are kept whole next to a column of their CRITIDs.
 class AdaptiveRefineCriterionTable final : public TypedTable<AdaptiveRefineCriterionTable, AdaptiveRefineCriterionCard>
 {
 public:
@@ -37,7 +37,8 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a HADACRI refers to no other card
+    // an AdaptiveRefineCriterion refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

@@ -34,10 +34,10 @@ inline constexpr std::array<std::size_t, 6> WETTED_ELEMENT_GRID_COUNTS{3, 6, 4, 
     return WETTED_ELEMENT_GRID_COUNTS[static_cast<std::size_t>(type)];
 }
 
-// One WETELMG card (SOL 400): a wetted element of an external fluid-structure simulation, given by its shape and its
-// grid points.
+// One WettedElemNodes card (SOL 400): a wetted element of an external fluid-structure simulation, given by its shape
+// and its grid points.
 //
-// Card layout: WETELMG  WEID  TYPE                                        fields 1 and 2, fields 3 to 8 blank
+// Card layout: WettedElemNodes  WEID  TYPE                                fields 1 and 2, fields 3 to 8 blank
 //             +        G1  G2  G3  G4  G5  G6  G7  G8                     fields 9 to 16
 // TYPE is required (no default) and is one of TRIA3, TRIA6, QUAD4, QUAD8, LINE2 and LINE3; the grid points follow on
 // the continuation line. No grid point has a default, so the card
@@ -45,8 +45,8 @@ inline constexpr std::array<std::size_t, 6> WETTED_ELEMENT_GRID_COUNTS{3, 6, 4, 
 // shape does, and a QUAD8 with its mid-side points left blank is refused. The grid points fill the fields from the
 // ninth with no gap.
 //
-// The WEID is a number that a WETSURF names; it shares its space with the WETELME cards (see WettedElemSideCard), each
-// type unique on its own (IdSpace::PerCardType, category WettedElement).
+// The WEID is a number that a WettedSurface names; it shares its space with the WettedElemSide cards (see
+// WettedElemSideCard), each type unique on its own (IdSpace::PerCardType, category WettedElement).
 struct WettedElemNodesCard
 {
     base::EntityId id = 0;

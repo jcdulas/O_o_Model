@@ -19,8 +19,9 @@ struct SpringOffsetPropFormat
     static void write(const SpringOffsetPropCard& card, FieldWriter& writer);
 };
 
-// All the PSPRMAT properties, kept in columns (a NaN where a real is blank). The ID is in the space every property type
-// shares (IdSpace::Property), so the PID of a CSPR finds it. The two curves are tables of the dynamic table space.
+// All the SpringOffsetProp properties, kept in columns (a NaN where a real is blank). The ID is in the space every
+// property type shares (IdSpace::Property), so the PID of a SpringOffsetExplicit finds it. The two curves are tables of
+// the dynamic table space.
 class SpringOffsetPropTable final : public TypedTable<SpringOffsetPropTable, SpringOffsetPropCard>
 {
 public:

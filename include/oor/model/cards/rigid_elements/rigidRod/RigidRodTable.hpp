@@ -19,7 +19,7 @@ struct RigidRodFormat
     static void write(const RigidRodCard& card, FieldWriter& writer);
 };
 
-// All the RROD cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
+// All the RigidRod cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
 class RigidRodTable final : public TypedTable<RigidRodTable, RigidRodCard>
 {
 public:

@@ -85,7 +85,8 @@ std::optional<IdRuns> setMembers(const model::Model& model, base::EntityId sid)
         else if (analysis::isType<model::TypedListSet3Table>(location))
         {
             const model::TypedListSet3Card card = analysis::cardAt<model::TypedListSet3Table>(model, location);
-            // A SET3 may list elements, properties or rigid elements: only a list of grid points is a set of points.
+            // A TypedListSet3 may list elements, properties or rigid elements: only a list of grid points is a set of
+            // points.
             if (card.kind != model::TypedListSet3Kind::Grid)
                 continue;
             found = true;

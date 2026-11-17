@@ -19,9 +19,9 @@ struct NonlinearUserOutputFormat
     static void write(const NonlinearUserOutputCard& card, FieldWriter& writer);
 };
 
-// All the NLOUTUD cards. The NID is unique among them (IdSpace::PerCardType). The IDs of the continuation lines are
-// references to elements (UNAME = EEXOUT) or to grid points (GEXOUT). The cards are kept whole (CardRows); the query
-// engine reads the NID only.
+// All the NonlinearUserOutput cards. The NID is unique among them (IdSpace::PerCardType). The IDs of the continuation
+// lines are references to elements (UNAME = EEXOUT) or to grid points (GEXOUT). The cards are kept whole (CardRows);
+// the query engine reads the NID only.
 class NonlinearUserOutputTable final : public TypedTable<NonlinearUserOutputTable, NonlinearUserOutputCard>
 {
 public:

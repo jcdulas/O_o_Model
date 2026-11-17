@@ -19,8 +19,8 @@ struct GasBagVentHoleFormat
     static void write(const GasBagVentHoleCard& card, FieldWriter& writer);
 };
 
-// All the PORHOLE cards: the FID is unique among them (IdSpace::PerCardType, category Porosity). A LEAKAGE names it;
-// the MID is a MATDEUL.
+// All the GasBagVentHole cards: the FID is unique among them (IdSpace::PerCardType, category Porosity). A GasBagLeakage
+// names it; the MID is an EulerMat.
 class GasBagVentHoleTable final : public TypedTable<GasBagVentHoleTable, GasBagVentHoleCard>
 {
 public:

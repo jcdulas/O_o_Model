@@ -16,8 +16,8 @@
 // axisymmetric quadrilaterals, and the nine-node nonlinear plane strain element. As for the triangles, the geometry is
 // the one of the four corner nodes: the area is half the cross product of the diagonals (a warped quadrilateral gives
 // the area of its projection on the mean plane), the normal is the direction of that cross product, and the element x
-// axis bisects the angle between the diagonals (format reference, CQUAD4 element coordinate system). The mid-side and
-// centre nodes are read only so that a missing one is reported.
+// axis bisects the angle between the diagonals (format reference, ShellQuad4 element coordinate system). The mid-side
+// and centre nodes are read only so that a missing one is reported.
 
 namespace oor::analysis::detail
 {
@@ -91,7 +91,7 @@ struct ShellQuad8Shape
     }
 };
 
-// CQUAD: the nonlinear plane strain element with nine nodes (a PLPLANE property: no thickness).
+// PlaneStrainQuad: the nonlinear plane strain element with nine nodes (a PlanePropNonlinear property: no thickness).
 struct PlaneStrainQuadShape
 {
     static void nodes(const model::PlaneStrainQuadTable& table, std::uint32_t row, std::vector<base::EntityId>& ids)
@@ -111,8 +111,9 @@ struct PlaneStrainQuadShape
     }
 };
 
-// CSHEAR: the element coordinate system of a shear panel has its x axis from G1 to G2 (format reference Figure 9-65),
-// the z axis the normal of the diagonals; it has no material direction. Its thickness is the one of the PSHEAR.
+// ShearPanel4: the element coordinate system of a shear panel has its x axis from G1 to G2 (format reference Figure
+// 9-65), the z axis the normal of the diagonals; it has no material direction. Its thickness is the one of the
+// ShearPanelProp.
 struct ShearPanel4Shape
 {
     static void nodes(const model::ShearPanel4Table& table, std::uint32_t row, std::vector<base::EntityId>& ids)

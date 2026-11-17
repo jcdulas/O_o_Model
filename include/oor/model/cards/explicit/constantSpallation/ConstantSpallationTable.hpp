@@ -19,9 +19,10 @@ struct ConstantSpallationFormat
     static void write(const ConstantSpallationCard& card, FieldWriter& writer);
 };
 
-// All the PMINC cards. The ID is the number of a spall model, unique among the PMINC cards (IdSpace::PerCardType,
-// category SpallModel: a spall model is not a property, whatever the name of its field says). A MATDEUL names the
-// model. The cards are kept whole (CardRows) next to their ID: they are few, and the query engine reads the ID.
+// All the ConstantSpallation cards. The ID is the number of a spall model, unique among the ConstantSpallation cards
+// (IdSpace::PerCardType, category SpallModel: a spall model is not a property, whatever the name of its field says). An
+// EulerMat names the model. The cards are kept whole (CardRows) next to their ID: they are few, and the query engine
+// reads the ID.
 class ConstantSpallationTable final : public TypedTable<ConstantSpallationTable, ConstantSpallationCard>
 {
 public:
@@ -37,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a PMINC refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a ConstantSpallation refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

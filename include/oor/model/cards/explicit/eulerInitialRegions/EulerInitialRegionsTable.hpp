@@ -19,8 +19,9 @@ struct EulerInitialRegionsFormat
     static void write(const EulerInitialRegionsCard& card, FieldWriter& writer);
 };
 
-// All the TICEUL1 cards. The SID is the ID of the table (IdSpace::PerCardType, category EulerInitialization): a PEULER1
-// names it. The TSID names the group of TICREG cards that share it (EulerInitialRegions).
+// All the EulerInitialRegions cards. The SID is the ID of the table (IdSpace::PerCardType, category
+// EulerInitialization): an EulerRegionProp names it. The TSID names the group of InitialConditionRegion cards that
+// share it (EulerInitialRegions).
 class EulerInitialRegionsTable final : public TypedTable<EulerInitialRegionsTable, EulerInitialRegionsCard>
 {
 public:

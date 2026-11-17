@@ -24,9 +24,10 @@ struct ViscoElasticMatTemperatureFormat
     static void write(const ViscoElasticMatTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATTVE cards. The ID space is the card type's own: the ID is the one of the MATVE that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it). The cards are kept whole (CardRows:
-// the series have a length of their own); the query engine reads the ID only.
+// All the ViscoElasticMatTemperature cards. The ID space is the card type's own: the ID is the one of the
+// ViscoElasticMat that the card extends, so it is also a reference to a material (renumbering the materials follows
+// into it). The cards are kept whole (CardRows: the series have a length of their own); the query engine reads the ID
+// only.
 class ViscoElasticMatTemperatureTable final
     : public TypedTable<ViscoElasticMatTemperatureTable, ViscoElasticMatTemperatureCard>
 {

@@ -19,9 +19,9 @@ struct FatiguePropFormat
     static void write(const FatiguePropCard& card, FieldWriter& writer);
 };
 
-// All the PFTG cards. The ID is unique among them (IdSpace::PerCardType) and is what an FTGDEF names: the category
-// FatigueProperty. A PFTG names no other card. The cards are kept whole (CardRows) next to their ID: they are few, and
-// the query engine reads the ID.
+// All the FatigueProp cards. The ID is unique among them (IdSpace::PerCardType) and is what a FatigueDefinition names:
+// the category FatigueProperty. A FatigueProp names no other card. The cards are kept whole (CardRows) next to their
+// ID: they are few, and the query engine reads the ID.
 class FatiguePropTable final : public TypedTable<FatiguePropTable, FatiguePropCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a PFTG refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FatigueProp refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

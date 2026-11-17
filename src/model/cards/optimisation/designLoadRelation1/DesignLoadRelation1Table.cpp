@@ -167,7 +167,7 @@ void DesignLoadRelation1Table::visitReferences(std::uint32_t row, ReferenceVisit
     {
         std::optional<std::int32_t>& attribute = card.attributes[index];
         if (!attribute || *attribute <= 0)
-            continue; // blank, or the 0 that a LOAD whose LNAME is S asks for
+            continue; // blank, or the 0 that a LoadCombination whose LNAME is S asks for
         switch (loadAttributeOf(card, index))
         {
         case LoadAttribute::Grid:

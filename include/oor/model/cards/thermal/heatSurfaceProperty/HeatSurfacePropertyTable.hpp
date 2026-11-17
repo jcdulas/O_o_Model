@@ -23,10 +23,10 @@ struct HeatSurfacePropertyFormat
     [[nodiscard]] static bool isSurfaceType(std::string_view type) noexcept;
 };
 
-// All the CHBDYP cards. The ID is a surface element ID, in the space the CHBDYE, CHBDYG and CHBDYP share
-// (IdSpace::SurfaceElement, apart from the conduction elements). PID names a PHBDY,
-// so the column is called `heatSurfacePropId` for the query engine, which takes a `propId` column for a property of the
-// structure.
+// All the HeatSurfaceProperty cards. The ID is a surface element ID, in the space the HeatSurfaceSide, HeatSurfaceNodes
+// and HeatSurfaceProperty share (IdSpace::SurfaceElement, apart from the conduction elements). PID names a
+// HeatSurfaceProp, so the column is called `heatSurfacePropId` for the query engine, which takes a `propId` column for
+// a property of the structure.
 class HeatSurfacePropertyTable final : public TypedTable<HeatSurfacePropertyTable, HeatSurfacePropertyCard>
 {
 public:
@@ -45,9 +45,9 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // A blank VIEW or RADM number (0: no card has the ID 0), and a blank GO, CE and orientation vector takes the
-    // default of the BDYOR of the model (format reference BDYOR), wherever the BDYOR is in the deck.
-    // Model::applyDefaults runs it again for a BDYOR added later.
+    // A blank ViewFactorFace or RadiationProp number (0: no card has the ID 0), and a blank GO, CE and orientation
+    // vector takes the default of the HeatSurfaceDefaults of the model (format reference HeatSurfaceDefaults), wherever
+    // the HeatSurfaceDefaults is in the deck. Model::applyDefaults runs it again for a HeatSurfaceDefaults added later.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }

@@ -19,10 +19,11 @@ struct RadiationPropTemperatureFormat
     static void write(const RadiationPropTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the RADMT cards. The ID space is the card type's own (IdSpace::PerCardType, category Other: the category
-// RadiationMaterial is the RADM's, the card the surface elements name): the ID is the RADMID of the RADM that the card
-// extends, so it is also a reference to a RADM (ReferenceTarget::RadiationMaterial: a renumbering of the RADM follows
-// into it), and the tables are references to TABLEMj cards (ReferenceTarget::MaterialTable).
+// All the RadiationPropTemperature cards. The ID space is the card type's own (IdSpace::PerCardType, category Other:
+// the category RadiationMaterial is the RadiationProp's, the card the surface elements name): the ID is the RADMID of
+// the RadiationProp that the card extends, so it is also a reference to a RadiationProp
+// (ReferenceTarget::RadiationMaterial: a renumbering of the RadiationProp follows into it), and the tables are
+// references to TABLEMj cards (ReferenceTarget::MaterialTable).
 class RadiationPropTemperatureTable final
     : public TypedTable<RadiationPropTemperatureTable, RadiationPropTemperatureCard>
 {

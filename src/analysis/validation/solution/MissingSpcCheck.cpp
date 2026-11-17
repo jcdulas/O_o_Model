@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// A static solution whose Bulk Data has SPC or SPC1 cards while no subcase selects a set with SPC: the constraints are
-// in the deck and not used.
+// A static solution whose Bulk Data has SinglePointConstr or SinglePointConstrList cards while no subcase selects a set
+// with SPC: the constraints are in the deck and not used.
 class MissingSpcCheck final : public ValidationCheck
 {
 public:

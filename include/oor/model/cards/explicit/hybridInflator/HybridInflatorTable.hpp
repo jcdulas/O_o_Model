@@ -19,9 +19,10 @@ struct HybridInflatorFormat
     static void write(const HybridInflatorCard& card, FieldWriter& writer);
 };
 
-// All the INFLHB cards. The INFLID is unique among the INFLHB cards (IdSpace::PerCardType, category Inflator: INFLCG,
-// INFLTNK and INFLTR share the category, because an ABINFL names one of the four by number). The tables are TABLED1
-// cards, FRAC names an INFLFRC and the GASNAM list INFLGAS cards.
+// All the HybridInflator cards. The INFLID is unique among the HybridInflator cards (IdSpace::PerCardType, category
+// Inflator: ColdGasInflator, TankTestInflator and StandardInflator share the category, because an InflatorInlet names
+// one of the four by number). The tables are TableDynamic1 cards, FRAC names a HybridInflatorFractions and the GASNAM
+// list InflatorGas cards.
 class HybridInflatorTable final : public TypedTable<HybridInflatorTable, HybridInflatorCard>
 {
 public:

@@ -20,7 +20,7 @@ struct AccelNodeLoadFormat
     static void write(const AccelNodeLoadCard& card, FieldWriter& writer);
 };
 
-// All the ACCEL1 cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). CID is a
+// All the AccelNodeLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). CID is a
 // reference to a coordinate system; a single grid point of the list is a Node reference and the ends of a THRU range
 // are NodeInRange (the grid points between them need not exist). Every field is a column (a companion package reads the
 // inertial loads as arrays): the grid lists of all the cards are one column of (first, last, by) runs.

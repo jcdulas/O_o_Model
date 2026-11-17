@@ -33,10 +33,10 @@ struct LineInterfaceFormat
     static void write(const LineInterfaceCard& card, FieldWriter& writer);
 };
 
-// All the CINTC cards, each kept whole (the LIST has a variable number of items). The ID is unique per card type
-// (IdSpace::PerCardType, category Other): a line interface element is not an element of the structure. The BID of
-// every boundary of the LIST is a GeometricBoundary reference (a GMBNDC): the sign says which boundary is the
-// independent one and stays on the card, the number is what the target sees.
+// All the LineInterface cards, each kept whole (the LIST has a variable number of items). The ID is unique per card
+// type (IdSpace::PerCardType, category Other): a line interface element is not an element of the structure. The BID of
+// every boundary of the LIST is a GeometricBoundary reference (a GeomBoundaryCurve): the sign says which boundary is
+// the independent one and stays on the card, the number is what the target sees.
 class LineInterfaceTable final : public TypedTable<LineInterfaceTable, LineInterfaceCard>
 {
 public:

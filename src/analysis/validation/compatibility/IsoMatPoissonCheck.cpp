@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// Poisson's ratio of a MAT1 outside the range of a stable isotropic material, from -1 up to but not including 0.5 (at
-// 0.5 the material is incompressible: the bulk modulus is infinite).
+// Poisson's ratio of an IsoMat outside the range of a stable isotropic material, from -1 up to but not including 0.5
+// (at 0.5 the material is incompressible: the bulk modulus is infinite).
 class IsoMatPoissonCheck final : public ValidationCheck
 {
 public:

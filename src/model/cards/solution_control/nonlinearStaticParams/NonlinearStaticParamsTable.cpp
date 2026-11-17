@@ -186,8 +186,8 @@ void NonlinearStaticParamsFormat::write(const NonlinearStaticParamsCard& card, F
     if (!card.convergenceFlags.empty())
         writer.text(7, card.convergenceFlags);
     writer.textUnlessDefault(8, card.intermediateOutput, "No");
-    // A tolerance is written when it was given (a blank one leaves PARAM,NLTOL in force); MAXQN, MAXLS and MAXBIS
-    // follow from KMETHOD or MAXITER when blank: written whenever they are.
+    // A tolerance is written when it was given (a blank one leaves PARAM,NonlinearTolerance in force); MAXQN, MAXLS and
+    // MAXBIS follow from KMETHOD or MAXITER when blank: written whenever they are.
     if (card.epsilonU)
         writer.real(9, *card.epsilonU);
     if (card.epsilonP)

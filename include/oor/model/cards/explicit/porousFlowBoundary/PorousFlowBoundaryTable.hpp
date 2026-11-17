@@ -19,8 +19,8 @@ struct PorousFlowBoundaryFormat
     static void write(const PorousFlowBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the PORFLOW cards: the FID is unique among them (IdSpace::PerCardType, category Porosity). A LEAKAGE names it;
-// the value of a MATERIAL pair is a MATDEUL.
+// All the PorousFlowBoundary cards: the FID is unique among them (IdSpace::PerCardType, category Porosity). A
+// GasBagLeakage names it; the value of a MATERIAL pair is an EulerMat.
 class PorousFlowBoundaryTable final : public TypedTable<PorousFlowBoundaryTable, PorousFlowBoundaryCard>
 {
 public:

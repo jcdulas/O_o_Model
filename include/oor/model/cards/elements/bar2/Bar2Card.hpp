@@ -10,21 +10,22 @@
 namespace oor::model
 {
 
-// One CBAR card: a simple beam element.
+// One Bar2 card: a simple beam element.
 //
 // Card layout (orientation by vector, or by a grid point in field 5 with fields 6 and 7 blank):
-//   CBAR  EID  PID  GA   GB   X1   X2   X3   OFFT
+//   Bar2  EID  PID  GA   GB   X1   X2   X3   OFFT
 //         PA   PB   W1A  W2A  W3A  W1B  W2B  W3B
-//   CBAR  EID  PID  GA   GB   G0             OFFT
+//   Bar2  EID  PID  GA   GB   G0             OFFT
 //
 // Field 5 is an integer (G0) or a real (X1): `orientationNode` and `orientation` are the two forms, `orientationNode ==
-// 0` meaning the vector form. In the vector form a blank X1, X2 or X3 is 0.0. A BAROR card gives the defaults of PID,
-// the orientation and OFFT for the blank fields: they are applied when a deck is read (Bar2Table::finishRead),
-// wherever the BAROR is in the deck. Without a BAROR, a blank PID is EID and a blank orientation is the zero vector.
+// 0` meaning the vector form. In the vector form a blank X1, X2 or X3 is 0.0. A Bar2Defaults card gives the defaults of
+// PID, the orientation and OFFT for the blank fields: they are applied when a deck is read (Bar2Table::finishRead),
+// wherever the Bar2Defaults is in the deck. Without a Bar2Defaults, a blank PID is EID and a blank orientation is the
+// zero vector.
 struct Bar2Card
 {
     static constexpr std::string_view DEFAULT_OFFSET_KIND = "OffsetsGlobalGlobalGlobal";
-    // The bits of `blankFields`: the fields that were blank in the deck, which a BAROR card may give a default.
+    // The bits of `blankFields`: the fields that were blank in the deck, which a Bar2Defaults card may give a default.
     static constexpr std::uint8_t BLANK_PROP_ID = 1;
     static constexpr std::uint8_t BLANK_ORIENTATION1 = 2; // field 5, X1 or G0
     static constexpr std::uint8_t BLANK_ORIENTATION2 = 4;
@@ -47,8 +48,8 @@ struct Bar2Card
     std::array<double, 3> offsetA = {}; // W1A W2A W3A: offset vector at end A
     std::array<double, 3> offsetB = {}; // W1B W2B W3B: offset vector at end B
 
-    // The BLANK_* bits of the fields that are blank (left out of the card, not zero), until the BAROR defaults are
-    // applied: they stay while no BAROR exists, so that one added later gives them their defaults
+    // The BLANK_* bits of the fields that are blank (left out of the card, not zero), until the Bar2Defaults defaults
+    // are applied: they stay while no Bar2Defaults exists, so that one added later gives them their defaults
     // (Model::applyDefaults). It is not written; setting a field clears its bit (the Python setters do).
     std::uint8_t blankFields = 0;
 

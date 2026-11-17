@@ -14,7 +14,7 @@
 #include <string_view>
 #include <vector>
 
-// What each name of a DYPARAM card takes, typed by hand from the 80 entries of the format reference
+// What each name of an ExplicitParam card takes, typed by hand from the 80 entries of the format reference
 // (ExplicitParamCatalogueData.cpp). The catalogue describes the entries of ONE card type, the way the PARAM catalogue
 // describes the PARAM names: it is not a table of the fields of several cards.
 namespace oor::model
@@ -26,7 +26,7 @@ enum class ExplicitParamSlotKind : std::uint8_t
     Real,          // a real number; an integer is accepted and kept as the real of the same value
     Word,          // one of a list of words, compared without regard to the case
     IntegerOrWord, // a whole number, or one word of the list (the batch size of SMP: a number or AUTOMAT)
-    Table,         // the number of a TABLED1
+    Table,         // the number of a TableDynamic1
     Grid,          // the number of a grid point
     RigidBody      // the name of a rigid body, RigidAssembly(id) or RigidMat(id), or one word of the list (Automatic)
 };
@@ -107,8 +107,8 @@ struct ExplicitParamEntry
     std::vector<ExplicitParamForm> forms;
 };
 
-// The names of the format reference and what is known of each. A name the catalogue does not know is a valid DYPARAM
-// all the same: the card keeps its values as written.
+// The names of the format reference and what is known of each. A name the catalogue does not know is a valid
+// ExplicitParam all the same: the card keeps its values as written.
 class ExplicitParamCatalogue
 {
 public:
@@ -117,7 +117,7 @@ public:
     // The entries in the order of the format reference.
     [[nodiscard]] std::span<const ExplicitParamEntry> entries() const noexcept { return m_entries; }
 
-    // The entry of a neutral DYPARAM name, nullptr when the format reference has none.
+    // The entry of a neutral ExplicitParam name, nullptr when the format reference has none.
     [[nodiscard]] const ExplicitParamEntry* find(std::string_view name) const;
 
     // The form of `entry` that a card with these values follows: the only one, or the one whose selector is the word at
@@ -164,8 +164,8 @@ struct ExplicitParamReference
     base::EntityId id;
 };
 
-// What value `index` of the card refers to: the TABLED1 of a Table slot, the grid point of a Grid slot and the rigid
-// material of an RigidMat(id) rigid body name. An RigidAssembly(id) name is not a reference: the new assembly of a
+// What value `index` of the card refers to: the TableDynamic1 of a Table slot, the grid point of a Grid slot and the
+// rigid material of a RigidMat(id) rigid body name. An RigidAssembly(id) name is not a reference: the new assembly of a
 // RigidBodyMerge does not exist yet, and the others may be assemblies that an earlier card creates.
 [[nodiscard]] std::optional<ExplicitParamReference> explicitParamReference(const ExplicitParamCard& card,
                                                                            std::size_t index);

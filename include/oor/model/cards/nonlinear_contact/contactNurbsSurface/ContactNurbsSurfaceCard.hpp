@@ -9,10 +9,10 @@
 namespace oor::model
 {
 
-// One BCNURBS card: a rigid contact body made of a NURBS surface (SOLs 101 and 400). A BCRGSRF or a BCBODY1 names it by
-// its RBID.
+// One ContactNurbsSurface card: a rigid contact body made of a NURBS surface (SOLs 101 and 400). A
+// ContactRigidSurfaceList or a ContactBody1 names it by its RBID.
 //
-// Card layout: BCNURBS  RBID  NPTU  NPTV  NORU  NORV  NSUBU  NSUBV
+// Card layout: ContactNurbsSurface  RBID  NPTU  NPTV  NORU  NORV  NSUBU  NSUBV
 //             GRID G1 G2 ... (or COORD X1 Y1 Z1 X2 ...)   HOMO Homo1 ...   KNOT Knot1 ...   TRIM IDtrim1 IDtrim2 ...
 // each list on lines of its own. NPTU is negative when the control points are given by coordinates; there are
 // |NPTU| x NPTV control points, one homogeneous coordinate each, and (|NPTU| + NORU) + (NPTV + NORV) knots.
@@ -26,7 +26,7 @@ struct ContactNurbsSurfaceCard
     std::int32_t subdivisionsU = 0;           // the subdivisions along U
     std::int32_t subdivisionsV = 0;           // the subdivisions along V
     ContactNurbsData data;                    // GRID or COORD, HOMO, KNOT
-    std::vector<base::EntityId> trimCurveIds; // the BCTRIM trimming curves, in the TRIM list
+    std::vector<base::EntityId> trimCurveIds; // the ContactTrimCurve trimming curves, in the TRIM list
 };
 
 } // namespace oor::model

@@ -14,9 +14,10 @@ namespace oor::analysis
 namespace
 {
 
-// The z direction of a HYDROC or a HYDROS is measured in the coordinate system of the CID/GRD field, or in the CD
-// system of the grid point it names when it is negative; the format says that a spherical system "will result in a
-// fatal error". A system that does not exist is `ref.unresolved`; the basic system (0) is rectangular.
+// The z direction of a HydrostaticCavityLoad or a HydrostaticLoad is measured in the coordinate system of the CID/GRD
+// field, or in the CD system of the grid point it names when it is negative; the format says that a spherical system
+// "will result in a fatal error". A system that does not exist is `ref.unresolved`; the basic system (0) is
+// rectangular.
 class HydrostaticSphericalSystemCheck final : public ValidationCheck
 {
 public:

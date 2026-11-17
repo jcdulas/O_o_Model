@@ -13,9 +13,9 @@ namespace oor::analysis
 namespace
 {
 
-// A positive ID on an AELINK is the set of the TRIM (or TRIM2) that the Case Control command TRIM selects, and the link
-// holds for that subcase only; 0 and ALWAYS hold for every one. An ID that no TRIM
-// or TRIM2 has is a link no subcase can select: a warning, since the deck still runs, without the link.
+// A positive ID on an AeroTrimLink is the set of the TRIM (or AeroTrim2) that the Case Control command TRIM selects,
+// and the link holds for that subcase only; 0 and ALWAYS hold for every one. An ID that no AeroTrim
+// or AeroTrim2 has is a link no subcase can select: a warning, since the deck still runs, without the link.
 class LinkTrimCheck final : public ValidationCheck
 {
 public:
@@ -31,7 +31,8 @@ public:
             model,
             [&](const model::AeroTrimLinkCard& card, model::CardLocation where)
             {
-                // the TRIM and TRIM2 cards each have an ID space of their own (their SIDs are one set, checked apart)
+                // the AeroTrim and AeroTrim2 cards each have an ID space of their own (their SIDs are one set, checked
+                // apart)
                 if (card.id <= 0 || model.locateInType(model::typeIndexOf<model::AeroTrimTable>(), card.id) ||
                     model.locateInType(model::typeIndexOf<model::AeroTrim2Table>(), card.id))
                     return;

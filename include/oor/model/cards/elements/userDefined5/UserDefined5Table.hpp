@@ -20,8 +20,8 @@ struct UserDefined5Format
     static void write(const UserDefined5Card& card, FieldWriter& writer);
 };
 
-// All the CDUM5 elements. The ID is an element ID, in the space every element shares (IdSpace::Element). The table
-// keeps the fields of the card as two columns (the kind and the number of each field) and, next to them, the grid
+// All the UserDefined5 elements. The ID is an element ID, in the space every element shares (IdSpace::Element). The
+// table keeps the fields of the card as two columns (the kind and the number of each field) and, next to them, the grid
 // points the model sees: the leading run of positive integers of the list, kept in step with it.
 class UserDefined5Table final : public TypedTable<UserDefined5Table, UserDefined5Card>
 {

@@ -20,8 +20,9 @@ struct SlidelineSegmentsFormat
     static void write(const SlidelineSegmentsCard& card, FieldWriter& writer);
 };
 
-// All the BLSEG cards. The ID is unique among them (category SlidelineSegments), which is what the SECNDRY and PRIMARY
-// of a BCONP and the ID of a BWIDTH name. The grid lists are one CSR column of (first, last, by) runs.
+// All the SlidelineSegments cards. The ID is unique among them (category SlidelineSegments), which is what the SECNDRY
+// and PRIMARY of a ContactSlideline and the ID of a SlidelineWidth name. The grid lists are one CSR column of (first,
+// last, by) runs.
 class SlidelineSegmentsTable final : public TypedTable<SlidelineSegmentsTable, SlidelineSegmentsCard>
 {
 public:

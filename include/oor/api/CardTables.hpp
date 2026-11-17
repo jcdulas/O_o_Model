@@ -24,8 +24,8 @@ struct CardTableColumns
 };
 
 // What a card table is made of. `source` names the cards: a card type ("ShellQuad4", "ShellProp",
-// "LanczosEigenMethod"), "nodes" for the grid points or "points" for the other points (SPOINT, EPOINT, ...). Throws
-// QueryError for an unknown name.
+// "LanczosEigenMethod"), "nodes" for the grid points or "points" for the other points (ScalarPoint, ExtraPoint, ...).
+// Throws QueryError for an unknown name.
 [[nodiscard]] CardTableColumns cardTableColumns(const std::string& source);
 
 // The table of the live cards of `source`, sorted by ID: the columns asked for, or every stored column when `columns`

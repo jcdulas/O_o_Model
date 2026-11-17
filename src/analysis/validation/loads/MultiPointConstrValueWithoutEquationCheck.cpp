@@ -19,9 +19,9 @@ std::int32_t comparable(std::int32_t component) noexcept
     return component == 0 ? 1 : component;
 }
 
-// An MPCD equation whose degree of freedom is the dependent one of no MPCY: the format reference says
-// the point and the component of an MPCD need an MPCY that names them as well (the value of the MPCD replaces the
-// right-hand side of that equation).
+// A MultiPointConstrValue equation whose degree of freedom is the dependent one of no MultiPointConstrWithValue: the
+// format reference says the point and the component of a MultiPointConstrValue need a MultiPointConstrWithValue that
+// names them as well (the value of the MultiPointConstrValue replaces the right-hand side of that equation).
 class MultiPointConstrValueWithoutEquationCheck final : public ValidationCheck
 {
 public:

@@ -8,14 +8,14 @@
 namespace oor::model
 {
 
-// One MATSMA card: a shape memory alloy of SOL 400.
+// One ShapeMemoryMat card: a shape memory alloy of SOL 400.
 //
 // Card layout (the fields are numbered across the lines, eight to a line):
-//   MATSMA  MID   MODEL  T0     L                                                 fields 1 to 4
-//           EA    NUA    ALPHAA SIGMAA RHOA   SIGMASAS SIGMAFAS CA                9 to 16   the austenite
-//           EM    NUM    ALPHAM SIGMAM RHOM   SIGMASS  SIGMAFSA CM                17 to 24  the martensite
-//           VT    MFRAC  SIGEFF SIGMAX                                             25 to 28  the thermo-mechanical
-//           model G0    GA     GB     GC     GD     GE       GF       GMAX               33 to 40  the g function
+//   ShapeMemoryMat  MID   MODEL  T0     L                                         fields 1 to 4
+//                   EA    NUA    ALPHAA SIGMAA RHOA   SIGMASAS SIGMAFAS CA                9 to 16   the austenite
+//                   EM    NUM    ALPHAM SIGMAM RHOM   SIGMASS  SIGMAFSA CM                17 to 24  the martensite
+//                   VT    MFRAC  SIGEFF SIGMAX                                          25 to 28  the thermo-mechanical
+//                   model G0    GA     GB     GC     GD     GE       GF       GMAX             33 to 40  the g function
 // MODEL is 1 (the mechanical, Auricchio, model) or 2 (the thermo-mechanical, Asaro-Sayeedvafa, model). The last two
 // lines are for the thermo-mechanical model only (the format reference gets the mechanical model by ignoring them).
 // Every blank value is 0.0. The material ID is in the space every material type shares.

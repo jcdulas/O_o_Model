@@ -19,10 +19,10 @@ struct DesignBeadRegionFormat
     static void write(const DesignBeadRegionCard& card, FieldWriter& writer);
 };
 
-// All the BEADVAR cards. The ID is unique among them (IdSpace::PerCardType, no category of its own: nothing names a
-// topography region, as for the TOPVAR). The PID is a property (Property), the CID of the DESVAR line a coordinate
-// system (Coordinate) and NGSET and DGSET sets of grid points (Set: a SET1). The cards are kept whole next to the
-// columns the query engine reads: the ID and the property.
+// All the DesignBeadRegion cards. The ID is unique among them (IdSpace::PerCardType, no category of its own: nothing
+// names a topography region, as for the DesignTopologyRegion). The PID is a property (Property), the CID of the
+// DesignVar line a coordinate system (Coordinate) and NGSET and DGSET sets of grid points (Set: an IdListSet1). The
+// cards are kept whole next to the columns the query engine reads: the ID and the property.
 class DesignBeadRegionTable final : public TypedTable<DesignBeadRegionTable, DesignBeadRegionCard>
 {
 public:

@@ -19,7 +19,8 @@ struct SphericalFrame2Format
     static void write(const SphericalFrame2Card& card, FieldWriter& writer);
 };
 
-// All the CORD2S systems. The three points are one column of (x, y, z) triples each: (N, 3) NumPy views without copy.
+// All the SphericalFrame2 systems. The three points are one column of (x, y, z) triples each: (N, 3) NumPy views
+// without copy.
 class SphericalFrame2Table final : public TypedTable<SphericalFrame2Table, SphericalFrame2Card>
 {
 public:

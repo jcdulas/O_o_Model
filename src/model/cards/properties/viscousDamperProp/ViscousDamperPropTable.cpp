@@ -85,7 +85,7 @@ void ViscousDamperPropTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void ViscousDamperPropTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // A PVISC refers to no other card.
+    // A ViscousDamperProp refers to no other card.
 }
 
 } // namespace oor::model

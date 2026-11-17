@@ -20,9 +20,9 @@ struct MultiPointConstrAxisymFormat
     static void write(const MultiPointConstrAxisymCard& card, FieldWriter& writer);
 };
 
-// All the MPCAX cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The rings are RINGAX
-// points, which are not cards of the model yet: they are ReferenceTarget::Other (not resolved, not renumbered). The
-// four values of the terms of every card are four lists in CSR form.
+// All the MultiPointConstrAxisym cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The rings
+// are AxisymConeRing points, which are not cards of the model yet: they are ReferenceTarget::Other (not resolved, not
+// renumbered). The four values of the terms of every card are four lists in CSR form.
 class MultiPointConstrAxisymTable final : public TypedTable<MultiPointConstrAxisymTable, MultiPointConstrAxisymCard>
 {
 public:

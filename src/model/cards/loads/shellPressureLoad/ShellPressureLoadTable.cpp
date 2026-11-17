@@ -47,7 +47,7 @@ void ShellPressureLoadFormat::write(const ShellPressureLoadCard& card, FieldWrit
 {
     writer.integer(1, card.id);
     writer.real(2, card.pressure);
-    // The THRU form of PLOAD2 is the whole list: the writer compresses only a list that is one run.
+    // The THRU form of ShellPressureLoad is the whole list: the writer compresses only a list that is one run.
     writeElementRuns(writer, FIRST_ELEMENT_FIELD, card.elements, writer.compressesRanges() && isOneRun(card.elements));
 }
 

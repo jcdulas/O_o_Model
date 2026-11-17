@@ -19,9 +19,10 @@ struct CyclicBoundaryJoinFormat
     static void write(const CyclicBoundaryJoinCard& card, FieldWriter& writer);
 };
 
-// All the CYJOIN cards (category Other). A card has no ID of its own (IdSpace::None): the SIDE is 1 or 2, not an ID.
-// The points are references to the nodes (a single point is a ReferenceTarget::Node, which a scalar point is too; the
-// two ends of a THRU range are ReferenceTarget::NodeInRange). The cards are kept whole next to a column of their sides.
+// All the CyclicBoundaryJoin cards (category Other). A card has no ID of its own (IdSpace::None): the SIDE is 1 or 2,
+// not an ID. The points are references to the nodes (a single point is a ReferenceTarget::Node, which a scalar point is
+// too; the two ends of a THRU range are ReferenceTarget::NodeInRange). The cards are kept whole next to a column of
+// their sides.
 class CyclicBoundaryJoinTable final : public TypedTable<CyclicBoundaryJoinTable, CyclicBoundaryJoinCard>
 {
 public:

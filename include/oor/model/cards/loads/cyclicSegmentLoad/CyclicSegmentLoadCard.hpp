@@ -15,9 +15,9 @@ enum class SegmentType : std::uint8_t
     Left
 };
 
-// One LOADCYN card: a physical load on a segment of a cyclic symmetry model, from one or two load sets.
+// One CyclicSegmentLoad card: a physical load on a segment of a cyclic symmetry model, from one or two load sets.
 //
-// Card layout: LOADCYN  SID  S  SEGID  SEGTYPE  S1  L1  S2  L2
+// Card layout: CyclicSegmentLoad  SID  S  SEGID  SEGTYPE  S1  L1  S2  L2
 // The load on the segment is S times (S1 times the load set L1 plus S2 times the load set L2). The second pair is
 // optional (l2 is 0 and s2 0.0 when it is not there). S must not be zero, nor S1 and S2 both.
 struct CyclicSegmentLoadCard

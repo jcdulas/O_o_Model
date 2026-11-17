@@ -14,8 +14,8 @@
 namespace oor::analysis
 {
 
-// One thing of the model that acts on grid points: an element with a role in the structure (ElementRoles), or an MPC
-// equation (one MPC card; `id` is its set).
+// One thing of the model that acts on grid points: an element with a role in the structure (ElementRoles), or a
+// MultiPointConstr equation (one MultiPointConstr card; `id` is its set).
 struct ModelEntity
 {
     model::CardLocation card;
@@ -27,9 +27,9 @@ struct ModelEntity
 // Every element of the model that has a role in the structure, with the grid points it acts on, and the MPC equations
 // with the grid points of their terms: what the components, the groups and the connection system are made of.
 //
-// The grid points of an element are those ElementTopology gives, except for a CFAST and a CWELD, which act on the grid
-// points of the elements they pierce (FastenerPiercings: the element of side A and the element of side B, the face of
-// grid points of a GRIDID side) and on their own GA and GB; GS only locates them, except in a point-to-patch
+// The grid points of an element are those ElementTopology gives, except for a Fastener and a Weld, which act on the
+// grid points of the elements they pierce (FastenerPiercings: the element of side A and the element of side B, the face
+// of grid points of a GRIDID side) and on their own GA and GB; GS only locates them, except in a point-to-patch
 // connection. A fastener with no own grid point and no side found keeps the grid points of its card.
 //
 // The elements come in the order of the card types, then of the rows; the equations after them, in the order of the

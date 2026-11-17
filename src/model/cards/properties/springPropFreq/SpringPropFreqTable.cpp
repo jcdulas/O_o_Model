@@ -76,7 +76,7 @@ void SpringPropFreqTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void SpringPropFreqTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the PELAS that the card extends.
+    // The ID is the one of the SpringProp that the card extends.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Property, m_id.get(row)));
     if (const base::EntityId stiffnessTableId = m_stiffnessTableId.get(row); stiffnessTableId > 0)
         m_stiffnessTableId.set(row, visitor.visit("stiffnessTableId", ReferenceTarget::DynamicTable, stiffnessTableId));

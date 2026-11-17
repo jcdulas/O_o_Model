@@ -49,8 +49,8 @@ struct ContactSection
 };
 
 // Cuts the fields of a card into sections at the lines that start with one of `keywords` (any case): the keyword is in
-// the first field of the line, or in the second when the first is blank (the format reference draws the options of a BCTABLE that
-// way). Only the continuation lines are looked at: the first line is the head.
+// the first field of the line, or in the second when the first is blank (the format reference draws the options of a
+// ContactTable that way). Only the continuation lines are looked at: the first line is the head.
 [[nodiscard]] std::vector<ContactSection> splitContactSections(const FieldReader& reader,
                                                                std::initializer_list<std::string_view> keywords);
 [[nodiscard]] std::vector<ContactSection> splitContactSections(const FieldReader& reader,

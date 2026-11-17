@@ -10,8 +10,8 @@ namespace oor::analysis::detail
 namespace
 {
 
-// The mid-side nodes of each solid in the order of the card: G5..G10 of the CTETRA, G7..G15 of the CPENTA, G9..G20 of
-// the CHEXA, G6..G13 of the CPYRAM.
+// The mid-side nodes of each solid in the order of the card: G5..G10 of the SolidTetra, G7..G15 of the SolidPenta,
+// G9..G20 of the SolidHexa, G6..G13 of the SolidPyramid.
 constexpr std::array<std::array<std::uint8_t, 2>, 6> TETRAHEDRON_MID = {
     {{0, 1}, {1, 2}, {2, 0}, {0, 3}, {1, 3}, {2, 3}}};
 constexpr std::array<std::array<std::uint8_t, 2>, 9> PENTAHEDRON_MID = {

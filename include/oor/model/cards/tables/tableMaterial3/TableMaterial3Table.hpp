@@ -21,7 +21,7 @@ struct TableMaterial3Format
     static void write(const TableMaterial3Card& card, FieldWriter& writer);
 };
 
-// All the TABLEM3 cards. The ID is a material table ID, in the ID space the other TABLEM cards share
+// All the TableMaterial3 cards. The ID is a material table ID, in the ID space the other TABLEM cards share
 // (IdSpace::MaterialTable). The points of every table are two lists (x, y) in CSR form.
 class TableMaterial3Table final : public TypedTable<TableMaterial3Table, TableMaterial3Card>
 {

@@ -32,9 +32,9 @@ struct OrthoMat2DFailureFormat
     static void write(const OrthoMat2DFailureCard& card, FieldWriter& writer);
 };
 
-// All the MAT8A cards. The ID space is the card type's own: the ID is the one of the MAT8 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it). The cards are kept whole (CardRows);
-// the query engine reads the ID only.
+// All the OrthoMat2DFailure cards. The ID space is the card type's own: the ID is the one of the OrthoMat2D that the
+// card extends, so it is also a reference to a material (renumbering the materials follows into it). The cards are kept
+// whole (CardRows); the query engine reads the ID only.
 class OrthoMat2DFailureTable final : public TypedTable<OrthoMat2DFailureTable, OrthoMat2DFailureCard>
 {
 public:

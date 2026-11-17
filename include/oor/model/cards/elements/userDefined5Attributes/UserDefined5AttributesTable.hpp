@@ -19,7 +19,7 @@ struct UserDefined5AttributesFormat
     static void write(const UserDefined5AttributesCard& card, FieldWriter& writer);
 };
 
-// All the ADUM5 cards. A card has no ID (IdSpace::None, category Other) and names no other card.
+// All the UserDefined5Attributes cards. A card has no ID (IdSpace::None, category Other) and names no other card.
 class UserDefined5AttributesTable final : public TypedTable<UserDefined5AttributesTable, UserDefined5AttributesCard>
 {
 public:

@@ -20,8 +20,8 @@ struct Bar2StationsFormat
     static void write(const Bar2StationsCard& card, FieldWriter& writer);
 };
 
-// All the CBARAO cards. The ID is the one of the CBAR the stations belong to: it is not an element ID of its own, so
-// the card has its own ID space (one CBARAO per bar) and refers to an element.
+// All the Bar2Stations cards. The ID is the one of the Bar2 the stations belong to: it is not an element ID of its own,
+// so the card has its own ID space (one Bar2Stations per bar) and refers to an element.
 class Bar2StationsTable final : public TypedTable<Bar2StationsTable, Bar2StationsCard>
 {
 public:

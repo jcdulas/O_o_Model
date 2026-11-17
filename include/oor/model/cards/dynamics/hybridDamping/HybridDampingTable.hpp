@@ -19,9 +19,10 @@ struct HybridDampingFormat
     static void write(const HybridDampingCard& card, FieldWriter& writer);
 };
 
-// All the HYBDAMP cards, in the category HybridDamping: the ID is unique per card type (IdSpace::PerCardType) and is
-// what the HYBRID of a DAMPING and the HYBDAMPi of a ROTHYBD name. METHOD is the eigenvalue method of the modes and
-// SDAMP the TABDMP1 of the modal damping. The cards are kept whole next to a column of their IDs.
+// All the HybridDamping cards, in the category HybridDamping: the ID is unique per card type (IdSpace::PerCardType) and
+// is what the HYBRID of a HybridDampingRotorOptions and the HYBDAMPi of a RotorHybridDamping name. METHOD is the
+// eigenvalue method of the modes and SDAMP the TableModalDamping1 of the modal damping. The cards are kept whole next
+// to a column of their IDs.
 class HybridDampingTable final : public TypedTable<HybridDampingTable, HybridDampingCard>
 {
 public:

@@ -20,8 +20,9 @@ struct LanczosEigenMethodFormat
     static void write(const LanczosEigenMethodCard& card, FieldWriter& writer);
 };
 
-// All the EIGRL cards. The ID is a method ID, in the ID space that EIGR shares (IdSpace::Method). A blank V1, V2 or
-// SHFSCL is NaN in its column; the frequencies of the segments are a list per card in CSR form.
+// All the LanczosEigenMethod cards. The ID is a method ID, in the ID space that RealEigenMethod shares
+// (IdSpace::Method). A blank V1, V2 or SHFSCL is NaN in its column; the frequencies of the segments are a list per card
+// in CSR form.
 class LanczosEigenMethodTable final : public TypedTable<LanczosEigenMethodTable, LanczosEigenMethodCard>
 {
 public:
@@ -37,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an EIGRL refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a LanczosEigenMethod refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& lowerFrequencyColumn() noexcept { return m_lowerFrequency; }

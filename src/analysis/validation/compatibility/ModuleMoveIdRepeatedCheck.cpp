@@ -8,9 +8,10 @@ namespace oor::analysis
 namespace
 {
 
-// A move number that two kinds of card have: MDTRAN, MDROT1, MDROT2, MDMIR1 and MDMIR2 each define a move that an
-// MDMOVE names by its MVID, and the number must be unique among the five (the format reference: the move number is what
-// an MDMOVE names). Two cards of one type are the reader's business (`ref.duplicate-id`).
+// A move number that two kinds of card have: ModuleTranslation, ModuleRotation1, ModuleRotation2, ModuleMirror1 and
+// ModuleMirror2 each define a move that an ModuleMoveSequence names by its MVID, and the number must be unique among
+// the five (the format reference: the move number is what a ModuleMoveSequence names). Two cards of one type are the
+// reader's business (`ref.duplicate-id`).
 class ModuleMoveIdRepeatedCheck final : public ValidationCheck
 {
 public:

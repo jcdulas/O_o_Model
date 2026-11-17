@@ -24,10 +24,10 @@ namespace oor::analysis
 // The cards of a component are its elements, and what they depend on, found by following every reference field: the
 // properties, the materials, the coordinate systems, the nodes (and what these refer to in turn: the grid points that
 // define a coordinate system, the tables of a material), plus the companions of those cards: the cards that complete a
-// property or a material with the same ID (MATT1, MATS1, PBUSHT, ...) and the non-structural mass cards that name a
-// property or an element of the component. A component that contact merges ("merge" mode) also holds the contact cards
-// of the pairs that join it (ContactPair::cards). Loads, constraints and Case Control are not part of it: the load
-// stamp covers loads (LoadCaseGroups).
+// property or a material with the same ID (IsoMatTemperature, IsoMatStressDependent, BushPropFreq, ...) and the
+// non-structural mass cards that name a property or an element of the component. A component that contact merges
+// ("merge" mode) also holds the contact cards of the pairs that join it (ContactPair::cards). Loads, constraints and
+// Case Control are not part of it: the load stamp covers loads (LoadCaseGroups).
 class RevisionStamp
 {
 public:
@@ -43,7 +43,7 @@ public:
                                                             base::ThreadPool* pool = nullptr);
     // The stamps of sets of cards made the same way: each set is closed over its references and companions, and its
     // cards hashed and added. The stamp of a group, a spider or a cluster of connections is the
-    // stamp of its member cards (elements, MPC cards).
+    // stamp of its member cards (elements, MultiPointConstr cards).
     [[nodiscard]] static std::vector<std::uint64_t> computeFor(
         const model::Model& model, const std::vector<std::vector<model::CardLocation>>& members,
         base::ThreadPool* pool = nullptr);

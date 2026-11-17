@@ -10,8 +10,8 @@ namespace
 {
 
 // A parameter whose format reference entry lists its options as the complete set, given a value of the right kind that
-// is not one of them (PARAM,ACOUT,LOUD). Information only: the catalogue lists an option set when the entry gives one,
-// and the text of an entry can leave a value out.
+// is not one of them (PARAM,AcousticOutputKind,LOUD). Information only: the catalogue lists an option set when the
+// entry gives one, and the text of an entry can leave a value out.
 class ParameterValueCheck final : public ValidationCheck
 {
 public:

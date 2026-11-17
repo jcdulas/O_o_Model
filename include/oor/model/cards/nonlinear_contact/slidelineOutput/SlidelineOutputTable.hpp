@@ -20,8 +20,8 @@ struct SlidelineOutputFormat
     static void write(const SlidelineOutputCard& card, FieldWriter& writer);
 };
 
-// All the BOUTPUT cards. The ID names a BCONP region or a contact grid, so it is not an ID of this type's own:
-// IdSpace::Group (several cards may give nodes of the same region), category Other.
+// All the SlidelineOutput cards. The ID names a ContactSlideline region or a contact grid, so it is not an ID of this
+// type's own: IdSpace::Group (several cards may give nodes of the same region), category Other.
 class SlidelineOutputTable final : public TypedTable<SlidelineOutputTable, SlidelineOutputCard>
 {
 public:

@@ -12,8 +12,9 @@
 namespace oor::model
 {
 
-// The control data of a NURBS curve or surface of a rigid contact body, as BCNURB2, BCNURBS, BCTRIM and the NURBS forms
-// of BCBODY lay it out: keyword lists on lines of their own. One kind of value used inside one family.
+// The control data of a NURBS curve or surface of a rigid contact body, as ContactNurbsCurve, ContactNurbsSurface,
+// ContactTrimCurve and the NURBS forms of ContactBody lay it out: keyword lists on lines of their own. One kind of
+// value used inside one family.
 //
 //   GRID  G1 G2 G3 ...        the grid points of the control points      (or)
 //   COORD X1 Y1 [Z1] X2 ...   the coordinates of the control points, with no grid points

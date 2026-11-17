@@ -5,14 +5,14 @@
 namespace oor::model
 {
 
-// One PELAST card: the frequency dependent or nonlinear properties of the PELAS with the same ID.
+// One SpringPropFreq card: the frequency dependent or nonlinear properties of the SpringProp with the same ID.
 //
 // Card layout:
-//   PELAST  PID  TKID  TGEID  TKNID
+//   SpringPropFreq  PID  TKID  TGEID  TKNID
 //
-// The ID is the one of the PELAS it extends (the card has an ID space of its own: one PELAST per PELAS). The three
-// others are TABLEDi entries, 0 when blank: the force per unit displacement against frequency, the structural damping
-// against frequency, and the nonlinear force against displacement.
+// The ID is the one of the SpringProp it extends (the card has an ID space of its own: one SpringPropFreq per
+// SpringProp). The three others are TABLEDi entries, 0 when blank: the force per unit displacement against frequency,
+// the structural damping against frequency, and the nonlinear force against displacement.
 struct SpringPropFreqCard
 {
     base::EntityId id = 0;

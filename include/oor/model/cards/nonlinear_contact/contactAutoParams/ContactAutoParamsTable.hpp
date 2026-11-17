@@ -19,14 +19,15 @@ struct ContactAutoParamsFormat
     [[nodiscard]] static std::optional<ContactAutoParamsCard> read(FieldReader& reader);
     static void write(const ContactAutoParamsCard& card, FieldWriter& writer);
 
-    // The parameters the card allows: its own and those of BCPARA,
-    // BCONPRP, BCONPRG and BCBDPRP, in that order (the first rule of a name counts).
+    // The parameters the card allows: its own and those of ContactParams,
+    // ContactPairPhysicalParams, ContactPairGeomParams and ContactBodyParams, in that order (the first rule of a name
+    // counts).
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 };
 
-// All the BCAUTOP cards. Only one is allowed in a deck or a module: the PID (0) is unique among them
+// All the ContactAutoParams cards. Only one is allowed in a deck or a module: the PID (0) is unique among them
 // (IdSpace::PerCardType, category Other). The cards are kept whole (CardRows); the query engine reads the PID only. The
-// SET1 IDs of the primary parameters ESET, SEEDESET, SEEDGSET, PROPSET and RIGIDSET are references.
+// IdListSet1 IDs of the primary parameters ESET, SEEDESET, SEEDGSET, PROPSET and RIGIDSET are references.
 class ContactAutoParamsTable final : public TypedTable<ContactAutoParamsTable, ContactAutoParamsCard>
 {
 public:

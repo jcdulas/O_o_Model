@@ -27,8 +27,8 @@ std::optional<CardProblem> DesignControlSurfaceFormat::check(const DesignControl
 {
     if (const auto problem = checkRequiredId(card.id, "id"))
         return problem;
-    // The label of an AESURF has up to eight characters and must read back from every format, like the other labels of
-    // the design cards.
+    // The label of an AeroControlSurface has up to eight characters and must read back from every format, like the
+    // other labels of the design cards.
     if (const auto problem = checkDesignLabel(card.controlSurfaceLabel, "controlSurfaceLabel"))
         return problem;
     if (const auto problem = checkRequiredId(card.trimId, "trimId"))

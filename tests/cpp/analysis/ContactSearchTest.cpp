@@ -23,9 +23,10 @@ using oor::testing::readModelText;
 namespace
 {
 
-// Two unit cubes, one CHEXA each: element 1 on nodes 1 to 8 (z from 0 to 1), element 2 on nodes 11 to 18 (z from
-// `bottom` to `bottom` + 1), bodies 1 and 2 over BSURF 1 and 2, and a BCONECT 5 pairing body 2 (secondary) with body 1.
-// `pair` and `body2` are the records of the BCONECT and of the second BCBODY1, for the tests that change them.
+// Two unit cubes, one SolidHexa each: element 1 on nodes 1 to 8 (z from 0 to 1), element 2 on nodes 11 to 18 (z from
+// `bottom` to `bottom` + 1), bodies 1 and 2 over ContactElemSurface 1 and 2, and a ContactPair 5 pairing body 2
+// (secondary) with body 1. `pair` and `body2` are the records of the ContactPair and of the second ContactBody1, for
+// the tests that change them.
 std::string stackedCubes(double bottom, const std::string& extra = "",
                          const std::string& pair = "ContactPair;5;;;2;1\n",
                          const std::string& body2 = "ContactBody1;2;;ThreeDimensional;Deformable;2\n")
@@ -112,7 +113,7 @@ TEST_CASE("a pair whose surfaces do not meet is kept apart, and a larger ERROR j
     CHECK_FALSE(search->results().front().meets);
     CHECK(analysis::ComponentModel::of(apart)->componentCount() == 2);
 
-    // format reference BCONPRG: ERROR is the distance below which a node touches a body
+    // format reference ContactPairGeomParams: ERROR is the distance below which a node touches a body
     const model::Model reached = readModelText(stackedCubes(
         1.2, "ContactPairGeomParams;7;ContactDistanceTolerance;0.25;GlueOption;1\n", "ContactPair;5;7;;2;1\n"));
     const auto joined = analysis::ContactSearch::compute(reached, std::nullopt);
@@ -124,8 +125,8 @@ TEST_CASE("a pair whose surfaces do not meet is kept apart, and a larger ERROR j
 
 TEST_CASE("the the solver rule ties each grid point once, from the lower body first", "[analysis][contact]")
 {
-    // the cubes touch; ERROR blank is the smallest edge over 20 (1 / 20), the BIAS of a pair without glue
-    // 0.9 (format reference BCPARA): the zone is -1.9 x 0.05 to 0.1 x 0.05
+    // the cubes touch; ERROR blank is the smallest edge over 20 (1 / 20), the EulerMeshBias of a pair without glue
+    // 0.9 (format reference ContactParams): the zone is -1.9 x 0.05 to 0.1 x 0.05
     const model::Model model = readModelText(stackedCubes(1.0));
     const auto search = analysis::ContactSearch::compute(model, std::nullopt, analysis::ContactRule::Solver);
     REQUIRE(search->results().size() == 1);
@@ -171,7 +172,7 @@ TEST_CASE("the contact cards are in the stamp of the component they merge", "[an
         readModelText(stackedCubes(1.0, "ContactPairGeomParams;7;ContactDistanceTolerance;0.01\n"));
     const model::Model second =
         readModelText(stackedCubes(1.0, "ContactPairGeomParams;7;ContactDistanceTolerance;0.02\n"));
-    // the BCONPRG is not named by the pair: it is no contact card of the component
+    // the ContactPairGeomParams is not named by the pair: it is no contact card of the component
     CHECK(*analysis::RevisionStamp::of(first) == *analysis::RevisionStamp::of(second));
     const model::Model named = readModelText(stackedCubes(1.0, "ContactBodyParams;3\n"));
     const model::Model renamed = readModelText(stackedCubes(1.0, "ContactBodyParams;3\n", "ContactPair;5;;;2;1\n",

@@ -8,11 +8,12 @@ namespace oor::model
 // The default of FC, the factor that keeps the yield surface away from its singular point.
 inline constexpr double SNOW_MULTI_SURFACE_DEFAULT_COEFFICIENT_FC = 0.99;
 
-// One YLDMSS card (SOL 700): the multi-surface yield model of snow. It is used with a MATDEUL, an EOSPOL and a SHREL,
-// and only by the Euler solvers with strength. Besides the deviatoric plastic strain the model has a volumetric one.
+// One SnowMultiSurfaceYield card (SOL 700): the multi-surface yield model of snow. It is used with an EulerMat, a
+// PolynomialStateEquation and an ElasticShearModel, and only by the Euler solvers with strength. Besides the deviatoric
+// plastic strain the model has a volumetric one.
 //
-// Card layout: YLDMSS  YID   KC    T     CC    AC    BC    FC    FTU        fields 1 to 8
-//                     ALP0  DS                                              fields 9 and 10
+// Card layout: SnowMultiSurfaceYield  YID   KC    T     CC    AC    BC    FC    FTU  fields 1 to 8
+//                                    ALP0  DS                               fields 9 and 10
 // KC (the friction angle parameter), T (the equivalent cohesion), CC (the shape of the yield surface), AC and BC (the
 // hardening parameters in compression) are required and greater than zero (but see CC below). FC lies between 0 and 1
 // (0.99), FTU is the hydrostatic tensile strength (greater than zero), ALP0 is the initial compressive volumetric

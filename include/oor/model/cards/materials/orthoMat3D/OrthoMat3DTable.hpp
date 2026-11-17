@@ -18,7 +18,7 @@ struct OrthoMat3DFormat
     static void write(const OrthoMat3DCard& card, FieldWriter& writer);
 };
 
-// All the MAT11 cards. The ID is a material ID, in the space every material type shares (IdSpace::Material).
+// All the OrthoMat3D cards. The ID is a material ID, in the space every material type shares (IdSpace::Material).
 class OrthoMat3DTable final : public TypedTable<OrthoMat3DTable, OrthoMat3DCard>
 {
 public:
@@ -34,7 +34,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MAT11 refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an OrthoMat3D refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& youngsModulus1Column() noexcept { return m_youngsModulus1; }

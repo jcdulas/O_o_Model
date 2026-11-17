@@ -22,10 +22,10 @@ struct Constant
     const char* stored;
 };
 
-// The values of the heat transfer materials, by column: HeatIsoMat (MAT4) fills the isotropic ones (k, h, mu),
-// HeatAnisoMat (MAT5) the conductivity matrix; cp, rho and hgen are on both. The stored names are the neutral field
-// names of the dictionary (K is `conductivity`, CP `specificHeat`, H `convectionCoefficient`, MU `viscosity`). The
-// cards have no reference temperature: tref is null for every row.
+// The values of the heat transfer materials, by column: HeatIsoMat (HeatIsoMat) fills the isotropic ones (k, h, mu),
+// HeatAnisoMat (HeatAnisoMat) the conductivity matrix; cp, rho and hgen are on both. The stored names are the neutral
+// field names of the dictionary (K is `conductivity`, CP `specificHeat`, H `convectionCoefficient`, MU `viscosity`).
+// The cards have no reference temperature: tref is null for every row.
 constexpr Constant CONSTANTS[] = {{"k", "conductivity"},
                                   {"kxx", "conductivityXx"},
                                   {"kxy", "conductivityXy"},
@@ -40,8 +40,8 @@ constexpr Constant CONSTANTS[] = {{"k", "conductivity"},
                                   {"heatGeneration", "heatGenerationFactor"},
                                   {"referenceTemperature", "tref"}};
 
-// thermalMaterialsTable: each MAT4 and MAT5 with its constants and the tables that make a value depend on the
-// temperature.
+// thermalMaterialsTable: each HeatIsoMat and HeatAnisoMat with its constants and the tables that make a value depend on
+// the temperature.
 class ThermalMaterialsTableQuery final : public QueryBase
 {
 public:
@@ -57,7 +57,8 @@ public:
             return emptyTable(info().defaultColumns());
         const std::size_t count = list.size();
 
-        // The tables of each material: the MATT4 and MATT5 with the same MID (the companions of the material).
+        // The tables of each material: the HeatIsoMatTemperature and HeatAnisoMatTemperature with the same MID (the
+        // companions of the material).
         std::map<base::EntityId, std::set<base::EntityId>> tablesOf;
         if (const auto* table = model.findTable<model::HeatIsoMatTemperatureTable>())
         {

@@ -21,8 +21,8 @@ struct FixedBoundaryDofs1Format
     static void write(const FixedBoundaryDofs1Card& card, FieldWriter& writer);
 };
 
-// All the BNDFIX1 cards. A card has no ID (IdSpace::None, category Set, like the BSET1 it equals). The points of every
-// card are one column of (first, last) runs.
+// All the FixedBoundaryDofs1 cards. A card has no ID (IdSpace::None, category Set, like the FixedBoundaryDofSet1 it
+// equals). The points of every card are one column of (first, last) runs.
 class FixedBoundaryDofs1Table final : public TypedTable<FixedBoundaryDofs1Table, FixedBoundaryDofs1Card>
 {
 public:

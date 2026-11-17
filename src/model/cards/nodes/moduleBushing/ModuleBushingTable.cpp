@@ -15,7 +15,7 @@ std::optional<ModuleBushingCard> ModuleBushingFormat::read(FieldReader& reader)
     card.propId = reader.integer(2, "propId", card.id); // format reference: PID defaults to EID
     card.nodeA = reader.requiredInteger(3, "nodeA");
     card.nodeB = reader.integer(4, "nodeB", 0); // blank: grounded
-    // Field 5 is GO (an integer) or X1 (a real); X2 and X3 only count when X1 is there, as for the CBUSH.
+    // Field 5 is GO (an integer) or X1 (a real); X2 and X3 only count when X1 is there, as for the Bushing.
     if (const auto orientation = reader.integerOrReal(5, "orientationNode/position1"))
     {
         if (std::holds_alternative<std::int32_t>(*orientation))

@@ -32,8 +32,8 @@ int rankOf(std::string_view name) noexcept
     return 4;
 }
 
-// Statements whose place matters: the DMAP boundaries, and ECHOOFF and ECHOON, which act on the statements after them.
-// A new one goes after the last statement.
+// Statements whose place matters: the DMAP boundaries, and EchoOffMarker and EchoOnMarker, which act on the statements
+// after them. A new one goes after the last statement.
 bool isOrdered(std::string_view name) noexcept
 {
     return name == "ExecutiveEchoOff" || name == "ExecutiveEchoOn";

@@ -20,7 +20,7 @@ struct Beam2Format
     static void write(const Beam2Card& card, FieldWriter& writer);
 };
 
-// All the CBEAM elements. The orientation vector and the two offset vectors are (N, 3) NumPy views without copy.
+// All the Beam2 elements. The orientation vector and the two offset vectors are (N, 3) NumPy views without copy.
 // Blank SA and SB are 0.
 class Beam2Table final : public TypedTable<Beam2Table, Beam2Card>
 {
@@ -40,9 +40,10 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Applies the BEAMOR defaults to the PID, orientation and OFFT that were blank (nothing when there is no BEAMOR).
+    // Applies the Beam2Defaults defaults to the PID, orientation and OFFT that were blank (nothing when there is no
+    // Beam2Defaults).
     void finishRead(Model& model, const ReadContext& context) override;
-    // True when the model has a BEAMOR: the cards then write PID, the orientation and OFFT explicitly.
+    // True when the model has a Beam2Defaults: the cards then write PID, the orientation and OFFT explicitly.
     [[nodiscard]] bool fieldsGovernedByDefaults(const Model& model) const override;
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }

@@ -19,9 +19,9 @@ struct ModuleMirrorPlaneFormat
     static void write(const ModuleMirrorPlaneCard& card, FieldWriter& writer);
 };
 
-// All the MDMPLN cards, in the category Other: the MODID is unique per card type (IdSpace::PerCardType). P1, P2 and P3
-// are references to points (GRID or POINT) of the main Bulk Data; the MODID is a module number, not a reference. The
-// cards are kept whole next to a column of their MODIDs.
+// All the ModuleMirrorPlane cards, in the category Other: the MODID is unique per card type (IdSpace::PerCardType). P1,
+// P2 and P3 are references to points (GRID or POINT) of the main Bulk Data; the MODID is a module number, not a
+// reference. The cards are kept whole next to a column of their MODIDs.
 class ModuleMirrorPlaneTable final : public TypedTable<ModuleMirrorPlaneTable, ModuleMirrorPlaneCard>
 {
 public:

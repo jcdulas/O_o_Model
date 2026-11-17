@@ -19,9 +19,9 @@ struct ModuleBoundaryNodesFormat
     static void write(const ModuleBoundaryNodesCard& card, FieldWriter& writer);
 };
 
-// All the MDBNDRY cards, category Other. A card has no ID of its own (IdSpace::None): a module may have several. They
-// are kept whole next to a column of their MIDAs. The points are visited as grid points (`Node`, the ends of a THRU
-// range `NodeInRange`) when MIDA is 0, the main Bulk Data; the modules are plain integers.
+// All the ModuleBoundaryNodes cards, category Other. A card has no ID of its own (IdSpace::None): a module may have
+// several. They are kept whole next to a column of their MIDAs. The points are visited as grid points (`Node`, the ends
+// of a THRU range `NodeInRange`) when MIDA is 0, the main Bulk Data; the modules are plain integers.
 class ModuleBoundaryNodesTable final : public TypedTable<ModuleBoundaryNodesTable, ModuleBoundaryNodesCard>
 {
 public:

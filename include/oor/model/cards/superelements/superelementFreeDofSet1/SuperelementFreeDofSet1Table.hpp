@@ -19,8 +19,8 @@ struct SuperelementFreeDofSet1Format
     static void write(const SuperelementFreeDofSet1Card& card, FieldWriter& writer);
 };
 
-// All the SECSET1 cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a
-// column of their SEIDs.
+// All the SuperelementFreeDofSet1 cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole
+// next to a column of their SEIDs.
 class SuperelementFreeDofSet1Table final : public TypedTable<SuperelementFreeDofSet1Table, SuperelementFreeDofSet1Card>
 {
 public:

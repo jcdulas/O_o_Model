@@ -18,7 +18,7 @@ struct ShellConical2Format
     static void write(const ShellConical2Card& card, FieldWriter& writer);
 };
 
-// All the CCONEAX elements.
+// All the ShellConical2 elements.
 class ShellConical2Table final : public TypedTable<ShellConical2Table, ShellConical2Card>
 {
 public:

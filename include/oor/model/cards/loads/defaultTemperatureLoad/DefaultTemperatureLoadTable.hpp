@@ -19,9 +19,9 @@ struct DefaultTemperatureLoadFormat
     static void write(const DefaultTemperatureLoadCard& card, FieldWriter& writer);
 };
 
-// All the TEMPD default temperatures, one row each. The ID is a temperature set ID, shared with the TEMP cards of the
-// set and with the other load cards (IdSpace::Group, category Load): TEMPERATURE(LOAD) = SID of Case Control selects
-// it.
+// All the DefaultTemperatureLoad default temperatures, one row each. The ID is a temperature set ID, shared with the
+// NodeTemperatureLoad cards of the set and with the other load cards (IdSpace::Group, category Load): TEMPERATURE(LOAD)
+// = SID of Case Control selects it.
 class DefaultTemperatureLoadTable final : public TypedTable<DefaultTemperatureLoadTable, DefaultTemperatureLoadCard>
 {
 public:

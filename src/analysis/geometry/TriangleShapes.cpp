@@ -26,7 +26,7 @@ void appendNodes(const NodeArray& nodes, std::vector<base::EntityId>& ids)
     ids.insert(ids.end(), nodes.begin(), nodes.end());
 }
 
-// CTRIA3: three nodes, corner thicknesses T1..T3, THETA or MCID.
+// ShellTria3: three nodes, corner thicknesses T1..T3, THETA or MCID.
 struct ShellTria3Shape
 {
     static void nodes(const model::ShellTria3Table& table, std::uint32_t row, std::vector<base::EntityId>& ids)
@@ -47,7 +47,7 @@ struct ShellTria3Shape
     }
 };
 
-// CTRIAR: the same geometry as CTRIA3 (the drilling-rotation variant).
+// ShellTria3Drilling: the same geometry as ShellTria3 (the drilling-rotation variant).
 struct ShellTria3DrillingShape
 {
     static void nodes(const model::ShellTria3DrillingTable& table, std::uint32_t row, std::vector<base::EntityId>& ids)
@@ -68,7 +68,7 @@ struct ShellTria3DrillingShape
     }
 };
 
-// CTRIA6: three corners G1..G3 and three mid-side nodes G4..G6.
+// ShellTria6: three corners G1..G3 and three mid-side nodes G4..G6.
 struct ShellTria6Shape
 {
     static void nodes(const model::ShellTria6Table& table, std::uint32_t row, std::vector<base::EntityId>& ids)
@@ -89,7 +89,7 @@ struct ShellTria6Shape
     }
 };
 
-// CPLSTN3 and CPLSTN6: plane strain triangles (another implementation): no thickness, THETA only.
+// PlaneStrainTria3 and PlaneStrainTria6: plane strain triangles (another implementation): no thickness, THETA only.
 struct PlaneStrainTria3Shape
 {
     static void nodes(const model::PlaneStrainTria3Table& table, std::uint32_t row, std::vector<base::EntityId>& ids)
@@ -126,7 +126,7 @@ struct PlaneStrainTria6Shape
     }
 };
 
-// CPLSTS3 (plane stress, with corner thicknesses) and CPLSTS6.
+// PlaneStressTria3 (plane stress, with corner thicknesses) and PlaneStressTria6.
 struct PlaneStressTria3Shape
 {
     static void nodes(const model::PlaneStressTria3Table& table, std::uint32_t row, std::vector<base::EntityId>& ids)
@@ -163,8 +163,8 @@ struct PlaneStressTria6Shape
     }
 };
 
-// CTRIAX6: the corners are G1, G3 and G5 and the edge points G2, G4 and G6 (they alternate around the perimeter). An
-// axisymmetric element: the volume is the ring the cross-section sweeps.
+// AxisymTria6: the corners are G1, G3 and G5 and the edge points G2, G4 and G6 (they alternate around the perimeter).
+// An axisymmetric element: the volume is the ring the cross-section sweeps.
 struct AxisymTria6Shape
 {
     static void nodes(const model::AxisymTria6Table& table, std::uint32_t row, std::vector<base::EntityId>& ids)
@@ -184,7 +184,7 @@ struct AxisymTria6Shape
     }
 };
 
-// CTRIAX: corners G1..G3 and edge points G4..G6; axisymmetric.
+// AxisymTria: corners G1..G3 and edge points G4..G6; axisymmetric.
 struct AxisymTriaShape
 {
     static void nodes(const model::AxisymTriaTable& table, std::uint32_t row, std::vector<base::EntityId>& ids)

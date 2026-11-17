@@ -20,9 +20,9 @@ struct UserServiceDataFormat
     static void write(const UserServiceDataCard& card, FieldWriter& writer);
 };
 
-// All the GENUDS cards. A card is named by its SRV_ID, not by a number: IdSpace::None, category Other, and a text
-// column for the query engine. The card refers to no other card. The cards are kept whole (CardRows): the data blocks
-// have a length of their own.
+// All the UserServiceData cards. A card is named by its SRV_ID, not by a number: IdSpace::None, category Other, and a
+// text column for the query engine. The card refers to no other card. The cards are kept whole (CardRows): the data
+// blocks have a length of their own.
 class UserServiceDataTable final : public TypedTable<UserServiceDataTable, UserServiceDataCard>
 {
 public:
@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a GENUDS refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an UserServiceData refers to no other card
 
     [[nodiscard]] Column<std::string>& serviceIdColumn() noexcept { return m_serviceId; }
 

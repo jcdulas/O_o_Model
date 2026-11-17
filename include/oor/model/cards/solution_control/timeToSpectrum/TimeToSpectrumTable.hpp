@@ -19,9 +19,10 @@ struct TimeToSpectrumFormat
     static void write(const TimeToSpectrumCard& card, FieldWriter& writer);
 };
 
-// All the TIM2PSD cards (IdSpace::PerCardType, category Other: the Case Control FATIGUE command selects one). A TIM2PSD
-// names no other card (its event numbers are the TIDs of FTGLOAD cards, its subcases are Case Control subcases). The
-// cards are kept whole (CardRows) next to their ID: they have lists of any length, and the query engine reads the ID.
+// All the TimeToSpectrum cards (IdSpace::PerCardType, category Other: the Case Control FATIGUE command selects one). A
+// TimeToSpectrum names no other card (its event numbers are the TIDs of FatigueLoad cards, its subcases are Case
+// Control subcases). The cards are kept whole (CardRows) next to their ID: they have lists of any length, and the query
+// engine reads the ID.
 class TimeToSpectrumTable final : public TypedTable<TimeToSpectrumTable, TimeToSpectrumCard>
 {
 public:
@@ -37,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TIM2PSD refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TimeToSpectrum refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

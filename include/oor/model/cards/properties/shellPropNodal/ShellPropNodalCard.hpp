@@ -76,17 +76,17 @@ enum class ShellPropNodalShearLock : std::uint8_t
 inline constexpr std::array<std::string_view, 2> SHELL_PROP_NODAL_SHEAR_LOCK_WORDS{"AvoidShearLocking",
                                                                                    "NoAvoidShearLocking"};
 
-// One PSHELL1 card (SOL 700 only): the property of a shell with a thickness at each grid point, a formulation and the
-// options of the explicit shell elements.
+// One ShellPropNodal card (SOL 700 only): the property of a shell with a thickness at each grid point, a formulation
+// and the options of the explicit shell elements.
 //
 // Card layout (the fields are numbered across the lines, eight to a line):
-//   PSHELL1  PID  MID  FORM  QUAD  NUMB  SHFACT  REF  SPINCOR                      fields 1 to 8
-//            T1   T2   T3    T4    TRANSHR  SHRLCK                                  9 to 14
+//   ShellPropNodal  PID  MID  FORM  QUAD  NUMB  SHFACT  REF  SPINCOR               fields 1 to 8
+//                   T1   T2   T3    T4    TRANSHR  SHRLCK                                  9 to 14
 // PID and MID are required. FORM is blank when the deck leaves it out: the format reference says the formulation then
-// depends on the element that names the property (KEYHOFF for a CQUAD4, C0-TRIA for a CTRIA3), which the card cannot
-// know, so the card keeps the blank (`std::nullopt`) and a later step resolves it for the element. The format spells
-// the triangle C0-TRIA in the table of words and CO-TRIA elsewhere (a letter O); both are read and C0-TRIA is written.
-// NUMB is the number of integration points through the thickness, 1 to 5; its default depends on FORM (1 for a
+// depends on the element that names the property (KEYHOFF for a ShellQuad4, C0-TRIA for a ShellTria3), which the card
+// cannot know, so the card keeps the blank (`std::nullopt`) and a later step resolves it for the element. The format
+// spells the triangle C0-TRIA in the table of words and CO-TRIA elsewhere (a letter O); both are read and C0-TRIA is
+// written. NUMB is the number of integration points through the thickness, 1 to 5; its default depends on FORM (1 for a
 // membrane, 3 for the others) and is stored resolved. SHFACT is 0.83333 when blank. T1 to T4 are the thicknesses at the
 // grid points, 0.0 when blank: with T1 blank or zero the thickness comes from the element. TRANSHR and
 // SHRLCK are blank (no value kept) when the deck leaves them out: their defaults depend on FORM and on the element

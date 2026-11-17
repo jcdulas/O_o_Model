@@ -7,7 +7,7 @@
 namespace oor::model
 {
 
-// The constraint of the arc-length method of an NLPCI card.
+// The constraint of the arc-length method of an ArcLengthParams card.
 enum class ArcLengthType : std::uint8_t
 {
     Cris, // CRIS: Crisfield (the default)
@@ -15,10 +15,10 @@ enum class ArcLengthType : std::uint8_t
     Mriks // MRIKS: modified Riks
 };
 
-// One NLPCI card: the arc-length method of a nonlinear static analysis (SOL 106 and 400). Its ID is the ID of the
-// NLPARM card it goes with (the NLPARM command of Case Control selects both).
+// One ArcLengthParams card: the arc-length method of a nonlinear static analysis (SOL 106 and 400). Its ID is the ID of
+// the NonlinearStaticParams card it goes with (the NonlinearStaticParams command of Case Control selects both).
 //
-// Card layout: NLPCI  ID  TYPE  MINALR  MAXALR  SCALE  (blank)  DESITER  MXINC
+// Card layout: ArcLengthParams  ID  TYPE  MINALR  MAXALR  SCALE  (blank)  DESITER  MXINC
 struct ArcLengthParamsCard
 {
     base::EntityId id = 0;

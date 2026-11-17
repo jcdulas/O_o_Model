@@ -34,12 +34,12 @@ struct MidPlaneStrains
 [[nodiscard]] MidPlaneStrains strainsOf(const AbdMatrix& inverse, const std::array<double, 3>& n,
                                         const std::array<double, 3>& m) noexcept;
 
-// The stiffness of a shell property as a laminate, about its reference plane: a PCOMP or a PCOMPG (Laminate::of), or a
-// PSHELL from the laws of its materials, as the the solver reference manual writes them, in the moments of the
-// lamination theory (+int sigma z dz, as the laminates): A = T G1, B = -T^2 G4 (the solver's plate moments are the
-// opposite, so the coupling of the card turns sign: a companion package D-319, D-597), D = (12I/T^3) T^3 / 12 G2, G =
-// (TS/T) T G3 (a part whose material is blank, or not positive, is zero). nullopt for another property or a missing
-// one. Throws MassError for a material without a plane stress law.
+// The stiffness of a shell property as a laminate, about its reference plane: a CompProp or a CompPropGlobal
+// (Laminate::of), or a ShellProp from the laws of its materials, as the the solver reference manual writes them, in the
+// moments of the lamination theory (+int sigma z dz, as the laminates): A = T G1, B = -T^2 G4 (the solver's plate
+// moments are the opposite, so the coupling of the card turns sign: a companion package D-319, D-597), D = (12I/T^3)
+// T^3 / 12 G2, G = (TS/T) T G3 (a part whose material is blank, or not positive, is zero). nullopt for another property
+// or a missing one. Throws MassError for a material without a plane stress law.
 [[nodiscard]] std::optional<LaminateStiffness> shellStiffness(const model::Model& model, model::CardLocation property);
 
 // The normal strain along a direction of the plane at `angleInDegrees` from the x axis, of the strains (ex, ey, gxy),
@@ -67,8 +67,9 @@ struct SandwichFace
 };
 
 // A laminate seen as a sandwich: its core ply (numbered from 1 in the stack), the core's material,
-// thickness and place, its transverse shear moduli (G1Z, G2Z of a MAT8, G of a MAT1; infinite for a MAT8 whose G1Z or
-// G2Z is blank), and the two faces. The distance between the middles of the faces is the lever arm of the bending.
+// thickness and place, its transverse shear moduli (G1Z, G2Z of an OrthoMat2D, G of an IsoMat; infinite for an
+// OrthoMat2D whose G1Z or G2Z is blank), and the two faces. The distance between the middles of the faces is the lever
+// arm of the bending.
 struct SandwichLayup
 {
     std::size_t corePly = 0;
@@ -85,10 +86,10 @@ struct SandwichLayup
     }
 };
 
-// The sandwich of a PCOMP or PCOMPG: the core is the ply `corePly` (from 1, in the stack of the laminate: both halves
-// of a SYM laminate), else the thickest ply (the first of the thickest). nullopt for another property, or a ply number
-// outside the stack. A face with no ply (a core at the bottom or the top of the stack) has no plies and zero matrices.
-// Throws MassError for a ply whose material has no plane stress law.
+// The sandwich of a CompProp or CompPropGlobal: the core is the ply `corePly` (from 1, in the stack of the laminate:
+// both halves of a SYM laminate), else the thickest ply (the first of the thickest). nullopt for another property, or a
+// ply number outside the stack. A face with no ply (a core at the bottom or the top of the stack) has no plies and zero
+// matrices. Throws MassError for a ply whose material has no plane stress law.
 [[nodiscard]] std::optional<SandwichLayup> sandwichLayup(const model::Model& model, model::CardLocation property,
                                                          std::optional<std::size_t> corePly = std::nullopt);
 

@@ -14,145 +14,181 @@ enum class RenumberSpace
 {
     Node,
     Element,
-    SurfaceElement, // CHBDYE, CHBDYG, CHBDYP
+    SurfaceElement, // HeatSurfaceSide, HeatSurfaceNodes, HeatSurfaceProperty
     Property,
     Material,
-    ThermalMaterial, // MAT4 and MAT5
+    ThermalMaterial, // HeatIsoMat and HeatAnisoMat
     Coordinate,
     Method,
     DynamicTable,
     MaterialTable,
     StressTable,
     HeatTable,
-    HybridDampingRotorOptionsTable, // TABDMP1
-    RandomTable,                    // TABRND1 and TABRNDG
-    LoadCombinationSet,             // the set IDs of LOAD, FORCE, PLOAD4, ... (category Load)
-    ConstraintSet,                  // the set IDs of SPC, SPC1, MPC, SPCADD (category Constraint)
-    DynamicLoadSet,                 // the set IDs of TLOAD1, RLOAD1, DLOAD, DAREA, ... (category DynamicLoad)
-    Set,                            // the IDs of SET1 and SET3 (category Set)
-    FrequencySet,                   // the set IDs of FREQ, FREQ1 to FREQ5 (category Frequency)
-    ComplexMethod,                  // the IDs of EIGC and EIGP (the real methods are the Method space)
-    Delay,                          // the set IDs of DELAY
-    Phase,                          // the set IDs of DPHASE
-    TimeStep,             // the IDs of TSTEP and TSTEPNL (they number the same selection: one ID gives both a new one)
-    Nonlinear,            // the IDs of NLPARM and NLPCI
-    Random,               // the set IDs of RANDPS and RANDT1
+    HybridDampingRotorOptionsTable, // TableModalDamping1
+    RandomTable,                    // TableRandomSpectrum1 and TableGustSpectrum
+    // the set IDs of LoadCombination, PointForceLoad, FacePressureLoad, ... (category Load)
+    LoadCombinationSet,
+    // the set IDs of SinglePointConstr, SinglePointConstrList, MultiPointConstr, SinglePointConstrUnion (category
+    // Constraint)
+    ConstraintSet,
+    // the set IDs of TransientTableLoad1, FreqResponseLoad1, DynamicLoadCombination, DynamicLoadScale, ... (category
+    // DynamicLoad)
+    DynamicLoadSet,
+    Set,                            // the IDs of IdListSet1 and TypedListSet3 (category Set)
+    // the set IDs of FreqList, FreqLinearSteps1 to FreqModeFractions5 (category Frequency)
+    FrequencySet,
+    // the IDs of ComplexEigenMethod and ComplexEigenPoles (the real methods are the Method space)
+    ComplexMethod,
+    Delay,                          // the set IDs of DynamicLoadDelay
+    Phase,                          // the set IDs of DynamicLoadPhase
+    // the IDs of TransientTimeSteps and NonlinearTimeSteps (they number the same selection: one ID gives both a new
+    // one)
+    TimeStep,
+    Nonlinear,            // the IDs of NonlinearStaticParams and ArcLengthParams
+    Random,               // the set IDs of RandomSpectralDensity and RandomTimeLags
     TransferFunction,     // the set IDs of TF
-    InitialCondition,     // the set IDs of TIC
-    HeatBoundaryProperty, // the IDs of PHBDY
-    ConvectionProperty,   // the IDs of PCONV
-    ForcedConvectionProperty, // the IDs of PCONVM
-    RadiationMaterial,        // the IDs of RADM
-    ViewFactorFaceFactor,     // the IDs of VIEW
-    RadiationCavity,          // the cavity IDs of RADCAV, RADLST, RADMTX and VIEW3D
-    ContactBody,              // BCBODY, BCBODY1, BCSURF, BCGRID: a body of a contact pair
-    ContactSurface, // BSURF, BCPROP, BCBOX, ... and the rigid surfaces BCPATCH, BCBZIER, ...: what a body is made of
-    ContactRigid,   // BCRIGID: the motion of a rigid contact body
-    ContactBodyParameters,      // BCBDPRP: the parameters of a contact body
-    ContactGeometricParameters, // BCONPRG: the geometric parameters of a contact pair
-    ContactPhysicalParameters,  // BCONPRP: the physical parameters of a contact pair
-    ContactPair,                // BCONECT and MDBCNCT: a contact pair
-    ContactTable,               // BCTABL1, BCTABLE, BCTADD, BCTSET and MDBCTB1: a contact table
-    TrimmingCurve,              // BCTRIM: the trimming curve of a NURBS surface
-    SlidelineSegments,          // BLSEG: the line segments of a slideline contact region
-    SlidelineContact,           // BCONP: a slideline contact region
-    SlidelineFriction,          // BFRIC: the friction of a slideline contact region
-    NonlinearStep,              // NLSTEP: the load or time stepping of a nonlinear analysis
-    NonlinearHarmonic,          // NLHARM: the parameters of a nonlinear harmonic response
-    NonlinearFrequency,         // NLFREQ, NLFREQ1 and NLFREQC: the forcing frequencies of a nonlinear harmonic response
-    EquationOfState,            // EOSDEF, EOSGAM, EOSIG, ...: the equation of state a MATDEUL names
-    ShearModel,                 // SHREL, SHRPOL, SHRUDS: the shear model a MATDEUL names
-    YieldModel,                 // YLDHY, YLDJC, YLDVM, ...: the yield model a MATDEUL names
-    FailureModel,               // FAILJC, FAILMPS, FAILUDS: the failure model a MATDEUL names
-    SpallModel,                 // PMINC: the spall model a MATDEUL names
-    EulerMesh,                  // MESH: an Euler mesh (a COUPLE, BARRIER or flow boundary names it)
-    MeshBias,                   // BIAS: the mesh size variation a MESH names
-    EulerBodyForce,             // EULFOR and EULFOR1: a body force on Euler elements
-    EulerRegionSet,             // EULFREG: the set of Euler regions an EULFOR1 names
-    EulerRegionShape,           // SURFINI, CYLINDR, SPHERE: a geometric shape that defines an Euler region
-    Coupling,                   // COUPLE: an Euler-Lagrange coupling surface
-    CouplingOptions,            // COUOPT: the set of coupling options a COUPLE names (OPTID)
-    CohesiveFriction,           // COHFRIC: a cohesive friction model
-    CohesiveFrictionSet,        // COUCOHF: the set of cohesive frictions a COUPLE names (COHFRID)
-    CouplingFailure,            // COUP1FL: the surroundings of a failed coupling surface segment
-    HydrostaticPreset,          // HYDSTAT: a hydrostatic preset of the Euler densities
-    GasBag,                     // GBAG: a gas bag with a uniform pressure
-    Leakage,                    // LEAKAGE: the set of porosity definitions a GBAG or COUPLE names (PORID)
-    Porosity,    // PERMEAB, PERMGBG, PORFCPL, PORFGBG, PORFLOW, PORFLWT, PORHOLE, PORHYDS, PORUDS: the porosity model a
-                 // LEAKAGE names
-    InflatorSet, // ABINFL: the set of inflators a GBAG or COUPLE names (INFID)
-    Inflator,    // INFLCG, INFLHB, INFLTNK, INFLTR: the inflator model an ABINFL names
-    InflatorGas, // INFLGAS: a gas of an inflator or of an initial gas composition
-    GasFractions,         // INFLFRC: the gas fractions of a hybrid inflator as a function of time
-    InitialGas,           // INITGAS: the initial gas composition of a gas bag or a coupling surface
-    DesignVariable,       // the IDs of DESVAR
-    DesignEquation,       // the IDs of DEQATN
-    DesignResponse,       // the IDs of DRESP1, DRESP2 and DRESP3 (one number space)
-    DesignConstraintSet,  // the DCIDs of DCONSTR and DCONADD
-    PropertyRelation,     // the IDs of DVPREL1 and DVPREL2
-    MaterialRelation,     // the IDs of DVMREL1 and DVMREL2
-    ConnectivityRelation, // the IDs of DVCREL1 and DVCREL2
-    AeroElement,          // the EIDs of CAERO1 to CAERO5; the boxes (AeroBox references) follow their CAERO, so use a
-                          // mapping that keeps the ranges apart (an offset)
-    AeroProperty,         // the IDs of PAERO1 to PAERO5
-    AeroList,             // the IDs of AELIST
-    AeroFactor,           // the IDs of AEFACT
-    AeroFlutterFactor,    // the IDs of FLFACT
-    AeroControlSurface,   // the IDs of AESURF
-    AeroTrimSet,          // the IDs of TRIM and TRIM2 (one selection: both get the same new ID)
+    InitialCondition,     // the set IDs of TransientInitialCondition
+    HeatBoundaryProperty, // the IDs of HeatSurfaceProp
+    ConvectionProperty,   // the IDs of FreeConvectionProp
+    ForcedConvectionProperty, // the IDs of ForcedConvectionProp
+    RadiationMaterial,        // the IDs of RadiationProp
+    ViewFactorFaceFactor,     // the IDs of ViewFactorFace
+    // the cavity IDs of RadiationCavity, RadiationCavityList, RadiationExchangeMatrix and ViewFactorIntegration
+    RadiationCavity,
+    // ContactBody, ContactBody1, ContactFaceRegion, ContactNodeRegion: a body of a contact pair
+    ContactBody,
+    // ContactElemSurface, ContactPropertyRegion, ContactBoxRegion, ... and the rigid surfaces ContactPatchSurface,
+    // ContactBezierSurface, ...: what a body is made of
+    ContactSurface,
+    ContactRigid,   // ContactRigidMotion: the motion of a rigid contact body
+    ContactBodyParameters,      // ContactBodyParams: the parameters of a contact body
+    ContactGeometricParameters, // ContactPairGeomParams: the geometric parameters of a contact pair
+    ContactPhysicalParameters,  // ContactPairPhysicalParams: the physical parameters of a contact pair
+    ContactPair,                // ContactPair and ModuleContactPair: a contact pair
+    // ContactTable1, ContactTable, ContactSetUnion, ContactSet and ModuleContactTable: a contact table
+    ContactTable,
+    TrimmingCurve,              // ContactTrimCurve: the trimming curve of a NURBS surface
+    SlidelineSegments,          // SlidelineSegments: the line segments of a slideline contact region
+    SlidelineContact,           // ContactSlideline: a slideline contact region
+    SlidelineFriction,          // SlidelineFriction: the friction of a slideline contact region
+    NonlinearStep,              // NonlinearStepControl: the load or time stepping of a nonlinear analysis
+    NonlinearHarmonic,          // NonlinearHarmonicParams: the parameters of a nonlinear harmonic response
+    // NonlinearHarmonicFreqList, NonlinearHarmonicFreqSteps and NonlinearHarmonicFreqContinuation: the forcing
+    // frequencies of a nonlinear harmonic response
+    NonlinearFrequency,
+    // DeflagrationStateEquation, GammaLawStateEquation, IgnitionGrowthStateEquation, ...: the equation of state an
+    // EulerMat names
+    EquationOfState,
+    // ElasticShearModel, PolynomialShearModel, UserShearModel: the shear model an EulerMat names
+    ShearModel,
+    // HydrodynamicYield, JohnsonCookYield, VonMisesYield, ...: the yield model an EulerMat names
+    YieldModel,
+    // JohnsonCookFailure, MaxPlasticStrainFailure, UserFailureModel: the failure model an EulerMat names
+    FailureModel,
+    SpallModel,                 // ConstantSpallation: the spall model an EulerMat names
+    // EulerMeshGenerator: an Euler mesh (an EulerLagrangeCoupling, EulerBarrier or flow boundary names it)
+    EulerMesh,
+    MeshBias,                   // EulerMeshBias: the mesh size variation an EulerMeshGenerator names
+    EulerBodyForce,             // EulerBodyForce and EulerBodyForceSet: a body force on Euler elements
+    EulerRegionSet,             // EulerForceRegion: the set of Euler regions an EulerBodyForceSet names
+    // InitialSurfaceVolume, CylinderShape, SphereShape: a geometric shape that defines an Euler region
+    EulerRegionShape,
+    Coupling,                   // EulerLagrangeCoupling: an Euler-Lagrange coupling surface
+    CouplingOptions,            // CouplingOptions: the set of coupling options an EulerLagrangeCoupling names (OPTID)
+    CohesiveFriction,           // CohesiveFriction: a cohesive friction model
+    // CouplingCohesiveFriction: the set of cohesive frictions an EulerLagrangeCoupling names (COHFRID)
+    CohesiveFrictionSet,
+    CouplingFailure,            // CouplingFailedSegmentFlow: the surroundings of a failed coupling surface segment
+    HydrostaticPreset,          // EulerHydrostaticPreset: a hydrostatic preset of the Euler densities
+    GasBag,                     // GasBag: a gas bag with a uniform pressure
+    // GasBagLeakage: the set of porosity definitions a GasBag or EulerLagrangeCoupling names (PORID)
+    Leakage,
+    // SurfacePermeability, GasBagPermeableLink, CouplingHoleToCoupling, CouplingHoleToGasBag, PorousFlowBoundary,
+    // PorousTimeFlowBoundary, GasBagVentHole, PorousHydrostaticBoundary, PorousUserBoundary: the porosity model a
+    // GasBagLeakage names
+    Porosity,
+    InflatorSet, // InflatorInlet: the set of inflators a GasBag or EulerLagrangeCoupling names (INFID)
+    // ColdGasInflator, HybridInflator, TankTestInflator, StandardInflator: the inflator model an InflatorInlet names
+    Inflator,
+    InflatorGas, // InflatorGas: a gas of an inflator or of an initial gas composition
+    GasFractions,         // HybridInflatorFractions: the gas fractions of a hybrid inflator as a function of time
+    InitialGas,           // InitialGasComposition: the initial gas composition of a gas bag or a coupling surface
+    DesignVariable,       // the IDs of DesignVar
+    DesignEquation,       // the IDs of DesignEquation
+    DesignResponse,       // the IDs of DesignResp1, DesignResp2 and DesignResp3 (one number space)
+    DesignConstraintSet,  // the DCIDs of DesignConstr and DesignConstrUnion
+    PropertyRelation,     // the IDs of DesignPropRelation1 and DesignPropRelation2
+    MaterialRelation,     // the IDs of DesignMatRelation1 and DesignMatRelation2
+    ConnectivityRelation, // the IDs of DesignElemRelation1 and DesignElemRelation2
+    // the EIDs of AeroLiftingPanel1 to AeroPistonPanel5; the boxes (AeroBox references) follow their CAERO, so use a
+    // mapping that keeps the ranges apart (an offset)
+    AeroElement,
+    AeroProperty,         // the IDs of AeroLiftingPanelProp1 to AeroPistonProp5
+    AeroList,             // the IDs of AeroBoxList
+    AeroFactor,           // the IDs of AeroFactorList
+    AeroFlutterFactor,    // the IDs of AeroFlutterFactors
+    AeroControlSurface,   // the IDs of AeroControlSurface
+    AeroTrimSet,          // the IDs of AeroTrim and AeroTrim2 (one selection: both get the same new ID)
     AeroFlutterSet,       // the IDs of FLUTTER
-    AeroGustSet,          // the IDs of GUST
-    DivergenceSet,        // the IDs of DIVERG
-    ControlSchedule,      // the IDs of CSSCHD
-    ControlVector,        // the IDs of UXVEC
-    AeroNode,             // the IDs of AEGRID
-    AeroScale,            // the IDs of AESCALE
-    Superelement,    // the superelement numbers: the SEID of SESET, SEELT, SEBULK, CSUPEXT, CSUPER, every reference to
-                     // one, the SEID of GRID and GRDSET, the Case Control selections and the BEGIN SUPER=n lines of
-                     // the parts (one number space for the whole deck: the residual structure and its parts)
-    MassCombination, // the IDs of MASSSET
-    AeroSpline,      // the IDs of SPLINE1 to SPLINE7, SPLINEX, SPBLND1, SPBLND2 and SPLINRB (the cards of one category,
-                     // IDs unique per card type: two types with one ID are one selection and get one new ID)
-    HybridDampingRotorOptionsSpecification, // the IDs of DAMPING
-    HybridDamping,                          // the IDs of HYBDAMP
-    ElementList,                            // the IDs of ELIST
-    ModuleMove,                             // the MVIDs of MDTRAN, MDROT1, MDROT2, MDMIR1 and MDMIR2
-    MultiDimensionalTable,                  // the IDs of TABL3D0, TABL3D1, TABL3D2 and TABLE3D
-    FatigueTable,                           // the IDs of TABLFTG
-    ImperfectionCase,                       // the IDs of IMPCASE
-    ImperfectionGeometry,                   // the IDs of IMPGEOM
-    GeometricBoundary,                      // the IDs of GMBNDC
-    AdaptivityCriterion,                    // the IDs of HADACRI
-    AdaptivitySet,                          // the IDs of HADAPTL
-    Rotor,                                  // the ROTORIDs of ROTORG, ROTOR, ROTORAX and ROTORSE
-    DiscreteValueSet,                       // the IDs of DDVAL
-    UserDefinedName,                        // the UDIDs of UDNAME
-    FatigueProperty,                        // the IDs of PFTG
-    FatigueLoad,                            // the IDs of FTGLOAD
-    FatigueEvent,                           // the IDs of FTGEVNT and FTGSEQ
-    EulerInitialization,                    // the IDs of TICEUL1
-    EulerInitialRegions,                    // the TSIDs of TICREG
-    InitialValueSet,                        // the IDs of TICVAL
-    HeatLossSet,                            // the HTRIDs of HEATLOS
-    HeatTransferModel,                      // the IDs of HTRCONV and HTRRAD
-    CosimulationGroup,                      // the IDs of COSMGRP
-    CosimulationInput,                      // the IDs of COSMINP
-    CosimulationOutput,                     // the IDs of COSMOUT
-    CosimulationService,                    // the IDs of COSMSRV
-    WettedElement,                          // the WEIDs of WETELME and WETELMG
-    WettedSurface,                          // the WSIDs of WETSURF
-    BrakeProperty,                          // the IDs of BRKPROP
+    AeroGustSet,          // the IDs of AeroGust
+    DivergenceSet,        // the IDs of AeroDivergence
+    ControlSchedule,      // the IDs of AeroControlSchedule
+    ControlVector,        // the IDs of AeroControlVector
+    AeroNode,             // the IDs of AeroNode
+    AeroScale,            // the IDs of AeroNodeScale
+    // the superelement numbers: the SEID of SuperelementInteriorNodes, SuperelementElemTransfer,
+    // SuperelementBulkOptions, SuperelementExteriorPoints, SuperelementCopyPoints, every reference to one, the SEID of
+    // Node and NodeDefaults, the Case Control selections and the BEGIN SUPER=n lines of the parts (one number space for
+    // the whole deck: the residual structure and its parts)
+    Superelement,
+    MassCombination, // the IDs of MassCaseCombination
+    // the IDs of AeroSurfaceSpline1 to AeroFiniteBeamSpline7, AeroUserSpline, AeroSplineStripBlend,
+    // AeroSplineCurveBlend and AeroRigidSpline (the cards of one category, IDs unique per card type: two types with one
+    // ID are one selection and get one new ID)
+    AeroSpline,
+    HybridDampingRotorOptionsSpecification, // the IDs of HybridDampingRotorOptions
+    HybridDamping,                          // the IDs of HybridDamping
+    ElementList,                            // the IDs of FluidMassElemList
+    // the MVIDs of ModuleTranslation, ModuleRotation1, ModuleRotation2, ModuleMirror1 and ModuleMirror2
+    ModuleMove,
+    // the IDs of TableMultiVariable0, TableMultiVariable1, TableMultiVariable2 and TableScattered3D
+    MultiDimensionalTable,
+    FatigueTable,                           // the IDs of TableFatigueHistory
+    ImperfectionCase,                       // the IDs of ImperfectionCase
+    ImperfectionGeometry,                   // the IDs of ImperfectionGeometry
+    GeometricBoundary,                      // the IDs of GeomBoundaryCurve
+    AdaptivityCriterion,                    // the IDs of AdaptiveRefineCriterion
+    AdaptivitySet,                          // the IDs of AdaptiveRefineControl
+    // the ROTORIDs of RotorLineNodes, RotorModel3D, RotorAxisym and RotorSuperelement
+    Rotor,
+    DiscreteValueSet,                       // the IDs of DesignDiscreteValues
+    UserDefinedName,                        // the UDIDs of UserFileName
+    FatigueProperty,                        // the IDs of FatigueProp
+    FatigueLoad,                            // the IDs of FatigueLoad
+    FatigueEvent,                           // the IDs of FatigueEvent and FatigueSequence
+    EulerInitialization,                    // the IDs of EulerInitialRegions
+    EulerInitialRegions,                    // the TSIDs of InitialConditionRegion
+    InitialValueSet,                        // the IDs of InitialConditionValues
+    HeatLossSet,                            // the HTRIDs of GasBagHeatTransfer
+    HeatTransferModel,                      // the IDs of GasBagConvection and GasBagRadiation
+    CosimulationGroup,                      // the IDs of CosimulationArea
+    CosimulationInput,                      // the IDs of CosimulationInputs
+    CosimulationOutput,                     // the IDs of CosimulationOutputs
+    CosimulationService,                    // the IDs of CosimulationService
+    WettedElement,                          // the WEIDs of WettedElemSide and WettedElemNodes
+    WettedSurface,                          // the WSIDs of WettedSurface
+    BrakeProperty,                          // the IDs of BrakeProp
     BrakeMotion,                            // the IDs of MOTION
-    BrakeSqueal,                            // the IDs of BSQUEAL and BRKSYS
-    FrfComponent,                           // the COMPIDs of FRFCOMP
-    BushingForceSet,                        // the LIDs of LBSH3DG
-    LoadStepControl,                        // the IDs of TABSCTL
-    TemperatureGroup,                       // the IDs of TMPSET
-    MonteCarloSet,                          // the SIDs of MONCARL
-    DeactivatedElementSet,                  // the IDs of DEACTEL
-    TransferPathSet,                        // the SETIDs of TPADEFN
-    IterativeSolver,                        // the SIDs of ITER
-    MetadataGroup                           // the ABSTIDs of ABSTRCT
+    BrakeSqueal,                            // the IDs of BrakeSqueal and BrakeSystem
+    FrfComponent,                           // the COMPIDs of FrfComponent
+    BushingForceSet,                        // the LIDs of NonlinearBushForceTables
+    LoadStepControl,                        // the IDs of StepControlCriteria
+    TemperatureGroup,                       // the IDs of TemperatureTimeGroup
+    MonteCarloSet,                          // the SIDs of MonteCarloParams
+    DeactivatedElementSet,                  // the IDs of DeactivatedElems
+    TransferPathSet,                        // the SETIDs of TransferPathSetup
+    IterativeSolver,                        // the SIDs of IterativeSolverOptions
+    MetadataGroup                           // the ABSTIDs of MetadataGroup
 };
 
 // The new ID of an old one; nothing leaves it unchanged.
@@ -171,11 +207,11 @@ struct Renumbering
     // range keeps its end points renumbered (it stays correct for an offset or any increasing mapping).
     //
     // A part is renumbered on its own too (`apply` on the part): what the residual structure names in it (the grid
-    // points of a SECONCT, SEBNDRY or SEEXCLD, the design variables of a SEDLINK:
-    // ReferenceVisitor::visitInSuperelement) follows, and nothing else changes. The residual structure alone leaves the
-    // parts as they are, and so does a part leave the others. The superelement numbers are the exception: they belong
-    // to the whole deck, so that space is renumbered on the residual structure (never on a part) and takes the parts,
-    // whatever `includeParts` says.
+    // points of a SuperelementConnection, SuperelementBoundarySearch or SuperelementExcludedNodes, the design variables
+    // of a SuperelementDesignLink: ReferenceVisitor::visitInSuperelement) follows, and nothing else changes. The
+    // residual structure alone leaves the parts as they are, and so does a part leave the others. The superelement
+    // numbers are the exception: they belong to the whole deck, so that space is renumbered on the residual structure
+    // (never on a part) and takes the parts, whatever `includeParts` says.
     static std::size_t apply(Model& model, RenumberSpace space, const MappingFactory& factory,
                              bool includeParts = false);
 

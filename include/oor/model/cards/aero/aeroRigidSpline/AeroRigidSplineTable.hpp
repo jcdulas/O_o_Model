@@ -19,11 +19,12 @@ struct AeroRigidSplineFormat
     static void write(const AeroRigidSplineCard& card, FieldWriter& writer);
 };
 
-// All the SPLINRB cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7,
-// SPLINEX, SPBLND1, SPBLND2 and SPLINRB; IdSpace::PerCardType refuses a repeat inside this type and a check across the
-// types reports the others). The CAERO is an aerodynamic element (ReferenceTarget::AeroElement) and may be blank, the
-// AELIST an AELIST card (ReferenceTarget::AeroList) and the grid points of the pairs are nodes (ReferenceTarget::Node).
-// The cards are kept whole (CardRows) next to the column of their SID.
+// All the AeroRigidSpline cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7, AeroUserSpline, AeroSplineStripBlend, AeroSplineCurveBlend and
+// AeroRigidSpline; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the
+// others). The CAERO is an aerodynamic element (ReferenceTarget::AeroElement) and may be blank, the AELIST an AELIST
+// card (ReferenceTarget::AeroList) and the grid points of the pairs are nodes (ReferenceTarget::Node). The cards are
+// kept whole (CardRows) next to the column of their SID.
 class AeroRigidSplineTable final : public TypedTable<AeroRigidSplineTable, AeroRigidSplineCard>
 {
 public:

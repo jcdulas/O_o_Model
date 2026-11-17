@@ -7,10 +7,11 @@
 namespace oor::model
 {
 
-// One ACTRIM card: the trimmed material matrices that an acoustic program exports for a frequency response analysis
-// (SOL 108 and 111), with the complex factor that scales them. The Case Control command ACTRIM = NAME selects the card.
+// One TrimmedMaterialMatrices card: the trimmed material matrices that an acoustic program exports for a frequency
+// response analysis (SOL 108 and 111), with the complex factor that scales them. The Case Control command
+// TrimmedMaterialMatrices = NAME selects the card.
 //
-// Card layout: ACTRIM  NAME  UNIT1  UNIT2  SCLR  SCLI
+// Card layout: TrimmedMaterialMatrices  NAME  UNIT1  UNIT2  SCLR  SCLI
 // NAME is one to eight letters or digits, the first a letter; it is the key of the card (no number), kept in upper
 // case. UNIT1 and UNIT2 are the Fortran unit numbers of the two files that program writes, the mapped data and the
 // property matrices; the FMS section connects them to files with ASSIGN statements. The files are named by two

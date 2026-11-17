@@ -83,7 +83,7 @@ void IsoMatFreqTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void IsoMatFreqTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT1 that the card extends; the tables are TABLEDi cards.
+    // The ID is the one of the IsoMat that the card extends; the tables are TABLEDi cards.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     const auto visitTable = [&](Column<base::EntityId>& column, const char* field)
     {

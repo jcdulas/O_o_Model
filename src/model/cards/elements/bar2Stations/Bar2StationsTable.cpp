@@ -142,7 +142,7 @@ void Bar2StationsTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void Bar2StationsTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the CBAR the stations are for.
+    // The ID is the one of the Bar2 the stations are for.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Element, m_id.get(row)));
 }
 

@@ -14,8 +14,8 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// The boxes a control surface moves: the items of its one or two AELIST cards. `complete` is false when a list the card
-// names does not exist, so that the count is not given as if the surface had fewer boxes.
+// The boxes a control surface moves: the items of its one or two AeroBoxList cards. `complete` is false when a list the
+// card names does not exist, so that the count is not given as if the surface had fewer boxes.
 struct SurfaceBoxes
 {
     aero::IdRuns items;
@@ -37,7 +37,7 @@ SurfaceBoxes boxesOf(const model::Model& model, const model::AeroControlSurfaceC
     return boxes;
 }
 
-// controlSurfacesTable: the AESURF cards with the boxes of their AELIST cards.
+// controlSurfacesTable: the AeroControlSurface cards with the boxes of their AeroBoxList cards.
 class ControlSurfacesTableQuery final : public QueryBase
 {
 public:

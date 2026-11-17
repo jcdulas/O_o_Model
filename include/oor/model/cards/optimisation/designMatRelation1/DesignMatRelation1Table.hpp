@@ -19,9 +19,10 @@ struct DesignMatRelation1Format
     static void write(const DesignMatRelation1Card& card, FieldWriter& writer);
 };
 
-// All the DVMREL1 cards. The ID is unique among the DVMREL1 cards (IdSpace::PerCardType); the category MaterialRelation
-// is shared with the DVMREL2 cards, so that a renumbering and the DRESP2 lists treat the two kinds as one set of
-// numbers. The MID is a material of the type TYPE names, and the DVIDs are design variables.
+// All the DesignMatRelation1 cards. The ID is unique among the DesignMatRelation1 cards (IdSpace::PerCardType); the
+// category MaterialRelation is shared with the DesignMatRelation2 cards, so that a renumbering and the DesignResp2
+// lists treat the two kinds as one set of numbers. The MID is a material of the type TYPE names, and the DVIDs are
+// design variables.
 class DesignMatRelation1Table final : public TypedTable<DesignMatRelation1Table, DesignMatRelation1Card>
 {
 public:

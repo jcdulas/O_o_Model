@@ -19,7 +19,7 @@ struct AcousticSlotControlFormat
     static void write(const AcousticSlotControlCard& card, FieldWriter& writer);
 };
 
-// All the AXSLOT cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category
+// All the AcousticSlotControl cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category
 // Other). A blank real is a NaN in its column and a blank integer is NO_VALUE.
 class AcousticSlotControlTable final : public TypedTable<AcousticSlotControlTable, AcousticSlotControlCard>
 {
@@ -46,7 +46,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an AXSLOT refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an AcousticSlotControl refers to no card
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<double>& defaultDensityColumn() noexcept { return m_defaultDensity; }

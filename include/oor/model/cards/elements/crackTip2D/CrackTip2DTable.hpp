@@ -19,8 +19,8 @@ struct CrackTip2DFormat
     static void write(const CrackTip2DCard& card, FieldWriter& writer);
 };
 
-// All the CRAC2D elements: the nodes are one column of 18 IDs per element, 0 for a blank field (an (N, 18) NumPy view
-// without copy). The ID is an element ID, in the space every element shares; PID names a PRAC2D.
+// All the CrackTip2D elements: the nodes are one column of 18 IDs per element, 0 for a blank field (an (N, 18) NumPy
+// view without copy). The ID is an element ID, in the space every element shares; PID names a CrackTipProp2D.
 class CrackTip2DTable final : public TypedTable<CrackTip2DTable, CrackTip2DCard>
 {
 public:

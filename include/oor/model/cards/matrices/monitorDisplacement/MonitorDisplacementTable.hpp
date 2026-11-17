@@ -20,8 +20,8 @@ struct MonitorDisplacementFormat
     static void write(const MonitorDisplacementCard& card, FieldWriter& writer);
 };
 
-// All the MONDSP1 cards. A monitor point has no numeric ID (IdSpace::None): it is found by its NAME, which is not
-// unique (a structural and an aerodynamic point may share one).
+// All the MonitorDisplacement cards. A monitor point has no numeric ID (IdSpace::None): it is found by its NAME, which
+// is not unique (a structural and an aerodynamic point may share one).
 class MonitorDisplacementTable final : public TypedTable<MonitorDisplacementTable, MonitorDisplacementCard>
 {
 public:

@@ -19,8 +19,8 @@ struct FreqListFormat
     static void write(const FreqListCard& card, FieldWriter& writer);
 };
 
-// All the FREQ cards. The ID is a frequency set ID shared by the FREQ, FREQ1 and FREQ2 cards (IdSpace::Group). The
-// frequencies of every card are one list in CSR form.
+// All the FreqList cards. The ID is a frequency set ID shared by the FreqList, FreqLinearSteps1 and FreqLogSteps2 cards
+// (IdSpace::Group). The frequencies of every card are one list in CSR form.
 class FreqListTable final : public TypedTable<FreqListTable, FreqListCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FREQ refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FreqList refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] VariableLengthColumn<double>& frequenciesColumn() noexcept { return m_frequencies; }

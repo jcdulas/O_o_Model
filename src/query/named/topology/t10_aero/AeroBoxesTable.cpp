@@ -40,10 +40,10 @@ struct PointColumns
     }
 };
 
-// aeroBoxesTable: the boxes of the CAERO1, CAERO4 and CAERO5 panels with their geometry in the basic system (the same
-// numbers as `Caero1.panels()`). A CAERO2 body and a CAERO3
-// Mach box surface have no boxes here, and a panel whose divisions cannot be cut (an AEFACT that is missing, a list
-// with fewer than two points) has none either: `aeroPanelsTable` shows its `boxCount` as null.
+// aeroBoxesTable: the boxes of the AeroLiftingPanel1, AeroStripPanel4 and AeroPistonPanel5 panels with their geometry
+// in the basic system (the same numbers as `Caero1.panels()`). An AeroBody2 body and an AeroMachBoxPanel3
+// Mach box surface have no boxes here, and a panel whose divisions cannot be cut (an AeroFactorList that is missing, a
+// list with fewer than two points) has none either: `aeroPanelsTable` shows its `boxCount` as null.
 class AeroBoxesTableQuery final : public QueryBase
 {
 public:

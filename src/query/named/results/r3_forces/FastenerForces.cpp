@@ -15,7 +15,7 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// fastenerForces: the forces of the CBUSH, CFAST, CWELD and scalar spring elements along the fastener axis; with
+// fastenerForces: the forces of the Bushing, Fastener, Weld and scalar spring elements along the fastener axis; with
 // `envelope` the extremes over the subcases and steps.
 class FastenerForcesQuery final : public ResultQuery
 {

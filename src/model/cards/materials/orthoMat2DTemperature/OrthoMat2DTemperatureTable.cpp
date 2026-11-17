@@ -179,8 +179,8 @@ void OrthoMat2DTemperatureTable::keepRows(const std::vector<std::uint32_t>& rows
 
 void OrthoMat2DTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT8 that the card extends; the tables are TABLEMi cards (a negative T(A1) or T(A2) is
-    // the table of thermal strains of that number).
+    // The ID is the one of the OrthoMat2D that the card extends; the tables are TABLEMi cards (a negative T(A1) or
+    // T(A2) is the table of thermal strains of that number).
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     if (const base::EntityId id = m_youngsModulus1TableId.get(row); id != 0)
         m_youngsModulus1TableId.set(row, visitor.visit("youngsModulus1TableId", ReferenceTarget::MaterialTable, id));

@@ -18,8 +18,8 @@ struct IsoMatFreqFormat
     static void write(const IsoMatFreqCard& card, FieldWriter& writer);
 };
 
-// All the MAT1F cards. The ID space is the card type's own: the ID is the one of the MAT1 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
+// All the IsoMatFreq cards. The ID space is the card type's own: the ID is the one of the IsoMat that the card extends,
+// so it is also a reference to a material (renumbering the materials follows into it), and the tables are references to
 // TABLEDi cards (ReferenceTarget::DynamicTable).
 class IsoMatFreqTable final : public TypedTable<IsoMatFreqTable, IsoMatFreqCard>
 {

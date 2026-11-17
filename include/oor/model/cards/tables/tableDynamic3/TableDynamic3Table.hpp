@@ -21,7 +21,7 @@ struct TableDynamic3Format
     static void write(const TableDynamic3Card& card, FieldWriter& writer);
 };
 
-// All the TABLED3 cards. The ID is a dynamic table ID, in the ID space the other TABLED cards share
+// All the TableDynamic3 cards. The ID is a dynamic table ID, in the ID space the other TABLED cards share
 // (IdSpace::DynamicTable). The points of every table are two lists (x, y) in CSR form.
 class TableDynamic3Table final : public TypedTable<TableDynamic3Table, TableDynamic3Card>
 {

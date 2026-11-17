@@ -10,9 +10,9 @@
 namespace oor::model
 {
 
-// The class of elements a HGSUPPR applies to (the PROP field). The property numbers of one class of elements are
-// unique, so the type and the number together name the property. The enumerators are numbered in the order of
-// HOURGLASS_PROPERTY_WORDS.
+// The class of elements a HourglassSuppression applies to (the PROP field). The property numbers of one class of
+// elements are unique, so the type and the number together name the property. The enumerators are numbered in the order
+// of HOURGLASS_PROPERTY_WORDS.
 enum class HourglassSuppressionProperty : std::uint8_t
 {
     Bar,
@@ -74,10 +74,10 @@ inline constexpr std::array<std::string_view, 2> ROTATION_CORRECTION_WORDS{"No",
     return std::nullopt;
 }
 
-// One HGSUPPR card (SOL 700): the hourglass suppression method and the damping coefficients of the elements of one
-// property. No other entry of the format reference has this name.
+// One HourglassSuppression card (SOL 700): the hourglass suppression method and the damping coefficients of the
+// elements of one property. No other entry of the format reference has this name.
 //
-// Card layout: HGSUPPR  HID  PROP  PID  HGTYPE  HGCMEM  HGCWRP  HGCTWS  HGCSOL     fields 1 to 8
+// Card layout: HourglassSuppression  HID  PROP  PID  HGTYPE  HGCMEM  HGCWRP  HGCTWS  HGCSOL  fields 1 to 8
 //             +        RBRCOR  VALUE                                              fields 9 and 10
 // PROP and PID are required. HGTYPE has a default that depends on PROP, so the card stores it resolved: a
 // blank HGTYPE of a SHELL, COMP or SOLID becomes FBV or FBS when the card is read or built, and is always written. It
@@ -93,7 +93,7 @@ struct HourglassSuppressionCard
     static constexpr double DEFAULT_COEFFICIENT = 0.1;
     static constexpr double MAX_COEFFICIENT = 0.15;
 
-    base::EntityId id = 0; // unique among the HGSUPPR cards
+    base::EntityId id = 0; // unique among the HourglassSuppression cards
     HourglassSuppressionProperty propKind = HourglassSuppressionProperty::Shell;
     base::EntityId propId = 0; // a property of the class PROP
     std::optional<HourglassMethod> method;

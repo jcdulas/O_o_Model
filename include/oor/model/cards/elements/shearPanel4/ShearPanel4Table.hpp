@@ -19,7 +19,7 @@ struct ShearPanel4Format
     static void write(const ShearPanel4Card& card, FieldWriter& writer);
 };
 
-// All the CSHEAR elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without copy).
+// All the ShearPanel4 elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without copy).
 class ShearPanel4Table final : public TypedTable<ShearPanel4Table, ShearPanel4Card>
 {
 public:

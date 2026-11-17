@@ -19,8 +19,9 @@ struct SuperelementReferenceRotorFormat
     static void write(const SuperelementReferenceRotorCard& card, FieldWriter& writer);
 };
 
-// All the REFRTSE cards. The ID is the RGYRO set the card belongs to (IdSpace::Group, category Other like RGYRO and
-// REFROT). REFROTID and each NFROTIDi are Rotor references when their superelement is 0.
+// All the SuperelementReferenceRotor cards. The ID is the RotordynamicParams set the card belongs to (IdSpace::Group,
+// category Other like RotordynamicParams and ReferenceRotor). REFROTID and each NFROTIDi are Rotor references when
+// their superelement is 0.
 class SuperelementReferenceRotorTable final
     : public TypedTable<SuperelementReferenceRotorTable, SuperelementReferenceRotorCard>
 {

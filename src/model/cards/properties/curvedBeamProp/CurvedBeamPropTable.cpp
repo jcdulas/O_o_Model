@@ -101,7 +101,7 @@ std::optional<CardProblem> CurvedBeamPropFormat::check(const CurvedBeamPropCard&
         return CardProblem{"card.bad-id", "the property ID must be a positive integer", "id"};
     if (card.matId <= 0)
         return CardProblem{"card.bad-id", "the material ID must be a positive integer", "matId"};
-    // A deck can write 0.0 where the CBEND gives the value: only a negative one is refused.
+    // A deck can write 0.0 where the CurvedBeam2 gives the value: only a negative one is refused.
     if (!std::isnan(card.bendRadius) && card.bendRadius < 0.0)
         return CardProblem{"card.bad-value", std::string(CardProblem::FIELD) + " must not be negative", "bendRadius"};
     if (!std::isnan(card.arcAngle) && card.arcAngle < 0.0)

@@ -8,13 +8,13 @@
 namespace oor::model
 {
 
-// One CIFHEX card (SOL 400): a linear or quadratic three-dimensional cohesive interface element with eight to twenty
-// nodes, used to simulate the onset and growth of a delamination between two bodies.
+// One CohesiveHexa card (SOL 400): a linear or quadratic three-dimensional cohesive interface element with eight to
+// twenty nodes, used to simulate the onset and growth of a delamination between two bodies.
 //
 // Card layout:
-//   CIFHEX  EID  PID  G1   G2   G3   G4   G5   G6        fields 1 to 8
-//           G7   G8   G9   G10  G11  G12  G13  G14       fields 9 to 16
-//           G15  G16  G17  G18  G19  G20                 fields 17 to 22
+//   CohesiveHexa  EID  PID  G1   G2   G3   G4   G5   G6  fields 1 to 8
+//                 G7   G8   G9   G10  G11  G12  G13  G14       fields 9 to 16
+//                 G15  G16  G17  G18  G19  G20                 fields 17 to 22
 //
 // G1 to G4 are the corners of the bottom face and G5 to G8 the corners of the top face; G9 to G12 are the points on the
 // edges of the bottom face and G17 to G20 the ones on the edges of the top face, G13 to G16 the points halfway
@@ -22,7 +22,7 @@ namespace oor::model
 // the format). `nodes` always has room for the twenty, in the order of the card, and a point that is blank on the
 // card is 0, so that the position of a point says what it is.
 //
-// EID is a positive integer below 100,000,000, unique among the elements of every kind. PID names a PCOHE.
+// EID is a positive integer below 100,000,000, unique among the elements of every kind. PID names a CohesiveProp.
 // G1 to G8 are required, the other points optional and every point given is unique (the format asks for distinct
 // positive integers of every group). The format is not consistent about the optional points: one rule asks for the
 // eight corners alone or for all twenty points, while the element is quadratic with G9-G12 and G17-G20 only (G13-G16

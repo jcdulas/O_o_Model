@@ -10,23 +10,23 @@
 namespace oor::model
 {
 
-// One CBEAM card: a beam element.
+// One Beam2 card: a beam element.
 //
 // Card layout (orientation by vector, or by a grid point in field 5 with fields 6 and 7 blank):
-//   CBEAM  EID  PID  GA   GB   X1   X2   X3   OFFT
+//   Beam2  EID  PID  GA   GB   X1   X2   X3   OFFT
 //          PA   PB   W1A  W2A  W3A  W1B  W2B  W3B
 //          SA   SB
-//   CBEAM  EID  PID  GA   GB   G0             OFFT
+//   Beam2  EID  PID  GA   GB   G0             OFFT
 //
 // Field 5 is an integer (G0) or a real (X1): `orientationNode` and `orientation` are the two forms, `orientationNode ==
-// 0` meaning the vector form. In the vector form a blank X1, X2 or X3 is 0.0. A BEAMOR card gives the defaults of PID,
-// the orientation and OFFT for the blank fields: they are applied when a deck is read (Beam2Table::finishRead),
-// wherever the BEAMOR is in the deck. Without a BEAMOR, a blank PID is EID and a blank orientation is the zero vector.
-// Field 8 holds the OFFT word only: a real there (an obsolete flag of the format) is an error.
+// 0` meaning the vector form. In the vector form a blank X1, X2 or X3 is 0.0. A Beam2Defaults card gives the defaults
+// of PID, the orientation and OFFT for the blank fields: they are applied when a deck is read (Beam2Table::finishRead),
+// wherever the Beam2Defaults is in the deck. Without a Beam2Defaults, a blank PID is EID and a blank orientation is the
+// zero vector. Field 8 holds the OFFT word only: a real there (an obsolete flag of the format) is an error.
 struct Beam2Card
 {
     static constexpr std::string_view DEFAULT_OFFSET_KIND = "OffsetsGlobalGlobalGlobal";
-    // The bits of `blankFields`: the fields that were blank in the deck, which a BEAMOR card may give a default.
+    // The bits of `blankFields`: the fields that were blank in the deck, which a Beam2Defaults card may give a default.
     static constexpr std::uint8_t BLANK_PROP_ID = 1;
     static constexpr std::uint8_t BLANK_ORIENTATION1 = 2; // field 5, X1 or G0
     static constexpr std::uint8_t BLANK_ORIENTATION2 = 4;
@@ -53,8 +53,8 @@ struct Beam2Card
         0; // scalar or grid points that carry the warping variables at ends A and B; 0 for none
     base::EntityId warpingPointB = 0;
 
-    // The BLANK_* bits of the fields that are blank (left out of the card, not zero), until the BEAMOR defaults are
-    // applied: they stay while no BEAMOR exists, so that one added later gives them their defaults
+    // The BLANK_* bits of the fields that are blank (left out of the card, not zero), until the Beam2Defaults defaults
+    // are applied: they stay while no Beam2Defaults exists, so that one added later gives them their defaults
     // (Model::applyDefaults). It is not written; setting a field clears its bit (the Python setters do).
     std::uint8_t blankFields = 0;
 

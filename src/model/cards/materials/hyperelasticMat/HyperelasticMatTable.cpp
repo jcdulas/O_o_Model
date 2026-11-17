@@ -455,7 +455,7 @@ void HyperelasticMatTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void HyperelasticMatTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The experiment tables are TABLES1 cards.
+    // The experiment tables are TableStress1 cards.
     if (const base::EntityId tensionTable = m_tensionTableId.get(row); tensionTable > 0)
         m_tensionTableId.set(row, visitor.visit("tensionTableId", ReferenceTarget::StressTable, tensionTable));
     if (const base::EntityId equibiaxialTable = m_equibiaxialTableId.get(row); equibiaxialTable > 0)

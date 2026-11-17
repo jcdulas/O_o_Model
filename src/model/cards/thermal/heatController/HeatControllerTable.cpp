@@ -93,7 +93,8 @@ void HeatControllerTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void HeatControllerTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The sensor may be a scalar point that no SPOINT defines (a scalar element can define its points by naming them).
+    // The sensor may be a scalar point that no ScalarPoint defines (a scalar element can define its points by naming
+    // them).
     visitId(visitor, "sensorNode", ReferenceTarget::ScalarOrGridPoint, m_cards.edit(row).sensorNode);
 }
 

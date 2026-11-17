@@ -7,7 +7,7 @@ namespace oor::analysis
 namespace
 {
 
-// A CROD that does not use a PROD, a CTUBE that does not use a PTUBE.
+// A Rod2 that does not use a RodProp, a Tube2 that does not use a TubeProp.
 class RodPropertyTypeCheck final : public ValidationCheck
 {
 public:
@@ -19,7 +19,7 @@ public:
 
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
-        // format reference PBELT: the belt property of SOL 700 is referenced by a CROD.
+        // format reference BeltProp: the belt property of SOL 700 is referenced by a Rod2.
         reportWrongPropertyType(context, sink, {"Rod2"}, {"RodProp", "BeltProp"});
         reportWrongPropertyType(context, sink, {"Tube2"}, {"TubeProp"});
     }

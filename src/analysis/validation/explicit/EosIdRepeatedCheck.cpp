@@ -8,9 +8,11 @@ namespace oor::analysis
 namespace
 {
 
-// An equation of state number that two kinds of card have: EOSDEF, EOSGAM, EOSIG, EOSJWL, EOSMG, EOSNA, EOSPOL and
-// EOSUDS are all named by the EID of a MATDEUL (or MAT1A), so the EIDs must be unique among them (the format
-// reference). Two cards of one type with the same EID are the reader's business (`ref.duplicate-id`).
+// An equation of state number that two kinds of card have: DeflagrationStateEquation, GammaLawStateEquation,
+// IgnitionGrowthStateEquation, JonesWilkinsLeeStateEquation, MieGruneisenStateEquation, NobleAbelStateEquation,
+// PolynomialStateEquation and UserStateEquation are all named by the EID of an EulerMat (or IsoMatExplicitExt), so the
+// EIDs must be unique among them (the format reference). Two cards of one type with the same EID are the reader's
+// business (`ref.duplicate-id`).
 class EosIdRepeatedCheck final : public ValidationCheck
 {
 public:

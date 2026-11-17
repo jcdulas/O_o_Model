@@ -9,11 +9,11 @@
 namespace oor::model
 {
 
-// One USET1 card: the degrees of freedom C of a list of points in a set that the user names.
+// One UserDofSet1 card: the degrees of freedom C of a list of points in a set that the user names.
 //
-// Card layout: USET1  SNAME  C  ID1  ID2  ID3  ID4  ID5  ID6
-//                    ID7  ID8  ID9  -etc.-
-// or:         USET1  SNAME  C  ID1  "THRU"  ID2
+// Card layout: UserDofSet1  SNAME  C  ID1  ID2  ID3  ID4  ID5  ID6
+//                          ID7  ID8  ID9  -etc.-
+// or:         UserDofSet1  SNAME  C  ID1  "THRU"  ID2
 // SNAME is one to four characters (or "ZERO" followed by a set name), kept in upper case. The list is kept as written:
 // single points and THRU ranges, in order. C holds the digits of the components as one number (0 for scalar points).
 // The card has no ID.

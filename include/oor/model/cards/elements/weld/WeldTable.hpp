@@ -20,7 +20,7 @@ struct WeldFormat
     static void write(const WeldCard& card, FieldWriter& writer);
 };
 
-// All the CWELD elements. The location is an (N, 3) NumPy view (NaN where blank), the two grid lists (N, 8) ones.
+// All the Weld elements. The location is an (N, 3) NumPy view (NaN where blank), the two grid lists (N, 8) ones.
 class WeldTable final : public TypedTable<WeldTable, WeldCard>
 {
 public:

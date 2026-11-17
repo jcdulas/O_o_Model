@@ -11,9 +11,10 @@ namespace oor::analysis
 namespace
 {
 
-// An ABINFL whose INFTYPE word does not match the inflator card that has the number INFTYPID. INFLTR, INFLHB, INFLCG
-// and INFLTNK share one category, so the model resolves the number to whichever has it; the word (the name of the card)
-// says which one was meant. It is enough that one of the cards with the number is the type named.
+// An InflatorInlet whose INFTYPE word does not match the inflator card that has the number INFTYPID. StandardInflator,
+// HybridInflator, ColdGasInflator and TankTestInflator share one category, so the model resolves the number to
+// whichever has it; the word (the name of the card) says which one was meant. It is enough that one of the cards with
+// the number is the type named.
 class InflatorTypeCheck final : public ValidationCheck
 {
 public:

@@ -38,7 +38,7 @@ struct ZoneBoundaryPoint
 {
     base::EntityId node = 0;
     ComponentSet components = 0;
-    bool isPiercedPoint = false;   // a grid point of an element that a CFAST or CWELD among the causes pierces
+    bool isPiercedPoint = false;   // a grid point of an element that a Fastener or Weld among the causes pierces
     std::vector<ZoneCause> causes; // by entity index
 };
 
@@ -51,7 +51,7 @@ struct EnclosedElement
 
 // The zones: a group given as an element list, with what acts on it from outside and what it
 // encloses. Its boundary points are its nodes that an outside entity acts on (an element next to it, a rigid element,
-// an MPC equation or a connector that it does not hold; for a CFAST or a CWELD whose other side is outside, the grid
+// an MPC equation or a connector that it does not hold; for a Fastener or a Weld whose other side is outside, the grid
 // points of the element it pierces inside the zone), each with the union of the components the outside entities act on
 // there (EntityDofs) and the entities themselves.
 class Zones

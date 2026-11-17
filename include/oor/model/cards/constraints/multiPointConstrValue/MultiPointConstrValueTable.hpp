@@ -19,10 +19,10 @@ struct MultiPointConstrValueFormat
     static void write(const MultiPointConstrValueCard& card, FieldWriter& writer);
 };
 
-// All the MPCD cards. The ID is a load set ID shared by many cards (IdSpace::Group): an MPCD is selected the way a load
-// is (the LOAD command, as for the SPCD), not by the MPC command, so the category is Load. The two equations of a card
-// are kept as three columns of two values. The points are references to grid or scalar points (a scalar point that no
-// SPOINT defines is allowed).
+// All the MultiPointConstrValue cards. The ID is a load set ID shared by many cards (IdSpace::Group): a
+// MultiPointConstrValue is selected the way a load is (the LOAD command, as for the EnforcedMotionConstr), not by the
+// MPC command, so the category is Load. The two equations of a card are kept as three columns of two values. The points
+// are references to grid or scalar points (a scalar point that no ScalarPoint defines is allowed).
 class MultiPointConstrValueTable final : public TypedTable<MultiPointConstrValueTable, MultiPointConstrValueCard>
 {
 public:

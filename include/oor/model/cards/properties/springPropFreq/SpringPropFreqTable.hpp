@@ -18,8 +18,8 @@ struct SpringPropFreqFormat
     static void write(const SpringPropFreqCard& card, FieldWriter& writer);
 };
 
-// All the PELAST cards. The ID space is the card type's own: the ID is the one of the PELAS that the card extends, so
-// it is also a reference to a property.
+// All the SpringPropFreq cards. The ID space is the card type's own: the ID is the one of the SpringProp that the card
+// extends, so it is also a reference to a property.
 class SpringPropFreqTable final : public TypedTable<SpringPropFreqTable, SpringPropFreqCard>
 {
 public:

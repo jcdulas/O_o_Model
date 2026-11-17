@@ -17,7 +17,7 @@ struct PlyInfo
     double thickness = 0.0;
     double angle = 0.0; // degrees
     bool stressOutput = false;
-    std::int32_t globalId = 0; // the global ply ID of a PCOMPG, 0 for a PCOMP
+    std::int32_t globalId = 0; // the global ply ID of a CompPropGlobal, 0 for a CompProp
     bool mirrored = false;     // made by the SYM option
     double zBottom = 0.0;
     double zTop = 0.0;
@@ -43,8 +43,8 @@ struct LaminateInfo
     }
 };
 
-// The laminate in `location`, nothing when the card is not a PCOMP or PCOMPG. A SYM laminate gets the plies of the
-// other half after the ones given, in the opposite order (the same rule as the mass and stiffness code).
+// The laminate in `location`, nothing when the card is not a CompProp or CompPropGlobal. A SYM laminate gets the plies
+// of the other half after the ones given, in the opposite order (the same rule as the mass and stiffness code).
 [[nodiscard]] std::optional<LaminateInfo> readLaminate(const model::Model& model, model::CardLocation location);
 
 } // namespace oor::query

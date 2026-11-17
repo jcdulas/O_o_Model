@@ -7,8 +7,8 @@ namespace oor::analysis
 namespace
 {
 
-// The acoustic elements and their properties (format reference): a CAABSF uses a PAABSF, a CHACAB a PACABS, a CHACBR a
-// PACBAR.
+// The acoustic elements and their properties (format reference): an AcousticAbsorber uses an AcousticAbsorberProp, an
+// AcousticAbsorberHexa an AcousticAbsorberBrickProp, an AcousticBarrierHexa a AcousticBarrierProp.
 class AcousticPropertyTypeCheck final : public ValidationCheck
 {
 public:

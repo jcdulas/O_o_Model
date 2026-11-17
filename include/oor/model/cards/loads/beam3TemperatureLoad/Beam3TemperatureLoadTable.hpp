@@ -20,11 +20,11 @@ struct Beam3TemperatureLoadFormat
     static void write(const Beam3TemperatureLoadCard& card, FieldWriter& writer);
 };
 
-// All the TEMPB3 cards. The ID is a temperature set ID shared by many cards (IdSpace::Group, category Load), so that
-// `TEMP = n` and a TLOAD1 EXCITEID find it. The element of the EID field is an Element reference and so is every
-// element of the list; the elements of a THRU range are not looked up (ElementInRange: the two ends may not exist).
-// The twelve temperatures of a card are columns of three (one value per station), the list is one CSR column of
-// (first, last, by) runs.
+// All the Beam3TemperatureLoad cards. The ID is a temperature set ID shared by many cards (IdSpace::Group, category
+// Load), so that `TEMP = n` and a TransientTableLoad1 EXCITEID find it. The element of the EID field is an Element
+// reference and so is every element of the list; the elements of a THRU range are not looked up (ElementInRange: the
+// two ends may not exist). The twelve temperatures of a card are columns of three (one value per station), the list is
+// one CSR column of (first, last, by) runs.
 class Beam3TemperatureLoadTable final : public TypedTable<Beam3TemperatureLoadTable, Beam3TemperatureLoadCard>
 {
 public:

@@ -19,7 +19,7 @@ struct GeomPointFormat
     static void write(const GeomPointCard& card, FieldWriter& writer);
 };
 
-// All the POINT cards of a model. The locations are one column of (x, y, z) triples (an (N, 3) NumPy view).
+// All the GeomPoint cards of a model. The locations are one column of (x, y, z) triples (an (N, 3) NumPy view).
 class GeomPointTable final : public TypedTable<GeomPointTable, GeomPointCard>
 {
 public:

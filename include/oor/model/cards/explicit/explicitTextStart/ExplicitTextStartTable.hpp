@@ -11,13 +11,13 @@ namespace oor::model
 
 struct ExplicitTextStartFormat
 {
-    // A TODYNA has no value that can be wrong: nothing to check.
+    // An ExplicitTextStart has no value that can be wrong: nothing to check.
     [[nodiscard]] static std::optional<CardProblem> check(const ExplicitTextStartCard& card);
     [[nodiscard]] static std::optional<ExplicitTextStartCard> read(FieldReader& reader);
     static void write(const ExplicitTextStartCard& card, FieldWriter& writer);
 };
 
-// All the TODYNA cards: a row each and nothing else, since the card has no field and no ID (IdSpace::None).
+// All the ExplicitTextStart cards: a row each and nothing else, since the card has no field and no ID (IdSpace::None).
 class ExplicitTextStartTable final : public TypedTable<ExplicitTextStartTable, ExplicitTextStartCard>
 {
 public:

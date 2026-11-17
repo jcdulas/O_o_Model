@@ -19,7 +19,7 @@ struct FacePressureLoadFormat
     static void write(const FacePressureLoadCard& card, FieldWriter& writer);
 };
 
-// All the PLOAD4 cards. The ID is a load set ID shared by many cards (IdSpace::Group).
+// All the FacePressureLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group).
 class FacePressureLoadTable final : public TypedTable<FacePressureLoadTable, FacePressureLoadCard>
 {
 public:

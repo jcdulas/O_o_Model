@@ -18,10 +18,10 @@ struct ContactPatch
     [[nodiscard]] bool operator==(const ContactPatch&) const noexcept = default;
 };
 
-// One BCPATCH card: a rigid contact body made of quadrilateral patches (SOLs 101 and 400). A BCRGSRF or a BCBODY1 names
-// it by its RBID.
+// One ContactPatchSurface card: a rigid contact body made of quadrilateral patches (SOLs 101 and 400). A
+// ContactRigidSurfaceList or a ContactBody1 names it by its RBID.
 //
-// Card layout: BCPATCH  RBID      then one patch to a continuation line:  IDP  G1  G2  G3  G4
+// Card layout: ContactPatchSurface  RBID  then one patch to a continuation line:  IDP  G1  G2  G3  G4
 struct ContactPatchSurfaceCard
 {
     base::EntityId id = 0; // RBID: unique among the contact surfaces

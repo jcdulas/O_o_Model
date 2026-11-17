@@ -9,7 +9,7 @@ namespace oor::query
 namespace
 {
 
-// designEquationInstructions: the stack machine instructions of each DEQATN.
+// designEquationInstructions: the stack machine instructions of each DesignEquation.
 class DesignEquationInstructionsQuery final : public QueryBase
 {
 public:

@@ -390,7 +390,7 @@ void BushPropFreqTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void BushPropFreqTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the PBUSH that the card extends.
+    // The ID is the one of the BushProp that the card extends.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Property, m_id.get(row)));
     const auto visitTables = [&](Column<std::array<base::EntityId, 6>>& column, const char* field)
     {

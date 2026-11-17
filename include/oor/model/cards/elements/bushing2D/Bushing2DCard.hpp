@@ -10,7 +10,7 @@
 namespace oor::model
 {
 
-// The orientation planes of a CBUSH2D (the PLANE field): the plane of CID in which the directions 1 and 2 of the
+// The orientation planes of a Bushing2D (the PLANE field): the plane of CID in which the directions 1 and 2 of the
 // element lie.
 inline constexpr std::array<std::string_view, 3> BUSH_ELEM_2D_PLANE_WORDS{"PlaneXy", "PlaneYz", "PlaneZx"};
 
@@ -18,12 +18,12 @@ inline constexpr std::array<std::string_view, 3> BUSH_ELEM_2D_PLANE_WORDS{"Plane
 inline constexpr std::array<const char*, 2> BUSH_ELEM_2D_NODE_NAMES{"nodeA", "nodeB"};
 inline constexpr std::string_view BUSH_ELEM_2D_DEFAULT_PLANE = "PlaneXy";
 
-// One CBUSH2D card: a two-dimensional linear and nonlinear connection (a bush of a rotor model) between an inner grid
+// One Bushing2D card: a two-dimensional linear and nonlinear connection (a bush of a rotor model) between an inner grid
 // GA and an outer grid GB.
 //
-// Card layout: CBUSH2D  EID  PID  GA  GB  CID  PLANE
-// EID is a positive integer below 100,000,000, unique among all the elements. PID names a PBUSH2D and is required (the
-// format reference says so). GA and GB are required: the format reference wants two grids that are coincident and
+// Card layout: Bushing2D  EID  PID  GA  GB  CID  PLANE
+// EID is a positive integer below 100,000,000, unique among all the elements. PID names a BushProp2D and is required
+// (the format reference says so). GA and GB are required: the format reference wants two grids that are coincident and
 // have parallel displacement systems, so the same grid point twice is refused. CID (0 when blank, the basic system) is
 // the system whose PLANE (XY, YZ or ZX, XY when blank) holds the directions 1 and 2; it is kept in upper case.
 //

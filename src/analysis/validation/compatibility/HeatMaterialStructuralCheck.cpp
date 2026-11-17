@@ -8,10 +8,10 @@ namespace
 {
 
 // A heat transfer analysis (APP HEAT) whose conduction property names a material that only exists as a structural one:
-// a MAT1 or MAT8 with that ID and no MAT4 or MAT5. Conduction reads the thermal conductivity, which only MAT4 and MAT5
-// hold (format reference: PSOLID, PSHELL, PROD, ... "MID": a MAT4 or MAT5 for heat transfer). A MAT1 and a MAT4 may
-// share an ID (a model that is analysed for both has the two), so the ID alone is not wrong: it is the missing thermal
-// material that is.
+// an IsoMat or OrthoMat2D with that ID and no HeatIsoMat or HeatAnisoMat. Conduction reads the thermal conductivity,
+// which only HeatIsoMat and HeatAnisoMat hold (format reference: SolidProp, ShellProp, RodProp, ... "MID": a HeatIsoMat
+// or HeatAnisoMat for heat transfer). An IsoMat and a HeatIsoMat may share an ID (a model that is analysed for both has
+// the two), so the ID alone is not wrong: it is the missing thermal material that is.
 class HeatMaterialStructuralCheck final : public ValidationCheck
 {
 public:

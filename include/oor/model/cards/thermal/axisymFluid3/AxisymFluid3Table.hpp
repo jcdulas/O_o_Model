@@ -19,8 +19,8 @@ struct AxisymFluid3Format
     static void write(const AxisymFluid3Card& card, FieldWriter& writer);
 };
 
-// All the CFLUID3 cards. The ID is an element ID, in the space every element shares (IdSpace::Element). The absent RHO
-// and B are NaN.
+// All the AxisymFluid3 cards. The ID is an element ID, in the space every element shares (IdSpace::Element). The absent
+// RHO and B are NaN.
 class AxisymFluid3Table final : public TypedTable<AxisymFluid3Table, AxisymFluid3Card>
 {
 public:
@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // the RINGFL cards are not typed
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // the AxisymFluidRing cards are not typed
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<std::array<base::EntityId, AxisymFluid3Card::RING_COUNT>>& ringsColumn() noexcept

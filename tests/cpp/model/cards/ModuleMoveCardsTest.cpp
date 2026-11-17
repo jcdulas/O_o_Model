@@ -1,8 +1,9 @@
-// Checks of the module repositioning cards and of the mesh adaptivity cards: MDTRAN, MDROT1,
-// MDROT2, MDMIR1, MDMIR2, MDMOVE, MDMPLN, MDLOC, HADACRI and HADAPTL. Per card: the fields in their format reference
-// positions, the defaults, the references it lists and what each one points to, the renumbering of the space the card
-// owns, the refused values and the round trip through the three formats. The generic tests of CardRoundTripTest.cpp
-// read, write and copy every sample; this file covers what each card means.
+// Checks of the module repositioning cards and of the mesh adaptivity cards: ModuleTranslation, ModuleRotation1,
+// ModuleRotation2, ModuleMirror1, ModuleMirror2, ModuleMoveSequence, ModuleMirrorPlane, ModuleLocation,
+// AdaptiveRefineCriterion and AdaptiveRefineControl. Per card: the fields in their format reference positions, the
+// defaults, the references it lists and what each one points to, the renumbering of the space the card owns, the
+// refused values and the round trip through the three formats. The generic tests of CardRoundTripTest.cpp read, write
+// and copy every sample; this file covers what each card means.
 
 #include "oor/model/cards/nodes/adaptiveRefineControl/AdaptiveRefineControlTable.hpp"
 #include "oor/model/cards/nodes/adaptiveRefineCriterion/AdaptiveRefineCriterionTable.hpp"
@@ -31,7 +32,8 @@ using namespace oor::testing;
 namespace
 {
 
-// The points and the coordinate system that the moves of the decks name: three grid points, a POINT and a CORD2R.
+// The points and the coordinate system that the moves of the decks name: three grid points, a GeomPoint and a
+// RectFrame2.
 const std::string POINTS_TEXT =
     "Node;1;;0.;0.;0.\nNode;2;;1.;0.;0.\nNode;3;;0.;1.;0.\nGeomPoint;4;;0.;0.;1.\nRectFrame2;5\n";
 
@@ -48,7 +50,7 @@ const std::string MOVES_TEXT =
     "ModuleMirror2;50;;;PlaneXy\n"
     "ModuleMirror2;51;5;4;PlaneZx\n";
 
-// An MDMOVE of nine moves: a mirror first, as the format reference asks, then the others, over two lines.
+// A ModuleMoveSequence of nine moves: a mirror first, as the format reference asks, then the others, over two lines.
 const std::string MOVE_SEQUENCE_TEXT = "ModuleMoveSequence;60;40;10;20;30;31;11;21;50;51\n";
 
 // The IDs that the references of a card name, as a visitor sees them.
@@ -121,7 +123,7 @@ TEST_CASE("an MDROT1 turns about the vector from IDS to IDE, or about a referenc
     const ModuleRotation1Card point = cardAt<ModuleRotation1Table>(model, 1);
     REQUIRE((point.referenceNode == 4 && point.startNode == 1 && point.endNode == 2 && point.magnitude == -30.0));
 
-    // A blank reference point is not visited; a POINT is a node.
+    // A blank reference point is not visited; a GeomPoint is a node.
     REQUIRE(visitedBy<ModuleRotation1Table>(model, 0).fields == std::vector<std::string>{"startNode", "endNode"});
     const Visited visited = visitedBy<ModuleRotation1Table>(model, 1);
     REQUIRE(visited.fields == std::vector<std::string>{"referenceNode", "startNode", "endNode"});
@@ -168,7 +170,7 @@ TEST_CASE("an MDROT2 turns about an axis of a coordinate system, on either side 
     expectInvalid("ModuleRotation2;30;-1;;ZAxis;45.", "frameId");
     expectInvalid("ModuleRotation2;30;;-1;ZAxis;45.", "referenceNode");
     expectInvalid("ModuleRotation2;30;;;Q;45.", "axis");
-    expectInvalid("ModuleRotation2;30;;;PlaneXy;45.", "axis"); // a pair of axes belongs to an MDMIR2
+    expectInvalid("ModuleRotation2;30;;;PlaneXy;45.", "axis"); // a pair of axes belongs to a ModuleMirror2
     expectInvalid("ModuleRotation2;30;;;;45.", "axis");        // required
     expectInvalid("ModuleRotation2;30;;;ZAxis", "magnitude");  // required
     expectInvalid("ModuleRotation2;30;;;ZAxis;0.", "magnitude");
@@ -220,7 +222,7 @@ TEST_CASE("an MDMIR2 mirrors in the plane of two axes of a coordinate system", "
     expectInvalid("ModuleMirror2;50;-2;;PlaneXy", "frameId");
     expectInvalid("ModuleMirror2;50;;-2;PlaneXy", "referenceNode");
     expectInvalid("ModuleMirror2;50;;;XX", "axes");
-    expectInvalid("ModuleMirror2;50;;;XAxis", "axes"); // a single axis belongs to an MDROT2
+    expectInvalid("ModuleMirror2;50;;;XAxis", "axes"); // a single axis belongs to a ModuleRotation2
     expectInvalid("ModuleMirror2;50", "axes");         // required
 }
 
@@ -416,7 +418,7 @@ TEST_CASE("a HADAPTL has the layout of its two lines, a REPEAT that gives the de
 TEST_CASE("a HADAPTL names its criterion, and a property or a superelement according to WHEREMET",
           "[model][cards][adaptivity]")
 {
-    // Superelement 5 exists because a grid point has it as its SEID; the property 5 is a PSHELL.
+    // Superelement 5 exists because a grid point has it as its SEID; the property 5 is a ShellProp.
     Model model = readBulk(
         "AdaptiveRefineCriterion;1;1;0.9\n"
         "AdaptiveRefineCriterion;2;4\n"

@@ -19,8 +19,8 @@ struct FluidStructureInterfaceFormat
     static void write(const FluidStructureInterfaceCard& card, FieldWriter& writer);
 };
 
-// All the ACMODL cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category
-// Other). FSET and SSET refer to SET1 cards.
+// All the FluidStructureInterface cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category
+// Other). FSET and SSET refer to IdListSet1 cards.
 class FluidStructureInterfaceTable final : public TypedTable<FluidStructureInterfaceTable, FluidStructureInterfaceCard>
 {
 public:

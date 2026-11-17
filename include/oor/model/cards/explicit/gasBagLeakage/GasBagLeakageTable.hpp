@@ -19,9 +19,10 @@ struct GasBagLeakageFormat
     static void write(const GasBagLeakageCard& card, FieldWriter& writer);
 };
 
-// All the LEAKAGE cards. The cards of a set share their PORID, which is the ID of the table (IdSpace::Group, category
-// Leakage): a GBAG or a COUPLE names the set, not a card. The LID is a number of the card only. SUBID names a surface,
-// PORTYPID a porosity card (any of the category Porosity), the coefficient may be a table of time.
+// All the GasBagLeakage cards. The cards of a set share their PORID, which is the ID of the table (IdSpace::Group,
+// category Leakage): a GasBag or an EulerLagrangeCoupling names the set, not a card. The LID is a number of the card
+// only. SUBID names a surface, PORTYPID a porosity card (any of the category Porosity), the coefficient may be a table
+// of time.
 class GasBagLeakageTable final : public TypedTable<GasBagLeakageTable, GasBagLeakageCard>
 {
 public:

@@ -1,10 +1,12 @@
-// Checks of the rotor and design region cards: the rotor cards (ROTOR, ROTORAX, ROTORSE, RSPINR, RSPINT, REFROT,
-// REFRTSE, ROTBENT, CAMPBLL), the discrete values and the design regions (DDVAL, BEADVAR, TOMVAR, DVLREL1, DVPSURF),
-// and what the new kinds of reference (Rotor, DiscreteValueSet) gave to the cards that were there before them (ROTORG,
-// RGYRO, ROTHYBD, DESVAR). Per card: the fields in their format reference positions, the defaults, the variants, the
-// references it lists and what each one points to, the renumbering of the spaces it owns or names, the refused values
-// and the round trip through the three formats. The generic tests of CardRoundTripTest.cpp read, write and copy every
-// sample; this file covers what each card means.
+// Checks of the rotor and design region cards: the rotor cards (RotorModel3D, RotorAxisym, RotorSuperelement,
+// RotorRelativeSpin, RotorTransientSpin, ReferenceRotor, SuperelementReferenceRotor, RotorInitialBend,
+// CampbellDiagram), the discrete values and the design regions (DesignDiscreteValues, DesignBeadRegion,
+// DesignTopometryRegion, DesignLoadRelation1, DesignControlSurface), and what the new kinds of reference (Rotor,
+// DiscreteValueSet) gave to the cards that were there before them (RotorLineNodes, RotordynamicParams,
+// RotorHybridDamping, DesignVar). Per card: the fields in their format reference positions, the defaults, the variants,
+// the references it lists and what each one points to, the renumbering of the spaces it owns or names, the refused
+// values and the round trip through the three formats. The generic tests of CardRoundTripTest.cpp read, write and copy
+// every sample; this file covers what each card means.
 
 #include "oor/model/cards/dynamics/rotorHybridDamping/RotorHybridDampingTable.hpp"
 #include "oor/model/cards/optimisation/designBeadRegion/DesignBeadRegionTable.hpp"
@@ -84,11 +86,12 @@ std::size_t unresolvedIn(Model&& model)
     return oor::testing::unresolvedIn(model);
 }
 
-// The two grid points that the rotor cards of the decks name, and the elements and properties of a ROTOR.
+// The two grid points that the rotor cards of the decks name, and the elements and properties of a RotorModel3D.
 const std::string NODES_TEXT = "Node;1;;0.;0.;0.\nNode;2;;0.;0.;1.\nNode;3;;0.;0.;2.\n";
 
 // A model with one rotor of each kind, and a card of each kind that names a rotor: every reference resolves. The rotors
-// are 11 (ROTORG), 12 (ROTOR), 13 (ROTORAX) and 14 (ROTORSE, in the superelement 5 that the SESET defines).
+// are 11 (RotorLineNodes), 12 (RotorModel3D), 13 (RotorAxisym) and 14 (RotorSuperelement, in the superelement 5 that
+// the SuperelementInteriorNodes defines).
 const std::string ROTOR_WORLD_TEXT = NODES_TEXT +
                                      "IsoMat;1;2.1E+11;;0.3\n"
                                      "RodProp;7;1;1.\n"
@@ -136,14 +139,14 @@ TEST_CASE("the ROTORG, ROTOR, ROTORAX and ROTORSE cards are one space of rotors 
     // A rotor that no card defines is reported, whatever the kind of card that names it.
     REQUIRE(unresolvedIn(readBulk("Node;1\nNode;2\nRotorRelativeSpin;12;1;2;RevolutionsPerMinute;;2.5")) == 1);
     REQUIRE(unresolvedIn(readBulk("RotordynamicParams;100;SynchronousWhirl;11;RevolutionsPerMinute")) == 1);
-    REQUIRE(unresolvedIn(readBulk("RotorHybridDamping;12;15")) == 2); // the rotor and the HYBDAMP
+    REQUIRE(unresolvedIn(readBulk("RotorHybridDamping;12;15")) == 2); // the rotor and the HybridDamping
 
     // Renumbering the rotors moves the four kinds of card and every card that names one, and nothing else.
     REQUIRE(Renumbering::apply(model, RenumberSpace::Rotor, Renumbering::offset(1000)) == 4);
     REQUIRE((cardAt<RotorLineNodesTable>(model).id == 1011 && cardAt<RotorModel3DTable>(model).id == 1012));
     REQUIRE((cardAt<RotorAxisymTable>(model).id == 1013 && cardAt<RotorSuperelementTable>(model).id == 1014));
     REQUIRE(cardAt<RotordynamicParamsTable>(model).referenceRotorId == 1011);
-    REQUIRE(cardAt<RotordynamicParamsTable>(model).id == 100); // the RGYRO set is not a rotor
+    REQUIRE(cardAt<RotordynamicParamsTable>(model).id == 100); // the RotordynamicParams set is not a rotor
     REQUIRE(cardAt<RotorRelativeSpinTable>(model).rotorId == 1012);
     REQUIRE(cardAt<RotorTransientSpinTable>(model).rotorId == 1013);
     REQUIRE(
@@ -181,10 +184,10 @@ TEST_CASE("a ROTHYBD names the rotors that take a hybrid damping", "[model][card
                   {"hybridDampingId", ReferenceTarget::HybridDamping, 201},
                   {"rotorId", ReferenceTarget::Rotor, 2},
                   {"hybridDampingId", ReferenceTarget::HybridDamping, 202}});
-    REQUIRE(unresolvedIn(model) == 2); // the two HYBDAMP cards the deck leaves out
+    REQUIRE(unresolvedIn(model) == 2); // the two HybridDamping cards the deck leaves out
     Renumbering::apply(model, RenumberSpace::Rotor, Renumbering::offset(10));
     REQUIRE((cardAt<RotorHybridDampingTable>(model).pairs ==
-             std::vector<RotorHybridPair>{{11, 201}, {12, 202}})); // the HYBDAMP numbers are another space
+             std::vector<RotorHybridPair>{{11, 201}, {12, 202}})); // the HybridDamping numbers are another space
 }
 
 TEST_CASE("an edited ROTOR, REFRTSE, DDVAL, TOMVAR or DVPSURF is checked again, stored, given another ID and deleted",
@@ -245,7 +248,7 @@ TEST_CASE("an edited ROTOR, REFRTSE, DDVAL, TOMVAR or DVPSURF is checked again, 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ROTOR
+// RotorModel3D
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a ROTOR lists elements, properties and the axis of rotation, each on a line of its own",
@@ -325,7 +328,7 @@ TEST_CASE("a ROTOR refuses an order, a layout or a value the format reference do
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ROTORAX
+// RotorAxisym
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a ROTORAX lists elements, properties or grid points of an axisymmetric rotor", "[model][cards][rotor]")
@@ -407,7 +410,7 @@ TEST_CASE("a ROTORAX refuses a list the format reference does not allow", "[mode
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ROTORSE
+// RotorSuperelement
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a ROTORSE names a rotor and the superelement that holds it, and SEOPT is 1 when blank",
@@ -430,7 +433,7 @@ TEST_CASE("a ROTORSE names a rotor and the superelement that holds it, and SEOPT
     REQUIRE(cardAt<RotorSuperelementTable>(model, 2).id == 10); // several cards may share a rotor
     requireRoundTrip(model);
 
-    // The superelement is looked up as a superelement number: the SESET defines 1 and 2.
+    // The superelement is looked up as a superelement number: the SuperelementInteriorNodes defines 1 and 2.
     REQUIRE(referencesOf<RotorSuperelementTable>(model) == Seens{{"superelementId", ReferenceTarget::Superelement, 1}});
     REQUIRE(unresolvedIn(model) == 0);
     REQUIRE(unresolvedIn(readBulk("RotorSuperelement;10;9")) == 1);
@@ -449,7 +452,7 @@ TEST_CASE("a ROTORSE names a rotor and the superelement that holds it, and SEOPT
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// RSPINR and RSPINT
+// RotorRelativeSpin and RotorTransientSpin
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an RSPINR gives the relative spin rate as a constant or a DDVAL, and the damping of the rotor",
@@ -492,7 +495,7 @@ TEST_CASE("an RSPINR gives the relative spin rate as a constant or a DDVAL, and 
     expectInvalid("RotorRelativeSpin;1;2;3;RevolutionsPerMinute", "spinTableId");
     expectInvalid("RotorRelativeSpin;1;2;3;RevolutionsPerMinute;abc", "spinTableId");
     expectInvalid("RotorRelativeSpin;1;2;3;RevolutionsPerMinute;0",
-                  "spinTableId"); // an integer is the number of a DDVAL
+                  "spinTableId"); // an integer is the number of a DesignDiscreteValues
     expectInvalid("RotorRelativeSpin;1;2;3;RevolutionsPerMinute;-4", "spinTableId");
     expectInvalid("RotorRelativeSpin;1;2;3;RevolutionsPerMinute;;1.;-1", "rotorSuperelementId");
     expectInvalid("RotorRelativeSpin;1;2;3;RevolutionsPerMinute;;1.;;abc", "node");
@@ -505,13 +508,15 @@ TEST_CASE("an RSPINR looks up its rotor and its grid points only when the rotor 
         "RotorRelativeSpin;120;1101;1102;RevolutionsPerMinute;130;;6\nRotorRelativeSpin;40;2;1;Frequency;;2."
         "\nRotorRelativeSpin;41;2;1;Frequency;"
         "60\n");
-    // ROTRSEID 6: the rotor and its grid points are cards of the part of the superelement; the DDVAL is not.
+    // ROTRSEID 6: the rotor and its grid points are cards of the part of the superelement; the DesignDiscreteValues is
+    // not.
     REQUIRE(referencesOf<RotorRelativeSpinTable>(model, 0) ==
             Seens{{"spinTableId", ReferenceTarget::DiscreteValueSet, 130}});
     REQUIRE(referencesOf<RotorRelativeSpinTable>(model, 1) == Seens{{"rotorId", ReferenceTarget::Rotor, 40},
                                                                     {"nodeA", ReferenceTarget::Node, 2},
                                                                     {"nodeB", ReferenceTarget::Node, 1}});
-    REQUIRE(referencesOf<RotorRelativeSpinTable>(model, 2).size() == 4); // ... and the DDVAL of an integer rate
+    // ... and the DesignDiscreteValues of an integer rate
+    REQUIRE(referencesOf<RotorRelativeSpinTable>(model, 2).size() == 4);
 
     Model resolved = readBulk(
         "Node;1\nNode;2\nRotorLineNodes;40;1;2\nDesignDiscreteValues;60;100.;200.\nRotorRelativeSpin;40;2;1;Frequency;"
@@ -555,8 +560,8 @@ TEST_CASE("an RSPINT gives the spin rate over time as a TABLED1 and an output po
     REQUIRE((second.rotorSuperelementId == 3 && second.node == Approx(0.05)));
     requireRoundTrip(model);
 
-    // The TABLED1 and the EPOINT are looked up whatever the superelement; the rotor and the grid points only in the
-    // residual structure.
+    // The TableDynamic1 and the ExtraPoint are looked up whatever the superelement; the rotor and the grid points only
+    // in the residual structure.
     REQUIRE(referencesOf<RotorTransientSpinTable>(model, 0) ==
             Seens{{"rotorId", ReferenceTarget::Rotor, 120},
                   {"nodeA", ReferenceTarget::Node, 1101},
@@ -584,14 +589,14 @@ TEST_CASE("an RSPINT gives the spin rate over time as a TABLED1 and an output po
     expectInvalid("RotorTransientSpin;1;2;0;RevolutionsPerMinute;5", "nodeB");
     expectInvalid("RotorTransientSpin;1;2;3;;5", "speedUnit");
     expectInvalid("RotorTransientSpin;1;2;3;RevolutionsPerMinute", "spinTableId");
-    expectInvalid("RotorTransientSpin;1;2;3;RevolutionsPerMinute;1.5", "spinTableId"); // an integer: a TABLED1
+    expectInvalid("RotorTransientSpin;1;2;3;RevolutionsPerMinute;1.5", "spinTableId"); // an integer: a TableDynamic1
     expectInvalid("RotorTransientSpin;1;2;3;RevolutionsPerMinute;0", "spinTableId");
     expectInvalid("RotorTransientSpin;1;2;3;RevolutionsPerMinute;5;-1", "speedOutput");
     expectInvalid("RotorTransientSpin;1;2;3;RevolutionsPerMinute;5;;-1", "rotorSuperelementId");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// REFROT and REFRTSE
+// ReferenceRotor and SuperelementReferenceRotor
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a REFROT names the reference rotor and the rotors that follow it", "[model][cards][rotor]")
@@ -613,7 +618,7 @@ TEST_CASE("a REFROT names the reference rotor and the rotors that follow it", "[
     REQUIRE((example.id == 100 && example.referenceRotorId == 10));
     REQUIRE(example.rotors.size() == 9);
     REQUIRE((example.rotors.front() == ContactRun{20, 20, 1} && example.rotors.back() == ContactRun{110, 110, 1}));
-    REQUIRE(cardAt<ReferenceRotorTable>(model, 1).id == 100); // several cards of one RGYRO set
+    REQUIRE(cardAt<ReferenceRotorTable>(model, 1).id == 100); // several cards of one RotordynamicParams set
     REQUIRE(cardAt<ReferenceRotorTable>(model, 1).rotors == Runs{ContactRun{20, 40, 10}});
     REQUIRE(cardAt<ReferenceRotorTable>(model, 3).rotors == Runs{ContactRun{20, 30, 1}}); // BY is 1 when blank
     requireRoundTrip(model);
@@ -622,7 +627,7 @@ TEST_CASE("a REFROT names the reference rotor and the rotors that follow it", "[
                                                                  {"nonFollowingRotorIds", ReferenceTarget::Rotor, 20},
                                                                  {"nonFollowingRotorIds", ReferenceTarget::Rotor, 40}});
     REQUIRE(referencesOf<ReferenceRotorTable>(model, 0).size() == 10);
-    // The RID is the number of an RGYRO set: it is not looked up.
+    // The RID is the number of a RotordynamicParams set: it is not looked up.
     REQUIRE(unresolvedIn(readBulk(
                 "Node;1\nNode;2\nRotorLineNodes;10;1;2\nRotorLineNodes;20;1;2\nReferenceRotor;999;10;20")) == 0);
     REQUIRE(unresolvedIn(readBulk("ReferenceRotor;100;10;20")) == 2);
@@ -694,7 +699,7 @@ TEST_CASE("a REFRTSE names the reference rotor and the rotors of any superelemen
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ROTBENT
+// RotorInitialBend
 // ---------------------------------------------------------------------------------------------------------------------
 
 namespace
@@ -784,7 +789,7 @@ TEST_CASE("a ROTBENT refuses a row, a keyword or a value the format reference do
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// CAMPBLL
+// CampbellDiagram
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CAMPBLL has its defaults for the tracking of the modes and keeps a blank VPARM and TYPE blank",
@@ -823,7 +828,7 @@ TEST_CASE("a CAMPBLL has its defaults for the tracking of the modes and keeps a 
 
     REQUIRE(referencesOf<CampbellDiagramTable>(model) ==
             Seens{{"discreteValuesId", ReferenceTarget::DiscreteValueSet, 26}});
-    REQUIRE(unresolvedIn(model) == 4); // the DDVAL cards 26 and 5 (three cards name 5): none exists
+    REQUIRE(unresolvedIn(model) == 4); // the DesignDiscreteValues cards 26 and 5 (three cards name 5): none exists
     Model resolved = readBulk("DesignDiscreteValues;26;500.;1.E+3\nCampbellDiagram;14;Speed;26;RevolutionsPerMinute\n");
     REQUIRE(unresolvedIn(resolved) == 0);
     Renumbering::apply(resolved, RenumberSpace::DiscreteValueSet, Renumbering::offset(100));
@@ -843,7 +848,7 @@ TEST_CASE("a CAMPBLL has its defaults for the tracking of the modes and keeps a 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// DDVAL and the DESVAR that names it
+// DesignDiscreteValues and the DesignVar that names it
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a DDVAL lists values and THRU BY ranges, which it keeps as written and expands in order",
@@ -877,7 +882,7 @@ TEST_CASE("a DDVAL lists values and THRU BY ranges, which it keeps as written an
     REQUIRE((uneven[1] == Approx(0.3) && uneven[3] == Approx(0.9) && uneven.back() == 1.0));
     requireRoundTrip(model);
     REQUIRE_THROWS_AS(readBulk("DesignDiscreteValues;1;1.\nDesignDiscreteValues;1;2."), base::DeckError);
-    // The DDVAL names nothing.
+    // The DesignDiscreteValues names nothing.
     REQUIRE(referencesOf<DesignDiscreteValuesTable>(model).empty());
     // Values over several lines come back, and a range that does not fit in the end of a line goes to the next one.
     const Model spreadList = readBulk("DesignDiscreteValues;114;1.;2.;3.;4.;5.;6.;7.;10.;Through;20.;By;2.;30.\n");
@@ -918,7 +923,7 @@ TEST_CASE("a DESVAR names the DDVAL that lists its discrete values", "[model][ca
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// BEADVAR
+// DesignBeadRegion
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a BEADVAR has a property, the size of a bead, and optional DESVAR and GRID lines", "[model][cards][design]")
@@ -948,7 +953,7 @@ TEST_CASE("a BEADVAR has a property, the size of a bead, and optional DESVAR and
     REQUIRE((full.design->frameId == 5 && full.design->lowerBound == -1.0 && full.design->upperBound == 1.0));
     REQUIRE(full.design->designVarMoveLimit == Approx(0.1));
     REQUIRE((full.grids.has_value() && full.grids->excludedNodeSetId == 100 && full.grids->addedNodeSetId == 200));
-    // The lines come in either order; a DESVAR line with nothing on it has the defaults: the normals, XLB 0, XUB 1.
+    // The lines come in either order; a DesignVar line with nothing on it has the defaults: the normals, XLB 0, XUB 1.
     const DesignBeadRegionCard reversed = cardAt<DesignBeadRegionTable>(model, 2);
     REQUIRE(reversed.propType == "ShearPanelProp");
     REQUIRE((reversed.grids.has_value() && reversed.grids->excludedNodeSetId == 100 &&
@@ -1006,7 +1011,7 @@ TEST_CASE("a BEADVAR refuses a layout or a value the format reference does not a
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TOMVAR
+// DesignTopometryRegion
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TOMVAR resolves its bounds from XINIT and has a line for each of its optional parts",
@@ -1070,7 +1075,7 @@ TEST_CASE("a TOMVAR resolves its bounds from XINIT and has a line for each of it
                   {"symmetryPropId", ReferenceTarget::Property, 11},
                   {"symmetryPropId", ReferenceTarget::Property, 12},
                   {"symmetryPropId", ReferenceTarget::Property, 13}});
-    // The TID of a DLINK line is a TOMVAR: a plain number.
+    // The TID of a DesignVarLink line is a DesignTopometryRegion: a plain number.
     Model world = readBulk(
         "IsoMat;1;2.1E+11;;0.3\n"
         "ShellProp;9;1;0.1\n"
@@ -1120,7 +1125,7 @@ TEST_CASE("a TOMVAR refuses a layout or a value the format reference does not al
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// DVLREL1
+// DesignLoadRelation1
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a DVLREL1 designs a value of a load, with attributes that say which load of the set",
@@ -1146,8 +1151,8 @@ TEST_CASE("a DVLREL1 designs a value of a load, with attributes that say which l
     REQUIRE((full.attributes[0] == 200 && full.attributes[1] == 3 && !full.attributes[2].has_value()));
     REQUIRE(full.terms.size() == 4); // the pairs go on over the lines
     REQUIRE((full.terms[1].designVarId == 8 && full.terms[1].coefficient == -2.0 && full.terms[3].designVarId == 10));
-    // A 0 is kept as a 0 (the attribute of the scale S of a LOAD), and a blank stays blank; PVAL takes the coefficient
-    // from the load.
+    // A 0 is kept as a 0 (the attribute of the scale S of a LoadCombination), and a blank stays blank; PVAL takes the
+    // coefficient from the load.
     const DesignLoadRelation1Card scale = cardAt<DesignLoadRelation1Table>(model, 2);
     REQUIRE((scale.kind == "LoadCombination" && scale.fieldName == "scaleFactor" && scale.attributes[0] == 0 &&
              scale.fromProperty));
@@ -1215,7 +1220,7 @@ TEST_CASE("a DVLREL1 refuses a layout or a value the format reference does not a
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// DVPSURF
+// DesignControlSurface
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a DVPSURF sets a control surface of a trim as a design variable, and names the surface by its label",

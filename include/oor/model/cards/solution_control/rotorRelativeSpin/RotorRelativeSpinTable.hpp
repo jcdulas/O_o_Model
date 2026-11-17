@@ -19,10 +19,10 @@ struct RotorRelativeSpinFormat
     static void write(const RotorRelativeSpinCard& card, FieldWriter& writer);
 };
 
-// All the RSPINR cards (category Other, IdSpace::None: the pair of the rotor and its superelement identifies a card,
-// no number does). The rotor (Rotor) and the two grid points (Node) are looked up when ROTRSEID is 0, the SPTID when it
-// is an integer (DiscreteValueSet). The cards are kept whole next to the two columns that identify them for the query
-// engine.
+// All the RotorRelativeSpin cards (category Other, IdSpace::None: the pair of the rotor and its superelement identifies
+// a card, no number does). The rotor (Rotor) and the two grid points (Node) are looked up when ROTRSEID is 0, the SPTID
+// when it is an integer (DiscreteValueSet). The cards are kept whole next to the two columns that identify them for the
+// query engine.
 class RotorRelativeSpinTable final : public TypedTable<RotorRelativeSpinTable, RotorRelativeSpinCard>
 {
 public:

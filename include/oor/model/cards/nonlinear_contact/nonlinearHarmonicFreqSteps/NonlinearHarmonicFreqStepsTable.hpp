@@ -18,8 +18,9 @@ struct NonlinearHarmonicFreqStepsFormat
     static void write(const NonlinearHarmonicFreqStepsCard& card, FieldWriter& writer);
 };
 
-// All the NLFREQ1 cards. The ID is unique among them (IdSpace::PerCardType) and numbers, in the category
-// NonlinearFrequency, the same selection as the NLFREQ and NLFREQC cards.
+// All the NonlinearHarmonicFreqSteps cards. The ID is unique among them (IdSpace::PerCardType) and numbers, in the
+// category NonlinearFrequency, the same selection as the NonlinearHarmonicFreqList and
+// NonlinearHarmonicFreqContinuation cards.
 class NonlinearHarmonicFreqStepsTable final
     : public TypedTable<NonlinearHarmonicFreqStepsTable, NonlinearHarmonicFreqStepsCard>
 {
@@ -36,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an NLFREQ1 refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a NonlinearHarmonicFreqSteps refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& startFreqColumn() noexcept { return m_startFreq; }

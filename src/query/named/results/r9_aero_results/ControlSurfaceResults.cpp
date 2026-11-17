@@ -18,9 +18,9 @@ namespace
 
 constexpr double NO_LIMIT = 1.0e9; // the limits of a hinge moment that the file leaves open are written as 1e10
 
-// What the provenance says of the `id` of the rows: the table holds the label of each surface (the AESURF label, the
-// one the trim variable table lists), not its ID, so the ID is the one of the AESURF card of the model that has the
-// label.
+// What the provenance says of the `id` of the rows: the table holds the label of each surface (the AeroControlSurface
+// label, the one the trim variable table lists), not its ID, so the ID is the one of the AeroControlSurface card of the
+// model that has the label.
 const LookupWords WORDS{"id", "AESURF of the model that has the label",
                         "no AESURF of the model has the label: id is null", "the result set has no model: id is null",
                         "two AESURF cards of the model have the label: id is null"};

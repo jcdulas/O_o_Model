@@ -21,17 +21,17 @@ enum class PerforatedShellPropTopology : std::uint8_t
 inline constexpr std::array<std::string_view, 3> PERFORATED_SHELL_PROP_TOPOLOGY_WORDS{"Square", "Triangular",
                                                                                       "Hexagonal"};
 
-// One PSHLPF card: the property of a perforated shell of a trim component (TRMC) made of a porous elastic material.
-// The shell elements of the trim component name it by PID. The card is for the Bulk Data of a trim component
+// One PerforatedShellProp card: the property of a perforated shell of a trim component (TRMC) made of a porous elastic
+// material. The shell elements of the trim component name it by PID. The card is for the Bulk Data of a trim component
 // (`BEGIN TRMC=trmid`) only; the library does not look at where it stands.
 //
-// Card layout: PSHLPF  PID  MID  T  SPACEG  RADIUS  TOPOLGY  FRHO  FVIS      fields 1 to 8
-//                     HOMG                                                  field 9 (the second line)
+// Card layout: PerforatedShellProp  PID  MID  T  SPACEG  RADIUS  TOPOLGY  FRHO  FVIS  fields 1 to 8
+//                                  HOMG                                     field 9 (the second line)
 // The format spells the pattern TOPOLGY in the layout and TOPOLOGY in the description of the fields; the card calls it
-// TOPOLOGY. MID is a MAT1. T (the thickness), SPACEG (the distance between the holes), RADIUS (the radius of a hole),
-// FRHO (the density of the fluid) and FVIS (its viscosity) are real numbers greater than zero. The format gives none of
-// these fields nor TOPOLOGY a default, so all of them are required. HOMG is the homogenisation flag, 0 or 1; it is 1
-// when blank, and then the stiffness and the density vary with the porosity, while 0 uses the stiffness as
+// TOPOLOGY. MID is an IsoMat. T (the thickness), SPACEG (the distance between the holes), RADIUS (the radius of a
+// hole), FRHO (the density of the fluid) and FVIS (its viscosity) are real numbers greater than zero. The format gives
+// none of these fields nor TOPOLOGY a default, so all of them are required. HOMG is the homogenisation flag, 0 or 1; it
+// is 1 when blank, and then the stiffness and the density vary with the porosity, while 0 uses the stiffness as
 // it is given.
 struct PerforatedShellPropCard
 {

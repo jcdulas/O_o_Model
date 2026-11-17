@@ -19,8 +19,8 @@ struct ModuleLabelFormat
     static void write(const ModuleLabelCard& card, FieldWriter& writer);
 };
 
-// All the MDLABEL cards. The MID is the ID, unique among them (IdSpace::PerCardType, category Other: one label for each
-// module). A module is not a card of the model, so the card names no other card. One column for each field.
+// All the ModuleLabel cards. The MID is the ID, unique among them (IdSpace::PerCardType, category Other: one label for
+// each module). A module is not a card of the model, so the card names no other card. One column for each field.
 class ModuleLabelTable final : public TypedTable<ModuleLabelTable, ModuleLabelCard>
 {
 public:

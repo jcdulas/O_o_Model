@@ -19,8 +19,8 @@ struct FreqModeFractions5Format
     static void write(const FreqModeFractions5Card& card, FieldWriter& writer);
 };
 
-// All the FREQ5 cards. The ID is a frequency set ID shared by the FREQ, FREQ1 to FREQ5 cards (IdSpace::Group). The
-// fractions of every card are one list in CSR form.
+// All the FreqModeFractions5 cards. The ID is a frequency set ID shared by the FreqList, FreqLinearSteps1 to
+// FreqModeFractions5 cards (IdSpace::Group). The fractions of every card are one list in CSR form.
 class FreqModeFractions5Table final : public TypedTable<FreqModeFractions5Table, FreqModeFractions5Card>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FREQ5 refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FreqModeFractions5 refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& frequency1Column() noexcept { return m_frequency1; }

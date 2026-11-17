@@ -14,7 +14,8 @@ namespace oor::analysis
 namespace
 {
 
-// The point lists of the SEBNDRY (or SEEXCLD) cards of one superelement SEIDA, each with its SEIDB (nothing: ALL).
+// The point lists of the SuperelementBoundarySearch (or SuperelementExcludedNodes) cards of one superelement SEIDA,
+// each with its SEIDB (nothing: ALL).
 using PointLists = std::multimap<base::EntityId, std::pair<model::SuperelementOrAll, std::vector<model::IdRun>>>;
 
 bool holds(const std::vector<model::IdRun>& runs, base::EntityId nid) noexcept

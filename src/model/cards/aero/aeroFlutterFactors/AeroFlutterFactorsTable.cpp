@@ -173,7 +173,7 @@ void AeroFlutterFactorsTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AeroFlutterFactorsTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // The factors are reals: an FLFACT names no other card.
+    // The factors are reals: an AeroFlutterFactors names no other card.
 }
 
 } // namespace oor::model

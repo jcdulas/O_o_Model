@@ -19,9 +19,10 @@ struct TrimComponentCoupling1DFormat
     static void write(const TrimComponentCoupling1DCard& card, FieldWriter& writer);
 };
 
-// All the ACPMCP1 cards, in the category Other. The TID is the trim component, which no card defines and which several
-// ACPMCP1 cards share (IdSpace::Group). The four sets are references to SET3 cards of the part BEGIN BULK TRMC=TID
-// (ReferenceTarget::Set, ReferenceVisitor::visitInPart). The cards are kept whole next to a column of their TIDs.
+// All the TrimComponentCoupling1D cards, in the category Other. The TID is the trim component, which no card defines
+// and which several TrimComponentCoupling1D cards share (IdSpace::Group). The four sets are references to TypedListSet3
+// cards of the part BEGIN BULK TRMC=TID (ReferenceTarget::Set, ReferenceVisitor::visitInPart). The cards are kept whole
+// next to a column of their TIDs.
 class TrimComponentCoupling1DTable final : public TypedTable<TrimComponentCoupling1DTable, TrimComponentCoupling1DCard>
 {
 public:

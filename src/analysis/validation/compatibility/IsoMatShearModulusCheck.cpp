@@ -10,8 +10,8 @@ namespace oor::analysis
 namespace
 {
 
-// The shear modulus of a MAT1 that is zero or negative, when something that needs it uses the material. A MAT1 given
-// with E only has G = 0 (and NU = 0): that is a material for rods and springs, which need no shear modulus.
+// The shear modulus of an IsoMat that is zero or negative, when something that needs it uses the material. An IsoMat
+// given with E only has G = 0 (and NU = 0): that is a material for rods and springs, which need no shear modulus.
 class IsoMatShearModulusCheck final : public ValidationCheck
 {
 public:

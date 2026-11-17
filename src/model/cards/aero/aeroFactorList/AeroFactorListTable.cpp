@@ -69,7 +69,7 @@ void AeroFactorListTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AeroFactorListTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // The numbers are reals: an AEFACT names no other card.
+    // The numbers are reals: an AeroFactorList names no other card.
 }
 
 } // namespace oor::model

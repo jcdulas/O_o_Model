@@ -113,7 +113,8 @@ void CyclicAzimuthTableLoadTable::keepRows(const std::vector<std::uint32_t>& row
 
 void CyclicAzimuthTableLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // the tables are TABLED1 or TABLED2. The load sets are FORCE, MOMENT, PLOAD, ... cards.
+    // the tables are TableDynamic1 or TableDynamic2. The load sets are PointForceLoad, PointMomentLoad,
+    // PointsPressureLoad, ... cards.
     m_tableId1.set(row, visitor.visit("tableId1", ReferenceTarget::DynamicTable, m_tableId1.get(row)));
     m_loadSetId1.set(row, visitor.visit("loadSetId1", ReferenceTarget::LoadCombinationSet, m_loadSetId1.get(row)));
     if (const base::EntityId table = m_tableId2.get(row); table > 0)

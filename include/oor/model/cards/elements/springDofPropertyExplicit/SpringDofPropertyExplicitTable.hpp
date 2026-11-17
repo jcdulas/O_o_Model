@@ -18,7 +18,8 @@ struct SpringDofPropertyExplicitFormat
     static void write(const SpringDofPropertyExplicitCard& card, FieldWriter& writer);
 };
 
-// All the CELAS1D elements. They are elements (IdSpace::Element, shared with every other element), kept in columns.
+// All the SpringDofPropertyExplicit elements. They are elements (IdSpace::Element, shared with every other element),
+// kept in columns.
 class SpringDofPropertyExplicitTable final : public TypedTable<SpringDofPropertyExplicitTable, SpringDofPropertyExplicitCard>
 {
 public:

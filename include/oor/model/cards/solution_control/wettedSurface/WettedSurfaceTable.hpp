@@ -19,10 +19,10 @@ struct WettedSurfaceFormat
     static void write(const WettedSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the WETSURF cards, in the category WettedSurface: the WSID is unique among them (IdSpace::PerCardType) and a
-// WETLOAD names a surface by it. The wetted elements are references (ReferenceTarget::WettedElement, which covers the
-// WETELME and WETELMG cards): a single ID and the two ends of a run are looked up alike. The cards are kept whole next
-// to a column of their WSIDs, because the list of runs has a length of its own.
+// All the WettedSurface cards, in the category WettedSurface: the WSID is unique among them (IdSpace::PerCardType) and
+// a WettedSurfaceLoad names a surface by it. The wetted elements are references (ReferenceTarget::WettedElement, which
+// covers the WettedElemSide and WettedElemNodes cards): a single ID and the two ends of a run are looked up alike. The
+// cards are kept whole next to a column of their WSIDs, because the list of runs has a length of its own.
 class WettedSurfaceTable final : public TypedTable<WettedSurfaceTable, WettedSurfaceCard>
 {
 public:

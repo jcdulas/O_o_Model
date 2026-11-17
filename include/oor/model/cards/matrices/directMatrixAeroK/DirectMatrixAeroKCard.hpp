@@ -10,14 +10,14 @@
 namespace oor::model
 {
 
-// One DMIK card: either the header of a matrix at the ks-set of the aerodynamic mesh (the second field is the integer
-// 0) or one column of it. Same layout as DMIG, and a term is the same value (`DirectMatrixNodalTerm`); what differs is
-// what the matrix is: WKK, WTFACT and the forces of AEFORCE, on the physical (displacement) degrees of freedom of the
-// aerodynamic grid points (three translations and three rotations). Its points are aerodynamic grid points, not
-// structural grid points.
+// One DirectMatrixAeroK card: either the header of a matrix at the ks-set of the aerodynamic mesh (the second field is
+// the integer 0) or one column of it. Same layout as DirectMatrixNodal, and a term is the same value
+// (`DirectMatrixNodalTerm`); what differs is what the matrix is: WKK, WTFACT and the forces of AeroForceVector, on the
+// physical (displacement) degrees of freedom of the aerodynamic grid points (three translations and three rotations).
+// Its points are aerodynamic grid points, not structural grid points.
 //
-// Card layout, header:  DMIK  NAME  "0"  IFO  TIN  TOUT  POLAR  .  NCOL
-//         column:      DMIK  NAME  GJ   CJ   .    G1    C1     A1  B1
+// Card layout, header:  DirectMatrixAeroK  NAME  "0"  IFO  TIN  TOUT  POLAR  .  NCOL
+//         column:      DirectMatrixAeroK  NAME  GJ   CJ   .    G1    C1  A1  B1
 //                      .     G2    C2   A2   B2   G3    C3     A3  B3   -etc.-
 // Fields 1 to 3 of a column are the name and the column; field 4 is blank and the terms (G, C, A, B) follow four fields
 // at a time, wherever they fall on the continuation lines. B is blank for a real matrix (TIN 1 or 2).

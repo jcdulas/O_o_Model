@@ -11,7 +11,7 @@ namespace
 
 // Every form lists its items from the first field of the first continuation line.
 constexpr int FIRST_ITEM_FIELD = 9;
-constexpr std::int32_t FIRST_FACE = 1; // the sides of an element are numbered as those of a CHBDYE (1 to 6)
+constexpr std::int32_t FIRST_FACE = 1; // the sides of an element are numbered as those of a HeatSurfaceSide (1 to 6)
 constexpr std::int32_t LAST_FACE = 6;
 
 // A list of grid points or elements goes upwards and has no increment: the format draws neither BY nor a descending

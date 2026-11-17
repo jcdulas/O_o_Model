@@ -12,15 +12,16 @@
 #include <string_view>
 #include <vector>
 
-// The one value that TICEL and TICVAL share: the list of (variable name, value) pairs that gives the initial state of
-// the elements of a SOL 700 model (density, specific internal energy, velocity, ...). The two cards say where the list
-// starts, what comes before it and what the names refer to; this header only reads, writes, checks and visits the list.
+// The one value that InitialElemValues and InitialConditionValues share: the list of (variable name, value) pairs that
+// gives the initial state of the elements of a SOL 700 model (density, specific internal energy, velocity, ...). The
+// two cards say where the list starts, what comes before it and what the names refer to; this header only reads,
+// writes, checks and visits the list.
 namespace oor::model
 {
 
-// What the values of the list are. TICEL always gives numbers. A TICVAL of METHOD = RADIAL gives, instead of a number,
-// the ID of the TABLED1 that holds the radial profile of the variable; the exceptions are the
-// coordinates of the centre of the sphere and the decay coefficient of the radial velocity, which stay numbers.
+// What the values of the list are. InitialElemValues always gives numbers. An InitialConditionValues of METHOD = RADIAL
+// gives, instead of a number, the ID of the TableDynamic1 that holds the radial profile of the variable; the exceptions
+// are the coordinates of the centre of the sphere and the decay coefficient of the radial velocity, which stay numbers.
 enum class InitialValueMode : std::uint8_t
 {
     Numbers,
@@ -28,17 +29,17 @@ enum class InitialValueMode : std::uint8_t
 };
 
 // The names that stay numbers in a radial list: X-CENTER, Y-CENTER, Z-CENTER (the centre of the sphere, default 0, 0,
-// 0) and DECAY (the decay coefficient of the radial velocity: the format of TICVAL does not mention it, and
-// a coefficient is not a profile). R-VEL, SIE and DENSITY name a table there; so does any other variable, since the
-// format says that the values of a radial list are TABLED1 IDs.
+// 0) and DECAY (the decay coefficient of the radial velocity: the format of InitialConditionValues does not mention it,
+// and a coefficient is not a profile). R-VEL, SIE and DENSITY name a table there; so does any other variable, since the
+// format says that the values of a radial list are TableDynamic1 IDs.
 [[nodiscard]] bool isRadialConstant(std::string_view name) noexcept;
 
-// True when the value of the variable `name` is the ID of a TABLED1 in a list of this mode.
+// True when the value of the variable `name` is the ID of a TableDynamic1 in a list of this mode.
 [[nodiscard]] bool holdsTable(InitialValueMode mode, std::string_view name) noexcept;
 
 // One variable of the list. The name is kept in capitals. The value is a number, or (when `holdsTable` says so) the ID
-// of a TABLED1 kept as a whole number: the single member means that a list never has to be converted when its mode
-// changes, and the check says whether the values suit the mode.
+// of a TableDynamic1 kept as a whole number: the single member means that a list never has to be converted when its
+// mode changes, and the check says whether the values suit the mode.
 struct InitialVariable
 {
     std::string name;
@@ -63,7 +64,7 @@ void writeInitialVariables(FieldWriter& writer, int firstField, InitialValueMode
 [[nodiscard]] std::optional<CardProblem> checkInitialVariables(const std::vector<InitialVariable>& variables,
                                                                InitialValueMode mode);
 
-// Visits the TABLED1 of every value that is a table.
+// Visits the TableDynamic1 of every value that is a table.
 void visitInitialTables(std::vector<InitialVariable>& variables, InitialValueMode mode, ReferenceVisitor& visitor);
 
 } // namespace oor::model

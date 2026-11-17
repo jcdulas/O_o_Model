@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One PLPLANE card: the property of a fully nonlinear plane strain, plane stress or axisymmetric element.
+// One PlanePropNonlinear card: the property of a fully nonlinear plane strain, plane stress or axisymmetric element.
 //
 // Card layout:
-//   PLPLANE  PID  MID  CID  STR
+//   PlanePropNonlinear  PID  MID  CID  STR
 //
 // CID is the coordinate system that gives the plane of deformation (0, the default, is the basic system). A negative
 // CID selects an axes combination for axisymmetric elements and refers to no system. STR is the

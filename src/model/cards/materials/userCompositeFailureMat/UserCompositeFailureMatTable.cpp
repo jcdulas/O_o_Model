@@ -73,7 +73,7 @@ std::optional<UserCompositeFailureMatCard> UserCompositeFailureMatFormat::read(F
     card.shearModulus1Z = reader.real(FIELD_YOUNGS_MODULUS1 + 4, "shearModulus1Z",
                                       card.shearModulus12); // format reference: G1Z defaults to G12
     card.shearModulus2Z =
-        reader.real(FIELD_YOUNGS_MODULUS1 + 5, "shearModulus2Z", card.shearModulus12); // the same as the MAT8
+        reader.real(FIELD_YOUNGS_MODULUS1 + 5, "shearModulus2Z", card.shearModulus12); // the same as the OrthoMat2D
     card.density = reader.requiredReal(FIELD_YOUNGS_MODULUS1 + 6, "density");
     card.historyVariableCount = reader.integer(FIELD_HISTORY_VARIABLE_COUNT, "historyVariableCount", 0);
     card.shearStrength = reader.real(FIELD_HISTORY_VARIABLE_COUNT + 1, "shearStrength", 0.0);
@@ -154,7 +154,8 @@ std::optional<CardProblem> UserCompositeFailureMatFormat::check(const UserCompos
         return problem;
     if (const auto problem = checkReal(card.compressionStrength2, "compressionStrength2", RealRule::Positive))
         return problem;
-    // The MAT8A has the same field (the format says the definitions are the same): a number, greater than zero.
+    // The OrthoMat2DFailure has the same field (the format says the definitions are the same): a number, greater than
+    // zero.
     if (const auto problem = checkReal(card.degradationParameter, "degradationParameter", RealRule::Positive))
         return problem;
     if (const auto problem = checkMode(card.fiberTensionTheory, "fiberTensionTheory"))

@@ -25,14 +25,15 @@ constexpr ContactParameterRule OWN_RULES[] = {
 constexpr std::string_view OWNERS[] = {ModuleContactDetectParamsTable::NAME, ContactParamsTable::NAME,
                                        ContactPairPhysicalParamsTable::NAME, ContactPairGeomParamsTable::NAME};
 
-// Fields 1 and 2 are blank: the first parameter is in field 3, as in a BCAUTOP.
+// Fields 1 and 2 are blank: the first parameter is in field 3, as in a ContactAutoParams.
 constexpr int FIRST_PAIR_FIELD = 3;
 
 } // namespace
 
 std::span<const ContactParameterRule> ModuleContactDetectParamsFormat::rules()
 {
-    // The card's own names come first, so that FTYPE and FRIC keep the kinds the format of MDBCATP gives them.
+    // The card's own names come first, so that FTYPE and FRIC keep the kinds the format of ModuleContactDetectParams
+    // gives them.
     static const std::vector<ContactParameterRule> ALL = []
     {
         std::vector<ContactParameterRule> rules(std::begin(OWN_RULES), std::end(OWN_RULES));

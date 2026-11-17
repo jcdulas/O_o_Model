@@ -86,10 +86,11 @@ public:
                 locations.push_back(driven.elements().location(element));
             }
             fraction[row] = modelMass != 0.0 ? mass[row] / modelMass : NOT_A_NUMBER;
-            // A dependent variable is given by its DLINK: it has no value of its own to move.
+            // A dependent variable is given by its DesignVarLink: it has no value of its own to move.
             if (variable.link != 0)
                 continue;
-            // A variable that moves grid points (DVGRID) changes the size of the elements: not a linear function.
+            // A variable that moves grid points (DesignNodeMove) changes the size of the elements: not a linear
+            // function.
             const bool movesGrids =
                 std::any_of(design.shapeTerms().begin(), design.shapeTerms().end(),
                             [&](const model::DesignShapeTerm& term) { return term.variable == variable.id; });

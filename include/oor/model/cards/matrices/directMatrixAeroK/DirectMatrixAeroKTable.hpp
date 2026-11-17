@@ -21,10 +21,10 @@ struct DirectMatrixAeroKFormat
     static void write(const DirectMatrixAeroKCard& card, FieldWriter& writer);
 };
 
-// All the DMIK cards: the headers and the columns of every matrix, one row each, in the order of the deck. A card has
-// no numeric ID (IdSpace::None); the matrix is found by the name. The terms of a column are four lists in CSR form
-// (point, component, real part, imaginary part). The points are aerodynamic mesh points: no reference to the nodes of
-// the structure is visited.
+// All the DirectMatrixAeroK cards: the headers and the columns of every matrix, one row each, in the order of the deck.
+// A card has no numeric ID (IdSpace::None); the matrix is found by the name. The terms of a column are four lists in
+// CSR form (point, component, real part, imaginary part). The points are aerodynamic mesh points: no reference to the
+// nodes of the structure is visited.
 class DirectMatrixAeroKTable final : public TypedTable<DirectMatrixAeroKTable, DirectMatrixAeroKCard>
 {
 public:

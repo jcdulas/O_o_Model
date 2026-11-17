@@ -18,9 +18,9 @@ struct HeatIsoMatTemperatureFormat
     static void write(const HeatIsoMatTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATT4 cards. The ID space is the card type's own: the ID is the one of the MAT4 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEMi cards (ReferenceTarget::MaterialTable).
+// All the HeatIsoMatTemperature cards. The ID space is the card type's own: the ID is the one of the HeatIsoMat that
+// the card extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables
+// are references to TABLEMi cards (ReferenceTarget::MaterialTable).
 class HeatIsoMatTemperatureTable final : public TypedTable<HeatIsoMatTemperatureTable, HeatIsoMatTemperatureCard>
 {
 public:

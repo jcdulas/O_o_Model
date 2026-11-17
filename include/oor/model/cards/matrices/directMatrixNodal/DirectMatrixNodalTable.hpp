@@ -22,9 +22,10 @@ struct DirectMatrixNodalFormat
     static void write(const DirectMatrixNodalCard& card, FieldWriter& writer);
 };
 
-// All the DMIG cards: the headers and the columns of every matrix, one row each, in the order of the deck. A card has
-// no numeric ID (IdSpace::None); the matrix is found by the name. The terms of a column are four lists in CSR form
-// (point, component, real part, imaginary part); a header and a column of a real matrix have no imaginary parts.
+// All the DirectMatrixNodal cards: the headers and the columns of every matrix, one row each, in the order of the deck.
+// A card has no numeric ID (IdSpace::None); the matrix is found by the name. The terms of a column are four lists in
+// CSR form (point, component, real part, imaginary part); a header and a column of a real matrix have no imaginary
+// parts.
 class DirectMatrixNodalTable final : public TypedTable<DirectMatrixNodalTable, DirectMatrixNodalCard>
 {
 public:

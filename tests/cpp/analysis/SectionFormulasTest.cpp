@@ -356,7 +356,7 @@ TEST_CASE("the section of a property card is the one the card gives, or the form
     REQUIRE(pbarl->stations.front().area == Approx(PI * 5.0));
     REQUIRE(pbarl->stations.front().nsm == 0.5);
 
-    // A PBEAM keeps one set of properties per station, in order of X/XB, and the mean area is the trapezoid.
+    // A BeamProp keeps one set of properties per station, in order of X/XB, and the mean area is the trapezoid.
     const auto pbeam = SectionFormulas::of(model, 3);
     REQUIRE(pbeam);
     REQUIRE(pbeam->stations.size() == 3);
@@ -375,7 +375,7 @@ TEST_CASE("the section of a property card is the one the card gives, or the form
 
     REQUIRE(SectionFormulas::of(model, 5)->stations.front().area == 3.0);
     REQUIRE(SectionFormulas::of(model, 5)->stations.front().j == 4.0);
-    // The tube of a PTUBE: OD 4, wall 0.5.
+    // The tube of a TubeProp: OD 4, wall 0.5.
     const SectionProperties ring = SectionFormulas::of(model, 6)->stations.front();
     REQUIRE(ring.area == Approx(PI / 4.0 * (16.0 - 9.0)));
     REQUIRE(ring.i1 == Approx(PI / 64.0 * (256.0 - 81.0)));
@@ -397,8 +397,8 @@ TEST_CASE("the sections of PBCOMP, PBEAM3 and PBEND are the values of their card
     REQUIRE(bcomp.j == 6.0);
     REQUIRE(bcomp.nsm == 0.1);
 
-    // PBEAM3: IZ is the moment of plane 1, IY of plane 2, three stations (A, the middle node C, B) at X/XB 0, 1/2 and 1
-    // which take the values of end A where they are blank, and the stress points are (y, z) pairs.
+    // BeamProp3: IZ is the moment of plane 1, IY of plane 2, three stations (A, the middle node C, B) at X/XB 0, 1/2
+    // and 1 which take the values of end A where they are blank, and the stress points are (y, z) pairs.
     const auto beam3 = SectionFormulas::of(model, 6);
     REQUIRE(beam3);
     REQUIRE(beam3->stations.size() == 3);
@@ -415,7 +415,7 @@ TEST_CASE("the sections of PBCOMP, PBEAM3 and PBEND are the values of their card
     REQUIRE(beam3->stations[2].area == 0.1);
     REQUIRE(beam3->meanArea() == Approx(0.1));
 
-    // PBEND in its pipe form: the mean radius 5 and the wall 0.5 make a thin tube.
+    // CurvedBeamProp in its pipe form: the mean radius 5 and the wall 0.5 make a thin tube.
     const SectionProperties pipe = SectionFormulas::of(model, 7)->stations.front();
     REQUIRE(pipe.area == Approx(2.0 * PI * 5.0 * 0.5));
     REQUIRE(pipe.i1 == Approx(PI * 125.0 * 0.5));

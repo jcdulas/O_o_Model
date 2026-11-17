@@ -17,17 +17,17 @@ enum class GeomBoundaryCurveEntity : std::uint8_t
 
 inline constexpr std::array<std::string_view, 1> GEOM_BOUNDARY_CURVE_ENTITY_WORDS{"Node"};
 
-// One GMBNDC card: a geometric boundary made of element edges along a curve, which a CINTC names by its BID to say
-// where it puts interface elements. The boundary may be edges of shell, beam or solid elements.
+// One GeomBoundaryCurve card: a geometric boundary made of element edges along a curve, which a LineInterface names by
+// its BID to say where it puts interface elements. The boundary may be edges of shell, beam or solid elements.
 //
-// Card layout: GMBNDC  BID  GRIDI  GRIDF
-//                     .    ENTITY  ID1  ID2  ID3  ID4  ID5  ID6  ID7
-//                     .    ID8  -etc.-
+// Card layout: GeomBoundaryCurve  BID  GRIDI  GRIDF
+//                                .  ENTITY  ID1  ID2  ID3  ID4  ID5  ID6  ID7
+//                                .  ID8  -etc.-
 // GRIDI and GRIDF are the two end points of the curve. ENTITY (GRID, required) says what the IDs are, and
 // the IDi are the grid points in order from GRIDI to GRIDF; the end points need not be repeated in the list. The list
 // starts in field 10 and goes on in the following fields (field 17 holds ID8). The IDi are distinct;
 // the format does not require a minimum, so a boundary whose list is empty is kept as it is. Several continuation lines
-// may carry the IDs. The BID is unique among the GMBNDC cards and has no space shared with other cards.
+// may carry the IDs. The BID is unique among the GeomBoundaryCurve cards and has no space shared with other cards.
 struct GeomBoundaryCurveCard
 {
     base::EntityId id = 0;

@@ -18,7 +18,7 @@ struct DesignShapeBasisFormat
     static void write(const DesignShapeBasisCard& card, FieldWriter& writer);
 };
 
-// All the DVSHAP cards (no ID: IdSpace::None). The DVID is a design variable.
+// All the DesignShapeBasis cards (no ID: IdSpace::None). The DVID is a design variable.
 class DesignShapeBasisTable final : public TypedTable<DesignShapeBasisTable, DesignShapeBasisCard>
 {
 public:

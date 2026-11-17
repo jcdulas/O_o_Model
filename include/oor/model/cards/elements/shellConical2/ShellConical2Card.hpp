@@ -5,13 +5,14 @@
 namespace oor::model
 {
 
-// One CCONEAX card: an axisymmetric conical shell element between two rings, with a PCONEAX property.
+// One ShellConical2 card: an axisymmetric conical shell element between two rings, with a ConicalShellProp property.
 //
 // Card layout:
-//   CCONEAX  EID  PID  RA  RB
+//   ShellConical2  EID  PID  RA  RB
 //
-// RA and RB are the IDs of two different RINGAX points (the format reference: an AXIC entry must be present too).
-// RINGAX is not a typed card yet, so they are not references the library resolves or renumbers.
+// RA and RB are the IDs of two different AxisymConeRing points (the format reference: an AxisymConeControl entry must
+// be present too). AxisymConeRing is not a typed card yet, so they are not references the library resolves or
+// renumbers.
 struct ShellConical2Card
 {
     base::EntityId id = 0;

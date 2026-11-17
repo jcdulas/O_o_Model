@@ -7,13 +7,13 @@
 namespace oor::model
 {
 
-// One BOLT card: a rigid bolt made of multi-point constraints between pairs of grid points on the two sides of its
-// cut (SOLs 101, 103, 400): each pair (GTi, GBi) is tied to the control grid point GRIDC in all six degrees of freedom,
-// so that the load or enforced motion of GRIDC pretensions the bolt. In 3D contact the bottom grid points are replaced
-// by the top ones on the contact surface. (The BOLT of another implementation of the format, with no TOP and BOTTOM
-// keyword, is another layout and is not read.)
+// One BoltConnection card: a rigid bolt made of multi-point constraints between pairs of grid points on the two sides
+// of its cut (SOLs 101, 103, 400): each pair (GTi, GBi) is tied to the control grid point GRIDC in all six degrees of
+// freedom, so that the load or enforced motion of GRIDC pretensions the bolt. In 3D contact the bottom grid points are
+// replaced by the top ones on the contact surface. (The BoltConnection of another implementation of the format, with no
+// TOP and BOTTOM keyword, is another layout and is not read.)
 //
-// Card layout: BOLT  ID  GRIDC
+// Card layout: BoltConnection  ID  GRIDC
 //             (continuation)  TOP  GT1  GT2  GT3 ... GT7 / GT8  GT9 ...
 //             (continuation)  BOTTOM  GB1  GB2  GB3 ... GB7 / GB8  GB9 ...
 // The two lists have the same number of grid points, one pair after the other; the lists go on over continuation lines.

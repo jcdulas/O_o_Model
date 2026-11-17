@@ -25,9 +25,9 @@ struct DofSetRenamesFormat
     static void write(const DofSetRenamesCard& card, FieldWriter& writer);
 };
 
-// All the DEFUSET cards, in the category Set. A card has no ID (IdSpace::None) and names no other card: the names are
-// the solver's own names of sets, not cards of the model. The cards are kept whole next to a column of the number of
-// their renamings, which is what the query engine reads.
+// All the DofSetRenames cards, in the category Set. A card has no ID (IdSpace::None) and names no other card: the names
+// are the solver's own names of sets, not cards of the model. The cards are kept whole next to a column of the number
+// of their renamings, which is what the query engine reads.
 class DofSetRenamesTable final : public TypedTable<DofSetRenamesTable, DofSetRenamesCard>
 {
 public:

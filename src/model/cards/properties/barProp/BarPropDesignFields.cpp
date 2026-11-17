@@ -66,7 +66,7 @@ DesignFieldLookup foundKind(std::int32_t kind, std::int32_t index = 0)
 
 // A negative FID is the word of the element property table of the solver: PID 1, MID 2, A 3, I1 4, I2 5, J 6, NSM 7, a
 // word of its own for the stress recovery flag 8, C1 to F2 in 9 to 16, K1 17, K2 18, I12 19 (the format reference: the
-// area of a PBAR is FID -3).
+// area of a BarProp is FID -3).
 
 DesignFieldLookup findField(const BarPropCard&, const DesignField& field)
 {

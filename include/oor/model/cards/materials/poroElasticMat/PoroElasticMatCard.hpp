@@ -7,12 +7,12 @@
 namespace oor::model
 {
 
-// One MATPE1 card: an isotropic poroelastic material (the solid skeleton and the fluid of a porous medium), referenced
-// by the PSOLID of a poroelastic solid. It goes in the Bulk Data of a TRIM component.
+// One PoroElasticMat card: an isotropic poroelastic material (the solid skeleton and the fluid of a porous medium),
+// referenced by the SolidProp of a poroelastic solid. It goes in the Bulk Data of a TRIM component.
 //
 // Card layout:
-//   MATPE1  MID    MAT1   MAT10    BIOT   POROPT  SRHO
-//           VISC   GAMMA  PRANDTL  POR    TOR     AFR    VLE    TLE
+//   PoroElasticMat  MID    MAT1   MAT10  BIOT   POROPT  SRHO
+//                   VISC   GAMMA  PRANDTL  POR    TOR  AFR    VLE    TLE
 // POROPT picks a simplified model: LUMPED (a skeleton assumed extremely soft: its density is SRHO or the one of the
 // MAT1), RIGID (a rigid skeleton, MAT1 left blank), MIKI or DELANY (semi-empirical, porosity 1, MAT1 left blank, VISC
 // and POR not needed).

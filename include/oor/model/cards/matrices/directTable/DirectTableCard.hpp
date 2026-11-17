@@ -7,7 +7,7 @@
 namespace oor::model
 {
 
-// The kind of a value of a DTI record.
+// The kind of a value of a DirectTable record.
 enum class DirectTableKind : std::uint8_t
 {
     Blank,   // an empty field (kept: the position of a value in the record counts)
@@ -16,7 +16,7 @@ enum class DirectTableKind : std::uint8_t
     Text     // arbitrary text
 };
 
-// One value of a DTI record: a field of the card, as written.
+// One value of a DirectTable record: a field of the card, as written.
 struct DirectTableValue
 {
     DirectTableKind kind = DirectTableKind::Blank;
@@ -27,10 +27,10 @@ struct DirectTableValue
     [[nodiscard]] bool operator==(const DirectTableValue&) const noexcept = default;
 };
 
-// One DTI card: a record of a table data block that a DMAP reads (direct table input).
+// One DirectTable card: a record of a table data block that a DMAP reads (direct table input).
 //
-// Card layout:  DTI  NAME  IREC  V1  V2  V3  V4  V5  V6
-//                                V7  V8  V9  V10  -etc.-  "ENDREC"
+// Card layout:  DirectTable  NAME  IREC  V1  V2  V3  V4  V5  V6
+//                                        V7  V8  V9  V10  -etc.-  "ENDREC"
 // NAME is the name of the data block (a word that starts with a letter), IREC the number of the record (0 is the
 // optional header record, whose first six values T1 to T6 are the trailer). The values are the fields of the card from
 // field 3 on, over as many continuation lines as needed: integers, reals, words or blanks, kept as written (the word

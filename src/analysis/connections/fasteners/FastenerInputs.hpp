@@ -12,8 +12,8 @@
 namespace oor::analysis::detail
 {
 
-// What the piercing points of one fastener are found from: its card and the SWLDPRM projection tolerance that applies
-// to its element type, in one shape for CFAST and CWELD.
+// What the piercing points of one fastener are found from: its card and the ConnectorSearchParams projection tolerance
+// that applies to its element type, in one shape for Fastener and Weld.
 struct FastenerInput
 {
     static constexpr double DEFAULT_PROJTOL = 0.02;
@@ -35,7 +35,7 @@ struct FastenerInput
     double projtol = DEFAULT_PROJTOL;
 };
 
-// Reads the CFAST and CWELD cards of a model and the SWLDPRM card, by element ID.
+// Reads the Fastener and Weld cards of a model and the ConnectorSearchParams card, by element ID.
 class FastenerInputs
 {
 public:

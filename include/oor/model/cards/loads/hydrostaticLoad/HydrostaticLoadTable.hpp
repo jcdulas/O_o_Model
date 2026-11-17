@@ -19,9 +19,9 @@ struct HydrostaticLoadFormat
     static void write(const HydrostaticLoadCard& card, FieldWriter& writer);
 };
 
-// All the HYDROS cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). SETE, SETG and
-// CNTL are Set references (a blank one is not visited); CID/GRD is a Coordinate reference when it is above zero and a
-// Node reference (of its absolute value, the sign staying on the card) when it is below zero.
+// All the HydrostaticLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). SETE,
+// SETG and CNTL are Set references (a blank one is not visited); CID/GRD is a Coordinate reference when it is above
+// zero and a Node reference (of its absolute value, the sign staying on the card) when it is below zero.
 class HydrostaticLoadTable final : public TypedTable<HydrostaticLoadTable, HydrostaticLoadCard>
 {
 public:

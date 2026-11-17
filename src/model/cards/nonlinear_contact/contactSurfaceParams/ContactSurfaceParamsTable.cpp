@@ -8,8 +8,8 @@ namespace oor::model
 namespace
 {
 
-// The names checked in BCTPARA, with the range of their values. A blank value gives the default of the parameter; the
-// card keeps it blank.
+// The names checked in ContactSurfaceParams, with the range of their values. A blank value gives the default of the
+// parameter; the card keeps it blank.
 constexpr LegacyParameterRule RULES[] = {
     {"ContactKind", ContactParameterKind::Integer, true, 0.0, 2.0},
     {"SideCount", ContactParameterKind::Integer, true, 1.0, 2.0},

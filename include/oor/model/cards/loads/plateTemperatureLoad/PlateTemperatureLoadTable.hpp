@@ -20,8 +20,8 @@ struct PlateTemperatureLoadFormat
     static void write(const PlateTemperatureLoadCard& card, FieldWriter& writer);
 };
 
-// All the TEMPP1 cards. The ID is a temperature set ID shared by many cards (IdSpace::Group, category Load). The
-// element lists are one CSR column of (first, last) runs.
+// All the PlateTemperatureLoad cards. The ID is a temperature set ID shared by many cards (IdSpace::Group, category
+// Load). The element lists are one CSR column of (first, last) runs.
 class PlateTemperatureLoadTable final : public TypedTable<PlateTemperatureLoadTable, PlateTemperatureLoadCard>
 {
 public:

@@ -19,7 +19,7 @@ struct CompPropFormat
     static void write(const CompPropCard& card, FieldWriter& writer);
 };
 
-// All the PCOMP cards. The plies of every laminate are four lists (materials, thicknesses, angles, output flags) in
+// All the CompProp cards. The plies of every laminate are four lists (materials, thicknesses, angles, output flags) in
 // CSR form: the row of a laminate gives where its plies begin and how many there are.
 class CompPropTable final : public TypedTable<CompPropTable, CompPropCard>
 {

@@ -16,21 +16,22 @@
 namespace oor::analysis
 {
 
-// One face of a contact surface: the face of a shell, an outer face of a solid, or a segment of a BLSEG line, with the
-// positions of its corners in the basic system.
+// One face of a contact surface: the face of a shell, an outer face of a solid, or a segment of a SlidelineSegments
+// line, with the positions of its corners in the basic system.
 struct ContactFace
 {
-    std::optional<model::CardLocation> element; // none for a segment of a BLSEG line
+    std::optional<model::CardLocation> element; // none for a segment of a SlidelineSegments line
     base::EntityId eid = 0;                    // 0 for a segment
     std::uint8_t cornerCount = 0;               // 2, 3 or 4
     // The corners, in the order of the face: a shell's in the order of its card, a solid face's in the order that
     // turns its normal outward (ElementTopology::orientedFacesOf); 0 past cornerCount.
     std::array<base::EntityId, 4> nodes{};
     std::array<base::Vec3, 4> corners{};
-    // The mid-side grid points of the face of a quadratic element (CTRIA6, CQUAD8, CTETRA 10, CPENTA 15, CHEXA 20,
-    // CPYRAM 13, ...): entry k is on the edge from corner k to corner k + 1 (the last corner to the first), 0 for an
-    // edge with none; all 0 for a linear face and a segment. The face is then the quadratic surface through its corners
-    // and these points (the solver glues the mid-side points and ties to its quadratic segments).
+    // The mid-side grid points of the face of a quadratic element (ShellTria6, ShellQuad8, SolidTetra 10, SolidPenta
+    // 15, SolidHexa 20, SolidPyramid 13, ...): entry k is on the edge from corner k to corner k + 1 (the last corner to
+    // the first), 0 for an edge with none; all 0 for a linear face and a segment. The face is then the quadratic
+    // surface through its corners and these points (the solver glues the mid-side points and ties to its quadratic
+    // segments).
     std::array<base::EntityId, 4> midSides{};
     std::array<base::Vec3, 4> midSidePoints{};
     // How far the mid-side points stand off the straight edges: the largest distance of one from the middle of its edge
@@ -41,9 +42,9 @@ struct ContactFace
     base::Vec3 normal;
     bool isOutward = false;
     // A shell: half its thickness and the distance from its grid points to its mid surface along `normal`: its offset
-    // ZOFFS, plus, for a laminate, the middle of its plies (PCOMP Z0: a stack that starts at Z0 = 0 stands on the side
-    // of the normal). The mid surface is the face moved by `offset`, the skins are `halfThickness` on each side of it.
-    // Both 0 for a solid face and a segment, and for a shell whose thickness is not known.
+    // ZOFFS, plus, for a laminate, the middle of its plies (CompProp Z0: a stack that starts at Z0 = 0 stands on the
+    // side of the normal). The mid surface is the face moved by `offset`, the skins are `halfThickness` on each side of
+    // it. Both 0 for a solid face and a segment, and for a shell whose thickness is not known.
     bool isShell = false;
     double halfThickness = 0.0;
     double offset = 0.0;
@@ -132,12 +133,12 @@ struct SurfaceHit
 //
 // The outer faces of a body are the faces of its shells and the faces of its solids that no other solid of the body
 // has (a face two solids of the body share is inside it). The grid points of the surface are the corners and the
-// mid-side points of these faces (the grid points of a BCGRID body; the points of a BLSEG line, whose faces are its
-// segments). A face of a quadratic element is its quadratic surface: a point that projects inside it is measured to
-// that surface, any other to the flat face through its corners. A grid point or a face corner that has no position (a
-// scalar point, a grid point that does not exist) is left out with the faces that use it. The thickness of a shell is
-// the element's (its corner thicknesses, else its property's, or the total of a laminate: ElementGeometry); its offset
-// the ZOFFS of its card. Immutable once built; safe to read from several threads.
+// mid-side points of these faces (the grid points of a ContactNodeRegion body; the points of a SlidelineSegments line,
+// whose faces are its segments). A face of a quadratic element is its quadratic surface: a point that projects inside
+// it is measured to that surface, any other to the flat face through its corners. A grid point or a face corner that
+// has no position (a scalar point, a grid point that does not exist) is left out with the faces that use it. The
+// thickness of a shell is the element's (its corner thicknesses, else its property's, or the total of a laminate:
+// ElementGeometry); its offset the ZOFFS of its card. Immutable once built; safe to read from several threads.
 class ContactSurface
 {
 public:
@@ -236,7 +237,7 @@ private:
 // The local coordinates of a point of a face (glued contact): xi and eta from -1 to 1 on a
 // quadrilateral (corner 1 at (-1, -1), corner 3 at (1, 1); the bilinear surface through the corners), the area
 // coordinates L2 and L3 on a triangle, the position along a segment from -1 to 1 (eta 0); on the quadratic surface of a
-// face with mid-side points (the serendipity functions of CQUAD8 and CTRIA6).
+// face with mid-side points (the serendipity functions of ShellQuad8 and ShellTria6).
 struct FaceCoordinates
 {
     double xi = 0.0;

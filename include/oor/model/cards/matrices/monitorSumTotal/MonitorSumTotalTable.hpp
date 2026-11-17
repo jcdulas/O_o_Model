@@ -21,10 +21,10 @@ struct MonitorSumTotalFormat
     static void write(const MonitorSumTotalCard& card, FieldWriter& writer);
 };
 
-// All the MONSUMT cards, in the category MonitorPoint. A monitor result has no numeric ID (IdSpace::None): it is found
-// by its NAME, which the format reference asks to be unique among the monitor quantities. CP and CD are references to
-// coordinate systems; the names of the monitor results it sums are not IDs. The cards are kept whole next to a column
-// of their names.
+// All the MonitorSumTotal cards, in the category MonitorPoint. A monitor result has no numeric ID (IdSpace::None): it
+// is found by its NAME, which the format reference asks to be unique among the monitor quantities. CP and CD are
+// references to coordinate systems; the names of the monitor results it sums are not IDs. The cards are kept whole next
+// to a column of their names.
 class MonitorSumTotalTable final : public TypedTable<MonitorSumTotalTable, MonitorSumTotalCard>
 {
 public:

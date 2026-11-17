@@ -18,8 +18,8 @@ struct UserDefined8PropFormat
     static void write(const UserDefined8PropCard& card, FieldWriter& writer);
 };
 
-// All the PDUM8 properties. The ID is a property ID, in the space every property shares (IdSpace::Property); MID names
-// a material. The additional fields are kept as two columns, the kind and the number of each field.
+// All the UserDefined8Prop properties. The ID is a property ID, in the space every property shares (IdSpace::Property);
+// MID names a material. The additional fields are kept as two columns, the kind and the number of each field.
 class UserDefined8PropTable final : public TypedTable<UserDefined8PropTable, UserDefined8PropCard>
 {
 public:

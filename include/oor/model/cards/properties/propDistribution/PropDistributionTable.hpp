@@ -19,9 +19,9 @@ struct PropDistributionFormat
     static void write(const PropDistributionCard& card, FieldWriter& writer);
 };
 
-// All the PDISTB cards, in the category Other: the ID is unique per card type (IdSpace::PerCardType). The PID is a
-// reference to a property (the target Property: a renumbering of the properties follows into it; that the property is
-// of the kind TYPE says is not part of the reference) and each EID is a reference to an element. The cards are kept
+// All the PropDistribution cards, in the category Other: the ID is unique per card type (IdSpace::PerCardType). The PID
+// is a reference to a property (the target Property: a renumbering of the properties follows into it; that the property
+// is of the kind TYPE says is not part of the reference) and each EID is a reference to an element. The cards are kept
 // whole next to a column of their IDs.
 class PropDistributionTable final : public TypedTable<PropDistributionTable, PropDistributionCard>
 {

@@ -21,8 +21,8 @@ struct ShapeBoundaryNodeSetFormat
     static void write(const ShapeBoundaryNodeSetCard& card, FieldWriter& writer);
 };
 
-// All the BNDGRID cards. A card has no ID (IdSpace::None). The points of every card are one column of (first, last)
-// runs.
+// All the ShapeBoundaryNodeSet cards. A card has no ID (IdSpace::None). The points of every card are one column of
+// (first, last) runs.
 class ShapeBoundaryNodeSetTable final : public TypedTable<ShapeBoundaryNodeSetTable, ShapeBoundaryNodeSetCard>
 {
 public:

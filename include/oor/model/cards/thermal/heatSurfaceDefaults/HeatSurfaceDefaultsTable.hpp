@@ -19,11 +19,11 @@ struct HeatSurfaceDefaultsFormat
     static void write(const HeatSurfaceDefaultsCard& card, FieldWriter& writer);
 };
 
-// All the BDYOR cards (category Other). A card has no ID of its own (IdSpace::None); the format reference allows one in
-// a deck, which is a rule between cards (the model's checks tell a second one). The references are the ones the CHBDYP
-// has: the VIEW cards (ReferenceTarget::ViewFactorFaceFactor), the RADM cards (RadiationMaterial), the PHBDY
-// (HeatBoundaryProperty), the orientation grid point (Node) and the system (Coordinate). The cards are kept whole next
-// to a column of their PIDs, which is what the query engine reads.
+// All the HeatSurfaceDefaults cards (category Other). A card has no ID of its own (IdSpace::None); the format reference
+// allows one in a deck, which is a rule between cards (the model's checks tell a second one). The references are the
+// ones the HeatSurfaceProperty has: the ViewFactorFace cards (ReferenceTarget::ViewFactorFaceFactor), the RadiationProp
+// cards (RadiationMaterial), the HeatSurfaceProp (HeatBoundaryProperty), the orientation grid point (Node) and the
+// system (Coordinate). The cards are kept whole next to a column of their PIDs, which is what the query engine reads.
 class HeatSurfaceDefaultsTable final : public TypedTable<HeatSurfaceDefaultsTable, HeatSurfaceDefaultsCard>
 {
 public:
@@ -40,7 +40,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Only one BDYOR may be in the Bulk Data: a second one is reported, the first is the one in force.
+    // Only one HeatSurfaceDefaults may be in the Bulk Data: a second one is reported, the first is the one in force.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<base::EntityId>& propIdColumn() noexcept { return m_propId; }
@@ -50,8 +50,9 @@ private:
     CardRows<HeatSurfaceDefaultsCard> m_cards;
 };
 
-// The BDYOR of a model whose blank CHBDYE, CHBDYG and CHBDYP fields it gives defaults to: the first one that is alive
-// (a second is reported by HeatSurfaceDefaultsTable::finishRead), nothing for a model that has none.
+// The HeatSurfaceDefaults of a model whose blank HeatSurfaceSide, HeatSurfaceNodes and HeatSurfaceProperty fields it
+// gives defaults to: the first one that is alive (a second is reported by HeatSurfaceDefaultsTable::finishRead),
+// nothing for a model that has none.
 [[nodiscard]] std::optional<HeatSurfaceDefaultsCard> heatSurfaceDefaultsDefaults(const Model& model);
 
 } // namespace oor::model

@@ -88,7 +88,8 @@ void AcousticAxisymFluid4Table::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void AcousticAxisymFluid4Table::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // The points are GRIDF fluid points, which no card of the library defines: there is nothing to follow.
+    // The points are AcousticSlotFluidPoint fluid points, which no card of the library defines: there is nothing to
+    // follow.
 }
 
 } // namespace oor::model

@@ -20,9 +20,9 @@ struct ResultMetadataFormat
     static void write(const ResultMetadataCard& card, FieldWriter& writer);
 };
 
-// All the METADATA cards (no ID: IdSpace::None, category Other). The handle (META) identifies a card; a deck may have
-// one per superelement and the format reference does not say that two cards of one handle are an error. The card names
-// no other card. It is kept whole next to a column of its handles.
+// All the ResultMetadata cards (no ID: IdSpace::None, category Other). The handle (META) identifies a card; a deck may
+// have one per superelement and the format reference does not say that two cards of one handle are an error. The card
+// names no other card. It is kept whole next to a column of its handles.
 class ResultMetadataTable final : public TypedTable<ResultMetadataTable, ResultMetadataCard>
 {
 public:

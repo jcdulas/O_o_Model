@@ -19,9 +19,9 @@ struct SuperelementLoadCombinationFormat
     static void write(const SuperelementLoadCombinationCard& card, FieldWriter& writer);
 };
 
-// All the CLOAD cards. The CID is a load set ID (IdSpace::Group, category Load), as for LOAD; the Case Control CLOAD
-// selects it. Each IDVi is the EXCITEID of an LSEQ (ReferenceTarget::ExcitationSet). The card is kept whole next to a
-// column of its CID.
+// All the SuperelementLoadCombination cards. The CID is a load set ID (IdSpace::Group, category Load), as for LOAD; the
+// Case Control SuperelementLoadCombination selects it. Each IDVi is the EXCITEID of a StaticLoadSequence
+// (ReferenceTarget::ExcitationSet). The card is kept whole next to a column of its CID.
 class SuperelementLoadCombinationTable final
     : public TypedTable<SuperelementLoadCombinationTable, SuperelementLoadCombinationCard>
 {

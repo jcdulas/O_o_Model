@@ -12,13 +12,13 @@
 #include <span>
 #include <string_view>
 
-// What the two nonlinear extensions of the shells and plane elements (PSHLN1 for a PSHELL, PCOMP or PCOMPG; PSHLN2 for
-// a PLPLANE) have in common: the words of the format reference tables of element behaviours and integration schemes,
-// and the keyword line "Ck BEHk INTk BEHkH INTkH" of the elements with k corner and midside grids. This is the helper
-// of one kind of value, the line of a keyword. Nothing here describes the fields of a card: each card lays out its own
-// first line, says which keyword lines it has and, for each, which pairs of words the table allows. The analysis word
-// (ANAL) and the layout of a line of eight fields are the ones of PropertyExtensionWords.hpp, which the nonlinear
-// extensions of the other properties use.
+// What the two nonlinear extensions of the shells and plane elements (ShellPropNonlinear for a ShellProp, CompProp or
+// CompPropGlobal; PlanePropNonlinearExt for a PlanePropNonlinear) have in common: the words of the format reference
+// tables of element behaviours and integration schemes, and the keyword line "Ck BEHk INTk BEHkH INTkH" of the elements
+// with k corner and midside grids. This is the helper of one kind of value, the line of a keyword. Nothing here
+// describes the fields of a card: each card lays out its own first line, says which keyword lines it has and, for each,
+// which pairs of words the table allows. The analysis word (ANAL) and the layout of a line of eight fields are the ones
+// of PropertyExtensionWords.hpp, which the nonlinear extensions of the other properties use.
 namespace oor::model
 {
 
@@ -27,8 +27,8 @@ namespace oor::model
 // ---------------------------------------------------------------------------------------------------------------------
 
 // The BEHi and BEHiH codes of the two cards: the thick (DCT) and thin (DCTN) doubly-curved shell and the
-// three-dimensional membrane (MB) of a PSHLN1, the plane stress, plane strain, composite, axisymmetric and
-// incompressible elements of a PSHLN2. The enumerators follow SHELL_BEHAVIOR_WORDS.
+// three-dimensional membrane (MB) of a ShellPropNonlinear, the plane stress, plane strain, composite, axisymmetric and
+// incompressible elements of a PlanePropNonlinearExt. The enumerators follow SHELL_BEHAVIOR_WORDS.
 enum class ShellBehavior : std::uint8_t
 {
     ThickShell,                 // DCT
@@ -70,7 +70,7 @@ inline constexpr std::array<std::string_view, 7> SHELL_INTEGRATION_WORDS{
 // ---------------------------------------------------------------------------------------------------------------------
 
 // A behaviour and the integration scheme that goes with it: a row of the tables of behaviours and integration
-// schemes of PSHLN1 and PSHLN2.
+// schemes of ShellPropNonlinear and PlanePropNonlinearExt.
 struct ShellWords
 {
     ShellBehavior behavior = ShellBehavior::ThickShell;
@@ -139,10 +139,10 @@ struct ShellLineGiven
 [[nodiscard]] std::optional<std::size_t> findShellLineRules(std::span<const ShellLineRules> rules,
                                                             std::string_view text) noexcept;
 
-// A card whose continuation lines from `firstField` on are all keyword lines (PSHLN1 and PSHLN2): the lines may come in
-// any order and may be missing (the line keeps its default), blank lines are padding, a keyword may not be given twice.
-// A word that the line does not allow is an error that names its field. `lines` has one entry for each of `rules`, in
-// the same order.
+// A card whose continuation lines from `firstField` on are all keyword lines (ShellPropNonlinear and
+// PlanePropNonlinearExt): the lines may come in any order and may be missing (the line keeps its default), blank lines
+// are padding, a keyword may not be given twice. A word that the line does not allow is an error that names its field.
+// `lines` has one entry for each of `rules`, in the same order.
 void readShellLines(FieldReader& reader, int firstField, std::span<const ShellLineRules> rules,
                     std::span<ShellLine> lines);
 

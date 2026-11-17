@@ -18,7 +18,7 @@ namespace
 {
 
 // A heat load whose flux is zero: it is in the deck and heats nothing, which is usually a blank field that was meant to
-// be filled. QVECT may leave Q0 blank (the flux then comes from the tables), which is not a zero.
+// be filled. HeatFluxVectorLoad may leave Q0 blank (the flux then comes from the tables), which is not a zero.
 class HeatZeroFluxCheck final : public ValidationCheck
 {
 public:

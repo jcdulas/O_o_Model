@@ -19,9 +19,10 @@ struct AeroStripPanel4Format
     static void write(const AeroStripPanel4Card& card, FieldWriter& writer);
 };
 
-// All the CAERO4 cards, kept whole next to a column of their EIDs. The EID is in the space of the aerodynamic elements
-// (IdSpace::AeroElement, category AeroElement) that CAERO1 to CAERO5 share. The PID is a PAERO4
-// (ReferenceTarget::AeroProperty), CP a coordinate system, LSPAN an AEFACT (ReferenceTarget::AeroFactor).
+// All the AeroStripPanel4 cards, kept whole next to a column of their EIDs. The EID is in the space of the aerodynamic
+// elements (IdSpace::AeroElement, category AeroElement) that AeroLiftingPanel1 to AeroPistonPanel5 share. The PID is an
+// AeroStripProp4 (ReferenceTarget::AeroProperty), CP a coordinate system, LSPAN an AeroFactorList
+// (ReferenceTarget::AeroFactor).
 class AeroStripPanel4Table final : public TypedTable<AeroStripPanel4Table, AeroStripPanel4Card>
 {
 public:

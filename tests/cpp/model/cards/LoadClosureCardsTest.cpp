@@ -1,10 +1,12 @@
-// Checks of the remaining load cards: ACLOAD (the acoustic load of an external program), ACIFPRM (the parameters of the
-// acoustic conjugate infinite elements), ACCSSPT (the access points of an external superelement), LOADCLID, LOADCNAM
-// and LOADCSUB (the load combinations of a partitioned analysis), IMPCASE (a collection of imperfections), PLOADB3 and
-// TEMPB3 (the loads of a CBEAM3), TEMPN1 and SLOADN1 (the temperature and power on the grid points of heat shell
-// elements), RADBND and RADMT (the wave bands of the radiation and the tables of a RADM). Per card: the fields in their
-// format reference positions, the defaults, the references the card lists, the renumbering of the spaces it owns, the
-// refused values and the round trip through a model file.
+// Checks of the remaining load cards: AcousticPressureLoadMatrices (the acoustic load of an external program),
+// AcousticInfiniteParams (the parameters of the acoustic conjugate infinite elements), SuperelementAccessPoints (the
+// access points of an external superelement), LoadCaseIdLabel, LoadCaseNameLabel and LoadCaseSubcaseLabel (the load
+// combinations of a partitioned analysis), ImperfectionCase (a collection of imperfections), Beam3DistributedLoad and
+// Beam3TemperatureLoad (the loads of a Beam3), HeatShellInitialTemperature and HeatShellNodalLoad (the temperature and
+// power on the grid points of heat shell elements), RadiationBands and RadiationPropTemperature (the wave bands of the
+// radiation and the tables of a RadiationProp). Per card: the fields in their format reference positions, the defaults,
+// the references the card lists, the renumbering of the spaces it owns, the refused values and the round trip through a
+// model file.
 
 #include "oor/model/cards/dynamics/heatShellNodalLoad/HeatShellNodalLoadTable.hpp"
 #include "oor/model/cards/loads/LoadClosureSupport.hpp"
@@ -63,7 +65,8 @@ using Seen = std::vector<std::pair<ReferenceTarget, base::EntityId>>;
 // The first field of a line of the small format, blank: where a deck written in that format starts a short name.
 const std::string BLANK_NAME_FIELD(8, ' ');
 
-// A TEMPB3 with point temperatures, some blank, and a list of elements that ends on a second line with a BY.
+// A Beam3TemperatureLoad with point temperatures, some blank, and a list of elements that ends on a second line with a
+// BY.
 const std::string BEAM3_TEMPERATURE_FULL =
     "Beam3TemperatureLoad;4601;4623;52.5;12.5;0.;2.25;18.5;4.75;;1.5;62.;84.;36.;;57.5;70.;24.;;41.5;;;38.5;;4009;4012;"
     "Through;4030;4041;4053;4065;4080;Through;4120;By;4";
@@ -71,7 +74,7 @@ const std::string BEAM3_TEMPERATURE_FULL =
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ACLOAD
+// AcousticPressureLoadMatrices
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ACLOAD has the format reference defaults and is a dynamic load that a DLOAD names",
@@ -102,7 +105,8 @@ TEST_CASE("an ACLOAD has the format reference defaults and is a dynamic load tha
     model.table<AcousticPressureLoadMatricesTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields.empty());
 
-    // The dynamic load numbers are one space: a DLOAD finds the ACLOAD, and a renumbering of them moves both.
+    // The dynamic load numbers are one space: a DynamicLoadCombination finds the AcousticPressureLoadMatrices, and a
+    // renumbering of them moves both.
     Model dynamic = readBulk("DynamicLoadCombination;10;1.;1.;7201\nAcousticPressureLoadMatrices;7201;61;62");
     REQUIRE(unresolvedIn(std::move(dynamic)) == 0);
     REQUIRE(unresolvedIn(readBulk("DynamicLoadCombination;10;1.;1.;7202\nAcousticPressureLoadMatrices;7201;61;62")) ==
@@ -122,7 +126,7 @@ TEST_CASE("an ACLOAD has the format reference defaults and is a dynamic load tha
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ACIFPRM
+// AcousticInfiniteParams
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ACIFPRM keeps its pairs of name and value and checks the ones the table lists", "[model][cards][acifprm]")
@@ -167,7 +171,7 @@ TEST_CASE("an ACIFPRM keeps its pairs of name and value and checks the ones the 
     REQUIRE_FALSE(acousticInfiniteParamsValueProblem(*tolerance, AcousticInfiniteParamsValue{0.0}).empty());
     REQUIRE_FALSE(acousticInfiniteParamsValueProblem(*firstPoint, AcousticInfiniteParamsValue{2.5}).empty());
 
-    // Only one ACIFPRM may be in a deck: the second is reported, the first is kept.
+    // Only one AcousticInfiniteParams may be in a deck: the second is reported, the first is kept.
     const Model twice = readModelText(
         "[model]\nAcousticInfiniteParams;FieldPointInsideTolerance;0.01\nAcousticInfiniteParams;"
         "FieldPointInsideTolerance;0.02\n",
@@ -186,7 +190,7 @@ TEST_CASE("an ACIFPRM keeps its pairs of name and value and checks the ones the 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ACCSSPT
+// SuperelementAccessPoints
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ACCSSPT lists grid points and follows a renumbering of the nodes", "[model][cards][accsspt]")
@@ -227,7 +231,7 @@ TEST_CASE("an ACCSSPT lists grid points and follows a renumbering of the nodes",
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// LOADCLID, LOADCNAM and LOADCSUB
+// LoadCaseIdLabel, LoadCaseNameLabel and LoadCaseSubcaseLabel
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a LOADCLID has an item to every two lines, with the name of the part over the whole second",
@@ -333,7 +337,8 @@ TEST_CASE("a LOADCSUB names the subcases of the parts", "[model][cards][loadcsub
              LoadCaseSubcaseLabelTable::INFO.idSpace == base::IdSpace::Group));
     requireRoundTrip(model);
 
-    // The LOADCLID, LOADCNAM and LOADCSUB are loads of one number space: a LOAD command finds any of them.
+    // The LoadCaseIdLabel, LoadCaseNameLabel and LoadCaseSubcaseLabel are loads of one number space: a LOAD command
+    // finds any of them.
     REQUIRE(unresolvedIn(readModelText(
                 "[case]\nStaticLoadSelection;4401\n[model]\nLoadCaseSubcaseLabel;4401;1.;1.;1;a\n", true)) == 0);
 
@@ -366,7 +371,7 @@ TEST_CASE("the names of a part and the components of a heat shell point follow t
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// IMPCASE
+// ImperfectionCase
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an IMPCASE lists IMPGEOM IDs with THRU, kept as written", "[model][cards][impcase]")
@@ -381,8 +386,9 @@ TEST_CASE("an IMPCASE lists IMPGEOM IDs with THRU, kept as written", "[model][ca
              ImperfectionCaseTable::INFO.idSpace == base::IdSpace::PerCardType));
     requireRoundTrip(model);
 
-    // The IDs are IMPGEOM entries, and the two ends of a range are looked at alike: this deck has no IMPGEOM, so they
-    // are unresolved (the IMPGEOM tests of FreeBodyLoadsCardsTest.cpp have one).
+    // The IDs are ImperfectionGeometry entries, and the two ends of a range are looked at alike: this deck has no
+    // ImperfectionGeometry, so they are unresolved (the ImperfectionGeometry tests of FreeBodyLoadsCardsTest.cpp have
+    // one).
     IdVisitor visitor;
     model.table<ImperfectionCaseTable>().visitReferences(1, visitor);
     REQUIRE(visitor.seen == Seen{{ReferenceTarget::ImperfectionGeometry, 10},
@@ -390,7 +396,7 @@ TEST_CASE("an IMPCASE lists IMPGEOM IDs with THRU, kept as written", "[model][ca
                                  {ReferenceTarget::ImperfectionGeometry, 30}});
     REQUIRE(unresolvedIn(readBulk("ImperfectionCase;5;1;2")) == 2);
 
-    // The ID is the IMPCASE's own number: its renumbering moves it and leaves the list.
+    // The ID is the ImperfectionCase's own number: its renumbering moves it and leaves the list.
     REQUIRE(Renumbering::apply(model, RenumberSpace::ImperfectionCase, Renumbering::offset(100)) == 3);
     REQUIRE((cardAt<ImperfectionCaseTable>(model, 0).id == 105 && cardAt<ImperfectionCaseTable>(model, 2).id == 107));
     REQUIRE((cardAt<ImperfectionCaseTable>(model, 1).imperfections == std::vector<IdRun>{{10, 20}, {30, 30}}));
@@ -407,7 +413,7 @@ TEST_CASE("an IMPCASE lists IMPGEOM IDs with THRU, kept as written", "[model][ca
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PLOADB3
+// Beam3DistributedLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PLOADB3 takes its system as a word or a number and requires its type", "[model][cards][ploadb3]")
@@ -481,7 +487,7 @@ TEST_CASE("a PLOADB3 takes its system as a word or a number and requires its typ
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TEMPB3
+// Beam3TemperatureLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TEMPB3 keeps twelve temperatures by station and a list of elements with THRU and BY",
@@ -566,7 +572,7 @@ TEST_CASE("a TEMPB3 keeps twelve temperatures by station and a list of elements 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TEMPN1 and SLOADN1
+// HeatShellInitialTemperature and HeatShellNodalLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TEMPN1 gives the temperature of one or two points, each on the top, the bottom and the middle",
@@ -638,7 +644,7 @@ TEST_CASE("an SLOADN1 gives the power on one or two points of a heat shell eleme
     REQUIRE((cardAt<HeatShellNodalLoadTable>(renumbered).loads ==
              std::vector<HeatShellNodalLoadLoad>{{4115, 12, 640.0}, {4125, 2, 415.0}}));
 
-    // The load is a load of the set a LOAD command or an EXCITEID names, like the SLOAD.
+    // The load is a load of the set a LOAD command or an EXCITEID names, like the ScalarPointLoad.
     REQUIRE(unresolvedIn(readModelText(
                 "[case]\nStaticLoadSelection;10\n[model]\nNode;5\nHeatShellNodalLoad;10;5;;2.5\n", true)) == 0);
 
@@ -655,7 +661,7 @@ TEST_CASE("an SLOADN1 gives the power on one or two points of a heat shell eleme
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// RADBND and RADMT
+// RadiationBands and RadiationPropTemperature
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a RADBND has one wavelength fewer than its bands, in ascending order", "[model][cards][radbnd]")
@@ -677,7 +683,7 @@ TEST_CASE("a RADBND has one wavelength fewer than its bands, in ascending order"
     REQUIRE((cardAt<RadiationBandsTable>(readBulk("RadiationBands;2;14388.;0.")).wavelengths ==
              std::vector<double>{0.0})); // not below zero
 
-    // Only one RADBND may be in a deck: the second is reported, the first is kept.
+    // Only one RadiationBands may be in a deck: the second is reported, the first is kept.
     const Model twice = readModelText("[model]\nRadiationBands;2;14388.;5.\nRadiationBands;3;14388.;5.;6.\n", false);
     REQUIRE(twice.diagnostics().firstError()->code == "deck.duplicate-radiation-bands");
 
@@ -727,7 +733,7 @@ TEST_CASE("a RADMT extends the RADM of its number with one table for each proper
              RadiationPropTemperatureTable::INFO.idSpace == base::IdSpace::PerCardType));
     requireRoundTrip(model);
 
-    // The ID is the one of a RADM and the tables are TABLEMj cards.
+    // The ID is the one of a RadiationProp and the tables are TABLEMj cards.
     IdVisitor visitor;
     model.table<RadiationPropTemperatureTable>().visitReferences(3, visitor);
     REQUIRE(visitor.seen == Seen{{ReferenceTarget::RadiationMaterial, 14},
@@ -738,9 +744,10 @@ TEST_CASE("a RADMT extends the RADM of its number with one table for each proper
         "TableMaterial1;1;;;0.;1.;100.;0.5;EndTable\nTableMaterial1;2;;;0.;1.;100.;0.5;EndTable\n";
     REQUIRE(unresolvedIn(readBulk("RadiationProp;11;0.9\n" + tables + "RadiationPropTemperature;11;1;2")) == 0);
     REQUIRE(unresolvedIn(readBulk("RadiationProp;11;0.9\n" + tables + "RadiationPropTemperature;12;1;3")) ==
-            2); // the RADM 12 and the table 3
+            2); // the RadiationProp 12 and the table 3
 
-    // A renumbering of the RADM moves the number of the RADMT, and one of the tables moves its tables.
+    // A renumbering of the RadiationProp moves the number of the RadiationPropTemperature, and one of the tables moves
+    // its tables.
     Model resolved = readBulk("RadiationProp;11;0.9\n" + tables + "RadiationPropTemperature;11;1;2");
     REQUIRE(Renumbering::apply(resolved, RenumberSpace::RadiationMaterial, Renumbering::offset(100)) == 1);
     REQUIRE(cardAt<RadiationPropTemperatureTable>(resolved).id == 111);
@@ -748,7 +755,8 @@ TEST_CASE("a RADMT extends the RADM of its number with one table for each proper
     REQUIRE((cardAt<RadiationPropTemperatureTable>(resolved).absorptivityTableId == 11 &&
              cardAt<RadiationPropTemperatureTable>(resolved).emissivityTableIds == std::vector<base::EntityId>{12}));
     REQUIRE(unresolvedIn(std::move(resolved)) == 0);
-    // The RADMT is the companion: a RADM and a RADMT of one number coexist, two RADMT of one number do not.
+    // The RadiationPropTemperature is the companion: a RadiationProp and a RadiationPropTemperature of one number
+    // coexist, two RadiationPropTemperature of one number do not.
     REQUIRE_NOTHROW(readBulk("RadiationProp;11;0.9\nRadiationPropTemperature;11;1"));
     REQUIRE_THROWS_AS(readBulk("RadiationPropTemperature;11;1\nRadiationPropTemperature;11;2"), base::DeckError);
 

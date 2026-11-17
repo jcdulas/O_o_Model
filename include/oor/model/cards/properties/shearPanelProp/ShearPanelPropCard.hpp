@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One PSHEAR card: the property of a shear panel (CSHEAR).
+// One ShearPanelProp card: the property of a shear panel (ShearPanel4).
 //
 // Card layout:
-//   PSHEAR  PID  MID  T  NSM  F1  F2
+//   ShearPanelProp  PID  MID  T  NSM  F1  F2
 //
 // F1 and F2 are the effectiveness factors for the extensional stiffness along the edges 1-2 and 3-4, and 2-3 and 1-4
 // (0.0, the default, gives the panel no extensional stiffness).

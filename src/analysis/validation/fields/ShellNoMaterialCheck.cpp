@@ -8,7 +8,7 @@ namespace oor::analysis
 namespace
 {
 
-// A PSHELL with neither a membrane material (MID1) nor a bending one (MID2): the shell has no stiffness at all.
+// A ShellProp with neither a membrane material (MID1) nor a bending one (MID2): the shell has no stiffness at all.
 class ShellNoMaterialCheck final : public ValidationCheck
 {
 public:

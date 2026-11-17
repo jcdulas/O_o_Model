@@ -18,9 +18,9 @@ struct IsoMatTemperatureFormat
     static void write(const IsoMatTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATT1 cards. The ID space is the card type's own: the ID is the one of the MAT1 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEMi cards (ReferenceTarget::MaterialTable).
+// All the IsoMatTemperature cards. The ID space is the card type's own: the ID is the one of the IsoMat that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables are
+// references to TABLEMi cards (ReferenceTarget::MaterialTable).
 class IsoMatTemperatureTable final : public TypedTable<IsoMatTemperatureTable, IsoMatTemperatureCard>
 {
 public:

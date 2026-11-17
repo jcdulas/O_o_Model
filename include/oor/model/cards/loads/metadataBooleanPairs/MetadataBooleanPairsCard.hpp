@@ -17,17 +17,17 @@ struct MetadataBooleanPairsPair
     [[nodiscard]] bool operator==(const MetadataBooleanPairsPair&) const noexcept = default;
 };
 
-// One ABSNMVB card: Boolean name and value pairs associated with a meta data group (the ABSTRCT cards of its ABSTID).
-// It has no effect on the solution.
+// One MetadataBooleanPairs card: Boolean name and value pairs associated with a meta data group (the MetadataGroup
+// cards of its ABSTID). It has no effect on the solution.
 //
-// Card layout: ABSNMVB  ABSTID  (blank)  NAME1  VAL1  NAME2  VAL2  -etc.-
+// Card layout: MetadataBooleanPairs  ABSTID  (blank)  NAME1  VAL1  NAME2  VAL2  -etc.-
 // In this library's numbering (field 1 is ABSTID) field 2 is blank and the pairs follow from field 3, two fields to a
 // pair and going on over the continuation lines (the third pair is fields 7 and 8, the fourth fields 9 and 10 of the
 // first continuation line). A pair whose two fields are blank is padding. The only values are the words TRUE and FALSE,
 // in any case; the card keeps the Boolean and writes the word in upper case. At least one pair is required.
 // ABSTID is the ID of the group: the card is one of the cards that share it (IdSpace::Group, category Other) and the ID
-// is a reference to the ABSTRCT cards of the group (`MetadataGroup`), which a renumbering of the groups follows. The
-// names are meta data and kept as written.
+// is a reference to the MetadataGroup cards of the group (`MetadataGroup`), which a renumbering of the groups follows.
+// The names are meta data and kept as written.
 struct MetadataBooleanPairsCard
 {
     base::EntityId metadataGroupId = 0;

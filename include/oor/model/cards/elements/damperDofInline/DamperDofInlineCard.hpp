@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One CDAMP2 card: a scalar damper that holds its own damping (no property).
+// One DamperDofInline card: a scalar damper that holds its own damping (no property).
 //
 // Card layout:
-//   CDAMP2  EID  B  G1  C1  G2  C2
+//   DamperDofInline  EID  B  G1  C1  G2  C2
 //
 // G1 and G2 are grid points or scalar points; 0 (or blank) is a grounded end, a point whose displacement is zero. C1
 // and C2 are the component (1 to 6) at a grid point, and 0 at a scalar point or at ground.

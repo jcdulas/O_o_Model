@@ -18,10 +18,10 @@ struct PlotQuad4Format
     static void write(const PlotQuad4Card& card, FieldWriter& writer);
 };
 
-// All the PLOTEL4 elements. Like the PLOTEL, a PLOTEL4 is only drawn on plots and never used in a solution phase, and
-// decks that the solver ran reuse the ID of a structural element for such a plot element: the PLOTEL4 cards have an ID
-// space of their own (unique among themselves), and a structural element is never replaced by one. The ElementTopology
-// does not see them as elements for the same reason.
+// All the PlotQuad4 elements. Like the PlotLine2, a PlotQuad4 is only drawn on plots and never used in a solution
+// phase, and decks that the solver ran reuse the ID of a structural element for such a plot element: the PlotQuad4
+// cards have an ID space of their own (unique among themselves), and a structural element is never replaced by one. The
+// ElementTopology does not see them as elements for the same reason.
 class PlotQuad4Table final : public TypedTable<PlotQuad4Table, PlotQuad4Card>
 {
 public:

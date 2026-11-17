@@ -279,7 +279,7 @@ void visitPoints(Column& column, std::uint32_t row, ReferenceVisitor& visitor, s
 
 void GeneralMatrixTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The points are grid points or scalar points (a scalar point may be one no SPOINT defines).
+    // The points are grid points or scalar points (a scalar point may be one no ScalarPoint defines).
     visitPoints(m_independentDofs, row, visitor, "independentPoint");
     visitPoints(m_dependentDofs, row, visitor, "dependentPoint");
 }

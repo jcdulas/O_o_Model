@@ -14,10 +14,10 @@ namespace oor::analysis
 namespace
 {
 
-// A SPLINE1 moves the boxes BOX1 to BOX2 of the panel CAERO, a SPLINE2 the boxes or body elements ID1 to ID2, a SPLINE3
-// the box BOXID: they must be IDs the panel owns, from its EID on. With the Mach
-// box method the numbers count the (x, y) pairs of the CAERO3 lists, which its range counts too. A panel that does not
-// exist is `ref.unresolved`.
+// An AeroSurfaceSpline1 moves the boxes BOX1 to BOX2 of the panel CAERO, an AeroBeamSpline2 the boxes or body elements
+// ID1 to ID2, an AeroSplineEquation3 the box BOXID: they must be IDs the panel owns, from its EID on. With the Mach
+// box method the numbers count the (x, y) pairs of the AeroMachBoxPanel3 lists, which its range counts too. A panel
+// that does not exist is `ref.unresolved`.
 class SplineBoxCheck final : public ValidationCheck
 {
 public:

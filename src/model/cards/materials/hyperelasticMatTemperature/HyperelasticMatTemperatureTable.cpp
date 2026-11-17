@@ -289,7 +289,7 @@ void HyperelasticMatTemperatureTable::setIdAtRow(std::uint32_t row, base::Entity
 void HyperelasticMatTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     HyperelasticMatTemperatureCard& card = m_cards.edit(row);
-    // The ID is the one of the MATHE that the card extends; the tables are TABLEMi cards.
+    // The ID is the one of the HyperelasticMat that the card extends; the tables are TABLEMi cards.
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);
     const auto visitTable = [&](base::EntityId& table, const char* field)

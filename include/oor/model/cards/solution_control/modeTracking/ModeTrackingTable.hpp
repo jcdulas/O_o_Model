@@ -18,7 +18,7 @@ struct ModeTrackingFormat
     static void write(const ModeTrackingCard& card, FieldWriter& writer);
 };
 
-// All the MODTRAK cards. The ID is unique among the MODTRAK cards (IdSpace::PerCardType).
+// All the ModeTracking cards. The ID is unique among the ModeTracking cards (IdSpace::PerCardType).
 class ModeTrackingTable final : public TypedTable<ModeTrackingTable, ModeTrackingCard>
 {
 public:
@@ -34,7 +34,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MODTRAK refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a ModeTracking refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<std::int32_t>& lowRangeColumn() noexcept { return m_lowRange; }

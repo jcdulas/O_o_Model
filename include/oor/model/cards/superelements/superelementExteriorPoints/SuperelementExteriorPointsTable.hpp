@@ -19,8 +19,8 @@ struct SuperelementExteriorPointsFormat
     static void write(const SuperelementExteriorPointsCard& card, FieldWriter& writer);
 };
 
-// All the CSUPEXT cards. The cards of a superelement share its number, their ID (IdSpace::Group, category
-// Superelement). The cards are kept whole next to a column of their SEIDs.
+// All the SuperelementExteriorPoints cards. The cards of a superelement share its number, their ID (IdSpace::Group,
+// category Superelement). The cards are kept whole next to a column of their SEIDs.
 class SuperelementExteriorPointsTable final
     : public TypedTable<SuperelementExteriorPointsTable, SuperelementExteriorPointsCard>
 {

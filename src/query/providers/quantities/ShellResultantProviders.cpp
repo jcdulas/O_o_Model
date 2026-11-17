@@ -173,11 +173,11 @@ private:
 // ---- the shear flows of the shear panels
 // ----------------------------------------------------------------------------------------
 
-// A CSHEAR carries its in-plane shear as four edge shear flows (the force table, format reference CSHEAR Figure 9-66),
-// each positive as a positive shear of the element frame of format reference Figure 9-65 (x from G1 to G2, z the normal
-// of the diagonals): their mean is the panel's shear flow. Its extensional stiffness is that of rods on its edges
-// (PSHEAR F1 along 1-2 and 3-4, F2 along 2-3 and 1-4), whose axial forces the table does not give: they are
-// recovered from the translations of the grid points (ShearPanelRods, a companion package). No bending and no
+// A ShearPanel4 carries its in-plane shear as four edge shear flows (the force table, format reference ShearPanel4
+// Figure 9-66), each positive as a positive shear of the element frame of format reference Figure 9-65 (x from G1 to
+// G2, z the normal of the diagonals): their mean is the panel's shear flow. Its extensional stiffness is that of rods
+// on its edges (ShearPanelProp F1 along 1-2 and 3-4, F2 along 2-3 and 1-4), whose axial forces the table does not give:
+// they are recovered from the translations of the grid points (ShearPanelRods, a companion package). No bending and no
 // transverse shear. In the element frame only (a shear panel has no material axes).
 //
 // Two forms of the rows. The resultants (`shellForces`): `nxy` the mean shear flow, plus the rods' share of the

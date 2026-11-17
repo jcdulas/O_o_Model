@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// the property cards PBEND, PBARL and PBEAML are not supported by a relation that has an equation. (A
-// DVPREL1 designs them: their dimensions are the fields the DVPREL1 names.)
+// the property cards CurvedBeamProp, BarShapeProp and BeamShapeProp are not supported by a relation that has an
+// equation. (A DesignPropRelation1 designs them: their dimensions are the fields the DesignPropRelation1 names.)
 class RelationTypeCheck final : public ValidationCheck
 {
 public:

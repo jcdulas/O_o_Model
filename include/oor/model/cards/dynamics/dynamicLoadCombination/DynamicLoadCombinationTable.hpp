@@ -19,8 +19,9 @@ struct DynamicLoadCombinationFormat
     static void write(const DynamicLoadCombinationCard& card, FieldWriter& writer);
 };
 
-// All the DLOAD cards. The ID is a dynamic load set ID shared by the RLOAD, TLOAD and DAREA cards (IdSpace::Group). The
-// terms of every card are two lists (scaleFactor factors, dynamic load set IDs) in CSR form.
+// All the DynamicLoadCombination cards. The ID is a dynamic load set ID shared by the RLOAD, TLOAD and DynamicLoadScale
+// cards (IdSpace::Group). The terms of every card are two lists (scaleFactor factors, dynamic load set IDs) in CSR
+// form.
 class DynamicLoadCombinationTable final : public TypedTable<DynamicLoadCombinationTable, DynamicLoadCombinationCard>
 {
 public:

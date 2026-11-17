@@ -8,13 +8,13 @@
 namespace oor::model
 {
 
-// One MATRIG card: a rigid material of SOL 700 (a rigid body is the elements whose properties name it).
+// One RigidMat card: a rigid material of SOL 700 (a rigid body is the elements whose properties name it).
 //
 // Card layout:
-//   MATRIG  MID        RHO        E          NU      MASS    XC      YC     ZC
-//           IXX        IXY        IXZ        IYY     IYZ     IZZ     CID
-//           VX         VY         VZ         WX      WY      WZ
-//           XC-LOCAL   YC-LOCAL   ZC-LOCAL
+//   RigidMat  MID        RHO        E        NU      MASS    XC      YC     ZC
+//             IXX        IXY        IXZ      IYY     IYZ     IZZ     CID
+//             VX         VY         VZ       WX      WY      WZ
+//             XC-LOCAL   YC-LOCAL  ZC-LOCAL
 // The continuation lines may be left out. A blank mass, centre of gravity or inertia is computed from the density and
 // the mesh of the body, and a blank velocity is taken from the initial conditions of the grid points of the body (a
 // blank field is not 0.0 for these), so they are kept as optional values. The centre of gravity is given in the basic

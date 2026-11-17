@@ -21,9 +21,9 @@ struct DesignVarFormat
     static void write(const DesignVarCard& card, FieldWriter& writer);
 };
 
-// All the DESVAR cards. The design variables have an ID space of their own (unique per type, category DesignVariable):
-// the relations, DLINK, DVGRID and the responses name a variable by it. The DDVAL field, when it is not blank, names a
-// DDVAL card (DiscreteValueSet).
+// All the DesignVar cards. The design variables have an ID space of their own (unique per type, category
+// DesignVariable): the relations, DesignVarLink, DesignNodeMove and the responses name a variable by it. The DDVAL
+// field, when it is not blank, names a DDVAL card (DiscreteValueSet).
 class DesignVarTable final : public TypedTable<DesignVarTable, DesignVarCard>
 {
 public:

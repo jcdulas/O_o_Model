@@ -17,7 +17,7 @@ using oor::testing::readModelText;
 namespace
 {
 
-// MAT8: E1 = 100, E2 = 10, NU12 = 0.25, G12 = 5, G1Z = 3, G2Z = 2, RHO = 0.001. Plane stress, in the ply axes:
+// OrthoMat2D: E1 = 100, E2 = 10, NU12 = 0.25, G12 = 5, G1Z = 3, G2Z = 2, RHO = 0.001. Plane stress, in the ply axes:
 //   NU21 = NU12 E2 / E1 = 0.025, the divisor 1 - NU12 NU21 = 0.99375,
 //   Q11 = E1 / d, Q22 = E2 / d, Q12 = NU12 E2 / d, Q66 = G12.
 constexpr double DIVISOR = 1.0 - 0.25 * 0.025;
@@ -131,7 +131,7 @@ TEST_CASE("an isotropic ply is the same at every angle, a MAT2 ply is its matrix
     REQUIRE(isotropic->g[0] == Approx(KAPPA * 2.0 * 40.0));
     REQUIRE(isotropic->massPerArea == Approx(0.004));
 
-    // MAT2 at 90 degrees swaps the two normal terms.
+    // AnisoMat2D at 90 degrees swaps the two normal terms.
     const auto turned = Laminate::of(model, 21);
     REQUIRE(turned);
     REQUIRE(turned->a[at(0, 0)] == Approx(50.0));

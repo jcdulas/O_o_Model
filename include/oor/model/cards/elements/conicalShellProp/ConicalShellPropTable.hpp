@@ -19,7 +19,7 @@ struct ConicalShellPropFormat
     static void write(const ConicalShellPropCard& card, FieldWriter& writer);
 };
 
-// All the PCONEAX properties.
+// All the ConicalShellProp properties.
 class ConicalShellPropTable final : public TypedTable<ConicalShellPropTable, ConicalShellPropCard>
 {
 public:

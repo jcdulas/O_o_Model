@@ -19,9 +19,9 @@ struct DesignPropRelation2Format
     static void write(const DesignPropRelation2Card& card, FieldWriter& writer);
 };
 
-// All the DVPREL2 cards. The ID is unique among the DVPREL2 cards (IdSpace::PerCardType) and in the category
-// PropertyRelation with the DVPREL1 cards; the PID is a property of the type TYPE names, the EQID a DEQATN and the
-// DVIDs design variables.
+// All the DesignPropRelation2 cards. The ID is unique among the DesignPropRelation2 cards (IdSpace::PerCardType) and in
+// the category PropertyRelation with the DesignPropRelation1 cards; the PID is a property of the type TYPE names, the
+// EQID a DesignEquation and the DVIDs design variables.
 class DesignPropRelation2Table final : public TypedTable<DesignPropRelation2Table, DesignPropRelation2Card>
 {
 public:

@@ -12,8 +12,8 @@ namespace oor::analysis
 namespace
 {
 
-// The cards that the format reference allows only when a flag card is in the deck, and that flag card (an AXIC,
-// an AXIF or an AXSLOT).
+// The cards that the format reference allows only when a flag card is in the deck, and that flag card (an
+// AxisymConeControl, an AxisymFluidControl or an AcousticSlotControl).
 struct FlagRule
 {
     std::string_view card;
@@ -50,8 +50,9 @@ constexpr std::array<FlagRule, 24> RULES{{
     {"AcousticSlot4", "AcousticSlotControl"},
 }};
 
-// A card of the axisymmetric problems with no AXIC, AXIF or AXSLOT card in the deck: the format reference says each of
-// them is allowed only when the flag card is present, so the model is not valid without it.
+// A card of the axisymmetric problems with no AxisymConeControl, AxisymFluidControl or AcousticSlotControl card in the
+// deck: the format reference says each of them is allowed only when the flag card is present, so the model is not valid
+// without it.
 class AxisymmetricFlagCardCheck final : public ValidationCheck
 {
 public:

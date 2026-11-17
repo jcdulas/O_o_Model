@@ -1,4 +1,4 @@
-// A DEQATN as an expression program (the queries `designEquationSymbols` and `designEquationInstructions`): the
+// A DesignEquation as an expression program (the queries `designEquationSymbols` and `designEquationInstructions`): the
 // symbols, the instructions of the stack machine, their positions, and the value a small stack machine written here
 // gets from them, which must be the one of the evaluator.
 

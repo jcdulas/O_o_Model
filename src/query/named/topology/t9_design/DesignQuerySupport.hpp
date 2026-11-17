@@ -22,23 +22,23 @@ namespace oor::query
 {
 
 // What the Case Control says about the design: DESOBJ names the response that is the objective (DESOBJ(MIN) and
-// DESOBJ(MAX); MIN when neither is written), DESSUB and DESGLB the sets of constraints a subcase has (a DCONADD set
-// stands for the DCONSTR sets it adds; DESGLB applies to every subcase).
+// DESOBJ(MAX); MIN when neither is written), DESSUB and DESGLB the sets of constraints a subcase has (a
+// DesignConstrUnion set stands for the DesignConstr sets it adds; DESGLB applies to every subcase).
 struct DesignCase
 {
     std::optional<base::EntityId> objective;
     bool maximise = false;
-    std::map<base::EntityId, std::vector<std::int32_t>> subcasesOfSet; // DCONSTR set -> subcase numbers, ascending
+    std::map<base::EntityId, std::vector<std::int32_t>> subcasesOfSet; // DesignConstr set -> subcase numbers, ascending
 };
 
 [[nodiscard]] DesignCase readDesignCase(const model::Model& model);
 
-// The DCONSTR sets a DESSUB or DESGLB value selects, ascending: the members of the DCONADD of that number, and the
-// number itself when a DCONSTR set has it or no DCONADD does.
+// The DesignConstr sets a DESSUB or DESGLB value selects, ascending: the members of the DesignConstrUnion of that
+// number, and the number itself when a DesignConstr set has it or no DesignConstrUnion does.
 [[nodiscard]] std::vector<base::EntityId> selectedConstraintSets(const model::Model& model, base::EntityId selected);
 
-// For each design variable, the relations it moves: the ones that name it, and (through a DLINK) the ones of the
-// variables that depend on it. Indexes into DesignModel::relations(), ascending.
+// For each design variable, the relations it moves: the ones that name it, and (through a DesignVarLink) the ones of
+// the variables that depend on it. Indexes into DesignModel::relations(), ascending.
 [[nodiscard]] std::vector<std::vector<std::size_t>> relationsMovedBy(const model::DesignModel& design);
 
 // The elements and properties a relation drives, in the elements of one list.
@@ -84,11 +84,11 @@ private:
     std::unordered_set<base::EntityId> m_drivenElements;
 };
 
-// A copy of the model with a design point applied through `model.design.apply`, DVGRID included (a relation or a DVGRID
-// that cannot be applied is left out). `values` gives the design variables by ID; those it leaves out keep their
-// initial value, and a value for a variable that no DESVAR defines is ignored. `design` is the design model of `model`.
-// The limits of the relations are not applied unless `limits` says so: the values of an optimisation are the ones that
-// kept the fields within them already.
+// A copy of the model with a design point applied through `model.design.apply`, DesignNodeMove included (a relation or
+// a DesignNodeMove that cannot be applied is left out). `values` gives the design variables by ID; those it leaves out
+// keep their initial value, and a value for a variable that no DesignVar defines is ignored. `design` is the design
+// model of `model`. The limits of the relations are not applied unless `limits` says so: the values of an optimisation
+// are the ones that kept the fields within them already.
 [[nodiscard]] model::Model modelAt(const model::Model& model, const model::DesignModel& design,
                                    const std::map<std::int32_t, double>& values,
                                    model::DesignLimitMode limits = model::DesignLimitMode::Ignore);

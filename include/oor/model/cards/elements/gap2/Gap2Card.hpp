@@ -7,11 +7,11 @@
 namespace oor::model
 {
 
-// One CGAP card: a gap or friction element between two grid points.
+// One Gap2 card: a gap or friction element between two grid points.
 //
 // Card layout (orientation by vector, or by a grid point in field 5 with fields 6 and 7 blank):
-//   CGAP  EID  PID  GA  GB  X1  X2  X3  CID
-//   CGAP  EID  PID  GA  GB  GO          CID
+//   Gap2  EID  PID  GA  GB  X1  X2  X3  CID
+//   Gap2  EID  PID  GA  GB  GO          CID
 //
 // Field 5 is an integer (GO) or a real (X1): `orientationNode` and `orientation` are the two forms. A zero vector is
 // how `orientation` says "no vector" (an orientation of length 0 means nothing), so `orientationNode == 0` with a zero

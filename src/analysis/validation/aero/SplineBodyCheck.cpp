@@ -12,9 +12,10 @@ namespace oor::analysis
 namespace
 {
 
-// The finite surface spline (SPLINE6) and the finite beam spline (SPLINE7) do not interpolate a body: a CAERO2 is not
-// supported (format reference, SPLINE6 and SPLINE7). Their CAERO field is optional, so a spline that names none is not
-// judged; the CAERO that does not exist is `ref.unresolved`.
+// The finite surface spline (AeroFiniteSurfaceSpline6) and the finite beam spline (AeroFiniteBeamSpline7) do not
+// interpolate a body: an AeroBody2 is not supported (format reference, AeroFiniteSurfaceSpline6 and
+// AeroFiniteBeamSpline7). Their CAERO field is optional, so a spline that names none is not judged; the CAERO that does
+// not exist is `ref.unresolved`.
 class SplineBodyCheck final : public ValidationCheck
 {
 public:

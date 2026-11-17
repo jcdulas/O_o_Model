@@ -9,7 +9,7 @@
 namespace oor::model
 {
 
-// TYPE: what the IDs of an RSSCON are, elements or grid points.
+// TYPE: what the IDs of a RigidShellSolidConnection are, elements or grid points.
 enum class RigidShellSolidConnectionType : std::uint8_t
 {
     Element, // ELEM (the default)
@@ -18,9 +18,10 @@ enum class RigidShellSolidConnectionType : std::uint8_t
 
 inline constexpr std::array<std::string_view, 2> RIGID_SHELL_SOLID_CONNECTION_TYPE_WORDS{"Elements", "Node"};
 
-// One RSSCON card: a clamped connection between a shell and a solid element (multipoint constraints).
+// One RigidShellSolidConnection card: a clamped connection between a shell and a solid element (multipoint
+// constraints).
 //
-// Card layout: RSSCON  RBID  TYPE  ES1  EA1  EB1  ES2  EA2  EB2
+// Card layout: RigidShellSolidConnection  RBID  TYPE  ES1  EA1  EB1  ES2  EA2  EB2
 // With TYPE = ELEM (the default when blank) the connection is described by two elements: ES1 is the shell element and
 // EA1 the solid element, the other fields are blank. With TYPE = GRID it is described by grid points: ES1 is a shell
 // grid point, EA1 and EB1 solid grid points (EB1 may be blank), and the second group ES2, EA2, EB2 is optional (blank

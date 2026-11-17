@@ -19,9 +19,9 @@ struct HydrostaticCavityLoadFormat
     static void write(const HydrostaticCavityLoadCard& card, FieldWriter& writer);
 };
 
-// All the HYDROC cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). PSOLID is a
-// Property reference; CID/GRD is a Coordinate reference when it is above zero and a Node reference (of its absolute
-// value, the sign staying on the card) when it is below zero.
+// All the HydrostaticCavityLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load).
+// PSOLID is a Property reference; CID/GRD is a Coordinate reference when it is above zero and a Node reference (of its
+// absolute value, the sign staying on the card) when it is below zero.
 class HydrostaticCavityLoadTable final : public TypedTable<HydrostaticCavityLoadTable, HydrostaticCavityLoadCard>
 {
 public:

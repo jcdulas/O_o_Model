@@ -20,7 +20,7 @@ std::optional<ContactPairCard> ContactPairFormat::read(FieldReader& reader)
     {
         if (section.keyword.empty())
         {
-            // The head has the first line only: a continuation line with no keyword is not a BCONECT line.
+            // The head has the first line only: a continuation line with no keyword is not a ContactPair line.
             if (section.last > CONTACT_LINE_FIELDS)
                 reader.error(
                     "card.bad-value",

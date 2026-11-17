@@ -18,7 +18,7 @@ struct AxisymRingForceLoadFormat
     static void write(const AxisymRingForceLoadCard& card, FieldWriter& writer);
 };
 
-// All the FORCEAX cards. The ID is a load set ID shared by many cards (IdSpace::Group).
+// All the AxisymRingForceLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group).
 class AxisymRingForceLoadTable final : public TypedTable<AxisymRingForceLoadTable, AxisymRingForceLoadCard>
 {
 public:

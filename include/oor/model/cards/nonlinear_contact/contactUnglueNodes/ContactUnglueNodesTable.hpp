@@ -19,9 +19,9 @@ struct ContactUnglueNodesFormat
     static void write(const ContactUnglueNodesCard& card, FieldWriter& writer);
 };
 
-// All the UNGLUE cards. The ID is the number that a BCONTACT or UNGLUE command selects, shared by the cards of a
-// subcase (IdSpace::Group, category Other); BID names a contact body and the grid points are nodes. The cards are kept
-// whole next to their ID.
+// All the ContactUnglueNodes cards. The ID is the number that a BCONTACT or ContactUnglueNodes command selects, shared
+// by the cards of a subcase (IdSpace::Group, category Other); BID names a contact body and the grid points are nodes.
+// The cards are kept whole next to their ID.
 class ContactUnglueNodesTable final : public TypedTable<ContactUnglueNodesTable, ContactUnglueNodesCard>
 {
 public:

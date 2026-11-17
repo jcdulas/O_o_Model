@@ -11,10 +11,11 @@
 #include <string_view>
 #include <vector>
 
-// What the cards that add monitor results together (MONSUM, MONSUM1, MONSUMT) have in common, one kind of value each:
-// the kind of monitor result a card merges (the MTYPE words), the name of a monitor result that another entry names,
-// and the lists of (new component, monitor type, name, components, coefficient) of MONSUM and MONSUM1, which have one
-// grammar of lines. Each card still lays out, reads, writes and checks its own head fields by hand.
+// What the cards that add monitor results together (MonitorSum, MonitorSumLocated, MonitorSumTotal) have in common, one
+// kind of value each: the kind of monitor result a card merges (the MTYPE words), the name of a monitor result that
+// another entry names, and the lists of (new component, monitor type, name, components, coefficient) of MonitorSum and
+// MonitorSumLocated, which have one grammar of lines. Each card still lays out, reads, writes and checks its own head
+// fields by hand.
 namespace oor::model
 {
 
@@ -22,9 +23,10 @@ namespace oor::model
 // The kind of monitor result
 // ---------------------------------------------------------------------------------------------------------------------
 
-// The MTYPE words of the format: the aerodynamic and the structural MONPNT1 (AMONPNT1, SMONPNT1), the average
-// displacements (AMONDSP1, SMONDSP1) and the MONPNT3. The first four name the kind of monitor point, not a card (a
-// MONPNT1 is aerodynamic or structural by its COMP); the last is a card, named by its neutral name.
+// The MTYPE words of the format: the aerodynamic and the structural MonitorIntegratedLoad1 (AMONPNT1, SMONPNT1), the
+// average displacements (AMONDSP1, SMONDSP1) and the MonitorNodeForceSum3. The first four name the kind of monitor
+// point, not a card (a MonitorIntegratedLoad1 is aerodynamic or structural by its COMP); the last is a card, named by
+// its neutral name.
 enum class MonitorResultType : std::uint8_t
 {
     AeroPoint,
@@ -44,7 +46,7 @@ inline constexpr std::array<std::string_view, 5> MONITOR_RESULT_WORDS{
     return 1U << static_cast<unsigned>(type);
 }
 
-// Every type (MONSUM), and the three whose results are forces and moments (MONSUM1 and MONSUMT).
+// Every type (MonitorSum), and the three whose results are forces and moments (MonitorSumLocated and MonitorSumTotal).
 inline constexpr std::uint32_t ALL_MONITOR_TYPES =
     monitorTypeBit(MonitorResultType::AeroPoint) | monitorTypeBit(MonitorResultType::AeroDisplacement) |
     monitorTypeBit(MonitorResultType::StructuralPoint) | monitorTypeBit(MonitorResultType::StructuralDisplacement) |
@@ -82,7 +84,7 @@ inline constexpr std::uint32_t FORCE_MONITOR_TYPES = monitorTypeBit(MonitorResul
 [[nodiscard]] std::optional<CardProblem> monitoredNameProblem(std::string_view name, const char* field);
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The terms of a MONSUM and a MONSUM1
+// The terms of a MonitorSum and a MonitorSumLocated
 // ---------------------------------------------------------------------------------------------------------------------
 
 // One term of the sum that fills the components `newAxes` of the new monitor result: the components `axes` of the
@@ -123,10 +125,10 @@ struct MonitorSumBody
 //                above it, and the NEWAXISj on a line that goes on with its block.
 // A NEWAXISj that has no MTYPE on its line goes on with the type of the line above, so the type may be given on the
 // first line only; a line that changes the type and repeats the NEWAXISj starts a second section of the same block.
-// `firstLine` is the first of these lines (1 for a MONSUM, 2 for a MONSUM1 whose line 1 holds the location). Lines that
-// are blank are padding. A triple with a NAME and no AXES takes the components of its NEWAXISj; a blank COEF is 1.0.
-// `accepted` is the set of types the card takes; `newAxesName` is the format reference name of the NEWAXIS field for
-// the messages (a literal). Errors are reported and the terms read so far are given.
+// `firstLine` is the first of these lines (1 for a MonitorSum, 2 for a MonitorSumLocated whose line 1 holds the
+// location). Lines that are blank are padding. A triple with a NAME and no AXES takes the components of its NEWAXISj; a
+// blank COEF is 1.0. `accepted` is the set of types the card takes; `newAxesName` is the format reference name of the
+// NEWAXIS field for the messages (a literal). Errors are reported and the terms read so far are given.
 [[nodiscard]] MonitorSumBody readMonitorSumTerms(FieldReader& reader, int firstLine, std::uint32_t accepted,
                                                  const char* newAxesName);
 

@@ -19,7 +19,7 @@ struct ParameterFormat
     static void write(const ParameterCard& card, FieldWriter& writer);
 };
 
-// All the PARAM cards. A parameter has no ID: it is found by name.
+// All the Parameter cards. A parameter has no ID: it is found by name.
 class ParameterTable final : public TypedTable<ParameterTable, ParameterCard>
 {
 public:

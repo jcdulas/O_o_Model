@@ -23,8 +23,8 @@ struct AcousticBarrierHexaFormat
     [[nodiscard]] static int fieldOfNode(std::size_t index) noexcept;
 };
 
-// All the CHACBR cards. The ID is an element ID, in the space every element shares (IdSpace::Element); PID names a
-// PACBAR.
+// All the AcousticBarrierHexa cards. The ID is an element ID, in the space every element shares (IdSpace::Element); PID
+// names a AcousticBarrierProp.
 class AcousticBarrierHexaTable final
     : public TypedTable<AcousticBarrierHexaTable, AcousticBarrierHexaCard>
 {

@@ -87,7 +87,7 @@ std::optional<CardProblem> CyclicHarmonicLoadFormat::check(const CyclicHarmonicL
             "card.missing-field",
             CardProblem::fieldNamed("scaleFactor2") + " needs the load set " + std::string(CardProblem::FIELD),
             "loadSetId2"};
-    // with HTYPE GRAV or RFORCE the second pair is blank.
+    // with HTYPE GravityLoad or RotationalForceLoad the second pair is blank.
     if (generatesOwnHarmonics(card.harmonicType) && card.hasSecond())
         return CardProblem{"card.bad-value",
                            std::string(CardProblem::FIELD) + " and " + CardProblem::fieldNamed("loadSetId2") +
@@ -179,7 +179,7 @@ void CyclicHarmonicLoadTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void CyclicHarmonicLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // L1 and L2 name any static or dynamic loading entry, GRAV and RFORCE included.
+    // L1 and L2 name any static or dynamic loading entry, GravityLoad and RotationalForceLoad included.
     m_loadSetId1.set(row, visitor.visit("loadSetId1", ReferenceTarget::ExcitationSet, m_loadSetId1.get(row)));
     if (const base::EntityId loadSetId2 = m_loadSetId2.get(row); loadSetId2 > 0)
         m_loadSetId2.set(row, visitor.visit("loadSetId2", ReferenceTarget::ExcitationSet, loadSetId2));

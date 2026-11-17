@@ -43,12 +43,12 @@ struct LoadGroupNodes
 // subcases it combines load, each with its SUBSEQ or SYMSEQ factor: the combined subcases are the SUBCASE (SYM)
 // sections that come before it, in order, and a factor of zero or a missing one applies no load. The application nodes
 // of a component are the nodes of the component that carry a concentrated load (forces, moments, scalar loads) or an
-// enforced motion (SPCD counts as a load). Pressures, inertial loads, temperatures and imposed deformations act on the
-// elements: they set `isDistributed` and take part in the load revision stamp but add no node, so two load cases that
-// load the same nodes are in one group whatever else they apply. Gravity, rotation and the default temperature act on
-// every component. Group 0 holds the load cases with no application node on the component, which includes a case that
-// has only distributed loads (`isDistributed` tells them from a case with no load at all). The other groups are
-// numbered in the order their first load case appears.
+// enforced motion (EnforcedMotionConstr counts as a load). Pressures, inertial loads, temperatures and imposed
+// deformations act on the elements: they set `isDistributed` and take part in the load revision stamp but add no node,
+// so two load cases that load the same nodes are in one group whatever else they apply. Gravity, rotation and the
+// default temperature act on every component. Group 0 holds the load cases with no application node on the component,
+// which includes a case that has only distributed loads (`isDistributed` tells them from a case with no load at all).
+// The other groups are numbered in the order their first load case appears.
 //
 // The same grouping is made for any units (UnitMembership: the groups of GroupSet); `component` is then
 // the number of the unit, and a node of two units loads both.

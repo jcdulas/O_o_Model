@@ -18,8 +18,9 @@ struct RandomSpectralDensityFormat
     static void write(const RandomSpectralDensityCard& card, FieldWriter& writer);
 };
 
-// All the RANDPS cards. The ID is a set ID shared by the RANDPS and RANDT1 cards (IdSpace::Group, category Random: the
-// RANDOM command selects the set). TID is a random table (ReferenceTarget::RandomTable).
+// All the RandomSpectralDensity cards. The ID is a set ID shared by the RandomSpectralDensity and RandomTimeLags cards
+// (IdSpace::Group, category Random: the RANDOM command selects the set). TID is a random table
+// (ReferenceTarget::RandomTable).
 class RandomSpectralDensityTable final : public TypedTable<RandomSpectralDensityTable, RandomSpectralDensityCard>
 {
 public:

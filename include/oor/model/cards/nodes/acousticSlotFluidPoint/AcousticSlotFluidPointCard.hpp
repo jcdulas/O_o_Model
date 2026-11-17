@@ -5,16 +5,18 @@
 namespace oor::model
 {
 
-// One GRIDF card: an axisymmetric fluid point of the acoustic cavity (slot) analysis, a scalar degree of freedom (the
-// pressure) with a two-dimensional location. The card needs an AXSLOT card in the deck, which is a rule between cards.
+// One AcousticSlotFluidPoint card: an axisymmetric fluid point of the acoustic cavity (slot) analysis, a scalar degree
+// of freedom (the pressure) with a two-dimensional location. The card needs an AcousticSlotControl card in the deck,
+// which is a rule between cards.
 //
 // Card layout:
-//   GRIDF  ID  R  Z
+//   AcousticSlotFluidPoint  ID  R  Z
 //
 // The ID is a number below 1000000 in the node ID space (unique with respect to the scalar,
 // structural, fluid and extra points). R is the radial location in the basic system (above zero) and Z the axial one.
 // For plotting the R location is the basic X coordinate and the Z location the basic Y coordinate (a geometry
-// rule that is not the card's). The grid points on the slot boundaries are GRIDS cards, not GRIDF.
+// rule that is not the card's). The grid points on the slot boundaries are AcousticSlotSurfacePoint cards, not
+// AcousticSlotFluidPoint.
 struct AcousticSlotFluidPointCard
 {
     base::EntityId id = 0;

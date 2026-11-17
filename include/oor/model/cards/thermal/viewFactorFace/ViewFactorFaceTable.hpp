@@ -19,8 +19,8 @@ struct ViewFactorFaceFormat
     static void write(const ViewFactorFaceCard& card, FieldWriter& writer);
 };
 
-// All the VIEW cards. The ID is the IVIEW the surface elements name (IVIEWF, IVIEWB), in a space of its own (category
-// ViewFactorFaceFactor, IdSpace::PerCardType). ICAVITY refers to the radiation cavity.
+// All the ViewFactorFace cards. The ID is the IVIEW the surface elements name (IVIEWF, IVIEWB), in a space of its own
+// (category ViewFactorFaceFactor, IdSpace::PerCardType). ICAVITY refers to the radiation cavity.
 class ViewFactorFaceTable final : public TypedTable<ViewFactorFaceTable, ViewFactorFaceCard>
 {
 public:

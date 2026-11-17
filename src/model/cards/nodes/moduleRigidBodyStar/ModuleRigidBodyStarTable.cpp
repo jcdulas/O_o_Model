@@ -33,7 +33,7 @@ std::optional<ModuleRigidBodyStarCard> ModuleRigidBodyStarFormat::read(FieldRead
     card.components = base::sortedDigits(reader.requiredInteger(4, "dependentComponents"));
 
     // After the last pair there may be ALPHA, or ALPHA and TREF: the reals at the end of the card, the same rule as the
-    // RBE2. A blank before a final real is a blank ALPHA.
+    // RigidBodyStar. A blank before a final real is a blank ALPHA.
     int lastPairField = reader.lastUsedField();
     if (lastPairField >= FIRST_PAIR_FIELD && isReal(reader, lastPairField))
     {

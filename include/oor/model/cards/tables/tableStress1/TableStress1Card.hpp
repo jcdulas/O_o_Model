@@ -7,12 +7,13 @@
 namespace oor::model
 {
 
-// One TABLES1 card: a function y(x) for stress dependent material properties (the stress-strain curve of a MATS1, the
-// creep parameters of a CREEP, the test data of a MATHP), given by points.
+// One TableStress1 card: a function y(x) for stress dependent material properties (the stress-strain curve of an
+// IsoMatStressDependent, the creep parameters of a CreepMat, the test data of a HyperelasticPolynomialMat), given by
+// points.
 //
 // Card layout:
-//   TABLES1  TID  TYPE
-//            x1   y1     x2     y2     x3     y3     -etc.-   ENDT
+//   TableStress1  TID  TYPE
+//                 x1   y1     x2     y2     x3     y3  -etc.-   ENDT
 // The points follow each other from field 9, two fields each, over as many continuation lines as needed, and the word
 // ENDT ends the table. x is ascending or descending; a repeated x makes a jump (not between the two first or the two
 // last points). Between the points the function is linear, and outside it carries on from the two first or the two last

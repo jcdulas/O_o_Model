@@ -18,8 +18,8 @@ struct AcousticBarrierPropFormat
     static void write(const AcousticBarrierPropCard& card, FieldWriter& writer);
 };
 
-// All the PACBAR cards. The ID is a property ID, in the space every property shares (IdSpace::Property: a CHACBR names
-// it as its PID). The absent values are NaN.
+// All the AcousticBarrierProp cards. The ID is a property ID, in the space every property shares (IdSpace::Property: an
+// AcousticBarrierHexa names it as its PID). The absent values are NaN.
 class AcousticBarrierPropTable final : public TypedTable<AcousticBarrierPropTable, AcousticBarrierPropCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a PACBAR refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an AcousticBarrierProp refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& backingMassColumn() noexcept { return m_backingMass; }

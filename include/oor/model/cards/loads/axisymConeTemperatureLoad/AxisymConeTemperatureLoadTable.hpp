@@ -19,7 +19,8 @@ struct AxisymConeTemperatureLoadFormat
     static void write(const AxisymConeTemperatureLoadCard& card, FieldWriter& writer);
 };
 
-// All the TEMPAX temperatures, one row each. The ID is a temperature set ID (IdSpace::Group, category Load).
+// All the AxisymConeTemperatureLoad temperatures, one row each. The ID is a temperature set ID (IdSpace::Group,
+// category Load).
 class AxisymConeTemperatureLoadTable final
     : public TypedTable<AxisymConeTemperatureLoadTable, AxisymConeTemperatureLoadCard>
 {

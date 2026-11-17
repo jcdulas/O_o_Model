@@ -8,8 +8,8 @@
 namespace oor::model
 {
 
-// What one field of a DYPARAM card holds. The kind is decided by the text, as for a PARAM: a whole number is an
-// integer, a number with a decimal point or an exponent is a real, anything else is a word.
+// What one field of an ExplicitParam card holds. The kind is decided by the text, as for a Parameter: a whole number is
+// an integer, a number with a decimal point or an exponent is a real, anything else is a word.
 enum class ExplicitParamValueKind : std::uint8_t
 {
     Blank,
@@ -18,7 +18,7 @@ enum class ExplicitParamValueKind : std::uint8_t
     Text
 };
 
-// One field after the name of a DYPARAM card.
+// One field after the name of an ExplicitParam card.
 struct ExplicitParamValue
 {
     ExplicitParamValueKind kind = ExplicitParamValueKind::Blank;
@@ -65,12 +65,12 @@ struct ExplicitParamValue
     [[nodiscard]] bool operator==(const ExplicitParamValue&) const = default;
 };
 
-// One DYPARAM card (SOL 700): a named parameter of the explicit solver. It is the entry of the Bulk Data that sets what
-// the format reference documents as 80 separate entries (DYPARAM,ATBAOUT; DYPARAM,CONTACT; DYPARAM,SMP,BATCHSIZ ...),
-// each with its own values. The card keeps the fields as they were given and ExplicitParamCatalogue knows what each
-// name takes.
+// One ExplicitParam card (SOL 700): a named parameter of the explicit solver. It is the entry of the Bulk Data that
+// sets what the format reference documents as 80 separate entries (ExplicitParam,ATBAOUT; ExplicitParam,CONTACT;
+// ExplicitParam,SMP,BATCHSIZ ...), each with its own values. The card keeps the fields as they were given and
+// ExplicitParamCatalogue knows what each name takes.
 //
-// Card layout: DYPARAM  NAME  VALUE1  VALUE2  ...      field 1 is the name, the values follow in fields 2, 3, ...
+// Card layout: ExplicitParam  NAME  VALUE1  VALUE2  ...  field 1 is the name, the values follow in fields 2, 3, ...
 // A name the catalogue lists must have the values of its entry (kinds, words, ranges, the number of values); a name it
 // does not list is kept as written, whatever it holds. A blank field between two values is kept as a blank value (the
 // value there is the default of the entry); blank fields after the last value are not kept.

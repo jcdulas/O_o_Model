@@ -28,9 +28,9 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// The area a QHBDY covers (format reference, QHBDY: the flux is applied to the points through the area of the face): AF
-// for a POINT, AF times the length for a LINE, the surface of the cone for a REV, the area of the polygon of the
-// corners for an AREA.
+// The area a HeatFluxNodeSetLoad covers (format reference, HeatFluxNodeSetLoad: the flux is applied to the points
+// through the area of the face): AF for a GeomPoint, AF times the length for a LINE, the surface of the cone for a REV,
+// the area of the polygon of the corners for an AREA.
 double qhbdyArea(const model::HeatFluxNodeSetLoadCard& card, const NodePositions& positions)
 {
     const auto at = [&](std::size_t index) { return positions.position(card.nodes[index]); };
@@ -78,8 +78,8 @@ base::Vec3 flowDirection(analysis::CoordinateTransform& transform, base::EntityI
     return base::normalized(direction);
 }
 
-// The QVOL cards: the heat generated in each element is the rate times the multiplier HGEN of the material times the
-// volume.
+// The HeatVolumeSourceLoad cards: the heat generated in each element is the rate times the multiplier HGEN of the
+// material times the volume.
 void addVolumeLoads(const std::shared_ptr<model::Model>& modelPointer, ExecutionContext& context,
                     const model::HeatVolumeSourceLoadTable& table, const std::function<bool(base::EntityId)>& selected,
                     std::vector<HeatLoad>& loads)

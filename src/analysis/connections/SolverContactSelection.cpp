@@ -14,11 +14,11 @@ namespace oor::analysis
 namespace
 {
 
-// format reference BCPARA, ERROR: the smallest nonzero plate or solid dimension of the body divided by 20, and the
-// thinnest shell of the body divided by 4.
+// format reference ContactParams, ERROR: the smallest nonzero plate or solid dimension of the body divided by 20, and
+// the thinnest shell of the body divided by 4.
 constexpr double EDGE_DIVISOR = 20.0;
 constexpr double THICKNESS_DIVISOR = 4.0;
-// ISEARCH 2 of a BCTABLE: the lower body searches first while its characteristic length is at
+// ISEARCH 2 of a ContactTable: the lower body searches first while its characteristic length is at
 // most 1.05 times the other's.
 constexpr double ORDER_RATIO = 1.05;
 
@@ -105,7 +105,7 @@ std::vector<ContactPairResult> SolverContactSelection::select(const model::Model
     std::vector<ContactPairResult> results(pairs.size());
     if (pairs.empty())
         return results;
-    // format reference BCPARA, ERROR: one value for every contact pair (ERRBAS 0, the default).
+    // format reference ContactParams, ERROR: one value for every contact pair (ERRBAS 0, the default).
     double modelError = std::numeric_limits<double>::infinity();
     for (const ContactPair& pair : pairs)
     {

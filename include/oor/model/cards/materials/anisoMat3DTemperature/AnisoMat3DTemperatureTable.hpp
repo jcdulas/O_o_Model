@@ -19,9 +19,10 @@ struct AnisoMat3DTemperatureFormat
     static void write(const AnisoMat3DTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATT9 cards. The ID space is the card type's own: the ID is the one of the MAT9 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEMi cards (ReferenceTarget::MaterialTable). The groups of tables are (N, 21) and (N, 6) NumPy views.
+// All the AnisoMat3DTemperature cards. The ID space is the card type's own: the ID is the one of the AnisoMat3D that
+// the card extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables
+// are references to TABLEMi cards (ReferenceTarget::MaterialTable). The groups of tables are (N, 21) and (N, 6) NumPy
+// views.
 class AnisoMat3DTemperatureTable final : public TypedTable<AnisoMat3DTemperatureTable, AnisoMat3DTemperatureCard>
 {
 public:

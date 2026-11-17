@@ -19,9 +19,9 @@ struct InitialValuesUserRoutineFormat
     static void write(const InitialValuesUserRoutineCard& card, FieldWriter& writer);
 };
 
-// All the TICEUDS cards. The SID is a set ID shared by the cards of the set (IdSpace::Group, category
-// InitialCondition: the IC command selects the set, as for the TIC). SETID names a SET1. The cards are kept whole
-// (CardRows) next to their ID, as every card of the explicit solver.
+// All the InitialValuesUserRoutine cards. The SID is a set ID shared by the cards of the set (IdSpace::Group, category
+// InitialCondition: the IC command selects the set, as for the TransientInitialCondition). SETID names an IdListSet1.
+// The cards are kept whole (CardRows) next to their ID, as every card of the explicit solver.
 class InitialValuesUserRoutineTable final
     : public TypedTable<InitialValuesUserRoutineTable, InitialValuesUserRoutineCard>
 {

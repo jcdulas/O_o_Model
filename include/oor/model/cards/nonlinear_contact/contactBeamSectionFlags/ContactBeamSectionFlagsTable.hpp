@@ -20,7 +20,7 @@ struct ContactBeamSectionFlagsFormat
     static void write(const ContactBeamSectionFlagsCard& card, FieldWriter& writer);
 };
 
-// All the BCPFLG cards. The card is keyed by the property of its beam section: unique among them
+// All the ContactBeamSectionFlags cards. The card is keyed by the property of its beam section: unique among them
 // (IdSpace::PerCardType, category Other); the property is a reference.
 class ContactBeamSectionFlagsTable final : public TypedTable<ContactBeamSectionFlagsTable, ContactBeamSectionFlagsCard>
 {

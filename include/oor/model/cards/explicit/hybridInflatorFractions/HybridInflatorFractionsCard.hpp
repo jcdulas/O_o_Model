@@ -11,7 +11,7 @@ namespace oor::model
 {
 
 // TYPE (field 2): what the fractions are, mass fractions or molar fractions. A blank TYPE is MASS. Molar fractions need
-// the universal gas constant, PARAM,UGASC (a rule of the model, not of the card).
+// the universal gas constant, PARAM,UniversalGasConstant (a rule of the model, not of the card).
 enum class GasFractionBasis : std::uint8_t
 {
     Mass,
@@ -28,11 +28,11 @@ struct GasFractionStep
     [[nodiscard]] bool operator==(const GasFractionStep&) const noexcept = default;
 };
 
-// One INFLFRC card (SOL 700): the fractions of the gases that a hybrid inflator (INFLHB, which names it in its FRAC
-// field) blows in, as a function of time. The solver interpolates linearly between the times.
+// One HybridInflatorFractions card (SOL 700): the fractions of the gases that a hybrid inflator (HybridInflator, which
+// names it in its FRAC field) blows in, as a function of time. The solver interpolates linearly between the times.
 //
 // Card layout: the first line holds the header, the data follow from the first continuation line:
-//   INFLFRC  FRACID  TYPE                                                           fields 1 and 2
+//   HybridInflatorFractions  FRACID  TYPE                                           fields 1 and 2
 //   TIME  TIME1  FRAC1  FRAC2  FRAC3  etc.                                          from field 9
 //   TIME  TIME2  FRAC1  FRAC2  FRAC3  etc.
 // The data of a time begin with the word TIME in the first field of a line and go on over as many lines as needed

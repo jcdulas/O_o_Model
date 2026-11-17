@@ -28,7 +28,7 @@ std::optional<CardProblem> PlotQuad4Format::check(const PlotQuad4Card& card)
         return CardProblem{"card.bad-id", "the element ID must be a positive integer", "id"};
     if (card.node1 <= 0 || card.node2 <= 0 || card.node3 <= 0 || card.node4 <= 0)
         return CardProblem{"card.bad-id", "the grid point IDs must be positive integers", "node1"};
-    // Four different points: a quadrilateral with a repeated corner is a triangle, which is a PLOTEL3.
+    // Four different points: a quadrilateral with a repeated corner is a triangle, which is a PlotTria3.
     if (card.node1 == card.node2)
         return CardProblem{"card.duplicate-node",
                            "the four grid points must be different: {field} repeats {field:node1}", "node2"};

@@ -19,8 +19,8 @@ struct DesignConstrUnionFormat
     static void write(const DesignConstrUnionCard& card, FieldWriter& writer);
 };
 
-// All the DCONADD cards. The DCID is a set ID (IdSpace::Group, category DesignConstraint, shared with the DCONSTR
-// cards); each DCi names such a set.
+// All the DesignConstrUnion cards. The DCID is a set ID (IdSpace::Group, category DesignConstraint, shared with the
+// DesignConstr cards); each DCi names such a set.
 class DesignConstrUnionTable final : public TypedTable<DesignConstrUnionTable, DesignConstrUnionCard>
 {
 public:

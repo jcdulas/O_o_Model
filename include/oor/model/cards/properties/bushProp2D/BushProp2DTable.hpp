@@ -19,9 +19,9 @@ struct BushProp2DFormat
     static void write(const BushProp2DCard& card, FieldWriter& writer);
 };
 
-// All the PBUSH2D properties, each kept whole (the nominal values and, at most, one of the two options): the ID is in
-// the space every property type shares (IdSpace::Property), so the PID of a CBUSH2D finds it. A PBUSH2D names no other
-// card.
+// All the BushProp2D properties, each kept whole (the nominal values and, at most, one of the two options): the ID is
+// in the space every property type shares (IdSpace::Property), so the PID of a Bushing2D finds it. A BushProp2D names
+// no other card.
 class BushProp2DTable final : public TypedTable<BushProp2DTable, BushProp2DCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a PBUSH2D refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a BushProp2D refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

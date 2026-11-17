@@ -19,9 +19,10 @@ struct AeroControlVectorFormat
     static void write(const AeroControlVectorCard& card, FieldWriter& writer);
 };
 
-// All the UXVEC cards, in the category ControlVector. The ID is unique among the UXVEC cards (IdSpace::PerCardType) and
-// is what the Case Control AEUXREF and the AEDW, AEFORCE and AEPRESS cards name (ReferenceTarget::ControlVector). The
-// labels are names, not references. The card is kept whole next to a column of its ID.
+// All the AeroControlVector cards, in the category ControlVector. The ID is unique among the AeroControlVector cards
+// (IdSpace::PerCardType) and is what the Case Control AEUXREF and the AeroDownwash, AeroForceVector and
+// AeroPressureVector cards name (ReferenceTarget::ControlVector). The labels are names, not references. The card is
+// kept whole next to a column of its ID.
 class AeroControlVectorTable final : public TypedTable<AeroControlVectorTable, AeroControlVectorCard>
 {
 public:

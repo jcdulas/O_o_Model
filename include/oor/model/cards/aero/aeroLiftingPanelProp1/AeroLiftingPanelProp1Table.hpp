@@ -20,8 +20,8 @@ struct AeroLiftingPanelProp1Format
     static void write(const AeroLiftingPanelProp1Card& card, FieldWriter& writer);
 };
 
-// All the PAERO1 cards. The PID is in the space the five PAERO cards share (IdSpace::AeroProperty, category
-// AeroProperty): a CAERO names it (ReferenceTarget::AeroProperty). Each body is the EID of a CAERO2
+// All the AeroLiftingPanelProp1 cards. The PID is in the space the five PAERO cards share (IdSpace::AeroProperty,
+// category AeroProperty): a CAERO names it (ReferenceTarget::AeroProperty). Each body is the EID of an AeroBody2
 // (ReferenceTarget::AeroElement: the type of the card it names is a rule between cards).
 class AeroLiftingPanelProp1Table final : public TypedTable<AeroLiftingPanelProp1Table, AeroLiftingPanelProp1Card>
 {

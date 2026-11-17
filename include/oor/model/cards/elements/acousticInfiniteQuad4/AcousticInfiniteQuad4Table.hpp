@@ -19,8 +19,8 @@ struct AcousticInfiniteQuad4Format
     static void write(const AcousticInfiniteQuad4Card& card, FieldWriter& writer);
 };
 
-// All the CACINF4 elements: an element ID, in the space every element shares (IdSpace::Element); PID names a PACINF
-// and the four points are grid points.
+// All the AcousticInfiniteQuad4 elements: an element ID, in the space every element shares (IdSpace::Element); PID
+// names an AcousticInfiniteProp and the four points are grid points.
 class AcousticInfiniteQuad4Table final : public TypedTable<AcousticInfiniteQuad4Table, AcousticInfiniteQuad4Card>
 {
 public:

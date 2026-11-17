@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One PBARL card: a simple beam property given by the dimensions of its cross-section.
+// One BarShapeProp card: a simple beam property given by the dimensions of its cross-section.
 //
 // Card layout:
-//   PBARL  PID   MID   GROUP  TYPE
-//          DIM1  DIM2  DIM3   DIM4  DIM5  DIM6  DIM7  DIM8
-//          DIM9  -etc.-       NSM
+//   BarShapeProp  PID   MID  GROUP  TYPE
+//                 DIM1  DIM2  DIM3  DIM4  DIM5  DIM6  DIM7  DIM8
+//                 DIM9  -etc.-  NSM
 //
 // Only the standard section library (sections::STANDARD_SECTION_LIBRARY, the default) is known: `type` is one of its
 // sections and `dims` has the number of dimensions that section takes (BarShapePropFormat::dimensionCount). NSM comes

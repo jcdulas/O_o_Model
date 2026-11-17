@@ -20,8 +20,8 @@ struct RigidBodyMultiFormat
     static void write(const RigidBodyMultiCard& card, FieldWriter& writer);
 };
 
-// All the RBE1 cards. A rigid element is an element: its ID is in the ID space shared by all the elements. The points
-// and the components of the independent and of the dependent pairs are four lists in CSR form.
+// All the RigidBodyMulti cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
+// The points and the components of the independent and of the dependent pairs are four lists in CSR form.
 class RigidBodyMultiTable final : public TypedTable<RigidBodyMultiTable, RigidBodyMultiCard>
 {
 public:

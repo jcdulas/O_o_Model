@@ -34,8 +34,8 @@ protected:
             throw QueryError("tolerance is a relative difference, not negative");
         const model::Model& model = *context.modelPointer();
         // the mass of the model as the grid point weight generator computes it: the non-structural mass of the Case
-        // Control set, in the units of the deck. The table of the file is not multiplied by PARAM,WTMASS (it holds the
-        // weight of the deck's units: with a WTMASS other than 1 it is the model mass divided by WTMASS).
+        // Control set, in the units of the deck. The table of the file is not multiplied by PARAM,WeightToMass (it
+        // holds the weight of the deck's units: with a WTMASS other than 1 it is the model mass divided by WTMASS).
         const MassSetting setting(model, context.exec().pool());
         const analysis::MassOptions options = setting.options();
         const analysis::MassTotals totals = analysis::MassCalculator::total(

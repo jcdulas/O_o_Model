@@ -207,7 +207,7 @@ TEST_CASE("shell resultants turn as two tensors and a vector in the plane", "[an
 
 TEST_CASE("plies turn by their angle: the laminate of the property gives it", "[analysis][frames]")
 {
-    // element 20 has the plies of PCOMP 2: 0 degrees and 45 degrees; o11 = 100 in each
+    // element 20 has the plies of CompProp 2: 0 degrees and 45 degrees; o11 = 100 in each
     Case c = attach({tensor("ShellQuad4Composite", results::ResultKind::Stress, {"o11", "o22", "t12", "t1z", "t2z"},
                             {20, 20}, {1, 2}, {100, 0, 0, 1, 0, 100, 0, 0, 1, 0})});
     const auto material = FrameRotation::rotate(*c.model, *c.attachment, *c.list[0], target(FrameTargetKind::Material));

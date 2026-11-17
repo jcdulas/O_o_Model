@@ -26,23 +26,24 @@ enum class InitialValuesUserRoutineTarget : std::uint8_t
 };
 inline constexpr std::array<std::string_view, 2> INITIAL_VALUES_TARGET_WORDS{"Element", "Node"};
 
-// One TICEUDS card (SOL 700): initial values of element or grid point variables that a user written subroutine
-// computes. The FMS statement CONNECT SERVICE gives the group its name and the library of routines. As the TIC, it is
-// selected by the IC command of Case Control (the format mentions a TIC command once, but every other initial
-// condition is selected by IC, and the library files this card with them).
+// One InitialValuesUserRoutine card (SOL 700): initial values of element or grid point variables that a user written
+// subroutine computes. The FMS statement CONNECT SERVICE gives the group its name and the library of routines. As the
+// TransientInitialCondition, it is selected by the IC command of Case Control (the format mentions a
+// TransientInitialCondition command once, but every other initial condition is selected by IC, and the library files
+// this card with them).
 //
-// Card layout: TICEUDS  SID  GROUP  UNAME  SETID  COPT                              fields 1 to 5
+// Card layout: InitialValuesUserRoutine  SID  GROUP  UNAME  SETID  COPT             fields 1 to 5
 // SID is the set ID the card is filed under (the format calls it a unique output number: the library lets the cards of
 // a set share it, as for every initial condition). GROUP is required and has no default; it is a name of one to eight
-// characters (the field of the small format), kept in capitals as the GROUP of a FORCUDS is (a deck may write it in
-// lower case). SETID is the SET1 of the elements or of the grid points, as COPT says (a reference to a set). No other
-// field exists: the format draws blank cells after COPT and the reader refuses a value in them.
+// characters (the field of the small format), kept in capitals as the GROUP of an UserEnforcedVelocity is (a deck may
+// write it in lower case). SETID is the IdListSet1 of the elements or of the grid points, as COPT says (a reference to
+// a set). No other field exists: the format draws blank cells after COPT and the reader refuses a value in them.
 struct InitialValuesUserRoutineCard
 {
     base::EntityId id = 0;
     std::string group;
     InitialValuesUserRoutineRoutine routineName = InitialValuesUserRoutineRoutine::Exinit;
-    base::EntityId elementSetId = 0; // a SET1 of the elements or grid points
+    base::EntityId elementSetId = 0; // an IdListSet1 of the elements or grid points
     InitialValuesUserRoutineTarget target = InitialValuesUserRoutineTarget::Element;
 };
 

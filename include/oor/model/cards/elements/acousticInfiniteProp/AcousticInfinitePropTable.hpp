@@ -18,8 +18,8 @@ struct AcousticInfinitePropFormat
     static void write(const AcousticInfinitePropCard& card, FieldWriter& writer);
 };
 
-// All the PACINF properties: the ID is in the space every property type shares (IdSpace::Property), so the PID of a
-// CACINF3 or CACINF4 finds it; the MID is a material (a MAT10).
+// All the AcousticInfiniteProp properties: the ID is in the space every property type shares (IdSpace::Property), so
+// the PID of a AcousticInfiniteTria3 or AcousticInfiniteQuad4 finds it; the MID is a material (a FluidMat).
 class AcousticInfinitePropTable final : public TypedTable<AcousticInfinitePropTable, AcousticInfinitePropCard>
 {
 public:

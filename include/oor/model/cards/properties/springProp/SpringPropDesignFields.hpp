@@ -5,9 +5,10 @@
 namespace oor::model
 {
 
-// The fields of a PELAS property that a DVPREL1 or DVPREL2 drives: K, GE and S, named K1, GE1 and S1 for the first
-// property of a card and K2, GE2 and S2 for the second (a PELAS card with two properties is two rows here, so the
-// property named by its PID takes either spelling), or by position 3, 4 and 5 (7, 8 and 9 for the second property).
+// The fields of a SpringProp property that a DesignPropRelation1 or DesignPropRelation2 drives: K, GE and S, named K1,
+// GE1 and S1 for the first property of a card and K2, GE2 and S2 for the second (a SpringProp card with two properties
+// is two rows here, so the property named by its PID takes either spelling), or by position 3, 4 and 5 (7, 8 and 9 for
+// the second property).
 [[nodiscard]] const DesignableCard& springPropDesignFields();
 
 } // namespace oor::model

@@ -20,10 +20,11 @@ struct ModuleDirectMatrixFormat
     static void write(const ModuleDirectMatrixCard& card, FieldWriter& writer);
 };
 
-// All the MDDMIG cards: the headers and the columns of every matrix, one row each, in the order of the deck, category
-// Matrix like the DMIG. A card has no numeric ID (IdSpace::None); the matrix is found by the name. They are kept whole
-// next to a column of their names. The point of a column (MODJ, GJ) and the points of its terms are looked up in this
-// model, as grid, scalar or extra points, when their module is 0, the main Bulk Data; the others are plain IDs.
+// All the ModuleDirectMatrix cards: the headers and the columns of every matrix, one row each, in the order of the
+// deck, category Matrix like the DirectMatrixNodal. A card has no numeric ID (IdSpace::None); the matrix is found by
+// the name. They are kept whole next to a column of their names. The point of a column (MODJ, GJ) and the points of its
+// terms are looked up in this model, as grid, scalar or extra points, when their module is 0, the main Bulk Data; the
+// others are plain IDs.
 class ModuleDirectMatrixTable final : public TypedTable<ModuleDirectMatrixTable, ModuleDirectMatrixCard>
 {
 public:

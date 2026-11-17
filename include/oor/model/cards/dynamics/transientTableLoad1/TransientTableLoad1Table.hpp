@@ -18,7 +18,8 @@ struct TransientTableLoad1Format
     static void write(const TransientTableLoad1Card& card, FieldWriter& writer);
 };
 
-// All the TLOAD1 cards. The ID is a dynamic load set ID shared by the RLOAD, TLOAD and DAREA cards (IdSpace::Group).
+// All the TransientTableLoad1 cards. The ID is a dynamic load set ID shared by the RLOAD, TLOAD and DynamicLoadScale
+// cards (IdSpace::Group).
 class TransientTableLoad1Table final : public TypedTable<TransientTableLoad1Table, TransientTableLoad1Card>
 {
 public:

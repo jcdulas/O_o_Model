@@ -9,7 +9,7 @@
 #include <string_view>
 #include <vector>
 
-// A DEQATN as an expression program (the queries `designEquationSymbols` and `designEquationInstructions`):
+// A DesignEquation as an expression program (the queries `designEquationSymbols` and `designEquationInstructions`):
 // the names it uses and the instructions of a stack machine that computes it, so that a companion package evaluates an
 // equation and its derivatives without parsing text. The contract is the one a companion package proposed (its item
 // P1.3):
@@ -110,8 +110,8 @@ struct EquationProgramBuild
 // equations give.
 [[nodiscard]] EquationProgramBuild buildEquationProgram(const EquationSet& equations);
 
-// Parses the text of a DEQATN (an equation written in Python, not a card) and flattens it. The problem, if any, is the
-// first one the parser or the flattening found, with its position in `text`.
+// Parses the text of a DesignEquation (an equation written in Python, not a card) and flattens it. The problem, if any,
+// is the first one the parser or the flattening found, with its position in `text`.
 [[nodiscard]] EquationProgramBuild compileEquationProgram(std::string_view text);
 
 } // namespace oor::model

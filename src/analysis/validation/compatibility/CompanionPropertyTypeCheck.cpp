@@ -17,8 +17,9 @@ struct CompanionRule
 };
 
 // The property companions name the property they extend by its PID (the format reference says which cards it must be):
-// the nonlinear extensions of a PBAR or PBARL, a PBEAM or PBEAML, a PROD, a PSHEAR and a PSOLID, the layered composite
-// data of a PCOMP or PCOMPG (PCOMPA of SOL 700, PCOMPF and PCOMPFQ).
+// the nonlinear extensions of a BarProp or BarShapeProp, a BeamProp or BeamShapeProp, a RodProp, a ShearPanelProp and a
+// SolidProp, the layered composite data of a CompProp or CompPropGlobal (CompPropExplicit of SOL 700,
+// CompPropIntegration and CompPropFreqDamping).
 const CompanionRule RULES[] = {
     {"BarPropNonlinear", "BarProp", "BarShapeProp"},
     {"BeamPropNonlinear", "BeamProp", "BeamShapeProp"},

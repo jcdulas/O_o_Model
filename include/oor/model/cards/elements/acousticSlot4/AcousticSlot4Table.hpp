@@ -20,8 +20,8 @@ struct AcousticSlot4Format
     static void write(const AcousticSlot4Card& card, FieldWriter& writer);
 };
 
-// All the CSLOT4 elements: an element in the space every element shares (IdSpace::Element). The nodes are one column of
-// four IDs (an (N, 4) NumPy view); a blank RHO or B is a NaN and a blank M is NO_SLOT_COUNT in its column.
+// All the AcousticSlot4 elements: an element in the space every element shares (IdSpace::Element). The nodes are one
+// column of four IDs (an (N, 4) NumPy view); a blank RHO or B is a NaN and a blank M is NO_SLOT_COUNT in its column.
 class AcousticSlot4Table final : public TypedTable<AcousticSlot4Table, AcousticSlot4Card>
 {
 public:

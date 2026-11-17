@@ -24,8 +24,8 @@ struct RigidTriaPlateFormat
     static void resolveDefaults(RigidTriaPlateCard& card) noexcept;
 };
 
-// All the RTRPLT cards. A rigid element is an element: its ID is in the ID space shared by all the elements. The three
-// grid points, the independent and the dependent components are three columns of three values.
+// All the RigidTriaPlate cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
+// The three grid points, the independent and the dependent components are three columns of three values.
 class RigidTriaPlateTable final : public TypedTable<RigidTriaPlateTable, RigidTriaPlateCard>
 {
 public:

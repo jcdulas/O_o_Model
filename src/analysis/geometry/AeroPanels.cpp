@@ -25,9 +25,9 @@ struct PanelDefinition
     AeroPanelKind kind = AeroPanelKind::AeroLiftingPanel1;
     base::EntityId eid = 0;
     base::EntityId positionFrameId = 0;
-    std::int32_t spanCount = 0; // NSPAN, 0 when the AEFACT lists the divisions
+    std::int32_t spanCount = 0; // NSPAN, 0 when the AeroFactorList lists the divisions
     base::EntityId spanList = 0;
-    std::int32_t chordCount = 0; // NCHORD for a CAERO1; 1 for a strip (one box along the whole chord)
+    std::int32_t chordCount = 0; // NCHORD for an AeroLiftingPanel1; 1 for a strip (one box along the whole chord)
     base::EntityId chordList = 0;
     std::array<double, 3> point1 = {};
     double rootChord = 0.0;
@@ -35,13 +35,14 @@ struct PanelDefinition
     double tipChord = 0.0;
 };
 
-// The panel as a message names it: the keyword of its card and its ID ("CAERO1 1000").
+// The panel as a message names it: the keyword of its card and its ID ("AeroLiftingPanel1 1000").
 std::string describe(const model::Model&, const PanelDefinition& panel)
 {
     return std::string(aeroPanelKindName(panel.kind)) + " " + std::to_string(panel.eid);
 }
 
-// The ID of the aerodynamic coordinate system: the AERO card's, else the AEROS card's, else the basic system.
+// The ID of the aerodynamic coordinate system: the AeroUnsteadyParams card's, else the AeroStaticParams card's, else
+// the basic system.
 base::EntityId aerodynamicSystemOf(const model::Model& model)
 {
     if (const auto* aero = model.findTable<model::AeroUnsteadyParamsTable>())
@@ -64,7 +65,7 @@ base::EntityId aerodynamicSystemOf(const model::Model& model)
 }
 
 // The fractions of the span or the chord at which the panel is cut: `count` equal divisions, or the numbers of the
-// AEFACT.
+// AeroFactorList.
 std::vector<double> divisionPoints(const model::Model& model, const PanelDefinition& panel, std::int32_t count,
                                    base::EntityId list, const char* what)
 {

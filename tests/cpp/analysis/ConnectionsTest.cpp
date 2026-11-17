@@ -29,7 +29,7 @@ namespace
 {
 
 // Two plates of 2 by 2 unit squares, at z = 0 (nodes 1 to 9, elements 1 to 4) and z = 0.5 (nodes 101 to 109, elements
-// 101 to 104), and a CWELD ELPAT between elements 1 and 101 located by GS 600 at (0.5, 0.4, 0.3).
+// 101 to 104), and a Weld ELPAT between elements 1 and 101 located by GS 600 at (0.5, 0.4, 0.3).
 std::string weldedPlates(const std::string& extra = "")
 {
     std::string text = "IsoMat;1;2.E+5;7.5E+4;0.3;0.001\nShellProp;1;1;0.1\nShellProp;2;1;0.1\n";
@@ -120,7 +120,8 @@ TEST_CASE("an ALIGN weld joins its GA and GB, a point-to-patch weld its GS and t
 
 TEST_CASE("connection sharing, spiders and clusters on a plate", "[analysis][connections]")
 {
-    // two RBE3 spiders on elements 2 and 4 of the lower plate share node 5; an RBE2 hangs a free point from node 9
+    // two RigidInterpolation spiders on elements 2 and 4 of the lower plate share node 5; a RigidBodyStar hangs a free
+    // point from node 9
     const model::Model model =
         readModelText(weldedPlates("Node;700;;1.5;0.5;1.\n"
                                    "RigidInterpolation;701;700;123456;1;1.;123;4;2;3;6;5\n"

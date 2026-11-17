@@ -19,8 +19,8 @@ struct FreeBoundaryDofsFormat
     static void write(const FreeBoundaryDofsCard& card, FieldWriter& writer);
 };
 
-// All the BNDFREE cards. A card has no ID (IdSpace::None, category Set, like the CSET it equals). The points and the
-// components of every card are two lists in CSR form.
+// All the FreeBoundaryDofs cards. A card has no ID (IdSpace::None, category Set, like the FreeBoundaryDofSet it
+// equals). The points and the components of every card are two lists in CSR form.
 class FreeBoundaryDofsTable final : public TypedTable<FreeBoundaryDofsTable, FreeBoundaryDofsCard>
 {
 public:

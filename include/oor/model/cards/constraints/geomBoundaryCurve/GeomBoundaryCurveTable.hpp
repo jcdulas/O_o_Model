@@ -19,9 +19,9 @@ struct GeomBoundaryCurveFormat
     static void write(const GeomBoundaryCurveCard& card, FieldWriter& writer);
 };
 
-// All the GMBNDC cards, in the category GeometricBoundary that a CINTC names (the BIDs of its LIST). The BID is unique
-// per card type (IdSpace::PerCardType). The end points and the listed grid points are references to grid points. The
-// cards are kept whole next to a column of their BIDs.
+// All the GeomBoundaryCurve cards, in the category GeometricBoundary that a LineInterface names (the BIDs of its LIST).
+// The BID is unique per card type (IdSpace::PerCardType). The end points and the listed grid points are references to
+// grid points. The cards are kept whole next to a column of their BIDs.
 class GeomBoundaryCurveTable final : public TypedTable<GeomBoundaryCurveTable, GeomBoundaryCurveCard>
 {
 public:

@@ -18,7 +18,8 @@ struct TableGustSpectrumFormat
     static void write(const TableGustSpectrumCard& card, FieldWriter& writer);
 };
 
-// All the TABRNDG cards. The ID is a random table ID, in the ID space that TABRND1 shares (IdSpace::RandomTable).
+// All the TableGustSpectrum cards. The ID is a random table ID, in the ID space that TableRandomSpectrum1 shares
+// (IdSpace::RandomTable).
 class TableGustSpectrumTable final : public TypedTable<TableGustSpectrumTable, TableGustSpectrumCard>
 {
 public:

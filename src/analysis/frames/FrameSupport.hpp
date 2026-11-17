@@ -34,7 +34,7 @@ namespace oor::analysis::detail
 // another card type.
 [[nodiscard]] std::optional<base::EntityId> elementPropertyId(const model::Model& model, model::CardLocation location);
 
-// The CORDM of the PSOLID with this ID; nullopt when the property is not a PSOLID or does not exist.
+// The CORDM of the SolidProp with this ID; nullopt when the property is not a SolidProp or does not exist.
 [[nodiscard]] std::optional<base::EntityId> solidCordm(const model::Model& model, base::EntityId pid);
 
 // The element IDs of the rows of a table, one step and one component decoded (what the rows have in common).

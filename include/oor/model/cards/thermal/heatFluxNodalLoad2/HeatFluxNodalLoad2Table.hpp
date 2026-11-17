@@ -19,7 +19,7 @@ struct HeatFluxNodalLoad2Format
     static void write(const HeatFluxNodalLoad2Card& card, FieldWriter& writer);
 };
 
-// All the QBDY2 cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load).
+// All the HeatFluxNodalLoad2 cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load).
 class HeatFluxNodalLoad2Table final : public TypedTable<HeatFluxNodalLoad2Table, HeatFluxNodalLoad2Card>
 {
 public:

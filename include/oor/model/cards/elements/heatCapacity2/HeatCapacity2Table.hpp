@@ -18,7 +18,7 @@ struct HeatCapacity2Format
     static void write(const HeatCapacity2Card& card, FieldWriter& writer);
 };
 
-// All the CDAMP5 elements.
+// All the HeatCapacity2 elements.
 class HeatCapacity2Table final : public TypedTable<HeatCapacity2Table, HeatCapacity2Card>
 {
 public:

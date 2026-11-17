@@ -19,7 +19,7 @@ struct AnisoMat2DFormat
     static void write(const AnisoMat2DCard& card, FieldWriter& writer);
 };
 
-// All the MAT2 cards. The two matrices are (N, 6) NumPy views and the expansion coefficients an (N, 3) view.
+// All the AnisoMat2D cards. The two matrices are (N, 6) NumPy views and the expansion coefficients an (N, 3) view.
 class AnisoMat2DTable final : public TypedTable<AnisoMat2DTable, AnisoMat2DCard>
 {
 public:

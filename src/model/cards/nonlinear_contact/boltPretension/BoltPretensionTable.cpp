@@ -84,7 +84,7 @@ std::optional<CardProblem> BoltPretensionFormat::check(const BoltPretensionCard&
                            "elements"};
     if (card.form == 0)
     {
-        // the axis comes from the elements, so there must be at least two (or one SET3 of them).
+        // the axis comes from the elements, so there must be at least two (or one TypedListSet3 of them).
         if (!bySet && card.elements.size() < 2)
             return CardProblem{"card.bad-value",
                                "with " + CardProblem::fieldNamed("form") + " 0 the bolt needs at least two elements",

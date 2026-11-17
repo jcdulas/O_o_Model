@@ -7,9 +7,10 @@
 namespace oor::model
 {
 
-// One PLOAD card: a uniform pressure on the triangle or quadrilateral defined by three or four grid points.
+// One PointsPressureLoad card: a uniform pressure on the triangle or quadrilateral defined by three or four grid
+// points.
 //
-// Card layout: PLOAD  SID  P  G1  G2  G3  G4
+// Card layout: PointsPressureLoad  SID  P  G1  G2  G3  G4
 // G4 is blank (0 here) for a triangle. The pressure acts in the direction given by the right-hand rule over the points
 // in the order of the card (a negative P reverses it).
 struct PointsPressureLoadCard

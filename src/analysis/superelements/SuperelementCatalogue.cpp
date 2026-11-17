@@ -17,7 +17,7 @@ namespace oor::analysis
 namespace
 {
 
-// format reference PARAM CONFAC: the default location tolerance of the superelement connections.
+// format reference PARAM ConnectionTolerance: the default location tolerance of the superelement connections.
 constexpr double DEFAULT_CONNECTION_TOLERANCE = 1.0e-5;
 
 SuperelementType typeOfBulkOptions(model::SuperelementBulkOptionsType type, bool hasPart) noexcept
@@ -112,8 +112,8 @@ SuperelementCatalogue::SuperelementCatalogue(const model::Model& model) : m_resi
     forEachCard<model::SuperelementCopyPointsTable>(
         residual,
         [&](const model::SuperelementCopyPointsCard& card, model::CardLocation) { csupers[card.number()] = card; });
-    // format reference SETREE: each SEUPi is upstream of SEID; a superelement no SETREE lists is upstream of the
-    // residual structure.
+    // format reference SuperelementTree: each SEUPi is upstream of SEID; a superelement no SuperelementTree lists is
+    // upstream of the residual structure.
     std::map<base::EntityId, base::EntityId> downstreamOf;
     forEachCard<model::SuperelementTreeTable>(residual,
                                               [&](const model::SuperelementTreeCard& card, model::CardLocation)
@@ -163,7 +163,8 @@ SuperelementCatalogue::SuperelementCatalogue(const model::Model& model) : m_resi
         if (entry.type == SuperelementType::Secondary && csuper != csupers.end())
             entry.imageOf = std::abs(csuper->second.primarySuperelementId);
         // An image has the points of its primary, even when it has a BEGIN SUPER section of its own for its loads
-        // (public see101nd: SE 1 is the MIRROR of SE 7 and its section holds a PLOAD2 on the points 71 and 72 of 7).
+        // (public see101nd: SE 1 is the MIRROR of SE 7 and its section holds a ShellPressureLoad on the points 71 and
+        // 72 of 7).
         if (entry.imageOf != 0)
             entry.idModel = &residual.superelementModel(entry.imageOf);
         else if (entry.part != nullptr)

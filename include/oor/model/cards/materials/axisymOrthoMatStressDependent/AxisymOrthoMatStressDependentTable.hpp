@@ -18,10 +18,10 @@ struct AxisymOrthoMatStressDependentFormat
     static void write(const AxisymOrthoMatStressDependentCard& card, FieldWriter& writer);
 };
 
-// All the MATS3 cards. The ID space is the card type's own: the ID is the one of the MAT3 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it). Every table field is a reference to a
-// TABL3D0, TABL3D1 or TABL3D2 (ReferenceTarget::MultiDimensionalTable), so a renumbering of those tables follows into
-// the card.
+// All the AxisymOrthoMatStressDependent cards. The ID space is the card type's own: the ID is the one of the
+// AxisymOrthoMat that the card extends, so it is also a reference to a material (renumbering the materials follows into
+// it). Every table field is a reference to a TableMultiVariable0, TableMultiVariable1 or TableMultiVariable2
+// (ReferenceTarget::MultiDimensionalTable), so a renumbering of those tables follows into the card.
 class AxisymOrthoMatStressDependentTable final
     : public TypedTable<AxisymOrthoMatStressDependentTable, AxisymOrthoMatStressDependentCard>
 {

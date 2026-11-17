@@ -19,9 +19,9 @@ struct EnforcedMotionConstrFormat
     static void write(const EnforcedMotionConstrCard& card, FieldWriter& writer);
 };
 
-// All the SPCD cards. The ID is a load set ID shared by many cards (IdSpace::Group): an SPCD is selected the way a load
-// is, not by the SPC command, so that a LOAD command or an EXCITEID that names it resolves. The two groups of a card
-// are kept as three columns of two values.
+// All the EnforcedMotionConstr cards. The ID is a load set ID shared by many cards (IdSpace::Group): an
+// EnforcedMotionConstr is selected the way a load is, not by the SPC command, so that a LOAD command or an EXCITEID
+// that names it resolves. The two groups of a card are kept as three columns of two values.
 class EnforcedMotionConstrTable final : public TypedTable<EnforcedMotionConstrTable, EnforcedMotionConstrCard>
 {
 public:

@@ -12,8 +12,8 @@ namespace oor::analysis
 namespace
 {
 
-// a DRESP2 may use other DRESP2 responses (the "DRESP2" line), but not itself, directly or through the
-// ones it uses. Every DRESP2 on such a circle is reported, once.
+// a DesignResp2 may use other DesignResp2 responses (the "DesignResp2" line), but not itself, directly or through the
+// ones it uses. Every DesignResp2 on such a circle is reported, once.
 class ResponseCycleCheck final : public ValidationCheck
 {
 public:

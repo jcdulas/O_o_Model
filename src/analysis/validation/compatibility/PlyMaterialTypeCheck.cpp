@@ -7,7 +7,7 @@ namespace oor::analysis
 namespace
 {
 
-// A ply of a PCOMP or PCOMPG made of a material that is not a MAT1, MAT2 or MAT8.
+// A ply of a CompProp or CompPropGlobal made of a material that is not an IsoMat, AnisoMat2D or OrthoMat2D.
 class PlyMaterialTypeCheck final : public ValidationCheck
 {
 public:
@@ -21,9 +21,9 @@ public:
 
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
-        // format reference MATCB: a ply of a PCOMP, PCOMPG or PCOMPLS may name it; a
-        // ply of a PCOMP may name the woven fabric of SOL 700; format reference COMPUDS: the user failure model of SOL
-        // 700 for shell composites.
+        // format reference ProgressiveFailureMat: a ply of a CompProp, CompPropGlobal or CompSolidPropNonlinear may
+        // name it; a ply of a CompProp may name the woven fabric of SOL 700; format reference UserCompositeFailureMat:
+        // the user failure model of SOL 700 for shell composites.
         reportUnlistedMaterial(context, sink, {"CompProp"},
                                {"IsoMat", "AnisoMat2D", "OrthoMat2D", "HeatIsoMat", "HeatAnisoMat",
                                 "ProgressiveFailureMat", "FabricMat", "UserCompositeFailureMat"},

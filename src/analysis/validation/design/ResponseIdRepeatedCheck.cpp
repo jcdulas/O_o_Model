@@ -7,9 +7,9 @@ namespace oor::analysis
 namespace
 {
 
-// The DRESP1, DRESP2 and DRESP3 responses share one number space: a DCONSTR, a DESOBJ and the DRESP1 and DRESP2 groups
-// of a DRESP2 name a response by its ID alone. Two cards of one type with the same
-// ID are the reader's business (`ref.duplicate-id`); this check is for the ID that two kinds of card have.
+// The DesignResp1, DesignResp2 and DesignResp3 responses share one number space: a DesignConstr, a DESOBJ and the
+// DesignResp1 and DesignResp2 groups of a DesignResp2 name a response by its ID alone. Two cards of one type with the
+// same ID are the reader's business (`ref.duplicate-id`); this check is for the ID that two kinds of card have.
 class ResponseIdRepeatedCheck final : public ValidationCheck
 {
 public:

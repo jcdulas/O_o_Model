@@ -18,8 +18,8 @@ struct ForcedConvectionFormat
     static void write(const ForcedConvectionCard& card, FieldWriter& writer);
 };
 
-// All the CONVM cards. The ID is the element ID of the CHBDYP element the card applies to (its own ID per card type,
-// IdSpace::PerCardType), also a reference to that element.
+// All the ForcedConvection cards. The ID is the element ID of the HeatSurfaceProperty element the card applies to (its
+// own ID per card type, IdSpace::PerCardType), also a reference to that element.
 class ForcedConvectionTable final : public TypedTable<ForcedConvectionTable, ForcedConvectionCard>
 {
 public:

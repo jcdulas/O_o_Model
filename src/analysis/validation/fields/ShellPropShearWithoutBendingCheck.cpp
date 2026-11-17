@@ -8,7 +8,7 @@ namespace oor::analysis
 namespace
 {
 
-// format reference, PSHELL MID3: if MID2 is blank or -1, then MID3 must be blank.
+// format reference, ShellProp MID3: if MID2 is blank or -1, then MID3 must be blank.
 class ShellPropShearWithoutBendingCheck final : public ValidationCheck
 {
 public:

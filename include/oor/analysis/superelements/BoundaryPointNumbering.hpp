@@ -15,14 +15,14 @@ namespace oor::analysis
 // The boundary points of a deck: the points that links join, directly or through others, are one boundary point (a
 // point where three parts and the residual structure meet is one), numbered as the solver numbers them in its GPLS tables and
 // its BOUNDARY SEQUENCE ASSIGNMENT TABLE: the primary superelements by ascending number, then the images (REPEAT,
-// MIRROR, CSUPER) by ascending number, each its points by ascending ID; a boundary point not yet numbered takes the
-// next number from 1. The residual structure never numbers one (its points are numbered through the superelements that
-// join them).
+// MIRROR, SuperelementCopyPoints) by ascending number, each its points by ascending ID; a boundary point not yet
+// numbered takes the next number from 1. The residual structure never numbers one (its points are numbered through the
+// superelements that join them).
 class BoundaryPointNumbering
 {
 public:
-    // `lonePoints`: boundary points that no link joins to anything (the EXTRN points of an external superelement that
-    // nothing connects); they are boundary points of their own.
+    // `lonePoints`: boundary points that no link joins to anything (the SuperelementExternalBoundary points of an
+    // external superelement that nothing connects); they are boundary points of their own.
     BoundaryPointNumbering(const SuperelementCatalogue& catalogue, std::span<const BoundaryLink> links,
                            std::span<const SuperelementPoint> lonePoints = {});
 

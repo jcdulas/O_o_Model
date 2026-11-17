@@ -19,8 +19,8 @@ struct GasBagPermeableLinkFormat
     static void write(const GasBagPermeableLinkCard& card, FieldWriter& writer);
 };
 
-// All the PERMGBG cards: the PID is unique among them (IdSpace::PerCardType, category Porosity). A LEAKAGE names it;
-// the GBID is a GBAG.
+// All the GasBagPermeableLink cards: the PID is unique among them (IdSpace::PerCardType, category Porosity). A
+// GasBagLeakage names it; the GBID is a GasBag.
 class GasBagPermeableLinkTable final : public TypedTable<GasBagPermeableLinkTable, GasBagPermeableLinkCard>
 {
 public:

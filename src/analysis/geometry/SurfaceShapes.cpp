@@ -27,33 +27,32 @@
 #include <optional>
 #include <vector>
 
-// The heat transfer surface elements: CHBDYG (a surface of grid points), CHBDYE (a side of a conduction element) and
-// CHBDYP (a point, a line or a tube of grid points with a PHBDY).
+// The heat transfer surface elements: HeatSurfaceNodes (a surface of grid points), HeatSurfaceSide (a side of a
+// conduction element) and HeatSurfaceProperty (a point, a line or a tube of grid points with a HeatSurfaceProp).
 //
-// What each gives (with the data of its PHBDY):
+// What each gives (with the data of its HeatSurfaceProp):
 //   * an area surface (AREA3, AREA4, AREA6, AREA8, a face of a solid, the top and the bottom of a shell): its area,
-//   centre
-//     (the average of the corners) and unit normal; the mid-side points are not used, as for the shells, and the area
-//     of a quadrilateral is half the cross product of its diagonals. The normal of a CHBDYG follows the right-hand rule
-//     on its points; that of a face of a solid points out of the element (the front face of the format reference); that
-//     of the top of a shell is the shell's own and that of its bottom the opposite one;
-//   * a surface of revolution (CHBDYG REV, REV1): the lateral area of the cone the segment G1-G2 describes about the z
-//     axis (REV, in the x-z plane) or the y axis (REV1, in the x-y plane), pi (r1 + r2) times the slant length; the
-//     normal is (ey x T) for REV (figure 9-28) and, the format reference giving none for REV1, the same rule with the
-//     axis turned from z to y: (T x ez), T being the unit vector from G1 to G2 (outward when the segment runs along the
-//     axis);
-//   * a line (a CHBDYP LINE, ELCYL, FTUBE or TUBE, an edge of a shell, the linear side of a line element): its length
-//   and
-//     centre. The area of a LINE or an ELCYL is the area factor AF of the PHBDY times the length; that
+//     centre (the average of the corners) and unit normal; the mid-side points are not used, as for the shells, and the
+//     area of a quadrilateral is half the cross product of its diagonals. The normal of a HeatSurfaceNodes follows the
+//     right-hand rule on its points; that of a face of a solid points out of the element (the front face of the format
+//     reference); that of the top of a shell is the shell's own and that of its bottom the opposite one;
+//   * a surface of revolution (HeatSurfaceNodes REV, REV1): the lateral area of the cone the segment G1-G2 describes
+//     about the z axis (REV, in the x-z plane) or the y axis (REV1, in the x-y plane), pi (r1 + r2) times the slant
+//     length; the normal is (ey x T) for REV (figure 9-28) and, the format reference giving none for REV1, the same
+//     rule with the axis turned from z to y: (T x ez), T being the unit vector from G1 to G2 (outward when the segment
+//     runs along the axis);
+//   * a line (a HeatSurfaceProperty LINE, ELCYL, FTUBE or TUBE, an edge of a shell, the linear side of a line element):
+//   its length and
+//     centre. The area of a LINE or an ELCYL is the area factor AF of the HeatSurfaceProp times the length; that
 //     of a FTUBE or an outer TUBE is the lateral area of the truncated cone of the diameters D1 and D2, pi (D1 + D2) /
 //     2 times the slant length (the inner side of a TUBE is not told apart: the area is the outer one); the area of an
 //     edge of a shell is its length times the thickness of the shell. The normal of a LINE or an ELCYL lies in the
 //     plane of the line and its orientation vector V (G0 - G1, or E1 E2 E3 in the system CE), perpendicular to the
 //     line: T x (V x T) / |T x (V x T)| (figure 9-32); that of a FTUBE or a TUBE is not defined; that of an edge of a
 //     shell lies in the plane of the shell, away from it;
-//   * a point (a CHBDYP POINT, the end of a line element): the area factor AF of the PHBDY, or the cross-section of the
-//     line element, and the normal (G1 to G0 or the vector E1 E2 E3; the axis of the element, pointing away from it,
-//     for the end of a line element).
+//   * a point (a HeatSurfaceProperty POINT, the end of a line element): the area factor AF of the HeatSurfaceProp, or
+//     the cross-section of the line element, and the normal (G1 to G0 or the vector E1 E2 E3; the axis of the element,
+//     pointing away from it, for the end of a line element).
 // A side of an element this library has no side numbering for (the axisymmetric elements, and the elements the format
 // reference gives none for) gives nothing (NaN).
 
@@ -131,7 +130,8 @@ void setRevolution(const Evaluation& evaluation, const Vec3& first, const Vec3& 
         values.normal = unitOrNan(base::cross(axis, tangent));
 }
 
-// ----- CHBDYG -----------------------------------------------------------------------------------------------------
+// ----- HeatSurfaceNodes
+// -----------------------------------------------------------------------------------------------------
 
 struct HeatSurfaceNodesShape
 {
@@ -158,9 +158,11 @@ struct HeatSurfaceNodesShape
     }
 };
 
-// ----- CHBDYP -----------------------------------------------------------------------------------------------------
+// ----- HeatSurfaceProperty
+// -----------------------------------------------------------------------------------------------------
 
-// The orientation vector of a CHBDYP, from G1: the line to G0 when there is one, else E1 E2 E3 in the system CE.
+// The orientation vector of a HeatSurfaceProperty, from G1: the line to G0 when there is one, else E1 E2 E3 in the
+// system CE.
 Vec3 orientationOf(const Evaluation& evaluation, const model::HeatSurfacePropertyCard& card)
 {
     const Vec3& first = evaluation.points[0];
@@ -189,7 +191,8 @@ struct HeatSurfacePropertyShape
         const model::HeatSurfacePropertyCard card = table.card(evaluation.row);
         const Vec3& first = evaluation.points[0];
         const Vec3& second = evaluation.points[1];
-        // The PHBDY of the surface (a property of its own: its IDs are not those of the structural properties).
+        // The HeatSurfaceProp of the surface (a property of its own: its IDs are not those of the structural
+        // properties).
         std::optional<model::HeatSurfacePropCard> property;
         const model::Model& model = evaluation.context.model();
         if (const auto location = model.locateInType(model::typeIndexOf<model::HeatSurfacePropTable>(), card.propId))
@@ -243,7 +246,8 @@ struct HeatSurfacePropertyShape
     }
 };
 
-// ----- CHBDYE -----------------------------------------------------------------------------------------------------
+// ----- HeatSurfaceSide
+// -----------------------------------------------------------------------------------------------------
 
 enum class SideKind
 {
@@ -276,7 +280,7 @@ struct Underlying
     ElementKind kind = ElementKind::None;
     std::vector<base::EntityId> corners; // the corner node IDs, in the order of the element
     base::EntityId pid = 0;              // a shell's or a line element's property
-    double ownArea = NOT_DEFINED;        // a CONROD's cross-section
+    double ownArea = NOT_DEFINED;        // a Rod2InlineSection's cross-section
 };
 
 using SideTable = std::array<std::array<std::uint8_t, 4>, 6>;

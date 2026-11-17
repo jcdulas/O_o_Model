@@ -83,7 +83,7 @@ void CrackTipProp3DTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void CrackTipProp3DTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // A MAT1 or a MAT9.
+    // An IsoMat or an AnisoMat3D.
     if (const base::EntityId matId = m_matId.get(row); matId > 0)
         m_matId.set(row, visitor.visit("matId", ReferenceTarget::Material, matId));
 }

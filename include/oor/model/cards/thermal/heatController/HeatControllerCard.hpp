@@ -9,8 +9,8 @@
 namespace oor::model
 {
 
-// The SFORM field of a CONTRLT: what the sensor measures. The format reference allows the temperature only, T (the
-// default).
+// The SFORM field of a HeatController: what the sensor measures. The format reference allows the temperature only, T
+// (the default).
 enum class SensorForm : std::uint8_t
 {
     Temperature
@@ -18,8 +18,8 @@ enum class SensorForm : std::uint8_t
 
 inline constexpr std::array<std::string_view, 1> HEAT_CONTROLLER_SENSOR_FORM_WORDS{"Temperature"};
 
-// The CTYPE field of a CONTRLT: the kind of controller. The format reference allows the thermostat only, TSTAT (the
-// default).
+// The CTYPE field of a HeatController: the kind of controller. The format reference allows the thermostat only, TSTAT
+// (the default).
 enum class ControlType : std::uint8_t
 {
     Thermostat
@@ -27,17 +27,17 @@ enum class ControlType : std::uint8_t
 
 inline constexpr std::array<std::string_view, 1> HEAT_CONTROLLER_TYPE_WORDS{"Thermostat"};
 
-// The PTYPE numbers of a CONTRLT, 1 to 11: 1 to 6 are the thermostat curves (heating, cooling and the other
+// The PTYPE numbers of a HeatController, 1 to 11: 1 to 6 are the thermostat curves (heating, cooling and the other
 // on/off patterns of the dead band between PL and PH), 7 is bang-bang, 8 proportional, 9 steady state, 10 and 11 the
 // two forms of a PID controller.
 inline constexpr std::int32_t HEAT_CONTROLLER_MIN_CONTROL_LAW = 1;
 inline constexpr std::int32_t HEAT_CONTROLLER_MAX_CONTROL_LAW = 11;
 
-// One CONTRLT card: the controller that the CNTRLND field of a QVECT, QVOL, QBDY3, RADBC, CONV or CONVM names in a heat
-// transfer analysis.
+// One HeatController card: the controller that the CNTRLND field of a HeatFluxVectorLoad, HeatVolumeSourceLoad,
+// HeatFluxBoundaryLoad3, RadiationToSpace, FreeConvection or ForcedConvection names in a heat transfer analysis.
 //
-// Card layout: CONTRLT  ID  SENSOR  SFORM  CTYPE  PL  PH  PTYPE  PZERO          fields 1 to 8
-//                      DT  DELAY  TAUC                                          fields 9 to 11
+// Card layout: HeatController  ID  SENSOR  SFORM  CTYPE  PL  PH  PTYPE  PZERO   fields 1 to 8
+//                             DT  DELAY  TAUC                                   fields 9 to 11
 // The ID is the controller node: a heat card names it with CNTRLND, which is a plain number there (a grid or scalar
 // point of the same number combines its logic with the controller, so the number is not an ID the model can look up).
 // SENSOR is the grid point or scalar point that measures the temperature. PL and PH are required: the limits of the
@@ -48,7 +48,7 @@ inline constexpr std::int32_t HEAT_CONTROLLER_MAX_CONTROL_LAW = 11;
 // negative time.
 struct HeatControllerCard
 {
-    base::EntityId id = 0;         // unique among the CONTRLT cards
+    base::EntityId id = 0;         // unique among the HeatController cards
     base::EntityId sensorNode = 0; // a grid point or a scalar point
     SensorForm sensorForm = SensorForm::Temperature;
     ControlType controllerKind = ControlType::Thermostat;

@@ -65,7 +65,7 @@ void ImperfectionCaseTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void ImperfectionCaseTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID of an IMPGEOM is a number of the category ImperfectionGeometry; a range names its two ends.
+    // The ID of an ImperfectionGeometry is a number of the category ImperfectionGeometry; a range names its two ends.
     visitIdRuns(m_runs, row, visitor, "imperfectionIds", ReferenceTarget::ImperfectionGeometry,
                 ReferenceTarget::ImperfectionGeometry);
 }

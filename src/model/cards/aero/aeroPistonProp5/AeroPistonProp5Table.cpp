@@ -65,7 +65,7 @@ std::optional<CardProblem> AeroPistonProp5Format::check(const AeroPistonProp5Car
         if (const auto problem = checkReal(value, "controlChordRatios", RealRule::NonNegative))
             return problem;
     }
-    // A control surface needs the hinge position, which the AEFACT of the chord coordinates gives.
+    // A control surface needs the hinge position, which the AeroFactorList of the chord coordinates gives.
     const bool hasControlSurface = std::any_of(card.controlChordRatios.begin(), card.controlChordRatios.end(),
                                                [](double value) { return value != 0.0; });
     if (hasControlSurface && card.chordCoordListId == 0)

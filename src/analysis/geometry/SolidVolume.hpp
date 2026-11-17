@@ -13,8 +13,8 @@
 namespace oor::analysis::detail
 {
 
-// Four corners and up to six mid-side nodes, in the order of the CTETRA card: G1..G4, then G5 (G1-G2), G6 (G2-G3), G7
-// (G3-G1), G8 (G1-G4), G9 (G2-G4), G10 (G3-G4). `points` has 4 or 10 entries.
+// Four corners and up to six mid-side nodes, in the order of the SolidTetra card: G1..G4, then G5 (G1-G2), G6 (G2-G3),
+// G7 (G3-G1), G8 (G1-G4), G9 (G2-G4), G10 (G3-G4). `points` has 4 or 10 entries.
 [[nodiscard]] double tetrahedronVolume(std::span<const base::Vec3> points);
 
 // Six corners (G1..G3 one triangle, G4..G6 the other, G4 above G1) and up to nine mid-side nodes: G7 (G1-G2), G8

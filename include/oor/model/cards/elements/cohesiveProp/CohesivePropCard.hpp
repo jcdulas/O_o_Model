@@ -9,7 +9,7 @@
 namespace oor::model
 {
 
-// Where the stress and strain of a cohesive element are given (the OUTPUT field of a PCOHE). The enumerators are
+// Where the stress and strain of a cohesive element are given (the OUTPUT field of a CohesiveProp). The enumerators are
 // numbered in the order of COHESIVE_PROP_OUTPUT_WORDS.
 enum class CohesivePropOutput : std::uint8_t
 {
@@ -24,20 +24,20 @@ inline constexpr std::int32_t COHESIVE_PROP_INTEGRATION_GAUSS = 0;
 // Newton-Cotes / Lobatto, for very stiff interfaces.
 inline constexpr std::int32_t COHESIVE_PROP_INTEGRATION_LOBATTO = 1;
 
-// One PCOHE card (SOL 400): the property of the interface cohesive zone elements (CIFQUAD, CIFHEX, CIFPENT and
-// CIFQDX), which simulate the onset and growth of a delamination.
+// One CohesiveProp card (SOL 400): the property of the interface cohesive zone elements (CohesiveQuad, CohesiveHexa,
+// CohesivePenta and CohesiveAxisymQuad), which simulate the onset and growth of a delamination.
 //
-// Card layout: PCOHE  PID  MID  INT  T  OUTPUT  SECANT      fields 1 to 6
+// Card layout: CohesiveProp  PID  MID  INT  T  OUTPUT  SECANT  fields 1 to 6
 // PID is a property ID, in the space of all the properties (the format reference asks for an ID that no other property
-// has, and one PCOHE per ID). MID names an MCOHE, the cohesive law, which is a material. INT is 0 (Gauss integration,
-// when blank) or 1 (Newton-Cotes / Lobatto). T is the thickness, greater than zero and 1.0 when blank; it applies to
-// the CIFQUAD only. OUTPUT is GRID (when blank) or GAUSS; the format reference says that INT = 1 sets OUTPUT
-// to GRID, which the solver does: the card keeps the word it was given, as the other cards keep a value the solver
-// overrides. SECANT is 0 (a secant stiffness matrix, when blank) or 1 (a tangent one).
+// has, and one CohesiveProp per ID). MID names a CohesiveMat, the cohesive law, which is a material. INT is 0 (Gauss
+// integration, when blank) or 1 (Newton-Cotes / Lobatto). T is the thickness, greater than zero and 1.0 when blank; it
+// applies to the CohesiveQuad only. OUTPUT is GRID (when blank) or GAUSS; the format reference says that INT = 1 sets
+// OUTPUT to GRID, which the solver does: the card keeps the word it was given, as the other cards keep a value the
+// solver overrides. SECANT is 0 (a secant stiffness matrix, when blank) or 1 (a tangent one).
 struct CohesivePropCard
 {
     base::EntityId id = 0;
-    base::EntityId matId = 0;                                   // an MCOHE
+    base::EntityId matId = 0;                                   // a CohesiveMat
     std::int32_t integration = COHESIVE_PROP_INTEGRATION_GAUSS; // INT: 0 or 1
     double thickness = 1.0;                                     // T, greater than zero
     CohesivePropOutput output = CohesivePropOutput::Grid;       // OUTPUT

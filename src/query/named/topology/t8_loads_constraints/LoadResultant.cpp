@@ -65,8 +65,8 @@ void faceOf(const NodePositions& positions, const std::array<base::EntityId, 4>&
 // flat face under a bilinear pressure; the triangle the rule of its three mid-sides, exact for its linear pressure. The
 // force and the moment are those of the equivalent grid point loads: the resultant of a uniform pressure on a flat
 // quadrilateral acts at the centroid of its area, not at the mean of its corners (a trapezoid differs). With `along` (a
-// unit vector: the direction CID, N1 to N3 of a PLOAD4) the pressure acts along it instead of the normal, the force at
-// each point the pressure times the area there. With `plane` (the unit normal of the mean plane of a warped
+// unit vector: the direction CID, N1 to N3 of a FacePressureLoad) the pressure acts along it instead of the normal, the
+// force at each point the pressure times the area there. With `plane` (the unit normal of the mean plane of a warped
 // four-noded quadrilateral shell, warpedMeanPlane) the area of each point is that of its projection on the plane and
 // the pressure acts along the plane's normal (or `along`): this library's rule (the solver's unverified; a companion
 // package's D-039 applies the same), the same total force.
@@ -220,7 +220,7 @@ public:
                     base::EntityId node1 = 0;
                     base::EntityId node3Or4 = 0;
                     std::int32_t directionSystem = 0;
-                    std::optional<base::Vec3> direction; // CID, N1 to N3 of a PLOAD4, as given
+                    std::optional<base::Vec3> direction; // CID, N1 to N3 of a FacePressureLoad, as given
                     if (type == model::typeIndexOf<model::ShellPressureLoadTable>())
                     {
                         pressure = static_cast<const model::ShellPressureLoadTable&>(*model.findTable(type))
@@ -284,15 +284,16 @@ public:
                                     if (placed)
                                         corners[corner] = positions.position(slots[corner]);
                                 }
-                                // a warped four-noded quadrilateral (not a CQUAD8, whose surface is its own): its
+                                // a warped four-noded quadrilateral (not a ShellQuad8, whose surface is its own): its
                                 // mean plane
                                 const std::optional<base::Vec3> plane = placed && cornerCount == 4 && slots.size() == 4
                                                                             ? warpedMeanPlane(corners)
                                                                             : std::nullopt;
                                 if (placed)
                                 {
-                                    // a PLOAD4 on a triangle gives P1 to P3 (P4 is not used); a PLOAD4 that gives P1
-                                    // alone has P2 to P4 equal to it (the card's defaults)
+                                    // a FacePressureLoad on a triangle gives P1 to P3 (P4 is not used); a
+                                    // FacePressureLoad that gives P1 alone has P2 to P4 equal to it (the card's
+                                    // defaults)
                                     if (direction)
                                     {
                                         const base::Vec3 along = directionAt(corners, cornerCount);

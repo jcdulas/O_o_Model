@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One CQUAD card: a fully nonlinear plane strain quadrilateral element (PLPLANE or PLCOMP property) with four corners,
-// up to four edge points and an optional centre point.
+// One PlaneStrainQuad card: a fully nonlinear plane strain quadrilateral element (PlanePropNonlinear or PlaneCompProp
+// property) with four corners, up to four edge points and an optional centre point.
 //
 // Card layout:
-//   CQUAD  EID  PID  G1  G2  G3  G4  G5  G6
-//           G7   G8   G9  THETA or MCID
+//   PlaneStrainQuad  EID  PID  G1  G2  G3  G4  G5  G6
+//                     G7   G8  G9  THETA or MCID
 //
 // G1 to G4 are the corners, G5 to G8 the optional points on the edges and G9 the optional centre point: `nodes` always
 // has room for all nine, and a point that is blank on the card is 0.

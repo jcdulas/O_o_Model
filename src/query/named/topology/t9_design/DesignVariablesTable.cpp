@@ -9,7 +9,7 @@ namespace oor::query
 namespace
 {
 
-// designVariablesTable: the DESVAR cards.
+// designVariablesTable: the DesignVar cards.
 class DesignVariablesTableQuery final : public QueryBase
 {
 public:

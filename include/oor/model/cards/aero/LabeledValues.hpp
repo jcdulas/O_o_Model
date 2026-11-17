@@ -9,11 +9,11 @@
 #include <string>
 #include <vector>
 
-// A list of (label, real) pairs in consecutive fields: the linked variables and their coefficients of an AELINK, the
-// control parameters and their magnitudes of a UXVEC. One kind of value shared by two cards of the family; each card
-// says where its first pair is and what its labels name. A label is the LABEL of an AESURF, AESTAT or AEPARM: one to
-// eight characters that read back from every format (`checkNameWord`), kept as written and compared without regard to
-// the case by whoever looks it up.
+// A list of (label, real) pairs in consecutive fields: the linked variables and their coefficients of an AeroTrimLink,
+// the control parameters and their magnitudes of an AeroControlVector. One kind of value shared by two cards of the
+// family; each card says where its first pair is and what its labels name. A label is the LABEL of an
+// AeroControlSurface, AeroRigidTrimVariable or AeroController: one to eight characters that read back from every format
+// (`checkNameWord`), kept as written and compared without regard to the case by whoever looks it up.
 namespace oor::model
 {
 

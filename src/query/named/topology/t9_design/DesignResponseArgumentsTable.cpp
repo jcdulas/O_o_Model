@@ -41,7 +41,7 @@ void forEachCard(const model::Model& model, Body&& body)
     }
 }
 
-// The ATTi of a DRESP1, as the deck writes them: an integer is an `id`, a real a `value`, a word (THRU, ALL, a
+// The ATTi of a DesignResp1, as the deck writes them: an integer is an `id`, a real a `value`, a word (THRU, ALL, a
 // function name) a `label`; a blank inside the list is a row with nothing.
 void addAttributes(std::vector<ArgumentRow>& rows, const model::DesignResp1Card& card)
 {
@@ -65,8 +65,8 @@ void addAttributes(std::vector<ArgumentRow>& rows, const model::DesignResp1Card&
     }
 }
 
-// The arguments of a DRESP2 or a DRESP3 in the order of the groups, which is the order of the argument list of the
-// equation: one row per design variable, constant, response, relation, and (grid
+// The arguments of a DesignResp2 or a DesignResp3 in the order of the groups, which is the order of the argument list
+// of the equation: one row per design variable, constant, response, relation, and (grid
 // point, component) pair of DNODE. The text of USRDATA is no argument.
 void addGroups(std::vector<ArgumentRow>& rows, std::int32_t response, const std::vector<model::DesignGroup>& groups)
 {
@@ -106,7 +106,7 @@ void addGroups(std::vector<ArgumentRow>& rows, std::int32_t response, const std:
     }
 }
 
-// designResponseArgumentsTable: the ATTi of each DRESP1 and the arguments of each DRESP2 and DRESP3.
+// designResponseArgumentsTable: the ATTi of each DesignResp1 and the arguments of each DesignResp2 and DesignResp3.
 class DesignResponseArgumentsTableQuery final : public QueryBase
 {
 public:

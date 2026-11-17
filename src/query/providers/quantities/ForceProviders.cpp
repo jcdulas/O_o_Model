@@ -279,7 +279,7 @@ private:
         const bool complex = values.isComplex();
         const std::size_t shearField = m_fastener ? fieldIndex("shear") : fields.size();
         // PERFORMANCE: the rows are many (a bar has two, every subcase a table): the columns are reserved, the values
-        // of a row go through two buffers made once (a companion package, 2026-10-13: readBlock of 2505 CBAR over 2000
+        // of a row go through two buffers made once (a companion package, 2026-10-13: readBlock of 2505 Bar2 over 2000
         // subcases spent most of its time allocating them)
         const int endCount = shape == ForceShape::Bar2 ? 2 : 1;
         const std::size_t expected = values.steps() * values.rows() * static_cast<std::size_t>(endCount);

@@ -19,8 +19,8 @@ enum class AcousticInfiniteParamsKind : std::uint8_t
     Real
 };
 
-// One parameter of ACIFPRM: its name, the kind of value, the default the solver
-// uses when no ACIFPRM gives it and what the value must be (a phrase for the messages).
+// One parameter of AcousticInfiniteParams: its name, the kind of value, the default the solver
+// uses when no AcousticInfiniteParams gives it and what the value must be (a phrase for the messages).
 struct AcousticInfiniteParamsInfo
 {
     std::string_view name; // the neutral name (FieldPointInsideTolerance for TOLER)
@@ -30,7 +30,7 @@ struct AcousticInfiniteParamsInfo
     std::string_view note;
 };
 
-// The two parameters of ACIFPRM, typed by hand.
+// The two parameters of AcousticInfiniteParams, typed by hand.
 inline constexpr std::array<AcousticInfiniteParamsInfo, 2> ACOUSTIC_INFINITE_PARAMS_CATALOGUE{{
     {"FieldPointInsideTolerance", AcousticInfiniteParamsKind::Real, 0.001, "a real greater than 0",
      "the geometric tolerance that tells whether a field point is inside an infinite element"},

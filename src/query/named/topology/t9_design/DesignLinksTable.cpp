@@ -10,7 +10,7 @@ namespace oor::query
 namespace
 {
 
-// designLinksTable: the DLINK cards, one row for each independent variable of each.
+// designLinksTable: the DesignVarLink cards, one row for each independent variable of each.
 class DesignLinksTableQuery final : public QueryBase
 {
 public:

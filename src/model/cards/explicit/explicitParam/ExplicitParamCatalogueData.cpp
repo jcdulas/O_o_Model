@@ -245,15 +245,15 @@ std::string_view wordChoice(std::initializer_list<std::string_view> words)
 
 } // namespace
 
-// The 80 entries of DYPARAM, in the order of the format: 78 names with one heading each, and the two headings of
-// DYPARAM,SMP (the batch size and the CPU information of the shared-memory parallel solver), which are the two forms of
-// one name. CONTACT is one heading with eleven options, each a form of its own.
+// The 80 entries of ExplicitParam, in the order of the format: 78 names with one heading each, and the two headings of
+// ExplicitParam,SMP (the batch size and the CPU information of the shared-memory parallel solver), which are the two
+// forms of one name. CONTACT is one heading with eleven options, each a form of its own.
 //
 // Conventions of the catalogue:
 // - A value is "required" only where the format requires it. A value with a default in the format has it; a value
 //   with neither may be blank, and a blank then stands for nothing the format states.
-// - Where the default is a rule instead of a number (a fraction of a PARAM, the choice of the solver, a condition on
-//   other settings), the slot has a computed default: the library does not evaluate it.
+// - Where the default is a rule instead of a number (a fraction of a Parameter, the choice of the solver, a condition
+//   on other settings), the slot has a computed default: the library does not evaluate it.
 // - AMBIGUOUS comments mark the entries where the format is not consistent or does not say what the field holds.
 const std::vector<ExplicitParamEntry>& explicitParamCatalogueEntries()
 {
@@ -307,7 +307,7 @@ const std::vector<ExplicitParamEntry>& explicitParamCatalogueEntries()
 
                 simpleEntry("FullRigidCoupling", {wordSlot("fullCoupling", YES_NO, wordDefault("Yes"))}),
 
-                // The value is smaller than the PARAM FBLEND (0.66 unless given) and defaults to a third of it.
+                // The value is smaller than the PARAM FrfBlending (0.66 unless given) and defaults to a third of it.
                 // That is a rule between two parameters: it is not checked here.
                 simpleEntry("ClumpFlowLimit", {realSlot("flowLimit", positive(), computedDefault())}),
                 simpleEntry("ClumpEnergy", {wordSlot("energyRule", "Average|Sum", wordDefault("Average"))}),
@@ -315,8 +315,8 @@ const std::vector<ExplicitParamEntry>& explicitParamCatalogueEntries()
 
                 // Defaults of the contact definitions: an option and its values. Every option is a form. VERSION,
                 // THICK, GAP,
-                // DAMPING, DAMPFOR and EVIEW read their first value only; the option of the external explicit program
-                // has no
+                // HybridDampingRotorOptions, DAMPFOR and EVIEW read their first value only; the option of the external
+                // explicit program has no
                 // value (the format marks it a required word but has no word for it, only the THICK and THICKOF it
                 // implies).
                 // AMBIGUOUS, FORCE: the format is not consistent on the default of NMCYC (10 or 100) and on the kind of
@@ -362,7 +362,7 @@ const std::vector<ExplicitParamEntry>& explicitParamCatalogueEntries()
                                           realSlot("scaleFactor", positive(), realDefault(10.0)),
                                           wordSlot("forceKind", "Zero|MaxForceFactor", wordDefault("Zero"))})}),
 
-                // The number of a TABLED1.
+                // The number of a TableDynamic1.
                 simpleEntry("CouplingSubcycleMaxTime", {tableSlot("maxTimeTable", required())}),
                 // The second word is NO-METAL, eight characters with the dash.
                 simpleEntry("CouplingFriction", {wordSlot("frictionKind", "Metal|NonMetal", wordDefault("Metal"))}),
@@ -505,7 +505,8 @@ const std::vector<ExplicitParamEntry>& explicitParamCatalogueEntries()
                 simpleEntry("MeshPlane", {integerSlot("plane", positive(), integerDefault(3))}),
                 // The default is a tenth of INISTEP.
                 simpleEntry("MinStepSize", {realSlot("stepSize", positive(), computedDefault())}),
-                // The default is NO, and YES when the model has an INFLHB or an INFLGAS (a rule of the model).
+                // The default is NO, and YES when the model has a HybridInflator or an InflatorGas (a rule of the
+                // model).
                 simpleEntry("GasMixing", {wordSlot("mixingOn", YES_NO, wordDefault("No"))}),
                 simpleEntry("ZeroNodeVelocity", {wordSlot("zeroOn", YES_NO, wordDefault("No"))}),
                 // AMBIGUOUS: the default is given as a rule, not a number: the old scheme is off unless asked for, so
@@ -543,8 +544,8 @@ const std::vector<ExplicitParamEntry>& explicitParamCatalogueEntries()
                 simpleEntry("SelectedElems", {wordSlot("selectionOn", YES_NO, wordDefault("Yes"))}),
 
                 // Shared-memory parallel solver, two headings of one name:
-                // DYPARAM,SMP,<entity>,BATCHSIZ,<value1>,CPULOOPS,<value2> and DYPARAM,SMP,<entity>,CPUINFO,<value1>.
-                // The batch
+                // ExplicitParam,SMP,<entity>,BATCHSIZ,<value1>,CPULOOPS,<value2> and
+                // ExplicitParam,SMP,<entity>,CPUINFO,<value1>. The batch
                 // size is a number or AUTOMAT (also spelled AUTOMATIC, which is too long for a
                 // field). CPULOOPS and VALUE2 come together. AMBIGUOUS, CPUINFO: VALUE1 is marked
                 // required and OFF is its default; blank is taken as OFF.

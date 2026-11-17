@@ -19,7 +19,7 @@ struct PolynomialShearModelFormat
     static void write(const PolynomialShearModelCard& card, FieldWriter& writer);
 };
 
-// All the SHRPOL cards. The ID is the number of a shear model, unique among the cards of its category
+// All the PolynomialShearModel cards. The ID is the number of a shear model, unique among the cards of its category
 // (IdSpace::PerCardType: the other SHRxxx cards share the category, and a check reports an ID two of them have). The
 // cards are kept whole (CardRows) next to their ID: they are few, and the query engine reads the ID.
 class PolynomialShearModelTable final : public TypedTable<PolynomialShearModelTable, PolynomialShearModelCard>
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a SHRPOL refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a PolynomialShearModel refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

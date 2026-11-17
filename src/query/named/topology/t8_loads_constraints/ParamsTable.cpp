@@ -29,7 +29,7 @@ struct ParameterRow
     bool isDefault = false;
 };
 
-// A PARAM card (or a catalogue default given as a card) as a row.
+// A Parameter card (or a catalogue default given as a card) as a row.
 ParameterRow rowOfCard(const model::ParameterCard& card, std::optional<std::int64_t> subcase, bool isDefault)
 {
     ParameterRow row;
@@ -62,7 +62,7 @@ ParameterRow rowOfCard(const model::ParameterCard& card, std::optional<std::int6
     return row;
 }
 
-// A PARAM of the Case Control (PARAM,NAME,value in a subcase) as a row: ControlRecords gives an integer, a real, a
+// A Parameter of the Case Control (PARAM,NAME,value in a subcase) as a row: ControlRecords gives an integer, a real, a
 // word, two reals (a complex value) or the rest of the statement as text.
 ParameterRow rowOfStatement(const model::CaseEntry& entry, std::int64_t subcase)
 {
@@ -109,7 +109,7 @@ void addStatements(const model::Subcase& section, std::int64_t subcase, std::map
         addStatements(child, subcase, rows);
 }
 
-// paramsTable: every PARAM of the Bulk Data and of the Case Control, typed.
+// paramsTable: every Parameter of the Bulk Data and of the Case Control, typed.
 class ParamsTableQuery final : public QueryBase
 {
 public:
@@ -119,7 +119,7 @@ public:
     {
         const model::Model& model = *run.model;
         std::set<std::string> onlyNames;
-        // A name of the argument is a neutral name, or a PARAM name of the deck (the keyword of the model's
+        // A name of the argument is a neutral name, or a Parameter name of the deck (the keyword of the model's
         // dictionary).
         for (const std::string& name : run.arguments.texts("names"))
             onlyNames.insert(std::string(name));

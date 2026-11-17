@@ -19,8 +19,8 @@ struct SuperelementCopySequenceFormat
     static void write(const SuperelementCopySequenceCard& card, FieldWriter& writer);
 };
 
-// All the SEQSEP cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a column
-// of their SSIDs.
+// All the SuperelementCopySequence cards, category Superelement, no ID of their own (IdSpace::None). They are kept
+// whole next to a column of their SSIDs.
 class SuperelementCopySequenceTable final
     : public TypedTable<SuperelementCopySequenceTable, SuperelementCopySequenceCard>
 {

@@ -14,12 +14,13 @@
 namespace oor::model
 {
 
-// The ADVANCE line of a BCBODY: the advanced options of the later versions of the format.
+// The ADVANCE line of a ContactBody: the advanced options of the later versions of the format.
 struct ContactBodyAdvance
 {
     double smoothingAngle =
         60.0; // the angle (degrees) above which the smoothing detects a discontinuity (SOL 400, spline option)
-    std::int32_t contactOption = 0; // how the surfaces of the body may contact (packed number, as COPTS of a BCTABLE)
+    // how the surfaces of the body may contact (packed number, as COPTS of a ContactTable)
+    std::int32_t contactOption = 0;
     std::int32_t midsideProjection = 0; // > 0: the mid-side grid points are projected onto the splines
 
     [[nodiscard]] bool operator==(const ContactBodyAdvance&) const noexcept = default;
@@ -58,11 +59,12 @@ struct ContactBodyNurbs
     [[nodiscard]] bool operator==(const ContactBodyNurbs&) const = default;
 };
 
-// One BCBODY card: a flexible or rigid contact body in 2D or 3D (SOLs 101, 400 and 700; the BCBODY1 is the preferred
-// form of SOL 400). A deformable body names the surface it is made of in BSID and has no more than the first line; a
-// rigid one is described by the continuation lines. A BCTABLE, BCHANGE or BCMOVE names the body by its BID.
+// One ContactBody card: a flexible or rigid contact body in 2D or 3D (SOLs 101, 400 and 700; the ContactBody1 is the
+// preferred form of SOL 400). A deformable body names the surface it is made of in BSID and has no more than the first
+// line; a rigid one is described by the continuation lines. A ContactTable, ContactBodyChange or ContactBodyMove names
+// the body by its BID.
 //
-// Card layout: BCBODY  BID  DIM  BEHAV  BSID  ISTYP  FRIC  IDSPL  CONTROL
+// Card layout: ContactBody  BID  DIM  BEHAV  BSID  ISTYP  FRIC  IDSPL  CONTROL
 //             (continuation)  NLOAD  ANGVEL  DCOS1  DCOS2  DCOS3  VELRB1  VELRB2  VELRB3
 //             "ADVANCE"  SANGLE  COPTB  (blank)  MIDNOD
 //             "RIGID"  CGID  NENT  (rigid body name over three fields)
@@ -76,16 +78,21 @@ struct ContactBodyNurbs
 // surface (RIGID may go with any of them, once). The SOL 700 form has BID, DIM, BEHAV and BSID only.
 struct ContactBodyCard
 {
-    base::EntityId id = 0;                      // BID: unique among BCBODY, BCBODY1, BCSURF and BCGRID
+    // BID: unique among ContactBody, ContactBody1, ContactFaceRegion and ContactNodeRegion
+    base::EntityId id = 0;
     std::string dimension = "ThreeDimensional"; // 2D or 3D
     std::string behavior = "Deformable";        // DEFORM, RIGID, SYMM (a symmetry body) or HEAT (a heat-rigid body)
     base::EntityId surfaceId =
-        0; // a BSURF or BCPROP (deformable body); for SOL 700 also a BCBOX, BCMATL, BCSEG, BCGRID or BCELIPS
+        // a ContactElemSurface or ContactPropertyRegion (deformable body); for SOL 700 also a ContactBoxRegion,
+        // ContactMaterialRegion, ContactSegment, ContactNodeRegion or ContactEllipsoidList
+        0;
     std::int32_t contactKind =
         0;                 // 0 each body against the other, 2 double-sided contact with optimisation of the constraints
     ContactValue friction; // the friction coefficient, or the ID of a table of it; blank: 0.0
     std::int32_t splineSegmentsId =
-        0; // > 0: smoothing of the surface by splines, the BLSEG of the discontinuities (< 0: and automatic edges)
+        // > 0: smoothing of the surface by splines, the SlidelineSegments of the discontinuities (< 0: and automatic
+        // edges)
+        0;
     std::int32_t control = 0; // -1 position control, 0 velocity control, a grid point number for load control
 
     ContactMotion motion;                              // the line of the loads and velocities

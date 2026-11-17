@@ -5,7 +5,7 @@
 // The explicit solver family (SOL 700): what the cards of the Euler domain, the coupling, the airbags and the material
 // models say that the reference checks do not: IDs that two kinds of card of one category share (the format reference
 // wants the number of an equation of state unique among all the EOSxxx cards), a card that names the wrong kind of
-// card, a MESH that the cards around it contradict. One class per check, as in the other families.
+// card, an EulerMeshGenerator that the cards around it contradict. One class per check, as in the other families.
 
 namespace oor::analysis
 {
@@ -19,20 +19,20 @@ void addYieldModelIdRepeatedCheck(CheckRegistry& registry);
 // A FAILxxx card with the FID of a failure model of another card.
 void addFailureModelIdRepeatedCheck(CheckRegistry& registry);
 
-// The PID of a MESH names a property that is not a PEULER or a PEULER1.
+// The PID of an EulerMeshGenerator names a property that is not an EulerProp or an EulerRegionProp.
 void addEulerMeshPropertyKindCheck(CheckRegistry& registry);
-// A MESH of TYPE ADAPT that no COUPLE names in its MESHID.
+// An EulerMeshGenerator of TYPE ADAPT that no EulerLagrangeCoupling names in its MESHID.
 void addEulerMeshAdaptWithoutCouplingCheck(CheckRegistry& registry);
-// The MID of a PEULER names a material that is not a MATDEUL.
+// The MID of an EulerProp names a material that is not an EulerMat.
 void addEulerMaterialKindCheck(CheckRegistry& registry);
-// The PORTYPE of a LEAKAGE does not name the kind of the porosity card its PORTYPID finds.
+// The PORTYPE of a GasBagLeakage does not name the kind of the porosity card its PORTYPID finds.
 void addGasBagLeakagePorosityTypeCheck(CheckRegistry& registry);
-// The INFTYPE of an ABINFL does not name the kind of the inflator card its INFTYPID finds.
+// The INFTYPE of an InflatorInlet does not name the kind of the inflator card its INFTYPID finds.
 void addInflatorTypeCheck(CheckRegistry& registry);
-// A FLOWC whose FID2 is not the FID of a FLOWC that names it back.
+// An EulerCyclicFlowBoundary whose FID2 is not the FID of an EulerCyclicFlowBoundary that names it back.
 void addEulerCyclicFlowBoundaryPairCheck(CheckRegistry& registry);
 
-// A DYPARAM setting given twice with different values.
+// An ExplicitParam setting given twice with different values.
 void addExplicitParamRepeatedCheck(CheckRegistry& registry);
 void addGasBagSwitchSurfaceCheck(CheckRegistry& registry);
 void addGasBagHeatTransferTypeCheck(CheckRegistry& registry);

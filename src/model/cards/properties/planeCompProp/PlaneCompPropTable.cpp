@@ -147,7 +147,7 @@ void PlaneCompPropTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void PlaneCompPropTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The material of a ply may be a MAT4 or MAT5 for a heat ply: the Material target falls back to them.
+    // The material of a ply may be a HeatIsoMat or HeatAnisoMat for a heat ply: the Material target falls back to them.
     for (PlaneCompPropPly& ply : m_cards.edit(row).plies)
         ply.matId = visitor.visit("matId1", ReferenceTarget::Material, ply.matId);
 }

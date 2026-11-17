@@ -43,14 +43,14 @@ inline constexpr std::array<std::string_view, 3> FLUTTER_INTERPOLATION_WORDS{"Li
     return method == AeroFlutterMethod::Pks || method == AeroFlutterMethod::Pknls;
 }
 
-// One FLUTTER card: the data of a flutter analysis, selected by the Case Control command FMETHOD = SID.
+// One AeroFlutter card: the data of a flutter analysis, selected by the Case Control command FMETHOD = SID.
 //
-// Card layout: FLUTTER  SID  METHOD  DENS  MACH  RFREQ  IMETH  NVALUE/OMAX  EPS
-// DENS, MACH and RFREQ are the IDs of the FLFACT cards that list the density ratios, the Mach numbers and the reduced
-// frequencies. For the PK methods the third list holds velocities, and the format reference calls the field VEL; the
-// field keeps the name RFREQ. The densities are RHOREF of the AERO card times the factor, and all combinations of the
-// three lists are run except for PKNL and PKNLS, which pair the i-th numbers of the three lists (the lists
-// must then have the same length, a rule between cards).
+// Card layout: AeroFlutter  SID  METHOD  DENS  MACH  RFREQ  IMETH  NVALUE/OMAX  EPS
+// DENS, MACH and RFREQ are the IDs of the AeroFlutterFactors cards that list the density ratios, the Mach numbers and
+// the reduced frequencies. For the PK methods the third list holds velocities, and the format reference calls the field
+// VEL; the field keeps the name RFREQ. The densities are RHOREF of the AeroUnsteadyParams card times the factor, and
+// all combinations of the three lists are run except for PKNL and PKNLS, which pair the i-th numbers of the three lists
+// (the lists must then have the same length, a rule between cards).
 //
 // METHOD has no default and is required. IMETH is L when blank. Field 7 holds an integer or a real by METHOD: NVALUE
 // for K, KE, PK and PKNL, OMAX for the sweeps PKS and PKNLS. Both are positive when given and their blank has the

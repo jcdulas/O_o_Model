@@ -10,10 +10,10 @@ namespace oor::analysis
 namespace
 {
 
-// A loop in the superelement tree: a superelement that is upstream of itself through the SETREE cards (3 is upstream of
-// 4 and 4 of 3). The tree gives the order of the reduction, which a loop leaves without a first superelement. A
-// superelement that two entries put upstream is reported by superelement.tree-upstream-twice: the first of its entries
-// is the one followed here.
+// A loop in the superelement tree: a superelement that is upstream of itself through the SuperelementTree cards (3 is
+// upstream of 4 and 4 of 3). The tree gives the order of the reduction, which a loop leaves without a first
+// superelement. A superelement that two entries put upstream is reported by superelement.tree-upstream-twice: the first
+// of its entries is the one followed here.
 class TreeCycleCheck final : public ValidationCheck
 {
 public:

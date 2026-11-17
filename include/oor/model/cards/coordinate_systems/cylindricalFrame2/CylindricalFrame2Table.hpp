@@ -19,7 +19,8 @@ struct CylindricalFrame2Format
     static void write(const CylindricalFrame2Card& card, FieldWriter& writer);
 };
 
-// All the CORD2C systems. The three points are one column of (x, y, z) triples each: (N, 3) NumPy views without copy.
+// All the CylindricalFrame2 systems. The three points are one column of (x, y, z) triples each: (N, 3) NumPy views
+// without copy.
 class CylindricalFrame2Table final : public TypedTable<CylindricalFrame2Table, CylindricalFrame2Card>
 {
 public:

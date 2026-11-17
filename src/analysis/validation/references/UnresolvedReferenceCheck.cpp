@@ -8,8 +8,9 @@ namespace
 {
 
 // Every reference field of a card that points at a card that does not exist. This is the one check that reports a
-// missing target, whatever the card: a FORCE on a grid point that is not there, an element with a missing property, a
-// grid point in an undefined coordinate system. The checks of the other families assume the references resolve.
+// missing target, whatever the card: a PointForceLoad on a grid point that is not there, an element with a missing
+// property, a grid point in an undefined coordinate system. The checks of the other families assume the references
+// resolve.
 class UnresolvedReferenceCheck final : public ValidationCheck
 {
 public:

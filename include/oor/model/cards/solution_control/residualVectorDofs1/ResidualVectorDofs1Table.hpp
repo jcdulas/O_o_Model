@@ -21,8 +21,8 @@ struct ResidualVectorDofs1Format
     static void write(const ResidualVectorDofs1Card& card, FieldWriter& writer);
 };
 
-// All the RVDOF1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first, last)
-// runs.
+// All the ResidualVectorDofs1 cards. A card has no ID (IdSpace::None). The points of every card are one column of
+// (first, last) runs.
 class ResidualVectorDofs1Table final : public TypedTable<ResidualVectorDofs1Table, ResidualVectorDofs1Card>
 {
 public:

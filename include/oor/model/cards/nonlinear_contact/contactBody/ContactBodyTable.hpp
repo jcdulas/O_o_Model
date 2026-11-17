@@ -23,10 +23,11 @@ struct ContactBodyFormat
     [[nodiscard]] static std::span<const ContactParameterRule> heatRules();
 };
 
-// All the BCBODY cards. The BID is unique among them (IdSpace::PerCardType, category ContactBody, shared with BCBODY1,
-// BCSURF and BCGRID). The cards are kept whole (CardRows): the sections are optional and few cards have more than the
-// first line; the query engine reads the ID only. BSID, the grid points of the rigid body and of its patches and Bezier
-// surface are references; the table IDs among the values are not (a table may be a TABL3D).
+// All the ContactBody cards. The BID is unique among them (IdSpace::PerCardType, category ContactBody, shared with
+// ContactBody1, ContactFaceRegion and ContactNodeRegion). The cards are kept whole (CardRows): the sections are
+// optional and few cards have more than the first line; the query engine reads the ID only. BSID, the grid points of
+// the rigid body and of its patches and Bezier surface are references; the table IDs among the values are not (a table
+// may be a TABL3D).
 class ContactBodyTable final : public TypedTable<ContactBodyTable, ContactBodyCard>
 {
 public:

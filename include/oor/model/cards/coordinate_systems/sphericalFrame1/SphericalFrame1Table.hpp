@@ -20,7 +20,7 @@ struct SphericalFrame1Format
     static void write(const SphericalFrame1Card& card, FieldWriter& writer);
 };
 
-// All the CORD1S systems, one row each (a card with two systems gives two rows).
+// All the SphericalFrame1 systems, one row each (a card with two systems gives two rows).
 class SphericalFrame1Table final : public TypedTable<SphericalFrame1Table, SphericalFrame1Card>
 {
 public:

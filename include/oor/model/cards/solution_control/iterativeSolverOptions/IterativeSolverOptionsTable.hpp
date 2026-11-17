@@ -19,8 +19,8 @@ struct IterativeSolverOptionsFormat
     static void write(const IterativeSolverOptionsCard& card, FieldWriter& writer);
 };
 
-// All the ITER cards, in the category IterativeSolver: the Case Control SMETHOD names one by its SID, which is unique
-// (IdSpace::PerCardType). The card names no other card. It is kept whole next to a column of its IDs.
+// All the IterativeSolverOptions cards, in the category IterativeSolver: the Case Control SMETHOD names one by its SID,
+// which is unique (IdSpace::PerCardType). The card names no other card. It is kept whole next to a column of its IDs.
 class IterativeSolverOptionsTable final : public TypedTable<IterativeSolverOptionsTable, IterativeSolverOptionsCard>
 {
 public:

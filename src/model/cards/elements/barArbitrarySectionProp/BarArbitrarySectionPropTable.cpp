@@ -90,7 +90,7 @@ void BarArbitrarySectionPropTable::visitReferences(std::uint32_t row, ReferenceV
 {
     BarArbitrarySectionPropCard& card = m_cards.edit(row);
     visitId(visitor, "matId", ReferenceTarget::Material, card.matId);
-    // The SET1 or SET3 of OUTP, INP and BRP, and the POINTs of PT=().
+    // The IdListSet1 or TypedListSet3 of OUTP, INP and BRP, and the POINTs of PT=().
     visitSectionItems(card.items, visitor);
 }
 

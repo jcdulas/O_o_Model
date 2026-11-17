@@ -19,9 +19,9 @@ struct TableHeatTwoVariablesFormat
     static void write(const TableHeatTwoVariablesCard& card, FieldWriter& writer);
 };
 
-// All the TABLEHT cards. The ID is in the heat table space it shares with TABLEH1 (IdSpace::HeatTable), and the table
-// IDs of the pairs are references to TABLEH1 cards of that space. The values of x and the table IDs of every card are
-// two lists in CSR form.
+// All the TableHeatTwoVariables cards. The ID is in the heat table space it shares with TableHeat1
+// (IdSpace::HeatTable), and the table IDs of the pairs are references to TableHeat1 cards of that space. The values of
+// x and the table IDs of every card are two lists in CSR form.
 class TableHeatTwoVariablesTable final : public TypedTable<TableHeatTwoVariablesTable, TableHeatTwoVariablesCard>
 {
 public:

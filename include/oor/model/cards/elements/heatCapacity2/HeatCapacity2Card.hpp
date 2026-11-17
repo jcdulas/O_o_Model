@@ -5,10 +5,11 @@
 namespace oor::model
 {
 
-// One CDAMP5 card: a damper (heat capacity, for heat transfer analysis) between two points, with a PDAMP5 property.
+// One HeatCapacity2 card: a damper (heat capacity, for heat transfer analysis) between two points, with a
+// HeatCapacityProp5 property.
 //
 // Card layout:
-//   CDAMP5  EID  PID  G1  G2
+//   HeatCapacity2  EID  PID  G1  G2
 //
 // G1 and G2 are grid points or scalar points; 0 (or blank) is a grounded end.
 struct HeatCapacity2Card

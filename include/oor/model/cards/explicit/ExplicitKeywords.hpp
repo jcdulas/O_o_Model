@@ -18,8 +18,8 @@ enum class Switch : std::uint8_t
 };
 inline constexpr std::array<std::string_view, 2> SWITCH_WORDS{"On", "Off"};
 
-// Which Eulerian elements a surface processes (the COVER field of COUPLE and SURFINI): the elements inside or outside
-// the closed volume of the surface, or those on both sides.
+// Which Eulerian elements a surface processes (the COVER field of EulerLagrangeCoupling and InitialSurfaceVolume): the
+// elements inside or outside the closed volume of the surface, or those on both sides.
 enum class CoverSide : std::uint8_t
 {
     Inside,
@@ -28,8 +28,8 @@ enum class CoverSide : std::uint8_t
 };
 inline constexpr std::array<std::string_view, 3> COVER_SIDE_WORDS{"Inside", "Outside", "None"};
 
-// The direction of a flow through a hole or a porous surface (the FLOW field of PORHOLE, PERMEAB, ...): both ways, only
-// into the volume or only out of it.
+// The direction of a flow through a hole or a porous surface (the FLOW field of GasBagVentHole, SurfacePermeability,
+// ...): both ways, only into the volume or only out of it.
 enum class FlowDirection : std::uint8_t
 {
     Both,
@@ -38,7 +38,8 @@ enum class FlowDirection : std::uint8_t
 };
 inline constexpr std::array<std::string_view, 3> FLOW_DIRECTION_WORDS{"Both", "In", "Out"};
 
-// The size of a hole against the Euler mesh (the SIZE field of PORHOLE, PORFCPL and PORFGBG).
+// The size of a hole against the Euler mesh (the SIZE field of GasBagVentHole, CouplingHoleToCoupling and
+// CouplingHoleToGasBag).
 enum class HoleSize : std::uint8_t
 {
     Small,
@@ -46,7 +47,8 @@ enum class HoleSize : std::uint8_t
 };
 inline constexpr std::array<std::string_view, 2> HOLE_SIZE_WORDS{"Small", "Large"};
 
-// A face of the box of an Euler mesh (the DIR field of BARRIER, FLOW, FLOWC, FLOWT and FLOWUDS).
+// A face of the box of an Euler mesh (the DIR field of EulerBarrier, EulerFlowBoundary, EulerCyclicFlowBoundary,
+// EulerTimeFlowBoundary and EulerUserFlowBoundary).
 enum class BoundaryFace : std::uint8_t
 {
     NegativeX,

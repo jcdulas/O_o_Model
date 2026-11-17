@@ -22,9 +22,9 @@ struct LineCrossing
 
 // The crossing of the line origin + t·direction with the isoparametric surface X(xi, eta) = sum N_i(xi, eta)·x_i of
 // the element (the plane of a triangle, the bilinear surface of a quadrilateral, warped or not, the curved surface of a
-// CQUAD8 or a CTRIA6), by Newton's method on the three equations X(xi, eta) - origin - t·direction = 0 from the centre
-// of the element (exact in one step on a flat element). Nothing when the line runs parallel to the surface where it
-// would cross it, or the iterations do not settle (a curved surface the line misses).
+// ShellQuad8 or a ShellTria6), by Newton's method on the three equations X(xi, eta) - origin - t·direction = 0 from the
+// centre of the element (exact in one step on a flat element). Nothing when the line runs parallel to the surface where
+// it would cross it, or the iterations do not settle (a curved surface the line misses).
 [[nodiscard]] std::optional<LineCrossing> crossElement(const ShellElement& element, const base::Vec3& origin,
                                                        const base::Vec3& direction) noexcept;
 

@@ -11,10 +11,11 @@ namespace oor::analysis
 {
 
 // Thin-walled cross-sections made of straight walls (a companion package and R7), in the (y, z) coordinates of the section
-// (y vertical, z horizontal, as the format reference figures of PBARL draw them). A wall joins two points; the walls form a
-// connected graph, whose independent loops are the closed cells (as many as walls - points + 1). Every quantity is that
-// of the thin-walled theory on the mid-line of the walls (Timoshenko and Gere, Megson), except the second moments of
-// area, which take each wall as the rectangle of its length and thickness (so a single wall is a flat bar).
+// (y vertical, z horizontal, as the format reference figures of BarShapeProp draw them). A wall joins two points; the
+// walls form a connected graph, whose independent loops are the closed cells (as many as walls - points + 1). Every
+// quantity is that of the thin-walled theory on the mid-line of the walls (Timoshenko and Gere, Megson), except the
+// second moments of area, which take each wall as the rectangle of its length and thickness (so a single wall is a flat
+// bar).
 struct ThinWallProperties
 {
     static constexpr double UNDEFINED = std::numeric_limits<double>::quiet_NaN();

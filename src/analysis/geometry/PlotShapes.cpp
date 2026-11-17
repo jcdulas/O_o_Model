@@ -4,15 +4,15 @@
 #include "oor/model/cards/elements/plotSurface/PlotSurfaceTable.hpp"
 #include "oor/model/cards/elements/plotTria3/PlotTria3Table.hpp"
 
-// The dummy plot elements with more than two nodes, PLOTEL3 and PLOTEL4 (the two-noded PLOTEL is a segment: see
-// LineShapes.cpp), and the surface plot mesh PLTSURF.
+// The dummy plot elements with more than two nodes, PlotTria3 and PlotQuad4 (the two-noded PlotLine2 is a segment: see
+// LineShapes.cpp), and the surface plot mesh PlotSurface.
 //
 // All are surfaces that are drawn and nothing else, so they have what a shell has with no thickness and no element
-// system, as the acoustic absorber CAABSF does: the centre is the mean of the corners, the normal follows the
+// system, as the acoustic absorber AcousticAbsorber does: the centre is the mean of the corners, the normal follows the
 // right-hand rule on the order of the nodes, and the area is that of the triangle or of the quadrilateral. No thickness
-// (they have no property), no volume and no frame. A PLTSURF has 3, 4, 6 or 8 nodes in the order of the CTRIA3, CQUAD4,
-// CTRIA6 and CQUAD8: the corners are the first three or four, the mid-side nodes after them are not used for the planar
-// quantities (as for the shells).
+// (they have no property), no volume and no frame. A PlotSurface has 3, 4, 6 or 8 nodes in the order of the ShellTria3,
+// ShellQuad4, ShellTria6 and ShellQuad8: the corners are the first three or four, the mid-side nodes after them are not
+// used for the planar quantities (as for the shells).
 
 namespace oor::analysis::detail
 {

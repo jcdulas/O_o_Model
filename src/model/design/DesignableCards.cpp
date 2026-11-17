@@ -39,7 +39,7 @@ struct Entry
 const std::array<Entry, 17>& entries()
 {
     static const std::array<Entry, 17> ENTRIES = {{
-        // properties (DVPREL1 and DVPREL2)
+        // properties (DesignPropRelation1 and DesignPropRelation2)
         {"ShellProp", &shellPropDesignFields()},
         {"BarProp", &barPropDesignFields()},
         {"BarShapeProp", &barShapePropDesignFields()},
@@ -51,10 +51,10 @@ const std::array<Entry, 17>& entries()
         {"SpringProp", &springPropDesignFields()},
         {"ShearPanelProp", &shearPanelPropDesignFields()},
         {"TubeProp", &tubePropDesignFields()},
-        // materials (DVMREL1 and DVMREL2)
+        // materials (DesignMatRelation1 and DesignMatRelation2)
         {"IsoMat", &isoMatDesignFields()},
         {"OrthoMat2D", &orthoMat2DDesignFields()},
-        // elements (DVCREL1 and DVCREL2)
+        // elements (DesignElemRelation1 and DesignElemRelation2)
         {"PointMassInertia", &pointMassInertiaDesignFields()},
         {"SpringDofInline", &springDofInlineDesignFields()},
         {"ShellQuad4", &shellQuad4DesignFields()},
@@ -72,7 +72,7 @@ const DesignableCard* findDesignableCard(std::string_view cardName)
         if (entry.name == cardName)
             return entry.card;
     }
-    // The name may be the keyword a relation gives (TYPE = CQUAD4).
+    // The name may be the keyword a relation gives (TYPE = ShellQuad4).
     const std::optional<std::uint16_t> type = typeOfDesignedCard(cardName);
     if (!type)
         return nullptr;

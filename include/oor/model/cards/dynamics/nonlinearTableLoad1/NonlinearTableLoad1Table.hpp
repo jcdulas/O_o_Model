@@ -18,8 +18,8 @@ struct NonlinearTableLoad1Format
     static void write(const NonlinearTableLoad1Card& card, FieldWriter& writer);
 };
 
-// All the NOLIN1 cards. The ID is a nonlinear load set ID shared by many cards (IdSpace::Group, category DynamicLoad):
-// the NONLINEAR Case Control command selects it.
+// All the NonlinearTableLoad1 cards. The ID is a nonlinear load set ID shared by many cards (IdSpace::Group, category
+// DynamicLoad): the NONLINEAR Case Control command selects it.
 class NonlinearTableLoad1Table final : public TypedTable<NonlinearTableLoad1Table, NonlinearTableLoad1Card>
 {
 public:

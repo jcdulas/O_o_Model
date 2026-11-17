@@ -19,8 +19,8 @@ struct FreeBodySupportFormat
     static void write(const FreeBodySupportCard& card, FieldWriter& writer);
 };
 
-// All the SUPORT cards. A card has no ID (IdSpace::None). The points and the components of every card are two lists in
-// CSR form.
+// All the FreeBodySupport cards. A card has no ID (IdSpace::None). The points and the components of every card are two
+// lists in CSR form.
 class FreeBodySupportTable final : public TypedTable<FreeBodySupportTable, FreeBodySupportCard>
 {
 public:

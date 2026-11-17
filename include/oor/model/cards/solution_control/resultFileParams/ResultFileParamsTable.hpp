@@ -18,7 +18,7 @@ struct ResultFileParamsFormat
     static void write(const ResultFileParamsCard& card, FieldWriter& writer);
 };
 
-// All the HDF5OUT cards (no ID: IdSpace::None, category Other). The card names no other card. It is kept whole
+// All the ResultFileParams cards (no ID: IdSpace::None, category Other). The card names no other card. It is kept whole
 // (CardRows): its pairs of name and value are a list that nobody reads as columns.
 class ResultFileParamsTable final : public TypedTable<ResultFileParamsTable, ResultFileParamsCard>
 {

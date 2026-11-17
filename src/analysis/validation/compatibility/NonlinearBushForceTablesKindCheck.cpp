@@ -11,9 +11,10 @@ namespace oor::analysis
 namespace
 {
 
-// Every term Pij of an LBSH3DG is the ID of a TABLED5, the table that gives a TABLED1 for each rotor speed (format
-// reference LBSH3DG, Pij). The terms are references to the dynamic tables, which resolve to any TABLED1 to TABLED5, so
-// a term that names a TABLED1 reads without a reference problem and the solver finds no table of rotor speeds.
+// Every term Pij of a NonlinearBushForceTables is the ID of a TableDynamic5, the table that gives a TableDynamic1 for
+// each rotor speed (format reference NonlinearBushForceTables, Pij). The terms are references to the dynamic tables,
+// which resolve to any TableDynamic1 to TableDynamic5, so a term that names a TableDynamic1 reads without a reference
+// problem and the solver finds no table of rotor speeds.
 class NonlinearBushForceTablesKindCheck final : public ValidationCheck
 {
 public:

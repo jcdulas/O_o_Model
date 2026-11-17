@@ -9,9 +9,9 @@ namespace oor::analysis
 namespace
 {
 
-// An ELIST is the list of the quadrilateral and triangular shells that carry virtual fluid mass (format reference
-// ELIST: the list holds CQUAD4 and CTRIA3 elements only); an element of another type in it has no wetted side to
-// give.
+// A FluidMassElemList is the list of the quadrilateral and triangular shells that carry virtual fluid mass (format
+// reference FluidMassElemList: the list holds ShellQuad4 and ShellTria3 elements only); an element of another type in
+// it has no wetted side to give.
 class FluidMassElemListElementTypeCheck final : public ValidationCheck
 {
 public:

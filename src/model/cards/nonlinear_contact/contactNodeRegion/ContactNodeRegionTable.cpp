@@ -22,8 +22,8 @@ std::optional<ContactNodeRegionCard> ContactNodeRegionFormat::read(FieldReader& 
     ContactNodeRegionCard card;
     card.id = reader.requiredInteger(1, "id");
     // Field 3 is DIM in the first layout (blank, 2D or 3D) and a grid point in the SOL 700 one, or the THRU of a range
-    // that starts at the first grid point (format reference BCGRID, SOL 700: THRU makes a range; BCGRID 21 1001
-    // THRU 1010).
+    // that starts at the first grid point (format reference ContactNodeRegion, SOL 700: THRU makes a range;
+    // ContactNodeRegion 21 1001 THRU 1010).
     card.sol700 = !reader.isBlank(3) &&
                   (base::NumberParser::parseInteger(reader.text(3)).has_value() || (reader.text(3) == "Through"));
     if (card.sol700)

@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One PROD card: the property of a rod element.
+// One RodProp card: the property of a rod element.
 //
 // Card layout:
-//   PROD  PID  MID  A  J  C  NSM
+//   RodProp  PID  MID  A  J  C  NSM
 struct RodPropCard
 {
     base::EntityId id = 0;

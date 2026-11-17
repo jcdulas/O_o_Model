@@ -19,11 +19,12 @@ struct AeroSplineStripBlendFormat
     static void write(const AeroSplineStripBlendCard& card, FieldWriter& writer);
 };
 
-// All the SPBLND1 cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7,
-// SPLINEX, SPBLND1, SPBLND2 and SPLINRB; IdSpace::PerCardType refuses a repeat inside this type and a check across the
-// types reports the others). SID1 and SID2 name splines of any of those types (ReferenceTarget::AeroSpline), GID an
-// aerodynamic grid (ReferenceTarget::AeroNode) and CID a coordinate system. The cards are kept whole (CardRows) next to
-// the column of their SID: a SPBLND1 has a dozen fields and few of them are ever set.
+// All the AeroSplineStripBlend cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7, AeroUserSpline, AeroSplineStripBlend, AeroSplineCurveBlend and
+// AeroRigidSpline; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the
+// others). SID1 and SID2 name splines of any of those types (ReferenceTarget::AeroSpline), GID an aerodynamic grid
+// (ReferenceTarget::AeroNode) and CID a coordinate system. The cards are kept whole (CardRows) next to the column of
+// their SID: an AeroSplineStripBlend has a dozen fields and few of them are ever set.
 class AeroSplineStripBlendTable final : public TypedTable<AeroSplineStripBlendTable, AeroSplineStripBlendCard>
 {
 public:

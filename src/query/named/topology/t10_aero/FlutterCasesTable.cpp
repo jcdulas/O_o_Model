@@ -19,7 +19,8 @@ namespace oor::query
 namespace
 {
 
-// The numbers of the FLFACT card with this SID (the THRU form expanded); an empty list when no FLFACT has it.
+// The numbers of the AeroFlutterFactors card with this SID (the THRU form expanded); an empty list when no
+// AeroFlutterFactors has it.
 std::vector<double> factorsOf(const model::Model& model, base::EntityId sid)
 {
     const auto* table = model.findTable<model::AeroFlutterFactorsTable>();
@@ -30,8 +31,9 @@ std::vector<double> factorsOf(const model::Model& model, base::EntityId sid)
     return found ? model::aeroFlutterFactorsValues(table->card(found->row)) : std::vector<double>();
 }
 
-// aeroFlutterCasesTable: the FLUTTER cards with the numbers their FLFACT lists hold (detail "cases"), or the pairs of
-// Mach number and reduced frequency of the MKAERO1 and MKAERO2 cards (detail "machFrequency").
+// aeroFlutterCasesTable: the AeroFlutter cards with the numbers their AeroFlutterFactors lists hold (detail "cases"),
+// or the pairs of Mach number and reduced frequency of the AeroMachFreqTable1 and AeroMachFreqPairs2 cards (detail
+// "machFrequency").
 class FlutterCasesTableQuery final : public QueryBase
 {
 public:
@@ -109,8 +111,9 @@ private:
         return builder.finish();
     }
 
-    // The pairs the aerodynamic matrices are computed at: an MKAERO1 card gives every Mach number with every reduced
-    // frequency of the same card (the Mach numbers in the outer loop), an MKAERO2 card gives the pairs themselves.
+    // The pairs the aerodynamic matrices are computed at: an AeroMachFreqTable1 card gives every Mach number with every
+    // reduced frequency of the same card (the Mach numbers in the outer loop), an AeroMachFreqPairs2 card gives the
+    // pairs themselves.
     [[nodiscard]] std::shared_ptr<const QueryTable> pairs(const model::Model& model) const
     {
         std::vector<double> mach, frequency;

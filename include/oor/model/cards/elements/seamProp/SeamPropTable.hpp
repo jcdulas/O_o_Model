@@ -20,8 +20,8 @@ struct SeamPropFormat
     static void write(const SeamPropCard& card, FieldWriter& writer);
 };
 
-// All the PSEAM properties. The ID is a property ID, in the space every property shares; MID names a material. A blank
-// T is a NaN in its column.
+// All the SeamProp properties. The ID is a property ID, in the space every property shares; MID names a material. A
+// blank T is a NaN in its column.
 class SeamPropTable final : public TypedTable<SeamPropTable, SeamPropCard>
 {
 public:

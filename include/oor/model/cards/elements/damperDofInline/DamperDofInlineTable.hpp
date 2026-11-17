@@ -18,7 +18,7 @@ struct DamperDofInlineFormat
     static void write(const DamperDofInlineCard& card, FieldWriter& writer);
 };
 
-// All the CDAMP2 elements.
+// All the DamperDofInline elements.
 class DamperDofInlineTable final : public TypedTable<DamperDofInlineTable, DamperDofInlineCard>
 {
 public:

@@ -186,7 +186,7 @@ void IsoMatStressDependentTable::keepRows(const std::vector<std::uint32_t>& rows
 
 void IsoMatStressDependentTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT1 that the card extends; the table is a TABLES1 (or a TABLEST).
+    // The ID is the one of the IsoMat that the card extends; the table is a TableStress1 (or a TableStressTemperature).
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     if (const base::EntityId table = m_tableId.get(row); table > 0)
         m_tableId.set(row, visitor.visit("tableId", ReferenceTarget::StressTable, table));

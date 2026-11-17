@@ -29,7 +29,8 @@ struct PartitionElement
     bool fromElemTransfer = false;
 };
 
-// The partition of the main Bulk Data into list superelements (format reference SESET, GRID, SEELT, CSUPEXT, RELEASE):
+// The partition of the main Bulk Data into list superelements (format reference SuperelementInteriorNodes, Node,
+// SuperelementElemTransfer, SuperelementExteriorPoints, SuperelementReleasedDofs):
 //   - interior points of superelement n: the grid points a SuperelementInteriorNodes n lists, else those whose Node
 //     (or NodeDefaults) SEID is n; a point interior to no superelement is a residual point;
 //   - elements: an element (structural, rigid, scalar, ...: the elements of ElementTopology; the MPC equations do not

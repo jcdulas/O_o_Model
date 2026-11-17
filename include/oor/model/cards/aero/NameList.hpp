@@ -9,9 +9,9 @@
 #include <string>
 #include <vector>
 
-// A list of names in consecutive fields: the component names of an AECOMPL and the character items of an AELISTC. One
-// kind of value shared by two cards of the family; each card still lays out its own fields and says what its names
-// stand for. A name is one to eight characters that read back from every format (`checkNameWord`).
+// A list of names in consecutive fields: the component names of an AeroComponentUnion and the character items of an
+// AeroLabelList. One kind of value shared by two cards of the family; each card still lays out its own fields and says
+// what its names stand for. A name is one to eight characters that read back from every format (`checkNameWord`).
 namespace oor::model
 {
 

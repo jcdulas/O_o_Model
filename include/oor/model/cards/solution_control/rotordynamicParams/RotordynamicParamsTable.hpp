@@ -18,9 +18,10 @@ struct RotordynamicParamsFormat
     static void write(const RotordynamicParamsCard& card, FieldWriter& writer);
 };
 
-// All the RGYRO cards. The ID is a set ID shared by the RGYRO cards (IdSpace::Group): all the cards of a RID are
-// analysed together. The reference rotor REFROTR is a Rotor reference (a ROTORG, ROTOR, ROTORAX or
-// ROTORSE) when ROTRSEID is 0; a rotor of another superelement is a card of that part and is not looked up.
+// All the RotordynamicParams cards. The ID is a set ID shared by the RotordynamicParams cards (IdSpace::Group): all the
+// cards of a RID are analysed together. The reference rotor REFROTR is a Rotor reference (a RotorLineNodes,
+// RotorModel3D, RotorAxisym or RotorSuperelement) when ROTRSEID is 0; a rotor of another superelement is a card of that
+// part and is not looked up.
 class RotordynamicParamsTable final : public TypedTable<RotordynamicParamsTable, RotordynamicParamsCard>
 {
 public:

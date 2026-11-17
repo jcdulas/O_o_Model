@@ -19,10 +19,10 @@ struct NonlinearBushForceTablesFormat
     static void write(const NonlinearBushForceTablesCard& card, FieldWriter& writer);
 };
 
-// All the LBSH3DG cards, each kept whole (CardRows: a matrix of 36 table IDs is not a set of columns) next to the
-// column of its LID, which is what the query engine reads. The LID is the number an NLBSH3D names
-// (ReferenceTarget::BushingForceSet, category BushingForceSet) and is unique among the LBSH3DG: the ID space is the
-// card type's own. The terms are TABLED5 entries in the space of the dynamic tables.
+// All the NonlinearBushForceTables cards, each kept whole (CardRows: a matrix of 36 table IDs is not a set of columns)
+// next to the column of its LID, which is what the query engine reads. The LID is the number a NonlinearBushLoad3D
+// names (ReferenceTarget::BushingForceSet, category BushingForceSet) and is unique among the NonlinearBushForceTables:
+// the ID space is the card type's own. The terms are TableDynamic5 entries in the space of the dynamic tables.
 class NonlinearBushForceTablesTable final
     : public TypedTable<NonlinearBushForceTablesTable, NonlinearBushForceTablesCard>
 {

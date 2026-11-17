@@ -19,8 +19,8 @@ struct CouplingFailedSegmentFlowFormat
     static void write(const CouplingFailedSegmentFlowCard& card, FieldWriter& writer);
 };
 
-// All the COUP1FL cards: the CFID is unique among them (IdSpace::PerCardType, category CouplingFailure), and a COUPLE
-// names it in its COUP1FL field. The MATERIAL is a MATDEUL.
+// All the CouplingFailedSegmentFlow cards: the CFID is unique among them (IdSpace::PerCardType, category
+// CouplingFailure), and an EulerLagrangeCoupling names it in its COUP1FL field. The MATERIAL is an EulerMat.
 class CouplingFailedSegmentFlowTable final
     : public TypedTable<CouplingFailedSegmentFlowTable, CouplingFailedSegmentFlowCard>
 {

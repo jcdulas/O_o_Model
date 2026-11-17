@@ -20,8 +20,8 @@ struct MonitorElemLoad2Format
     static void write(const MonitorElemLoad2Card& card, FieldWriter& writer);
 };
 
-// All the MONPNT2 cards. A monitor point has no numeric ID (IdSpace::None): it is found by its NAME, which the format
-// reference says is unique (a repeated NAME is reported when the deck is read).
+// All the MonitorElemLoad2 cards. A monitor point has no numeric ID (IdSpace::None): it is found by its NAME, which the
+// format reference says is unique (a repeated NAME is reported when the deck is read).
 class MonitorElemLoad2Table final : public TypedTable<MonitorElemLoad2Table, MonitorElemLoad2Card>
 {
 public:
@@ -38,7 +38,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Two MONPNT2 cards of one NAME are reported.
+    // Two MonitorElemLoad2 cards of one NAME are reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<std::string>& nameColumn() noexcept { return m_name; }

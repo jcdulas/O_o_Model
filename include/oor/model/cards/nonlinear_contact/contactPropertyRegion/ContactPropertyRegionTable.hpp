@@ -20,8 +20,8 @@ struct ContactPropertyRegionFormat
     static void write(const ContactPropertyRegionCard& card, FieldWriter& writer);
 };
 
-// All the BCPROP cards (category ContactSurface, unique among them). The property lists are one CSR column of
-// (first, last, by) runs; the ends of a range may name properties that do not exist.
+// All the ContactPropertyRegion cards (category ContactSurface, unique among them). The property lists are one CSR
+// column of (first, last, by) runs; the ends of a range may name properties that do not exist.
 class ContactPropertyRegionTable final : public TypedTable<ContactPropertyRegionTable, ContactPropertyRegionCard>
 {
 public:

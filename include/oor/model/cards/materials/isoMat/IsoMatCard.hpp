@@ -7,11 +7,11 @@
 namespace oor::model
 {
 
-// One MAT1 card: an isotropic material.
+// One IsoMat card: an isotropic material.
 //
 // Card layout:
-//   MAT1  MID  E   G   NU  RHO  A  TREF  GE
-//         ST   SC  SS  MCSID
+//   IsoMat  MID  E   G  NU  RHO  A  TREF  GE
+//           ST  SC  SS  MCSID
 //
 // E, G and NU are stored resolved: when one of them is blank on the card it is computed from the other two,
 // so a card never depends on a default that could change later. Which ones were blank is kept (`blankFields`): a

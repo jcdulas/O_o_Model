@@ -308,7 +308,7 @@ void OrthoMat2DTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void OrthoMat2DTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // A MAT8 refers to no other card (a MATT8 refers to it, not the other way round).
+    // An OrthoMat2D refers to no other card (an OrthoMat2DTemperature refers to it, not the other way round).
 }
 
 } // namespace oor::model

@@ -21,8 +21,8 @@ struct NonStructMass1Format
     static void write(const NonStructMass1Card& card, FieldWriter& writer);
 };
 
-// All the NSM1 cards. The ID is a set ID shared by many cards (IdSpace::Group). The list of IDs of every card is one
-// CSR column of (first, last, by) runs, and a flag for ALL.
+// All the NonStructMass1 cards. The ID is a set ID shared by many cards (IdSpace::Group). The list of IDs of every card
+// is one CSR column of (first, last, by) runs, and a flag for ALL.
 class NonStructMass1Table final : public TypedTable<NonStructMass1Table, NonStructMass1Card>
 {
 public:

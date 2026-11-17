@@ -18,7 +18,7 @@ struct AxisymTractionLoadFormat
     static void write(const AxisymTractionLoadCard& card, FieldWriter& writer);
 };
 
-// All the PLOADX1 cards. The ID is a load set ID shared by many cards (IdSpace::Group).
+// All the AxisymTractionLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group).
 class AxisymTractionLoadTable final : public TypedTable<AxisymTractionLoadTable, AxisymTractionLoadCard>
 {
 public:

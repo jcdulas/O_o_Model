@@ -21,8 +21,8 @@ struct MonitorSumFormat
     static void write(const MonitorSumCard& card, FieldWriter& writer);
 };
 
-// All the MONSUM cards, in the category MonitorPoint with the monitor points they add together. A monitor result has
-// no numeric ID (IdSpace::None): it is found by its NAME, which the format reference asks to be unique among the
+// All the MonitorSum cards, in the category MonitorPoint with the monitor points they add together. A monitor result
+// has no numeric ID (IdSpace::None): it is found by its NAME, which the format reference asks to be unique among the
 // monitor quantities unless the sum scales the result of its own name, so a repeated NAME is not reported by
 // the table. The cards are kept whole next to a column of their names.
 class MonitorSumTable final : public TypedTable<MonitorSumTable, MonitorSumCard>

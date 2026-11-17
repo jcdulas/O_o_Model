@@ -11,9 +11,9 @@ namespace oor::analysis
 namespace
 {
 
-// A FLOWC whose pair is missing. The cyclic flow boundaries are defined in pairs: the FID2 of one is the FID of the
-// other and the other way round (the format gives FLOWC,10,30,20 with FLOWC,20,40,10), because what flows out of one
-// boundary comes in at the other.
+// An EulerCyclicFlowBoundary whose pair is missing. The cyclic flow boundaries are defined in pairs: the FID2 of one is
+// the FID of the other and the other way round (the format gives EulerCyclicFlowBoundary,10,30,20 with
+// EulerCyclicFlowBoundary,20,40,10), because what flows out of one boundary comes in at the other.
 class EulerCyclicFlowBoundaryPairCheck final : public ValidationCheck
 {
 public:

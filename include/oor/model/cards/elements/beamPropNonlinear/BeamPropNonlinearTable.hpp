@@ -19,9 +19,9 @@ struct BeamPropNonlinearFormat
     static void write(const BeamPropNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the PBEMN1 cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the ID is the
-// one of the PBEAM or PBEAML that the card extends, so it is also a reference to a property (a renumbering of the
-// properties follows into it).
+// All the BeamPropNonlinear cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the
+// ID is the one of the BeamProp or BeamShapeProp that the card extends, so it is also a reference to a property (a
+// renumbering of the properties follows into it).
 class BeamPropNonlinearTable final : public TypedTable<BeamPropNonlinearTable, BeamPropNonlinearCard>
 {
 public:

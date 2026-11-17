@@ -11,8 +11,8 @@
 namespace oor::model
 {
 
-// The TYPE of an RBJOINT: which relative motion of the two rigid bodies the joint allows (format reference, in this
-// order).
+// The TYPE of a RigidBodyJoint: which relative motion of the two rigid bodies the joint allows (format reference, in
+// this order).
 enum class RigidBodyJointType : std::uint8_t
 {
     Spherical,    // SPHER: two coincident nodes stay coincident
@@ -45,16 +45,16 @@ inline constexpr std::array<std::string_view, 6> RIGID_BODY_JOINT_TYPE_WORDS{
     return 4;
 }
 
-// One RBJOINT card (SOL 700): a joint between two rigid bodies. The nodes alternate between the bodies: N1, N3 and N5
-// are grid points of rigid body A and N2, N4 and N6 of rigid body B, and the type says which relative motions the pairs
-// allow. The joint is enforced with a penalty whose stiffness is RPS times a stiffness the solver chooses.
+// One RigidBodyJoint card (SOL 700): a joint between two rigid bodies. The nodes alternate between the bodies: N1, N3
+// and N5 are grid points of rigid body A and N2, N4 and N6 of rigid body B, and the type says which relative motions
+// the pairs allow. The joint is enforced with a penalty whose stiffness is RPS times a stiffness the solver chooses.
 //
-// Card layout: RBJOINT  ID  TYPE  N1  N2  N3  N4  N5  N6      fields 1 to 8
+// Card layout: RigidBodyJoint  ID  TYPE  N1  N2  N3  N4  N5  N6  fields 1 to 8
 //             (line 2)  (blank)  RPS                           field 10 (field 9 is blank)
 // The RPS of the format reference drawing is in the third cell of the second line, field 10. The format does not say
-// that the ID shares a space with any other card, so it is unique among the RBJOINT cards only (RJOINT, the rigid joint
-// element of the rigid family, is another card). The nodes are grid points; the format does not require them to be
-// distinct.
+// that the ID shares a space with any other card, so it is unique among the RigidBodyJoint cards only (RigidJoint, the
+// rigid joint element of the rigid family, is another card). The nodes are grid points; the format does not require
+// them to be distinct.
 struct RigidBodyJointCard
 {
     base::EntityId id = 0;

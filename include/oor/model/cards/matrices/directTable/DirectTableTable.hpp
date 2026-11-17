@@ -20,8 +20,8 @@ struct DirectTableFormat
     static void write(const DirectTableCard& card, FieldWriter& writer);
 };
 
-// All the DTI cards. A card has no numeric ID (IdSpace::None): it is found by its name and record number. The values of
-// every card are lists in CSR form, one per member of a value.
+// All the DirectTable cards. A card has no numeric ID (IdSpace::None): it is found by its name and record number. The
+// values of every card are lists in CSR form, one per member of a value.
 class DirectTableTable final : public TypedTable<DirectTableTable, DirectTableCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a DTI refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a DirectTable refers to no card
 
     [[nodiscard]] Column<std::string>& entryNameColumn() noexcept { return m_entryName; }
     [[nodiscard]] Column<std::int32_t>& recordNumberColumn() noexcept { return m_recordNumber; }

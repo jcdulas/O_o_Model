@@ -19,7 +19,7 @@ struct BarPropFormat
     static void write(const BarPropCard& card, FieldWriter& writer);
 };
 
-// All the PBAR cards. The four stress points and the shear factors are (N, 2) NumPy views; a blank K1 or K2 is -1.
+// All the BarProp cards. The four stress points and the shear factors are (N, 2) NumPy views; a blank K1 or K2 is -1.
 class BarPropTable final : public TypedTable<BarPropTable, BarPropCard>
 {
 public:

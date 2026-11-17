@@ -14,7 +14,7 @@ namespace oor::analysis
 namespace
 {
 
-// An AECOMPL joins components by name: a name that no AECOMP or AECOMPL has joins
+// An AeroComponentUnion joins components by name: a name that no AeroComponent or AeroComponentUnion has joins
 // nothing.
 class ComponentLabelUndefinedCheck final : public ValidationCheck
 {

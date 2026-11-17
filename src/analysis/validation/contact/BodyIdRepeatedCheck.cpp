@@ -9,9 +9,10 @@ namespace oor::analysis
 namespace
 {
 
-// A body ID that two kinds of card have: BCBODY, BCBODY1, BCSURF and BCGRID all define a body that a BCONECT, a
-// BCTABLE, a BCHANGE or a BCMOVE names by its BID, and the BIDs must be unique among them (the format reference). The
-// SOL 700 form of BCGRID is not a body: its ID names a cloud of grid points (a surface), so it is left out.
+// A body ID that two kinds of card have: ContactBody, ContactBody1, ContactFaceRegion and ContactNodeRegion all define
+// a body that a ContactPair, a ContactTable, a ContactBodyChange or a ContactBodyMove names by its BID, and the BIDs
+// must be unique among them (the format reference). The SOL 700 form of ContactNodeRegion is not a body: its ID names a
+// cloud of grid points (a surface), so it is left out.
 class BodyIdRepeatedCheck final : public ValidationCheck
 {
 public:

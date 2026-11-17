@@ -28,9 +28,10 @@ struct PartBoundaryRow
 };
 
 // The boundary of every superelement of a deck: the part superelements by
-// their SECONCT cards or the automatic search (PartPlacement, AutomaticBoundarySearch, ManualConnections), the
-// external ones by their EXTRN, the list superelements by their elements (ListSuperelementPartition), the secondary
-// ones by their CSUPER; the points joined into boundary points numbered as the solver numbers them (BoundaryPointNumbering).
+// their SuperelementConnection cards or the automatic search (PartPlacement, AutomaticBoundarySearch,
+// ManualConnections), the external ones by their SuperelementExternalBoundary, the list superelements by their elements
+// (ListSuperelementPartition), the secondary ones by their SuperelementCopyPoints; the points joined into boundary
+// points numbered as the solver numbers them (BoundaryPointNumbering).
 //
 // Computed once, when made, from the residual structure of the deck the model belongs to and its parts, in time
 // proportional to the number of points and elements; nothing is kept in the model (a query makes one per call). The
@@ -44,8 +45,9 @@ public:
     [[nodiscard]] const ListSuperelementPartition& listPartition() const noexcept { return m_listPartition; }
     // By superelement, then by point.
     [[nodiscard]] const std::vector<PartBoundaryRow>& rows() const noexcept { return m_rows; }
-    // What could not be applied: a SELOC or SEMPLN, an SECONCT pair farther apart than its tolerance or that names no
-    // point, an element on interior points of two list superelements, a CSUPER of another length than its primary's.
+    // What could not be applied: a SuperelementLocation or SuperelementMirrorPlane, a SuperelementConnection pair
+    // farther apart than its tolerance or that names no point, an element on interior points of two list superelements,
+    // a SuperelementCopyPoints of another length than its primary's.
     [[nodiscard]] const std::vector<std::string>& problems() const noexcept { return m_problems; }
 
 private:

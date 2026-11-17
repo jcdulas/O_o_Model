@@ -7,16 +7,17 @@
 namespace oor::model
 {
 
-// How the excitation frequencies of a FREQ3 card are spread between two modal frequencies.
+// How the excitation frequencies of a FreqBetweenModes3 card are spread between two modal frequencies.
 enum class FrequencySpacing : std::uint8_t
 {
     Linear, // LINEAR (the default)
     Log     // LOG
 };
 
-// One FREQ3 card: excitation frequencies between the modal frequencies of a range (modal frequency response).
+// One FreqBetweenModes3 card: excitation frequencies between the modal frequencies of a range (modal frequency
+// response).
 //
-// Card layout: FREQ3  SID  F1  F2  TYPE  NEF  CLUSTER
+// Card layout: FreqBetweenModes3  SID  F1  F2  TYPE  NEF  CLUSTER
 // NEF frequencies fall between each two consecutive modal frequencies of [F1, F2] (and between F1 and the first one,
 // the last one and F2), spread linearly or logarithmically and drawn towards the ends of the subrange by CLUSTER.
 // A blank F2 is F1 (the format reference default): it is stored resolved and always written.

@@ -10,12 +10,12 @@
 namespace oor::model
 {
 
-// One PCONEAX card: the property of the conical shell elements (CCONEAX).
+// One ConicalShellProp card: the property of the conical shell elements (ShellConical2).
 //
 // Card layout:
-//   PCONEAX  ID    MID1  T1    MID2  I     MID3  T2    NSM
-//            Z1    Z2    PHI1  PHI2  PHI3  PHI4  PHI5  PHI6
-//            PHI7  PHI8  PHI9  PHI10 PHI11 PHI12 PHI13 PHI14
+//   ConicalShellProp  ID    MID1  T1    MID2  I  MID3  T2    NSM
+//                     Z1    Z2  PHI1  PHI2  PHI3  PHI4  PHI5  PHI6
+//                     PHI7  PHI8  PHI9  PHI10 PHI11 PHI12 PHI13 PHI14
 //
 // MID1, MID2 and MID3 are the materials for membrane, bending and transverse shear behaviour; a blank one is 0 and so
 // is its blank T1, I or T2 (the format reference: a material and its thickness are both given or both zero or blank).

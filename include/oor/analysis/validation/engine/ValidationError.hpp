@@ -19,7 +19,7 @@ public:
     [[nodiscard]] const ValidationReport& report() const noexcept { return m_report; }
 
 private:
-    // "validation found 3 errors; the first: error[ref.unresolved] CQUAD4 10, field pid: ..."
+    // "validation found 3 errors; the first: error[ref.unresolved] ShellQuad4 10, field pid: ..."
     [[nodiscard]] static std::string describe(const ValidationReport& report);
 
     ValidationReport m_report;

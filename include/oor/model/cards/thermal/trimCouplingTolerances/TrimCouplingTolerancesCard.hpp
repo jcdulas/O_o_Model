@@ -9,9 +9,10 @@
 namespace oor::model
 {
 
-// The interface coupling type a TRMCPL gives the tolerances of (the CTYPE field). The first five are the interface
-// kinds of an ACPEMCP (glued, sliding, open, impervious, air gap); TRMSUR and INTERF are the two that a 1D analytical
-// trim component (ACPMCP1) needs. The enumerators are numbered in the order of TRIM_TOLERANCES_TYPE_WORDS.
+// The interface coupling type a TrimCouplingTolerances gives the tolerances of (the CTYPE field). The first five are
+// the interface kinds of a TrimComponentCoupling (glued, sliding, open, impervious, air gap); TRMSUR and INTERF are the
+// two that a 1D analytical trim component (TrimComponentCoupling1D) needs. The enumerators are numbered in the order of
+// TRIM_TOLERANCES_TYPE_WORDS.
 enum class TrimCouplingTolerancesType : std::uint8_t
 {
     Sglued,
@@ -19,7 +20,7 @@ enum class TrimCouplingTolerancesType : std::uint8_t
     Sopen,
     Simper,
     Sairgap,
-    Trmsur, // the distance between the top and the bottom PLTSURF surfaces of a 1D trim
+    Trmsur, // the distance between the top and the bottom PlotSurface surfaces of a 1D trim
     Interf  // the distance between the structure or the cavity and the top surface of a 1D trim
 };
 
@@ -31,14 +32,14 @@ inline constexpr std::array<std::string_view, 7> TRIM_TOLERANCES_TYPE_WORDS{
 inline constexpr double TRIM_TOLERANCES_DEFAULT_RELATIVE = 0.1;
 inline constexpr double TRIM_TOLERANCES_DEFAULT_GAP = 0.01;
 
-// One TRMCPL card: the tolerances with which the interface coupling matrices of a trim component are computed when the
-// meshes at the interface do not match. One card gives them for one interface coupling type (CTYPE) of
-// the trim component TID (and of its region RID), so a component has one card for each type it needs; with an ACPEMCP
-// it is optional, with an ACPMCP1 the two cards TRMSUR and INTERF are required. For an ACPEMCP type (SGLUED,
-// SSLIDE, SOPEN, SIMPER, SAIRGAP) the card matches the ACPEMCP of the same TID and RID, and its CTYPE must name a set
-// that card gives (a rule between cards).
+// One TrimCouplingTolerances card: the tolerances with which the interface coupling matrices of a trim component are
+// computed when the meshes at the interface do not match. One card gives them for one interface coupling type (CTYPE)
+// of the trim component TID (and of its region RID), so a component has one card for each type it needs; with a
+// TrimComponentCoupling it is optional, with a TrimComponentCoupling1D the two cards TRMSUR and INTERF are required.
+// For a TrimComponentCoupling type (SGLUED, SSLIDE, SOPEN, SIMPER, SAIRGAP) the card matches the TrimComponentCoupling
+// of the same TID and RID, and its CTYPE must name a set that card gives (a rule between cards).
 //
-// Card layout: TRMCPL  TID  CTYPE  PLTOL  GAPTOL1  GAPTOL2  GAPTOL3  GAPTOL4  RID        fields 1 to 8
+// Card layout: TrimCouplingTolerances  TID  CTYPE  PLTOL  GAPTOL1  GAPTOL2  GAPTOL3  GAPTOL4  RID  fields 1 to 8
 //
 // TID is the number of the trim component, a plain integer shared by the cards of the component (IdSpace::Group). CTYPE
 // is required. PLTOL is the relative tolerance for the acceptance in the plane, in the element and in the normal

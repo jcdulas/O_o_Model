@@ -13,8 +13,8 @@ namespace oor::analysis
 namespace
 {
 
-// The strips of a CAERO4 and a CAERO5 are numbered from the EID on, and their numbers must not be those of grid points,
-// scalar points or extra points. A warning: only some pre-processors is
+// The strips of an AeroStripPanel4 and an AeroPistonPanel5 are numbered from the EID on, and their numbers must not be
+// those of grid points, scalar points or extra points. A warning: only some pre-processors is
 // hurt by it (the strips of the model share their numbers with points in the model database it builds).
 class StripIdsCheck final : public ValidationCheck
 {

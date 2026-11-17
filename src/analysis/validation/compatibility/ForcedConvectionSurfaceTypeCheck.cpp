@@ -9,9 +9,9 @@ namespace oor::analysis
 namespace
 {
 
-// A CONVM (forced convection) whose surface element is not a CHBDYP of type FTUBE (
-// a CONVM goes with the FTUBE CHBDYP of the same EID). A surface element that does not exist is the
-// business of ref.unresolved.
+// A ForcedConvection (forced convection) whose surface element is not a HeatSurfaceProperty of type FTUBE (
+// a ForcedConvection goes with the FTUBE HeatSurfaceProperty of the same EID). A surface element that does not exist is
+// the business of ref.unresolved.
 class ForcedConvectionSurfaceTypeCheck final : public ValidationCheck
 {
 public:

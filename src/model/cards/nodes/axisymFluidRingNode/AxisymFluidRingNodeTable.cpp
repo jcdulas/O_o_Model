@@ -105,7 +105,7 @@ void AxisymFluidRingNodeTable::visitReferences(std::uint32_t row, ReferenceVisit
     if (const base::EntityId displacementFrame = m_displacementFrameId.get(row); displacementFrame > 0)
         m_displacementFrameId.set(row,
                                   visitor.visit("displacementFrameId", ReferenceTarget::Coordinate, displacementFrame));
-    // IDF names a RINGFL entry, a point of the node ID space.
+    // IDF names an AxisymFluidRing entry, a point of the node ID space.
     if (const base::EntityId fluidPoint = m_fluidPointId.get(row); fluidPoint > 0)
         m_fluidPointId.set(row, visitor.visit("fluidPointId", ReferenceTarget::Node, fluidPoint));
 }

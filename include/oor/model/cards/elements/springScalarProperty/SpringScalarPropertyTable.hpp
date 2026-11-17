@@ -18,7 +18,7 @@ struct SpringScalarPropertyFormat
     static void write(const SpringScalarPropertyCard& card, FieldWriter& writer);
 };
 
-// All the CELAS3 elements.
+// All the SpringScalarProperty elements.
 class SpringScalarPropertyTable final : public TypedTable<SpringScalarPropertyTable, SpringScalarPropertyCard>
 {
 public:

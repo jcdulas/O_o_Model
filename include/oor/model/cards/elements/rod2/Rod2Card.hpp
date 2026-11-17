@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One CROD card: a rod element between two grid points.
+// One Rod2 card: a rod element between two grid points.
 //
 // Card layout:
-//   CROD  EID  PID  G1  G2
+//   Rod2  EID  PID  G1  G2
 struct Rod2Card
 {
     base::EntityId id = 0;

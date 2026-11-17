@@ -20,8 +20,8 @@ struct ContactPatchSurfaceFormat
     static void write(const ContactPatchSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the BCPATCH cards (category ContactSurface, unique among them). The patches are one CSR column of rows of five
-// IDs (IDP, G1 to G4); the grid points are references.
+// All the ContactPatchSurface cards (category ContactSurface, unique among them). The patches are one CSR column of
+// rows of five IDs (IDP, G1 to G4); the grid points are references.
 class ContactPatchSurfaceTable final : public TypedTable<ContactPatchSurfaceTable, ContactPatchSurfaceCard>
 {
 public:

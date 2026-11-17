@@ -19,10 +19,10 @@ struct WettedElemNodesFormat
     static void write(const WettedElemNodesCard& card, FieldWriter& writer);
 };
 
-// All the WETELMG cards, in the category WettedElement with the WETELME cards: the WEID is unique among the WETELMG
-// cards (IdSpace::PerCardType) and a WETSURF names a wetted element by it. The grid points are references
-// (ReferenceTarget::Node). The cards are kept whole next to a column of their WEIDs, because the list of grid points
-// has a length that depends on the shape.
+// All the WettedElemNodes cards, in the category WettedElement with the WettedElemSide cards: the WEID is unique among
+// the WettedElemNodes cards (IdSpace::PerCardType) and a WettedSurface names a wetted element by it. The grid points
+// are references (ReferenceTarget::Node). The cards are kept whole next to a column of their WEIDs, because the list of
+// grid points has a length that depends on the shape.
 class WettedElemNodesTable final : public TypedTable<WettedElemNodesTable, WettedElemNodesCard>
 {
 public:

@@ -9,14 +9,16 @@
 namespace oor::model
 {
 
-// One DRESP3 card: a response computed by a routine of the user, from design variables, constants and other responses.
+// One DesignResp3 card: a response computed by a routine of the user, from design variables, constants and other
+// responses.
 //
-// Card layout: DRESP3  ID  LABEL  GROUP  TYPE  REGION                                      fields 1 to 5
-//                     DESVAR  DVID1 ...                                                 the lines after, from field 9
-//                     DTABLE ...  DRESP1 ...  DNODE ...  DVPREL1 ...  ...  USRDATA  text  (`ResponseArguments.hpp`)
+// Card layout: DesignResp3  ID  LABEL  GROUP  TYPE  REGION                                 fields 1 to 5
+//                          DesignVar  DVID1 ...                                         the lines after, from field 9
+//                          DesignConstants ...  DesignResp1 ...  DNODE ...  DesignPropRelation1 ...  ...  USRDATA  text
+//                                               (`ResponseArguments.hpp`)
 // GROUP names the group of external responses (the FMS CONNECT entry that gives the routine) and TYPE the
-// response in that group. The arguments are those of a DRESP2 and the text of USRDATA (the constants passed
-// to the routine; it may not name another DRESP3).
+// response in that group. The arguments are those of a DesignResp2 and the text of USRDATA (the constants passed
+// to the routine; it may not name another DesignResp3).
 struct DesignResp3Card
 {
     base::EntityId id = 0;

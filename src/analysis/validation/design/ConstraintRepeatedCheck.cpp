@@ -11,7 +11,7 @@ namespace oor::analysis
 namespace
 {
 
-// in one set of constraints (one DCID) a response is bounded once. The second DCONSTR is reported.
+// in one set of constraints (one DCID) a response is bounded once. The second DesignConstr is reported.
 class ConstraintRepeatedCheck final : public ValidationCheck
 {
 public:

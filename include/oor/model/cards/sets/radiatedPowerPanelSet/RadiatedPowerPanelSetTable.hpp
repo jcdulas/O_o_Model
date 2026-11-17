@@ -19,10 +19,10 @@ struct RadiatedPowerPanelSetFormat
     static void write(const RadiatedPowerPanelSetCard& card, FieldWriter& writer);
 };
 
-// All the ERPPNL cards (category Other). A card has no ID of its own (IdSpace::None), so there may be many. The SETIDi
-// are references to SET1 and SET3 cards (ReferenceTarget::Set, which a renumbering of the sets follows); the NAMEi are
-// labels, not references. The cards are kept whole next to a column of the number of their panels, which is what the
-// query engine reads.
+// All the RadiatedPowerPanelSet cards (category Other). A card has no ID of its own (IdSpace::None), so there may be
+// many. The SETIDi are references to IdListSet1 and TypedListSet3 cards (ReferenceTarget::Set, which a renumbering of
+// the sets follows); the NAMEi are labels, not references. The cards are kept whole next to a column of the number of
+// their panels, which is what the query engine reads.
 class RadiatedPowerPanelSetTable final : public TypedTable<RadiatedPowerPanelSetTable, RadiatedPowerPanelSetCard>
 {
 public:

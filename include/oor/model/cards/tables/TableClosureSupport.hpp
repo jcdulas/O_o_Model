@@ -7,10 +7,10 @@
 #include <span>
 #include <string>
 
-// What the multi-dimensional tables of SOL 400 (TABL3D0, TABL3D1, TABL3D2, TABLE3D) share: the rule of the three flags
-// that describe an independent variable, the rule of a list of reals, and the line arithmetic of a card whose lists
-// each start on a line of their own. Each helper moves one kind of value; every card still lays out, reads, writes and
-// checks its own fields by hand.
+// What the multi-dimensional tables of SOL 400 (TableMultiVariable0, TableMultiVariable1, TableMultiVariable2,
+// TableScattered3D) share: the rule of the three flags that describe an independent variable, the rule of a list of
+// reals, and the line arithmetic of a card whose lists each start on a line of their own. Each helper moves one kind of
+// value; every card still lays out, reads, writes and checks its own fields by hand.
 namespace oor::model
 {
 
@@ -22,7 +22,8 @@ inline constexpr int TABLE_DEFAULT_EXTRAPOLATION = 2;
 inline constexpr int TABLE_FIELDS_PER_LINE = 8;
 
 // The first field of the line that holds `field` when `field` is not the first of its line, else `field` itself. The
-// lists of a TABL3D1 and a TABL3D2 are laid out this way: each list of X values starts on a new line, and so do the Y.
+// lists of a TableMultiVariable1 and a TableMultiVariable2 are laid out this way: each list of X values starts on a new
+// line, and so do the Y.
 [[nodiscard]] constexpr int tableLineStartAtOrAfter(int field) noexcept
 {
     return ((field - 1 + TABLE_FIELDS_PER_LINE - 1) / TABLE_FIELDS_PER_LINE) * TABLE_FIELDS_PER_LINE + 1;

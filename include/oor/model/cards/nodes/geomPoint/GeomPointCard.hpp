@@ -6,10 +6,11 @@
 namespace oor::model
 {
 
-// One POINT card: a geometric point that is not a grid point (an edge point for SELOC, a profile point of a PBMSECT).
+// One GeomPoint card: a geometric point that is not a grid point (an edge point for SuperelementLocation, a profile
+// point of a BeamArbitrarySectionProp).
 //
 // Card layout:
-//   POINT  ID  CP  X1  X2  X3
+//   GeomPoint  ID  CP  X1  X2  X3
 //
 // The ID shares the node ID space with the GRIDs (the format reference: unique with respect to the GRID IDs).
 struct GeomPointCard

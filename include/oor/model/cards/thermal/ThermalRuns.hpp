@@ -15,9 +15,10 @@
 namespace oor::model
 {
 
-// The ID lists of the thermal cards (QVOL, QBDY1, QBDY3, QVECT, RADBC, RADLST and the grid points of TEMPBC): IDs, with
-// "a Through b" and, on the cards that have it, "a Through b By n". One kind of value used inside one family: each card still
-// reads and writes its own fields and says what its IDs refer to.
+// The ID lists of the thermal cards (HeatVolumeSourceLoad, HeatFluxSurfaceLoad1, HeatFluxBoundaryLoad3,
+// HeatFluxVectorLoad, RadiationToSpace, RadiationCavityList and the grid points of TemperatureBoundary): IDs, with "a
+// Through b" and, on the cards that have it, "a Through b By n". One kind of value used inside one family: each card
+// still reads and writes its own fields and says what its IDs refer to.
 
 // One entry of the list: a single ID (first == last), "first Through last" (by == 1) or "first Through last By by".
 struct ThermalRun

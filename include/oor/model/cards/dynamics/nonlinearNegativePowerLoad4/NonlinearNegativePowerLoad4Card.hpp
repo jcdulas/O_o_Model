@@ -7,14 +7,14 @@
 namespace oor::model
 {
 
-// One NOLIN4 card: a nonlinear load that is a negative variable raised to a power (selected by the Case
-// Control command NONLINEAR).
+// One NonlinearNegativePowerLoad4 card: a nonlinear load that is a negative variable raised to a power (selected by the
+// Case Control command NONLINEAR).
 //
-// Card layout: NOLIN4  SID  GI  CI  S  GJ  CJ  A
+// Card layout: NonlinearNegativePowerLoad4  SID  GI  CI  S  GJ  CJ  A
 // The load at point GI, component CI, is minus S times (-X) raised to the power A for X < 0 and 0 otherwise, where X
 // is the displacement of point GJ, component CJ (a velocity when CJ is 10 more than the component: 11 to 16 for a grid
-// point, 10 for a scalar or extra point). CI and CJ are 0 (blank) for a scalar or extra point. NOLIN3 is the positive
-// range.
+// point, 10 for a scalar or extra point). CI and CJ are 0 (blank) for a scalar or extra point.
+// NonlinearPositivePowerLoad3 is the positive range.
 struct NonlinearNegativePowerLoad4Card
 {
     base::EntityId id = 0;

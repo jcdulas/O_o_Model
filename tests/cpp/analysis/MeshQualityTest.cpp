@@ -496,7 +496,7 @@ TEST_CASE("mid-side nodes at the middle of their edges change nothing, others mo
 TEST_CASE("blank mid-side nodes are the straight element, and a CTRIAX6 alternates corners and mid-side nodes",
           "[analysis][quality]")
 {
-    // A CQUAD8 with blank mid-side nodes is the quadrilateral on its corners.
+    // A ShellQuad8 with blank mid-side nodes is the quadrilateral on its corners.
     const std::vector<Point> square = {{0, 0, 0}, {1, 0, 0}, {1, 1, 0}, {0, 1, 0}};
     const QualityValues q =
         qualityOf(readModelText(std::string(PROPERTIES) + gridsOf(square) + "ShellQuad8;10;1;1;2;3;4\n"), 10);
@@ -504,7 +504,7 @@ TEST_CASE("blank mid-side nodes are the straight element, and a CTRIAX6 alternat
     REQUIRE(q.jacobianMin == Approx(0.25));
     REQUIRE(std::isnan(q.edgePointAngle));
 
-    // CTRIAX6: G1, G3, G5 are the corners (x-z plane), G2, G4, G6 the middles of the sides between them.
+    // AxisymTria6: G1, G3, G5 are the corners (x-z plane), G2, G4, G6 the middles of the sides between them.
     const std::vector<Point> axisymmetric = {{1, 0, 0}, {1.5, 0, 0}, {2, 0, 0}, {1.5, 0, 0.5}, {1, 0, 1}, {1, 0, 0.5}};
     const Model model =
         readModelText(std::string(PROPERTIES) + gridsOf(axisymmetric) + "AxisymTria6;10;1;1;2;3;4;5;6\n");

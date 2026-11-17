@@ -73,8 +73,8 @@ MarginSet computeMargins(const ResultQueryContext& context)
 
     if (criterion == "composite" || criterion == "bond")
     {
-        // `bond`: the bonding index of the plies (the solver's failure index for bonding, against the PCOMP SB), linear
-        // in the loads, judged as the failure index is
+        // `bond`: the bonding index of the plies (the solver's failure index for bonding, against the CompProp SB),
+        // linear in the loads, judged as the failure index is
         const bool bond = criterion == "bond";
         const std::string field = bond ? "bondIndex" : "failureIndex";
         const PlyData data = buildPlyData(context, request);
@@ -101,7 +101,7 @@ MarginSet computeMargins(const ResultQueryContext& context)
         // of the ply of the largest index, which a quadratic theory can tell apart. A ply whose index gives no factor
         // (an index of 0 or less, no quadratic part) is not critical; of plies that are none, the largest index stands.
         using Key = std::tuple<std::size_t, std::int32_t, std::int32_t, std::uint64_t, std::int32_t>;
-        // the MAT8 of the plies, for the strength ratio of the theories of failure modes at the caller's limit
+        // the OrthoMat2D of the plies, for the strength ratio of the theories of failure modes at the caller's limit
         std::map<std::pair<const model::Model*, std::int32_t>, std::optional<PlyMaterial>> materials;
         const auto materialOf = [&](std::size_t set, std::int32_t mid) -> const std::optional<PlyMaterial>&
         {

@@ -19,7 +19,7 @@ struct Gap2Format
     static void write(const Gap2Card& card, FieldWriter& writer);
 };
 
-// All the CGAP elements. The orientation vector is an (N, 3) NumPy view without copy.
+// All the Gap2 elements. The orientation vector is an (N, 3) NumPy view without copy.
 class Gap2Table final : public TypedTable<Gap2Table, Gap2Card>
 {
 public:

@@ -18,8 +18,8 @@ struct DesignFieldConstantsFormat
     static void write(const DesignFieldConstantsCard& card, FieldWriter& writer);
 };
 
-// All the DTABLE2 cards (no ID: IdSpace::None). The PIDi of an entry names a property, a material or an element, which
-// the card named by PNAMEi says (a card type the library does not type is not looked up).
+// All the DesignFieldConstants cards (no ID: IdSpace::None). The PIDi of an entry names a property, a material or an
+// element, which the card named by PNAMEi says (a card type the library does not type is not looked up).
 class DesignFieldConstantsTable final : public TypedTable<DesignFieldConstantsTable, DesignFieldConstantsCard>
 {
 public:

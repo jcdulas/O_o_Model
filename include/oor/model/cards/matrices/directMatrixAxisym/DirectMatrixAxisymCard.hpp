@@ -10,32 +10,33 @@
 namespace oor::model
 {
 
-// One term of a column of a DMIAX matrix: the row (a grid, scalar, fluid, pressure, free surface or extra point, its
-// component and its harmonic number) and the value, real or complex.
+// One term of a column of a DirectMatrixAxisym matrix: the row (a grid, scalar, fluid, pressure, free surface or extra
+// point, its component and its harmonic number) and the value, real or complex.
 struct DirectMatrixAxisymTerm
 {
     base::EntityId point = 0;   // Gi
     std::int32_t component = 0; // Ci: 1 to 6 for a grid point, 0 (blank) for a scalar, fluid or extra point
-    std::int32_t harmonic = 0;  // Ni: the harmonic number of a RINGFL point (negative: sine series), else blank
+    // Ni: the harmonic number of an AxisymFluidRing point (negative: sine series), else blank
+    std::int32_t harmonic = 0;
     double real = 0.0;          // Ai
     double imaginary = 0.0;     // Bi (0 for a real matrix)
 
     [[nodiscard]] bool operator==(const DirectMatrixAxisymTerm&) const noexcept = default;
 };
 
-// One DMIAX card: the matrix input of an axisymmetric analysis (a model with an AXIF entry), either the header of a
-// matrix (the second field is the integer 0) or one column of it. A matrix is a header and the columns that carry its
-// name, one card each, in any order; the matrix as one object is assembled by `directMatrixAxisymTerms` and
-// `directMatrixAxisymCoo` (MatrixCards.hpp).
+// One DirectMatrixAxisym card: the matrix input of an axisymmetric analysis (a model with an AxisymFluidControl entry),
+// either the header of a matrix (the second field is the integer 0) or one column of it. A matrix is a header and the
+// columns that carry its name, one card each, in any order; the matrix as one object is assembled by
+// `directMatrixAxisymTerms` and `directMatrixAxisymCoo` (MatrixCards.hpp).
 //
-// Card layout, header:  DMIAX  NAME  "0"  IFO  TIN  TOUT
-//         column:      DMIAX  NAME  GJ   CJ   NJ
+// Card layout, header:  DirectMatrixAxisym  NAME  "0"  IFO  TIN  TOUT
+//         column:      DirectMatrixAxisym  NAME  GJ   CJ  NJ
 //                      .      G1    C1   N1   A1   B1
 //                      .      G2    C2   N2   A2   B2   -etc.-
 // A column entry is its first line and then one continuation line for each term: G, C, N, A and B in the first five
 // fields of the line (fields 9 to 13 of the card, 17 to 21 for the second term, and so on). B is blank for a real
-// matrix (TIN 1), and N for every point that is not a RINGFL point. The matrix terms are the harmonics: a blank N is
-// kept apart from the harmonic 0 (`NO_HARMONIC`).
+// matrix (TIN 1), and N for every point that is not an AxisymFluidRing point. The matrix terms are the harmonics: a
+// blank N is kept apart from the harmonic 0 (`NO_HARMONIC`).
 struct DirectMatrixAxisymCard
 {
     static constexpr std::int32_t NO_HARMONIC = std::numeric_limits<std::int32_t>::min(); // the N field is blank

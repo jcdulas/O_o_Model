@@ -15,7 +15,7 @@ namespace oor::analysis::detail
 {
 
 // One element a fastener can pierce, with the positions of its grid points: a shell of the model or the virtual
-// element of a CWELD GRIDID (`isVirtual`, no location).
+// element of a Weld GRIDID (`isVirtual`, no location).
 struct ShellElement
 {
     model::CardLocation location;
@@ -32,9 +32,9 @@ struct ShellElement
     [[nodiscard]] base::Vec3 pointAt(const ShapeValues& values) const noexcept;
 };
 
-// Reads the elements a fastener can pierce: CQUAD4, CQUADR, CTRIA3, CTRIAR (linear) and CQUAD8, CTRIA6
-// (quadratic, mid-side nodes optional). The format reference names the shells of a PSHELL or a PCOMP; the property
-// type is not checked here.
+// Reads the elements a fastener can pierce: ShellQuad4, ShellQuad4Drilling, ShellTria3, ShellTria3Drilling (linear) and
+// ShellQuad8, ShellTria6 (quadratic, mid-side nodes optional). The format reference names the shells of a ShellProp or
+// a CompProp; the property type is not checked here.
 class ShellElements
 {
 public:
@@ -44,7 +44,7 @@ public:
     // The element at `location`; nothing when it is not a shell type or a grid point of it has no position.
     [[nodiscard]] std::optional<ShellElement> read(model::CardLocation location) const;
     [[nodiscard]] std::optional<ShellElement> readById(base::EntityId eid) const;
-    // The virtual element of a CWELD GRIDID on the grid points GA1..GA8 (or GB1..GB8) with the shape letter of SPTYP:
+    // The virtual element of a Weld GRIDID on the grid points GA1..GA8 (or GB1..GB8) with the shape letter of SPTYP:
     // 'Q' (corners 1 to 4, mid-sides 5 to 8 optional) or 'T' (corners 1 to 3, mid-sides 4 to 6 optional).
     [[nodiscard]] std::optional<ShellElement> fromGrids(std::span<const base::EntityId> grids, char shape) const;
 

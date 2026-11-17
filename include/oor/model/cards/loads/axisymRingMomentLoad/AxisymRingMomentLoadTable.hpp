@@ -18,8 +18,8 @@ struct AxisymRingMomentLoadFormat
     static void write(const AxisymRingMomentLoadCard& card, FieldWriter& writer);
 };
 
-// All the MOMAX cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). RID names a
-// RINGAX, a point of the node ID space (a node reference).
+// All the AxisymRingMomentLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). RID
+// names a AxisymConeRing, a point of the node ID space (a node reference).
 class AxisymRingMomentLoadTable final : public TypedTable<AxisymRingMomentLoadTable, AxisymRingMomentLoadCard>
 {
 public:

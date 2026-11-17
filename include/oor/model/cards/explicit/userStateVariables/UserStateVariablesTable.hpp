@@ -19,9 +19,9 @@ struct UserStateVariablesFormat
     static void write(const UserStateVariablesCard& card, FieldWriter& writer);
 };
 
-// All the UDSESV cards (a global entry: a deck has one in practice). The card has no ID (IdSpace::None, category Other)
-// and refers to no other card. The cards are kept whole (CardRows): the list of names has a length of its own. A column
-// of the number of state variables is there for the query engine.
+// All the UserStateVariables cards (a global entry: a deck has one in practice). The card has no ID (IdSpace::None,
+// category Other) and refers to no other card. The cards are kept whole (CardRows): the list of names has a length of
+// its own. A column of the number of state variables is there for the query engine.
 class UserStateVariablesTable final : public TypedTable<UserStateVariablesTable, UserStateVariablesCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a UDSESV refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an UserStateVariables refers to no other card
 
     [[nodiscard]] Column<std::int32_t>& variableCountColumn() noexcept { return m_variableCount; }
 

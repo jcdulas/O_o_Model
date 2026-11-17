@@ -21,7 +21,8 @@ struct FixedBoundaryDofSet1Format
     static void write(const FixedBoundaryDofSet1Card& card, FieldWriter& writer);
 };
 
-// All the BSET1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first, last) runs.
+// All the FixedBoundaryDofSet1 cards. A card has no ID (IdSpace::None). The points of every card are one column of
+// (first, last) runs.
 class FixedBoundaryDofSet1Table final : public TypedTable<FixedBoundaryDofSet1Table, FixedBoundaryDofSet1Card>
 {
 public:

@@ -10,11 +10,11 @@
 namespace oor::model
 {
 
-// One NLOUTUD card: the user defined output of the explicit nonlinear analysis of SOL 700 (the user subroutine is
-// attached with CONNECT SERVICE in the File Management Section).
+// One NonlinearUserOutput card: the user defined output of the explicit nonlinear analysis of SOL 700 (the user
+// subroutine is attached with CONNECT SERVICE in the File Management Section).
 //
-// Card layout: NLOUTUD  NID  GROUP  UNAME  DTOUT  STEPS  OUTNAME
-//                      EL1/G1  EL2/G2  EL3/G3  -etc.-
+// Card layout: NonlinearUserOutput  NID  GROUP  UNAME  DTOUT  STEPS  OUTNAME
+//                                  EL1/G1  EL2/G2  EL3/G3  -etc.-
 // The IDs on the continuation lines are element IDs with UNAME = EEXOUT and grid point IDs with UNAME = GEXOUT. At most
 // one of DTOUT and STEPS is given.
 struct NonlinearUserOutputCard

@@ -9,12 +9,12 @@
 namespace oor::model
 {
 
-// One CAXISYM card (SOL 400): an axisymmetric thick shell line element with two end points and, optionally, a third
+// One ShellAxisym card (SOL 400): an axisymmetric thick shell line element with two end points and, optionally, a third
 // point between them on the curve of the element. It lies in the x-y plane of the basic system (x is the radius, y the
 // axis), and its normal is on the left of the way from G1 to G2 (format reference figure).
 //
-// Card layout: CAXISYM  EID  PID  G1  G2  G3  NOFF
-// EID is a positive integer below 100,000,000, unique among all the elements. PID names a PAXISYM (a
+// Card layout: ShellAxisym  EID  PID  G1  G2  G3  NOFF
+// EID is a positive integer below 100,000,000, unique among all the elements. PID names an AxisymShellProp (a
 // property card, so the reference resolves). G1 and G2 are required, G3 is blank for a straight two-node element
 // (stored as 0), and the points must be different ("Unique" on the format). The format reference recommends G3 in the
 // middle third of the element: a recommendation, not a rule of the card. NOFF is the offset from the surface

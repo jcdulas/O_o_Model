@@ -19,7 +19,7 @@ struct PointMassMatrixFormat
     static void write(const PointMassMatrixCard& card, FieldWriter& writer);
 };
 
-// All the CONM1 elements. The mass values are an (N, 21) NumPy view, without copy.
+// All the PointMassMatrix elements. The mass values are an (N, 21) NumPy view, without copy.
 class PointMassMatrixTable final : public TypedTable<PointMassMatrixTable, PointMassMatrixCard>
 {
 public:

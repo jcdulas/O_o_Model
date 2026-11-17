@@ -95,7 +95,7 @@ void FreeBodyLoadSubcaseTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void FreeBodyLoadSubcaseTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // Both name a set of the Bulk Data (the format says a SET1); a blank ELEMSET names nothing.
+    // Both name a set of the Bulk Data (the format says an IdListSet1); a blank ELEMSET names nothing.
     if (const base::EntityId nodeSetId = m_nodeSetId.get(row); nodeSetId > 0)
         m_nodeSetId.set(row, visitor.visit("nodeSetId", ReferenceTarget::Set, nodeSetId));
     if (const base::EntityId elementSetId = m_elementSetId.get(row); elementSetId > 0)
@@ -105,7 +105,8 @@ void FreeBodyLoadSubcaseTable::visitReferences(std::uint32_t row, ReferenceVisit
 void FreeBodyLoadSubcaseTable::finishRead(Model&, const ReadContext& context)
 {
     // The name of a subsystem is compared without regard to the case, like every name a card gives another card. The
-    // format reference does not say that it is unique, but an FBODYLD names a subsystem by it: a repeat is a warning.
+    // format reference does not say that it is unique, but a FreeBodyLoad names a subsystem by it: a repeat is a
+    // warning.
     std::set<std::string> names;
     std::set<std::string> reported;
     for (std::uint32_t row = 0; row < m_rows.rowCount(); ++row)

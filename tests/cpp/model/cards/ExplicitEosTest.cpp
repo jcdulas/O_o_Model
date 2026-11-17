@@ -1,7 +1,8 @@
-// Checks of the equation of state and shear model cards of the explicit solver: EOSDEF, EOSIG,
-// EOSJWL, EOSMG, EOSNA, EOSPOL, EOSUDS, SHREL, SHRPOL and SHRUDS. Per card: the fields in their format reference
-// positions, the defaults, the refused values and the round trip. The cards refer to no other card; what they share
-// (two ID spaces that a MATDEUL names) is tested at the end.
+// Checks of the equation of state and shear model cards of the explicit solver: DeflagrationStateEquation,
+// IgnitionGrowthStateEquation, JonesWilkinsLeeStateEquation, MieGruneisenStateEquation, NobleAbelStateEquation,
+// PolynomialStateEquation, UserStateEquation, ElasticShearModel, PolynomialShearModel and UserShearModel. Per card: the
+// fields in their format reference positions, the defaults, the refused values and the round trip. The cards refer to
+// no other card; what they share (two ID spaces that an EulerMat names) is tested at the end.
 
 #include "oor/model/cards/explicit/deflagrationStateEquation/DeflagrationStateEquationTable.hpp"
 #include "oor/model/cards/explicit/elasticShearModel/ElasticShearModelTable.hpp"
@@ -51,8 +52,8 @@ std::string withField(const std::string& name, std::vector<std::string> fields, 
 const std::vector<std::string> DEFLAGRATION_FIELDS{"11",    "1.2", "0.001", "",    "",      "",    "1.E6",
                                                    "1550.", "",    "3.E-8", "0.8", "5400.", "0.6", "0.1"};
 
-// An EOSIG with the constants of the unreacted explosive in fields 10 to 16, of the products in 17 to 22 and Z and
-// ECHEM in 25 and 27, which is the card that gives its constants (no database).
+// An IgnitionGrowthStateEquation with the constants of the unreacted explosive in fields 10 to 16, of the products in
+// 17 to 22 and Z and ECHEM in 25 and 27, which is the card that gives its constants (no database).
 const std::vector<std::string> IGNITION_GROWTH_FIELDS{
     "21",  "",     "",     "",    "",     "",    "",    "",    "", "650.", "-0.04", "10.", "1.1", "0.85",
     "38.", "350.", "0.01", "4.8", "0.07", "4.2", "1.1", "0.3", "", "",     "2.",    "",    "0.05"};
@@ -407,7 +408,7 @@ TEST_CASE("the equations of state and the shear models are numbered apart and a 
     REQUIRE(unresolvedIn(model) == 0);
     requireRoundTrip(model);
 
-    // A MATDEUL that names a card the model lacks is reported.
+    // An EulerMat that names a card the model lacks is reported.
     Model dangling = readBulk("NobleAbelStateEquation;51;1.2\nElasticShearModel;251\nEulerMat;1;1.E+3;52;252");
     REQUIRE(unresolvedIn(dangling) == 2);
 }

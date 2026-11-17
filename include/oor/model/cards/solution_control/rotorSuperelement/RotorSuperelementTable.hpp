@@ -18,8 +18,9 @@ struct RotorSuperelementFormat
     static void write(const RotorSuperelementCard& card, FieldWriter& writer);
 };
 
-// All the ROTORSE cards. The ID is the rotor ID (category Rotor, IdSpace::Group like ROTORG: a rotor may be made of
-// several cards). The SEID is a superelement number: it is looked up as such (ReferenceTarget::Superelement).
+// All the RotorSuperelement cards. The ID is the rotor ID (category Rotor, IdSpace::Group like RotorLineNodes: a rotor
+// may be made of several cards). The SEID is a superelement number: it is looked up as such
+// (ReferenceTarget::Superelement).
 class RotorSuperelementTable final : public TypedTable<RotorSuperelementTable, RotorSuperelementCard>
 {
 public:

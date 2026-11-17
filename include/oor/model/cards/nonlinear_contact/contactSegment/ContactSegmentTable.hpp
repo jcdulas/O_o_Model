@@ -19,9 +19,9 @@ struct ContactSegmentFormat
     static void write(const ContactSegmentCard& card, FieldWriter& writer);
 };
 
-// All the BCSEG cards. The ID of the table is the IBODY, the surface the segments make: several cards share it
-// (IdSpace::Group, category ContactSurface), so that the BSID of a BCBODY finds it. The segment number is a column of
-// its own.
+// All the ContactSegment cards. The ID of the table is the IBODY, the surface the segments make: several cards share it
+// (IdSpace::Group, category ContactSurface), so that the BSID of a ContactBody finds it. The segment number is a column
+// of its own.
 class ContactSegmentTable final : public TypedTable<ContactSegmentTable, ContactSegmentCard>
 {
 public:

@@ -52,7 +52,7 @@ struct FatigueMatIdRun
     base::EntityId last = 0;
 };
 
-// The MATID line: the elastic constants and the list of the MAT1 that the MATFTG serves.
+// The MATID line: the elastic constants and the list of the IsoMat that the FatigueMat serves.
 struct FatigueMatMaterials
 {
     std::optional<double> youngsModulus;
@@ -60,13 +60,12 @@ struct FatigueMatMaterials
     std::vector<FatigueMatIdRun> matIds;
 };
 
-// One MATFTG card: the fatigue properties of an isotropic metal (SOLs 101, 103, 112 in the time domain, SOLs 108 and
-// 111 in the frequency domain).
+// One FatigueMat card: the fatigue properties of an isotropic metal (SOLs 101, 103, 112 in the time domain, SOLs 108
+// and 111 in the frequency domain).
 //
 // Card layout (the fields are numbered across the lines, eight to a line; the format reference draws a format for each
 // family of solutions which differ in the optional values only, so one reader serves both):
-//   MATFTG  MID    CNVRT  MATOUT                                                    fields 1 to 3 (MATOUT: SOLs 108 and
-//   111)
+//   FatigueMat  MID CNVRT MATOUT fields 1 to 3 (MATOUT: SOLs 108 and 111)
 // then blocks of lines, each starting on a line of its own with a keyword in the first field of the line, and in any
 // order:
 //   "STATIC"  YS  UTS  CODE  TYPE  RR  SE  MP                                       then, on the next line, RA (second
@@ -81,8 +80,9 @@ struct FatigueMatMaterials
 //   "MATID"   E   NU                                                                then the MIDi, seven to a line,
 //   with THRU
 // CNVRT is the conversion factor of the stress units (1.0 when blank), MATOUT (0) the debug flag of the SOLs 108 and
-// 111. The STATIC line is required. MID is the ID of the MAT1 that the card serves, unless there is a MATID line, in
-// which case MID is the ID of the card alone and the MIDi name the MAT1 that it serves. A blank value is kept absent.
+// 111. The STATIC line is required. MID is the ID of the IsoMat that the card serves, unless there is a MATID line, in
+//      which case MID is the ID of the card alone and the MIDi name the IsoMat that it serves. A blank value is kept
+//      absent.
 struct FatigueMatCard
 {
     static constexpr std::size_t CURVES = 5; // SN, SNS1, SNS2, SNBR1, SNBR0

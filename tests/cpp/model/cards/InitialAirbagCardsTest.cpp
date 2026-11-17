@@ -1,10 +1,12 @@
-// Checks of the initial conditions and the air bag heat cards of the explicit solver: TIC3,
-// TICEL and TICEUDS (the initial conditions that the IC command selects), TICEUL1, TICREG and TICVAL (the initial
-// values of the Eulerian regions), GBAGCOU (the switch of an air bag to uniform pressure), HEATLOS, HTRCONV and HTRRAD
-// (the heat transfer of an air bag surface), and the PEULER1, COUPLE and GBAG fields that now resolve to them. Per
-// card: the fields in their format reference positions, the defaults, the references it lists and what each one points
-// to, the renumbering of the kinds it owns, the refused values and the round trip through the three formats. The
-// generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
+// Checks of the initial conditions and the air bag heat cards of the explicit solver: InitialVelocityField,
+// InitialElemValues and InitialValuesUserRoutine (the initial conditions that the IC command selects),
+// EulerInitialRegions, InitialConditionRegion and InitialConditionValues (the initial values of the Eulerian regions),
+// GasBagSwitch (the switch of an air bag to uniform pressure), GasBagHeatTransfer, GasBagConvection and GasBagRadiation
+// (the heat transfer of an air bag surface), and the EulerRegionProp, EulerLagrangeCoupling and GasBag fields that now
+// resolve to them. Per card: the fields in their format reference positions, the defaults, the references it lists and
+// what each one points to, the renumbering of the kinds it owns, the refused values and the round trip through the
+// three formats. The generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what
+// each card means.
 
 #include "oor/model/cards/dynamics/initialElemValues/InitialElemValuesTable.hpp"
 #include "oor/model/cards/dynamics/initialValuesUserRoutine/InitialValuesUserRoutineTable.hpp"
@@ -40,8 +42,9 @@ using namespace oor::testing;
 namespace
 {
 
-// The element 1 that every BSURF of these decks names (a BSURF lists elements, which must exist): one quadrilateral,
-// with ID 9000 for its property and its material so that they do not meet the IDs the tests renumber.
+// The element 1 that every ContactElemSurface of these decks names (a ContactElemSurface lists elements, which must
+// exist): one quadrilateral, with ID 9000 for its property and its material so that they do not meet the IDs the tests
+// renumber.
 const std::string SURFACE_ELEMENT =
     "\n"
     "Node;1\n"
@@ -107,7 +110,7 @@ std::string problemField(const CardT& card)
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TIC3
+// InitialVelocityField
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TIC3 names a grid point at the centre and a list of grid points, and renumbers them",
@@ -195,7 +198,7 @@ TEST_CASE("a TIC3 refuses a value that is not in its layout", "[model][cards][ti
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TICEL
+// InitialElemValues
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TICEL gives pairs of a variable and a value from field 3 on any number of lines", "[model][cards][ticel]")
@@ -296,7 +299,7 @@ TEST_CASE("a TICEL refuses a missing name or value and a pair after a blank one"
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TICEUDS
+// InitialValuesUserRoutine
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TICEUDS has a group, the routine EXINIT, a set and the elements or grids it applies to",
@@ -368,14 +371,14 @@ TEST_CASE("a TICEUDS refuses a group that is no name, another routine and a sixt
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TICEUL1, TICREG and TICVAL
+// EulerInitialRegions, InitialConditionRegion and InitialConditionValues
 // ---------------------------------------------------------------------------------------------------------------------
 
 namespace
 {
 
-// A PEULER1 with its TICEUL1, the five regions of a group (one of each type, the SPHERE with a material and a TICVAL)
-// and everything the regions name.
+// An EulerRegionProp with its EulerInitialRegions, the five regions of a group (one of each type, the SPHERE with a
+// material and an InitialConditionValues) and everything the regions name.
 const std::string REGIONS_TEXT =
     "EulerRegionProp;100;;300\n"
     "EulerInitialRegions;300;200\n"
@@ -406,8 +409,8 @@ TEST_CASE("a TICEUL1 names the group of TICREG cards that a PEULER1 reaches thro
     REQUIRE(unresolvedIn(model) == 0);
     requireRoundTrip(model);
 
-    // The group is a set of cards: every TICREG that has the TSID. The PEULER1 names the TICEUL1 (it is a property: the
-    // SID is no longer a plain number).
+    // The group is a set of cards: every InitialConditionRegion that has the TSID. The EulerRegionProp names the
+    // EulerInitialRegions (it is a property: the SID is no longer a plain number).
     REQUIRE(seenBy<EulerInitialRegionsTable>(model) ==
             std::vector<Seen>{{"regionGroupId", ReferenceTarget::EulerInitialRegions, 200}});
     REQUIRE(seenBy<EulerRegionPropTable>(model) ==
@@ -418,11 +421,12 @@ TEST_CASE("a TICEUL1 names the group of TICREG cards that a PEULER1 reaches thro
                               {"bodyForceSetId", ReferenceTarget::EulerBodyForce, 7}});
 
     Model noTable = readBulk("EulerRegionProp;100;;300");
-    REQUIRE(unresolvedIn(noTable) == 1); // the TICEUL1 does not exist
+    REQUIRE(unresolvedIn(noTable) == 1); // the EulerInitialRegions does not exist
     Model noGroup = readBulk("EulerRegionProp;100;;300\nEulerInitialRegions;300;200");
-    REQUIRE(unresolvedIn(noGroup) == 1); // no TICREG has the TSID
+    REQUIRE(unresolvedIn(noGroup) == 1); // no InitialConditionRegion has the TSID
 
-    // Renumbering the TICEUL1 follows into the PEULER1, and the group into the TICREG cards that make it.
+    // Renumbering the EulerInitialRegions follows into the EulerRegionProp, and the group into the
+    // InitialConditionRegion cards that make it.
     Renumbering::apply(model, RenumberSpace::EulerInitialization, Renumbering::offset(1000));
     REQUIRE((cardAt<EulerInitialRegionsTable>(model).id == 1300 &&
              cardAt<EulerRegionPropTable>(model).initialRegionsId == 1300));
@@ -468,7 +472,7 @@ TEST_CASE("a TICREG is filed under its first TSID and names a shape by its type,
         "InitialConditionRegion;1;200;Sphere;400\nInitialConditionRegion;1;200;Surface;401")); // even the same TRID
     requireRoundTrip(model);
 
-    // What the VID names depends on the TYPE, as for an EULFREG; a blank MID and a blank TSID are not visited.
+    // What the VID names depends on the TYPE, as for an EulerForceRegion; a blank MID and a blank TSID are not visited.
     REQUIRE(seenBy<InitialConditionRegionTable>(model, 0) ==
             std::vector<Seen>{{"shapeId", ReferenceTarget::EulerRegionShape, 400},
                               {"matId", ReferenceTarget::Material, 25},
@@ -483,7 +487,8 @@ TEST_CASE("a TICREG is filed under its first TSID and names a shape by its type,
                               {"valuesId", ReferenceTarget::InitialValueSet, 3}});
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The shapes, the box, the elements, the material and the TICVAL are renumbered with the regions that name them.
+    // The shapes, the box, the elements, the material and the InitialConditionValues are renumbered with the regions
+    // that name them.
     Renumbering::apply(model, RenumberSpace::EulerRegionShape, Renumbering::offset(100));
     REQUIRE((cardAt<SphereShapeTable>(model).id == 500 && cardAt<InitialSurfaceVolumeTable>(model).id == 501));
     REQUIRE((cardAt<InitialConditionRegionTable>(model, 0).shapeId == 500 &&
@@ -508,7 +513,7 @@ TEST_CASE("a TICREG is filed under its first TSID and names a shape by its type,
     REQUIRE(unresolvedIn(model) == 0);
     requireRoundTrip(model);
 
-    // Deleting the TICVAL leaves the three regions that named it with an unresolved reference.
+    // Deleting the InitialConditionValues leaves the three regions that named it with an unresolved reference.
     model.remove(cardsOfSet(model, CardCategory::InitialValueSet, 10).front());
     REQUIRE(unresolvedIn(model) == 3);
 
@@ -544,7 +549,7 @@ TEST_CASE("a TICVAL gives numbers, or the TABLED1 of the radial profiles, and th
     REQUIRE(normal.variables == std::vector<InitialVariable>{{"SpecificInternalEnergy", 2.5E5}});
     const InitialConditionValuesCard radial = cardAt<InitialConditionValuesTable>(model, 2);
     REQUIRE((radial.id == 5 && radial.method == InitialConditionValuesMethod::Radial && radial.variables.size() == 7));
-    // The profiles of SIE, DENSITY and R-VEL are TABLED1 numbers, the centre and the decay are numbers.
+    // The profiles of SIE, DENSITY and R-VEL are TableDynamic1 numbers, the centre and the decay are numbers.
     REQUIRE((radial.variables[0] == InitialVariable{"SpecificInternalEnergy", 31.0} &&
              radial.variables[2] == InitialVariable{"RadialVelocity", 33.0}));
     REQUIRE((radial.variables[3] == InitialVariable{"CenterX", 0.5} &&
@@ -611,7 +616,7 @@ TEST_CASE("a TICVAL gives numbers, or the TABLED1 of the radial profiles, and th
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// GBAGCOU
+// GasBagSwitch
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a GBAGCOU switches a COUPLE to a GBAG after a time, with a percentage", "[model][cards][gbagcou]")
@@ -633,7 +638,7 @@ TEST_CASE("a GBAGCOU switches a COUPLE to a GBAG after a time, with a percentage
     REQUIRE_THROWS_AS(readBulk("GasBagSwitch;1;100\nGasBagSwitch;1;101"), base::DeckError); // unique among the cards
     requireRoundTrip(model);
 
-    // The defaults are blanks; the COUPLE and the GBAG are fields 2 and 3.
+    // The defaults are blanks; the EulerLagrangeCoupling and the GasBag are fields 2 and 3.
     const std::vector<std::string> fields = writtenFields<GasBagSwitchFormat>(bare);
     REQUIRE(fields.size() == 5); // GID, TSTART and PERCENT are blank at their defaults
     REQUIRE((fields[0] == "2" && fields[1] == "100"));
@@ -664,14 +669,16 @@ TEST_CASE("a GBAGCOU switches a COUPLE to a GBAG after a time, with a percentage
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// HEATLOS, HTRCONV, HTRRAD, and the COUPLE and GBAG that name a set of HEATLOS cards
+// GasBagHeatTransfer, GasBagConvection, GasBagRadiation, and the EulerLagrangeCoupling and GasBag that name a set of
+// GasBagHeatTransfer cards
 // ---------------------------------------------------------------------------------------------------------------------
 
 namespace
 {
 
-// A coupling and a gas bag that name the set 76 of heat transfer cards (the HTRID is field 10 of a COUPLE and field 7
-// of a GBAG), the cards of the set and the heat transfer cards they name, with the surfaces and the table.
+// A coupling and a gas bag that name the set 76 of heat transfer cards (the HTRID is field 10 of an
+// EulerLagrangeCoupling and field 7 of a GasBag), the cards of the set and the heat transfer cards they name, with the
+// surfaces and the table.
 const std::string HEAT_TEXT =
     "EulerLagrangeCoupling;1;10;;;;;;;;76\nGasBag;101;10;;;;;76" + GAS_BAG_REST +
     "\nGasBagHeatTransfer;101;76;;GasBagConvection;2;Table;14\nGasBagHeatTransfer;102;76;60;GasBagRadiation;3\n"
@@ -724,14 +731,15 @@ TEST_CASE("a HEATLOS is filed under its HTRID and names a surface, an HTRCONV or
                               {"modelId", ReferenceTarget::HeatTransferModel, 3}});
     REQUIRE(seenBy<GasBagHeatTransferTable>(model, 2) ==
             std::vector<Seen>{{"modelId", ReferenceTarget::HeatTransferModel, 2}});
-    // The COUPLE and the GBAG name the set.
+    // The EulerLagrangeCoupling and the GasBag name the set.
     REQUIRE(seenBy<EulerLagrangeCouplingTable>(model) ==
             std::vector<Seen>{{"surfaceId", ReferenceTarget::ContactSurface, 10},
                               {"heatTransferId", ReferenceTarget::HeatLossSet, 76}});
     REQUIRE(seenBy<GasBagTable>(model) == std::vector<Seen>{{"surfaceId", ReferenceTarget::ContactSurface, 10},
                                                             {"heatTransferId", ReferenceTarget::HeatLossSet, 76}});
     REQUIRE(unresolvedIn(model) == 0);
-    // A set that no HEATLOS has, and the heat transfer card of another kind: the number is what is looked up.
+    // A set that no GasBagHeatTransfer has, and the heat transfer card of another kind: the number is what is looked
+    // up.
     Model noSet = readBulk("EulerLagrangeCoupling;1;10;;;;;;;;76\nGasBag;101;10;;;;;76" + GAS_BAG_REST +
                            "\nContactElemSurface;10;1" + SURFACE_ELEMENT);
     REQUIRE(unresolvedIn(noSet) == 2);
@@ -759,8 +767,8 @@ TEST_CASE("a HEATLOS is filed under its HTRID and names a surface, an HTRCONV or
     REQUIRE(unresolvedIn(model) == 0);
     requireRoundTrip(model);
 
-    // Deleting a HEATLOS that is not the last of its set keeps the set; deleting the last one leaves the COUPLE and the
-    // GBAG naming nothing.
+    // Deleting a GasBagHeatTransfer that is not the last of its set keeps the set; deleting the last one leaves the
+    // EulerLagrangeCoupling and the GasBag naming nothing.
     model.remove(cardsOfSet(model, CardCategory::HeatLossSet, 1076).front());
     REQUIRE(unresolvedIn(model) == 0);
     model.remove(cardsOfSet(model, CardCategory::HeatLossSet, 1076).front());
@@ -836,7 +844,8 @@ TEST_CASE("an HTRCONV gives a constant coefficient or the TABLED1 of one, and th
              cardAt<GasBagConvectionTable>(model, 1).coefficientTableId == 0));
     Renumbering::apply(model, RenumberSpace::HeatTransferModel, Renumbering::offset(1000));
     REQUIRE((cardAt<GasBagConvectionTable>(model, 0).id == 1008 && cardAt<GasBagConvectionTable>(model, 2).id == 1010));
-    // An HTRCONV and an HTRRAD each have a number space: the number 2 may be both, and they move together.
+    // A GasBagConvection and a GasBagRadiation each have a number space: the number 2 may be both, and they move
+    // together.
     Model both = readBulk("GasBagConvection;2;5.;;300.\nGasBagRadiation;2;0.1;;300.;5.7E-8");
     Renumbering::apply(both, RenumberSpace::HeatTransferModel, Renumbering::offset(10));
     REQUIRE((cardAt<GasBagConvectionTable>(both).id == 12 && cardAt<GasBagRadiationTable>(both).id == 12));

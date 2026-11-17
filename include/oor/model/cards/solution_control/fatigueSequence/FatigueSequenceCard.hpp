@@ -33,7 +33,8 @@ inline constexpr std::array<std::string_view, 7> FATIGUE_SEQUENCE_TIME_UNIT_WORD
 struct FatigueSequenceItem
 {
     base::EntityId eventOrSequenceId =
-        0;                // an FTGEVNT or another FTGSEQ (in SOL 112 a subcase number, which is not a card)
+        // a FatigueEvent or another FatigueSequence (in SOL 112 a subcase number, which is not a card)
+        0;
     double repeats = 1.0; // Ni: the repeats (SOL 101, 103, 112) or the duration in TUNIT units (SOL 108, 111)
 
     [[nodiscard]] bool operator==(const FatigueSequenceItem&) const noexcept = default;
@@ -48,11 +49,11 @@ struct FatigueSequenceUnits
     [[nodiscard]] bool operator==(const FatigueSequenceUnits&) const noexcept = default;
 };
 
-// One FTGSEQ card: the sequence of loading events of a fatigue analysis (pseudo-static, modal, modal transient or
-// random vibration), each with the number of times it is repeated, and possibly other sequences.
+// One FatigueSequence card: the sequence of loading events of a fatigue analysis (pseudo-static, modal, modal transient
+// or random vibration), each with the number of times it is repeated, and possibly other sequences.
 //
-// Card layout, SOL 101, 103, 112:  FTGSEQ  ID  EVNTOUT  METHOD                          fields 1 to 3
-// Card layout, SOL 108, 111:       FTGSEQ  ID  EVNTOUT  (blank)  TUNIT  LDM            fields 1 to 5
+// Card layout, SOL 101, 103, 112:  FatigueSequence  ID  EVNTOUT  METHOD                 fields 1 to 3
+// Card layout, SOL 108, 111:       FatigueSequence  ID  EVNTOUT  (blank)  TUNIT  LDM   fields 1 to 5
 // then, for both:                         FID1  N1  FID2  N2  FID3  N3  FID4  N4       four pairs on each line, from
 //                                                                                      field 2 of the continuation line
 //                                         UNITS  EQUIV  EQNAME                          the last line, optional
@@ -62,8 +63,8 @@ struct FatigueSequenceUnits
 // all defaults of the format it is not. The pairs of the two formats are the same, and so is the UNITS line.
 //
 // The defaults are static (EVNTOUT 0, METHOD 0, TUNIT SECS, LDM 1.0, a blank Ni is 1.0) and stored resolved; the writer
-// leaves them blank. At least one pair is needed. The ID is unique among the FTGSEQ and FTGEVNT cards together
-// (each type is its own table, IdSpace::PerCardType, the category FatigueEvent, and the check
+// leaves them blank. At least one pair is needed. The ID is unique among the FatigueSequence and FatigueEvent cards
+// together (each type is its own table, IdSpace::PerCardType, the category FatigueEvent, and the check
 // `compat.fatigue-event-id-repeated` reports a clash); a FIDi names an event or a sequence of that category.
 struct FatigueSequenceCard
 {

@@ -19,9 +19,9 @@ struct ModuleStructureSetFormat
     static void write(const ModuleStructureSetCard& card, FieldWriter& writer);
 };
 
-// All the MDSSET cards, category Other. A card has no ID of its own (IdSpace::None): several cards may list the same
-// module. They are kept whole next to a column of their MODIDs. The IDs are structural points or elements of a module
-// and name no card of this model: nothing is visited.
+// All the ModuleStructureSet cards, category Other. A card has no ID of its own (IdSpace::None): several cards may list
+// the same module. They are kept whole next to a column of their MODIDs. The IDs are structural points or elements of a
+// module and name no card of this model: nothing is visited.
 class ModuleStructureSetTable final : public TypedTable<ModuleStructureSetTable, ModuleStructureSetCard>
 {
 public:

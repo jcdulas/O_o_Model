@@ -19,9 +19,9 @@ struct HybridDampingRotorOptionsFormat
     static void write(const HybridDampingRotorOptionsCard& card, FieldWriter& writer);
 };
 
-// All the DAMPING cards, in the category HybridDampingRotorOptionsSpecification: the ID is unique per card type
-// (IdSpace::PerCardType) and is what the Case Control RSDAMP and SEDAMP name. The HYBRID field names a HYBDAMP. The
-// cards are kept whole next to a column of their IDs.
+// All the HybridDampingRotorOptions cards, in the category HybridDampingRotorOptionsSpecification: the ID is unique per
+// card type (IdSpace::PerCardType) and is what the Case Control RSDAMP and SEDAMP name. The HYBRID field names a
+// HybridDamping. The cards are kept whole next to a column of their IDs.
 class HybridDampingRotorOptionsTable final
     : public TypedTable<HybridDampingRotorOptionsTable, HybridDampingRotorOptionsCard>
 {
@@ -39,7 +39,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    // The only reference is the HYBDAMP of the HYBRID field (not looked up while it is blank).
+    // The only reference is the HybridDamping of the HYBRID field (not looked up while it is blank).
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }

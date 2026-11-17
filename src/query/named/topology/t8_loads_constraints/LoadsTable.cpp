@@ -41,7 +41,8 @@ struct Row
     std::array<double, 3> acceleration{NOT_A_NUMBER, NOT_A_NUMBER, NOT_A_NUMBER};
     std::int32_t cid = 0;
     bool cidValid = false;
-    std::array<std::int32_t, 4> directionNodes{}; // G1 to G4 of a FORCE1, FORCE2, MOMENT1, MOMENT2; 0 for none
+    // G1 to G4 of a PointForceLoad1, PointForceLoad2, PointMomentLoad1, PointMomentLoad2; 0 for none
+    std::array<std::int32_t, 4> directionNodes{};
 };
 
 // The columns of the table, a row appended to each at a time: no row is kept whole (a table of millions of loads would
@@ -110,9 +111,9 @@ struct Columns
     }
 };
 
-// The grid points that define the direction of a FORCE1, FORCE2, MOMENT1 or MOMENT2 (format reference: the direction
-// from G1 to G2, or the cross product of G1 to G2 and G3 to G4); none for another card. A solver that moves grid points
-// derives the direction again from them.
+// The grid points that define the direction of a PointForceLoad1, PointForceLoad2, PointMomentLoad1 or PointMomentLoad2
+// (format reference: the direction from G1 to G2, or the cross product of G1 to G2 and G3 to G4); none for another
+// card. A solver that moves grid points derives the direction again from them.
 std::array<std::int32_t, 4> directionNodesOf(const model::Model& model, model::CardLocation card)
 {
     using namespace oor::model;
@@ -154,7 +155,7 @@ public:
         std::vector<base::EntityId> asked =
             askedSets(model, run.arguments, model::LOAD_SELECTION).value_or(allLoadSets(model));
         const LoadSetListing listing(model, loadSets, run.arguments, std::move(asked));
-        // the elements by ID, listed the first time a load gives a range of them (PLOAD2, PLOAD4)
+        // the elements by ID, listed the first time a load gives a range of them (ShellPressureLoad, FacePressureLoad)
         std::optional<CardList> elementList;
         const auto elementIds = [&]() -> const std::vector<std::int32_t>&
         {
@@ -164,7 +165,7 @@ public:
         };
         LoadVectors vectors(model, run.context.pool());
         Columns rows;
-        // unexpanded: a row a card of these types at least (millions of PLOAD2 of one element)
+        // unexpanded: a row a card of these types at least (millions of ShellPressureLoad of one element)
         rows.reserve(listing.cardCount(
             sortedTypesOf<model::PointForceLoadTable, model::PointForceLoad1Table, model::PointForceLoad2Table,
                           model::PointMomentLoadTable, model::PointMomentLoad1Table, model::PointMomentLoad2Table,
@@ -211,8 +212,8 @@ public:
                 else if (load.kind == analysis::LoadKind::Rotation || load.kind == analysis::LoadKind::Acceleration ||
                          load.kind == analysis::LoadKind::PointAcceleration)
                 {
-                    // RFORCE, ACCEL and ACCEL1: listed so that no card of the set is left out, their content is in
-                    // inertialLoadsTable.
+                    // RotationalForceLoad, AccelFieldLoad and AccelNodeLoad: listed so that no card of the set is left
+                    // out, their content is in inertialLoadsTable.
                     Row row = base;
                     row.target = "model";
                     row.targetValid = false;

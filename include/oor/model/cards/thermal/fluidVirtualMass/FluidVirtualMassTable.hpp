@@ -19,8 +19,8 @@ struct FluidVirtualMassFormat
     static void write(const FluidVirtualMassCard& card, FieldWriter& writer);
 };
 
-// All the MFLUID cards. The ID is a set ID shared by many cards (IdSpace::Group, category Other: the MFLUID Case
-// Control command selects it). CID is a reference to a coordinate system. An absent ZFS is NaN.
+// All the FluidVirtualMass cards. The ID is a set ID shared by many cards (IdSpace::Group, category Other: the
+// FluidVirtualMass Case Control command selects it). CID is a reference to a coordinate system. An absent ZFS is NaN.
 class FluidVirtualMassTable final : public TypedTable<FluidVirtualMassTable, FluidVirtualMassCard>
 {
 public:

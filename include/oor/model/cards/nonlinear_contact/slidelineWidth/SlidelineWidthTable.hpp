@@ -20,9 +20,10 @@ struct SlidelineWidthFormat
     static void write(const SlidelineWidthCard& card, FieldWriter& writer);
 };
 
-// All the BWIDTH cards. A BWIDTH goes with the BLSEG of its ID (a one to one correspondence), so the ID is a reference
-// to the BLSEG (category SlidelineSegments) and is unique among the BWIDTH cards (IdSpace::PerCardType, category
-// Other). The widths are one CSR column of (first, last, by) triples; a single width has by == 0.0.
+// All the SlidelineWidth cards. A SlidelineWidth goes with the SlidelineSegments of its ID (a one to one
+// correspondence), so the ID is a reference to the SlidelineSegments (category SlidelineSegments) and is unique among
+// the SlidelineWidth cards (IdSpace::PerCardType, category Other). The widths are one CSR column of (first, last, by)
+// triples; a single width has by == 0.0.
 class SlidelineWidthTable final : public TypedTable<SlidelineWidthTable, SlidelineWidthCard>
 {
 public:

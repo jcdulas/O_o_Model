@@ -13,7 +13,7 @@ namespace oor::query
 namespace
 {
 
-// gustsTable: the GUST cards.
+// gustsTable: the AeroGust cards.
 class GustsTableQuery final : public QueryBase
 {
 public:

@@ -21,7 +21,7 @@ struct TableMaterial4Format
     static void write(const TableMaterial4Card& card, FieldWriter& writer);
 };
 
-// All the TABLEM4 cards. The ID is a material table ID, in the ID space the other TABLEM cards share
+// All the TableMaterial4 cards. The ID is a material table ID, in the ID space the other TABLEM cards share
 // (IdSpace::MaterialTable). The coefficients of every table are one list in CSR form.
 class TableMaterial4Table final : public TypedTable<TableMaterial4Table, TableMaterial4Card>
 {

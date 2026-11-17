@@ -19,8 +19,8 @@ struct AcousticAbsorberFormat
     static void write(const AcousticAbsorberCard& card, FieldWriter& writer);
 };
 
-// All the CAABSF cards. The ID is an element ID, in the space every element shares (IdSpace::Element); PID names a
-// PAABSF.
+// All the AcousticAbsorber cards. The ID is an element ID, in the space every element shares (IdSpace::Element); PID
+// names a AcousticAbsorberProp.
 class AcousticAbsorberTable final : public TypedTable<AcousticAbsorberTable, AcousticAbsorberCard>
 {
 public:

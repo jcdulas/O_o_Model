@@ -1,9 +1,10 @@
-// Checks of the damping and list cards: DAMPING, HYBDAMP and ROTHYBD (the damping specifications, with the Case
-// Control RSDAMP and SEDAMP), ELIST (the element lists of an MFLUID, with the sign of the wetted side), ERPPNL (the
-// panels of an equivalent radiated power calculation), CYAX and CYJOIN (the points of a cyclic symmetry model), CONTRLT
-// (the thermal controller), BDYOR (the defaults of the surface elements) and VCCT (a crack of the virtual crack closure
-// technique). Per card: the fields in their format reference positions, the defaults, the references the card lists,
-// the renumbering of the spaces it owns, the refused values and the round trip through a model file.
+// Checks of the damping and list cards: HybridDampingRotorOptions, HybridDamping and RotorHybridDamping (the damping
+// specifications, with the Case Control RSDAMP and SEDAMP), FluidMassElemList (the element lists of a FluidVirtualMass,
+// with the sign of the wetted side), RadiatedPowerPanelSet (the panels of an equivalent radiated power calculation),
+// CyclicAxisNodes and CyclicBoundaryJoin (the points of a cyclic symmetry model), HeatController (the thermal
+// controller), HeatSurfaceDefaults (the defaults of the surface elements) and CrackClosureCrack (a crack of the virtual
+// crack closure technique). Per card: the fields in their format reference positions, the defaults, the references the
+// card lists, the renumbering of the spaces it owns, the refused values and the round trip through a model file.
 
 #include "oor/model/cards/constraints/cyclicAxisNodes/CyclicAxisNodesTable.hpp"
 #include "oor/model/cards/constraints/cyclicBoundaryJoin/CyclicBoundaryJoinTable.hpp"
@@ -80,8 +81,8 @@ std::vector<std::string> fieldsOf(const std::string& text)
     }
 }
 
-// The record of a VCCT given by the slots its card reader reads, in four parts separated by commas: the head (slots 1
-// to 8), the second and the third group of eight slots (never blank), and the crack front from slot 25.
+// The record of a CrackClosureCrack given by the slots its card reader reads, in four parts separated by commas: the
+// head (slots 1 to 8), the second and the third group of eight slots (never blank), and the crack front from slot 25.
 std::string vcct(const std::string& head, const std::string& second, const std::string& third, const std::string& front)
 {
     constexpr std::size_t GROUP = 8;
@@ -97,14 +98,14 @@ std::string vcct(const std::string& head, const std::string& second, const std::
     return oor::testing::slotRecord("CrackClosureCrack", slots);
 }
 
-// The four tables of a VCCT, TABLEM1 10 to 13, for the decks that name them.
+// The four tables of a CrackClosureCrack, TableMaterial1 10 to 13, for the decks that name them.
 const std::string TABLES =
     "TableMaterial1;10;;;0.;0.;1.;2.;EndTable\n"
     "TableMaterial1;11;;;0.;0.;1.;2.;EndTable\n"
     "TableMaterial1;12;;;0.;0.;1.;2.;EndTable\n"
     "TableMaterial1;13;;;0.;0.;1.;2.;EndTable\n";
 
-// A VCCT with everything in it.
+// A CrackClosureCrack with everything in it.
 std::string fullCrackClosureCrack()
 {
     return vcct("204,2,2,1,2,1", "0.4,1750.,,,,,1350.,1100.", "10,11,,,,,12,13", "41,42,Through,50,By,2,63");
@@ -113,7 +114,7 @@ std::string fullCrackClosureCrack()
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// DAMPING, HYBDAMP and ROTHYBD
+// HybridDampingRotorOptions, HybridDamping and RotorHybridDamping
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a DAMPING has the format reference defaults and the transient frequencies on its second line",
@@ -149,7 +150,7 @@ TEST_CASE("a DAMPING has the format reference defaults and the transient frequen
 
     // The defaults are blank fields, so a card of defaults is its ID alone and the second line is left out.
 
-    // The only reference is the HYBDAMP, and a blank field names nothing.
+    // The only reference is the HybridDamping, and a blank field names nothing.
     IdVisitor visitor;
     model.table<HybridDampingRotorOptionsTable>().visitReferences(2, visitor);
     REQUIRE(visitor.seen == Seen{{ReferenceTarget::HybridDamping, 201}});
@@ -157,7 +158,8 @@ TEST_CASE("a DAMPING has the format reference defaults and the transient frequen
     model.table<HybridDampingRotorOptionsTable>().visitReferences(0, visitor);
     REQUIRE(visitor.seen.empty());
 
-    // The ID is unique among the DAMPING cards and its own space: a HYBDAMP 5 and a DAMPING 5 coexist.
+    // The ID is unique among the HybridDampingRotorOptions cards and its own space: a HybridDamping 5 and a
+    // HybridDampingRotorOptions 5 coexist.
     REQUIRE_THROWS_AS(readBulk("HybridDampingRotorOptions;5\nHybridDampingRotorOptions;5;0.1"), base::DeckError);
     REQUIRE_NOTHROW(readBulk("HybridDampingRotorOptions;5\nHybridDamping;5;1;2"));
 
@@ -195,7 +197,7 @@ TEST_CASE("a HYBDAMP names the method of its modes and the TABDMP1 of its dampin
              HybridDampingTable::INFO.idSpace == base::IdSpace::PerCardType));
     requireRoundTrip(model);
 
-    // METHOD is an eigenvalue method and SDAMP a TABDMP1.
+    // METHOD is an eigenvalue method and SDAMP a TableModalDamping1.
     RecordingVisitor visitor;
     model.table<HybridDampingTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"methodId", "modalDampingTableId"});
@@ -241,15 +243,15 @@ TEST_CASE("the DAMPING, HYBDAMP and ROTHYBD cards name each other and the Case C
     REQUIRE((globalCommand(model, "RotorDampingSelection") == 100 &&
              globalCommand(model, "SuperelementDampingSelection") == 101));
 
-    // The HYBDAMP numbers are rewritten in the DAMPING that names one and in the ROTHYBD; the rotors (ROTORG cards, a
-    // space of their own) are left alone.
+    // The HybridDamping numbers are rewritten in the HybridDampingRotorOptions that names one and in the
+    // RotorHybridDamping; the rotors (RotorLineNodes cards, a space of their own) are left alone.
     REQUIRE(Renumbering::apply(model, RenumberSpace::HybridDamping, Renumbering::offset(10)) == 2);
     REQUIRE((cardAt<HybridDampingTable>(model, 0).id == 211 && cardAt<HybridDampingTable>(model, 1).id == 212));
     REQUIRE(cardAt<HybridDampingRotorOptionsTable>(model, 1).hybridDampingId == 211);
     REQUIRE(cardAt<HybridDampingRotorOptionsTable>(model, 0).hybridDampingId == 0);
     REQUIRE((cardAt<RotorHybridDampingTable>(model).pairs == std::vector<RotorHybridPair>{{1, 211}, {2, 212}}));
 
-    // The Case Control RSDAMP and SEDAMP follow the DAMPING numbers.
+    // The Case Control RSDAMP and SEDAMP follow the HybridDampingRotorOptions numbers.
     REQUIRE(Renumbering::apply(model, RenumberSpace::HybridDampingRotorOptionsSpecification,
                                Renumbering::offset(1000)) == 2);
     REQUIRE((cardAt<HybridDampingRotorOptionsTable>(model, 0).id == 1100 &&
@@ -257,21 +259,21 @@ TEST_CASE("the DAMPING, HYBDAMP and ROTHYBD cards name each other and the Case C
     REQUIRE((globalCommand(model, "RotorDampingSelection") == 1100 &&
              globalCommand(model, "SuperelementDampingSelection") == 1101));
 
-    // The method and the table of a HYBDAMP follow their own spaces.
+    // The method and the table of a HybridDamping follow their own spaces.
     Renumbering::apply(model, RenumberSpace::Method, Renumbering::offset(5));
     Renumbering::apply(model, RenumberSpace::HybridDampingRotorOptionsTable, Renumbering::offset(1));
     REQUIRE((cardAt<HybridDampingTable>(model, 0).methodId == 107 &&
              cardAt<HybridDampingTable>(model, 0).modalDampingTableId == 1002));
     REQUIRE(unresolvedIn(model) == 0);
 
-    // What names nothing is reported: the command, the HYBRID, the method, the table, and the rotor and the HYBDAMP of
-    // the ROTHYBD.
+    // What names nothing is reported: the command, the HYBRID, the method, the table, and the rotor and the
+    // HybridDamping of the RotorHybridDamping.
     Model dangling = readModelText(
         "[case]\nRotorDampingSelection;9\n[model]\nHybridDampingRotorOptions;100;;;;5\nHybridDamping;6;7;"
         "8\nRotorHybridDamping;1;9\n",
         true);
     REQUIRE(unresolvedIn(dangling) == 6);
-    // The two rotors, the HYBDAMP 16, the method and the table.
+    // The two rotors, the HybridDamping 16, the method and the table.
     REQUIRE(unresolvedIn(readBulk("RotorHybridDamping;1;15;2;16\nHybridDamping;15;1;2")) == 5);
 }
 
@@ -296,8 +298,8 @@ TEST_CASE("a ROTHYBD lists the pairs of a rotor and its HYBDAMP over any number 
     REQUIRE((cardAt<RotorHybridDampingTable>(readBulk("RotorHybridDamping;1;11;;;3;13"), 0).pairs ==
              std::vector<RotorHybridPair>{{1, 11}, {3, 13}}));
 
-    // The rotor of a pair is a rotor of the model (a ROTORG, ROTOR, ROTORAX or ROTORSE) and its HYBDAMP a hybrid
-    // damping, in the order of the pairs.
+    // The rotor of a pair is a rotor of the model (a RotorLineNodes, RotorModel3D, RotorAxisym or RotorSuperelement)
+    // and its HybridDamping a hybrid damping, in the order of the pairs.
     IdVisitor visitor;
     model.table<RotorHybridDampingTable>().visitReferences(1, visitor);
     REQUIRE(visitor.seen == Seen{{ReferenceTarget::Rotor, 41},
@@ -319,7 +321,7 @@ TEST_CASE("a ROTHYBD lists the pairs of a rotor and its HYBDAMP over any number 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ELIST
+// FluidMassElemList
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ELIST keeps the sign of an element and the elements of a THRU range as written", "[model][cards][elist]")
@@ -411,7 +413,7 @@ TEST_CASE("an MFLUID names the ELIST cards of its wetted elements and follows th
              cardAt<FluidVirtualMassTable>(model).bothSidesElemListId == 4));
     REQUIRE(unresolvedIn(model) == 0);
     REQUIRE(unresolvedIn(readBulk("FluidVirtualMass;4;;;1.E+3;3;4;NoSymmetry;NoSymmetry\nFluidMassElemList;3;1;2")) ==
-            1); // ELIST 4 is missing
+            1); // FluidMassElemList 4 is missing
 
     REQUIRE(Renumbering::apply(model, RenumberSpace::ElementList, Renumbering::offset(10)) == 2);
     REQUIRE((cardAt<FluidMassElemListTable>(model, 0).id == 13 && cardAt<FluidMassElemListTable>(model, 1).id == 14));
@@ -423,7 +425,7 @@ TEST_CASE("an MFLUID names the ELIST cards of its wetted elements and follows th
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ERPPNL
+// RadiatedPowerPanelSet
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ERPPNL lists the label and the SET3 of any number of panels", "[model][cards][erppnl]")
@@ -450,8 +452,8 @@ TEST_CASE("an ERPPNL lists the label and the SET3 of any number of panels", "[mo
              RadiatedPowerPanelSetTable::INFO.idSpace == base::IdSpace::None));
     requireRoundTrip(model);
 
-    // The sets are references; the labels are not. Every SET3 of the deck exists (the sets list points here, which
-    // name no card, so that the deck has no other reference).
+    // The sets are references; the labels are not. Every TypedListSet3 of the deck exists (the sets list points here,
+    // which name no card, so that the deck has no other reference).
     IdVisitor visitor;
     model.table<RadiatedPowerPanelSetTable>().visitReferences(0, visitor);
     REQUIRE(visitor.seen == Seen{{ReferenceTarget::Set, 1}, {ReferenceTarget::Set, 14}});
@@ -476,7 +478,7 @@ TEST_CASE("an ERPPNL lists the label and the SET3 of any number of panels", "[mo
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// CYAX and CYJOIN
+// CyclicAxisNodes and CyclicBoundaryJoin
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CYAX lists points and THRU ranges, and its points are nodes", "[model][cards][cyclic]")
@@ -587,7 +589,7 @@ TEST_CASE("a CYJOIN has a side, the normal degree of freedom of dihedral problem
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// CONTRLT
+// HeatController
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CONTRLT is a thermal controller with a sensor, a dead band and a process type", "[model][cards][contrlt]")
@@ -646,7 +648,7 @@ TEST_CASE("a CONTRLT is a thermal controller with a sensor, a dead band and a pr
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// BDYOR
+// HeatSurfaceDefaults
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a BDYOR holds the defaults of the surface elements and names the cards they would name",
@@ -686,7 +688,8 @@ TEST_CASE("a BDYOR holds the defaults of the surface elements and names the card
         REQUIRE(
             cardAt<HeatSurfaceDefaultsTable>(readBulk("HeatSurfaceDefaults;" + std::string(word))).kind.has_value());
 
-    // The references are the ones of a CHBDYP: the VIEW, RADM, PHBDY, orientation point and system.
+    // The references are the ones of a HeatSurfaceProperty: the ViewFactorFace, RadiationProp, HeatSurfaceProp,
+    // orientation point and system.
     IdVisitor visitor;
     model.table<HeatSurfaceDefaultsTable>().visitReferences(1, visitor);
     REQUIRE(visitor.seen == Seen{{ReferenceTarget::ViewFactorFaceFactor, 1},
@@ -738,7 +741,7 @@ TEST_CASE("a BDYOR holds the defaults of the surface elements and names the card
 TEST_CASE("the defaults of a BDYOR go to the blank fields of the CHBDYE, CHBDYG and CHBDYP of the deck",
           "[model][cards][bdyor]")
 {
-    // The BDYOR is the last card: its defaults reach the cards that come before it.
+    // The HeatSurfaceDefaults is the last card: its defaults reach the cards that come before it.
     const Model model = readBulk(
         "HeatSurfaceSide;1;10;1\n"
         "HeatSurfaceSide;2;11;2;7;8;9;6\n"
@@ -748,7 +751,7 @@ TEST_CASE("the defaults of a BDYOR go to the blank fields of the CHBDYE, CHBDYG 
         "HeatSurfaceProperty;6;5;Line;;;21;22;;;;;;1.;2.;3.\n"
         "HeatSurfaceProperty;7;5;Line;3;;21;22\n"
         "HeatSurfaceDefaults;AreaQuad4;2;3;4;5;0;30;40;0.5;0.6;0.7");
-    // The blank fields take the values of the BDYOR, the others keep their own.
+    // The blank fields take the values of the HeatSurfaceDefaults, the others keep their own.
     const HeatSurfaceSideCard blankEdge = cardAt<HeatSurfaceSideTable>(model, 0);
     REQUIRE((blankEdge.frontViewId == 2 && blankEdge.backViewId == 3 && blankEdge.frontRadiationPropId == 4 &&
              blankEdge.backRadiationPropId == 5));
@@ -758,18 +761,18 @@ TEST_CASE("the defaults of a BDYOR go to the blank fields of the CHBDYE, CHBDYG 
     const HeatSurfaceNodesCard area = cardAt<HeatSurfaceNodesTable>(model);
     REQUIRE((area.frontViewId == 2 && area.backViewId == 3 && area.frontRadiationPropId == 4 &&
              area.backRadiationPropId == 5));
-    // CHBDYP: the orientation grid point of the BDYOR, else its vector (here GO is 30, so the vector is not
-    // used); a grid point or a vector of the card is kept.
+    // HeatSurfaceProperty: the orientation grid point of the HeatSurfaceDefaults, else its vector (here GO is 30, so
+    // the vector is not used); a grid point or a vector of the card is kept.
     const HeatSurfacePropertyCard plain = cardAt<HeatSurfacePropertyTable>(model, 0);
     REQUIRE((plain.frontViewId == 2 && plain.backRadiationPropId == 5 && plain.orientationNode == 30 &&
              !plain.direction1 && plain.directionFrameId == 0));
     REQUIRE(cardAt<HeatSurfacePropertyTable>(model, 1).orientationNode == 23);
     const HeatSurfacePropertyCard ownVector = cardAt<HeatSurfacePropertyTable>(model, 2);
     REQUIRE((ownVector.orientationNode == 0 && ownVector.direction1 == 1.0 &&
-             ownVector.directionFrameId == 40)); // CE of the BDYOR goes with a vector
+             ownVector.directionFrameId == 40)); // CE of the HeatSurfaceDefaults goes with a vector
     REQUIRE(cardAt<HeatSurfacePropertyTable>(model, 3).frontViewId == 3);
 
-    // Without a GO the BDYOR gives its vector, and CE with it.
+    // Without a GO the HeatSurfaceDefaults gives its vector, and CE with it.
     const Model vector =
         readBulk("HeatSurfaceProperty;4;5;Line;;;21;22\nHeatSurfaceDefaults;Line;;;;;;;40;0.5;0.6;0.7");
     const HeatSurfacePropertyCard fromVector = cardAt<HeatSurfacePropertyTable>(vector);
@@ -777,8 +780,8 @@ TEST_CASE("the defaults of a BDYOR go to the blank fields of the CHBDYE, CHBDYG 
              fromVector.direction3 == 0.7));
     REQUIRE(fromVector.directionFrameId == 40);
 
-    // A deck with no BDYOR leaves the blank fields as they are, and a BDYOR added later gives its defaults to the cards
-    // that are blank when the defaults are applied again.
+    // A deck with no HeatSurfaceDefaults leaves the blank fields as they are, and a HeatSurfaceDefaults added later
+    // gives its defaults to the cards that are blank when the defaults are applied again.
     Model without = readBulk("HeatSurfaceSide;1;10;1");
     REQUIRE(cardAt<HeatSurfaceSideTable>(without).frontViewId == 0);
     HeatSurfaceDefaultsCard added;
@@ -790,7 +793,7 @@ TEST_CASE("the defaults of a BDYOR go to the blank fields of the CHBDYE, CHBDYG 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// VCCT
+// CrackClosureCrack
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a negative G1 of a VCCT is the SET3 that lists the points of the crack front", "[model][cards][vcct]")
@@ -815,7 +818,7 @@ TEST_CASE("a negative G1 of a VCCT is the SET3 that lists the points of the crac
     Renumbering::apply(model, RenumberSpace::Set, Renumbering::offset(100));
     REQUIRE(cardAt<CrackClosureCrackTable>(model, 0).nodeSetId == 105);
 
-    // Only one SET3 ID is allowed, and nothing follows it.
+    // Only one TypedListSet3 ID is allowed, and nothing follows it.
     expectInvalid(vcct("1", "0.", "0", "-5,6"), "node2");
     expectInvalid(vcct("1", "0.", "0", "-5,Through,9"), "node2");
 }
@@ -847,7 +850,7 @@ TEST_CASE("a VCCT names its four tables, its set and its points, and the crack s
     REQUIRE(moved.setId == 204); // the crack set is not a node
     REQUIRE(unresolvedIn(model) == 0);
 
-    // Many cracks share a set ID (IDCR numbers them); the set space is the one of the Case Control VCCT.
+    // Many cracks share a set ID (IDCR numbers them); the set space is the one of the Case Control CrackClosureCrack.
     REQUIRE_NOTHROW(readBulk(vcct("204,1", "0.", "0", "1") + "\n" + vcct("204,2", "0.", "0", "2")));
 
     expectInvalid(vcct("0", "0.", "0", "1"), "setId");

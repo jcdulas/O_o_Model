@@ -5,11 +5,11 @@
 namespace oor::model
 {
 
-// One PGAP card: the property of a gap element (CGAP).
+// One GapProp card: the property of a gap element (Gap2).
 //
 // Card layout:
-//   PGAP  PID  U0  F0  KA  KB  KT  MU1  MU2
-//         TMAX MAR TRMIN
+//   GapProp  PID  U0  F0  KA  KB  KT  MU1  MU2
+//            TMAX MAR TRMIN
 //
 // KB, KT and MU2 have defaults that depend on other fields (1.0E-14 KA, MU1 KA and MU1), so they are stored resolved
 // and always written. A blank KA is 1.0E8 (the format reference names no default for it).

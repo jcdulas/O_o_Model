@@ -19,8 +19,8 @@ struct ProgressiveFailureMatFormat
     static void write(const ProgressiveFailureMatCard& card, FieldWriter& writer);
 };
 
-// All the MATCB cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). The cards
-// are kept whole (CardRows: the lines are a list); the query engine reads the ID only.
+// All the ProgressiveFailureMat cards. The ID is a material ID, in the space every material type shares
+// (IdSpace::Material). The cards are kept whole (CardRows: the lines are a list); the query engine reads the ID only.
 class ProgressiveFailureMatTable final : public TypedTable<ProgressiveFailureMatTable, ProgressiveFailureMatCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MATCB refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a ProgressiveFailureMat refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

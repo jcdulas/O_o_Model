@@ -29,7 +29,7 @@ std::optional<CardProblem> TimeTemperatureLoadFormat::check(const TimeTemperatur
 {
     if (const auto problem = checkRequiredId(card.id, "id"))
         return problem;
-    // A positive TMPSET number, or -1 for every grid point: any other number is not a group.
+    // A positive TemperatureTimeGroup number, or -1 for every grid point: any other number is not a group.
     if (card.groupId <= 0 && card.groupId != TimeTemperatureLoadCard::ALL_GRID_POINTS)
         return CardProblem{"card.bad-id",
                            std::string(CardProblem::FIELD) + " must be a positive integer, or -1 for every grid point",
@@ -78,7 +78,8 @@ void TimeTemperatureLoadTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void TimeTemperatureLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // GROUP_ID -1 is every grid point in one group: it names no TMPSET, and a renumbering leaves it as it is.
+    // GROUP_ID -1 is every grid point in one group: it names no TemperatureTimeGroup, and a renumbering leaves it as it
+    // is.
     if (const base::EntityId groupId = m_groupId.get(row); groupId > 0)
         m_groupId.set(row, visitor.visit("groupId", ReferenceTarget::TemperatureGroup, groupId));
     if (const base::EntityId tableId = m_tableId.get(row); tableId > 0)

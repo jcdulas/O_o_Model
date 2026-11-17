@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One ACCEL1 card: a static acceleration load on individual grid points. The acceleration is the vector (N1, N2, N3) of
-// coordinate system CID, scaled so that its magnitude is A times the magnitude of that vector. The load does not act on
-// the mass of scalar points, and the format reference says it is not supported with superelements.
+// One AccelNodeLoad card: a static acceleration load on individual grid points. The acceleration is the vector (N1, N2,
+// N3) of coordinate system CID, scaled so that its magnitude is A times the magnitude of that vector. The load does not
+// act on the mass of scalar points, and the format reference says it is not supported with superelements.
 //
-// Card layout: ACCEL1  SID  CID  A  N1  N2  N3  (blank)  (blank)         fields 1 to 6
+// Card layout: AccelNodeLoad  SID  CID  A  N1  N2  N3  (blank)  (blank)  fields 1 to 6
 //             (continuation)  GRIDID1  GRIDID2 ...                       from field 9 on
 // The list takes "a THRU b" and "a THRU b BY n". SID is a load set ID shared by the cards of the set (it may not be the
 // SID of any other load entry). CID defaults to the basic system (0). A is required; the N fields default to

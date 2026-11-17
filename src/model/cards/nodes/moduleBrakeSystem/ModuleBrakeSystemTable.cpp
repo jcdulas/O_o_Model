@@ -157,8 +157,8 @@ void ModuleBrakeSystemTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void ModuleBrakeSystemTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     ModuleBrakeSystemCard& card = m_cards.edit(row);
-    // A body is a BCBODY1 of its module, looked up there (ModuleBoundarySupport.hpp). The MOTION and BRKSYS numbers
-    // name cards that are not typed yet.
+    // A body is a ContactBody1 of its module, looked up there (ModuleBoundarySupport.hpp). The BrakeMotion and
+    // BrakeSystem numbers name cards that are not typed yet.
     for (ModuleBrakeSystemDisk& disk : card.disks)
     {
         visitBoundaryId(visitor, "body1Id", ReferenceTarget::ContactBody, disk.moduleId1, disk.body1Id);

@@ -18,8 +18,8 @@ struct CompPropFreqDampingFormat
     static void write(const CompPropFreqDampingCard& card, FieldWriter& writer);
 };
 
-// All the PCOMPFQ cards. The ID space is the card type's own: the ID is the one of the PCOMP or PCOMPG that the card
-// extends, so it is also a reference to a property.
+// All the CompPropFreqDamping cards. The ID space is the card type's own: the ID is the one of the CompProp or
+// CompPropGlobal that the card extends, so it is also a reference to a property.
 class CompPropFreqDampingTable final : public TypedTable<CompPropFreqDampingTable, CompPropFreqDampingCard>
 {
 public:

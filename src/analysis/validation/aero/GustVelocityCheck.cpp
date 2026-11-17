@@ -15,7 +15,7 @@ namespace oor::analysis
 namespace
 {
 
-// The velocity of a GUST must be the VELOCITY of the AERO card: the
+// The velocity of an AeroGust must be the VELOCITY of the AeroUnsteadyParams card: the
 // gust is a function of the position along the vehicle and of the speed, and the aerodynamic data are made for one
 // speed. A deck with no AERO velocity (it is optional) is not judged. A warning, not an error: the solver does not
 // refuse two speeds apart (the response is the engineer's to judge).

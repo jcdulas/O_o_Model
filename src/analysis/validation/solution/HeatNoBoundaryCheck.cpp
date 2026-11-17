@@ -24,10 +24,11 @@ bool hasCards(const model::Model& model)
     return table != nullptr && table->rows().aliveCount() > 0;
 }
 
-// True when the model holds something that fixes a temperature or ties the model to an ambient one: an SPC, SPC1,
-// SPCADD or SPCD (a temperature constraint on a grid point), a PS field on a grid point, a TEMPBC, a convection (CONV,
-// CONVM) or a radiation to space (RADBC), a GMSPC, or a card the library keeps as text that is a boundary condition of
-// the p-version elements (GMBC): the check cannot tell what it fixes.
+// True when the model holds something that fixes a temperature or ties the model to an ambient one: a
+// SinglePointConstr, SinglePointConstrList, SinglePointConstrUnion or EnforcedMotionConstr (a temperature constraint on
+// a grid point), a PS field on a grid point, a TemperatureBoundary, a convection (FreeConvection, ForcedConvection) or
+// a radiation to space (RadiationToSpace), a GeomSinglePointConstr, or a card the library keeps as text that is a
+// boundary condition of the p-version elements (GMBC): the check cannot tell what it fixes.
 bool hasTemperatureBoundary(const model::Model& model)
 {
     if (hasCards<model::SinglePointConstrTable>(model) || hasCards<model::SinglePointConstrListTable>(model) ||

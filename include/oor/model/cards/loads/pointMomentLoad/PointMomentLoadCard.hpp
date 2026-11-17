@@ -7,9 +7,9 @@
 namespace oor::model
 {
 
-// One MOMENT card: a concentrated moment at a grid point.
+// One PointMomentLoad card: a concentrated moment at a grid point.
 //
-// Card layout: MOMENT  SID  G  CID  M  N1  N2  N3
+// Card layout: PointMomentLoad  SID  G  CID  M  N1  N2  N3
 // The moment is M times the vector (N1, N2, N3), given in coordinate system CID (0 = basic).
 struct PointMomentLoadCard
 {

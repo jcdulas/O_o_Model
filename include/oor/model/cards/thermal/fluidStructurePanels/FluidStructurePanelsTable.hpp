@@ -19,8 +19,9 @@ struct FluidStructurePanelsFormat
     static void write(const FluidStructurePanelsCard& card, FieldWriter& writer);
 };
 
-// All the PANEL cards. A card has no ID (IdSpace::None, category Other); the set of each panel is a reference to a SET1
-// or SET3 card. The names of the panels have no column for the query engine (text lists); the sets do.
+// All the FluidStructurePanels cards. A card has no ID (IdSpace::None, category Other); the set of each panel is a
+// reference to an IdListSet1 or TypedListSet3 card. The names of the panels have no column for the query engine (text
+// lists); the sets do.
 class FluidStructurePanelsTable final : public TypedTable<FluidStructurePanelsTable, FluidStructurePanelsCard>
 {
 public:

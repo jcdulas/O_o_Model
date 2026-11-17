@@ -19,12 +19,12 @@ struct FluidMassElemListFormat
     static void write(const FluidMassElemListCard& card, FieldWriter& writer);
 };
 
-// All the ELIST cards, in the category ElementList: the LID is unique per card type (IdSpace::PerCardType) and is what
-// the ELIST1 and ELIST2 of an MFLUID name. Every element of the list, and each end of a THRU range, is visited as
-// ReferenceTarget::ElementInRange with its absolute value (the sign says the wetted side and stays on the card), so a
-// renumbering of the elements follows into the list and an element the model does not have is not an unresolved
-// reference (the solver skips the gaps of a range, and the lists are a check of their own). The cards are kept whole
-// next to a column of their LIDs.
+// All the FluidMassElemList cards, in the category ElementList: the LID is unique per card type (IdSpace::PerCardType)
+// and is what the ELIST1 and ELIST2 of a FluidVirtualMass name. Every element of the list, and each end of a THRU
+// range, is visited as ReferenceTarget::ElementInRange with its absolute value (the sign says the wetted side and stays
+// on the card), so a renumbering of the elements follows into the list and an element the model does not have is not an
+// unresolved reference (the solver skips the gaps of a range, and the lists are a check of their own). The cards are
+// kept whole next to a column of their LIDs.
 class FluidMassElemListTable final : public TypedTable<FluidMassElemListTable, FluidMassElemListCard>
 {
 public:

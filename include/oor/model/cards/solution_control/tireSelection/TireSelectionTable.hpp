@@ -19,9 +19,9 @@ struct TireSelectionFormat
     static void write(const TireSelectionCard& card, FieldWriter& writer);
 };
 
-// All the TIRE cards. The ID is unique among them (IdSpace::PerCardType, category Other): the Case Control TIRE command
-// selects it, and the command is not resolved. The names of the tires are those of DTI entries, which no card types, so
-// nothing is looked up. The cards are kept whole next to their ID.
+// All the TireSelection cards. The ID is unique among them (IdSpace::PerCardType, category Other): the Case Control
+// TireSelection command selects it, and the command is not resolved. The names of the tires are those of DirectTable
+// entries, which no card types, so nothing is looked up. The cards are kept whole next to their ID.
 class TireSelectionTable final : public TypedTable<TireSelectionTable, TireSelectionCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // the names are those of DTI entries
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // the names are those of DirectTable entries
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

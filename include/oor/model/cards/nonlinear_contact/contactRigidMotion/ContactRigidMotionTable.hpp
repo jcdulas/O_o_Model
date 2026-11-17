@@ -19,10 +19,10 @@ struct ContactRigidMotionFormat
     static void write(const ContactRigidMotionCard& card, FieldWriter& writer);
 };
 
-// All the BCRIGID cards. The BCRGID is unique among them (IdSpace::PerCardType, category ContactRigid); a BCBODY1 or a
-// BCSURF names it. The cards are kept whole (CardRows); the query engine reads the ID only. CGID, the grid point of the
-// load control and the one of the moments are references; the table IDs among the values are not (a table may be a
-// TABL3D).
+// All the ContactRigidMotion cards. The BCRGID is unique among them (IdSpace::PerCardType, category ContactRigid); a
+// ContactBody1 or a ContactFaceRegion names it. The cards are kept whole (CardRows); the query engine reads the ID
+// only. CGID, the grid point of the load control and the one of the moments are references; the table IDs among the
+// values are not (a table may be a TABL3D).
 class ContactRigidMotionTable final : public TypedTable<ContactRigidMotionTable, ContactRigidMotionCard>
 {
 public:

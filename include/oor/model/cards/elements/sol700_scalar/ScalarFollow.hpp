@@ -9,8 +9,9 @@
 #include <string>
 #include <string_view>
 
-// The value that CELAS1D, CELAS2D, CDAMP1D and CDAMP2D (the scalar springs and dampers of SOL 700) share: the FOLLOW
-// word. It moves one kind of value; every card still lays out, reads, writes and checks its own fields by hand.
+// The value that SpringDofPropertyExplicit, SpringDofInlineExplicit, DamperDofPropertyExplicit and
+// DamperDofInlineExplicit (the scalar springs and dampers of SOL 700) share: the FOLLOW word. It moves one kind of
+// value; every card still lays out, reads, writes and checks its own fields by hand.
 namespace oor::model
 {
 

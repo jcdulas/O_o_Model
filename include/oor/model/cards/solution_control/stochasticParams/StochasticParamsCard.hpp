@@ -13,7 +13,7 @@ namespace oor::model
 
 // The flags of the format reference: what is randomized. PENTRY: the real values of all the element property entries;
 // MENTRY: of all the independent material property entries; CENTRY: of all the connectivity entries; LOADS: of all the
-// load entries; SPCD: of all the SPCD entries.
+// load entries; EnforcedMotionConstr: of all the EnforcedMotionConstr entries.
 enum class StochasticParamsFlag : std::uint8_t
 {
     Property,
@@ -43,14 +43,14 @@ struct StochasticParamsGroup
     [[nodiscard]] bool operator==(const StochasticParamsGroup&) const noexcept = default;
 };
 
-// One STOCHAS card: the statistics used to randomize selected model parameters. The Case Control STOCHASTICS selects it
-// by SID (that command is kept as text, so the SID is not resolved).
+// One StochasticParams card: the statistics used to randomize selected model parameters. The Case Control STOCHASTICS
+// selects it by SID (that command is kept as text, so the SID is not resolved).
 //
-// Card layout: STOCHAS  SID  PENTRY  CDF  CoV  m
-//                           MENTRY  CDF  CoV  m
-//                           CENTRY  CDF  CoV  m
-//                           LOADS   CDF  CoV  m
-//                           SPCD    CDF  CoV  m
+// Card layout: StochasticParams  SID  PENTRY  CDF  CoV  m
+//                                    MENTRY  CDF  CoV  m
+//                                    CENTRY  CDF  CoV  m
+//                                    LOADS  CDF  CoV  m
+//                                    EnforcedMotionConstr  CDF  CoV  m
 // In this library's numbering (field 1 is SID) each group is a line of eight fields: its flag is the second field of
 // the line, CDF, CoV and m the next three; the groups after the first are on continuation lines, whose first field (the
 // field before the flag) is blank, as the layout has them. At least one flag must exist and they can be in any order;

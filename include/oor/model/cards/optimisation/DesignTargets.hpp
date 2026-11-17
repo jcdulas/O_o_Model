@@ -10,10 +10,11 @@
 namespace oor::model
 {
 
-// What the ID of a design relation names, from the name of the card it drives: the PID of a DVPREL1 of type PBAR names
-// a property, the MID of a DVMREL1 of type MAT1 a material, the EID of a DVCREL1 of type CQUAD4 an element, and the
-// same holds for the PID of a DTABLE2 entry. The card types come from the registry, so a card that the library does not
-// type (a property of another solver) names nothing it could resolve and gives no target: its ID is not looked up.
+// What the ID of a design relation names, from the name of the card it drives: the PID of a DesignPropRelation1 of type
+// BarProp names a property, the MID of a DesignMatRelation1 of type IsoMat a material, the EID of a DesignElemRelation1
+// of type ShellQuad4 an element, and the same holds for the PID of a DesignFieldConstants entry. The card types come
+// from the registry, so a card that the library does not type (a property of another solver) names nothing it could
+// resolve and gives no target: its ID is not looked up.
 [[nodiscard]] std::optional<ReferenceTarget> targetOfDesignedCard(std::string_view cardName);
 
 // The card type a design card names by its neutral card name ("ShellProp"), as the record writes it. Nullopt for a

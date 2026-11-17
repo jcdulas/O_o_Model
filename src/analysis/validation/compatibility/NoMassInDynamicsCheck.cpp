@@ -33,8 +33,9 @@ public:
         {
             const std::vector<RowSet> sets = MassCalculator::allElements(model);
             const MassTotals totals = MassCalculator::total(model, sets);
-            // An element whose mass the library does not compute (a CCONEAX, the fluid elements of a hydroelastic
-            // model, an element on GRIDB points: MassTotals::excluded) may carry the mass: the model is not judged.
+            // An element whose mass the library does not compute (a ShellConical2, the fluid elements of a hydroelastic
+            // model, an element on AxisymFluidRingNode points: MassTotals::excluded) may carry the mass: the model is
+            // not judged.
             if (totals.elements > 0 && totals.excluded.empty() && !(totals.sums.mass() > 0.0))
                 sink.reportStatement("SolutionSequence", *solution,
                                      "the model has " + std::to_string(totals.elements) +

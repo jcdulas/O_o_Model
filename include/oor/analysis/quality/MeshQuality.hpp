@@ -10,10 +10,11 @@
 namespace oor::analysis
 {
 
-// The quality of the shell elements (CTRIA3, CTRIAR, CTRIA6, CQUAD4, CQUADR, CQUAD8, CQUAD, CSHEAR, the plane strain,
-// plane stress and axisymmetric triangles and quadrilaterals): aspect ratio, skew, warp, taper, interior angles,
-// Jacobian, edge lengths, mid-side node position. A triangle and a quadrilateral each have a function of their own
-// (src/analysis/quality/TriangleQuality.cpp, QuadQuality.cpp).
+// The quality of the shell elements (ShellTria3, ShellTria3Drilling, ShellTria6, ShellQuad4, ShellQuad4Drilling,
+// ShellQuad8, PlaneStrainQuad, ShearPanel4, the plane strain, plane stress and axisymmetric triangles and
+// quadrilaterals): aspect ratio, skew, warp, taper, interior angles, Jacobian, edge lengths, mid-side node position. A
+// triangle and a quadrilateral each have a function of their own (src/analysis/quality/TriangleQuality.cpp,
+// QuadQuality.cpp).
 //
 // The nodes come from the cache of positions in the basic system, so the metrics are right whatever the CP of the grid
 // points. A node that does not exist raises GeometryError naming the element. A card type that is not a shell gives NaN
@@ -30,9 +31,9 @@ public:
     [[nodiscard]] static QualityValues of(const model::Model& model, model::CardLocation location);
 };
 
-// The quality of the solid elements: CTETRA (4 or 10 nodes), CPENTA (6 or 15), CHEXA (8 or 20) and CPYRAM (5 or 13),
-// each with a function of its own (TetraQuality.cpp, PentaQuality.cpp, HexaQuality.cpp, PyramidQuality.cpp). Same
-// conventions as ShellQuality.
+// The quality of the solid elements: SolidTetra (4 or 10 nodes), SolidPenta (6 or 15), SolidHexa (8 or 20) and
+// SolidPyramid (5 or 13), each with a function of its own (TetraQuality.cpp, PentaQuality.cpp, HexaQuality.cpp,
+// PyramidQuality.cpp). Same conventions as ShellQuality.
 class SolidQuality
 {
 public:

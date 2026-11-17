@@ -97,10 +97,11 @@ public:
 };
 
 // The heat flux from the temperature gradient of a table that has the gradient and no flux: q = -k grad(T), with the
-// conductivity k of the MAT4 of the element (Fourier's law; the public heat flux tables are written with this sign).
-// Only where the conductivity is one number: the element has a MAT4 whose K does not depend on the temperature (a MATT4
-// table of K, or a MAT5, whose conductivity is a matrix in the material system, give no flux by this way). It needs the
-// model the results are attached to. The way is approximate: it takes the K the card gives at the reference conditions.
+// conductivity k of the HeatIsoMat of the element (Fourier's law; the public heat flux tables are written with this
+// sign). Only where the conductivity is one number: the element has a HeatIsoMat whose K does not depend on the
+// temperature (a HeatIsoMatTemperature table of K, or a HeatAnisoMat, whose conductivity is a matrix in the material
+// system, give no flux by this way). It needs the model the results are attached to. The way is approximate: it takes
+// the K the card gives at the reference conditions.
 class ConductivityTimesGradientProvider final : public ElementProvider
 {
 public:

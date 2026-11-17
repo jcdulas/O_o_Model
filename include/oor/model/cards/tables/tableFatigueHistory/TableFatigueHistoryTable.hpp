@@ -19,9 +19,9 @@ struct TableFatigueHistoryFormat
     static void write(const TableFatigueHistoryCard& card, FieldWriter& writer);
 };
 
-// All the TABLFTG cards, in the category FatigueTable: the TID is unique per card type (IdSpace::PerCardType) and is
-// what an FTGLOAD names. The values of every table are one list in CSR form next to the column of the TIDs, so the
-// query engine sees both. A TABLFTG names no other card.
+// All the TableFatigueHistory cards, in the category FatigueTable: the TID is unique per card type
+// (IdSpace::PerCardType) and is what a FatigueLoad names. The values of every table are one list in CSR form next to
+// the column of the TIDs, so the query engine sees both. A TableFatigueHistory names no other card.
 class TableFatigueHistoryTable final : public TypedTable<TableFatigueHistoryTable, TableFatigueHistoryCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TABLFTG refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TableFatigueHistory refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] VariableLengthColumn<double>& ordinateColumn() noexcept { return m_ordinate; }

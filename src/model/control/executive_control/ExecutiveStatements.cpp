@@ -61,7 +61,7 @@ std::vector<StatementDefinition> makeStatements()
                      "MinDofs",
                      "ExpansionFactor",
                      "ExpansionFactorX"});
-    // The format's ECHO statement has two formats, ECHOOFF and ECHOON.
+    // The format's ECHO statement has two formats, EchoOffMarker and EchoOnMarker.
     define(list, "ExecutiveEchoOff", ControlKind::Keyword);
     define(list, "ExecutiveEchoOn", ControlKind::Keyword);
     define(list, "GeometryCheck", ControlKind::Keyword)

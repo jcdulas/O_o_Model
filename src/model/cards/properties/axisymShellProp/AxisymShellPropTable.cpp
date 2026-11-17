@@ -96,8 +96,8 @@ void AxisymShellPropTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AxisymShellPropTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The material of the element: a structural one, or a MAT4 or MAT5 for heat transfer (the Material target looks
-    // for the thermal materials when no structural one has the ID).
+    // The material of the element: a structural one, or a HeatIsoMat or HeatAnisoMat for heat transfer (the Material
+    // target looks for the thermal materials when no structural one has the ID).
     if (const base::EntityId matId = m_matId.get(row); matId > 0)
         m_matId.set(row, visitor.visit("matId", ReferenceTarget::Material, matId));
 }

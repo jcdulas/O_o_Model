@@ -19,10 +19,10 @@ struct FluidMatFreqFormat
     static void write(const FluidMatFreqCard& card, FieldWriter& writer);
 };
 
-// All the MAT10F cards. The ID space is the card type's own: the ID is the one of the MAT10 that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEDi cards (ReferenceTarget::DynamicTable). The cards are kept whole (CardRows); the query engine reads the ID
-// only.
+// All the FluidMatFreq cards. The ID space is the card type's own: the ID is the one of the FluidMat that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables are
+// references to TABLEDi cards (ReferenceTarget::DynamicTable). The cards are kept whole (CardRows); the query engine
+// reads the ID only.
 class FluidMatFreqTable final : public TypedTable<FluidMatFreqTable, FluidMatFreqCard>
 {
 public:

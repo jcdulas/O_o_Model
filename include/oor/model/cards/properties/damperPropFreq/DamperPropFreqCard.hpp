@@ -5,13 +5,13 @@
 namespace oor::model
 {
 
-// One PDAMPT card: the frequency dependent property of the PDAMP with the same ID.
+// One DamperPropFreq card: the frequency dependent property of the DamperProp with the same ID.
 //
 // Card layout:
-//   PDAMPT  PID  TBID
+//   DamperPropFreq  PID  TBID
 //
-// The ID is the one of the PDAMP it extends (the card has an ID space of its own: one PDAMPT per PDAMP). TBID is the
-// TABLEDi entry of the damping force per unit velocity against frequency, 0 when blank.
+// The ID is the one of the DamperProp it extends (the card has an ID space of its own: one DamperPropFreq per
+// DamperProp). TBID is the TABLEDi entry of the damping force per unit velocity against frequency, 0 when blank.
 struct DamperPropFreqCard
 {
     base::EntityId id = 0;

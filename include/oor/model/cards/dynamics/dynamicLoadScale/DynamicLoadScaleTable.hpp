@@ -19,8 +19,8 @@ struct DynamicLoadScaleFormat
     static void write(const DynamicLoadScaleCard& card, FieldWriter& writer);
 };
 
-// All the DAREA cards. The ID is a set ID shared by many cards (IdSpace::Group), in the same ID space as the dynamic
-// loads that refer to it. The two groups of a card are kept as three columns of two values.
+// All the DynamicLoadScale cards. The ID is a set ID shared by many cards (IdSpace::Group), in the same ID space as the
+// dynamic loads that refer to it. The two groups of a card are kept as three columns of two values.
 class DynamicLoadScaleTable final : public TypedTable<DynamicLoadScaleTable, DynamicLoadScaleCard>
 {
 public:

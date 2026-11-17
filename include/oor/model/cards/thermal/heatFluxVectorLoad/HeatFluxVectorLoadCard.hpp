@@ -10,10 +10,10 @@
 namespace oor::model
 {
 
-// One QVECT card: the thermal vector flux from a distant source into the faces of surface elements.
+// One HeatFluxVectorLoad card: the thermal vector flux from a distant source into the faces of surface elements.
 //
-// Card layout: QVECT  SID  Q0  TSOUR  CE  E1 or TID1  E2 or TID2  E3 or TID3  CNTRLND
-//                    EID1  EID2  -etc.-
+// Card layout: HeatFluxVectorLoad  SID  Q0  TSOUR  CE  E1 or TID1  E2 or TID2  E3 or TID3  CNTRLND
+//                                 EID1  EID2  -etc.-
 // Q0 (the magnitude) and TSOUR (the source temperature) may be blank, CE is the coordinate system of the direction (-1,
 // 0 or a system ID; absent when blank). Each component of the direction is a real (0.0 when blank) or, when the field
 // holds an integer, the TABLEDi that gives it as a function of time: `e` has the reals and `tid` the tables, 0 where a

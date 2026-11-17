@@ -1,5 +1,6 @@
 // Checks of the points and of the default cards: scalar and extra points in the node ID space, the
-// ScalarOrGridPoint reference, and the defaults of GRDSET, BAROR and BEAMOR applied when a deck is read.
+// ScalarOrGridPoint reference, and the defaults of NodeDefaults, Bar2Defaults and Beam2Defaults applied when a deck is
+// read.
 
 #include "oor/model/cards/coordinate_systems/generalFrame3/GeneralFrame3Table.hpp"
 #include "oor/model/cards/elements/bar2/Bar2Table.hpp"
@@ -159,8 +160,8 @@ TEST_CASE("a field that takes a grid point or a scalar point may name a scalar p
 {
     Model model = readBulk(
         "Node;2;;0.;0.;0.\nScalarPoint;14\nSpringDofProperty;1;9;14;;2;1\nSpringScalarProperty;2;9;30;31\nSpringDofInline;3;5.;14;;15");
-    // Only the properties are missing (PID 9 of CELAS1 and CELAS3): the scalar points 14 (defined), 30, 31 and 15 (not)
-    // are not reported, and neither is the grid point 2.
+    // Only the properties are missing (PID 9 of SpringDofProperty and SpringScalarProperty): the scalar points 14
+    // (defined), 30, 31 and 15 (not) are not reported, and neither is the grid point 2.
     REQUIRE(unresolvedIn(model) == 2);
     REQUIRE(mayPointAtNothing(ReferenceTarget::ScalarOrGridPoint));
     REQUIRE(mayPointAtNothing(ReferenceTarget::NodeInRange));
@@ -185,7 +186,7 @@ TEST_CASE("renumbering the nodes renumbers the scalar points, the other points a
         "SpringScalarProperty;3;9;30;31\n"
         "Bar2;4;5;1;2;0.;;0.;1.\n"
         "Beam2;5;5;1;2;0.;;0.;1.;OffsetsGlobalGlobalGlobal;;;;;;;;;15;16");
-    // Two grid points, three scalar points, an extra point, a POINT and a GRIDB.
+    // Two grid points, three scalar points, an extra point, a GeomPoint and an AxisymFluidRingNode.
     REQUIRE(Renumbering::apply(model, RenumberSpace::Node, Renumbering::offset(100)) == 2 + 3 + 1 + 1 + 1);
     REQUIRE(idsOf<NodeTable>(model) == std::vector<base::EntityId>{101, 102});
     REQUIRE(idsOf<ScalarPointTable>(model) == std::vector<base::EntityId>{114, 115, 116});
@@ -285,7 +286,7 @@ TEST_CASE("without a GRDSET the blank fields of a grid point are the zeros of th
     const NodeCard grid = cardAt<NodeTable>(model);
     REQUIRE(grid.positionFrameId == 0);
     REQUIRE(grid.permanentConstraints == 0);
-    // The blank fields stay noted, for a GRDSET that is added later (Model::applyDefaults).
+    // The blank fields stay noted, for a NodeDefaults that is added later (Model::applyDefaults).
     REQUIRE(grid.blankFields == (NodeCard::BLANK_POSITION_FRAME | NodeCard::BLANK_DISPLACEMENT_FRAME |
                                  NodeCard::BLANK_PERMANENT_CONSTRAINTS | NodeCard::BLANK_SUPERELEMENT));
 }
@@ -294,7 +295,7 @@ TEST_CASE("a model written after GRDSET was applied reads back the same grid poi
 {
     const Model model = readBulk("Node;1;;0.;0.;0.\nNodeDefaults;14;28;2456;6");
 
-    // The grid now says what it got, and the GRDSET is still a card of the model.
+    // The grid now says what it got, and the NodeDefaults is still a card of the model.
     oor::testing::requireModelFileRoundTrip(model);
     const Model again = readBulk(writeModelText(model));
 }
@@ -311,7 +312,7 @@ TEST_CASE("with a GRDSET in the model the grids write their zeros, so the zero s
     REQUIRE(grid.displacementFrameId == 0);
     REQUIRE(grid.permanentConstraints == 0);
     REQUIRE(grid.superelementId == 0);
-    // Without a GRDSET the same grid is written with blanks.
+    // Without a NodeDefaults the same grid is written with blanks.
     const Model alone = readBulk("Node;3;0;0.;1.;0.;0;0;0");
     oor::testing::requireModelFileRoundTrip(alone);
 }
@@ -348,7 +349,7 @@ TEST_CASE("GRDSET is one card, all of whose fields are blank or in the format's 
     REQUIRE_THROWS_AS(readBulk("NodeDefaults;;-2"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("NodeDefaults;;;17"), base::DeckError);
     REQUIRE_NOTHROW(readBulk("NodeDefaults;;-1")); // CD may be -1
-    // A second GRDSET is an error; in tolerant mode the first one is used.
+    // A second NodeDefaults is an error; in tolerant mode the first one is used.
     REQUIRE_THROWS_AS(readBulk("NodeDefaults;16\nNodeDefaults;17"), base::DeckError);
     const Model tolerant = readBulk("Node;1;;0.;0.;0.\nNodeDefaults;16\nNodeDefaults;17", false);
     REQUIRE(tolerant.diagnostics().hasErrors());
@@ -403,7 +404,7 @@ TEST_CASE("BAROR gives the PID, the orientation and OFFT to the CBARs that leave
         REQUIRE(own.propId == 5);
         REQUIRE(own.orientation == std::array<double, 3>{0.0, 0.0, 1.0});
         REQUIRE(own.offsetKind == "OffsetsBasicGlobalGlobal");
-        // A grid point of the card's own is not replaced by the vector of the BAROR.
+        // A grid point of the card's own is not replaced by the vector of the Bar2Defaults.
         const Bar2Card byGrid = table.card(2);
         REQUIRE(byGrid.propId == 47);
         REQUIRE(byGrid.orientationNode == 7);
@@ -440,7 +441,7 @@ TEST_CASE("without a BAROR a blank PID is the EID and a blank orientation is the
     REQUIRE(bar.propId == 8);
     REQUIRE(bar.orientation == std::array<double, 3>{});
     REQUIRE(bar.offsetKind == "OffsetsGlobalGlobalGlobal");
-    // A BAROR with no PID leaves a blank PID the EID.
+    // A Bar2Defaults with no PID leaves a blank PID the EID.
     const Model noPid = readBulk("Bar2;8;;1;2\nBar2Defaults;;0.;;0.;1.;OffsetsBasicOrientOrient");
     REQUIRE(cardAt<Bar2Table>(noPid).propId == 8);
     REQUIRE(cardAt<Bar2Table>(noPid).orientation == std::array<double, 3>{0.0, 0.0, 1.0});
@@ -491,7 +492,7 @@ TEST_CASE("the cards read with BAROR defaults are written with them resolved, so
 TEST_CASE("CORD3G is a coordinate system of the coordinate ID space and refers to its reference system",
           "[model][cards]")
 {
-    // The angles are equations (DEQATN): the six numbers name the equation cards that follow.
+    // The angles are equations (DesignEquation): the six numbers name the equation cards that follow.
     Model model = readBulk(
         "RectFrame2;10;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"
         "GeneralFrame3;20;EulerAngles313;EquationForm;120;121;122;10\n"

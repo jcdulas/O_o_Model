@@ -31,12 +31,12 @@ struct MonteCarloParamsVariabilities
     [[nodiscard]] bool operator==(const MonteCarloParamsVariabilities&) const noexcept = default;
 };
 
-// One MONCARL card: the parameters of a Monte-Carlo simulation by the non-parametric variability method. The Case
-// Control MONCARL selects it by SID.
+// One MonteCarloParams card: the parameters of a Monte-Carlo simulation by the non-parametric variability method. The
+// Case Control MonteCarloParams selects it by SID.
 //
-// Card layout: MONCARL  SID  VARTYP
-//                      STRVAR  MSVAR  KSVAR  BSVAR
-//                      FLUVAR  MFVAR  KFVAR  BFVAR
+// Card layout: MonteCarloParams  SID  VARTYP
+//                               STRVAR  MSVAR  KSVAR  BSVAR
+//                               FLUVAR  MFVAR  KFVAR  BFVAR
 // In this library's numbering (field 1 is SID): VARTYP is field 2 and each line after the head has eight fields from
 // field 9 on; a line starts with its keyword, STRVAR or FLUVAR, followed by the three variabilities. The layout has the
 // STRVAR line first and the FLUVAR line second; a card with one of them or neither is read

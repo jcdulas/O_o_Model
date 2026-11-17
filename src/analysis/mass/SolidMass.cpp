@@ -5,10 +5,10 @@
 #include "oor/model/cards/elements/solidPyramid/SolidPyramidTable.hpp"
 #include "oor/model/cards/elements/solidTetra/SolidTetraTable.hpp"
 
-// The mass of the solid elements: the density of the material of PSOLID (or PLSOLID) times the volume of the element,
-// the isoparametric volume of the geometry with the mid-side nodes. A solid of a fluid property (PSOLID with FCTN
-// PFLUID or FFLUID) is not structural mass and counts for nothing, as the format reference says the fluid masses are
-// ignored.
+// The mass of the solid elements: the density of the material of SolidProp (or SolidPropHyperelastic) times the volume
+// of the element, the isoparametric volume of the geometry with the mid-side nodes. A solid of a fluid property
+// (SolidProp with FCTN PFLUID or FFLUID) is not structural mass and counts for nothing, as the format reference says
+// the fluid masses are ignored.
 
 namespace oor::analysis::detail
 {

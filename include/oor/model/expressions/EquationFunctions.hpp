@@ -9,7 +9,7 @@
 namespace oor::model
 {
 
-// The intrinsic functions of a DEQATN. The enumerators follow the order of EQUATION_FUNCTIONS.
+// The intrinsic functions of a DesignEquation. The enumerators follow the order of EQUATION_FUNCTIONS.
 enum class EquationFunction : std::uint8_t
 {
     Abs,

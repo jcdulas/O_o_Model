@@ -266,8 +266,8 @@ void SeamTable::keepRows(const std::vector<std::uint32_t>& rows)
 void SeamTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     if (const base::EntityId propId = m_propId.get(row); propId > 0)
-        m_propId.set(row, visitor.visit("propId", ReferenceTarget::Property, propId)); // a PSEAM
-    // The four patch numbers are the properties of PSHELL cards or element IDs, as CTYPE says.
+        m_propId.set(row, visitor.visit("propId", ReferenceTarget::Property, propId)); // a SeamProp
+    // The four patch numbers are the properties of ShellProp cards or element IDs, as CTYPE says.
     const ReferenceTarget patchTarget = m_patchKind.get(row) == static_cast<std::uint8_t>(SeamPatchType::Element)
                                             ? ReferenceTarget::Element
                                             : ReferenceTarget::Property;

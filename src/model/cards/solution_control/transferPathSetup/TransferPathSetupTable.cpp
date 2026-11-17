@@ -117,7 +117,7 @@ void TransferPathSetupTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void TransferPathSetupTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     TransferPathSetupCard& card = m_cards.edit(row);
-    // The interface grid points, then the response grid points of each pair: all SET3 entries.
+    // The interface grid points, then the response grid points of each pair: all TypedListSet3 entries.
     visitId(visitor, "nodeSetId", ReferenceTarget::Set, card.nodeSetId);
     for (TransferPathSetupResponse& response : card.responses)
         visitId(visitor, "outputSet", ReferenceTarget::Set, response.outputSet);

@@ -19,9 +19,9 @@ struct DesignElemRelation2Format
     static void write(const DesignElemRelation2Card& card, FieldWriter& writer);
 };
 
-// All the DVCREL2 cards. The ID is unique among the DVCREL2 cards (IdSpace::PerCardType) and in the category
-// ConnectivityRelation with the DVCREL1 cards; the EID is an element of the type TYPE names, the EQID a DEQATN and the
-// DVIDs design variables.
+// All the DesignElemRelation2 cards. The ID is unique among the DesignElemRelation2 cards (IdSpace::PerCardType) and in
+// the category ConnectivityRelation with the DesignElemRelation1 cards; the EID is an element of the type TYPE names,
+// the EQID a DesignEquation and the DVIDs design variables.
 class DesignElemRelation2Table final : public TypedTable<DesignElemRelation2Table, DesignElemRelation2Card>
 {
 public:

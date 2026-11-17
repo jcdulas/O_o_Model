@@ -77,7 +77,7 @@ template <typename TableT>
 // What a reference target is, for a message: "node", "property", "load set", ...
 [[nodiscard]] std::string_view describeTarget(model::ReferenceTarget target) noexcept;
 
-// The name of the card type of a location ("PSHELL").
+// The name of the card type of a location ("ShellProp").
 [[nodiscard]] std::string_view cardNameAt(const model::Model& model, model::CardLocation location);
 // The neutral identifier field of this card type, as declared first in its compact layout.
 [[nodiscard]] std::string idFieldAt(const model::Model& model, model::CardLocation location);
@@ -94,14 +94,15 @@ template <typename TableT>
 // True when the deck is a heat transfer analysis (APP HEAT): the structural rules about constraints do not apply.
 [[nodiscard]] bool isHeatTransfer(const model::Model& root);
 
-// True when the Bulk Data has PARAM,HEATSTAT,YES: a SOL 101 deck that computes a steady-state heat transfer in its
-// first subcase and a thermal stress analysis in the second (format reference, PARAM,HEATSTAT), so that it holds
-// thermal and structural materials, and its TEMPERATURE(LOAD) names the heat subcase.
+// True when the Bulk Data has PARAM,HeatStaticAnalysis,YES: a SOL 101 deck that computes a steady-state heat transfer
+// in its first subcase and a thermal stress analysis in the second (format reference, PARAM,HeatStaticAnalysis), so
+// that it holds thermal and structural materials, and its TEMPERATURE(LOAD) names the heat subcase.
 [[nodiscard]] bool isHeatThenStress(const model::Model& root);
 
-// The part that a part copies: when the superelement of `model` is a REPEAT or MIRROR image of another (its SEBULK says
-// so), the cards of the image name the IDs of the original (the PLOAD2 of a mirrored superelement loads the elements of
-// the part it mirrors). Null for the residual structure, for a part that is not an image and for an image of nothing.
+// The part that a part copies: when the superelement of `model` is a REPEAT or MIRROR image of another (its
+// SuperelementBulkOptions says so), the cards of the image name the IDs of the original (the ShellPressureLoad of a
+// mirrored superelement loads the elements of the part it mirrors). Null for the residual structure, for a part that is
+// not an image and for an image of nothing.
 [[nodiscard]] const model::Model* imageOfPart(const model::Model& model);
 
 // True when a node ID is a grid point of the model (a scalar point is not).
@@ -129,18 +130,19 @@ template <typename TableT>
 [[nodiscard]] bool isStaticSolution(std::int64_t sol) noexcept;  // 101, 106, 153, 400 (static subcases), 144, 153
 [[nodiscard]] bool isDynamicSolution(std::int64_t sol) noexcept; // normal modes and the dynamic response sequences
 
-// The sets that the constraint set `id` stands for: itself and, through the SPCADD (command
-// model::SINGLE_POINT_CONSTR_SELECTION) or MPCADD (command model::MULTI_POINT_CONSTR_SELECTION) cards that combine
-// sets, every set it contains, sorted.
+// The sets that the constraint set `id` stands for: itself and, through the SinglePointConstrUnion (command
+// model::SINGLE_POINT_CONSTR_SELECTION) or MultiPointConstrUnion (command model::MULTI_POINT_CONSTR_SELECTION) cards
+// that combine sets, every set it contains, sorted.
 [[nodiscard]] std::vector<base::EntityId> expandedConstraintSet(const model::Model& model, std::string_view command,
                                                                 base::EntityId id);
 
 // The constraint sets the Case Control selects with the command model::SINGLE_POINT_CONSTR_SELECTION or
 // model::MULTI_POINT_CONSTR_SELECTION (`command`), one selection for each distinct choice of the analysis subcases: the
-// sets of the card IDs the command names, each expanded through the SPCADD or MPCADD that combines them (the leaf IDs
-// and the combining ID, sorted). A subcase without the command makes no selection. When no subcase has the command (a
-// deck read without Case Control, or a model made in memory) the one selection is every set of the Bulk Data cards of
-// that command (SPC and SPC1 cards, or MPC cards).
+// sets of the card IDs the command names, each expanded through the SinglePointConstrUnion or MultiPointConstrUnion
+// that combines them (the leaf IDs and the combining ID, sorted). A subcase without the command makes no selection.
+// When no subcase has the command (a deck read without Case Control, or a model made in memory) the one selection is
+// every set of the Bulk Data cards of that command (SinglePointConstr and SinglePointConstrList cards, or
+// MultiPointConstr cards).
 [[nodiscard]] std::vector<std::vector<base::EntityId>> constraintSelections(const model::Model& model,
                                                                             std::string_view command);
 

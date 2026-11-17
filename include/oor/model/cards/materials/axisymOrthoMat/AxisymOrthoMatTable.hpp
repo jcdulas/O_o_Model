@@ -18,7 +18,7 @@ struct AxisymOrthoMatFormat
     static void write(const AxisymOrthoMatCard& card, FieldWriter& writer);
 };
 
-// All the MAT3 cards. The ID is a material ID, in the space every material type shares (IdSpace::Material).
+// All the AxisymOrthoMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material).
 class AxisymOrthoMatTable final : public TypedTable<AxisymOrthoMatTable, AxisymOrthoMatCard>
 {
 public:
@@ -34,7 +34,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MAT3 refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an AxisymOrthoMat refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& youngsModulusXColumn() noexcept { return m_youngsModulusX; }

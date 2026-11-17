@@ -10,14 +10,15 @@
 namespace oor::model
 {
 
-// One DMIJI card: either the header of a matrix at the js-set of the aerodynamic mesh of the interference body of a
-// CAERO2 (the second field is the integer 0) or one column of it. Same layout as DMIG and DMIJ, and a term is the same
-// value (`DirectMatrixNodalTerm`); what differs is what the matrix is: W2GJ, FA2J and the downwashes and pressures of
-// AEDW and AEPRESS for the interference elements of a CAERO2 (DMIJ or DMI carry those of the slender elements and of
+// One DirectMatrixAeroJInterference card: either the header of a matrix at the js-set of the aerodynamic mesh of the
+// interference body of a AeroBody2 (the second field is the integer 0) or one column of it. Same layout as
+// DirectMatrixNodal and DirectMatrixAeroJ, and a term is the same value (`DirectMatrixNodalTerm`); what differs is what
+// the matrix is: W2GJ, FA2J and the downwashes and pressures of AeroDownwash and AeroPressureVector for the
+// interference elements of an AeroBody2 (DirectMatrixAeroJ or DirectMatrix carry those of the slender elements and of
 // the other CAERO cards). Its points are aerodynamic mesh points, not structural grid points.
 //
-// Card layout, header:  DMIJI  NAME  "0"  IFO  TIN  TOUT  POLAR  .  NCOL
-//         column:      DMIJI  NAME  GJ   CJ   .    G1    C1     A1  B1
+// Card layout, header:  DirectMatrixAeroJInterference  NAME  "0"  IFO  TIN  TOUT  POLAR  .  NCOL
+//         column:      DirectMatrixAeroJInterference  NAME  GJ   CJ   .    G1    C1  A1  B1
 //                      .     G2    C2   A2   B2   G3    C3     A3  B3   -etc.-
 // Fields 1 to 3 of a column are the name and the column; field 4 is blank and the terms (G, C, A, B) follow four fields
 // at a time, wherever they fall on the continuation lines. B is blank for a real matrix (TIN 1 or 2).

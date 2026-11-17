@@ -10,10 +10,11 @@ namespace oor::analysis
 namespace
 {
 
-// A deformable body whose BSID names a rigid surface. The BSID of a deformable body is a BSURF or a BCPROP (and, in SOL
-// 700, a BCBOX, BCMATL, BCSEG, BCGRID or BCELIPS); a BCPATCH, BCBZIER, BCNURB2 or BCNURBS, or the BCRGSRF that lists
-// them, describes a rigid surface and a rigid body (BEHAV RIGID) names it. A rigid body may be made of elements, so the
-// opposite is not wrong.
+// A deformable body whose BSID names a rigid surface. The BSID of a deformable body is a ContactElemSurface or a
+// ContactPropertyRegion (and, in SOL 700, a ContactBoxRegion, ContactMaterialRegion, ContactSegment, ContactNodeRegion
+// or ContactEllipsoidList); a ContactPatchSurface, ContactBezierSurface, ContactNurbsCurve or ContactNurbsSurface, or
+// the ContactRigidSurfaceList that lists them, describes a rigid surface and a rigid body (BEHAV RIGID) names it. A
+// rigid body may be made of elements, so the opposite is not wrong.
 class BodySurfaceKindCheck final : public ValidationCheck
 {
 public:

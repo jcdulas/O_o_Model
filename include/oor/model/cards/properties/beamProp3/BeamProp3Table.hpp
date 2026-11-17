@@ -19,8 +19,8 @@ struct BeamProp3Format
     static void write(const BeamProp3Card& card, FieldWriter& writer);
 };
 
-// All the PBEAM3 cards. The values of the three stations are fixed-size arrays of (N, 3 x n) NumPy views without copy:
-// the n values of end A, then those of B, then those of C.
+// All the BeamProp3 cards. The values of the three stations are fixed-size arrays of (N, 3 x n) NumPy views without
+// copy: the n values of end A, then those of B, then those of C.
 class BeamProp3Table final : public TypedTable<BeamProp3Table, BeamProp3Card>
 {
 public:

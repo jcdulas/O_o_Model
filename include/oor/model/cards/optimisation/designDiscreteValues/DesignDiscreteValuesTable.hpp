@@ -19,9 +19,9 @@ struct DesignDiscreteValuesFormat
     static void write(const DesignDiscreteValuesCard& card, FieldWriter& writer);
 };
 
-// All the DDVAL cards. The ID is unique among them (IdSpace::PerCardType) and has a category of its own,
-// DiscreteValueSet: the DDVAL of a DESVAR, the DSVID of a TOMVAR, the DDVALID of a CAMPBLL and the SPTID of an RSPINR
-// name it. The cards are kept whole next to the ID column.
+// All the DesignDiscreteValues cards. The ID is unique among them (IdSpace::PerCardType) and has a category of its own,
+// DiscreteValueSet: the DesignDiscreteValues of a DesignVar, the DSVID of a DesignTopometryRegion, the DDVALID of a
+// CampbellDiagram and the SPTID of a RotorRelativeSpin name it. The cards are kept whole next to the ID column.
 class DesignDiscreteValuesTable final : public TypedTable<DesignDiscreteValuesTable, DesignDiscreteValuesCard>
 {
 public:
@@ -37,7 +37,8 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // nothing in a DDVAL names another card
+    // nothing in a DesignDiscreteValues names another card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

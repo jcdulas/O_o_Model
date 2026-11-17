@@ -17,13 +17,13 @@ namespace oor::query
 [[nodiscard]] const std::vector<std::string>& laminateStrainFields();
 
 // The mid-plane strains and the curvatures of the shells from their force resultants, by classical
-// lamination theory: [e0; k] = [A B; B D]^-1 [N; M], the ABD matrix of the property of each element (a PCOMP or PCOMPG
-// laminate, or a PSHELL from its materials: shellStiffness) in its material axes. `forces` are flats of the resultants
-// (nx ny nxy mx my mxy, the moments of the format: M = -integral of sigma z, so the lamination theory takes -M) in the
-// element frame; the curvatures are those of the theory, the strain at the height z being e0 + z k. Each gives a flat
-// of the same rows with the fields of laminateStrainFields, in the element frame, or in the material frame with
-// `material`. NaN for an element whose property is not a shell one, whose ABD cannot be inverted, or that is not linked
-// to the model; a complex flat (a frequency response) is left out.
+// lamination theory: [e0; k] = [A B; B D]^-1 [N; M], the ABD matrix of the property of each element (a CompProp or
+// CompPropGlobal laminate, or a ShellProp from its materials: shellStiffness) in its material axes. `forces` are flats
+// of the resultants (nx ny nxy mx my mxy, the moments of the format: M = -integral of sigma z, so the lamination theory
+// takes -M) in the element frame; the curvatures are those of the theory, the strain at the height z being e0 + z k.
+// Each gives a flat of the same rows with the fields of laminateStrainFields, in the element frame, or in the material
+// frame with `material`. NaN for an element whose property is not a shell one, whose ABD cannot be inverted, or that is
+// not linked to the model; a complex flat (a frequency response) is left out.
 [[nodiscard]] std::vector<ElementFlat> laminateStrainFlats(const ResultQueryContext& context,
                                                            const std::vector<ElementFlat>& forces, bool material);
 

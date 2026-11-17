@@ -50,7 +50,7 @@ std::optional<CardProblem> AeroBody2Format::check(const AeroBody2Card& card)
         return problem;
     if (const auto problem = checkOptionalId(card.interferenceListId, "interferenceListId"))
         return problem;
-    // Both cuts of the body are needed: a number of equal divisions, or else an AEFACT list of division points.
+    // Both cuts of the body are needed: a number of equal divisions, or else an AeroFactorList list of division points.
     if (card.slenderElemCount == 0 && card.slenderListId == 0)
         return CardProblem{"card.missing-field", "{field} or {field:slenderListId} is required", "slenderElemCount"};
     if (card.interferenceElemCount == 0 && card.interferenceListId == 0)

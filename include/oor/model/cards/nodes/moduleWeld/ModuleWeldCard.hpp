@@ -11,11 +11,11 @@
 namespace oor::model
 {
 
-// The type of connection of an MDWELD (field 4), which decides the layout of the rest of the card. The enumerators are
-// numbered in the order of MODULE_WELD_TYPE_WORDS.
+// The type of connection of a ModuleWeld (field 4), which decides the layout of the rest of the card. The enumerators
+// are numbered in the order of MODULE_WELD_TYPE_WORDS.
 enum class ModuleWeldType : std::uint8_t
 {
-    PartPatch,    // PARTPAT: two patches, each defined by a PSHELL property (PIDA in MODA, PIDB in MODB)
+    PartPatch,    // PARTPAT: two patches, each defined by a ShellProp property (PIDA in MODA, PIDB in MODB)
     ElementPatch, // ELPAT: two patches, each defined by a shell element (SHIDA in MODA, SHIDB in MODB)
     ElementId,    // ELEMID: one shell element on each patch (or one patch and the point GS)
     GridId,       // GRIDID: two lists of grid points, one for each patch (GAi in MODA, GBi in MODB)
@@ -41,13 +41,13 @@ enum class ModuleWeldPatchTypes : std::uint8_t
 inline constexpr std::array<std::string_view, 6> MODULE_WELD_PATCH_TYPE_WORDS{
     "QuadQuadPatch", "TriaTriaPatch", "QuadTriaPatch", "TriaQuadPatch", "QuadPatch", "TriaPatch"};
 
-// One MDWELD card: a weld or fastener that connects two surface patches, a point and a patch, or two points, between
-// two modules (the multi-module counterpart of the CWELD, whose rules apply). A module is a BEGIN MODULE section of
-// the deck, a part of the deck; module 0 (a blank field) is the main Bulk Data.
+// One ModuleWeld card: a weld or fastener that connects two surface patches, a point and a patch, or two points,
+// between two modules (the multi-module counterpart of the Weld, whose rules apply). A module is a BEGIN MODULE section
+// of the deck, a part of the deck; module 0 (a blank field) is the main Bulk Data.
 //
 // Card layout, the first line and the fields 13 and 14 that every format has:
-//   MDWELD  EWID  PWID  GS  TYPE  GA  GB  (SPTYP)  MCID           fields 1 to 8 (SPTYP: GRIDID only)
-//           ...                                   MODA  MODB     fields 13 and 14
+//   ModuleWeld  EWID  PWID  GS  TYPE  GA  GB  (SPTYP)  MCID       fields 1 to 8 (SPTYP: GRIDID only)
+//               ...                                   MODA  MODB     fields 13 and 14
 // and what depends on TYPE (a blank cell is not used and must be blank):
 //   PARTPAT   fields 9 and 10: PIDA  PIDB, fields 17 to 19: XS  YS  ZS
 //   ELPAT     fields 9 and 10: SHIDA SHIDB, fields 17 to 19: XS  YS  ZS
@@ -57,11 +57,11 @@ inline constexpr std::array<std::string_view, 6> MODULE_WELD_PATCH_TYPE_WORDS{
 // `ida` and `idb` hold PIDA and PIDB or SHIDA and SHIDB. The members of the formats a TYPE does not have stay blank.
 //
 // A blank MCID is -1 (the format reference default: the element system of the weld; the format takes -1 or more, or a
-// blank). A blank module is 0. PWID names a PWELD of the main Bulk Data. The grid points GS, GA and GB are in the main
-// Bulk Data (module 0) except where the format reference says otherwise: for ELEMID GS is in the module MODS (the
+// blank). A blank module is 0. PWID names a WeldProp of the main Bulk Data. The grid points GS, GA and GB are in the
+// main Bulk Data (module 0) except where the format reference says otherwise: for ELEMID GS is in the module MODS (the
 // format reference says so for a point to patch connection, which is an ELEMID with a blank SHIDB) and for ALIGN GA is
 // in MODA and GB in MODB; the points GAi and GBi of a GRIDID are in MODA and MODB. XS, YS and ZS locate the weld in the
-// basic system, are all given or all blank and are required when neither GS nor GA is given (as for the CWELD:
+// basic system, are all given or all blank and are required when neither GS nor GA is given (as for the Weld:
 // `location` is empty when blank). The card belongs in the main Bulk Data (a rule of the deck, not of the
 // card).
 struct ModuleWeldCard

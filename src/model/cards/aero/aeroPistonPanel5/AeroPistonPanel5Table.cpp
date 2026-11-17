@@ -49,7 +49,8 @@ std::optional<CardProblem> AeroPistonPanel5Format::check(const AeroPistonPanel5C
         return CardProblem{"card.bad-value", "{field} cannot be negative", "spanBoxCount"};
     if (const auto problem = checkOptionalId(card.spanDivisionListId, "spanDivisionListId"))
         return problem;
-    // The strips come from the number of divisions, or else from the AEFACT list (format reference fields 4 and 5).
+    // The strips come from the number of divisions, or else from the AeroFactorList list (format reference fields 4 and
+    // 5).
     if (card.spanBoxCount == 0 && card.spanDivisionListId == 0)
         return CardProblem{"card.missing-field", "{field} or {field:spanDivisionListId} is required", "spanBoxCount"};
     if (card.theory < 0 || card.theory > LAST_THEORY)

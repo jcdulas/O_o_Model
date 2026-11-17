@@ -8,15 +8,15 @@
 namespace oor::model
 {
 
-// One NLADAPT card: the extra parameters of the automatic load or time stepping of SOL 400 (obsolete in the later
-// versions of the format, where NLSTEP takes its place).
+// One NonlinearAdaptiveStepping card: the extra parameters of the automatic load or time stepping of SOL 400 (obsolete
+// in the later versions of the format, where NonlinearStepControl takes its place).
 //
-// Card layout: NLADAPT  ID
+// Card layout: NonlinearAdaptiveStepping  ID
 //   then keyword lines, in any order:
 //     STEP   RSMALL  RBIG  TSMIN  TSMAX  NSMAX  NRECYC  SFACT / IDAMP  DAMP
 //     CREEP  RAC  TCSTRN  TCSTRS  TCOFF
 // (the values of a keyword are in the fields after it; the second line of STEP has no keyword).
-// The ID is the ID of the NLPARM (or NLSTEP) the card extends.
+// The ID is the ID of the NonlinearStaticParams (or NonlinearStepControl) the card extends.
 struct NonlinearAdaptiveSteppingCard
 {
     base::EntityId id = 0;

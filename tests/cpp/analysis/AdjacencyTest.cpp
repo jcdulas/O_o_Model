@@ -201,8 +201,8 @@ TEST_CASE("a shell on the face of a solid is its neighbour by face, a rod on its
 
 TEST_CASE("mid-side nodes count as nodes of an element but not as corners of its edges", "[analysis][adjacency]")
 {
-    // A CQUAD8 and a CQUAD4 side by side; the CQUAD8 has a mid-side node on its right side (G6 between G2 and G3), a
-    // node nobody else uses; an unrelated CQUAD4 uses the mid-side node of the CQUAD8 as a corner.
+    // A ShellQuad8 and a ShellQuad4 side by side; the ShellQuad8 has a mid-side node on its right side (G6 between G2
+    // and G3), a node nobody else uses; an unrelated ShellQuad4 uses the mid-side node of the ShellQuad8 as a corner.
     const Model model = readModelText(std::string(PROPERTIES) +
                                       "Node;1;;0.;0.;0.\n"
                                       "Node;2;;1.;0.;0.\n"
@@ -431,9 +431,9 @@ TEST_CASE("the mid-side nodes of each face follow its edges in the order of the 
           "[analysis][adjacency]")
 {
     // A SolidHexa with its twenty nodes 1 to 20 and a SolidPenta with its fifteen 101 to 115, in card order: the format
-    // reference numbers the mid-side slots by edges in another order than the edge templates (CHEXA G13 to G16 between
-    // the two faces, then G17 to G20 on the second one; CPENTA G10 to G12 between the triangles), so each face finds
-    // its own.
+    // reference numbers the mid-side slots by edges in another order than the edge templates (SolidHexa G13 to G16
+    // between the two faces, then G17 to G20 on the second one; SolidPenta G10 to G12 between the triangles), so each
+    // face finds its own.
     std::string text = PROPERTIES;
     for (int id = 1; id <= 20; ++id)
         text += grid(id, id, 0.0, 0.0);

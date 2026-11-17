@@ -53,7 +53,7 @@ std::shared_ptr<ResultTable> transientDisplacements()
     return makeMemoryTable(std::move(input));
 }
 
-// The stresses of two CQUAD4 at their centre, two fibres each.
+// The stresses of two ShellQuad4 at their centre, two fibres each.
 std::shared_ptr<ResultTable> shellStress()
 {
     static const std::vector<double> values = []

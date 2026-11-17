@@ -72,7 +72,7 @@ using MonitorProvider = QuantityProvider<MonitorRequest, MonitorLoadSet>;
 using MonitorChain = ProviderChain<MonitorRequest, MonitorLoadSet>;
 
 // The ways of the monitor point loads: the stored monitor point table (the named result `monitorPointLoads`), then a
-// MONPNT3 computed from the grid point forces.
+// MonitorNodeForceSum3 computed from the grid point forces.
 [[nodiscard]] const MonitorChain& monitorChain();
 
 } // namespace oor::query

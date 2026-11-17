@@ -19,9 +19,10 @@ struct UserElemServiceFormat
     static void write(const UserElemServiceCard& card, FieldWriter& writer);
 };
 
-// All the ELEMUDS cards. An ELEMUDS extends the PBUSH2D that has the same number (the PID is a reference to a property:
-// a renumbering of the properties follows into it) and has an ID space of its own (IdSpace::PerCardType), as a PBUSHT
-// does: the category is Property. The cards are kept whole next to a column of their PIDs.
+// All the UserElemService cards. An UserElemService extends the BushProp2D that has the same number (the PID is a
+// reference to a property: a renumbering of the properties follows into it) and has an ID space of its own
+// (IdSpace::PerCardType), as a BushPropFreq does: the category is Property. The cards are kept whole next to a column
+// of their PIDs.
 class UserElemServiceTable final : public TypedTable<UserElemServiceTable, UserElemServiceCard>
 {
 public:

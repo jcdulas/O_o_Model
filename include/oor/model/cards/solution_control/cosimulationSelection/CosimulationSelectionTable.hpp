@@ -19,10 +19,10 @@ struct CosimulationSelectionFormat
     static void write(const CosimulationSelectionCard& card, FieldWriter& writer);
 };
 
-// All the COSMSEL cards, in the category Other: the SID is unique among them (IdSpace::PerCardType). It is selected by
-// the Case Control command COSMSEL, which is text, so no reference names it. Each CSRVID is a reference to a COSMSRV
-// (ReferenceTarget::CosimulationService), so a renumbering of the services follows into the list. The cards are kept
-// whole next to a column of their SIDs.
+// All the CosimulationSelection cards, in the category Other: the SID is unique among them (IdSpace::PerCardType). It
+// is selected by the Case Control command CosimulationSelection, which is text, so no reference names it. Each CSRVID
+// is a reference to a CosimulationService (ReferenceTarget::CosimulationService), so a renumbering of the services
+// follows into the list. The cards are kept whole next to a column of their SIDs.
 class CosimulationSelectionTable final : public TypedTable<CosimulationSelectionTable, CosimulationSelectionCard>
 {
 public:

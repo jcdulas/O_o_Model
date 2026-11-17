@@ -75,7 +75,7 @@ ModelEntities ModelEntities::build(const model::Model& model, const FastenerPier
         result.m_nodes.insert(result.m_nodes.end(), parts[chunk].begin(), parts[chunk].end());
     }
 
-    // The MPC equations: one per MPC card, on the grid points of its terms.
+    // The MPC equations: one per MultiPointConstr card, on the grid points of its terms.
     if (const model::MultiPointConstrTable* table = model.findTable<model::MultiPointConstrTable>())
     {
         const std::uint16_t type = model::typeIndexOf<model::MultiPointConstrTable>();

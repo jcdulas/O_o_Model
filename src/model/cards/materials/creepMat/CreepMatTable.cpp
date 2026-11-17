@@ -267,7 +267,8 @@ void CreepMatTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void CreepMatTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT1, MAT2 or MAT9 that the card extends; the tables are TABLES1 cards.
+    // The ID is the one of the IsoMat, AnisoMat2D or AnisoMat3D that the card extends; the tables are TableStress1
+    // cards.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     if (const base::EntityId id = m_primaryStiffnessTableId.get(row); id > 0)
         m_primaryStiffnessTableId.set(row, visitor.visit("primaryStiffnessTableId", ReferenceTarget::StressTable, id));

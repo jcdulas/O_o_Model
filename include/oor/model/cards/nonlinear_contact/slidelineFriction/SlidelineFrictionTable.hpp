@@ -18,8 +18,8 @@ struct SlidelineFrictionFormat
     static void write(const SlidelineFrictionCard& card, FieldWriter& writer);
 };
 
-// All the BFRIC cards. The ID is unique among them (IdSpace::PerCardType) and is what the BCONP FRICID field names
-// (category SlidelineFriction).
+// All the SlidelineFriction cards. The ID is unique among them (IdSpace::PerCardType) and is what the ContactSlideline
+// FRICID field names (category SlidelineFriction).
 class SlidelineFrictionTable final : public TypedTable<SlidelineFrictionTable, SlidelineFrictionCard>
 {
 public:

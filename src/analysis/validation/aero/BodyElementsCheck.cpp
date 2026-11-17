@@ -14,8 +14,8 @@ namespace
 
 // A body needs interference elements and slender body elements to be a body: at least one interference element (format
 // reference) and at least two slender body elements. Each is a number (NSB, NINT) or the points of an
-// AEFACT, one more than the elements. A list that does not exist is `ref.unresolved`, one that is too short is reported
-// here (it makes no element).
+// AeroFactorList, one more than the elements. A list that does not exist is `ref.unresolved`, one that is too short is
+// reported here (it makes no element).
 class BodyElementsCheck final : public ValidationCheck
 {
 public:

@@ -18,8 +18,8 @@ struct AcousticSlotFluidPointFormat
     static void write(const AcousticSlotFluidPointCard& card, FieldWriter& writer);
 };
 
-// All the GRIDF cards of a model: points of the node ID space (IdSpace::Node, category Point), kept in columns. A GRIDF
-// names no other card; a GRIDS may name it (its IDF).
+// All the AcousticSlotFluidPoint cards of a model: points of the node ID space (IdSpace::Node, category Point), kept in
+// columns. An AcousticSlotFluidPoint names no other card; an AcousticSlotSurfacePoint may name it (its IDF).
 class AcousticSlotFluidPointTable final : public TypedTable<AcousticSlotFluidPointTable, AcousticSlotFluidPointCard>
 {
 public:
@@ -35,7 +35,8 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a GRIDF refers to no other card
+    // an AcousticSlotFluidPoint refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& radiusColumn() noexcept { return m_radius; }

@@ -60,7 +60,7 @@ std::shared_ptr<NamedResult> matrixResultOf(const model::CooMatrix& matrix, std:
             {"columnComponents", ArrayType::Int32, {matrix.columnComponent.size()}, bytesOf(matrix.columnComponent)});
         if (!matrix.rowHarmonic.empty() || !matrix.columnHarmonic.empty())
         {
-            // DMIAX: the harmonic number is part of the label of a degree of freedom
+            // DirectMatrixAxisym: the harmonic number is part of the label of a degree of freedom
             arrays.push_back(
                 {"rowHarmonics", ArrayType::Int32, {matrix.rowHarmonic.size()}, bytesOf(matrix.rowHarmonic)});
             arrays.push_back(

@@ -4,8 +4,8 @@
 
 #include <optional>
 
-// The Mach number of a parametric force, a value that AEDW, AEPRESS and AEFORCE share. The helper moves this one kind
-// of value: each of the three cards still lays out, reads, writes and checks its own fields.
+// The Mach number of a parametric force, a value that AeroDownwash, AeroPressureVector and AeroForceVector share. The
+// helper moves this one kind of value: each of the three cards still lays out, reads, writes and checks its own fields.
 namespace oor::model
 {
 

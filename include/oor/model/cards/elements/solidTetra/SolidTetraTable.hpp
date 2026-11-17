@@ -19,7 +19,7 @@ struct SolidTetraFormat
     static void write(const SolidTetraCard& card, FieldWriter& writer);
 };
 
-// All the CTETRA elements: the nodes are one column of ten IDs per element, 0 for an absent edge point (an (N, 10)
+// All the SolidTetra elements: the nodes are one column of ten IDs per element, 0 for an absent edge point (an (N, 10)
 // NumPy view without copy).
 class SolidTetraTable final : public TypedTable<SolidTetraTable, SolidTetraCard>
 {

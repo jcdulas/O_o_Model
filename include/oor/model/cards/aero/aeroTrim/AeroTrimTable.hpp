@@ -19,10 +19,10 @@ struct AeroTrimFormat
     static void write(const AeroTrimCard& card, FieldWriter& writer);
 };
 
-// All the TRIM cards, in the category AeroTrimSet that the TRIM2 cards share: the Case Control TRIM names a SID of
-// either (ReferenceTarget::AeroTrimSet), and the format reference wants the SID unique among both
+// All the AeroTrim cards, in the category AeroTrimSet that the AeroTrim2 cards share: the Case Control TRIM names a SID
+// of either (ReferenceTarget::AeroTrimSet), and the format reference wants the SID unique among both
 // (`aero.trim-id-repeated` checks across the two types; IdSpace::PerCardType refuses a repeat inside this one). The
-// card is kept whole: a TRIM has a few variables.
+// card is kept whole: an AeroTrim has a few variables.
 class AeroTrimTable final : public TypedTable<AeroTrimTable, AeroTrimCard>
 {
 public:

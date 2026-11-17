@@ -19,7 +19,7 @@ struct RadiationBandsFormat
     static void write(const RadiationBandsCard& card, FieldWriter& writer);
 };
 
-// All the RADBND cards (no ID: IdSpace::None, category Other). The format reference allows one in a deck: a
+// All the RadiationBands cards (no ID: IdSpace::None, category Other). The format reference allows one in a deck: a
 // second one is kept like the first and reported when the deck is read, the first being the one in force. The card
 // names no other card. The wavelengths are one list in CSR form.
 class RadiationBandsTable final : public TypedTable<RadiationBandsTable, RadiationBandsCard>
@@ -38,7 +38,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
-    // Only one RADBND entry is allowed: a second one is reported.
+    // Only one RadiationBands entry is allowed: a second one is reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<base::EntityId>& bandCountColumn() noexcept { return m_bandCount; }

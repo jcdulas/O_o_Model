@@ -392,7 +392,7 @@ bool isHeatTransfer(const model::Model& root)
 
 bool isHeatThenStress(const model::Model& root)
 {
-    // PARAM,HEATSTAT: the last card, else the format reference default (No).
+    // PARAM,HeatStaticAnalysis: the last card, else the format reference default (No).
     const std::optional<model::ParameterValue> heatstat = model::parameterValue(root, "HeatStaticAnalysis");
     return heatstat && ((heatstat->card.textValue) == ("Yes"));
 }
@@ -522,7 +522,8 @@ bool isDynamicSolution(std::int64_t sol) noexcept
 namespace
 {
 
-// Adds `sid` and the sets it combines (SPCADD / MPCADD), down to the cards, a set met twice once.
+// Adds `sid` and the sets it combines (SinglePointConstrUnion / MultiPointConstrUnion), down to the cards, a set met
+// twice once.
 template <typename AddTable>
 void expand(const model::Model& model, base::EntityId sid, std::set<base::EntityId>& leaves)
 {

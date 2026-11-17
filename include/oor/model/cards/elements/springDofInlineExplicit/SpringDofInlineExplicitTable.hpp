@@ -18,7 +18,8 @@ struct SpringDofInlineExplicitFormat
     static void write(const SpringDofInlineExplicitCard& card, FieldWriter& writer);
 };
 
-// All the CELAS2D elements. They are elements (IdSpace::Element, shared with every other element), kept in columns.
+// All the SpringDofInlineExplicit elements. They are elements (IdSpace::Element, shared with every other element), kept
+// in columns.
 class SpringDofInlineExplicitTable final : public TypedTable<SpringDofInlineExplicitTable, SpringDofInlineExplicitCard>
 {
 public:

@@ -12,10 +12,10 @@ namespace oor::analysis
 namespace
 {
 
-// A TLOAD1 with no function of time: neither a table TID nor a constant F. The format reference wants one of them,
-// except where the excitation is a flow boundary or a user-defined load of SOL 700 (FLOW, FLOWT, FLOWUDS, FORCUDS),
-// whose formats say the TLOAD1 that names them has a blank TID: those cards define the excitation ID, and the check
-// lets them through.
+// A TransientTableLoad1 with no function of time: neither a table TID nor a constant F. The format reference wants one
+// of them, except where the excitation is a flow boundary or a user-defined load of SOL 700 (EulerFlowBoundary,
+// EulerTimeFlowBoundary, EulerUserFlowBoundary, UserEnforcedVelocity), whose formats say the TransientTableLoad1 that
+// names them has a blank TID: those cards define the excitation ID, and the check lets them through.
 class TransientTableLoad1NoFunctionCheck final : public ValidationCheck
 {
 public:
@@ -36,8 +36,8 @@ public:
                 if (card.tableId != 0 || card.value != 0.0)
                     return;
                 // The EXCITEID is looked up among the IDs that the flow boundaries and user loads define, and not as an
-                // excitation set first: the set of DAREA or load cards of the same number (the TLOAD1 itself is one,
-                // with its SID) would hide the FLOW of that number (TYPE 4, blank
+                // excitation set first: the set of DynamicLoadScale or load cards of the same number (the
+                // TransientTableLoad1 itself is one, with its SID) would hide the FLOW of that number (TYPE 4, blank
                 // TID).
                 if (!boundaries)
                     boundaries = definedExcitationIds(model);
@@ -52,7 +52,8 @@ public:
     }
 
 private:
-    // The excitation IDs that the cards which define one have (FLOW, FLOWT, FLOWC, FLOWUDS, FORCUDS, LSEQ, ...).
+    // The excitation IDs that the cards which define one have (EulerFlowBoundary, EulerTimeFlowBoundary,
+    // EulerCyclicFlowBoundary, EulerUserFlowBoundary, UserEnforcedVelocity, StaticLoadSequence, ...).
     static std::unordered_set<base::EntityId> definedExcitationIds(const model::Model& model)
     {
         std::unordered_set<base::EntityId> ids;

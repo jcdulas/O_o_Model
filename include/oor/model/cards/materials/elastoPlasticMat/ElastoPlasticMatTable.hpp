@@ -32,10 +32,10 @@ struct ElastoPlasticMatFormat
     [[nodiscard]] static std::optional<ElastoPlasticMatPressureOption> parsePressure(std::string_view text) noexcept;
 };
 
-// All the MATEP cards. The ID space is the card type's own: the ID is the one of the material that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it). FID is a reference to a TABLES1 or
-// TABLEST, or to a TABL3Di (the format allows a stress table or a
-// multi-dimensional one; ReferenceTarget::StressOrMultiDimensionalTable), RTID to a TABLES1
+// All the ElastoPlasticMat cards. The ID space is the card type's own: the ID is the one of the material that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it). FID is a reference to a
+// TableStress1 or TableStressTemperature, or to a TABL3Di (the format allows a stress table or a
+// multi-dimensional one; ReferenceTarget::StressOrMultiDimensionalTable), RTID to a TableStress1
 // (ReferenceTarget::StressTable). `groups` says which groups a card has (bit 1 REFFECT, 2 ANISO, 4 PRESS, 8 CHABOCHE,
 // 16 JHCOOK, 32 IMPCREEP); the columns of the other groups hold their defaults.
 class ElastoPlasticMatTable final : public TypedTable<ElastoPlasticMatTable, ElastoPlasticMatCard>

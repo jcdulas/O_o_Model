@@ -13,12 +13,13 @@ namespace oor::model
 // beyond any flutter analysis, and the bound keeps a damaged NF from asking `aeroFlutterFactorsValues` for gigabytes.
 inline constexpr std::int32_t MAX_FLUTTER_FACTOR_COUNT = 1'000'000;
 
-// One FLFACT card: a list of the density ratios, Mach numbers, reduced frequencies or velocities of a flutter analysis,
-// that a FLUTTER card names by its SID. What the numbers mean is up to the field of the FLUTTER that names the list.
+// One AeroFlutterFactors card: a list of the density ratios, Mach numbers, reduced frequencies or velocities of a
+// flutter analysis, that an AeroFlutter card names by its SID. What the numbers mean is up to the field of the FLUTTER
+// that names the list.
 //
-// Card layout, first form:    FLFACT  SID  F1  F2  F3  F4  F5  F6  F7
+// Card layout, first form:    AeroFlutterFactors  SID  F1  F2  F3  F4  F5  F6  F7
 //                                    F8   F9  -etc.-
-//             second form:   FLFACT  SID  F1  "THRU"  FNF  NF  FMID
+//             second form:   AeroFlutterFactors  SID  F1  "THRU"  FNF  NF  FMID
 // The first form lists the factors, in the order the analysis runs them; no field is blank between two of them.
 // The second form gives NF factors from F1 to FNF, spaced so that the one in the middle is FMID:
 // with FMID halfway the spacing is even, with FMID = 2 F1 FNF / (F1 + FNF) the reciprocals are evenly spaced. FMID is

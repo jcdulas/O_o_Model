@@ -18,8 +18,9 @@ struct ContactSlidelineFormat
     static void write(const ContactSlidelineCard& card, FieldWriter& writer);
 };
 
-// All the BCONP cards. The ID is unique among them (IdSpace::PerCardType, category SlidelineContact). The two lines are
-// references to BLSEG cards, the friction one to a BFRIC and the system one to a coordinate system.
+// All the ContactSlideline cards. The ID is unique among them (IdSpace::PerCardType, category SlidelineContact). The
+// two lines are references to SlidelineSegments cards, the friction one to a SlidelineFriction and the system one to a
+// coordinate system.
 class ContactSlidelineTable final : public TypedTable<ContactSlidelineTable, ContactSlidelineCard>
 {
 public:

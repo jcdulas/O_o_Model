@@ -19,8 +19,8 @@ struct SinglePointConstrFormat
     static void write(const SinglePointConstrCard& card, FieldWriter& writer);
 };
 
-// All the SPC cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The two groups of a card are
-// kept as three columns of two values.
+// All the SinglePointConstr cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The two groups
+// of a card are kept as three columns of two values.
 class SinglePointConstrTable final : public TypedTable<SinglePointConstrTable, SinglePointConstrCard>
 {
 public:

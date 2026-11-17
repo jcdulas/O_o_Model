@@ -19,10 +19,11 @@ struct AeroControlScheduleFormat
     static void write(const AeroControlScheduleCard& card, FieldWriter& writer);
 };
 
-// All the CSSCHD cards, in the category ControlSchedule. The SID is unique among the CSSCHD cards
-// (IdSpace::PerCardType) and is what the Case Control CSSCHD names (ReferenceTarget::ControlSchedule). AESID is an
-// AESURF (ReferenceTarget::AeroControlSurface); LALPHA, LMACH and LSCHD are AEFACT cards (ReferenceTarget::AeroFactor).
-// The card is kept whole next to a column of its SID.
+// All the AeroControlSchedule cards, in the category ControlSchedule. The SID is unique among the AeroControlSchedule
+// cards (IdSpace::PerCardType) and is what the Case Control AeroControlSchedule names
+// (ReferenceTarget::ControlSchedule). AESID is an AeroControlSurface (ReferenceTarget::AeroControlSurface); LALPHA,
+// LMACH and LSCHD are AeroFactorList cards (ReferenceTarget::AeroFactor). The card is kept whole next to a column of
+// its SID.
 class AeroControlScheduleTable final : public TypedTable<AeroControlScheduleTable, AeroControlScheduleCard>
 {
 public:

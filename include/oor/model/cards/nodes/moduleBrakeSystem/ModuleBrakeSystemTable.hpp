@@ -19,10 +19,11 @@ struct ModuleBrakeSystemFormat
     static void write(const ModuleBrakeSystemCard& card, FieldWriter& writer);
 };
 
-// All the MDBKSYS cards. The ID is unique among them (IdSpace::PerCardType); the Case Control BSQUEAL selects it, as it
-// selects a BSQUEAL or a BRKSYS (format reference MDBKSYS: the ID of the BSQUEAL command), so the card is in the
-// category BrakeSqueal. The bodies of the disks are looked up as BCBODY1 cards (`ContactBody`) in their modules; the
-// modules, the MOTION numbers and the BRKSYS numbers are plain integers. The cards are kept whole next to their ID.
+// All the ModuleBrakeSystem cards. The ID is unique among them (IdSpace::PerCardType); the Case Control BrakeSqueal
+// selects it, as it selects a BrakeSqueal or a BrakeSystem (format reference ModuleBrakeSystem: the ID of the
+// BrakeSqueal command), so the card is in the category BrakeSqueal. The bodies of the disks are looked up as
+// ContactBody1 cards (`ContactBody`) in their modules; the modules, the MOTION numbers and the BrakeSystem numbers are
+// plain integers. The cards are kept whole next to their ID.
 class ModuleBrakeSystemTable final : public TypedTable<ModuleBrakeSystemTable, ModuleBrakeSystemCard>
 {
 public:

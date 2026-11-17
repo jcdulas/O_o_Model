@@ -7,11 +7,11 @@
 namespace oor::model
 {
 
-// One CQUADX4 card: a four-node axisymmetric quadrilateral ring element (a card of another implementation: it is not in
-// the format reference).
+// One AxisymQuad4 card: a four-node axisymmetric quadrilateral ring element (a card of another implementation: it is
+// not in the format reference).
 //
 // Layout:
-//   CQUADX4  EID  PID  G1  G2  G3  G4  THETA
+//   AxisymQuad4  EID  PID  G1  G2  G3  G4  THETA
 struct AxisymQuad4Card
 {
     base::EntityId id = 0;

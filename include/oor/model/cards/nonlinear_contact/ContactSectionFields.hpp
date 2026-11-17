@@ -10,9 +10,10 @@
 #include <string_view>
 #include <vector>
 
-// The cards whose continuation lines start with a keyword and then have named fields in fixed places (BCTABLE, NLSTEP,
-// NLADAPT, NLHARM...): one kind of value used inside one family. Each card has its own table of the places of its
-// fields, written from its description in the format reference; nothing here knows a field.
+// The cards whose continuation lines start with a keyword and then have named fields in fixed places (ContactTable,
+// NonlinearStepControl, NonlinearAdaptiveStepping, NonlinearHarmonicParams...): one kind of value used inside one
+// family. Each card has its own table of the places of its fields, written from its description in the format
+// reference; nothing here knows a field.
 namespace oor::model
 {
 
@@ -28,7 +29,7 @@ struct ContactFieldPosition
 };
 
 // A keyword section of a card as the card keeps it: the keyword and the named fields that it has, in the order they
-// were given. A keyword with no field is a section too (NLSTEP ... ADAPT with nothing after it).
+// were given. A keyword with no field is a section too (NonlinearStepControl ... ADAPT with nothing after it).
 struct ContactNamedSection
 {
     std::string keyword; // upper case
@@ -62,9 +63,9 @@ int writeContactSectionFields(FieldWriter& writer, int lineStart, int keywordOff
 // The rules of a table of positions (for checkContactParameters), in the order of the table.
 [[nodiscard]] std::vector<ContactParameterRule> contactFieldRules(std::span<const ContactFieldPosition> positions);
 
-// The cards made only of a head line and keyword sections (NLSTEP, NLADAPT): the sections of the lines after the head,
-// each with the named fields the table places in it. The head is read by the card. A line with no keyword before the
-// first keyword is an error. `owner` is the card type.
+// The cards made only of a head line and keyword sections (NonlinearStepControl, NonlinearAdaptiveStepping): the
+// sections of the lines after the head, each with the named fields the table places in it. The head is read by the
+// card. A line with no keyword before the first keyword is an error. `owner` is the card type.
 [[nodiscard]] std::vector<ContactNamedSection> readContactNamedSections(FieldReader& reader,
                                                                         std::span<const std::string_view> keywords,
                                                                         std::span<const ContactFieldPosition> positions,

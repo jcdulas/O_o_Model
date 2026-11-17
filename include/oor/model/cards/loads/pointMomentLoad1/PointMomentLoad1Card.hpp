@@ -5,9 +5,9 @@
 namespace oor::model
 {
 
-// One MOMENT1 card: a concentrated moment at a grid point whose axis is the line from G1 to G2.
+// One PointMomentLoad1 card: a concentrated moment at a grid point whose axis is the line from G1 to G2.
 //
-// Card layout: MOMENT1  SID  G  M  G1  G2
+// Card layout: PointMomentLoad1  SID  G  M  G1  G2
 // The moment is M times the unit vector from G1 to G2 (the two points may not be coincident).
 struct PointMomentLoad1Card
 {

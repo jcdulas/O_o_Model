@@ -51,7 +51,7 @@ std::vector<ContactTableEntry> tablesOf(const model::Model& model)
                                                          }
                                                          tables.push_back(std::move(entry));
                                                      });
-    // BCONTACT selects a BCONECT directly when the deck has no BCTABL1.
+    // BCONTACT selects a ContactPair directly when the deck has no ContactTable1.
     if (!anyBctabl1)
     {
         analysis::forEachCard<model::ContactPairTable>(

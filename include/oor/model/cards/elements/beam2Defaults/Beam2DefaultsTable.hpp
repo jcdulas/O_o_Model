@@ -20,7 +20,7 @@ struct Beam2DefaultsFormat
     static void write(const Beam2DefaultsCard& card, FieldWriter& writer);
 };
 
-// The BEAMOR cards of a model (at most one is allowed). The card has no ID.
+// The Beam2Defaults cards of a model (at most one is allowed). The card has no ID.
 class Beam2DefaultsTable final : public TypedTable<Beam2DefaultsTable, Beam2DefaultsCard>
 {
 public:
@@ -39,7 +39,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Reports a second BEAMOR: the solver allows one.
+    // Reports a second Beam2Defaults: the solver allows one.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<base::EntityId>& propIdColumn() noexcept { return m_propId; }

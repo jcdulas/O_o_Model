@@ -19,9 +19,9 @@ struct FluidFilledContainerFormat
     static void write(const FluidFilledContainerCard& card, FieldWriter& writer);
 };
 
-// All the FFCONTR cards: the FFID is unique among them (IdSpace::PerCardType, CardCategory::Other: no card of the
-// library names an FFCONTR; a SURFOUT of the solver reports on it). The surface is a ContactSurface, the two tables
-// TABLED1.
+// All the FluidFilledContainer cards: the FFID is unique among them (IdSpace::PerCardType, CardCategory::Other: no card
+// of the library names a FluidFilledContainer; a SURFOUT of the solver reports on it). The surface is a ContactSurface,
+// the two tables TableDynamic1.
 class FluidFilledContainerTable final : public TypedTable<FluidFilledContainerTable, FluidFilledContainerCard>
 {
 public:

@@ -8,7 +8,7 @@ namespace oor::analysis
 namespace
 {
 
-// A GRAV card with no acceleration: the scale A is zero (the direction vector is refused when it is zero).
+// A GravityLoad card with no acceleration: the scale A is zero (the direction vector is refused when it is zero).
 class ZeroGravityCheck final : public ValidationCheck
 {
 public:

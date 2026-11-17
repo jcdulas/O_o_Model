@@ -19,8 +19,8 @@ struct SolidPyramidFormat
     static void write(const SolidPyramidCard& card, FieldWriter& writer);
 };
 
-// All the CPYRAM elements: the nodes are one column of thirteen IDs per element, 0 for an absent edge point (an (N, 13)
-// NumPy view without copy).
+// All the SolidPyramid elements: the nodes are one column of thirteen IDs per element, 0 for an absent edge point (an
+// (N, 13) NumPy view without copy).
 class SolidPyramidTable final : public TypedTable<SolidPyramidTable, SolidPyramidCard>
 {
 public:

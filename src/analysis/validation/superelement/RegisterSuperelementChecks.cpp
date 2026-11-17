@@ -3,8 +3,8 @@
 namespace oor::analysis
 {
 
-// The checks that need the geometry of the parts (an SECONCT whose points do not match within the tolerance) or the
-// solver's log of the reduction are not registered here.
+// The checks that need the geometry of the parts (a SuperelementConnection whose points do not match within the
+// tolerance) or the solver's log of the reduction are not registered here.
 void registerSuperelementChecks(CheckRegistry& registry)
 {
     addDuplicatePartCheck(registry);

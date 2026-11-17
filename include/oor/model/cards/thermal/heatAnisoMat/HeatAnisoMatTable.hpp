@@ -18,7 +18,8 @@ struct HeatAnisoMatFormat
     static void write(const HeatAnisoMatCard& card, FieldWriter& writer);
 };
 
-// All the MAT5 cards. The ID is a heat transfer material ID, in the space that MAT4 shares (IdSpace::ThermalMaterial).
+// All the HeatAnisoMat cards. The ID is a heat transfer material ID, in the space that HeatIsoMat shares
+// (IdSpace::ThermalMaterial).
 class HeatAnisoMatTable final : public TypedTable<HeatAnisoMatTable, HeatAnisoMatCard>
 {
 public:
@@ -36,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MAT5 refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a HeatAnisoMat refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& conductivityXxColumn() noexcept { return m_conductivityXx; }

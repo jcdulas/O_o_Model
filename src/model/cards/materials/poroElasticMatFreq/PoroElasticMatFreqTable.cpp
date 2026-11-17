@@ -97,7 +97,7 @@ void PoroElasticMatFreqTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void PoroElasticMatFreqTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT1 that the card extends; the tables are TABLEMi cards.
+    // The ID is the one of the IsoMat that the card extends; the tables are TABLEMi cards.
     PoroElasticMatFreqCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);

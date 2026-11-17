@@ -18,8 +18,8 @@ struct SuperelementGeneralizedPointCountFormat
     static void write(const SuperelementGeneralizedPointCountCard& card, FieldWriter& writer);
 };
 
-// All the SENQSET cards, category Superelement, no ID of their own (IdSpace::None). A column holds the SEID, which is
-// -1 for ALL, next to the count.
+// All the SuperelementGeneralizedPointCount cards, category Superelement, no ID of their own (IdSpace::None). A column
+// holds the SEID, which is -1 for ALL, next to the count.
 class SuperelementGeneralizedPointCountTable final
     : public TypedTable<SuperelementGeneralizedPointCountTable, SuperelementGeneralizedPointCountCard>
 {

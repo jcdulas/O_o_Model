@@ -11,8 +11,8 @@ namespace oor::analysis
 namespace
 {
 
-// LOAD combinations that contain one another in a circle (LOAD 1 uses set 2, LOAD 2 uses set 1). A LOAD that names its
-// own ID is refused by the card.
+// LOAD combinations that contain one another in a circle (LOAD 1 uses set 2, LOAD 2 uses set 1). A LoadCombination that
+// names its own ID is refused by the card.
 class LoadCombinationCycleCheck final : public ValidationCheck
 {
 public:

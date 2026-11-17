@@ -94,7 +94,7 @@ std::vector<std::pair<base::EntityId, double>> materialShares(const model::Model
 
 double MassCalculator::weightFactorOf(const model::Model& model)
 {
-    // PARAM,WTMASS: the last card that holds a number, else the format reference default (1.0).
+    // PARAM,WeightToMass: the last card that holds a number, else the format reference default (1.0).
     return model::realParameter(model, "WeightToMass").value_or(1.0);
 }
 

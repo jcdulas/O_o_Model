@@ -18,9 +18,9 @@ enum class CyclicSymmetryType : std::uint8_t
 
 inline constexpr std::array<std::string_view, 3> CYCLIC_SYMMETRY_TYPE_WORDS{"Rotational", "Dihedral", "Axisymmetric"};
 
-// One CYSYM card: the parameters of a cyclic symmetry analysis.
+// One CyclicSymmetry card: the parameters of a cyclic symmetry analysis.
 //
-// Card layout: CYSYM  NSEG  STYPE
+// Card layout: CyclicSymmetry  NSEG  STYPE
 // In this library's numbering NSEG is field 1 and STYPE field 2. NSEG is an integer greater than 0, and STYPE has no
 // default on the format, so it is required. With STYPE = AXI every grid point must lie on side 1, side 2 or the axis
 // and the plate elements may not have midside grid points: rules between this card and the model, which the card does

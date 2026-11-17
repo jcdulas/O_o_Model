@@ -19,8 +19,8 @@ struct CylinderShapeFormat
     static void write(const CylinderShapeCard& card, FieldWriter& writer);
 };
 
-// All the CYLINDR cards. The VID is unique among the CYLINDR cards (IdSpace::PerCardType) and is in the category
-// EulerRegionShape, with the SURFINI and SPHERE shapes. A CYLINDR names no other card.
+// All the CylinderShape cards. The VID is unique among the CylinderShape cards (IdSpace::PerCardType) and is in the
+// category EulerRegionShape, with the InitialSurfaceVolume and SphereShape shapes. A CylinderShape names no other card.
 class CylinderShapeTable final : public TypedTable<CylinderShapeTable, CylinderShapeCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a CYLINDR refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a CylinderShape refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

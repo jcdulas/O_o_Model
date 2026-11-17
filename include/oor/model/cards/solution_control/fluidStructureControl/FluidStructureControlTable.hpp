@@ -20,9 +20,10 @@ struct FluidStructureControlFormat
     static void write(const FluidStructureControlCard& card, FieldWriter& writer);
 };
 
-// All the FSICTRL cards, in the category Other. A card has no numeric ID (IdSpace::None): it is found by its SERV_ID,
-// the name of the service, which the WETLOAD cards of the service repeat (a name, not a reference: a rule between cards
-// can match them). The card names no other card. The cards are kept whole next to a column of their service names.
+// All the FluidStructureControl cards, in the category Other. A card has no numeric ID (IdSpace::None): it is found by
+// its SERV_ID, the name of the service, which the WettedSurfaceLoad cards of the service repeat (a name, not a
+// reference: a rule between cards can match them). The card names no other card. The cards are kept whole next to a
+// column of their service names.
 class FluidStructureControlTable final : public TypedTable<FluidStructureControlTable, FluidStructureControlCard>
 {
 public:

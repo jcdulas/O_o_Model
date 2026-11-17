@@ -12,9 +12,9 @@
 #include "oor/model/cards/rigid_elements/rigidTriaPlate1/RigidTriaPlate1Table.hpp"
 
 // The rigid elements. Their grid points are the geometry they have: the centre is the average of all the grid points an
-// element connects (independent and dependent, the reference grid point of an RBE3 and the grid points of its groups),
-// and the elements with two grid points (RBAR, RBAR1, RROD, RJOINT) have the length of the segment between them.
-// RSSCON, which names elements or grid points by its type, has none.
+// element connects (independent and dependent, the reference grid point of a RigidInterpolation and the grid points of
+// its groups), and the elements with two grid points (RigidBar, RigidBar1, RigidRod, RigidJoint) have the length of the
+// segment between them. RigidShellSolidConnection, which names elements or grid points by its type, has none.
 
 namespace oor::analysis::detail
 {
@@ -161,8 +161,8 @@ struct RigidSplineShape
     }
 };
 
-// RTRPLT and RTRPLT1: a rigid triangular plate on three grid points; its centre is the average of the three, and as a
-// triangle it has an area and a normal.
+// RigidTriaPlate and RigidTriaPlate1: a rigid triangular plate on three grid points; its centre is the average of the
+// three, and as a triangle it has an area and a normal.
 void evaluatePlate(const Evaluation& evaluation, ElementValues& values)
 {
     evaluateConnection(evaluation, values);

@@ -31,8 +31,8 @@ std::uint64_t nextContentVersion() noexcept
     return counter.fetch_add(1) + 1;
 }
 
-// The superelement that superelement `seid` copies (the RSEID of an SEBULK of type REPEAT or MIRROR), 0 when it is not
-// a copy. A copy has no part of its own: its cards name the IDs of the part it copies.
+// The superelement that superelement `seid` copies (the RSEID of a SuperelementBulkOptions of type REPEAT or MIRROR), 0
+// when it is not a copy. A copy has no part of its own: its cards name the IDs of the part it copies.
 base::EntityId copiedSuperelement(const Model& root, base::EntityId seid) noexcept
 {
     const SuperelementBulkOptionsTable* bulks = root.findTable<SuperelementBulkOptionsTable>();
@@ -75,7 +75,7 @@ const std::unordered_set<base::EntityId>& Model::setIdsOf(CardCategory category)
     for (std::uint16_t type = 1; type < registry.size(); ++type)
     {
         const CardTable* table = findTable(type);
-        // A card with no ID (SUPORT among the constraints, ASET among the sets) is in no set.
+        // A card with no ID (FreeBodySupport among the constraints, ASET among the sets) is in no set.
         if (table == nullptr || registry.entry(type).info.category != category ||
             registry.entry(type).info.idSpace == base::IdSpace::None)
             continue;
@@ -439,8 +439,8 @@ void Model::applyDefaults()
     base::DiagnosticSink problems(base::ReadMode::Tolerant);
     finishAllTables(*this, ReadContext{problems});
     noteContentChange(); // the default cards may have changed any card they govern
-    // What a table finds wrong when the whole Bulk Data is read (a second GRDSET, a matrix column with no header) is
-    // reported with its severity: a warning does not stop the read, but it is not dropped either.
+    // What a table finds wrong when the whole Bulk Data is read (a second NodeDefaults, a matrix column with no header)
+    // is reported with its severity: a warning does not stop the read, but it is not dropped either.
     if (problems.diagnostics().empty())
         return;
     if (problems.hasErrors() && isStrict())
@@ -545,8 +545,8 @@ Model* Model::findPart(std::string_view kind, std::int64_t id, std::int64_t mass
 
 const Model& Model::superelementModel(base::EntityId seid) const noexcept
 {
-    // A REPEAT or MIRROR superelement has no part: the grid points its SELOC and SECONCT name are those of the
-    // superelement it copies, so the search goes on there.
+    // A REPEAT or MIRROR superelement has no part: the grid points its SuperelementLocation and SuperelementConnection
+    // name are those of the superelement it copies, so the search goes on there.
     for (int step = 0; seid > 0 && step < MAX_COPY_STEPS; ++step)
     {
         if (const Model* part = findPart("SuperelementPart", seid))

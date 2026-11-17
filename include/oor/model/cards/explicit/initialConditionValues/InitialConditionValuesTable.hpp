@@ -19,8 +19,9 @@ struct InitialConditionValuesFormat
     static void write(const InitialConditionValuesCard& card, FieldWriter& writer);
 };
 
-// All the TICVAL cards. The TSID is the ID of the table (IdSpace::PerCardType, category InitialValueSet): a TICREG
-// names it. In a radial list the values of the variables that have a profile are TABLED1 IDs and are visited as such.
+// All the InitialConditionValues cards. The TSID is the ID of the table (IdSpace::PerCardType, category
+// InitialValueSet): an InitialConditionRegion names it. In a radial list the values of the variables that have a
+// profile are TableDynamic1 IDs and are visited as such.
 class InitialConditionValuesTable final : public TypedTable<InitialConditionValuesTable, InitialConditionValuesCard>
 {
 public:

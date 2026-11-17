@@ -19,10 +19,10 @@ struct ModuleRigidRodFormat
     static void write(const ModuleRigidRodCard& card, FieldWriter& writer);
 };
 
-// All the MDRROD cards. The EID is an element number, which the rules of the RROD want unique among all the elements;
-// the table only keeps it unique among the MDRROD cards (IdSpace::PerCardType, category Other) and a validation check
-// looks for a number that another kind of element shares. GA and GB are references to grid points in their module: the
-// main Bulk Data, or the part of another module. The cards are kept whole next to their ID.
+// All the ModuleRigidRod cards. The EID is an element number, which the rules of the RigidRod want unique among all the
+// elements; the table only keeps it unique among the ModuleRigidRod cards (IdSpace::PerCardType, category Other) and a
+// validation check looks for a number that another kind of element shares. GA and GB are references to grid points in
+// their module: the main Bulk Data, or the part of another module. The cards are kept whole next to their ID.
 class ModuleRigidRodTable final : public TypedTable<ModuleRigidRodTable, ModuleRigidRodCard>
 {
 public:

@@ -3,8 +3,9 @@
 namespace oor::model
 {
 
-// format reference, the commands that select direct input matrices: each command names DMIG/DMIAX/DMI matrices, with an
-// optional scale factor ("K2GG = 0.5*KAA, KBB"). The names are kept as text.
+// format reference, the commands that select direct input matrices: each command names
+// DirectMatrixNodal/DirectMatrixAxisym/DirectMatrix matrices, with an optional scale factor ("K2GG = 0.5*KAA, KBB").
+// The names are kept as text.
 void defineMatrixCommands(CommandCatalogue& commands)
 {
     commands.text("DirectInputDampingMatrix");

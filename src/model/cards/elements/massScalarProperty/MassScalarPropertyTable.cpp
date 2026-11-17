@@ -71,8 +71,8 @@ void MassScalarPropertyTable::visitReferences(std::uint32_t row, ReferenceVisito
 {
     if (const base::EntityId propId = m_propId.get(row); propId > 0)
         m_propId.set(row, visitor.visit("propId", ReferenceTarget::Property, propId));
-    // S1 and S2 are scalar points (SPOINT cards, or implicit: the format reference does not require an SPOINT entry for
-    // them).
+    // S1 and S2 are scalar points (ScalarPoint cards, or implicit: the format reference does not require a ScalarPoint
+    // entry for them).
     if (const base::EntityId scalarPoint1 = m_scalarPoint1.get(row); scalarPoint1 > 0)
         m_scalarPoint1.set(row, visitor.visit("scalarPoint1", ReferenceTarget::ScalarOrGridPoint, scalarPoint1));
     if (const base::EntityId scalarPoint2 = m_scalarPoint2.get(row); scalarPoint2 > 0)

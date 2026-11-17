@@ -19,8 +19,8 @@ struct SuperelementSupportFormat
     static void write(const SuperelementSupportCard& card, FieldWriter& writer);
 };
 
-// All the SESUP cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a column
-// of their SEIDs.
+// All the SuperelementSupport cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole
+// next to a column of their SEIDs.
 class SuperelementSupportTable final : public TypedTable<SuperelementSupportTable, SuperelementSupportCard>
 {
 public:

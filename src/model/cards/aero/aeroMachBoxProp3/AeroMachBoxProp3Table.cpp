@@ -143,7 +143,7 @@ void AeroMachBoxProp3Table::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void AeroMachBoxProp3Table::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // The points are coordinates and the numbers are counts: a PAERO3 names no other card.
+    // The points are coordinates and the numbers are counts: an AeroMachBoxProp3 names no other card.
 }
 
 } // namespace oor::model

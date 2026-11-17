@@ -1,11 +1,12 @@
-// Checks of the free-body and load cards: FBODYLD and FBODYSB (an equilibrated free-body load case and its
-// subsystem, both named), HYDROC and HYDROS (hydrostatic pressure loads, whose CID/GRD field is a coordinate system or
-// minus a grid point), IMPGEOM (a geometric imperfection that an IMPCASE names), TMPSET and TTEMP (a group of grid
-// points and the time-dependent temperature of the group) and TPADEFN (the set-up of a transfer path analysis). Per
-// card: the fields in their format reference positions, the defaults, the references the card lists and what each one
-// points to, the renumbering of the spaces the card owns and of the ones it names, the refused values and the round
-// trip through the three formats. The generic tests of CardRoundTripTest.cpp read, write and copy every sample; this
-// file covers what each card means.
+// Checks of the free-body and load cards: FreeBodyLoad and FreeBodyLoadSubcase (an equilibrated free-body load case and
+// its subsystem, both named), HydrostaticCavityLoad and HydrostaticLoad (hydrostatic pressure loads, whose CID/GRD
+// field is a coordinate system or minus a grid point), ImperfectionGeometry (a geometric imperfection that an
+// ImperfectionCase names), TemperatureTimeGroup and TimeTemperatureLoad (a group of grid points and the time-dependent
+// temperature of the group) and TransferPathSetup (the set-up of a transfer path analysis). Per card: the fields in
+// their format reference positions, the defaults, the references the card lists and what each one points to, the
+// renumbering of the spaces the card owns and of the ones it names, the refused values and the round trip through the
+// three formats. The generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what
+// each card means.
 
 #include "oor/model/cards/loads/HydrostaticSupport.hpp"
 #include "oor/model/cards/loads/freeBodyLoad/FreeBodyLoadTable.hpp"
@@ -83,7 +84,7 @@ const std::string POINTS_TEXT = "Node;1;;0.;0.;0.\nNode;2;;1.;0.;0.\nNode;10;;2.
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// FBODYLD
+// FreeBodyLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an FBODYLD is named and not numbered, keeps its names as written and has its label on a second line",
@@ -169,7 +170,7 @@ TEST_CASE("an FBODYLD is edited in place, deleted, and a repeated name is report
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// FBODYSB
+// FreeBodyLoadSubcase
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an FBODYSB names a set of grid points and a set of elements and leaves out types of force",
@@ -236,7 +237,7 @@ TEST_CASE("an FBODYSB writes its layout and refuses what the format does not all
     FreeBodyLoadSubcaseCard edited = cardAt<FreeBodyLoadSubcaseTable>(model, 0);
     edited.excludedForces = "SMALPDSMA"; // repeated allowed flags have no field-width limit
     REQUIRE_FALSE(FreeBodyLoadSubcaseFormat::check(edited).has_value());
-    edited.excludedForces = "C"; // C is a letter of the MONPNT3 and not of this card
+    edited.excludedForces = "C"; // C is a letter of the MonitorNodeForceSum3 and not of this card
     REQUIRE(fieldOf(FreeBodyLoadSubcaseFormat::check(edited)) == "excludedForces");
     edited.excludedForces = "SM";
     edited.nodeSetId = 0;
@@ -264,7 +265,7 @@ TEST_CASE("an FBODYSB writes its layout and refuses what the format does not all
     requireRoundTrip(readBulk("FreeBodyLoadSubcase;WING;1;;SMALPDSMA"));
     oor::testing::requireModelFileRoundTrip(readModelText("FreeBodyLoadSubcase;ABCDEFGHIJKLMNOPQ;1", true));
 
-    // The format reference does not say that NAMES is unique, but an FBODYLD names a subsystem by it: a repeat is a
+    // The format reference does not say that NAMES is unique, but a FreeBodyLoad names a subsystem by it: a repeat is a
     // warning.
     const Model twice = readModelText("[model]\nFreeBodyLoadSubcase;A;1\nFreeBodyLoadSubcase;A;2\n");
     REQUIRE_FALSE(twice.diagnostics().hasErrors());
@@ -277,7 +278,7 @@ TEST_CASE("an FBODYSB writes its layout and refuses what the format does not all
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// HYDROC
+// HydrostaticCavityLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a HYDROC has the layout of the format, resolves its defaults and is a load of its set",
@@ -406,7 +407,7 @@ TEST_CASE("a HYDROC is edited in place and refuses what the format does not allo
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// HYDROS
+// HydrostaticLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a HYDROS has the layout of the format, requires its density and resolves its defaults",
@@ -537,7 +538,7 @@ TEST_CASE("a HYDROS is edited in place and refuses what the format does not allo
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// IMPGEOM
+// ImperfectionGeometry
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an IMPGEOM has a line for each group and resolves the defaults that a group leaves blank",
@@ -619,7 +620,8 @@ TEST_CASE("an IMPGEOM names the sets of its groups, is named by an IMPCASE and r
                                                                 {"nodeSetId", ReferenceTarget::Set, 100052}});
     REQUIRE(usesOf<ImperfectionGeometryTable>(model, 1).empty());
 
-    // The IMPFIDi of an IMPCASE are IMPGEOM IDs now: they resolve, and follow a renumbering of the IMPGEOM.
+    // The IMPFIDi of an ImperfectionCase are ImperfectionGeometry IDs now: they resolve, and follow a renumbering of
+    // the ImperfectionGeometry.
     REQUIRE(usesOf<ImperfectionCaseTable>(model, 0) ==
             Uses{{"imperfectionIds", ReferenceTarget::ImperfectionGeometry, 100001},
                  {"imperfectionIds", ReferenceTarget::ImperfectionGeometry, 100002}});
@@ -638,7 +640,7 @@ TEST_CASE("an IMPGEOM names the sets of its groups, is named by an IMPCASE and r
     REQUIRE(unresolvedIn(model) == 0);
     requireRoundTrip(model);
 
-    // An imperfection that no IMPGEOM defines is unresolved, as is a set that no card defines.
+    // An imperfection that no ImperfectionGeometry defines is unresolved, as is a set that no card defines.
     REQUIRE(unresolvedIn(readBulk("ImperfectionCase;5;100001;100002")) == 2);
     REQUIRE(unresolvedIn(readBulk("ImperfectionGeometry;1;9;;;;1;1;1")) == 2); // the default and the group that took it
 
@@ -698,7 +700,7 @@ TEST_CASE("an IMPGEOM is edited in place and refuses what the format does not al
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TMPSET
+// TemperatureTimeGroup
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TMPSET lists grid points with THRU and BY over any number of lines and keeps the runs as written",
@@ -806,7 +808,7 @@ TEST_CASE("a TMPSET is edited in place and refuses what the format does not allo
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TTEMP
+// TimeTemperatureLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TTEMP is a temperature set that names a TMPSET and a TABLED, or every grid point with -1",
@@ -821,7 +823,7 @@ TEST_CASE("a TTEMP is a temperature set that names a TMPSET and a TABLED, or eve
                            "NodeTemperatureLoad;6001;1;20.");
     REQUIRE((TimeTemperatureLoadTable::INFO.category == CardCategory::Load &&
              TimeTemperatureLoadTable::INFO.idSpace == base::IdSpace::Group));
-    // It is filed with the TEMP cards, so that everything that selects a temperature set finds it.
+    // It is filed with the NodeTemperatureLoad cards, so that everything that selects a temperature set finds it.
     REQUIRE((NodeTemperatureLoadTable::INFO.category == TimeTemperatureLoadTable::INFO.category &&
              NodeTemperatureLoadTable::INFO.idSpace == TimeTemperatureLoadTable::INFO.idSpace));
     const TimeTemperatureLoadCard sampleCard = cardAt<TimeTemperatureLoadTable>(model, 0);
@@ -834,7 +836,7 @@ TEST_CASE("a TTEMP is a temperature set that names a TMPSET and a TABLED, or eve
     REQUIRE(usesOf<TimeTemperatureLoadTable>(model, 0) == Uses{{"groupId", ReferenceTarget::TemperatureGroup, 5001},
                                                                {"tableId", ReferenceTarget::DynamicTable, 7001}});
     REQUIRE(usesOf<TimeTemperatureLoadTable>(model, 1) ==
-            Uses{{"tableId", ReferenceTarget::DynamicTable, 7002}}); // -1 names no TMPSET
+            Uses{{"tableId", ReferenceTarget::DynamicTable, 7002}}); // -1 names no TemperatureTimeGroup
 
     // The set number is a load set, like the SID of the TEMP of the same set: one renumbering moves both.
     REQUIRE(Renumbering::apply(model, RenumberSpace::LoadCombinationSet, Renumbering::offset(100)) == 3);
@@ -893,7 +895,7 @@ TEST_CASE("a TTEMP is edited in place and refuses what the format does not allow
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TPADEFN
+// TransferPathSetup
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TPADEFN has the pairs of a response type and a set of grid points over any number of lines",

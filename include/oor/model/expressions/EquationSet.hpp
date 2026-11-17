@@ -48,7 +48,7 @@ struct ExpressionNode
     std::int32_t position = 0;
 };
 
-// One equation of a DEQATN: `target = expression`.
+// One equation of a DesignEquation: `target = expression`.
 struct Equation
 {
     std::string target;
@@ -56,9 +56,9 @@ struct Equation
     std::int32_t position = 0; // the character of the text where the name of the target starts, from 1
 };
 
-// A DEQATN as a program: the equations in the order they are evaluated. The first one names the function and lists its
-// arguments, the others assign intermediate variables that the following equations may use, and the last one gives the
-// value of the whole. Built by parseEquations and never changed afterwards.
+// A DesignEquation as a program: the equations in the order they are evaluated. The first one names the function and
+// lists its arguments, the others assign intermediate variables that the following equations may use, and the last one
+// gives the value of the whole. Built by parseEquations and never changed afterwards.
 //
 // The rules of the format that the type keeps:
 //  - names are not case sensitive, so every name is stored in upper case;
@@ -96,8 +96,8 @@ private:
     std::vector<std::string> m_parameters;
 };
 
-// What is wrong with the text of a DEQATN: a message and the position (1 is the first character of the text, blanks
-// included) where the parser stopped.
+// What is wrong with the text of a DesignEquation: a message and the position (1 is the first character of the text,
+// blanks included) where the parser stopped.
 struct EquationProblem
 {
     std::string message;
@@ -113,8 +113,8 @@ struct EquationParse
     [[nodiscard]] bool ok() const noexcept { return equations.has_value(); }
 };
 
-// Parses the text of a DEQATN (the lines of the card joined). Never throws: a text that is not an equation gives the
-// problem, so that a deck with a bad DEQATN is reported and the rest of it is read.
+// Parses the text of a DesignEquation (the lines of the card joined). Never throws: a text that is not an equation
+// gives the problem, so that a deck with a bad DesignEquation is reported and the rest of it is read.
 [[nodiscard]] EquationParse parseEquations(std::string_view text);
 
 } // namespace oor::model

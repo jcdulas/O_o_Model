@@ -14,7 +14,7 @@ namespace
 {
 
 // A force or a moment on a scalar point: it has a single component and no direction, so FORCE and MOMENT cannot act
-// there (SLOAD is the load of a scalar point).
+// there (ScalarPointLoad is the load of a scalar point).
 class ForceOnScalarPointCheck final : public ValidationCheck
 {
 public:

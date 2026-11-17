@@ -10,10 +10,10 @@
 #include <cstdint>
 #include <optional>
 
-// Where an initial state of SOL 400 applies: the first six fields of IPSTRAIN (initial plastic strain) and ISTRESS
-// (initial stress) are the same range of elements, integration points and layers. One kind of value used by two cards
-// of the family; each card still reads, writes and checks the fields after the range by hand and says what its values
-// are.
+// Where an initial state of SOL 400 applies: the first six fields of InitialPlasticStrain (initial plastic strain) and
+// InitialStress (initial stress) are the same range of elements, integration points and layers. One kind of value used
+// by two cards of the family; each card still reads, writes and checks the fields after the range by hand and says what
+// its values are.
 namespace oor::model
 {
 

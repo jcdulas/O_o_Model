@@ -19,9 +19,10 @@ struct InflatorInletFormat
     static void write(const InflatorInletCard& card, FieldWriter& writer);
 };
 
-// All the ABINFL cards. The cards of a set share their INFID, which is the ID of the table (IdSpace::Group, category
-// InflatorSet): a GBAG or a COUPLE names the set, not a card. The CID is a number of the card only. SUBID names a
-// surface, INFTYPID an inflator card (category Inflator), the coefficient may name a table of time.
+// All the InflatorInlet cards. The cards of a set share their INFID, which is the ID of the table (IdSpace::Group,
+// category InflatorSet): a GasBag or an EulerLagrangeCoupling names the set, not a card. The CID is a number of the
+// card only. SUBID names a surface, INFTYPID an inflator card (category Inflator), the coefficient may name a table of
+// time.
 class InflatorInletTable final : public TypedTable<InflatorInletTable, InflatorInletCard>
 {
 public:

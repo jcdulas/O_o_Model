@@ -19,8 +19,8 @@ struct FreeBoundaryDofSetFormat
     static void write(const FreeBoundaryDofSetCard& card, FieldWriter& writer);
 };
 
-// All the CSET cards. A card has no ID (IdSpace::None). The points and the components of every card are two lists in
-// CSR form.
+// All the FreeBoundaryDofSet cards. A card has no ID (IdSpace::None). The points and the components of every card are
+// two lists in CSR form.
 class FreeBoundaryDofSetTable final : public TypedTable<FreeBoundaryDofSetTable, FreeBoundaryDofSetCard>
 {
 public:

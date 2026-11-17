@@ -19,7 +19,7 @@ struct TanimuraMimuraYieldFormat
     static void write(const TanimuraMimuraYieldCard& card, FieldWriter& writer);
 };
 
-// All the YLDTM cards. The ID is the number of a yield model, unique among the cards of its category
+// All the TanimuraMimuraYield cards. The ID is the number of a yield model, unique among the cards of its category
 // (IdSpace::PerCardType: the other YLDxxx cards share the category YieldModel, and a check reports an ID two of them
 // have). The cards are kept whole (CardRows) next to their ID: they are few, and the query engine reads the ID.
 class TanimuraMimuraYieldTable final : public TypedTable<TanimuraMimuraYieldTable, TanimuraMimuraYieldCard>
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a YLDTM refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TanimuraMimuraYield refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

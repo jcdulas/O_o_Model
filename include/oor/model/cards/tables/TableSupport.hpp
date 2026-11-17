@@ -10,13 +10,14 @@
 #include <string_view>
 #include <vector>
 
-// What the eight table cards (TABLED1 to TABLED4, TABLEM1 to TABLEM4) have in common: the list of points or of
-// coefficients that runs over the continuation lines up to the word ENDT, and the rules of the look-up. Each card still
-// lays out its own fields by hand and says which of these it uses.
+// What the eight table cards (TableDynamic1 to TableDynamic4, TableMaterial1 to TableMaterial4) have in common: the
+// list of points or of coefficients that runs over the continuation lines up to the word ENDT, and the rules of the
+// look-up. Each card still lays out its own fields by hand and says which of these it uses.
 namespace oor::model
 {
 
-// How a table interpolates along an axis (XAXIS and YAXIS of TABLED1 and TABLEM1; the other forms are linear).
+// How a table interpolates along an axis (XAXIS and YAXIS of TableDynamic1 and TableMaterial1; the other forms are
+// linear).
 enum class TableAxis : std::uint8_t
 {
     Linear, // LINEAR (the default)
@@ -49,8 +50,8 @@ void writeTableCoefficients(FieldWriter& writer, int firstField, std::span<const
 // or the two last points), a logarithmic axis with a value that is not positive.
 [[nodiscard]] std::optional<CardProblem> checkTablePoints(std::span<const double> x, std::span<const double> y,
                                                           TableAxis xAxisKind, TableAxis yAxisKind);
-// The problem with the parameters and the coefficients of a TABLED4 or TABLEM4: X2 not zero, X3 below X4, at least one
-// coefficient, all finite.
+// The problem with the parameters and the coefficients of a TableDynamic4 or TableMaterial4: X2 not zero, X3 below X4,
+// at least one coefficient, all finite.
 [[nodiscard]] std::optional<CardProblem> checkTablePolynomial(double abscissaShift, double abscissaScale,
                                                               double abscissaMinimum, double abscissaMaximum,
                                                               std::span<const double> a);
@@ -64,8 +65,8 @@ void writeTableCoefficients(FieldWriter& writer, int firstField, std::span<const
 [[nodiscard]] double interpolateTable(std::span<const double> x, std::span<const double> y, TableAxis xAxisKind,
                                       TableAxis yAxisKind, double at) noexcept;
 
-// The value of the polynomial of TABLED4 and TABLEM4: y = sum of Ai * ((x - X1) / X2)^i, where x is first brought into
-// [X3, X4] (below X3 it is X3, above X4 it is X4). NaN when `at` is NaN.
+// The value of the polynomial of TableDynamic4 and TableMaterial4: y = sum of Ai * ((x - X1) / X2)^i, where x is first
+// brought into [X3, X4] (below X3 it is X3, above X4 it is X4). NaN when `at` is NaN.
 [[nodiscard]] double evaluateTablePolynomial(std::span<const double> a, double abscissaShift, double abscissaScale,
                                              double abscissaMinimum, double abscissaMaximum, double at) noexcept;
 

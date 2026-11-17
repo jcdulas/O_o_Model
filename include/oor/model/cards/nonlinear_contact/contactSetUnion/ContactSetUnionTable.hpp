@@ -19,9 +19,10 @@ struct ContactSetUnionFormat
     static void write(const ContactSetUnionCard& card, FieldWriter& writer);
 };
 
-// All the BCTADD cards. The CSID is unique among the BCTADD cards (IdSpace::PerCardType) and is a contact table
-// (category ContactTable, like the BCTSET, BCTABL1, BCTABLE and MDBCTB1 that the BCSET and BCONTACT commands select by
-// the same kind of number); the sets are BCTSET IDs and are references to contact tables.
+// All the ContactSetUnion cards. The CSID is unique among the ContactSetUnion cards (IdSpace::PerCardType) and is a
+// contact table (category ContactTable, like the ContactSet, ContactTable1, ContactTable and ModuleContactTable that
+// the BCSET and BCONTACT commands select by the same kind of number); the sets are ContactSet IDs and are references to
+// contact tables.
 class ContactSetUnionTable final : public TypedTable<ContactSetUnionTable, ContactSetUnionCard>
 {
 public:

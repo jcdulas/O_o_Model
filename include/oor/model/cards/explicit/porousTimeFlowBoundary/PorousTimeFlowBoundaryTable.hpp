@@ -19,8 +19,8 @@ struct PorousTimeFlowBoundaryFormat
     static void write(const PorousTimeFlowBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the PORFLWT cards: the FID is unique among them (IdSpace::PerCardType, category Porosity). A LEAKAGE names it;
-// the MID is a MATDEUL and the four quantities may be TABLED1.
+// All the PorousTimeFlowBoundary cards: the FID is unique among them (IdSpace::PerCardType, category Porosity). A
+// GasBagLeakage names it; the MID is an EulerMat and the four quantities may be TableDynamic1.
 class PorousTimeFlowBoundaryTable final : public TypedTable<PorousTimeFlowBoundaryTable, PorousTimeFlowBoundaryCard>
 {
 public:

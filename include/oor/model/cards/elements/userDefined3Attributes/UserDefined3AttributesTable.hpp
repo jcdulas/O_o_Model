@@ -19,7 +19,7 @@ struct UserDefined3AttributesFormat
     static void write(const UserDefined3AttributesCard& card, FieldWriter& writer);
 };
 
-// All the ADUM3 cards. A card has no ID (IdSpace::None, category Other) and names no other card.
+// All the UserDefined3Attributes cards. A card has no ID (IdSpace::None, category Other) and names no other card.
 class UserDefined3AttributesTable final : public TypedTable<UserDefined3AttributesTable, UserDefined3AttributesCard>
 {
 public:

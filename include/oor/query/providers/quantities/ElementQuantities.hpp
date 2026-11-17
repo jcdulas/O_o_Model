@@ -19,12 +19,14 @@ using ElementChain = ProviderChain<ElementRequest, ElementFlatSet>;
 // The kinds of element the unified stress, strain and force tables give rows for.
 enum class ElementFamily : std::uint8_t
 {
-    Shell, // CQUAD4, CTRIA3, CQUAD8, CTRIA6, CQUADR, CTRIAR (the plain tables; the laminates have their own)
-    Solid, // CTETRA, CPENTA, CHEXA, CPYRAM
-    Rod,   // CROD, CONROD, CTUBE
-    Shear, // CSHEAR
-    Bar,   // CBAR: the ends A and B
-    Beam,  // CBEAM: the stations
+    // ShellQuad4, ShellTria3, ShellQuad8, ShellTria6, ShellQuad4Drilling, ShellTria3Drilling (the plain tables; the
+    // laminates have their own)
+    Shell,
+    Solid, // SolidTetra, SolidPenta, SolidHexa, SolidPyramid
+    Rod,   // Rod2, Rod2InlineSection, Tube2
+    Shear, // ShearPanel4
+    Bar,   // Bar2: the ends A and B
+    Beam,  // Beam2: the stations
     Other  // not in the unified tables
 };
 
@@ -96,7 +98,7 @@ struct ElementResolution
 [[nodiscard]] const ElementChain& stressChain();
 [[nodiscard]] const ElementChain& strainChain();
 [[nodiscard]] const ElementChain& shellResultantChain();
-// The forces of the shear panels: the mean shear flow of each CSHEAR and the axial forces of the
+// The forces of the shear panels: the mean shear flow of each ShearPanel4 and the axial forces of the
 // effective rods of its edges, recovered from the translations of its grid points; the fields of its flats are
 // shearPanelForceFields().
 [[nodiscard]] const ElementChain& shearPanelForceChain();

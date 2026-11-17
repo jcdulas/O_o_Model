@@ -10,15 +10,15 @@
 namespace oor::model
 {
 
-// One MATORT card: a 3D orthotropic material of SOL 400 and SOL 700, with the yield condition of a plastic one (also
-// read by the solid composite elements of the linear sequences).
+// One OrthoMat3DNonlinear card: a 3D orthotropic material of SOL 400 and SOL 700, with the yield condition of a plastic
+// one (also read by the solid composite elements of the linear sequences).
 //
 // Card layout:
-//   MATORT  MID       E1      E2        E3         NU12     NU23     NU31     RHO
-//           G12       G23     G31       A1         A2       A3       TREF     GE
-//           IYLD      IHARD   SY        (blank)    R11/m    R22/C1   R33/C2   (blank)
-//           R12/C3    R23/C6  R31
-//           OPTION    FILE    X1        Y1         Z1       X2       Y2       Z2
+//   OrthoMat3DNonlinear  MID       E1      E2        E3  NU12     NU23     NU31     RHO
+//                        G12       G23     G31       A1  A2       A3       TREF     GE
+//                        IYLD      IHARD   SY  (blank)    R11/m    R22/C1   R33/C2   (blank)
+//                        R12/C3  R23/C6  R31
+//                        OPTION    FILE    X1        Y1  Z1       X2       Y2       Z2
 // The constants are in the material axes. NU23 and the shear moduli are meant to be given, but
 // a card that gives only E1, E2, E3 and NU12 is common: a blank one is 0.0 here. The yield stress ratios Rij
 // (Hill, IYLD 2) and the Barlat exponent m and coefficients Ci (IYLD 3) share their fields: R11 and m, R22 and C1, R33

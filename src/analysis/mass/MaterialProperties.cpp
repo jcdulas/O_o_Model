@@ -26,8 +26,8 @@ typename TableT::CardType cardOf(const model::Model& model, model::CardLocation 
     return static_cast<const TableT&>(*model.findTable(location.table)).card(location.row);
 }
 
-// The position in the 21 values of a MAT9 card (the upper triangle of the 6 x 6 matrix by rows) of the term (row,
-// column).
+// The position in the 21 values of an AnisoMat3D card (the upper triangle of the 6 x 6 matrix by rows) of the term
+// (row, column).
 std::size_t mat9Index(std::size_t row, std::size_t column) noexcept
 {
     if (column < row)

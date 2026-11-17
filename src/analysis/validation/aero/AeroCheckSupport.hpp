@@ -25,12 +25,12 @@ struct ControlLabelOwner
 // The exact names defined by AeroComponent and AeroComponentUnion cards.
 [[nodiscard]] std::unordered_set<std::string> componentNames(const model::Model& model);
 
-// How many numbers the AEFACT `list` holds; nothing when no AEFACT has the ID.
+// How many numbers the AeroFactorList `list` holds; nothing when no AeroFactorList has the ID.
 [[nodiscard]] std::optional<std::size_t> aefactSize(const model::Model& model, base::EntityId list);
 
 // How many elements a division makes: `count` equal divisions when it is positive, else one less than the points of the
-// AEFACT `list` (0 for a list of fewer than two points); nothing when the list does not exist (`ref.unresolved` says
-// so).
+// AeroFactorList `list` (0 for a list of fewer than two points); nothing when the list does not exist (`ref.unresolved`
+// says so).
 [[nodiscard]] std::optional<std::int64_t> divisionElements(const model::Model& model, std::int32_t count,
                                                            base::EntityId list);
 

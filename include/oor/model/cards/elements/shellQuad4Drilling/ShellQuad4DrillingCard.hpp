@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One CQUADR card: a four-node plate element with a drilling rotation.
+// One ShellQuad4Drilling card: a four-node plate element with a drilling rotation.
 //
 // Card layout:
-//   CQUADR  EID  PID  G1  G2  G3  G4  THETA or MCID  ZOFFS
-//                TFLAG  T1  T2  T3  T4
+//   ShellQuad4Drilling  EID  PID  G1  G2  G3  G4  THETA or MCID  ZOFFS
+//                            TFLAG  T1  T2  T3  T4
 struct ShellQuad4DrillingCard
 {
     static constexpr base::EntityId NO_MAT_FRAME_ID = -1;
@@ -28,7 +28,7 @@ struct ShellQuad4DrillingCard
 
     double offset = 0.0;
     std::int32_t thicknessFlag = 0;
-    // T1..T4: thicknesses at the corners; NO_THICKNESS where blank (the PSHELL thickness is used).
+    // T1..T4: thicknesses at the corners; NO_THICKNESS where blank (the ShellProp thickness is used).
     std::array<double, 4> cornerThickness = {NO_THICKNESS, NO_THICKNESS, NO_THICKNESS, NO_THICKNESS};
 
     [[nodiscard]] bool usesMaterialSystem() const noexcept { return matFrameId != NO_MAT_FRAME_ID; }

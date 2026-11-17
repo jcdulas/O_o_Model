@@ -1,8 +1,8 @@
 // Checks of the cards of the aerodynamic mesh and of the parametric loads of the static aeroelastic trim:
-// AESCALE and AEGRID (a grid point and the scale it names), AEQUAD4 and AETRIA3 (the elements that connect the points),
-// ACTRIM (a card found by its name), AEDW, AEPRESS and AEFORCE (a load vector of one control vector, with the matrix
-// names that are not references). The ID spaces, the references, the renumbering of the spaces they own and the refused
-// values are tested here.
+// AeroNodeScale and AeroNode (a grid point and the scale it names), AeroQuad4 and AeroTria3 (the elements that connect
+// the points), TrimmedMaterialMatrices (a card found by its name), AeroDownwash, AeroPressureVector and AeroForceVector
+// (a load vector of one control vector, with the matrix names that are not references). The ID spaces, the references,
+// the renumbering of the spaces they own and the refused values are tested here.
 
 #include "oor/model/cards/aero/aeroDownwash/AeroDownwashTable.hpp"
 #include "oor/model/cards/aero/aeroForceVector/AeroForceVectorTable.hpp"
@@ -45,7 +45,7 @@ TEST_CASE("an AESCALE has three factors that default to 1.0 and is named by the 
 
     // A factor that is 1.0 is a blank field, and a blank in the middle is kept as one (the third factor is in field 4).
 
-    // The card names nothing; the ASID of an AEGRID names it (103 is not in the deck).
+    // The card names nothing; the ASID of an AeroNode names it (103 is not in the deck).
     RecordingVisitor visitor;
     model.table<AeroNodeScaleTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields.empty());
@@ -93,7 +93,7 @@ TEST_CASE("an AEGRID is a point of the aerodynamic mesh with its own ID space an
 
     // The three coordinates are always written; the blank systems and the missing scale are not.
 
-    // The aerodynamic points are not the structural ones: a GRID 1 and an AEGRID 1 coexist, two AEGRID 1 do not.
+    // The aerodynamic points are not the structural ones: a GRID 1 and an AeroNode 1 coexist, two AeroNode 1 do not.
     REQUIRE_NOTHROW(readBulk("Node;1;;0.;0.;0.\nAeroNode;1"));
     REQUIRE_THROWS_AS(readBulk("AeroNode;1\nAeroNode;1;;1.;1.;1."), base::DeckError);
 
@@ -154,7 +154,7 @@ TEST_CASE("an AEQUAD4 and an AETRIA3 connect AEGRID points and name a component 
              AeroTria3Table::INFO.idSpace == base::IdSpace::PerCardType));
     requireRoundTrip(model);
 
-    // The grid points are references to AEGRID cards; the component number is not looked up.
+    // The grid points are references to AeroNode cards; the component number is not looked up.
     RecordingVisitor visitor;
     model.table<AeroQuad4Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"node1", "node2", "node3", "node4"});
@@ -261,7 +261,7 @@ TEST_CASE("an AEDW has a Mach number, two symmetry words, a control vector and m
     model.table<AeroDownwashTable>().visitReferences(1, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"controlVectorId"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::ControlVector});
-    REQUIRE(unresolvedIn(model) == 2); // no UXVEC in the deck
+    REQUIRE(unresolvedIn(model) == 2); // no AeroControlVector in the deck
     Renumbering::apply(model, RenumberSpace::ControlVector, Renumbering::offset(100));
     REQUIRE((cardAt<AeroDownwashTable>(model, 0).controlVectorId == 205 &&
              cardAt<AeroDownwashTable>(model, 1).controlVectorId == 202));
@@ -352,7 +352,7 @@ TEST_CASE("an AEFORCE is given on the aerodynamic mesh by a DMIK name or on the 
 
     // The fields of the layout: LSET is field 6, DMIK field 7 and PERQ field 8, so the blanks are kept in between.
 
-    // The UXID names a control vector and the LSET a load set (the STRUCT mesh only); the DMIK is a name.
+    // The UXID names a control vector and the LSET a load set (the STRUCT mesh only); the DirectMatrixAeroK is a name.
     RecordingVisitor visitor;
     model.table<AeroForceVectorTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"controlVectorId"});

@@ -27,9 +27,9 @@ std::optional<CardProblem> GeomPointFormat::check(const GeomPointCard& card)
 
 void GeomPointFormat::write(const GeomPointCard& card, FieldWriter& writer)
 {
-    // the POINTs of an arbitrary beam cross-section (a SET1 or SET3 of a PBRSECT or
-    // PBMSECT) leave CP and X3 blank. A blank CP is the basic system and a blank X3 is 0.0, so both are written blank
-    // when they hold their default, whatever the option of omitting defaults says.
+    // the POINTs of an arbitrary beam cross-section (an IdListSet1 or TypedListSet3 of a BarArbitrarySectionProp or
+    // BeamArbitrarySectionProp) leave CP and X3 blank. A blank CP is the basic system and a blank X3 is 0.0, so both
+    // are written blank when they hold their default, whatever the option of omitting defaults says.
     writer.integer(1, card.id);
     if (card.positionFrameId != 0)
         writer.integer(2, card.positionFrameId);

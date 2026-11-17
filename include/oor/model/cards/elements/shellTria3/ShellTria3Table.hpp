@@ -19,7 +19,7 @@ struct ShellTria3Format
     static void write(const ShellTria3Card& card, FieldWriter& writer);
 };
 
-// All the CTRIA3 elements: the nodes are one column of three IDs per element (an (N, 3) NumPy view without copy).
+// All the ShellTria3 elements: the nodes are one column of three IDs per element (an (N, 3) NumPy view without copy).
 class ShellTria3Table final : public TypedTable<ShellTria3Table, ShellTria3Card>
 {
 public:

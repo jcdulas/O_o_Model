@@ -143,7 +143,7 @@ void ModuleFastenerTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void ModuleFastenerTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     ModuleFastenerCard& card = m_cards.edit(row);
-    visitId(visitor, "propId", ReferenceTarget::Property, card.propId); // a PFAST of the main Bulk Data
+    visitId(visitor, "propId", ReferenceTarget::Property, card.propId); // a FastenerProp of the main Bulk Data
     // IDA and IDB are properties (PROP) or shell elements (ELEM) of the module that MODA and MODB name: looked up only
     // in the main Bulk Data (ModuleConnectionSupport.hpp).
     const ReferenceTarget patches =

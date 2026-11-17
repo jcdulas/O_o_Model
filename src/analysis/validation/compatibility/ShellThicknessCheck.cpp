@@ -14,8 +14,8 @@ namespace oor::analysis
 namespace
 {
 
-// A PSHELL with no thickness (T blank or zero) used by a shell element that gives none of its own: the element has no
-// thickness at all.
+// A ShellProp with no thickness (T blank or zero) used by a shell element that gives none of its own: the element has
+// no thickness at all.
 class ShellThicknessCheck final : public ValidationCheck
 {
 public:

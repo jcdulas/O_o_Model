@@ -19,8 +19,9 @@ struct EulerBodyForceSetFormat
     static void write(const EulerBodyForceSetCard& card, FieldWriter& writer);
 };
 
-// All the EULFOR1 cards. The SID is unique among the EULFOR1 cards (IdSpace::PerCardType) and is in the category
-// EulerBodyForce, shared with EULFOR. The ESID names the set of EULFREG cards (EulerRegionSet).
+// All the EulerBodyForceSet cards. The SID is unique among the EulerBodyForceSet cards (IdSpace::PerCardType) and is in
+// the category EulerBodyForce, shared with EulerBodyForce. The ESID names the set of EulerForceRegion cards
+// (EulerRegionSet).
 class EulerBodyForceSetTable final : public TypedTable<EulerBodyForceSetTable, EulerBodyForceSetCard>
 {
 public:

@@ -73,7 +73,7 @@ const std::vector<ParamInfo>& parameterCatalogueEntries()
     static const std::vector<ParamInfo> ENTRIES = {
         {"AcousticExteriorMethod", ParamType::Text, noDefault(), "Iterative|Krylov"},
         {"AcousticExteriorSet", ParamType::Integer,
-         noDefault()}, // AMBIGUOUS: kind not stated, inferred (id of an ITER entry)
+         noDefault()}, // AMBIGUOUS: kind not stated, inferred (id of an IterativeSolverOptions entry)
         {"AcousticModalParticipation", ParamType::Integer, integerDefault(-1)},
         {"AcousticOutputKind", ParamType::Text, textDefault("Peak"), "Peak|RootMeanSquare"},
         {"AcousticWeakCoupling", ParamType::Text, textDefault("No")},
@@ -94,7 +94,8 @@ const std::vector<ParamInfo>& parameterCatalogueEntries()
         {"AeroStaticTolerance", ParamType::Real, realDefault(1.0e-10)},
         {"AggregateRotations", ParamType::Text, textDefault("Yes"), "Yes|No"},
         // The two defaults of "ALPHA1, ALPHA2" are the real and imaginary part of each: a deck gives
-        // PARAM,ALPHA1,0.0,0.0 and PARAM,ALPHA2,0.0,0.0 (the FL pair is read the same way, by its likeness)
+        // PARAM,RayleighMassDamping,0.0,0.0 and PARAM,RayleighStiffnessDamping,0.0,0.0 (the FL pair is read the same
+        // way, by its likeness)
         {"RayleighMassDamping", ParamType::Complex, complexDefault(0.0, 0.0)},
         {"RayleighStiffnessDamping", ParamType::Complex, complexDefault(0.0, 0.0)},
         {"RayleighMassDampingFluid", ParamType::Complex,
@@ -358,7 +359,7 @@ const std::vector<ParamInfo>& parameterCatalogueEntries()
         {"NonlinearHarmonicExtraSamplingPoints", ParamType::Integer, integerDefault(20)},
         {"InterpolationPoints", ParamType::Integer, integerDefault(10)},
         {"LayerCount", ParamType::Integer,
-         integerDefault(5)}, // AMBIGUOUS: default depends on element type (7 for CQUADR, 3 for CAXISYM)
+         integerDefault(5)}, // AMBIGUOUS: default depends on element type (7 for ShellQuad4Drilling, 3 for ShellAxisym)
         {"NonlinearHeatLineSearch", ParamType::Integer, integerDefault(0)},
         {"NonlinearHarmonicTolerance", ParamType::Real, realDefault(1.0e-5)},
         {"NonlinearHarmonicLineSearchStepFactor", ParamType::Real, realDefault(1.1)},

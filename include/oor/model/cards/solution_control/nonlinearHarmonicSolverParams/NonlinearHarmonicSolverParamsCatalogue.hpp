@@ -21,9 +21,9 @@ enum class NonlinearHarmonicSolverParamsKind : std::uint8_t
     Word
 };
 
-// One parameter of NHRMPRM: its name, the kind of value, what the solver uses
-// when no NHRMPRM gives it and what the value may be. `integers` and `words` list the values of a parameter that has a
-// short list (CONTP, DECOMP); the others take any value of their kind.
+// One parameter of NonlinearHarmonicSolverParams: its name, the kind of value, what the solver uses
+// when no NonlinearHarmonicSolverParams gives it and what the value may be. `integers` and `words` list the values of a
+// parameter that has a short list (CONTP, DECOMP); the others take any value of their kind.
 struct NonlinearHarmonicSolverParamsInfo
 {
     std::string_view name; // the neutral name (NonlinearHarmonicTolerance for NLHTOL)
@@ -38,8 +38,8 @@ inline constexpr std::array<std::int32_t, 3> CONTINUATION_METHOD_VALUES{0, 1, 2}
 inline constexpr std::array<std::string_view, 2> DECOMPOSITION_METHOD_WORDS{"LowerUpperDecomposition",
                                                                             "QrDecomposition"};
 
-// The twelve parameters of NHRMPRM, typed by hand. MXICODE0 has two defaults, 5 and 1000 when CONTP is
-// more than 0, so its default is a phrase.
+// The twelve parameters of NonlinearHarmonicSolverParams, typed by hand. MXICODE0 has two defaults, 5 and 1000 when
+// CONTP is more than 0, so its default is a phrase.
 inline constexpr std::array<NonlinearHarmonicSolverParamsInfo, 12> NONLINEAR_HARMONIC_SOLVER_PARAMS_CATALOGUE{{
     {"NonlinearHarmonicReduction",
      NonlinearHarmonicSolverParamsKind::Integer,

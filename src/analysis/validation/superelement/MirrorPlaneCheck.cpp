@@ -11,9 +11,9 @@ namespace oor::analysis
 namespace
 {
 
-// A MIRROR superelement with no mirror plane: the SEBULK of type MIRROR names the superelement it mirrors, and an
-// SEMPLN with the number of the mirror gives the plane (format reference, SEBULK and SEMPLN). Without the plane the
-// solver cannot place the image.
+// A MIRROR superelement with no mirror plane: the SuperelementBulkOptions of type MIRROR names the superelement it
+// mirrors, and an SuperelementMirrorPlane with the number of the mirror gives the plane (format reference,
+// SuperelementBulkOptions and SuperelementMirrorPlane). Without the plane the solver cannot place the image.
 class MirrorPlaneCheck final : public ValidationCheck
 {
 public:

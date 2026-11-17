@@ -19,9 +19,9 @@ struct CosimulationOutputsFormat
     static void write(const CosimulationOutputsCard& card, FieldWriter& writer);
 };
 
-// All the COSMOUT cards, in the category CosimulationOutput: the PHYOUT is unique among them (IdSpace::PerCardType) and
-// a COSMSRV names a card by it. The card names nothing itself. The cards are kept whole next to a column of their
-// PHYOUTs.
+// All the CosimulationOutputs cards, in the category CosimulationOutput: the PHYOUT is unique among them
+// (IdSpace::PerCardType) and a CosimulationService names a card by it. The card names nothing itself. The cards are
+// kept whole next to a column of their PHYOUTs.
 class CosimulationOutputsTable final : public TypedTable<CosimulationOutputsTable, CosimulationOutputsCard>
 {
 public:

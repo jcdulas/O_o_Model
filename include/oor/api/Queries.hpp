@@ -45,8 +45,8 @@ struct QueryDescription
 //   Bool true/false; Integer, Real a number; Text a text; IdList a number or an array of numbers (null: all);
 //   IdListOrText, RealsOrText a text or numbers; TextList a text or an array of texts; Point, Reals an array of
 //   numbers; Steps an array of step values, or {"start": 0, "stop": 10, "step": 2} for positions; Pairs an array of
-//   [n1, n2]; Thresholds, Values an object {"name": number}; IdSets an object {"name": [IDs]} or an array of SET1 IDs;
-//   Groups {"name": {"components": [IDs]}} or {"name": {"elements": [IDs]}}; Combinations {"name": {"1": 1.5}};
+//   [n1, n2]; Thresholds, Values an object {"name": number}; IdSets an object {"name": [IDs]} or an array of IdListSet1
+//   IDs; Groups {"name": {"components": [IDs]}} or {"name": {"elements": [IDs]}}; Combinations {"name": {"1": 1.5}};
 //   Cuts {"name": {"plane": [x, y, z, nx, ny, nz]}} or {"name": {"nodes": [IDs], "sideElements": [IDs]}}.
 // A parameter that takes another model (ParameterKind::Model) is not available from JSON. Throws UsageError for a value
 // of the wrong type, QueryError for an unknown query or parameter.

@@ -23,9 +23,10 @@ struct IsoMatStressDependentFormat
     [[nodiscard]] static std::optional<IsoMatStressDependentType> parseType(std::string_view text) noexcept;
 };
 
-// All the MATS1 cards. The ID space is the card type's own: the ID is the one of the MAT1 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the table is a reference to a
-// TABLES1 or TABLEST (ReferenceTarget::StressTable). H, LIMIT1 and LIMIT2 are NaN for a card that has none.
+// All the IsoMatStressDependent cards. The ID space is the card type's own: the ID is the one of the IsoMat that the
+// card extends, so it is also a reference to a material (renumbering the materials follows into it), and the table is a
+// reference to a TableStress1 or TableStressTemperature (ReferenceTarget::StressTable). H, LIMIT1 and LIMIT2 are NaN
+// for a card that has none.
 class IsoMatStressDependentTable final : public TypedTable<IsoMatStressDependentTable, IsoMatStressDependentCard>
 {
 public:

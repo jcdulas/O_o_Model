@@ -11,10 +11,10 @@ namespace oor::analysis
 namespace
 {
 
-// An ACPEMCP of a region of a trim component (RID not blank) that comes before the ACPEMCP of the component with a
-// blank RID, or that has none to come after: the format reference says a trim component may have
-// many ACPEMCP cards but the one with a blank RID is a must, and it comes before the ones that give a region. The cards
-// are looked at in the order of the deck.
+// A TrimComponentCoupling of a region of a trim component (RID not blank) that comes before the TrimComponentCoupling
+// of the component with a blank RID, or that has none to come after: the format reference says a trim component may
+// have many TrimComponentCoupling cards but the one with a blank RID is a must, and it comes before the ones that give
+// a region. The cards are looked at in the order of the deck.
 class TrimRegionOrderCheck final : public ValidationCheck
 {
 public:

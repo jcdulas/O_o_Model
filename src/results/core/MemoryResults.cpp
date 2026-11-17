@@ -104,7 +104,7 @@ private:
 };
 
 // Whether the rows `first` to `end` (excluded) have different pairs of grid point and layer, packed in `keys` and
-// sorted by insertion (a run of rows of one ID is a few rows: ten for a CQUAD4 at its centre and corners).
+// sorted by insertion (a run of rows of one ID is a few rows: ten for a ShellQuad4 at its centre and corners).
 bool distinctPairs(const MemoryTableInput& input, std::size_t first, std::size_t end, std::vector<std::uint64_t>& keys)
 {
     constexpr std::size_t INSERTION_RUN = 32;
@@ -140,7 +140,7 @@ bool distinctPairs(const MemoryTableInput& input, std::size_t first, std::size_t
 //
 // PERFORMANCE: when the IDs do not decrease (the rows of an element together, as every decoder and a companion package
 // give them), the places are compared within each run of rows of one ID, in place of a sort of every row: about 100 ns
-// a row sorted, so that the 1 664 640 rows of the CQUAD4 corner stresses of a plate of 1 M DOFs took 0.17 s (a
+// a row sorted, so that the 1 664 640 rows of the ShellQuad4 corner stresses of a plate of 1 M DOFs took 0.17 s (a
 // companion package P11.2). A run whose rows give no element, position or text compares its pairs of grid point and
 // layer as integers; a run with a repeated pair, or with more than these, is sorted by the whole place, so that the
 // count and the first repeated row are those the sort of every row gives.
@@ -312,7 +312,7 @@ std::vector<std::string> checkMemoryTable(const MemoryTableInput& input)
                 break;
             }
     // A row of the grid point forces is not a key: a file can list an element several times at one grid point (a
-    // CELAS1 between two components of one grid point gives a row a component), and the readers keep them.
+    // SpringDofProperty between two components of one grid point gives a row a component), and the readers keep them.
     if (rowCount != 0 && input.kind != ResultKind::NodePointForces)
     {
         const RepeatedRows repeated = repeatedRows(input);

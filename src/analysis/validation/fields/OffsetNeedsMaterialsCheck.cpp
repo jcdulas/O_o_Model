@@ -14,7 +14,7 @@ namespace oor::analysis
 namespace
 {
 
-// format reference, PSHELL: MID1 and MID2 must be given when the connection entry has an offset (ZOFFS): the offset
+// format reference, ShellProp: MID1 and MID2 must be given when the connection entry has an offset (ZOFFS): the offset
 // couples membrane and bending.
 class OffsetNeedsMaterialsCheck final : public ValidationCheck
 {

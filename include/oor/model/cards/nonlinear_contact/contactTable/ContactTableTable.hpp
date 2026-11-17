@@ -23,10 +23,10 @@ struct ContactTableFormat
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 };
 
-// All the BCTABLE cards. The ID is unique among them and among the BCTABL1 cards (IdSpace::PerCardType, category
-// ContactTable): the BCONTACT command names either. The cards are kept whole (CardRows); the query engine reads the ID
-// only. The bodies are references to contact bodies; the table IDs among the values (FRIC, HCT, ...) are not references
-// (a table may be a TABL3D).
+// All the ContactTable cards. The ID is unique among them and among the ContactTable1 cards (IdSpace::PerCardType,
+// category ContactTable): the BCONTACT command names either. The cards are kept whole (CardRows); the query engine
+// reads the ID only. The bodies are references to contact bodies; the table IDs among the values (FRIC, HCT, ...) are
+// not references (a table may be a TABL3D).
 class ContactTableTable final : public TypedTable<ContactTableTable, ContactTableCard>
 {
 public:

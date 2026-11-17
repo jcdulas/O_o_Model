@@ -51,8 +51,9 @@ double signedDistance(const Point& normal, const Point& centre, const Point& poi
     return normal[0] * (centre[0] - point[0]) + normal[1] * (centre[1] - point[1]) + normal[2] * (centre[2] - point[2]);
 }
 
-// A damper carries no load in a static subcase (no velocity): format reference CDAMP1 to CDAMP5, CVISC. `card` is a
-// card type: DamperDofProperty to DamperScalarInline and their explicit forms, HeatCapacity2 (CDAMP5), ViscousDamper2.
+// A damper carries no load in a static subcase (no velocity): format reference DamperDofProperty to HeatCapacity2,
+// ViscousDamper2. `card` is a card type: DamperDofProperty to DamperScalarInline and their explicit forms,
+// HeatCapacity2 (HeatCapacity2), ViscousDamper2.
 bool isDamper(const std::string& card)
 {
     return card.starts_with("DamperDof") || card.starts_with("DamperScalar") || card == "HeatCapacity2" ||

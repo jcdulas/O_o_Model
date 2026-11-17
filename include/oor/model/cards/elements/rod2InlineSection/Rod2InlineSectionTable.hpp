@@ -19,7 +19,7 @@ struct Rod2InlineSectionFormat
     static void write(const Rod2InlineSectionCard& card, FieldWriter& writer);
 };
 
-// All the CONROD elements (in the element ID space): the nodes are one column of two IDs per element.
+// All the Rod2InlineSection elements (in the element ID space): the nodes are one column of two IDs per element.
 class Rod2InlineSectionTable final : public TypedTable<Rod2InlineSectionTable, Rod2InlineSectionCard>
 {
 public:

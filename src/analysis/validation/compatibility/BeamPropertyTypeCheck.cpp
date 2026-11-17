@@ -7,7 +7,7 @@ namespace oor::analysis
 namespace
 {
 
-// A CBEAM whose property is not a PBEAM, PBEAML or PBCOMP.
+// A Beam2 whose property is not a BeamProp, BeamShapeProp or BeamLumpedAreaProp.
 class BeamPropertyTypeCheck final : public ValidationCheck
 {
 public:
@@ -19,7 +19,7 @@ public:
 
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
-        // format reference CBEAM: PID names a PBEAM, PBCOMP, PBEAML or PBMSECT.
+        // format reference Beam2: PID names a BeamProp, BeamLumpedAreaProp, BeamShapeProp or BeamArbitrarySectionProp.
         reportWrongPropertyType(context, sink, {"Beam2"},
                                 {"BeamProp", "BeamShapeProp", "BeamLumpedAreaProp", "BeamArbitrarySectionProp"});
     }

@@ -12,7 +12,7 @@
 namespace oor::model
 {
 
-// METH of a SPLINE4: how the surface is fitted through the structural grid points.
+// METH of an AeroSurfaceSpline4: how the surface is fitted through the structural grid points.
 enum class AeroSurfaceSpline4Method : std::uint8_t
 {
     InfinitePlate,      // IPS: the Harder-Desmarais infinite plate spline (the default)
@@ -24,18 +24,18 @@ enum class AeroSurfaceSpline4Method : std::uint8_t
 inline constexpr std::array<std::string_view, 4> AERO_SURFACE_SPLINE4_METHOD_WORDS{
     "InfinitePlateSpline", "ThinPlateSpline", "FiniteSurfaceSpline", "RigidSurfaceSpline"};
 
-// One SPLINE4 card: a surface spline like SPLINE1, for any aerodynamic geometry: the points it moves are listed in an
-// AELIST instead of being a run of box numbers.
+// One AeroSurfaceSpline4 card: a surface spline like AeroSurfaceSpline1, for any aerodynamic geometry: the points it
+// moves are listed in an AELIST instead of being a run of box numbers.
 //
-// Card layout: SPLINE4  EID    CAERO  AELIST       SETG  DZ  METH  USAGE
-//                      NELEM  MELEM  FTYPE  RCORE
+// Card layout: AeroSurfaceSpline4  EID    CAERO  AELIST  SETG  DZ  METH  USAGE
+//                                 NELEM  MELEM  FTYPE  RCORE
 // Field 4 (the blank cell after AELIST) is not used. The format reference calls the first field SID in the description
 // and EID in the layout; the layout name is used. CAERO is the aerodynamic component that gives the interpolation
-// surface: a CAERO panel, or the component number (CMPID) of the AEQUAD4 and AETRIA3 of an aerodynamic mesh
+// surface: a CAERO panel, or the component number (CMPID) of the AeroQuad4 and AeroTria3 of an aerodynamic mesh
 // (ReferenceTarget::AeroPanelOrComponent). AELIST (ReferenceTarget::AeroList) lists the boxes, or the aerodynamic grid
-// points of an AEGRID mesh, or, with the Mach box method, the (x, y) pairs of an AEFACT. SETG is the SET1 or SET3 of
-// structural grid points. DZ is the linear attachment flexibility (zero or more, 0.0 by default) and USAGE is FORCE,
-// DISP or BOTH (the default).
+// points of an AeroNode mesh, or, with the Mach box method, the (x, y) pairs of an AeroFactorList. SETG is the
+// IdListSet1 or TypedListSet3 of structural grid points. DZ is the linear attachment flexibility (zero or more, 0.0 by
+// default) and USAGE is FORCE, DISP or BOTH (the default).
 //
 // The method decides which of the four last fields count: NELEM and MELEM (positive, 10 by default) are the finite
 // elements along the local x and y axes of the finite plate spline; FTYPE (WF2 by default) and RCORE are the Wendland

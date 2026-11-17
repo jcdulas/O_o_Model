@@ -18,9 +18,9 @@ struct OrthoMat3DTemperatureFormat
     static void write(const OrthoMat3DTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATT11 cards. The ID space is the card type's own: the ID is the one of the MAT11 that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEMi cards (ReferenceTarget::MaterialTable).
+// All the OrthoMat3DTemperature cards. The ID space is the card type's own: the ID is the one of the OrthoMat3D that
+// the card extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables
+// are references to TABLEMi cards (ReferenceTarget::MaterialTable).
 class OrthoMat3DTemperatureTable final : public TypedTable<OrthoMat3DTemperatureTable, OrthoMat3DTemperatureCard>
 {
 public:

@@ -9,7 +9,7 @@ namespace oor::analysis
 {
 
 // One link of the superelement tree: `upstream` is reduced into `downstream` (0 is the residual structure), and the
-// SETREE card that says so. The tree of a deck is the links of all its SETREE cards together.
+// SuperelementTree card that says so. The tree of a deck is the links of all its SuperelementTree cards together.
 struct SuperelementTreeEdge
 {
     base::EntityId upstream;
@@ -17,7 +17,7 @@ struct SuperelementTreeEdge
     model::CardLocation where;
 };
 
-// The links of the SETREE cards of a model, in the order of the cards and of the SEUPi on each.
+// The links of the SuperelementTree cards of a model, in the order of the cards and of the SEUPi on each.
 inline std::vector<SuperelementTreeEdge> superelementTreeEdges(const model::Model& model)
 {
     std::vector<SuperelementTreeEdge> edges;

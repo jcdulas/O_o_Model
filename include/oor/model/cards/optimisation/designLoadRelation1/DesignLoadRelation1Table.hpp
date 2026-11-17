@@ -19,11 +19,11 @@ struct DesignLoadRelation1Format
     static void write(const DesignLoadRelation1Card& card, FieldWriter& writer);
 };
 
-// All the DVLREL1 cards. The ID is unique among them (IdSpace::PerCardType, category Other: no card names a DVLREL1).
-// The SID is a set of loads (LoadCombinationSet) and the DVIDs are design variables (DesignVariable). What ATT1 and
-// ATT2 name depends on the TYPE: of a FORCE or a MOMENT a grid point (Node) and a coordinate system (Coordinate), of a
-// LOAD (with LNAME other than S) a set of loads (LoadCombinationSet). The cards are kept whole next to the columns the
-// query engine reads: the ID and the set of loads.
+// All the DesignLoadRelation1 cards. The ID is unique among them (IdSpace::PerCardType, category Other: no card names a
+// DesignLoadRelation1). The SID is a set of loads (LoadCombinationSet) and the DVIDs are design variables
+// (DesignVariable). What ATT1 and ATT2 name depends on the TYPE: of a PointForceLoad or a MOMENT a grid point (Node)
+// and a coordinate system (Coordinate), of a LOAD (with LNAME other than S) a set of loads (LoadCombinationSet). The
+// cards are kept whole next to the columns the query engine reads: the ID and the set of loads.
 class DesignLoadRelation1Table final : public TypedTable<DesignLoadRelation1Table, DesignLoadRelation1Card>
 {
 public:

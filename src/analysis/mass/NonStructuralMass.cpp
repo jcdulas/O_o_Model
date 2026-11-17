@@ -38,14 +38,14 @@ namespace
 // The kinds of element a non-structural mass can be put on, which is also what a property TYPE of the cards means.
 enum class Family : std::uint8_t
 {
-    Shell,      // PSHELL, PCOMP, PCOMPG: the shells, by area
-    Shear,      // PSHEAR: CSHEAR, by area
-    Bar,        // PBAR, PBARL: CBAR, by length
-    Beam,       // PBEAM, PBEAML, PBCOMP: CBEAM, by length
-    Rod,        // PROD: CROD
-    Tube,       // PTUBE: CTUBE
-    Bend,       // PBEND: CBEND
-    RodWithProp // Rod2InlineSection (the NSM TYPE CONROD)
+    Shell,      // ShellProp, CompProp, CompPropGlobal: the shells, by area
+    Shear,      // ShearPanelProp: ShearPanel4, by area
+    Bar,        // BarProp, BarShapeProp: Bar2, by length
+    Beam,       // BeamProp, BeamShapeProp, BeamLumpedAreaProp: Beam2, by length
+    Rod,        // RodProp: Rod2
+    Tube,       // TubeProp: Tube2
+    Bend,       // CurvedBeamProp: CurvedBeam2
+    RodWithProp // Rod2InlineSection (the NSM TYPE Rod2InlineSection)
 };
 
 constexpr std::size_t FAMILY_COUNT = 8;
@@ -91,8 +91,8 @@ struct Item
     Family family = Family::Shell;
 };
 
-// One line of the cards of a set: what it is put on and how. The IDs stay ranges as the card writes them (an NSM or
-// NSML pair is a range of one ID).
+// One line of the cards of a set: what it is put on and how. The IDs stay ranges as the card writes them (a
+// NonStructMass or NonStructMassLumped pair is a range of one ID).
 struct Entry
 {
     std::string type;
@@ -250,7 +250,7 @@ bool hasSet(const model::Model& model, base::EntityId set)
     return false;
 }
 
-// The sets whose cards make up the set `set`: the sets an NSMADD of that ID lists, or the set itself.
+// The sets whose cards make up the set `set`: the sets a NonStructMassUnion of that ID lists, or the set itself.
 std::unordered_set<base::EntityId> memberSets(const model::Model& model, base::EntityId set)
 {
     std::unordered_set<base::EntityId> members;
@@ -365,7 +365,7 @@ std::vector<std::size_t> matchedItems(const Entry& entry, const ElementIndex& in
     }
     Family family = Family::Shell;
     if (!familyOfType(entry.type, family))
-        return matched; // PCONEAX and PRAC2D: no such element in the library
+        return matched; // ConicalShellProp and CrackTipProp2D: no such element in the library
     if (entry.all)
         return index.family(family);
     for (const model::NonStructMassRun& run : entry.runs)

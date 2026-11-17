@@ -19,11 +19,11 @@ struct ModuleWeldFormat
     static void write(const ModuleWeldCard& card, FieldWriter& writer);
 };
 
-// All the MDWELD cards. The EWID is an element number, which the rules of the CWELD want unique among all the
-// elements; the table only keeps it unique among the MDWELD cards (IdSpace::PerCardType, category Other) and a
-// validation check looks for a number that another kind of element shares. PWID is a reference to a PWELD of the main
-// Bulk Data; the patches (PSHELL properties or shell elements), the vertex points of an ALIGN, the point GS of an
-// ELEMID and the lists of a GRIDID are references when their module is the main Bulk Data and are not looked up in
+// All the ModuleWeld cards. The EWID is an element number, which the rules of the Weld want unique among all the
+// elements; the table only keeps it unique among the ModuleWeld cards (IdSpace::PerCardType, category Other) and a
+// validation check looks for a number that another kind of element shares. PWID is a reference to a WeldProp of the
+// main Bulk Data; the patches (ShellProp properties or shell elements), the vertex points of an ALIGN, the point GS of
+// an ELEMID and the lists of a GRIDID are references when their module is the main Bulk Data and are not looked up in
 // another module; the other grid points are points of the main Bulk Data. The cards are kept whole next to their ID.
 class ModuleWeldTable final : public TypedTable<ModuleWeldTable, ModuleWeldCard>
 {

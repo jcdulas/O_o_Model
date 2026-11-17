@@ -19,12 +19,12 @@ struct ModuleSeamFormat
     static void write(const ModuleSeamCard& card, FieldWriter& writer);
 };
 
-// All the MDSEAM cards. The EID is an element number, which the rules of the CSEAM want unique among all the
-// elements; the table only keeps it unique among the MDSEAM cards (IdSpace::PerCardType, category Other) and a
-// validation check looks for a number that another kind of element shares. PID is a reference to a PSEAM of the main
-// Bulk Data; the patch numbers are references to properties (PSHELL) or elements (ELEM) when their module is the main
-// Bulk Data, and are not looked up in another module; GS and GE are grid points of the main Bulk Data. The cards are
-// kept whole next to their ID.
+// All the ModuleSeam cards. The EID is an element number, which the rules of the Seam want unique among all the
+// elements; the table only keeps it unique among the ModuleSeam cards (IdSpace::PerCardType, category Other) and a
+// validation check looks for a number that another kind of element shares. PID is a reference to a SeamProp of the main
+// Bulk Data; the patch numbers are references to properties (ShellProp) or elements (ELEM) when their module is the
+// main Bulk Data, and are not looked up in another module; GS and GE are grid points of the main Bulk Data. The cards
+// are kept whole next to their ID.
 class ModuleSeamTable final : public TypedTable<ModuleSeamTable, ModuleSeamCard>
 {
 public:

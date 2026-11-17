@@ -431,7 +431,7 @@ std::optional<CardCategory> categoryOf(RenumberSpace space) noexcept
 
 // Are the cards of this type the ones whose IDs a renumbering of `space` changes? A category that is a space is made of
 // the cards that number a selection: a set ID shared by several cards (Group), or an ID unique per card type
-// (TSTEP 5 and TSTEPNL 5 are the one selection 5, and get the same new ID).
+// (TransientTimeSteps 5 and NonlinearTimeSteps 5 are the one selection 5, and get the same new ID).
 bool tableInSpace(const CardTypeInfo& info, RenumberSpace space) noexcept
 {
     if (const auto category = categoryOf(space))
@@ -723,10 +723,10 @@ bool referenceInSpace(ReferenceTarget target, RenumberSpace space) noexcept
     return false;
 }
 
-// The targets that can name an ID of either of two spaces: IC (a TIC set, or a temperature set of the Load
-// category), SDAMPING (a TABDMP1, or a TABLEDi) and BCONTACT (a BCTABL1 or BCTABLE, or a BCONECT). A renumbering of one
-// of the two spaces rewrites the reference when the ID belongs to that space and not to the other one (when both have
-// it, it cannot be told which was meant).
+// The targets that can name an ID of either of two spaces: IC (a TransientInitialCondition set, or a temperature set of
+// the Load category), SDAMPING (a TableModalDamping1, or a TABLEDi) and BCONTACT (a ContactTable1 or ContactTable, or a
+// ContactPair). A renumbering of one of the two spaces rewrites the reference when the ID belongs to that space and not
+// to the other one (when both have it, it cannot be told which was meant).
 bool isEitherOfTwoSpaces(ReferenceTarget target, RenumberSpace space) noexcept
 {
     if (target == ReferenceTarget::InitialConditionSet)
@@ -789,17 +789,17 @@ public:
             return id; // a sentinel; only a material table has a negative ID (the sign is a flag, see signedMapping)
         if (target == ReferenceTarget::Material && m_space == RenumberSpace::ThermalMaterial)
         {
-            // The material of a property may be a MAT1 or a MAT4: a renumbering of the thermal materials follows it
-            // only where no structural material has that ID (the structural one wins, as when the reference is
-            // resolved).
+            // The material of a property may be an IsoMat or a HeatIsoMat: a renumbering of the thermal materials
+            // follows it only where no structural material has that ID (the structural one wins, as when the reference
+            // is resolved).
             if (m_ownEither.contains(id) && !m_otherEither.contains(id))
                 return m_newIdOf(id).value_or(id);
             return id;
         }
         if (target == ReferenceTarget::StressOrMultiDimensionalTable)
         {
-            // The FID of a MATEP names a TABLES1 or TABLEST, or a TABL3Di where no stress table has the ID (the stress
-            // table wins, as when the reference is resolved).
+            // The FID of an ElastoPlasticMat names a TableStress1 or TableStressTemperature, or a TABL3Di where no
+            // stress table has the ID (the stress table wins, as when the reference is resolved).
             if ((m_space == RenumberSpace::StressTable && m_ownEither.contains(id)) ||
                 (m_space == RenumberSpace::MultiDimensionalTable && m_ownEither.contains(id) &&
                  !idsOf(base::IdSpace::StressTable).contains(id)))
@@ -808,15 +808,15 @@ public:
         }
         if (target == ReferenceTarget::AeroPanelOrComponent)
         {
-            // The CAERO of a SPLINE4 names a CAERO panel, which follows the renumbering of the aerodynamic elements,
-            // or the component number of an aerodynamic mesh, which no renumbering changes.
+            // The CAERO of an AeroSurfaceSpline4 names a CAERO panel, which follows the renumbering of the aerodynamic
+            // elements, or the component number of an aerodynamic mesh, which no renumbering changes.
             if (m_space == RenumberSpace::AeroElement && m_ownEither.contains(id))
                 return m_newIdOf(id).value_or(id);
             return id;
         }
         if (target == ReferenceTarget::MaterialTable && m_space == RenumberSpace::MultiDimensionalTable)
         {
-            // A field that names a TABLEMi or a TABL3Di (the T(RHO) of a MATTUSR): the multi-dimensional tables
+            // A field that names a TABLEMi or a TABL3Di (the T(RHO) of an UserMatTable): the multi-dimensional tables
             // follow it where no material table has that ID.
             if (m_ownEither.contains(id) && !m_otherEither.contains(id))
                 return m_newIdOf(id).value_or(id);
@@ -827,11 +827,11 @@ public:
             return id; // the ID of a multi-dimensional table that no material table has
         if (target == ReferenceTarget::FatigueTable && m_space == RenumberSpace::FatigueTable &&
             m_otherEither.contains(id) && !m_ownEither.contains(id))
-            return id; // the TID of an FTGLOAD that names a TABLEDi and no TABLFTG
+            return id; // the TID of a FatigueLoad that names a TABLEDi and no TableFatigueHistory
         if (target == ReferenceTarget::FatigueTable && m_space == RenumberSpace::DynamicTable)
         {
-            // The TID of an FTGLOAD with no TYPE is a TABLFTG, or a TABLEDi where no TABLFTG has that ID: the dynamic
-            // tables follow it there.
+            // The TID of a FatigueLoad with no TYPE is a TableFatigueHistory, or a TABLEDi where no TableFatigueHistory
+            // has that ID: the dynamic tables follow it there.
             if (m_ownEither.contains(id) && !fatigueTableIds().contains(id))
                 return m_newIdOf(id).value_or(id);
             return id;
@@ -848,7 +848,7 @@ public:
     }
 
     // An ID of another superelement is one of this renumbering only when the superelement lives in this model: the grid
-    // points of a SECONCT that name a part are those of the part, which its own renumbering rewrites.
+    // points of a SuperelementConnection that name a part are those of the part, which its own renumbering rewrites.
     base::EntityId visitInSuperelement(std::string_view field, ReferenceTarget target, base::EntityId id,
                                        base::EntityId superelement) override
     {
@@ -857,8 +857,8 @@ public:
         return visit(field, target, id);
     }
 
-    // The same for an ID of a part named by its kind and number (the sets of an ACPEMCP in its TRMC part): it is one of
-    // this renumbering only when that part is the model renumbered.
+    // The same for an ID of a part named by its kind and number (the sets of a TrimComponentCoupling in its TRMC part):
+    // it is one of this renumbering only when that part is the model renumbered.
     base::EntityId visitInPart(std::string_view field, ReferenceTarget target, base::EntityId id,
                                std::string_view partKind, std::int64_t partId) override
     {
@@ -878,7 +878,8 @@ private:
         return found->second;
     }
 
-    // The IDs of the TABLFTG cards (found once, when a renumbering of the dynamic tables meets an FTGLOAD).
+    // The IDs of the TableFatigueHistory cards (found once, when a renumbering of the dynamic tables meets a
+    // FatigueLoad).
     [[nodiscard]] const std::unordered_set<base::EntityId>& fatigueTableIds() const
     {
         if (!m_fatigueTableIds)
@@ -887,7 +888,7 @@ private:
     }
 
     // A box is numbered from the EID of its CAERO: it keeps its place in the card, so it follows the new EID. A box
-    // that no card owns (an AELIST of grid points, a box of a card that is not there) is left as it is.
+    // that no card owns (an AeroBoxList of grid points, a box of a card that is not there) is left as it is.
     [[nodiscard]] base::EntityId renumberedBox(base::EntityId box) const
     {
         if (m_boxes == nullptr)
@@ -901,8 +902,8 @@ private:
         return base::toEntityId(moved).value_or(box);
     }
 
-    // An EXCITEID names a set of dynamic loads (DAREA) or of static loads: it follows the renumbering of the category
-    // that has the set, and is left alone when both have one (it cannot be told which was meant).
+    // An EXCITEID names a set of dynamic loads (DynamicLoadScale) or of static loads: it follows the renumbering of the
+    // category that has the set, and is left alone when both have one (it cannot be told which was meant).
     [[nodiscard]] bool excitationInSpace(ReferenceTarget target, base::EntityId id) const
     {
         if (target != ReferenceTarget::ExcitationSet && target != ReferenceTarget::ExcitationDefined)
@@ -924,9 +925,10 @@ private:
     const AeroBoxRanges* m_boxes;
 };
 
-// The mapping applied to an ID of the space. A material table may have a negative ID (TABLEM1 -5: the sign makes the
-// table a thermal strain table, and the T(A) field of a MATT1, MATT2 or MATT8 names it with the sign): the table number
-// is the absolute value, which the mapping renumbers, and the sign stays.
+// The mapping applied to an ID of the space. A material table may have a negative ID (TableMaterial1 -5: the sign makes
+// the table a thermal strain table, and the T(A) field of an IsoMatTemperature, AnisoMat2DTemperature or
+// OrthoMat2DTemperature names it with the sign): the table number is the absolute value, which the mapping renumbers,
+// and the sign stays.
 std::optional<base::EntityId> signedMapping(RenumberSpace space, const IdMapping& mapping, base::EntityId id)
 {
     if (space == RenumberSpace::MaterialTable && id < 0)
@@ -981,8 +983,9 @@ void requireDistinct(const std::unordered_map<base::EntityId, base::EntityId>& n
 }
 
 // Rewrites, in the residual structure that holds a part, the references that name an ID of that part: the grid points
-// of a SECONCT, the design variables of an SEDLINK. They are looked up in the part (visitInSuperelement), so the
-// renumbering of the part's own IDs has to reach them there, and no other reference of the residual structure changes.
+// of a SuperelementConnection, the design variables of a SuperelementDesignLink. They are looked up in the part
+// (visitInSuperelement), so the renumbering of the part's own IDs has to reach them there, and no other reference of
+// the residual structure changes.
 class PartReferenceRewriter final : public ReferenceVisitor
 {
 public:
@@ -1084,10 +1087,10 @@ std::size_t rewriteModel(Model& model, RenumberSpace space, const IdMapping& map
         ownEither = setIdsOfCategory(model, CardCategory::MultiDimensionalTable);
         otherEither = idsOfSpace(model, base::IdSpace::MaterialTable);
         break;
-    case RenumberSpace::AeroElement: // the CAERO of a SPLINE4 may also name an aerodynamic mesh component
+    case RenumberSpace::AeroElement: // the CAERO of an AeroSurfaceSpline4 may also name an aerodynamic mesh component
         ownEither = idsOfSpace(model, base::IdSpace::AeroElement);
         break;
-    case RenumberSpace::StressTable: // the FID of a MATEP may also name a TABL3Di
+    case RenumberSpace::StressTable: // the FID of an ElastoPlasticMat may also name a TABL3Di
         ownEither = idsOfSpace(model, base::IdSpace::StressTable);
         break;
     case RenumberSpace::FatigueTable:

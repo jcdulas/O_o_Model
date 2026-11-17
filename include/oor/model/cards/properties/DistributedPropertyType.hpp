@@ -10,9 +10,9 @@
 #include <string_view>
 #include <vector>
 
-// What the two cards that distribute the data of a property over elements (PDISTB and PDISTBM) have in common: the
-// word that names the kind of property, and the rule that an element is listed once. Each card still lays out, reads,
-// writes and checks its own fields.
+// What the two cards that distribute the data of a property over elements (PropDistribution and PropMatDistribution)
+// have in common: the word that names the kind of property, and the rule that an element is listed once. Each card
+// still lays out, reads, writes and checks its own fields.
 namespace oor::model
 {
 

@@ -19,9 +19,9 @@ struct AeroNodeFormat
     static void write(const AeroNodeCard& card, FieldWriter& writer);
 };
 
-// All the AEGRID cards, in the category AeroNode that the grid points of an AEQUAD4 or an AETRIA3 name
-// (ReferenceTarget::AeroNode). The GID is unique among the AEGRID cards (IdSpace::PerCardType) and has no relation to
-// the structural grid points. CP and CD are coordinate systems (ReferenceTarget::Coordinate), ASID an AESCALE
+// All the AeroNode cards, in the category AeroNode that the grid points of an AeroQuad4 or an AeroTria3 name
+// (ReferenceTarget::AeroNode). The GID is unique among the AeroNode cards (IdSpace::PerCardType) and has no relation to
+// the structural grid points. CP and CD are coordinate systems (ReferenceTarget::Coordinate), ASID an AeroNodeScale
 // (ReferenceTarget::AeroScale). The card is kept whole next to its ID.
 class AeroNodeTable final : public TypedTable<AeroNodeTable, AeroNodeCard>
 {

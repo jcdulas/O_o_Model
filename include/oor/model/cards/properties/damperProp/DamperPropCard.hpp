@@ -5,13 +5,13 @@
 namespace oor::model
 {
 
-// One scalar damper property of a PDAMP card.
+// One scalar damper property of a DamperProp card.
 //
 // Card layout (a card defines one to four properties, each of two fields):
-//   PDAMP  PID1  B1  PID2  B2  PID3  B3  PID4  B4
+//   DamperProp  PID1  B1  PID2  B2  PID3  B3  PID4  B4
 //
 // A card with several properties gives one DamperPropCard value each, written as a card of its own, so that every
-// property can be renumbered or deleted alone (as a PELAS with two springs is).
+// property can be renumbered or deleted alone (as a SpringProp with two springs is).
 struct DamperPropCard
 {
     base::EntityId id = 0;

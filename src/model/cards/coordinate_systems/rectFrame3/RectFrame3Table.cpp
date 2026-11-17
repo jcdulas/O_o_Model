@@ -25,7 +25,7 @@ RectFrame3Card readSystem(FieldReader& reader, int first, const char* const (&na
 std::vector<RectFrame3Card> RectFrame3Format::readAll(FieldReader& reader)
 {
     // The format names the fields of both systems alike (CID, N1, N2, N3); the second is told apart by a B in the
-    // diagnostics, as for the CORD1R.
+    // diagnostics, as for the RectFrame1.
     static constexpr const char* NAMES_A[4] = {"frameIdA", "node1A", "node2A", "node3A"};
     static constexpr const char* NAMES_B[4] = {"frameIdB", "node1B", "node2B", "node3B"};
     std::vector<RectFrame3Card> systems;

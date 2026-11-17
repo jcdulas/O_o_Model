@@ -19,9 +19,9 @@ struct ContactUserServiceFormat
     static void write(const ContactUserServiceCard& card, FieldWriter& writer);
 };
 
-// All the BCONUDS cards. The BID names a body that other BCONUDS cards (with other subroutines) may name too, so a card
-// has no ID of its own (IdSpace::None, category Other). The cards are kept whole (CardRows); the query engine reads the
-// BID. The BID is a reference to a contact body.
+// All the ContactUserService cards. The BID names a body that other ContactUserService cards (with other subroutines)
+// may name too, so a card has no ID of its own (IdSpace::None, category Other). The cards are kept whole (CardRows);
+// the query engine reads the BID. The BID is a reference to a contact body.
 class ContactUserServiceTable final : public TypedTable<ContactUserServiceTable, ContactUserServiceCard>
 {
 public:

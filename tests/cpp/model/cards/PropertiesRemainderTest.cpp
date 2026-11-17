@@ -1,6 +1,7 @@
-// Checks of the remaining properties: the shared section catalogue of PBARL and PBEAML, PBEAML stations, the scalar
-// element properties, the plane, solid, gap, fastener, weld, bend, bush, beam and composite properties, and the
-// companions of a property (PELAST, PBUSHT, PDAMPT, PFASTT): variants, field positions, defaults, references and rules.
+// Checks of the remaining properties: the shared section catalogue of BarShapeProp and BeamShapeProp, BeamShapeProp
+// stations, the scalar element properties, the plane, solid, gap, fastener, weld, bend, bush, beam and composite
+// properties, and the companions of a property (SpringPropFreq, BushPropFreq, DamperPropFreq, FastenerPropFreq):
+// variants, field positions, defaults, references and rules.
 
 #include "oor/model/cards/properties/barShapeProp/BarShapePropTable.hpp"
 #include "oor/model/cards/properties/beamLumpedAreaProp/BeamLumpedAreaPropTable.hpp"
@@ -112,7 +113,7 @@ struct SectionExpectation
     std::size_t dimensions;
 };
 
-// The dimension count of every section type of the format reference (the format of PBEAML, which also has L).
+// The dimension count of every section type of the format reference (the format of BeamShapeProp, which also has L).
 constexpr SectionExpectation SECTIONS[] = {
     {"Rod", 1},       {"Tube", 2},
     {"Tube2", 2},     {"LSection", 4},
@@ -145,7 +146,7 @@ TEST_CASE("the section catalogue gives the dimension count of every section type
         INFO(expected.type);
         REQUIRE(sections::dimensionCount(expected.type) == expected.dimensions);
         REQUIRE(BarShapePropFormat::dimensionCount(expected.type) == expected.dimensions);
-        // PBARL and PBEAML accept the type with exactly that many dimensions.
+        // BarShapeProp and BeamShapeProp accept the type with exactly that many dimensions.
         const std::string dims = dimensionList(expected.dimensions);
         Model model = readBulk(std::string("BarShapeProp;1;1;;") + expected.type + dims);
         REQUIRE(cardAt<BarShapePropTable>(model).dims.size() == expected.dimensions);
@@ -460,7 +461,7 @@ TEST_CASE("PBEND has two forms, told by field 3, and refuses the fields of the o
     REQUIRE(pipe.nonStructMass == 0.1);
     REQUIRE(pipe.centroidRadialOffset == 0.2);
     REQUIRE(pipe.centerZ == 0.3);
-    // RB and THETAB are left to the CBEND when blank; a deck can write RB as 0.0.
+    // RB and THETAB are left to the CurvedBeam2 when blank; a deck can write RB as 0.0.
     const CurvedBeamPropCard zero = cardAt<CurvedBeamPropTable>(model, 2);
     REQUIRE(zero.bendRadius == 0.0);
     REQUIRE(zero.arcAngle == 45.0);
@@ -530,7 +531,7 @@ TEST_CASE("PBUSH1D continuations start their lines in any order and default what
     REQUIRE(table.shock.velocityExponentCompression == 1.0);
     requireRoundTrip(model);
 
-    // The IDs of a table are TABLEDi entries, those of an equation DEQATN entries.
+    // The IDs of a table are TABLEDi entries, those of an equation DesignEquation entries.
     RecordingVisitor visitor;
     model.table<BushProp1DTable>().visitReferences(1, visitor);
     REQUIRE(visitor.fields ==
@@ -584,7 +585,8 @@ TEST_CASE("the companions of a property have an ID space of their own and refer 
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::Property, ReferenceTarget::DynamicTable,
                                                             ReferenceTarget::DynamicTable,
                                                             ReferenceTarget::DynamicTable});
-    // The properties exist, the tables do not: one table of each companion but the PDAMPT's is missing... all five.
+    // The properties exist, the tables do not: one table of each companion but the DamperPropFreq's is missing... all
+    // five.
     REQUIRE(unresolvedIn(model) == 3 + 1 + 1 + 1);
     // Renumbering the properties follows into the companions, and their own IDs are still those of the properties.
     Renumbering::apply(model, RenumberSpace::Property, Renumbering::offset(1000));
@@ -743,7 +745,7 @@ TEST_CASE("PCOMPG has a global ID per ply, a damping flag on the first ply and t
     REQUIRE(hashin.plies[1].matId == 1);
     REQUIRE(hashin.plies[1].thickness == 0.1);
     REQUIRE(hashin.bottomOffset == -0.1);
-    // PCOMP takes the Hashin criteria too.
+    // CompProp takes the Hashin criteria too.
     REQUIRE(cardAt<CompPropTable>(model).failureTheory == FailureTheory::HashinTape);
     RecordingVisitor visitor;
     model.table<CompPropGlobalTable>().visitReferences(0, visitor);

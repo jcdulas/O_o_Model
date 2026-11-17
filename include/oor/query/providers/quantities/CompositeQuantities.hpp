@@ -72,9 +72,9 @@ struct PlyMaterial
     double e2 = 0.0;
     double nu12 = 0.0;
     double g12 = 0.0;
-    bool strainAllowables = false; // MAT8 STRN: the allowables are strains
-    // Hashin: the strengths of the MAT8 HFAIL group (HF1 HF2 HF3 HF4 HF10 HF11: Xt Xc Yt Yc, the in-plane shear and
-    // the transverse shear of the matrix), when the card has it; else Xt ... S above, the transverse shear being S
+    bool strainAllowables = false; // OrthoMat2D STRN: the allowables are strains
+    // Hashin: the strengths of the OrthoMat2D HFAIL group (HF1 HF2 HF3 HF4 HF10 HF11: Xt Xc Yt Yc, the in-plane shear
+    // and the transverse shear of the matrix), when the card has it; else Xt ... S above, the transverse shear being S
     std::optional<std::array<double, 6>> hashin;
     // Puck: the inclination parameters p(+) and p(-) of the fracture envelope in the (sigma2, tau21) plane (the
     // values VDI 2014 gives for carbon: 0.35 and 0.30)
@@ -187,28 +187,28 @@ enum class PlyTheory : std::uint8_t
 // = limit (the reserve factor of the theory); NaN when the index is zero.
 [[nodiscard]] double scaleToLimit(const PlyIndex& index, double limit);
 
-// The bonding index of a ply (the solver's failure index for bonding, PCOMP SB): its interlaminar shear against the
+// The bonding index of a ply (the solver's failure index for bonding, CompProp SB): its interlaminar shear against the
 // allowable shear of the bond, max(|t1z|, |t2z|) / sb as the solver stores it, or the resultant sqrt(t1z^2 + t2z^2) /
 // sb with `resultant`. NaN for an allowable that is not positive (a blank SB). Linear in the stresses: the strength
 // ratio of the bond is its inverse.
 [[nodiscard]] double bondIndex(double t1z, double t2z, double sb, bool resultant) noexcept;
 
-// The name of a PCOMP failure theory as the margins name it ("" for none).
+// The name of a CompProp failure theory as the margins name it ("" for none).
 [[nodiscard]] std::string theoryName(int failureTheory);
 
 // One ply of the laminate of an element as the model gives it.
 struct PlyFacts
 {
-    std::int32_t globalId = 0; // the global ply ID of a PCOMPG, 0 for a PCOMP
+    std::int32_t globalId = 0; // the global ply ID of a CompPropGlobal, 0 for a CompProp
     std::int32_t material = 0;
     double angle = std::numeric_limits<double>::quiet_NaN();
     double thickness = std::numeric_limits<double>::quiet_NaN();
-    std::optional<PlyMaterial> allowables; // the MAT8 of the ply
+    std::optional<PlyMaterial> allowables; // the OrthoMat2D of the ply
 };
 
 // The laminate of one element: its plies in stacking order (empty when the set has no model, the element no
-// laminate), the theory of its PCOMP or PCOMPG ("" when it has none, as the margins name it) and its SB, the allowable
-// interlaminar shear stress (NaN when blank or none).
+// laminate), the theory of its CompProp or CompPropGlobal ("" when it has none, as the margins name it) and its SB, the
+// allowable interlaminar shear stress (NaN when blank or none).
 struct LaminateFacts
 {
     std::vector<PlyFacts> plies;

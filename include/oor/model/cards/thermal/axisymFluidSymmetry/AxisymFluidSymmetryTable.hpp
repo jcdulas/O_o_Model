@@ -19,7 +19,7 @@ struct AxisymFluidSymmetryFormat
     static void write(const AxisymFluidSymmetryCard& card, FieldWriter& writer);
 };
 
-// All the FLSYM cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category
+// All the AxisymFluidSymmetry cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category
 // Other).
 class AxisymFluidSymmetryTable final : public TypedTable<AxisymFluidSymmetryTable, AxisymFluidSymmetryCard>
 {
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an FLSYM refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an AxisymFluidSymmetry refers to no card
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<std::int32_t>& sectionCountColumn() noexcept { return m_sectionCount; }

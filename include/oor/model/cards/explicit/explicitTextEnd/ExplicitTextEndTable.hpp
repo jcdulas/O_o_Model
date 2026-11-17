@@ -11,13 +11,13 @@ namespace oor::model
 
 struct ExplicitTextEndFormat
 {
-    // An ENDDYNA has no value that can be wrong: nothing to check.
+    // An ExplicitTextEnd has no value that can be wrong: nothing to check.
     [[nodiscard]] static std::optional<CardProblem> check(const ExplicitTextEndCard& card);
     [[nodiscard]] static std::optional<ExplicitTextEndCard> read(FieldReader& reader);
     static void write(const ExplicitTextEndCard& card, FieldWriter& writer);
 };
 
-// All the ENDDYNA cards: a row each and nothing else, since the card has no field and no ID (IdSpace::None).
+// All the ExplicitTextEnd cards: a row each and nothing else, since the card has no field and no ID (IdSpace::None).
 class ExplicitTextEndTable final : public TypedTable<ExplicitTextEndTable, ExplicitTextEndCard>
 {
 public:

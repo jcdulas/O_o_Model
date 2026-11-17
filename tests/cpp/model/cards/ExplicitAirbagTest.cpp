@@ -1,5 +1,6 @@
-// Checks of the airbag cards of the explicit solver (SOL 700): the gas bag GBAG, its inflators (ABINFL, INFLTR, INFLHB,
-// INFLCG, INFLTNK), the gases (INFLGAS, INFLFRC, INITGAS) and the belt property PBELT. Each card has its fields in the
+// Checks of the airbag cards of the explicit solver (SOL 700): the gas bag GasBag, its inflators (InflatorInlet,
+// StandardInflator, HybridInflator, ColdGasInflator, TankTestInflator), the gases (InflatorGas,
+// HybridInflatorFractions, InitialGasComposition) and the belt property BeltProp. Each card has its fields in the
 // positions of the format reference, its defaults, the references it lists, its refused values and the round trip
 // through a model file; one deck with every card checks that the references resolve and follow a renumbering.
 
@@ -28,8 +29,8 @@ namespace
 {
 
 // The cards of the group and the cards they name (a material and its equation of state, surfaces made of one element,
-// tables), numbered so that every reference resolves: the gas bag 101 takes the inflator set 12 (four ABINFL cards, one
-// for each kind of inflator), the initial gas 14 and the surface 37.
+// tables), numbered so that every reference resolves: the gas bag 101 takes the inflator set 12 (four InflatorInlet
+// cards, one for each kind of inflator), the initial gas 14 and the surface 37.
 const char* const AIRBAG_DECK =
     "GammaLawStateEquation;1\n"
     "EulerMat;25;1.E+3;1\n"
@@ -63,7 +64,7 @@ const char* const AIRBAG_DECK =
     "InitialGasComposition;14;12;0.4;13;0.6\n"
     "BeltProp;6402;10;11;3.E-5;0.1;0.1;12";
 
-// The fields of a GBAG after its first nine: the required values of the third part.
+// The fields of a GasBag after its first nine: the required values of the third part.
 const char* const GAS_BAG_REST = ";1.E+3;297.;101325.;;;;293.";
 
 } // namespace
@@ -95,7 +96,7 @@ TEST_CASE("a GBAG has its fields in the five lines of the format reference and r
         (bare.initialPressure == bare.environmentPressure && bare.environmentTemperature == bare.initialTemperature));
 
     RecordingVisitor visitor;
-    model.table<GasBagTable>().visitReferences(0, visitor); // the HTRID names a set of HEATLOS cards
+    model.table<GasBagTable>().visitReferences(0, visitor); // the HTRID names a set of GasBagHeatTransfer cards
     REQUIRE(visitor.fields ==
             std::vector<std::string>{"surfaceId", "porosityId", "inflatorId", "heatTransferId", "initialGasId"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::ContactSurface, ReferenceTarget::Leakage,
@@ -202,7 +203,8 @@ TEST_CASE("the airbag cards of a deck resolve their references and follow a renu
     REQUIRE(unresolvedIn(model) == 0);
     REQUIRE(rowCount<InflatorInletTable>(model) == 4);
 
-    // The gases: an INFLTR, an INFLHB, an INFLCG, an INFLGAS table and an INITGAS follow the INFLGAS numbers.
+    // The gases: a StandardInflator, a HybridInflator, a ColdGasInflator, an InflatorGas table and an
+    // InitialGasComposition follow the InflatorGas numbers.
     Renumbering::apply(model, RenumberSpace::InflatorGas, Renumbering::offset(100));
     REQUIRE((cardAt<InflatorGasTable>(model, 0).id == 112 && cardAt<InflatorGasTable>(model, 1).id == 113));
     REQUIRE(cardAt<StandardInflatorTable>(model).gasName.gas == 112);
@@ -212,7 +214,7 @@ TEST_CASE("the airbag cards of a deck resolve their references and follow a renu
              cardAt<InitialGasCompositionTable>(model).gases[1].gasId == 113));
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The four kinds of inflator share one number space of references: an ABINFL names any of them.
+    // The four kinds of inflator share one number space of references: an InflatorInlet names any of them.
     Renumbering::apply(model, RenumberSpace::Inflator, Renumbering::offset(1000));
     REQUIRE((cardAt<StandardInflatorTable>(model).id == 1005 && cardAt<HybridInflatorTable>(model).id == 1021));
     REQUIRE((cardAt<TankTestInflatorTable>(model).id == 1111 && cardAt<ColdGasInflatorTable>(model).id == 1011));

@@ -18,8 +18,8 @@ struct ConnectorSearchParamsFormat
     static void write(const ConnectorSearchParamsCard& card, FieldWriter& writer);
 };
 
-// All the SWLDPRM cards (no ID: IdSpace::None, category Other). The format reference allows one in a deck; a
-// second one is kept like the first, and reported by a check across the cards, not by the table.
+// All the ConnectorSearchParams cards (no ID: IdSpace::None, category Other). The format reference allows one in a
+// deck; a second one is kept like the first, and reported by a check across the cards, not by the table.
 class ConnectorSearchParamsTable final : public TypedTable<ConnectorSearchParamsTable, ConnectorSearchParamsCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
-    // Only one SWLDPRM entry is allowed: a second one is reported, the first is the one in force.
+    // Only one ConnectorSearchParams entry is allowed: a second one is reported, the first is the one in force.
     void finishRead(Model& model, const ReadContext& context) override;
 
 private:

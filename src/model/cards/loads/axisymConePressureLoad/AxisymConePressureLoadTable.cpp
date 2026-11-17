@@ -106,7 +106,7 @@ void AxisymConePressureLoadTable::keepRows(const std::vector<std::uint32_t>& row
 
 void AxisymConePressureLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The two rings are RINGAX cards, points of the node ID space.
+    // The two rings are AxisymConeRing cards, points of the node ID space.
     if (const base::EntityId ringId1 = m_ringId1.get(row); ringId1 > 0)
         m_ringId1.set(row, visitor.visit("ringId1", ReferenceTarget::Node, ringId1));
     if (const base::EntityId ringId2 = m_ringId2.get(row); ringId2 > 0)

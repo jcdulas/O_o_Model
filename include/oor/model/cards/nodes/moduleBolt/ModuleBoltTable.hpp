@@ -19,9 +19,9 @@ struct ModuleBoltFormat
     static void write(const ModuleBoltCard& card, FieldWriter& writer);
 };
 
-// All the MDBOLT cards. The ID (the element ID of the bolt) is unique among them (IdSpace::PerCardType, category Other:
-// it is an element of the multi-module family, not of the model's element space). GRIDC and the grid points of the two
-// lists are looked up as grid points (`Node`) when their module (MODC, MODT, MODB) is 0; the modules are plain
+// All the ModuleBolt cards. The ID (the element ID of the bolt) is unique among them (IdSpace::PerCardType, category
+// Other: it is an element of the multi-module family, not of the model's element space). GRIDC and the grid points of
+// the two lists are looked up as grid points (`Node`) when their module (MODC, MODT, MODB) is 0; the modules are plain
 // integers. The cards are kept whole next to their ID.
 class ModuleBoltTable final : public TypedTable<ModuleBoltTable, ModuleBoltCard>
 {

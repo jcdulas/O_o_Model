@@ -1,8 +1,9 @@
-// Checks of the co-simulation cards of SOL 400 (COSMGRP, COSMINP, COSMOUT, COSMSEL, COSMSRV) and of the fluid-structure
-// cards (FSICTRL, WETELME, WETELMG, WETSURF, WETLOAD). Per card: the fields in their format reference positions, the
+// Checks of the co-simulation cards of SOL 400 (CosimulationArea, CosimulationInputs, CosimulationOutputs,
+// CosimulationSelection, CosimulationService) and of the fluid-structure cards (FluidStructureControl, WettedElemSide,
+// WettedElemNodes, WettedSurface, WettedSurfaceLoad). Per card: the fields in their format reference positions, the
 // defaults and the variants, the references it lists and what each one points to, the ID space and the renumbering of
-// the kinds it owns, the cards that edit and delete it, the refused values and the round trip through a model file.
-// The generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
+// the kinds it owns, the cards that edit and delete it, the refused values and the round trip through a model file. The
+// generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
 
 #include "oor/model/cards/loads/wettedSurfaceLoad/WettedSurfaceLoadTable.hpp"
 #include "oor/model/cards/solution_control/cosimulationArea/CosimulationAreaTable.hpp"
@@ -88,7 +89,7 @@ Seen seenBy(Model& model, std::uint32_t row = 0)
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// COSMGRP
+// CosimulationArea
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a COSMGRP lists the faces of elements, grid points or elements by its TYPE, and is a group a COSMSRV names",
@@ -208,7 +209,7 @@ TEST_CASE("a COSMGRP lists the faces of elements, grid points or elements by its
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// COSMINP
+// CosimulationInputs
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a COSMINP has one or two quantities of input, FORCE when PHYQUA1 is blank", "[model][cards][cosimulation]")
@@ -258,7 +259,7 @@ TEST_CASE("a COSMINP has one or two quantities of input, FORCE when PHYQUA1 is b
     edited.quantities.clear();
     REQUIRE(CosimulationInputsFormat::check(edited).has_value());
 
-    // The number is the card's own; the COSMSRV that names it follows its renumbering.
+    // The number is the card's own; the CosimulationService that names it follows its renumbering.
     Model chain = readBulk(COSIMULATION_TEXT);
     Renumbering::apply(chain, RenumberSpace::CosimulationInput, Renumbering::offset(100));
     REQUIRE(cardAt<CosimulationInputsTable>(chain).id == 7300);
@@ -279,11 +280,11 @@ TEST_CASE("a COSMINP has one or two quantities of input, FORCE when PHYQUA1 is b
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// COSMOUT
+// CosimulationOutputs
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
-// COSMSEL
+// CosimulationSelection
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a COSMSEL lists up to three services, which it names, under a number a Case Control command selects",
@@ -298,23 +299,24 @@ TEST_CASE("a COSMSEL lists up to three services, which it names, under a number 
     REQUIRE(cardAt<CosimulationSelectionTable>(model, 1).services == Ids{21, 22, 23});
     REQUIRE(cardAt<CosimulationSelectionTable>(model, 2).services == Ids{22}); // a blank field is skipped
 
-    // Each service is a reference to a COSMSRV; the SID is selected by a Case Control command and names nothing.
+    // Each service is a reference to a CosimulationService; the SID is selected by a Case Control command and names
+    // nothing.
     const RecordingVisitor visitor = referencesOf<CosimulationSelectionTable>(model, 1);
     REQUIRE(visitor.fields == std::vector<std::string>(3, "serviceIds"));
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>(3, ReferenceTarget::CosimulationService));
     REQUIRE(seenBy<CosimulationSelectionTable>(model, 1) == Seen{{ReferenceTarget::CosimulationService, 21},
                                                                  {ReferenceTarget::CosimulationService, 22},
                                                                  {ReferenceTarget::CosimulationService, 23}});
-    REQUIRE(unresolvedIn(model) == 5); // 21, 21, 22, 23 and 22: the model has no COSMSRV
+    REQUIRE(unresolvedIn(model) == 5); // 21, 21, 22, 23 and 22: the model has no CosimulationService
     requireRoundTrip(model);
 
     Model chain = readBulk(COSIMULATION_TEXT);
-    REQUIRE(unresolvedIn(chain) == 2); // the elements 1001 and 1002 of the COSMGRP are not in the deck
+    REQUIRE(unresolvedIn(chain) == 2); // the elements 1001 and 1002 of the CosimulationArea are not in the deck
     Renumbering::apply(chain, RenumberSpace::CosimulationService, Renumbering::offset(1000));
     REQUIRE(cardAt<CosimulationServiceTable>(chain).id == 8400);
     REQUIRE((cardAt<CosimulationSelectionTable>(chain).services == Ids{8400} &&
              cardAt<CosimulationSelectionTable>(chain).id == 5));
-    REQUIRE(unresolvedIn(chain) == 2); // the elements 1001 and 1002 of the COSMGRP are not in the deck
+    REQUIRE(unresolvedIn(chain) == 2); // the elements 1001 and 1002 of the CosimulationArea are not in the deck
     // The selection is the card's own number and no space renumbers it (the Case Control command is text).
     requireRoundTrip(chain);
 
@@ -341,7 +343,7 @@ TEST_CASE("a COSMSEL lists up to three services, which it names, under a number 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// COSMSRV
+// CosimulationService
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a COSMSRV names two groups, the quantities of input and of output, and keeps its service name as written",
@@ -372,7 +374,8 @@ TEST_CASE("a COSMSRV names two groups, the quantities of input and of output, an
                                                                {ReferenceTarget::CosimulationInput, 316},
                                                                {ReferenceTarget::CosimulationGroup, 214},
                                                                {ReferenceTarget::CosimulationOutput, 417}});
-    // The first service is complete; the two others name a group, a COSMINP and a COSMOUT that the model lacks.
+    // The first service is complete; the two others name a group, a CosimulationInputs and a CosimulationOutputs that
+    // the model lacks.
     REQUIRE(unresolvedIn(model) == 8);
     Model complete = readBulk(MESH_TEXT + COSIMULATION_TEXT);
     REQUIRE(unresolvedIn(complete) == 0);
@@ -431,7 +434,7 @@ TEST_CASE("a COSMSRV names two groups, the quantities of input and of output, an
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// FSICTRL
+// FluidStructureControl
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an FSICTRL has the format reference defaults, an unrestricted service name and no ID", "[model][cards][fsi]")
@@ -496,7 +499,7 @@ TEST_CASE("an FSICTRL has the format reference defaults, an unrestricted service
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// WETELME
+// WettedElemSide
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a WETELME is a side of a structural element, numbered with the wetted elements", "[model][cards][fsi]")
@@ -518,7 +521,7 @@ TEST_CASE("a WETELME is a side of a structural element, numbered with the wetted
     REQUIRE(unresolvedIn(lacking) == 1);
     requireRoundTrip(model);
 
-    // The number is unique in the type; a WETELMG may have the same number (a check of the model reports it).
+    // The number is unique in the type; a WettedElemNodes may have the same number (a check of the model reports it).
     REQUIRE_THROWS_AS(readBulk("WettedElemSide;1;5;1\nWettedElemSide;1;6;2"), base::DeckError);
     REQUIRE_NOTHROW(readBulk("WettedElemSide;1;5;1\nWettedElemNodes;1;Line2Nodes;1;2"));
 
@@ -554,7 +557,7 @@ TEST_CASE("a WETELME is a side of a structural element, numbered with the wetted
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// WETELMG
+// WettedElemNodes
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a WETELMG has the grid points of its shape, which it refers to, with the numbers of the wetted elements",
@@ -631,11 +634,11 @@ TEST_CASE("a WETELMG has the grid points of its shape, which it refers to, with 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// WETSURF
+// WettedSurface
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
-// WETLOAD
+// WettedSurfaceLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a WETLOAD is the excitation set of a TLOAD1, names a wetted surface and carries the service name",
@@ -656,7 +659,8 @@ TEST_CASE("a WETLOAD is the excitation set of a TLOAD1, names a wetted surface a
     REQUIRE(model.table<WettedSurfaceLoadTable>().definesExcitationIds());
     REQUIRE(model.table<WettedSurfaceLoadTable>().definedExcitationId(0) == 1);
 
-    // The EXCITEID of the TLOAD1 names the WETLOAD, which defines it; the wetted surface is the card's reference.
+    // The EXCITEID of the TransientTableLoad1 names the WettedSurfaceLoad, which defines it; the wetted surface is the
+    // card's reference.
     REQUIRE(unresolvedIn(model) == 0);
     const RecordingVisitor visitor = referencesOf<WettedSurfaceLoadTable>(model);
     REQUIRE(visitor.fields == std::vector<std::string>{"wettedSurfaceId"});
@@ -690,7 +694,7 @@ TEST_CASE("a WETLOAD is the excitation set of a TLOAD1, names a wetted surface a
     model.table<WettedSurfaceLoadTable>().store(0, edited);
     requireRoundTrip(model);
     model.remove(CardLocation{typeIndexOf<WettedSurfaceLoadTable>(), 0});
-    REQUIRE(unresolvedIn(model) == 1); // the TLOAD1 names a load set that nothing defines now
+    REQUIRE(unresolvedIn(model) == 1); // the TransientTableLoad1 names a load set that nothing defines now
 
     expectInvalid("WettedSurfaceLoad;0;1001;cplsrv", "id");
     expectInvalid("WettedSurfaceLoad;1;0;cplsrv", "wettedSurfaceId");

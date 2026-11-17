@@ -19,7 +19,7 @@ struct PointMassInertiaFormat
     static void write(const PointMassInertiaCard& card, FieldWriter& writer);
 };
 
-// All the CONM2 elements. The offset is an (N, 3) NumPy view and the inertia an (N, 6) one, without copy.
+// All the PointMassInertia elements. The offset is an (N, 3) NumPy view and the inertia an (N, 6) one, without copy.
 class PointMassInertiaTable final : public TypedTable<PointMassInertiaTable, PointMassInertiaCard>
 {
 public:

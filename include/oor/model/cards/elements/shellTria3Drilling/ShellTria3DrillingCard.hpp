@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One CTRIAR card: a three-node plate element with a drilling rotation.
+// One ShellTria3Drilling card: a three-node plate element with a drilling rotation.
 //
 // Card layout:
-//   CTRIAR  EID  PID  G1  G2  G3  THETA or MCID  ZOFFS
-//                TFLAG  T1  T2  T3
+//   ShellTria3Drilling  EID  PID  G1  G2  G3  THETA or MCID  ZOFFS
+//                            TFLAG  T1  T2  T3
 struct ShellTria3DrillingCard
 {
     static constexpr base::EntityId NO_MAT_FRAME_ID = -1;
@@ -28,7 +28,7 @@ struct ShellTria3DrillingCard
 
     double offset = 0.0;
     std::int32_t thicknessFlag = 0;
-    // T1..T3: thicknesses at the corners; NO_THICKNESS where blank (the PSHELL thickness is used).
+    // T1..T3: thicknesses at the corners; NO_THICKNESS where blank (the ShellProp thickness is used).
     std::array<double, 3> cornerThickness = {NO_THICKNESS, NO_THICKNESS, NO_THICKNESS};
 
     [[nodiscard]] bool usesMaterialSystem() const noexcept { return matFrameId != NO_MAT_FRAME_ID; }

@@ -11,7 +11,7 @@
 namespace oor::model
 {
 
-// How a COSMGRP describes the coupled area: by the faces of elements, by grid points or by elements.
+// How a CosimulationArea describes the coupled area: by the faces of elements, by grid points or by elements.
 enum class CosimulationAreaType : std::uint8_t
 {
     Surface,
@@ -22,7 +22,7 @@ enum class CosimulationAreaType : std::uint8_t
 // The words of TYPE, in the order of the enumeration.
 inline constexpr std::array<std::string_view, 3> COSIMULATION_AREA_WORDS{"Surface", "Point", "Volume"};
 
-// One face of the SURFACE form: an element and the number of its face, the numbering of the sides of a CHBDYE.
+// One face of the SURFACE form: an element and the number of its face, the numbering of the sides of a HeatSurfaceSide.
 struct CosimulationFace
 {
     base::EntityId elemId = 0;
@@ -31,10 +31,11 @@ struct CosimulationFace
     [[nodiscard]] bool operator==(const CosimulationFace&) const noexcept = default;
 };
 
-// One COSMGRP card (SOL 400): the coupled area through which the solver exchanges data with a co-simulation partner. A
-// COSMSRV names it twice, as the area that receives the partner's input and the one that gives the output.
+// One CosimulationArea card (SOL 400): the coupled area through which the solver exchanges data with a co-simulation
+// partner. A CosimulationService names it twice, as the area that receives the partner's input and the one that gives
+// the output.
 //
-// Card layout: COSMGRP  GRPID  TYPE                                          fields 1 and 2, fields 3 to 8 blank
+// Card layout: CosimulationArea  GRPID  TYPE                                 fields 1 and 2, fields 3 to 8 blank
 //             +        EID  FaceID  EID  FaceID  EID  FaceID  EID  FaceID   TYPE=SURFACE, fields 9 on
 //             +        GridID1  GridID2  ...                                TYPE=POINT, fields 9 on
 //             +        EID1  EID2  EID3  ...                                TYPE=VOLUME, fields 9 on
@@ -48,7 +49,7 @@ struct CosimulationFace
 // deck keeps for the continuation marker, so the card reads eight to a line, as the layout has it.
 //
 // The card is one of the three forms: `faces` for SURFACE, `runs` for POINT (grid points) and VOLUME (elements), and
-// the other list is empty. The GRPID is unique among the COSMGRP cards (IdSpace::PerCardType, category
+// the other list is empty. The GRPID is unique among the CosimulationArea cards (IdSpace::PerCardType, category
 // CosimulationGroup).
 struct CosimulationAreaCard
 {

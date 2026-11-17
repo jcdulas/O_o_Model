@@ -12,18 +12,19 @@
 #include <optional>
 #include <string_view>
 
-// The two kinds of value that the flow cards of the explicit solver (FLOW, FLOWDEF, FLOWC and FLOWT) share: a property
-// of a flow boundary, which is a TYPEi field and the VALUEi field that goes with it, and the type of boundary (IN, OUT
-// or BOTH). Where the pairs are on a card, and every other field of the card, belong to the card.
+// The two kinds of value that the flow cards of the explicit solver (EulerFlowBoundary, EulerDefaultFlowBoundary,
+// EulerCyclicFlowBoundary and EulerTimeFlowBoundary) share: a property of a flow boundary, which is a TYPEi field and
+// the VALUEi field that goes with it, and the type of boundary (IN, OUT or BOTH). Where the pairs are on a card, and
+// every other field of the card, belong to the card.
 namespace oor::model
 {
 
-// The properties a flow boundary of FLOW or FLOWDEF can define. The enumerators are numbered in the order of
-// FLOW_PROPERTY_WORDS. The value that goes with a type is an ID for MATERIAL and HYDSTAT, a word for FLOW and a real
-// for the others.
+// The properties a flow boundary of EulerFlowBoundary or EulerDefaultFlowBoundary can define. The enumerators are
+// numbered in the order of FLOW_PROPERTY_WORDS. The value that goes with a type is an ID for MATERIAL and
+// EulerHydrostaticPreset, a word for FLOW and a real for the others.
 enum class FlowPropertyType : std::uint8_t
 {
-    Material,       // MATERIAL: the MATDEUL of the material that flows in
+    Material,       // MATERIAL: the EulerMat of the material that flows in
     XVelocity,      // XVEL
     YVelocity,      // YVEL
     ZVelocity,      // ZVEL
@@ -31,14 +32,14 @@ enum class FlowPropertyType : std::uint8_t
     Density,        // DENSITY at inflow
     SpecificEnergy, // SIE: the specific internal energy at inflow
     Flow,           // FLOW: which way the material may cross the boundary
-    Hydrostatic     // HYDSTAT: the hydrostatic pressure profile of a HYDSTAT card
+    Hydrostatic     // EulerHydrostaticPreset: the hydrostatic pressure profile of an EulerHydrostaticPreset card
 };
 inline constexpr std::array<std::string_view, 9> FLOW_PROPERTY_WORDS{
     "Material", "VelocityX",  "VelocityY", "VelocityZ", "Pressure", "Density", "SpecificInternalEnergy",
     "Flow",     "Hydrostatic"};
 
 // The value of a FLOW property: the way material may cross the boundary. BOTH is the default of a blank value; SYM (a
-// symmetry boundary) is listed by FLOW and not by FLOWDEF.
+// symmetry boundary) is listed by FLOW and not by EulerDefaultFlowBoundary.
 enum class FlowMode : std::uint8_t
 {
     Both,
@@ -48,7 +49,7 @@ enum class FlowMode : std::uint8_t
 };
 inline constexpr std::array<std::string_view, 4> FLOW_MODE_WORDS{"Both", "In", "Out", "Symmetry"};
 
-// The TYPE of a FLOWC or FLOWT: inflow only, outflow only, or either.
+// The TYPE of an EulerCyclicFlowBoundary or EulerTimeFlowBoundary: inflow only, outflow only, or either.
 enum class FlowBoundaryType : std::uint8_t
 {
     In,
@@ -57,8 +58,8 @@ enum class FlowBoundaryType : std::uint8_t
 };
 inline constexpr std::array<std::string_view, 3> FLOW_BOUNDARY_TYPE_WORDS{"In", "Out", "Both"};
 
-// One TYPEi and VALUEi. Only the member that the type uses has a meaning: `id` for MATERIAL and HYDSTAT, `mode` for
-// FLOW and `number` for the other types.
+// One TYPEi and VALUEi. Only the member that the type uses has a meaning: `id` for MATERIAL and EulerHydrostaticPreset,
+// `mode` for FLOW and `number` for the other types.
 struct EulerFlowBoundaryProperty
 {
     FlowPropertyType type = FlowPropertyType::XVelocity;
@@ -72,7 +73,7 @@ struct EulerFlowBoundaryProperty
 // What a card allows in its properties.
 struct EulerFlowBoundaryPropertyRules
 {
-    bool allowSymmetry = true; // FLOW takes the value SYM; FLOWDEF does not
+    bool allowSymmetry = true; // FLOW takes the value SYM; EulerDefaultFlowBoundary does not
 };
 
 // Reads the pair whose TYPEi is in `typeField` (its VALUEi is the next field). `index` counts the pairs of the card
@@ -90,7 +91,8 @@ void writeFlowProperty(FieldWriter& writer, int typeField, const EulerFlowBounda
 [[nodiscard]] std::optional<CardProblem> checkFlowProperty(const EulerFlowBoundaryProperty& property, std::size_t index,
                                                            const EulerFlowBoundaryPropertyRules& rules);
 
-// Visits the ID of the pair, if its type has one: a MATDEUL for MATERIAL, a HYDSTAT for HYDSTAT.
+// Visits the ID of the pair, if its type has one: an EulerMat for MATERIAL, an EulerHydrostaticPreset for
+// EulerHydrostaticPreset.
 void visitFlowProperty(ReferenceVisitor& visitor, EulerFlowBoundaryProperty& property, std::size_t index);
 
 } // namespace oor::model

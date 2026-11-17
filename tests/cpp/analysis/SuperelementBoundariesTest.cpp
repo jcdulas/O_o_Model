@@ -1,6 +1,7 @@
 // The boundaries of the superelements, on hand-built decks whose answer is worked out by hand: the automatic
-// search after a SELOC and an SEMPLN, a point that only two parts share (the solver creates its residual point), the
-// solver's numbering of the boundary points, the tolerance rule, and the cell index the search uses.
+// search after a SuperelementLocation and a SuperelementMirrorPlane, a point that only two parts share (the solver
+// creates its residual point), the solver's numbering of the boundary points, the tolerance rule, and the cell index
+// the search uses.
 
 #include "oor/analysis/geometry/PointCellIndex.hpp"
 #include "oor/analysis/superelements/PartBoundaries.hpp"
@@ -21,8 +22,8 @@ namespace
 {
 
 // Part 10 meets the residual structure at 1 and 2, and part 20 at its point 103 (no residual point there). Part 30 is
-// moved by its SELOC onto 11, 12, 13. Part 40 is the mirror of part 30 through the plane z = 0 of 1, 2 and 5: its
-// points 301 and 302 fall on 1 and 2 (and on part 10), its 303 on 5.
+// moved by its SuperelementLocation onto 11, 12, 13. Part 40 is the mirror of part 30 through the plane z = 0 of 1, 2
+// and 5: its points 301 and 302 fall on 1 and 2 (and on part 10), its 303 on 5.
 const char* const PARTS =
     "[executive]\n"
     "SolutionSequence;101\n"

@@ -18,8 +18,8 @@ struct CyclicAzimuthTableLoadFormat
     static void write(const CyclicAzimuthTableLoadCard& card, FieldWriter& writer);
 };
 
-// All the LOADCYT cards. The ID is a load set ID shared by many cards (IdSpace::Group): the LOAD Case Control command
-// selects it.
+// All the CyclicAzimuthTableLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group): the LOAD Case
+// Control command selects it.
 class CyclicAzimuthTableLoadTable final : public TypedTable<CyclicAzimuthTableLoadTable, CyclicAzimuthTableLoadCard>
 {
 public:

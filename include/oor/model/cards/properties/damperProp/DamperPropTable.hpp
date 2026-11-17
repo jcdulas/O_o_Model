@@ -19,7 +19,7 @@ struct DamperPropFormat
     static void write(const DamperPropCard& card, FieldWriter& writer);
 };
 
-// All the PDAMP properties, one row each.
+// All the DamperProp properties, one row each.
 class DamperPropTable final : public TypedTable<DamperPropTable, DamperPropCard>
 {
 public:

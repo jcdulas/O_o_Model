@@ -1,8 +1,9 @@
-// The multi-module cards of the first part of the family: MDBULK, MDLABEL, MDBNDRY, MDEXCLD,
-// MDCONCT, MDFSET, MDSSET, EXCLUDE, MDDMIG, MDBKSYS, MDBOLT and MDBUSH. Per card: the fields in their format reference
-// positions, the defaults, the references the card lists (only what lives in module 0, the main Bulk Data, is a card of
-// the model), the renumbering of what it names, the refused values and the round trip through the three formats. The
-// generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
+// The multi-module cards of the first part of the family: ModuleBulkOptions, ModuleLabel, ModuleBoundaryNodes,
+// ModuleExcludedNodes, ModuleConnection, ModuleFluidSet, ModuleStructureSet, ModuleEntryExclusion, ModuleDirectMatrix,
+// ModuleBrakeSystem, ModuleBolt and ModuleBushing. Per card: the fields in their format reference positions, the
+// defaults, the references the card lists (only what lives in module 0, the main Bulk Data, is a card of the model),
+// the renumbering of what it names, the refused values and the round trip through the three formats. The generic tests
+// of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
 
 #include "oor/model/cards/nodes/moduleBolt/ModuleBoltTable.hpp"
 #include "oor/model/cards/nodes/moduleBoundaryNodes/ModuleBoundaryNodesTable.hpp"
@@ -76,7 +77,8 @@ std::string_view fieldOf(const std::optional<CardProblem>& problem)
 
 } // namespace
 
-// --- MDBULK ---------------------------------------------------------------------------------------------------------
+// --- ModuleBulkOptions
+// ---------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDBULK types a module and resolves its defaults", "[model][cards][modules]")
 {
@@ -99,7 +101,7 @@ TEST_CASE("an MDBULK types a module and resolves its defaults", "[model][cards][
     const ModuleBulkOptionsCard blank = cardAt<ModuleBulkOptionsTable>(model, 1);
     REQUIRE(blank.kind == ModuleBulkOptionsType::Primary);    // the default of TYPE
     REQUIRE(blank.method == ModuleBulkOptionsMethod::Manual); // the default of METHOD
-    REQUIRE(blank.tolerance == 0.0);                          // 0.0 takes the value of PARAM,CONFAC
+    REQUIRE(blank.tolerance == 0.0);                          // 0.0 takes the value of PARAM,ConnectionTolerance
 
     REQUIRE(cardAt<ModuleBulkOptionsTable>(model, 2).kind == ModuleBulkOptionsType::Repeat);
     REQUIRE(cardAt<ModuleBulkOptionsTable>(model, 2).sourceModuleId == 26);
@@ -117,7 +119,7 @@ TEST_CASE("an MDBULK types a module and resolves its defaults", "[model][cards][
 TEST_CASE("an MDBULK with ALL is one card indexed as 0 and has no type", "[model][cards][modules]")
 {
     const Model model = readBulk("ModuleBulkOptions;All;;;Automatic;2.E-4\nModuleBulkOptions;5");
-    // The ID index keeps 0 for ALL, which no module number has: a second MDBULK,ALL is a duplicate.
+    // The ID index keeps 0 for ALL, which no module number has: a second ModuleBulkOptions,ALL is a duplicate.
     REQUIRE(ModuleBulkOptionsTable::INFO.idSpace == base::IdSpace::PerCardType);
     REQUIRE(cardAt<ModuleBulkOptionsTable>(model, 0).module.all);
     REQUIRE(cardAt<ModuleBulkOptionsTable>(model, 0).method == ModuleBulkOptionsMethod::Auto);
@@ -157,7 +159,8 @@ TEST_CASE("an MDBULK refuses what its format does not allow", "[model][cards][mo
     expectInvalid("ModuleBulkOptions;X", "id");
 }
 
-// --- MDLABEL --------------------------------------------------------------------------------------------------------
+// --- ModuleLabel
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDLABEL is one per module and its label has the rules of a text over fields", "[model][cards][modules]")
 {
@@ -182,7 +185,8 @@ TEST_CASE("an MDLABEL is one per module and its label has the rules of a text ov
     REQUIRE(fieldOf(ModuleLabelFormat::check(card)) == "id");
 }
 
-// --- MDBNDRY and MDEXCLD --------------------------------------------------------------------------------------------
+// --- ModuleBoundaryNodes and ModuleExcludedNodes
+// --------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDBNDRY lists the boundary points of a module and the module it is searched against",
           "[model][cards][modules]")
@@ -272,7 +276,8 @@ TEST_CASE("an MDEXCLD lists the points a module does not connect to another one"
     expectInvalid("ModuleExcludedNodes;400;All;Through;10", "Through");
 }
 
-// --- MDFSET and MDSSET ----------------------------------------------------------------------------------------------
+// --- ModuleFluidSet and ModuleStructureSet
+// ----------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDFSET and an MDSSET list the points or elements of a module with THRU ranges", "[model][cards][modules]")
 {
@@ -319,7 +324,8 @@ TEST_CASE("an MDFSET and an MDSSET refuse what their format does not allow", "[m
     }
 }
 
-// --- EXCLUDE --------------------------------------------------------------------------------------------------------
+// --- ModuleEntryExclusion
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an EXCLUDE lists the names of the entries a copied module ignores", "[model][cards][modules]")
 {
@@ -355,7 +361,8 @@ TEST_CASE("an EXCLUDE refuses an empty list, Node and a name that is not a name"
     REQUIRE_FALSE(ModuleEntryExclusionFormat::check(card).has_value());
 }
 
-// --- MDCONCT --------------------------------------------------------------------------------------------------------
+// --- ModuleConnection
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDCONCT has two layouts of the location and pairs of module and point", "[model][cards][modules]")
 {
@@ -432,7 +439,7 @@ TEST_CASE("an MDCONCT reads every type and looks up what the main Bulk Data hold
     REQUIRE(cardAt<ModuleConnectionTable>(model, 0).locationNode == 150);
     REQUIRE(cardAt<ModuleConnectionTable>(model, 0).points == std::vector<ModuleId>{{0, 105}, {0, 106}, {7, 9}});
     REQUIRE(cardAt<ModuleConnectionTable>(model, 1).points == std::vector<ModuleId>{{0, 107}, {10, 70}});
-    REQUIRE(cardAt<ModuleConnectionTable>(model, 2).locationNode == 50); // a GRID of module 11: left alone
+    REQUIRE(cardAt<ModuleConnectionTable>(model, 2).locationNode == 50); // a Node of module 11: left alone
     Renumbering::apply(model, RenumberSpace::Coordinate, Renumbering::offset(10));
     REQUIRE(cardAt<ModuleConnectionTable>(model, 1).frameId == 13);
     REQUIRE(unresolvedIn(model) == 0);
@@ -447,9 +454,9 @@ TEST_CASE("an MDCONCT refuses what its format does not allow", "[model][cards][m
     expectInvalid("ModuleConnection;5;;;;;;;;-1", "frameId");
     expectInvalid("ModuleConnection;5;;;;;;;;;-1;3", "memberModuleId");
     expectInvalid("ModuleConnection;5;;;;;;;;;10;-3", "memberNodeId");
-    expectInvalid("ModuleConnection;5;;;;100;1.");   // a GRID has no Y
+    expectInvalid("ModuleConnection;5;;;;100;1.");   // a Node has no Y
     expectInvalid("ModuleConnection;5;;;;100;;;;3"); // and no CID
-    expectInvalid("ModuleConnection;5;;;1.;;;;3");   // a MODID needs a GRID
+    expectInvalid("ModuleConnection;5;;;1.;;;;3");   // a MODID needs a Node
     REQUIRE_THROWS_AS(readBulk("ModuleConnection;5\nModuleConnection;5"), base::DeckError);
     ModuleConnectionCard card;
     card.id = 5;
@@ -465,7 +472,8 @@ TEST_CASE("an MDCONCT refuses what its format does not allow", "[model][cards][m
     REQUIRE(fieldOf(ModuleConnectionFormat::check(card)) == "locationNode");
 }
 
-// --- MDDMIG ---------------------------------------------------------------------------------------------------------
+// --- ModuleDirectMatrix
+// ---------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDDMIG has a header and columns whose terms carry a module", "[model][cards][modules]")
 {
@@ -520,7 +528,7 @@ TEST_CASE("an MDDMIG looks up the points of module 0 and no other", "[model][car
     REQUIRE(unresolvedIn(model) == 0);
     Model lacking = readBulk("ModuleDirectMatrix;KMAT;0;5;1;;;;0;5;1;1.5;;;6;3;-0.5;;9;7;3;2.");
     // A point that is not there is not reported: the target may name a scalar point that no card defines (as for a
-    // DMIG).
+    // DirectMatrixNodal).
     REQUIRE(unresolvedFields<ModuleDirectMatrixTable>(lacking, 0).empty());
 
     Renumbering::apply(model, RenumberSpace::Node, Renumbering::offset(100));
@@ -565,7 +573,8 @@ TEST_CASE("an MDDMIG refuses what its format does not allow", "[model][cards][mo
     REQUIRE(fieldOf(ModuleDirectMatrixFormat::check(card)) == "nodeJ");
 }
 
-// --- MDBKSYS --------------------------------------------------------------------------------------------------------
+// --- ModuleBrakeSystem
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDBKSYS has a header and a line for each brake system", "[model][cards][modules]")
 {
@@ -592,7 +601,8 @@ TEST_CASE("an MDBKSYS has a header and a line for each brake system", "[model][c
     REQUIRE(ModuleBrakeSystemTable::INFO.idSpace == base::IdSpace::PerCardType);
     requireRoundTrip(model);
 
-    // The bodies are BCBODY1 cards of their module: looked up in module 0 only. MOTION and BRKSYS are plain IDs.
+    // The bodies are ContactBody1 cards of their module: looked up in module 0 only. BrakeMotion and BrakeSystem are
+    // plain IDs.
     REQUIRE(referencesOf<ModuleBrakeSystemTable>(model, 0).fields.empty());
     const RecordingVisitor main = referencesOf<ModuleBrakeSystemTable>(model, 2);
     REQUIRE(main.fields == std::vector<std::string>{"body1Id", "body2Id"});
@@ -616,7 +626,8 @@ TEST_CASE("an MDBKSYS refuses what its format does not allow", "[model][cards][m
     expectInvalid("ModuleBrakeSystem;5;;;;;D1;0;1;0;2;-1", "motion1Id");
 }
 
-// --- MDBOLT ---------------------------------------------------------------------------------------------------------
+// --- ModuleBolt
+// ---------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDBOLT lists the top and bottom grid points of a bolt in their modules", "[model][cards][modules]")
 {
@@ -685,7 +696,8 @@ TEST_CASE("an MDBOLT refuses what its format and the BOLT do not allow", "[model
                       base::DeckError);
 }
 
-// --- MDBUSH ---------------------------------------------------------------------------------------------------------
+// --- ModuleBushing
+// ---------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an MDBUSH is a CBUSH with the modules of its points", "[model][cards][modules]")
 {
@@ -806,7 +818,8 @@ TEST_CASE("the multi-module cards of this group are filed as the format of the s
     REQUIRE(ModuleBrakeSystemTable::INFO.idSpace == base::IdSpace::PerCardType);
     REQUIRE(ModuleBoltTable::INFO.idSpace == base::IdSpace::PerCardType);
     REQUIRE(ModuleBushingTable::INFO.idSpace == base::IdSpace::PerCardType);
-    // An MDBUSH and a CBUSH of the same number do not clash: the element of a module is not an element of the model.
+    // A ModuleBushing and a Bushing of the same number do not clash: the element of a module is not an element of the
+    // model.
     const Model model = readBulk(
         "Node;1;;0.;0.;0.\nNode;2;;1.;0.;0.\nBushProp;5;Stiffness;100.\nBushing;7;5;1;2\nModuleBushing;7;5;1;2");
     REQUIRE(model.cardCount() == 5);

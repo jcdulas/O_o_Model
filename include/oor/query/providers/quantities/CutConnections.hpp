@@ -21,7 +21,7 @@ struct CutDefinition;
 // points belong to it alone.
 struct CutConnection
 {
-    std::string card;                    // RBE2, RBE3, RBAR, ..., or MPC
+    std::string card;                    // RigidBodyStar, RigidInterpolation, RigidBar, ..., or MPC
     std::int32_t id = 0;                 // the element ID; the set ID of an MPC equation
     bool isEquation = false;             // an MPC equation (contribution "mpc"; "rigid" otherwise)
     std::vector<std::int32_t> sideNodes; // its grid points on the side, sorted, once each
@@ -35,8 +35,8 @@ struct CutConnection
     // (the split row of a set lumps its equations at a grid point, and is then counted once for all of them).
     std::vector<std::uint8_t> ownRowAt;
 
-    // The ID its split multiPointConstrForce rows carry in elementIds: the element ID, minus the set ID of an MPC
-    // equation.
+    // The ID its split multiPointConstrForce rows carry in elementIds: the element ID, minus the set ID of a
+    // MultiPointConstr equation.
     [[nodiscard]] std::int32_t relation() const noexcept { return isEquation ? -id : id; }
 };
 
@@ -55,16 +55,17 @@ struct CutConnection
 class CutConnections
 {
 public:
-    // The rigid elements of the model and the MPC equations of `mpcSets` (the sets the subcase selects, MPCADD
-    // expanded); every set of the model when it is nothing (the subcase is not in the Case Control of the model).
+    // The rigid elements of the model and the MPC equations of `mpcSets` (the sets the subcase selects,
+    // MultiPointConstrUnion expanded); every set of the model when it is nothing (the subcase is not in the Case
+    // Control of the model).
     CutConnections(const model::Model& model, const std::optional<std::set<base::EntityId>>& mpcSets,
                    base::ThreadPool* pool);
 
     // The connections that link the side of `cut` to the rest.
     [[nodiscard]] std::vector<CutConnection> crossing(const CutDefinition& cut) const;
 
-    // The MPC sets a subcase selects (the MPC command of the subcase, MPCADD expanded; empty when it selects none);
-    // nothing when the Case Control of the model has no such subcase.
+    // The MPC sets a subcase selects (the MPC command of the subcase, MultiPointConstrUnion expanded; empty when it
+    // selects none); nothing when the Case Control of the model has no such subcase.
     [[nodiscard]] static std::optional<std::set<base::EntityId>> mpcSetsOf(const model::Model& model,
                                                                            std::int32_t subcase);
 

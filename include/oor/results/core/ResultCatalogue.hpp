@@ -10,9 +10,9 @@ namespace oor::results
 {
 
 // The catalogue of result layouts: for every kind of result (and, for the element kinds, every element type), the
-// components a table holds and in which order. It is the single place that says "a CQUAD4 stress table has the columns
-// fiberDistance, oxx, oyy, ...". Every reader, every writer (archive, workbook) and the tables made in memory use it,
-// so a table has the same columns whatever file it came from.
+// components a table holds and in which order. It is the single place that says "a ShellQuad4 stress table has the
+// columns fiberDistance, oxx, oyy, ...". Every reader, every writer (archive, workbook) and the tables made in memory
+// use it, so a table has the same columns whatever file it came from.
 //
 // The data live in ResultCatalogueData.cpp: one line a layout, easy to read and to extend by hand.
 

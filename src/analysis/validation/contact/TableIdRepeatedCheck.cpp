@@ -7,8 +7,8 @@ namespace oor::analysis
 namespace
 {
 
-// A contact table ID that a BCTABL1 and a BCTABLE both have: the BCONTACT command names a table by its ID and cannot
-// tell the two cards apart.
+// A contact table ID that a ContactTable1 and a ContactTable both have: the BCONTACT command names a table by its ID
+// and cannot tell the two cards apart.
 class TableIdRepeatedCheck final : public ValidationCheck
 {
 public:

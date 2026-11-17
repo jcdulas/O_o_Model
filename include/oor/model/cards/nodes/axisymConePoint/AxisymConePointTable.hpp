@@ -18,8 +18,8 @@ struct AxisymConePointFormat
     static void write(const AxisymConePointCard& card, FieldWriter& writer);
 };
 
-// All the POINTAX cards of a model: points of the node ID space (IdSpace::Node, category Point), kept in columns. The
-// RID names the RINGAX the point is on (a node reference).
+// All the AxisymConePoint cards of a model: points of the node ID space (IdSpace::Node, category Point), kept in
+// columns. The RID names the AxisymConeRing the point is on (a node reference).
 class AxisymConePointTable final : public TypedTable<AxisymConePointTable, AxisymConePointCard>
 {
 public:

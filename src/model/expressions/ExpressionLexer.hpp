@@ -35,9 +35,9 @@ struct Token
     std::size_t position = 1; // of the first character, 1 is the first character of the text
 };
 
-// Cuts the text of a DEQATN into tokens. Blanks mean nothing (the lines of the card are joined as they are, and the format reference
-// says the equation may hold embedded blanks), the case means nothing, and a number is the Fortran one: digits with an
-// optional point and an optional exponent that starts with E or D.
+// Cuts the text of a DesignEquation into tokens. Blanks mean nothing (the lines of the card are joined as they are, and
+// the format reference says the equation may hold embedded blanks), the case means nothing, and a number is the Fortran
+// one: digits with an optional point and an optional exponent that starts with E or D.
 class ExpressionLexer
 {
 public:

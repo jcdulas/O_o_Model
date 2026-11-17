@@ -83,7 +83,7 @@ void PropertyListSet4Table::setIdAtRow(std::uint32_t row, base::EntityId id)
 void PropertyListSet4Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     // The IDs are properties, of the type the card says (a rule between cards). A single ID is expected to exist; a
-    // range stands for the properties that exist between its ends, as for a PCOMPF.
+    // range stands for the properties that exist between its ends, as for a CompPropIntegration.
     visitRunList(visitor, "id", m_cards.edit(row).ids, ReferenceTarget::Property, ReferenceTarget::PropertyInRange);
 }
 

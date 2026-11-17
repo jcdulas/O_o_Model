@@ -23,9 +23,10 @@ struct ContactPairGeomParamsFormat
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 };
 
-// All the BCONPRG cards. The BCGPID is unique among them (IdSpace::PerCardType, category ContactGeometricParameters); a
-// BCONECT names it. The cards are kept whole (CardRows); the query engine reads the ID only. The table IDs and grid IDs
-// among the values are not visited as references: a table may be a TABL3D, which no card types yet.
+// All the ContactPairGeomParams cards. The BCGPID is unique among them (IdSpace::PerCardType, category
+// ContactGeometricParameters); a ContactPair names it. The cards are kept whole (CardRows); the query engine reads the
+// ID only. The table IDs and grid IDs among the values are not visited as references: a table may be a TABL3D, which no
+// card types yet.
 class ContactPairGeomParamsTable final : public TypedTable<ContactPairGeomParamsTable, ContactPairGeomParamsCard>
 {
 public:

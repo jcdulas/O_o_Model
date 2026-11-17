@@ -46,7 +46,7 @@ std::optional<CardProblem> ModuleBulkOptionsFormat::check(const ModuleBulkOption
         return problem;
     if (card.unitNumber < 0)
         return CardProblem{"card.bad-id", "{field} must be zero or a positive unit number", "unitNumber"};
-    // MDBULK,ALL sets METHOD and TOL for the modules that have no entry of their own, so it has no type and
+    // ModuleBulkOptions,ALL sets METHOD and TOL for the modules that have no entry of their own, so it has no type and
     // no reference module.
     if (card.module.all)
     {

@@ -20,7 +20,7 @@ struct Bar2Format
     static void write(const Bar2Card& card, FieldWriter& writer);
 };
 
-// All the CBAR elements. The orientation vector and the two offset vectors are (N, 3) NumPy views without copy.
+// All the Bar2 elements. The orientation vector and the two offset vectors are (N, 3) NumPy views without copy.
 class Bar2Table final : public TypedTable<Bar2Table, Bar2Card>
 {
 public:
@@ -39,9 +39,10 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Applies the BAROR defaults to the PID, orientation and OFFT that were blank (nothing when there is no BAROR).
+    // Applies the Bar2Defaults defaults to the PID, orientation and OFFT that were blank (nothing when there is no
+    // Bar2Defaults).
     void finishRead(Model& model, const ReadContext& context) override;
-    // True when the model has a BAROR: the cards then write PID, the orientation and OFFT explicitly.
+    // True when the model has a Bar2Defaults: the cards then write PID, the orientation and OFFT explicitly.
     [[nodiscard]] bool fieldsGovernedByDefaults(const Model& model) const override;
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }

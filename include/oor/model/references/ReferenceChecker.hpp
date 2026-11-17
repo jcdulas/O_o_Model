@@ -20,10 +20,10 @@ namespace oor::model
 // The categories of cards a set-ID target stands for: a LOAD set ID (LoadCombinationSet) is the set ID of cards of the
 // Load category, a constraint set ID (ConstraintSet) the set ID of cards of the Constraint category, a dynamic load set
 // ID (DynamicLoadSet) one of the DynamicLoad category, and an excitation set (ExcitationSet, the EXCITEID of a dynamic
-// load) one of the DynamicLoad or the Load category, a Bulk Data set (Set: the ID of a SET1 or SET3) one of the Set
-// category, and so on for the frequency sets, the complex methods, the delays, the phase leads, the time steps, the
-// nonlinear parameters, the random sets, the transfer functions and the initial conditions (the last one takes the
-// temperature sets of the Load category too). Empty for the other targets.
+// load) one of the DynamicLoad or the Load category, a Bulk Data set (Set: the ID of an IdListSet1 or TypedListSet3)
+// one of the Set category, and so on for the frequency sets, the complex methods, the delays, the phase leads, the time
+// steps, the nonlinear parameters, the random sets, the transfer functions and the initial conditions (the last one
+// takes the temperature sets of the Load category too). Empty for the other targets.
 [[nodiscard]] std::span<const CardCategory> categoriesOfSet(ReferenceTarget target) noexcept;
 
 // The category of a set-ID target that stands for exactly one category; nothing for the other targets.
@@ -38,8 +38,8 @@ namespace oor::model
 // Where an ID of a reference field points to, when it points to something the model can find: a card of the right
 // category, found by ID, and for a set ID (LoadCombinationSet, ConstraintSet, DynamicLoadSet, ExcitationSet, Set,
 // FrequencySet,
-// ...) the first card of the set. A HybridDampingRotorOptionsTable reference finds a TABDMP1, else a TABLEDi. Nothing
-// for an ID that is not in use.
+// ...) the first card of the set. A HybridDampingRotorOptionsTable reference finds a TableModalDamping1, else a
+// TABLEDi. Nothing for an ID that is not in use.
 [[nodiscard]] std::optional<CardLocation> resolveReference(const Model& model, ReferenceTarget target,
                                                            base::EntityId id);
 
@@ -70,9 +70,10 @@ private:
 
 // Tells whether the target of a reference exists in `model`, by every rule the reference checker applies: the card of
 // the ID space or the set, a superelement number the deck defines (a part, a card of the family, the SEID of a grid
-// point), a mass increment a part carries, an exterior point that an EXTRN of the part lists, and, in a part that is
-// the image of another one (SEBULK REPEAT or MIRROR), what the image holds. A blank field and the targets that may name
-// nothing exist. Each call builds what it needs (use it for one answer, not in a loop over every card).
+// point), a mass increment a part carries, an exterior point that a SuperelementExternalBoundary of the part lists,
+// and, in a part that is the image of another one (SuperelementBulkOptions REPEAT or MIRROR), what the image holds. A
+// blank field and the targets that may name nothing exist. Each call builds what it needs (use it for one answer, not
+// in a loop over every card).
 [[nodiscard]] bool referenceExists(const Model& model, ReferenceTarget target, base::EntityId id);
 
 // True when a reference to `id` is allowed to point at nothing: a blank field (0) and the basic coordinate system.
@@ -80,7 +81,8 @@ private:
 
 // True for the targets that may name an ID no card defines: the end point of a THRU range (NodeInRange: the format
 // skips the gaps) and a scalar point (ScalarOrGridPoint: a scalar element defines its scalar points by naming them, no
-// SPOINT is needed). Such a reference is never reported; it is resolved when a card of the node ID space has that ID.
+// ScalarPoint is needed). Such a reference is never reported; it is resolved when a card of the node ID space has that
+// ID.
 [[nodiscard]] bool mayPointAtNothing(ReferenceTarget target) noexcept;
 
 // A reference field of one card that points at nothing.
@@ -106,8 +108,8 @@ struct ReferenceUse
     base::EntityId id = 0; // the ID the field holds (never 0: blank fields are not shown)
     bool resolved = true;  // false when the ID points at nothing that exists (and has to)
     // The ID is one of another superelement (ReferenceVisitor::visitInSuperelement), looked up in its model: the grid
-    // points of a SECONCT, the design variables of an SEDLINK. `superelement` is its number (0: the residual
-    // structure).
+    // points of a SuperelementConnection, the design variables of a SuperelementDesignLink. `superelement` is its
+    // number (0: the residual structure).
     bool scoped = false;
     base::EntityId superelement = 0;
     bool inCaseControl = false;

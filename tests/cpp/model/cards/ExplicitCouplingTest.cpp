@@ -1,8 +1,9 @@
-// Checks of the Euler-Lagrange coupling and porosity cards of the explicit solver (SOL 700): COUPLE,
-// COUCOHF, COHFRIC, COUP1FL, COUPINT, FFCONTR, LEAKAGE and the porosity models PERMEAB, PERMGBG, PORFCPL, PORFGBG,
-// PORFLOW, PORFLWT, PORHOLE, PORHYDS and PORUDS. Per card: the fields in their format reference positions, the
-// defaults, the references it lists and their renumbering, the refused values and the round trip through the three
-// formats.
+// Checks of the Euler-Lagrange coupling and porosity cards of the explicit solver (SOL 700): EulerLagrangeCoupling,
+// CouplingCohesiveFriction, CohesiveFriction, CouplingFailedSegmentFlow, CouplingInteraction, FluidFilledContainer,
+// GasBagLeakage and the porosity models SurfacePermeability, GasBagPermeableLink, CouplingHoleToCoupling,
+// CouplingHoleToGasBag, PorousFlowBoundary, PorousTimeFlowBoundary, GasBagVentHole, PorousHydrostaticBoundary and
+// PorousUserBoundary. Per card: the fields in their format reference positions, the defaults, the references it lists
+// and their renumbering, the refused values and the round trip through the three formats.
 
 #include "oor/model/cards/explicit/cohesiveFriction/CohesiveFrictionTable.hpp"
 #include "oor/model/cards/explicit/couplingCohesiveFriction/CouplingCohesiveFrictionTable.hpp"
@@ -38,8 +39,9 @@ using namespace oor::testing;
 namespace
 {
 
-// The element 1 that every BSURF of these decks names (a BSURF lists elements, which must exist): one quadrilateral,
-// with ID 9000 for its property and its material so that they do not meet the IDs the tests renumber.
+// The element 1 that every ContactElemSurface of these decks names (a ContactElemSurface lists elements, which must
+// exist): one quadrilateral, with ID 9000 for its property and its material so that they do not meet the IDs the tests
+// renumber.
 const std::string SURFACE_ELEMENT =
     "\n"
     "Node;1\n"
@@ -65,7 +67,7 @@ std::string cardText(const std::string& name, const GivenFields& given)
     return slotRecord(name, fields);
 }
 
-// A COUPLE with its two required fields and one more.
+// An EulerLagrangeCoupling with its two required fields and one more.
 std::string coupleWith(int field, const std::string& value)
 {
     return cardText("EulerLagrangeCoupling", {{1, "1"}, {2, "10"}, {field, value}});
@@ -136,7 +138,7 @@ TEST_CASE("a COUPLE refuses what its values and its grid do not allow", "[model]
     expectInvalid(coupleWith(23, "-1"), "cohesiveFrictionSetId");
     // The Euler domain is tied to the surface by its elements or by its mesh, not by both.
     expectInvalid(cardText("EulerLagrangeCoupling", {{1, "1"}, {2, "10"}, {17, "35"}, {18, "45"}}), "meshId");
-    // A number is unique among the COUPLE cards.
+    // A number is unique among the EulerLagrangeCoupling cards.
     REQUIRE_THROWS_AS(readBulk("EulerLagrangeCoupling;1;10\nEulerLagrangeCoupling;1;11"), base::DeckError);
 }
 
@@ -160,7 +162,7 @@ TEST_CASE("a COUPLE names the cards of its coupling, and each reference follows 
 
     RecordingVisitor visitor;
     model.table<EulerLagrangeCouplingTable>().visitReferences(0, visitor);
-    // HTRID names a set of HEATLOS cards.
+    // HTRID names a set of GasBagHeatTransfer cards.
     REQUIRE(visitor.fields == std::vector<std::string>{"surfaceId", "porosityId", "optionId", "heatTransferId",
                                                        "elemSetId", "failedSegmentFlowId", "cohesiveFrictionSetId"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{
@@ -195,7 +197,7 @@ TEST_CASE("a COUPLE names the cards of its coupling, and each reference follows 
              renumbered.optionId == 14));
     REQUIRE(
         (renumbered.elemSetId == 81 && renumbered.failedSegmentFlowId == 48 && renumbered.cohesiveFrictionSetId == 25));
-    REQUIRE(renumbered.heatTransferId == 100); // the set of HEATLOS cards (its cards are renumbered with it)
+    REQUIRE(renumbered.heatTransferId == 100); // the set of GasBagHeatTransfer cards (its cards are renumbered with it)
     const GasBagLeakageCard leakage = cardAt<GasBagLeakageTable>(model);
     REQUIRE((leakage.setId == 1003 && leakage.subsurfaceId == 70 && leakage.porosityModelId == 59));
     const CouplingCohesiveFrictionCard friction = cardAt<CouplingCohesiveFrictionTable>(model);
@@ -420,7 +422,7 @@ TEST_CASE("a PERMEAB and a PERMGBG give the permeability as a linear law or a ta
     REQUIRE((inflow.permeability == 0.25 && inflow.permeabilityTableId == 0 && inflow.flow == FlowDirection::In &&
              inflow.gasBagId == 3));
 
-    // The two GBAG numbers name cards of the gas bag category, which these decks do not have.
+    // The two GasBag numbers name cards of the gas bag category, which these decks do not have.
     REQUIRE(unresolvedIn(model) == 2);
     RecordingVisitor visitor;
     model.table<SurfacePermeabilityTable>().visitReferences(1, visitor);
@@ -504,7 +506,7 @@ TEST_CASE("a PORFCPL, a PORFGBG and a PORHOLE have a hole size, a flow direction
              vent.environmentSpecificHeat == 985.0));
     REQUIRE(vent.matId == 27);
 
-    // The three GBID of the PORFGBG name gas bags, which this deck does not have.
+    // The three GBID of the CouplingHoleToGasBag name gas bags, which this deck does not have.
     REQUIRE(unresolvedIn(model) == 3);
     RecordingVisitor visitor;
     model.table<CouplingHoleToCouplingTable>().visitReferences(2, visitor);
@@ -569,7 +571,8 @@ TEST_CASE("a PORHYDS holds its number only and a PORUDS names a group and a subr
     REQUIRE(cardAt<PorousUserBoundaryTable>(model, 2).userRoutineName == "MYSUB");
     requireRoundTrip(model);
 
-    // The porosity cards are numbered per card type: a PORHYDS and a PORHOLE may share a number.
+    // The porosity cards are numbered per card type: a PorousHydrostaticBoundary and a GasBagVentHole may share a
+    // number.
     REQUIRE_NOTHROW(readBulk("PorousHydrostaticBoundary;1\nGasBagVentHole;1;;;1.E+5;1.;2.E+5"));
     REQUIRE_THROWS_AS(readBulk("PorousHydrostaticBoundary;1\nPorousHydrostaticBoundary;1"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("PorousUserBoundary;1;GRP\nPorousUserBoundary;1;OTHER"), base::DeckError);

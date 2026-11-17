@@ -19,7 +19,7 @@ struct UserDefined4AttributesFormat
     static void write(const UserDefined4AttributesCard& card, FieldWriter& writer);
 };
 
-// All the ADUM4 cards. A card has no ID (IdSpace::None, category Other) and names no other card.
+// All the UserDefined4Attributes cards. A card has no ID (IdSpace::None, category Other) and names no other card.
 class UserDefined4AttributesTable final : public TypedTable<UserDefined4AttributesTable, UserDefined4AttributesCard>
 {
 public:

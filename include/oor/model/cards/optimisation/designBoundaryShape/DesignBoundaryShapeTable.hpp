@@ -18,8 +18,8 @@ struct DesignBoundaryShapeFormat
     static void write(const DesignBoundaryShapeCard& card, FieldWriter& writer);
 };
 
-// All the DVBSHAP cards (no ID: IdSpace::None). The DVID is a design variable; the auxiliary model is a part of the
-// deck, not a card.
+// All the DesignBoundaryShape cards (no ID: IdSpace::None). The DVID is a design variable; the auxiliary model is a
+// part of the deck, not a card.
 class DesignBoundaryShapeTable final : public TypedTable<DesignBoundaryShapeTable, DesignBoundaryShapeCard>
 {
 public:

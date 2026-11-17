@@ -10,8 +10,8 @@ namespace oor::analysis
 namespace
 {
 
-// A COSMSRV that receives its input in one coupled area and gives its output in another: the format says that
-// GRPID1 should be the same as GRPID2 at present, and that one set of coupled area is
+// A CosimulationService that receives its input in one coupled area and gives its output in another: the format says
+// that GRPID1 should be the same as GRPID2 at present, and that one set of coupled area is
 // supported. The card reads both numbers as they are; this is the rule of the model.
 class CosimulationGroupCheck final : public ValidationCheck
 {

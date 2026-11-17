@@ -91,7 +91,7 @@ void HeatIsoMatTemperatureTable::keepRows(const std::vector<std::uint32_t>& rows
 
 void HeatIsoMatTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT4 that the card extends; the tables are TABLEMi cards.
+    // The ID is the one of the HeatIsoMat that the card extends; the tables are TABLEMi cards.
     m_id.set(row, visitor.visit("id", ReferenceTarget::ThermalMaterial, m_id.get(row)));
     if (const base::EntityId id = m_conductivityTableId.get(row); id != 0)
         m_conductivityTableId.set(row, visitor.visit("conductivityTableId", ReferenceTarget::MaterialTable, id));

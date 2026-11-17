@@ -9,8 +9,8 @@ namespace oor::analysis
 namespace
 {
 
-// A PLOAD4 pressure on an element that has no surface to press on: a rod, bar, bush, spring, mass or rigid element. The
-// element types the library does not know the shape of are not judged.
+// A FacePressureLoad pressure on an element that has no surface to press on: a rod, bar, bush, spring, mass or rigid
+// element. The element types the library does not know the shape of are not judged.
 class PressureOnUnsupportedElementCheck final : public ValidationCheck
 {
 public:

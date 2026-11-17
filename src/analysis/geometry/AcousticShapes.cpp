@@ -9,13 +9,13 @@
 
 // The acoustic elements of the fluid-structure models.
 //
-// CAABSF is a surface (an absorber on the skin of the fluid): three or four corners, G4 blank for a triangle. It has
-// the area, the normal and the centre of a shell with no thickness and no element system.
+// AcousticAbsorber is a surface (an absorber on the skin of the fluid): three or four corners, G4 blank for a triangle.
+// It has the area, the normal and the centre of a shell with no thickness and no element system.
 //
-// CHACAB (the fluid cavity element) and CHACBR (the acoustic barrier) are hexahedra with the nodes G1 to G12 and G17 to
-// G20: the fields of the edge nodes between the two faces (G13 to G16 of a CHEXA) do not exist. The volume is the
-// isoparametric one of the hexahedron (an edge node that is missing is at the middle of its edge) and the centre is the
-// average of the eight corners.
+// AcousticAbsorberHexa (the fluid cavity element) and AcousticBarrierHexa (the acoustic barrier) are hexahedra with the
+// nodes G1 to G12 and G17 to G20: the fields of the edge nodes between the two faces (G13 to G16 of a SolidHexa) do not
+// exist. The volume is the isoparametric one of the hexahedron (an edge node that is missing is at the middle of its
+// edge) and the centre is the average of the eight corners.
 
 namespace oor::analysis::detail
 {
@@ -52,8 +52,8 @@ struct AcousticAbsorberShape
     }
 };
 
-// The nodes of a CHACAB or CHACBR in the order of a CHEXA: G1 to G12, the four edge nodes between the faces missing,
-// then G17 to G20 (the 16 slots of the card are those that exist).
+// The nodes of an AcousticAbsorberHexa or AcousticBarrierHexa in the order of a SolidHexa: G1 to G12, the four edge
+// nodes between the faces missing, then G17 to G20 (the 16 slots of the card are those that exist).
 void evaluateAcousticHexahedron(const Evaluation& evaluation, ElementValues& values)
 {
     const std::span<const base::Vec3> p = evaluation.points;

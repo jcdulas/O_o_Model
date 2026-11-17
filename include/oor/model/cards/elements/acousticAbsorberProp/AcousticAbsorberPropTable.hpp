@@ -18,8 +18,8 @@ struct AcousticAbsorberPropFormat
     static void write(const AcousticAbsorberPropCard& card, FieldWriter& writer);
 };
 
-// All the PAABSF cards. The ID is a property ID, in the space every property shares (IdSpace::Property). TZREID and
-// TZIMID are references to dynamic tables.
+// All the AcousticAbsorberProp cards. The ID is a property ID, in the space every property shares (IdSpace::Property).
+// TZREID and TZIMID are references to dynamic tables.
 class AcousticAbsorberPropTable final : public TypedTable<AcousticAbsorberPropTable, AcousticAbsorberPropCard>
 {
 public:

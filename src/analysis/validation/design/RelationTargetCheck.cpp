@@ -9,8 +9,8 @@ namespace
 {
 
 // The PNAME or FID of a DVPREL, the MPNAME of a DVMREL and the CPNAME of a DVCREL must be a field of the card they
-// drive (T on a PROD, A(B) on a PBAR with no end B, the 12I/T**3 of a PSHELL by name): the relation drives nothing the
-// model can write. The functions of each card type that has them say which names and positions are fields
+// drive (T on a RodProp, A(B) on a BarProp with no end B, the 12I/T**3 of a ShellProp by name): the relation drives
+// nothing the model can write. The functions of each card type that has them say which names and positions are fields
 // (model/design); a card type without functions is not judged, since the library does not know its fields.
 class RelationTargetCheck final : public ValidationCheck
 {

@@ -7,8 +7,8 @@ namespace oor::analysis
 namespace
 {
 
-// The Case Control TRIM names a trim set by its SID, whether the card is a TRIM or a TRIM2, and the format reference
-// wants the SID unique among both.
+// The Case Control TRIM names a trim set by its SID, whether the card is an AeroTrim or an AeroTrim2, and the format
+// reference wants the SID unique among both.
 class TrimIdRepeatedCheck final : public ValidationCheck
 {
 public:

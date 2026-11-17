@@ -18,9 +18,9 @@ struct InitialPlasticStrainFormat
     static void write(const InitialPlasticStrainCard& card, FieldWriter& writer);
 };
 
-// All the IPSTRAIN cards. A card has no ID (IdSpace::None, category Other) and any number of them may be in a deck; the
-// two ends of its range of elements are `ElementInRange` references (the elements of a range that exist are the ones
-// that count). The cards are kept whole.
+// All the InitialPlasticStrain cards. A card has no ID (IdSpace::None, category Other) and any number of them may be in
+// a deck; the two ends of its range of elements are `ElementInRange` references (the elements of a range that exist are
+// the ones that count). The cards are kept whole.
 class InitialPlasticStrainTable final : public TypedTable<InitialPlasticStrainTable, InitialPlasticStrainCard>
 {
 public:

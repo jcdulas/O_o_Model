@@ -20,7 +20,7 @@ struct Bar2DefaultsFormat
     static void write(const Bar2DefaultsCard& card, FieldWriter& writer);
 };
 
-// The BAROR cards of a model (at most one is allowed). The card has no ID.
+// The Bar2Defaults cards of a model (at most one is allowed). The card has no ID.
 class Bar2DefaultsTable final : public TypedTable<Bar2DefaultsTable, Bar2DefaultsCard>
 {
 public:
@@ -39,7 +39,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Reports a second BAROR: the solver allows one.
+    // Reports a second Bar2Defaults: the solver allows one.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<base::EntityId>& propIdColumn() noexcept { return m_propId; }

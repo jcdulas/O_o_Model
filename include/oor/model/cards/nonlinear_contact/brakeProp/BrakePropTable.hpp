@@ -19,8 +19,8 @@ struct BrakePropFormat
     static void write(const BrakePropCard& card, FieldWriter& writer);
 };
 
-// All the BRKPROP cards. The ID is unique among them (IdSpace::PerCardType, category BrakeProperty): the BProp_ID of a
-// BRKSYS names it. TAVSTIF names a TABL3Di (`MultiDimensionalTable`). The cards are kept whole next to their ID.
+// All the BrakeProp cards. The ID is unique among them (IdSpace::PerCardType, category BrakeProperty): the BProp_ID of
+// a BrakeSystem names it. TAVSTIF names a TABL3Di (`MultiDimensionalTable`). The cards are kept whole next to their ID.
 class BrakePropTable final : public TypedTable<BrakePropTable, BrakePropCard>
 {
 public:

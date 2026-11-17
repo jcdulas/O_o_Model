@@ -18,9 +18,9 @@ struct InitialStressFormat
     static void write(const InitialStressCard& card, FieldWriter& writer);
 };
 
-// All the ISTRESS cards. A card has no ID (IdSpace::None, category Other) and any number of them may be in a deck; the
-// two ends of its range of elements are `ElementInRange` references. The CID of the COORD line is -1 or 0 and names no
-// coordinate system card. The cards are kept whole.
+// All the InitialStress cards. A card has no ID (IdSpace::None, category Other) and any number of them may be in a
+// deck; the two ends of its range of elements are `ElementInRange` references. The CID of the COORD line is -1 or 0 and
+// names no coordinate system card. The cards are kept whole.
 class InitialStressTable final : public TypedTable<InitialStressTable, InitialStressCard>
 {
 public:

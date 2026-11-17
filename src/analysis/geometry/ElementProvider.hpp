@@ -42,13 +42,15 @@ public:
     // system.
     [[nodiscard]] base::Vec3 pointInSystem(base::EntityId cid, const base::Vec3& coordinates) const;
 
-    // The thickness of a shell property: PSHELL, PCOMP, PCOMPG, PSHEAR (NaN for another property or none).
+    // The thickness of a shell property: ShellProp, CompProp, CompPropGlobal, ShearPanelProp (NaN for another property
+    // or none).
     [[nodiscard]] double shellThickness(base::EntityId pid) const;
-    // True for a PCOMP or PCOMPG: its thickness is the total of the plies, whatever the thicknesses of the corners.
+    // True for a CompProp or CompPropGlobal: its thickness is the total of the plies, whatever the thicknesses of the
+    // corners.
     [[nodiscard]] bool isLaminate(base::EntityId pid) const;
-    // The cross-section area of a rod, bar or beam property: PROD, PTUBE, PBAR, and the mean over the length of PBEAM,
-    // PBEAML, PBEAM3, PBCOMP, PBARL (the section formulas of the mass step); the area of CONROD is on the card (NaN for
-    // another property or none).
+    // The cross-section area of a rod, bar or beam property: RodProp, TubeProp, BarProp, and the mean over the length
+    // of BeamProp, BeamShapeProp, BeamProp3, BeamLumpedAreaProp, BarShapeProp (the section formulas of the mass step);
+    // the area of Rod2InlineSection is on the card (NaN for another property or none).
     [[nodiscard]] double sectionArea(base::EntityId pid) const;
 
 private:

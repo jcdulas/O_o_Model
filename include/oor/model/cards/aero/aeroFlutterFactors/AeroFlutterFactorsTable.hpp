@@ -31,10 +31,10 @@ struct AeroFlutterFactorsFormat
 // and F1 = FNF gives NF times the same number.
 [[nodiscard]] std::vector<double> aeroFlutterFactorsValues(const AeroFlutterFactorsCard& card);
 
-// All the FLFACT cards, in the category AeroFlutterFactor. The SID is unique among the FLFACT cards (an AEFACT may have
-// the same number: IdSpace::PerCardType); a FLUTTER names a list by it (ReferenceTarget::AeroFlutterFactor). The
-// factors of the first form of every card are one column of lists; the members of the THRU form are columns, a blank
-// FMID is a NaN.
+// All the AeroFlutterFactors cards, in the category AeroFlutterFactor. The SID is unique among the AeroFlutterFactors
+// cards (an AeroFactorList may have the same number: IdSpace::PerCardType); an AeroFlutter names a list by it
+// (ReferenceTarget::AeroFlutterFactor). The factors of the first form of every card are one column of lists; the
+// members of the THRU form are columns, a blank FMID is a NaN.
 class AeroFlutterFactorsTable final : public TypedTable<AeroFlutterFactorsTable, AeroFlutterFactorsCard>
 {
 public:

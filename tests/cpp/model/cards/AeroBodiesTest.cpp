@@ -1,7 +1,7 @@
-// Checks of the aerodynamic body cards: PAERO4 and PAERO5 (the properties of the strips of a strip theory
-// and of a piston theory panel) and CAXIF2, CAXIF3 and CAXIF4 (the axisymmetric fluid elements). Per card: the fields
-// in their format reference positions, the defaults, the references the card lists, the renumbering of its ID space,
-// the refused values and the round trip through the three formats.
+// Checks of the aerodynamic body cards: AeroStripProp4 and AeroPistonProp5 (the properties of the strips of a strip
+// theory and of a piston theory panel) and AcousticAxisymFluid2, AcousticAxisymFluid3 and AcousticAxisymFluid4 (the
+// axisymmetric fluid elements). Per card: the fields in their format reference positions, the defaults, the references
+// the card lists, the renumbering of its ID space, the refused values and the round trip through the three formats.
 
 #include "oor/model/cards/aero/aeroFactorList/AeroFactorListTable.hpp"
 #include "oor/model/cards/aero/aeroLiftingPanel1/AeroLiftingPanel1Table.hpp"

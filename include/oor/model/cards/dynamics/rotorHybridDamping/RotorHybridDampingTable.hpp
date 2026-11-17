@@ -19,9 +19,9 @@ struct RotorHybridDampingFormat
     static void write(const RotorHybridDampingCard& card, FieldWriter& writer);
 };
 
-// All the ROTHYBD cards (category Other). A card has no ID of its own (IdSpace::None), so there may be many. The
-// HYBDAMPi are references to HYBDAMP cards (ReferenceTarget::HybridDamping) and the ROTORIDi to rotors
-// (ReferenceTarget::Rotor: a ROTORG, ROTOR, ROTORAX or ROTORSE). The cards
+// All the RotorHybridDamping cards (category Other). A card has no ID of its own (IdSpace::None), so there may be many.
+// The HYBDAMPi are references to HYBDAMP cards (ReferenceTarget::HybridDamping) and the ROTORIDi to rotors
+// (ReferenceTarget::Rotor: a RotorLineNodes, RotorModel3D, RotorAxisym or RotorSuperelement). The cards
 // are kept whole next to a column of the number of their pairs, which is what the query engine reads.
 class RotorHybridDampingTable final : public TypedTable<RotorHybridDampingTable, RotorHybridDampingCard>
 {

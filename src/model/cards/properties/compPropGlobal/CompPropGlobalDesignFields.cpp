@@ -100,7 +100,7 @@ double readField(const CompPropGlobalCard& card, const DesignFieldFacts& facts)
 }
 
 // Z0 blank is minus half the thickness of the laminate; the card stores it resolved, so it follows a thickness that is
-// designed when it still held that default (as for a PCOMP).
+// designed when it still held that default (as for a CompProp).
 void writeFields(CompPropGlobalCard& card, std::span<const DesignFieldValue> values)
 {
     const double oldTotal = card.totalThickness();

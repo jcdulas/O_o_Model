@@ -22,7 +22,7 @@ struct AdjacencyCsr
     std::vector<base::EntityId> values;
 };
 
-// The free edges of the shells: the edges used by exactly one shell element (a CTRIA3, CQUAD4, ... or any other
+// The free edges of the shells: the edges used by exactly one shell element (a ShellTria3, ShellQuad4, ... or any other
 // two-dimensional element), sorted by their nodes. `elements[i]` is the one shell that uses edge `i`. A line element on
 // the edge does not make it a closed edge, a solid does not either.
 struct FreeEdges

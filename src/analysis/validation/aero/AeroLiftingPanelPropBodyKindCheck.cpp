@@ -11,9 +11,9 @@ namespace oor::analysis
 namespace
 {
 
-// The bodies B1 to B6 of a PAERO1 are CAERO2 cards (the Bi numbers must appear on a
-// CAERO2 entry). The five CAERO cards share one number space, so a number that names a panel of another kind resolves
-// and the PAERO1 reads it as a body. A number that names nothing is `ref.unresolved`.
+// The bodies B1 to B6 of an AeroLiftingPanelProp1 are AeroBody2 cards (the Bi numbers must appear on a
+// AeroBody2 entry). The five CAERO cards share one number space, so a number that names a panel of another kind
+// resolves and the AeroLiftingPanelProp1 reads it as a body. A number that names nothing is `ref.unresolved`.
 class AeroLiftingPanelPropBodyKindCheck final : public ValidationCheck
 {
 public:

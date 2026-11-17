@@ -19,8 +19,9 @@ struct SinglePointConstrAxisymFormat
     static void write(const SinglePointConstrAxisymCard& card, FieldWriter& writer);
 };
 
-// All the SPCAX cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). RID names a RINGAX point,
-// which is not a card of the model yet: it is a ReferenceTarget::Other (not resolved, not renumbered).
+// All the SinglePointConstrAxisym cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). RID names
+// an AxisymConeRing point, which is not a card of the model yet: it is a ReferenceTarget::Other (not resolved, not
+// renumbered).
 class SinglePointConstrAxisymTable final : public TypedTable<SinglePointConstrAxisymTable, SinglePointConstrAxisymCard>
 {
 public:

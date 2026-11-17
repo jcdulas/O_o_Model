@@ -20,30 +20,30 @@ struct DisplayMeshOptions
 {
     std::optional<std::vector<base::EntityId>> elements; // only these elements (any order); nothing: all
     bool zoffs = false;    // the vertices of the shells on their reference surface (ZOFFS along the element normal)
-    bool sections = false; // the outlines of the PBARL and PBEAML sections of the 1D elements drawn
+    bool sections = false; // the outlines of the BarShapeProp and BeamShapeProp sections of the 1D elements drawn
 };
 
 struct DisplayMesh
 {
     // The triangles of the shells (every 2D element: a quadrilateral split along G1-G3 into (1, 2, 3) and (1, 3, 4),
-    // the mid-side points of a CTRIA6 and CQUAD8 covered) and of the free faces of the solids, in the order of the
-    // element IDs (the shells, then the faces of the solids).
+    // the mid-side points of a ShellTria6 and ShellQuad8 covered) and of the free faces of the solids, in the order of
+    // the element IDs (the shells, then the faces of the solids).
     std::vector<double> triangleVertices;   // 9 per triangle
     std::vector<std::int32_t> triangleEid;  //
     std::vector<std::int32_t> triangleFace; // -1 for a shell, the face of a solid (from 1, format reference face order)
     std::vector<std::int64_t> vertexGridRow;    // 3 per triangle
     std::vector<std::int32_t> vertexLocalIndex; // 3 per triangle: the place of the grid point on the card, from 1
 
-    // The segments of the 1D elements between their offset ends (CBAR, CBEAM: A' and B'; CROD, CONROD, CTUBE, CBEND:
-    // GA and GB; CBEAM3: GA-GC and GC-GB, or GA-GB without GC).
+    // The segments of the 1D elements between their offset ends (Bar2, Beam2: A' and B'; Rod2, Rod2InlineSection,
+    // Tube2, CurvedBeam2: GA and GB; Beam3: GA-GC and GC-GB, or GA-GB without GC).
     std::vector<double> segmentEnds;           // 6 per segment
     std::vector<std::int32_t> segmentEid;      //
     std::vector<std::int32_t> segmentPid;      //
     std::vector<std::int64_t> segmentGridRows; // 2 per segment
 
-    // The outlines of the PBARL and PBEAML sections of the segments (`sections`): rings of (y, z) points in the
-    // element y-z plane (y, z of the element axes), the outer outline counter-clockwise (z to the right, y up) and the
-    // holes clockwise; one set of rings per property and station.
+    // The outlines of the BarShapeProp and BeamShapeProp sections of the segments (`sections`): rings of (y, z) points
+    // in the element y-z plane (y, z of the element axes), the outer outline counter-clockwise (z to the right, y up)
+    // and the holes clockwise; one set of rings per property and station.
     std::vector<double> outlinePoints;           // 2 per point
     std::vector<std::int64_t> outlineOffsets{0}; // the first point of each ring, and the end
     std::vector<std::int32_t> outlinePid;        // per ring
@@ -53,16 +53,19 @@ struct DisplayMesh
     std::vector<std::string> outlineType;        // per ring: the section type ("I", ...)
 
     // The segments of the rigid elements and connections: a star from the first grid point of the card (GN of an
-    // RBE2, REFGRID of an RBE3), the chain of an RSPLINE, the sides of an RTRPLT, GA-GB of the others.
+    // RigidBodyStar, REFGRID of a RigidInterpolation), the chain of a RigidSpline, the sides of a RigidTriaPlate, GA-GB
+    // of the others.
     std::vector<double> connectionEnds;           // 6 per segment
     std::vector<std::int32_t> connectionEid;      //
     std::vector<std::uint8_t> connectionKind;     // an index in connectionKinds()
     std::vector<std::int64_t> connectionGridRows; // 2 per segment
 
-    // The masses: CONM2 at its centre of gravity, CONM1 at its grid point, CMASS1 and CMASS2 between their grid points.
+    // The masses: PointMassInertia at its centre of gravity, PointMassMatrix at its grid point, MassDofProperty and
+    // MassDofInline between their grid points.
     std::vector<double> massPosition;      // 3 per mass
     std::vector<std::int32_t> massEid;     //
-    std::vector<double> mass;              // M of CONM2, M11 of CONM1, M of CMASS2 or of the PMASS of a CMASS1
+    // M of PointMassInertia, M11 of PointMassMatrix, M of MassDofInline or of the MassProp of a MassDofProperty
+    std::vector<double> mass;
     std::vector<std::int64_t> massGridRow; //
 
     // The grid points: their positions in the order of the rows (3 per grid point).

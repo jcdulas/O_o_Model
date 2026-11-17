@@ -14,9 +14,10 @@ namespace oor::analysis
 namespace
 {
 
-// The card type a TICREG of this TYPE names in its VID: the closed surface of an InitialSurfaceVolume, the sphere of a
-// SphereShape, the cylinder of a CylinderShape (the format's table "Type: Region"). The other two types name a
-// ContactBoxRegion and a SET1, which have categories of their own, so the reference already tells a wrong card.
+// The card type an InitialConditionRegion of this TYPE names in its VID: the closed surface of an InitialSurfaceVolume,
+// the sphere of a SphereShape, the cylinder of a CylinderShape (the format's table "Type: Region"). The other two types
+// name a ContactBoxRegion and an IdListSet1, which have categories of their own, so the reference already tells a wrong
+// card.
 std::string_view shapeCardOf(model::EulerRegionType type) noexcept
 {
     switch (type)
@@ -34,9 +35,10 @@ std::string_view shapeCardOf(model::EulerRegionType type) noexcept
     return {};
 }
 
-// A TICREG whose TYPE does not match the shape card that has the number VID. The SURFINI, SPHERE and CYLINDR cards
-// share one category (each has a number space of its own), so the model resolves the number to whichever has it; the
-// TYPE is what says which one was meant. It is enough that one of the cards that have the number is of the type named.
+// An InitialConditionRegion whose TYPE does not match the shape card that has the number VID. The InitialSurfaceVolume,
+// SphereShape and CylinderShape cards share one category (each has a number space of its own), so the model resolves
+// the number to whichever has it; the TYPE is what says which one was meant. It is enough that one of the cards that
+// have the number is of the type named.
 class InitialConditionRegionShapeTypeCheck final : public ValidationCheck
 {
 public:

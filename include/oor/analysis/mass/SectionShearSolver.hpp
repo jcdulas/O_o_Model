@@ -92,9 +92,9 @@ struct SectionStiffnessHessian
     Matrix cw{};
 };
 
-// The shear factors and the torsional constant of a section of the PBARL / PBEAML library as the solver computes them
-// with its finite element formulation of the cross-section (the sections of the standard library are computed as
-// arbitrary sections).
+// The shear factors and the torsional constant of a section of the BarShapeProp / BeamShapeProp library as the solver
+// computes them with its finite element formulation of the cross-section (the sections of the standard library are
+// computed as arbitrary sections).
 //
 // The section is meshed with bilinear quadrilaterals and three Laplace problems with a zero normal derivative on the
 // whole boundary are solved on it:

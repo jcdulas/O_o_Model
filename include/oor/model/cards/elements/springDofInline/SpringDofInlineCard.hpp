@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One CELAS2 card: a scalar spring that holds its own stiffness (no property).
+// One SpringDofInline card: a scalar spring that holds its own stiffness (no property).
 //
 // Card layout:
-//   CELAS2  EID  K  G1  C1  G2  C2  GE  S
+//   SpringDofInline  EID  K  G1  C1  G2  C2  GE  S
 //
 // G1 and G2 are grid points or scalar points; 0 (or blank) is a grounded end, a point whose displacement is zero. C1
 // and C2 are the component (1 to 6) at a grid point, and 0 at a scalar point or at ground.

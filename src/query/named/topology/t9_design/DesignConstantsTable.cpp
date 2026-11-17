@@ -40,7 +40,8 @@ void forEachCard(const model::Model& model, Body&& body)
     }
 }
 
-// The name of the card that has the ID `id` in the space of the dynamic tables (a TABLED1 to TABLED4), or "TABLED".
+// The name of the card that has the ID `id` in the space of the dynamic tables (a TableDynamic1 to TableDynamic4), or
+// "TABLED".
 std::string tableCardName(const model::Model& model, base::EntityId id)
 {
     const std::optional<model::CardLocation> location = model.locate(base::IdSpace::DynamicTable, id);
@@ -49,8 +50,8 @@ std::string tableCardName(const model::Model& model, base::EntityId id)
     return std::string(model::CardRegistry::instance().entry(location->table).info.name);
 }
 
-// The contract column of the field a DTABLE2 entry reads, or the field as the card names it when the library cannot
-// resolve it.
+// The contract column of the field a DesignFieldConstants entry reads, or the field as the card names it when the
+// library cannot resolve it.
 std::string columnOfEntry(const model::Model& model, const model::DesignFieldConstantsEntry& entry)
 {
     const model::DesignableCard* fields = model::findDesignableCard(entry.cardName);
@@ -63,7 +64,7 @@ std::string columnOfEntry(const model::Model& model, const model::DesignFieldCon
     else if (*target == model::ReferenceTarget::Material)
         space = base::IdSpace::Material;
     const std::optional<model::CardLocation> location = model.locate(space, entry.targetId);
-    // the card of a DTABLE2 entry is a keyword of the deck; the registry knows the card type
+    // the card of a DesignFieldConstants entry is a keyword of the deck; the registry knows the card type
     if (!location || model::CardRegistry::instance().entry(location->table).info.name != entry.cardName)
         return entry.field;
     const model::DesignFieldLookup lookup = fields->find(model, location->row, model::DesignField{entry.field});
@@ -72,7 +73,7 @@ std::string columnOfEntry(const model::Model& model, const model::DesignFieldCon
     return fields->column(model, location->row, *lookup.facts).name;
 }
 
-// designConstantsTable: the constants of the DTABLE and DTABLE2 cards.
+// designConstantsTable: the constants of the DesignConstants and DesignFieldConstants cards.
 class DesignConstantsTableQuery final : public QueryBase
 {
 public:

@@ -18,7 +18,7 @@ struct MassScalarPropertyFormat
     static void write(const MassScalarPropertyCard& card, FieldWriter& writer);
 };
 
-// All the CMASS3 elements.
+// All the MassScalarProperty elements.
 class MassScalarPropertyTable final : public TypedTable<MassScalarPropertyTable, MassScalarPropertyCard>
 {
 public:

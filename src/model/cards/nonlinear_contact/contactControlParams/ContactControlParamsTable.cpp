@@ -8,7 +8,7 @@ namespace oor::model
 namespace
 {
 
-// The names checked in BCTPARM: PENN, PENT and CTOL are reals, SHLTHK an integer. Every value is required.
+// The names checked in ContactControlParams: PENN, PENT and CTOL are reals, SHLTHK an integer. Every value is required.
 constexpr LegacyParameterRule RULES[] = {
     {"NormalPenalty", ContactParameterKind::Real, false, LEGACY_NO_LOW_LIMIT, LEGACY_NO_HIGH_LIMIT},
     {"TangentPenalty", ContactParameterKind::Real, false, LEGACY_NO_LOW_LIMIT, LEGACY_NO_HIGH_LIMIT},

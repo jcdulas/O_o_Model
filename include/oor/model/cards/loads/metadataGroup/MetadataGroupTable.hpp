@@ -20,10 +20,10 @@ struct MetadataGroupFormat
     static void write(const MetadataGroupCard& card, FieldWriter& writer);
 };
 
-// All the ABSTRCT cards. The ID is the ID of the group (ABSTID), shared by the cards that add entities to it
+// All the MetadataGroup cards. The ID is the ID of the group (ABSTID), shared by the cards that add entities to it
 // (IdSpace::Group). The format reference lists the card with the loads, but it is meta data: its category is
-// MetadataGroup (its own kind of ID, not a load set), which the ABSNMVB, ABSNMVI, ABSNMVR and ABSNMVS cards name by
-// their ABSTID
+// MetadataGroup (its own kind of ID, not a load set), which the MetadataBooleanPairs, MetadataIntegerPairs,
+// MetadataRealPairs and MetadataTextPairs cards name by their ABSTID
 // (`ReferenceTarget::MetadataGroup`, `Model.renumber("metadata_group")`).
 class MetadataGroupTable final : public TypedTable<MetadataGroupTable, MetadataGroupCard>
 {

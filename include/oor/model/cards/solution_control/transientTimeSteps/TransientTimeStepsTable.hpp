@@ -19,9 +19,10 @@ struct TransientTimeStepsFormat
     static void write(const TransientTimeStepsCard& card, FieldWriter& writer);
 };
 
-// All the TSTEP cards. The ID is the one a TSTEP command of the Case Control selects: it is unique among the TSTEP
-// cards (IdSpace::PerCardType) and shared in the category TimeStep with the TSTEPNL cards, which the same command can
-// select. The three values of each interval are a list per card each, in CSR form.
+// All the TransientTimeSteps cards. The ID is the one a TransientTimeSteps command of the Case Control selects: it is
+// unique among the TransientTimeSteps cards (IdSpace::PerCardType) and shared in the category TimeStep with the
+// NonlinearTimeSteps cards, which the same command can select. The three values of each interval are a list per card
+// each, in CSR form.
 class TransientTimeStepsTable final : public TypedTable<TransientTimeStepsTable, TransientTimeStepsCard>
 {
 public:
@@ -37,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TSTEP refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TransientTimeSteps refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] VariableLengthColumn<std::int32_t>& stepCountsColumn() noexcept { return m_stepCounts; }

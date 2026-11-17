@@ -8,11 +8,11 @@ namespace oor::analysis
 namespace
 {
 
-// A brake squeal analysis number that a BSQUEAL and a BRKSYS both have: the Case Control command BSQUEAL names the
-// analysis by this number and cannot tell the two cards apart (the format reference gives both cards the ID "of a
-// corresponding BSQUEAL Case Control command"). Two cards of one type with the same ID are the reader's business. An
-// MDBKSYS is selected by the same command and may share its ID with BRKSYS cards (the
-// command selects them all, the first line of the MDBKSYS winning), so it is left out.
+// A brake squeal analysis number that a BrakeSqueal and a BrakeSystem both have: the Case Control command BrakeSqueal
+// names the analysis by this number and cannot tell the two cards apart (the format reference gives both cards the ID
+// "of a corresponding BrakeSqueal Case Control command"). Two cards of one type with the same ID are the reader's
+// business. An ModuleBrakeSystem is selected by the same command and may share its ID with BrakeSystem cards (the
+// command selects them all, the first line of the ModuleBrakeSystem winning), so it is left out.
 class BrakeSquealIdRepeatedCheck final : public ValidationCheck
 {
 public:

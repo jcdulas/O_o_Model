@@ -19,9 +19,10 @@ struct BrakeSystemFormat
     static void write(const BrakeSystemCard& card, FieldWriter& writer);
 };
 
-// All the BRKSYS cards. The ID is unique among them (IdSpace::PerCardType) and is in the category BrakeSqueal, as the
-// ID of a BSQUEAL is: the Case Control BSQUEAL selects either. The bodies of the disks are looked up as contact bodies,
-// the motions as MOTION cards and the property as a BRKPROP. The cards are kept whole next to their ID.
+// All the BrakeSystem cards. The ID is unique among them (IdSpace::PerCardType) and is in the category BrakeSqueal, as
+// the ID of a BrakeSqueal is: the Case Control BrakeSqueal selects either. The bodies of the disks are looked up as
+// contact bodies, the motions as BrakeMotion cards and the property as a BrakeProp. The cards are kept whole next to
+// their ID.
 class BrakeSystemTable final : public TypedTable<BrakeSystemTable, BrakeSystemCard>
 {
 public:

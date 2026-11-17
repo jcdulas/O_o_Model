@@ -19,7 +19,7 @@ struct GasBagFormat
     static void write(const GasBagCard& card, FieldWriter& writer);
 };
 
-// All the GBAG cards. The GID is unique among the gas bags (IdSpace::PerCardType, category GasBag: the check of the
+// All the GasBag cards. The GID is unique among the gas bags (IdSpace::PerCardType, category GasBag: the check of the
 // category finds the GID that two cards of other types share). The card names a surface, a set of leakages, a set of
 // inflators and an initial gas composition; the set of heat losses is a plain ID.
 class GasBagTable final : public TypedTable<GasBagTable, GasBagCard>

@@ -8,10 +8,10 @@
 namespace oor::model
 {
 
-// One RFORCE card: a static load from an angular velocity and/or an angular acceleration about an axis.
+// One RotationalForceLoad card: a static load from an angular velocity and/or an angular acceleration about an axis.
 //
-// Card layout: RFORCE  SID  G  CID  A  R1  R2  R3  METHOD
-//                     RACC  MB
+// Card layout: RotationalForceLoad  SID  G  CID  A  R1  R2  R3  METHOD
+//                                  RACC  MB
 // The axis passes through grid point G (0 or blank: through the origin of the basic system) in the direction (R1, R2,
 // R3) of coordinate system CID. A is the angular velocity in revolutions per unit time, RACC the angular acceleration
 // in revolutions per unit time squared. A blank A or RACC is 0.0; METHOD (1 or 2) is 1 when blank.

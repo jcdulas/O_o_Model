@@ -15,8 +15,8 @@
 namespace oor::query
 {
 
-// A set of IDs that a caller names (the `sets` of `massBySet`): the IDs themselves, or the ID of a SET1 card of the
-// model whose members they are (`setId`; `ids` is then empty and the query reads the card). A group of the `groups`
+// A set of IDs that a caller names (the `sets` of `massBySet`): the IDs themselves, or the ID of an IdListSet1 card of
+// the model whose members they are (`setId`; `ids` is then empty and the query reads the card). A group of the `groups`
 // parameter says in `kind` what its IDs are: "components" or "elements".
 struct NamedIdSet
 {
@@ -76,7 +76,7 @@ enum class ParameterKind : std::uint8_t
     IdListOrText, // IDs, or a text (`retain`: a list of nodes or "loadNodes")
     TextList,     // a text or a list of texts
     Point,        // three reals
-    IdSets,       // a dict {name: IDs} or a list of SET1 IDs
+    IdSets,       // a dict {name: IDs} or a list of IdListSet1 IDs
     Thresholds,   // a dict {name: real}
     Model,        // another model
     Steps,        // a list of step values or a slice of step positions (result queries)

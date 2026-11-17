@@ -9,8 +9,8 @@
 namespace oor::model
 {
 
-// One term of a column of a DMIG matrix: the row (a grid, scalar or extra point and a component) and the value, real
-// or complex (`imaginary` is the second part, or the phase when the header says POLAR).
+// One term of a column of a DirectMatrixNodal matrix: the row (a grid, scalar or extra point and a component) and the
+// value, real or complex (`imaginary` is the second part, or the phase when the header says POLAR).
 struct DirectMatrixNodalTerm
 {
     base::EntityId point = 0;   // Gi
@@ -21,13 +21,13 @@ struct DirectMatrixNodalTerm
     [[nodiscard]] bool operator==(const DirectMatrixNodalTerm&) const noexcept = default;
 };
 
-// One DMIG card: either the header of a matrix (the second field is the integer 0) or one column of it. A matrix is a
-// header and the columns that carry its name, one card each, in any order after it; the matrix as one object (the
-// terms of every column, in COO form) is assembled by `directMatrixNodalTerms` and `directMatrixNodalCoo`
+// One DirectMatrixNodal card: either the header of a matrix (the second field is the integer 0) or one column of it. A
+// matrix is a header and the columns that carry its name, one card each, in any order after it; the matrix as one
+// object (the terms of every column, in COO form) is assembled by `directMatrixNodalTerms` and `directMatrixNodalCoo`
 // (MatrixCards.hpp).
 //
-// Card layout, header:  DMIG  NAME  "0"  IFO  TIN  TOUT  POLAR  .  NCOL
-//         column:      DMIG  NAME  GJ   CJ   .    G1    C1     A1  B1
+// Card layout, header:  DirectMatrixNodal  NAME  "0"  IFO  TIN  TOUT  POLAR  .  NCOL
+//         column:      DirectMatrixNodal  NAME  GJ   CJ   .    G1    C1  A1  B1
 //                      .     G2    C2   A2   B2   G3    C3     A3  B3   -etc.-
 // Fields 1 to 3 of a column are the name and the column; field 4 is blank and the terms (G, C, A, B) follow four fields
 // at a time, wherever they fall on the continuation lines. B is blank for a real matrix (TIN 1 or 2). NCOL is read for

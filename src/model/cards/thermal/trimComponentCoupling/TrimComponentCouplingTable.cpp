@@ -19,7 +19,7 @@ std::optional<CardProblem> checkCompressionRatio(double ratio, const char* field
     return std::nullopt;
 }
 
-// A SET1 or SET3 of the trim component TID: the format puts it in the Bulk Data section BEGIN
+// An IdListSet1 or TypedListSet3 of the trim component TID: the format puts it in the Bulk Data section BEGIN
 // BULK TRMC=TID, a part of the deck, while the card itself is in the main Bulk Data. A blank set (0) is not visited.
 void visitTrimSet(ReferenceVisitor& visitor, std::string_view field, base::EntityId componentId, base::EntityId& set)
 {
@@ -150,7 +150,7 @@ void TrimComponentCouplingTable::setIdAtRow(std::uint32_t row, base::EntityId id
 void TrimComponentCouplingTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     // The TID is the number of a trim component and the RID the number of one of its regions: no card defines either.
-    // The twelve sets are SET1 or SET3 cards of the part TRMC=TID.
+    // The twelve sets are IdListSet1 or TypedListSet3 cards of the part TRMC=TID.
     TrimComponentCouplingCard& card = m_cards.edit(row);
     visitTrimSet(visitor, "gluedSetId", card.id, card.gluedSetId);
     visitTrimSet(visitor, "slidingSetId", card.id, card.slidingSetId);

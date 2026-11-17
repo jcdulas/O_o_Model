@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// A shear model number that two kinds of card have: SHREL, SHRPOL and SHRUDS are named by the SID of a MATDEUL, so the
-// SIDs must be unique among them.
+// A shear model number that two kinds of card have: ElasticShearModel, PolynomialShearModel and UserShearModel are
+// named by the SID of an EulerMat, so the SIDs must be unique among them.
 class ShearModelIdRepeatedCheck final : public ValidationCheck
 {
 public:

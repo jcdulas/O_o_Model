@@ -15,7 +15,8 @@
 namespace oor::query::thermal
 {
 
-// A CHBDYE, CHBDYG or CHBDYP with the geometry the analysis gives it (NaN where it has none).
+// A HeatSurfaceSide, HeatSurfaceNodes or HeatSurfaceProperty with the geometry the analysis gives it (NaN where it has
+// none).
 struct SurfaceElement
 {
     model::CardLocation location;

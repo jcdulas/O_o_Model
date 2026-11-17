@@ -1,8 +1,9 @@
-// Checks of the axisymmetric and SOL 400 cards: PAXISYM, PAXSYMH, PBSH2DT and PSPRMAT (properties), RBAX3D (a rigid
-// element), LBSH3DG and NLBSH3D (the rotor bushing loads of SOL 400) and PLTSURF (a plot surface). Per card: the fields
-// in their format reference positions, the defaults and the variants, the references it lists and what each one points
-// to, the renumbering of the spaces it owns or names, the refused values and the round trip through a model file.
-// The generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
+// Checks of the axisymmetric and SOL 400 cards: AxisymShellProp, AxisymHarmonicProp, BushProp2DFreq and
+// SpringOffsetProp (properties), RigidAxisymConnection (a rigid element), NonlinearBushForceTables and
+// NonlinearBushLoad3D (the rotor bushing loads of SOL 400) and PlotSurface (a plot surface). Per card: the fields in
+// their format reference positions, the defaults and the variants, the references it lists and what each one points to,
+// the renumbering of the spaces it owns or names, the refused values and the round trip through a model file. The
+// generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
 
 #include "oor/model/cards/elements/plotSurface/PlotSurfaceTable.hpp"
 #include "oor/model/cards/nonlinear_contact/nonlinearBushForceTables/NonlinearBushForceTablesTable.hpp"
@@ -49,13 +50,13 @@ bool contains(const std::string& text, const std::string& part)
     return text.find(part) != std::string::npos;
 }
 
-// A TABLED1 of two points, which is all a card needs of the table it names.
+// A TableDynamic1 of two points, which is all a card needs of the table it names.
 std::string tabled1(int id)
 {
     return "TableDynamic1;" + std::to_string(id) + ";;;0.;0.;1.;1.;EndTable\n";
 }
 
-// A TABLED5, the table of an LBSH3DG term: one TABLED1 for each of two rotor speeds.
+// A TableDynamic5, the table of a NonlinearBushForceTables term: one TableDynamic1 for each of two rotor speeds.
 std::string tabled5(int id, int first, int second)
 {
     return "TableDynamic5;" + std::to_string(id) + ";0.;" + std::to_string(first) + ";10.;" + std::to_string(second) +
@@ -68,7 +69,7 @@ int termId(int row, int column)
     return 500 + 10 * row + column;
 }
 
-// The record of an LBSH3DG of the form ASYM with all its 36 terms, row after row of the matrix.
+// The record of a NonlinearBushForceTables of the form ASYM with all its 36 terms, row after row of the matrix.
 std::string asymmetricText(int lid)
 {
     std::string text = "NonlinearBushForceTables;" + std::to_string(lid) + ";AsymmetricForm;10.;7000.";
@@ -80,8 +81,8 @@ std::string asymmetricText(int lid)
     return text + "\n";
 }
 
-// The record of an LBSH3DG of the form SYM (the form is left blank) with the 21 terms of the lower triangle (the
-// terms above the diagonal are blank).
+// The record of a NonlinearBushForceTables of the form SYM (the form is left blank) with the 21 terms of the lower
+// triangle (the terms above the diagonal are blank).
 std::string symmetricText(int lid)
 {
     std::string text = "NonlinearBushForceTables;" + std::to_string(lid) + ";;100.;6000.";
@@ -93,8 +94,8 @@ std::string symmetricText(int lid)
     return text + "\n";
 }
 
-// The TABLED1 and TABLED5 cards that give the 21 terms of the lower triangle their tables, so that no reference is left
-// unresolved.
+// The TableDynamic1 and TableDynamic5 cards that give the 21 terms of the lower triangle their tables, so that no
+// reference is left unresolved.
 std::string triangleTables()
 {
     std::string text = tabled1(101);
@@ -108,7 +109,8 @@ std::string triangleTables()
 
 } // namespace
 
-// --- PAXISYM --------------------------------------------------------------------------------------------------------
+// --- AxisymShellProp
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PAXISYM is a primary property with a material, two thicknesses and an analysis type",
           "[model][cards][paxisym]")
@@ -132,7 +134,7 @@ TEST_CASE("a PAXISYM is a primary property with a material, two thicknesses and 
     REQUIRE((structural.thickness2 == 0.25 && structural.analysisType == AxisymShellPropAnalysis::Structural));
     const AxisymShellPropCard heat = cardAt<AxisymShellPropTable>(model, 2);
     REQUIRE((heat.matId == 2005 &&
-             heat.analysisType == AxisymShellPropAnalysis::Heat)); // any case; a MAT4 for heat transfer
+             heat.analysisType == AxisymShellPropAnalysis::Heat)); // any case; a HeatIsoMat for heat transfer
     REQUIRE(cardAt<AxisymShellPropTable>(model, 3).analysisType == AxisymShellPropAnalysis::StructuralHeat);
 
     // The defaults are blank in the text, and written when asked for.
@@ -141,7 +143,8 @@ TEST_CASE("a PAXISYM is a primary property with a material, two thicknesses and 
     REQUIRE(contains(writeModelText(plain, false), "StructuralAndHeat"));
     requireRoundTrip(model);
 
-    // The material is a MAT1 or, for heat transfer, a MAT4: both exist here, and the PID is one of the properties.
+    // The material is an IsoMat or, for heat transfer, a HeatIsoMat: both exist here, and the PID is one of the
+    // properties.
     REQUIRE(unresolvedIn(model) == 0);
     const Visited visited = visitedBy<AxisymShellPropTable>(model, 0);
     REQUIRE(visited.fields == std::vector<std::string>{"matId"});
@@ -149,7 +152,7 @@ TEST_CASE("a PAXISYM is a primary property with a material, two thicknesses and 
     Model missing = readBulk("AxisymShellProp;2098;2017;0.125\n");
     REQUIRE(unresolvedIn(missing) == 1);
 
-    // The property space is the one of every property: a PSHELL and a PAXISYM cannot share an ID.
+    // The property space is the one of every property: a ShellProp and an AxisymShellProp cannot share an ID.
     REQUIRE_THROWS_AS(readBulk("AxisymShellProp;2098;2017;0.125\nShellProp;2098;2017;0.125"), base::DeckError);
 
     expectInvalid("AxisymShellProp;0;2017;0.125", "id");
@@ -173,7 +176,7 @@ TEST_CASE("a PAXISYM is named by a CAXISYM and follows the renumbering of the ma
         "AxisymShellProp;2098;2017;0.125\n"
         "AxisymShellProp;2099;2017;0.125;0.25;Structural\n"
         "ShellAxisym;5;2098;1;2\n");
-    REQUIRE(unresolvedIn(model) == 0); // the CAXISYM finds its property now that the card is typed
+    REQUIRE(unresolvedIn(model) == 0); // the ShellAxisym finds its property now that the card is typed
 
     Renumbering::apply(model, RenumberSpace::Material, Renumbering::offset(1000));
     REQUIRE(
@@ -182,7 +185,7 @@ TEST_CASE("a PAXISYM is named by a CAXISYM and follows the renumbering of the ma
     REQUIRE((cardAt<AxisymShellPropTable>(model, 0).id == 3098 && cardAt<AxisymShellPropTable>(model, 1).id == 3099));
     REQUIRE(model.locate(base::IdSpace::Property, 3098).has_value());
     REQUIRE_FALSE(model.locate(base::IdSpace::Property, 2098).has_value());
-    REQUIRE(unresolvedIn(model) == 0); // the PID of the CAXISYM followed
+    REQUIRE(unresolvedIn(model) == 0); // the PID of the ShellAxisym followed
     requireRoundTrip(model);
 
     // What the Python layer does when it edits a card: the values are checked, then stored in the row.
@@ -204,7 +207,8 @@ TEST_CASE("a PAXISYM is named by a CAXISYM and follows the renumbering of the ma
     REQUIRE_FALSE(model.locate(base::IdSpace::Property, 3099).has_value());
 }
 
-// --- PAXSYMH --------------------------------------------------------------------------------------------------------
+// --- AxisymHarmonicProp
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PAXSYMH has the format reference defaults and is the property that a CQUADX and a CTRIAX name",
           "[model][cards][paxsymh]")
@@ -238,7 +242,7 @@ TEST_CASE("a PAXSYMH has the format reference defaults and is the property that 
     requireRoundTrip(model);
 
     REQUIRE(unresolvedIn(model) ==
-            0); // the CQUADX and the CTRIAX find their property, the material and the system exist
+            0); // the AxisymQuad and the AxisymTria find their property, the material and the system exist
     const Visited withSystem = visitedBy<AxisymHarmonicPropTable>(model, 0);
     REQUIRE(withSystem.fields == std::vector<std::string>{"matId", "frameId"});
     REQUIRE(withSystem.targets == std::vector<ReferenceTarget>{ReferenceTarget::Material, ReferenceTarget::Coordinate});
@@ -259,7 +263,7 @@ TEST_CASE("a PAXSYMH has the format reference defaults and is the property that 
     Model missing = readBulk("AxisymHarmonicProp;3100;3010;3005\n");
     REQUIRE(unresolvedIn(missing) == 2); // no material and no coordinate system
 
-    // The property space is shared with the PAXISYM.
+    // The property space is shared with the AxisymShellProp.
     REQUIRE_THROWS_AS(readBulk("AxisymHarmonicProp;3100;3010\nAxisymShellProp;3100;3010;0.1"), base::DeckError);
 
     expectInvalid("AxisymHarmonicProp;0;3010", "id");
@@ -273,7 +277,8 @@ TEST_CASE("a PAXSYMH has the format reference defaults and is the property that 
     expectInvalid("AxisymHarmonicProp;3100;3010;;;x", "integration");
 }
 
-// --- PBSH2DT --------------------------------------------------------------------------------------------------------
+// --- BushProp2DFreq
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PBSH2DT has three groups of four tables, each led by a flag, in any order", "[model][cards][pbsh2dt]")
 {
@@ -327,12 +332,12 @@ TEST_CASE("a PBSH2DT extends the PBUSH2D of its ID and names its tables as TABLE
     for (std::size_t index = 1; index < visited.targets.size(); ++index)
         REQUIRE(visited.targets[index] == ReferenceTarget::DynamicTable);
 
-    // A PBUSH2D that is missing and a table that is missing are two unresolved references.
+    // A BushProp2D that is missing and a table that is missing are two unresolved references.
     Model missing = readBulk("BushProp2DFreq;20;Stiffness;101\n");
     REQUIRE(unresolvedIn(missing) == 2);
 
-    // The ID of the card is the one of the property: it follows, and is in a space of its own (a PBUSH2D and its
-    // PBSH2DT have the same ID, two PBSH2DT may not).
+    // The ID of the card is the one of the property: it follows, and is in a space of its own (a BushProp2D and its
+    // BushProp2DFreq have the same ID, two BushProp2DFreq may not).
     Renumbering::apply(model, RenumberSpace::Property, Renumbering::offset(100));
     REQUIRE(cardAt<BushProp2DFreqTable>(model).id == 120);
     REQUIRE(model.locateInType(typeIndexOf<BushProp2DFreqTable>(), 120).has_value());
@@ -370,7 +375,8 @@ TEST_CASE("a PBSH2DT refuses a bad flag, a group twice, a negative table and a f
     expectInvalid("BushProp2DFreq;20;Stiffness;abc", "stiffnessTableId11");
 }
 
-// --- PSPRMAT --------------------------------------------------------------------------------------------------------
+// --- SpringOffsetProp
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PSPRMAT is a linear spring (K) or a nonlinear one (LOAD) and has its values on the third line",
           "[model][cards][psprmat]")
@@ -400,7 +406,8 @@ TEST_CASE("a PSPRMAT is a linear spring (K) or a nonlinear one (LOAD) and has it
              cardAt<SpringOffsetPropTable>(model, 4).unloadingTableId == 202));
     requireRoundTrip(model);
 
-    // The two tables are TABLED1 entries (the unloading one is a TABLExx on the format: see the comment of the card).
+    // The two tables are TableDynamic1 entries (the unloading one is a TABLExx on the format: see the comment of the
+    // card).
     const Visited visited = visitedBy<SpringOffsetPropTable>(model, 4);
     REQUIRE(visited.fields == std::vector<std::string>{"loadingTableId", "unloadingTableId"});
     REQUIRE(visited.targets == std::vector<ReferenceTarget>(2, ReferenceTarget::DynamicTable));
@@ -418,7 +425,7 @@ TEST_CASE("a PSPRMAT is named by a CSPR, names its curves and follows the renumb
         "SpringOffsetProp;1;12500.\n"
         "SpringOffsetProp;3;;;;201;202\n" +
         tabled1(201) + tabled1(202));
-    REQUIRE(unresolvedIn(model) == 0); // the CSPR cards find their property now that the card is typed
+    REQUIRE(unresolvedIn(model) == 0); // the SpringOffsetExplicit cards find their property now that the card is typed
 
     Model missing = readBulk("SpringOffsetProp;3;;;;201;202\n");
     REQUIRE(unresolvedIn(missing) == 2);
@@ -461,11 +468,12 @@ TEST_CASE("a PSPRMAT refuses a mix of the two forms, a missing K or LOAD and a K
     expectInvalid("SpringOffsetProp;1;12500.;;;;202", "unloadingTableId");
     expectInvalid("SpringOffsetProp;1;;;;-201", "loadingTableId");
     expectInvalid("SpringOffsetProp;1;;;;201;-202", "unloadingTableId");
-    expectInvalid("SpringOffsetProp;1;;;;;202", "stiffness"); // an UNLOAD with no LOAD
+    expectInvalid("SpringOffsetProp;1;;;;;202", "stiffness"); // an UNLOAD with no LoadCombination
     // The values are on the third line: a K on the second one is a field of the grid that must stay empty.
 }
 
-// --- RBAX3D ---------------------------------------------------------------------------------------------------------
+// --- RigidAxisymConnection
+// ---------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an RBAX3D is a rigid element between a point on the axis and a point of an axisymmetric element",
           "[model][cards][rbax3d]")
@@ -530,7 +538,8 @@ TEST_CASE("an RBAX3D is a rigid element between a point on the axis and a point 
     expectInvalid("RigidAxisymConnection;4100;4010;abc", "axisymNode");
 }
 
-// --- LBSH3DG --------------------------------------------------------------------------------------------------------
+// --- NonlinearBushForceTables
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an LBSH3DG of the form SYM has the lower triangle of the matrix, one row to a line",
           "[model][cards][lbsh3dg]")
@@ -624,7 +633,7 @@ TEST_CASE("an LBSH3DG names a TABLED5 for each term and follows the renumbering 
     REQUIRE(model.locateInType(typeIndexOf<NonlinearBushForceTablesTable>(), 101).has_value());
     requireRoundTrip(model);
 
-    // The ID space is the card type's own: a second LBSH3DG with the ID is a duplicate.
+    // The ID space is the card type's own: a second NonlinearBushForceTables with the ID is a duplicate.
     REQUIRE_THROWS_AS(readBulk("NonlinearBushForceTables;1;;;5.E+3\nNonlinearBushForceTables;1;DiagonalForm;;6.E+3"),
                       base::DeckError);
 }
@@ -676,7 +685,8 @@ TEST_CASE("an LBSH3DG refuses a bad FORM, a rotor speed range that is empty, a n
     expectInvalid("NonlinearBushForceTables;1;AsymmetricForm;;5.E+3;x", "termTable11");
 }
 
-// --- NLBSH3D --------------------------------------------------------------------------------------------------------
+// --- NonlinearBushLoad3D
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an NLBSH3D is a nonlinear load between two grid points that names two LBSH3DG", "[model][cards][nlbsh3d]")
 {
@@ -696,7 +706,7 @@ TEST_CASE("an NLBSH3D is a nonlinear load between two grid points that names two
 
     const NonlinearBushLoad3DCard card = cardAt<NonlinearBushLoad3DTable>(model, 0);
     REQUIRE((card.setId == 7 && card.nodeA == 1 && card.nodeB == 2 && card.loadId1 == 10 && card.loadId2 == 11));
-    // Several cards share a SID, with other grid pairs, and several may name one LBSH3DG.
+    // Several cards share a SID, with other grid pairs, and several may name one NonlinearBushForceTables.
     REQUIRE((cardAt<NonlinearBushLoad3DTable>(model, 1).setId == 7 &&
              cardAt<NonlinearBushLoad3DTable>(model, 1).nodeA == 3));
     REQUIRE((cardAt<NonlinearBushLoad3DTable>(model, 1).loadId1 == 12 &&
@@ -711,7 +721,7 @@ TEST_CASE("an NLBSH3D is a nonlinear load between two grid points that names two
     REQUIRE(visited.targets == std::vector<ReferenceTarget>{ReferenceTarget::Node, ReferenceTarget::Node,
                                                             ReferenceTarget::BushingForceSet,
                                                             ReferenceTarget::BushingForceSet});
-    // The two LBSH3DG and the two grids that no card defines are four unresolved references.
+    // The two NonlinearBushForceTables and the two grids that no card defines are four unresolved references.
     Model missing = readBulk("NonlinearBushLoad3D;7;1;2;10;11\n");
     REQUIRE(unresolvedIn(missing) == 4);
 
@@ -751,7 +761,8 @@ TEST_CASE("an NLBSH3D refuses a missing field, equal grid points and a field out
     expectInvalid("NonlinearBushLoad3D;7;1;2;10;x", "loadId2");
 }
 
-// --- PLTSURF --------------------------------------------------------------------------------------------------------
+// --- PlotSurface
+// --------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PLTSURF has 3, 4, 6 or 8 grid points in the order of the shells", "[model][cards][pltsurf]")
 {
@@ -783,7 +794,8 @@ TEST_CASE("a PLTSURF has 3, 4, 6 or 8 grid points in the order of the shells", "
 TEST_CASE("a PLTSURF is a plot element with an ID space of its own that names its grid points",
           "[model][cards][pltsurf]")
 {
-    // A structural element may have the ID of a plot element (a SET3 names the plot surface by ID: the PLOTEL case).
+    // A structural element may have the ID of a plot element (a TypedListSet3 names the plot surface by ID: the
+    // PlotLine2 case).
     Model model = readBulk(
         "Node;1;;0.;0.;0.\n"
         "Node;2;;1.;0.;0.\n"
@@ -809,7 +821,7 @@ TEST_CASE("a PLTSURF is a plot element with an ID space of its own that names it
     REQUIRE(cardAt<PlotSurfaceTable>(model, 1).grids ==
             std::array<base::EntityId, 8>{101, 102, 103, 104, 0, 0, 0, 0});
     REQUIRE(unresolvedIn(model) == 0);
-    // The element space is not the plot elements': only the CROD moves.
+    // The element space is not the plot elements': only the Rod2 moves.
     Renumbering::apply(model, RenumberSpace::Element, Renumbering::offset(1000));
     REQUIRE(model.locate(base::IdSpace::Element, 1010).has_value());
     REQUIRE((cardAt<PlotSurfaceTable>(model, 0).id == 10 && cardAt<PlotSurfaceTable>(model, 1).id == 11));

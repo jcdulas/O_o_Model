@@ -12,8 +12,8 @@
 namespace oor::model
 {
 
-// One design variable of a linear relation and the coefficient it is multiplied by: DVIDi and COEFi of a DVPREL1, a
-// DVMREL1 or a DVCREL1, IDVi and Ci of a DLINK.
+// One design variable of a linear relation and the coefficient it is multiplied by: DVIDi and COEFi of a
+// DesignPropRelation1, a DesignMatRelation1 or a DesignElemRelation1, IDVi and Ci of a DesignVarLink.
 struct DesignTerm
 {
     base::EntityId designVarId = 0;
@@ -35,8 +35,8 @@ struct DesignTerm
 void writeDesignTerms(FieldWriter& writer, int firstField, const std::vector<DesignTerm>& terms, bool fromProperty);
 
 // The problem with the terms of a card, if there is one: no term at all, a DVID that is not positive, a coefficient
-// that is not finite, and with `distinct` a design variable that appears twice (DLINK does not allow it, the relations
-// do).
+// that is not finite, and with `distinct` a design variable that appears twice (DesignVarLink does not allow it, the
+// relations do).
 [[nodiscard]] std::optional<CardProblem> checkDesignTerms(const std::vector<DesignTerm>& terms, bool fromProperty,
                                                           bool distinct, const char* idName,
                                                           const char* coefficientName);

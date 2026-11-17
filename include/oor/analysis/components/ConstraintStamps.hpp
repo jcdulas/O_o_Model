@@ -24,17 +24,18 @@ struct ConstraintStamp
 // hash of the constraints on its nodes, so that a reduction made with the constraints applied before reducing is known
 // stale when they change, and only then.
 //
-// The entries of a set are the components of each node the SPC and SPC1 cards of the set give (SPCADD expanded; a THRU
-// range of an SPC1 gives the grid points of the model in it) with the enforced value of an SPC, the enforced motions of
-// the SPCD cards of every load set (an SPCD needs its degrees of freedom in an SPC set), and the
-// permanent constraints of the grid points (GRID PS), which apply to every set. Each entry is hashed from its kind,
-// node, components and value and the hashes are added: the stamp depends on the content, not on the cards that carry
-// it, their order or the session. An edit outside the nodes of a unit leaves its stamp alone.
+// The entries of a set are the components of each node the SinglePointConstr and SinglePointConstrList cards of the set
+// give (SinglePointConstrUnion expanded; a THRU range of a SinglePointConstrList gives the grid points of the model in
+// it) with the enforced value of a SinglePointConstr, the enforced motions of the EnforcedMotionConstr cards of every
+// load set (an EnforcedMotionConstr needs its degrees of freedom in an SPC set), and the permanent constraints of the
+// grid points (GRID PS), which apply to every set. Each entry is hashed from its kind, node, components and value and
+// the hashes are added: the stamp depends on the content, not on the cards that carry it, their order or the session.
+// An edit outside the nodes of a unit leaves its stamp alone.
 class ConstraintStamps
 {
 public:
-    // `spcSets` empty: every set an SPC, SPC1 or SPCADD card defines or a subcase selects. `units` empty: every unit.
-    // By unit, then set.
+    // `spcSets` empty: every set a SinglePointConstr, SinglePointConstrList or SinglePointConstrUnion card defines or a
+    // subcase selects. `units` empty: every unit. By unit, then set.
     [[nodiscard]] static std::vector<ConstraintStamp> compute(const model::Model& model, const UnitMembership& units,
                                                               std::vector<base::EntityId> spcSets = {},
                                                               const std::vector<std::int32_t>& unitsWanted = {});

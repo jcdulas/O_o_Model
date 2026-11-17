@@ -6,7 +6,7 @@ namespace oor::model
 // format reference, the commands of design optimisation (SOL 200) and of adaptive meshing.
 void defineOptimisationCommands(CommandCatalogue& commands)
 {
-    // a DCONSTR or DCONADD set
+    // a DesignConstr or DesignConstrUnion set
     commands.integer("GlobalDesignConstrSelection").refersTo(ReferenceTarget::DesignConstraintSet);
     commands.text("DesignModelName");
     commands.integer("DesignObjectiveSelection")
@@ -17,7 +17,8 @@ void defineOptimisationCommands(CommandCatalogue& commands)
     commands.integer("DesignVarSelection");
     commands.integer("DesignResponseSpanSelection");
     commands.output("DesignSensitivityOutput"); // DSAPRT(FORMATTED,EXPORT,END=SENS) = ALL
-    commands.integer("MeshAdaptivitySelection").refersTo(ReferenceTarget::AdaptivitySet); // a HADAPTL entry
+    // an AdaptiveRefineControl entry
+    commands.integer("MeshAdaptivitySelection").refersTo(ReferenceTarget::AdaptivitySet);
 }
 
 } // namespace oor::model

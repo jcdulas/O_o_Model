@@ -19,8 +19,8 @@ struct CyclicHarmonicLoadFormat
     static void write(const CyclicHarmonicLoadCard& card, FieldWriter& writer);
 };
 
-// All the LOADCYH cards. The ID is a load set ID shared by many cards (IdSpace::Group): the LOAD Case Control command
-// selects it.
+// All the CyclicHarmonicLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group): the LOAD Case
+// Control command selects it.
 class CyclicHarmonicLoadTable final : public TypedTable<CyclicHarmonicLoadTable, CyclicHarmonicLoadCard>
 {
 public:

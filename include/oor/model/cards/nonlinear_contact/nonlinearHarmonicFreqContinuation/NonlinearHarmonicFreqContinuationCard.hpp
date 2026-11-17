@@ -9,16 +9,16 @@
 namespace oor::model
 {
 
-// One NLFREQC card: the forcing frequencies of a nonlinear harmonic response by the improved continuation procedure
-// (SOL 128, CONTP = 2 of NHRMPRM).
+// One NonlinearHarmonicFreqContinuation card: the forcing frequencies of a nonlinear harmonic response by the improved
+// continuation procedure (SOL 128, CONTP = 2 of NonlinearHarmonicSolverParams).
 //
-// Card layout: NLFREQC  ID  FREQINI  STEPINIT  MINSIZE  MAXSIZE  MAXSTEP  MINFREQ  MAXFREQ
-//                      DERINC  PRTOUT
-//                      DFOUT  DFQ  DFQTOL  BEGFQ  ENDFQ
+// Card layout: NonlinearHarmonicFreqContinuation  ID  FREQINI  STEPINIT  MINSIZE  MAXSIZE  MAXSTEP  MINFREQ  MAXFREQ
+//                                                DERINC  PRTOUT
+//                                                DFOUT  DFQ  DFQTOL  BEGFQ  ENDFQ
 // The third line is the user output request: it is there only with the keyword DFOUT, which then needs DFQ.
 struct NonlinearHarmonicFreqContinuationCard
 {
-    base::EntityId id = 0;                 // the NLFREQ field of an NLHARM names it
+    base::EntityId id = 0;                 // the NLFREQ field of a NonlinearHarmonicParams names it
     double initialFreq = 0.0;              // FREQINI: the frequency the continuation starts at (not negative)
     double initialStep = 0.0;              // STEPINIT: the first step, up or down (not zero)
     std::optional<double> minimumStepSize; // MINSIZE: blank is 1.0E-5 * |STEPINIT|

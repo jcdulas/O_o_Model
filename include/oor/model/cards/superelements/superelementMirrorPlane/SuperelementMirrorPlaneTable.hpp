@@ -19,7 +19,8 @@ struct SuperelementMirrorPlaneFormat
     static void write(const SuperelementMirrorPlaneCard& card, FieldWriter& writer);
 };
 
-// All the SEMPLN cards, category Superelement, no ID of their own (IdSpace::None). One column for each field.
+// All the SuperelementMirrorPlane cards, category Superelement, no ID of their own (IdSpace::None). One column for each
+// field.
 class SuperelementMirrorPlaneTable final : public TypedTable<SuperelementMirrorPlaneTable, SuperelementMirrorPlaneCard>
 {
 public:
@@ -35,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    // SEID is a superelement; the three points are grid points or POINT cards of the main Bulk Data (this model).
+    // SEID is a superelement; the three points are grid points or GeomPoint cards of the main Bulk Data (this model).
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     [[nodiscard]] Column<base::EntityId>& superelementIdColumn() noexcept { return m_superelementId; }

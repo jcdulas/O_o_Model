@@ -290,7 +290,7 @@ struct Beam2Shape
     }
 };
 
-// CBEAM3: GA, GB and the middle node GC; the orientation is GO or the vector X in the displacement system of GA, and
+// Beam3: GA, GB and the middle node GC; the orientation is GO or the vector X in the displacement system of GA, and
 // the offsets are in the displacement systems of GA and GB (the OFFT flag does not exist). The length is the one of the
 // chord.
 struct Beam3Shape
@@ -358,7 +358,7 @@ struct Beam3Shape
     }
 };
 
-// CBEND: a curved bar; only the middle of the chord is given (its length depends on the geometry option and the
+// CurvedBeam2: a curved bar; only the middle of the chord is given (its length depends on the geometry option and the
 // property).
 struct CurvedBeam2Shape
 {
@@ -466,8 +466,8 @@ struct Gap2Shape
     }
 };
 
-// CBUSH1D: a one-dimensional bush along GA-GB (or along the x axis of CID); only its x axis is defined, so the frame is
-// given when CID names a system.
+// Bushing1D: a one-dimensional bush along GA-GB (or along the x axis of CID); only its x axis is defined, so the frame
+// is given when CID names a system.
 struct Bushing1DShape
 {
     static void nodes(const model::Bushing1DTable& table, std::uint32_t row, std::vector<base::EntityId>& ids)
@@ -604,7 +604,7 @@ struct PlotLine2Shape
 };
 
 // The two-noded marker element of the Euler domain: a segment between its grid points, with no property geometry (its
-// PID names a PMARKER, which has no section).
+// PID names a MarkerProp, which has no section).
 struct MarkerBodyShape
 {
     static void nodes(const model::MarkerBodyTable& table, std::uint32_t row, std::vector<base::EntityId>& ids)

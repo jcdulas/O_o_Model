@@ -5,9 +5,9 @@
 namespace oor::model
 {
 
-// One FORCE1 card: a concentrated force at a grid point whose direction is the line from G1 to G2.
+// One PointForceLoad1 card: a concentrated force at a grid point whose direction is the line from G1 to G2.
 //
-// Card layout: FORCE1  SID  G  F  G1  G2
+// Card layout: PointForceLoad1  SID  G  F  G1  G2
 // The force is F times the unit vector from G1 to G2 (the two points may not be coincident).
 struct PointForceLoad1Card
 {

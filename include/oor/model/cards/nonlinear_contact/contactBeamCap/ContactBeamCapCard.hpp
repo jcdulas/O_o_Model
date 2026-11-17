@@ -7,11 +7,11 @@
 namespace oor::model
 {
 
-// One BCSCAP card: whether a cap is added to a beam and how many segments model a rod or tube section, for the
+// One ContactBeamCap card: whether a cap is added to a beam and how many segments model a rod or tube section, for the
 // segment-to-segment beam contact (SOLs 101 and 400, and the permanently glued contact of the other solutions). Without
 // it every cap is ignored.
 //
-// Card layout: BCSCAP  EID  IESCAP  NSEG
+// Card layout: ContactBeamCap  EID  IESCAP  NSEG
 struct ContactBeamCapCard
 {
     base::EntityId id = 0; // the beam element

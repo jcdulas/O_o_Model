@@ -1,6 +1,7 @@
 // The boxes of the aerodynamic panels, checked against numbers worked out by hand on a swept wing: the
 // corners of each box, its area, centre, control and load points, the numbering of the boxes, the division lists of an
-// AEFACT, the coordinate system of the leading edge points and the aerodynamic coordinate system of the AERO card.
+// AeroFactorList, the coordinate system of the leading edge points and the aerodynamic coordinate system of the
+// AeroUnsteadyParams card.
 
 #include "oor/analysis/coordinates/CoordinateErrors.hpp"
 #include "oor/analysis/geometry/AeroPanels.hpp"
@@ -130,7 +131,7 @@ TEST_CASE("the leading edge points go through their system and the chords along 
     requirePoint(boxes.normal[0], 1.0, 0.0, 0.0);
     requirePoint(boxes.center[0], 10.0, 21.0, 32.0);
 
-    // Without the AERO card the chords run along the basic x axis.
+    // Without the AeroUnsteadyParams card the chords run along the basic x axis.
     const Model plain = readBulk(
         "RectFrame2;3;;10.;20.;30.;10.;20.;31.;11.;20.;30.\nAeroLiftingPanel1;3000;1;3;1;1;;;1;0.;0.;0.;2.;0.;0.;4.;"
         "2.");
@@ -143,7 +144,7 @@ TEST_CASE("a panel that cannot be cut is reported, the others are still made", "
                                  "\n"
                                  "AeroLiftingPanel1;2000;1;;;1;99;;1;0.;0.;0.;1.;0.;1.;0.;1.\n"
                                  "AeroLiftingPanel1;2500;1;;1;1;;;1;0.;0.;0.;1.;0.;1.;0.;1.");
-    REQUIRE_THROWS_AS(aeroPanelBoxes(model, 2000), GeometryError); // the AEFACT 99 does not exist
+    REQUIRE_THROWS_AS(aeroPanelBoxes(model, 2000), GeometryError); // the AeroFactorList 99 does not exist
     REQUIRE_THROWS_AS(aeroPanelBoxes(model, 77), GeometryError);   // no such panel
     std::vector<base::EntityId> skipped;
     const std::vector<AeroPanelBoxes> all = allAeroPanelBoxes(model, &skipped);

@@ -19,9 +19,9 @@ struct ModuleExcludedNodesFormat
     static void write(const ModuleExcludedNodesCard& card, FieldWriter& writer);
 };
 
-// All the MDEXCLD cards, category Other. A card has no ID of its own (IdSpace::None): a module may have several. They
-// are kept whole next to a column of their MIDAs. The points are visited as grid points (`Node`, the ends of a THRU
-// range `NodeInRange`) when MIDA is 0, the main Bulk Data; the modules are plain integers.
+// All the ModuleExcludedNodes cards, category Other. A card has no ID of its own (IdSpace::None): a module may have
+// several. They are kept whole next to a column of their MIDAs. The points are visited as grid points (`Node`, the ends
+// of a THRU range `NodeInRange`) when MIDA is 0, the main Bulk Data; the modules are plain integers.
 class ModuleExcludedNodesTable final : public TypedTable<ModuleExcludedNodesTable, ModuleExcludedNodesCard>
 {
 public:

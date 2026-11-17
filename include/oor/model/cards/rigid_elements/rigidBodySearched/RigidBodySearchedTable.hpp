@@ -19,11 +19,11 @@ struct RigidBodySearchedFormat
     static void write(const RigidBodySearchedCard& card, FieldWriter& writer);
 };
 
-// All the RBE2GS cards. A rigid element is an element: the ID is in the space shared by all the elements. The cards are
-// kept whole (CardRows) next to the columns the query engine reads, the EID and the grid or point GS. GS names a node
-// (ReferenceTarget::Node, a GRID or a POINT; blank when the search location is a coordinate triple). The grids of the
-// exclusion lists are nodes too: a single ID is a Node, the two ends of a THRU range are NodeInRange (the format
-// reference says that not every grid of a range needs to exist).
+// All the RigidBodySearched cards. A rigid element is an element: the ID is in the space shared by all the elements.
+// The cards are kept whole (CardRows) next to the columns the query engine reads, the EID and the grid or point GS. GS
+// names a node (ReferenceTarget::Node, a Node or a GeomPoint; blank when the search location is a coordinate triple).
+// The grids of the exclusion lists are nodes too: a single ID is a Node, the two ends of a THRU range are NodeInRange
+// (the format reference says that not every grid of a range needs to exist).
 class RigidBodySearchedTable final : public TypedTable<RigidBodySearchedTable, RigidBodySearchedCard>
 {
 public:

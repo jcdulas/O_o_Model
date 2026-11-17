@@ -19,9 +19,10 @@ struct ReferenceRotorFormat
     static void write(const ReferenceRotorCard& card, FieldWriter& writer);
 };
 
-// All the REFROT cards. The ID is the RGYRO set the card belongs to (IdSpace::Group, category Other like RGYRO: the
-// REFROT cards and the RGYRO cards of one RID are all invoked by a subcase that has RGYRO=RID). REFROTID and the
-// non-reference rotors (the ends of a THRU range included) are Rotor references.
+// All the ReferenceRotor cards. The ID is the RotordynamicParams set the card belongs to (IdSpace::Group, category
+// Other like RotordynamicParams: the ReferenceRotor cards and the RotordynamicParams cards of one RID are all invoked
+// by a subcase that has RotordynamicParams=RID). REFROTID and the non-reference rotors (the ends of a THRU range
+// included) are Rotor references.
 class ReferenceRotorTable final : public TypedTable<ReferenceRotorTable, ReferenceRotorCard>
 {
 public:

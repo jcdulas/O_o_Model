@@ -11,9 +11,9 @@ namespace oor::analysis
 namespace
 {
 
-// A MESH of TYPE ADAPT that no COUPLE names. An adaptive mesh is built around a coupling surface and follows it, so the
-// format reference requires the MID of the MESH to be the MESHID of a COUPLE; without one the mesh has nothing to adapt
-// to.
+// An EulerMeshGenerator of TYPE ADAPT that no EulerLagrangeCoupling names. An adaptive mesh is built around a coupling
+// surface and follows it, so the format reference requires the MID of the EulerMeshGenerator to be the MESHID of an
+// EulerLagrangeCoupling; without one the mesh has nothing to adapt to.
 class EulerMeshAdaptWithoutCouplingCheck final : public ValidationCheck
 {
 public:

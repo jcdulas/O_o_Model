@@ -31,7 +31,7 @@ enum class ContactRule : std::uint8_t
     // searched from its primary body.
     Components,
     // The selection the solver makes for a glued pair: its distance tolerance, the
-    // BIAS of the pair, the double-order search of ISEARCH 0 and the grid points it leaves out.
+    // EulerMeshBias of the pair, the double-order search of ISEARCH 0 and the grid points it leaves out.
     Solver
 };
 

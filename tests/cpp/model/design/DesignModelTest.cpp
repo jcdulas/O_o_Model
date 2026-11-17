@@ -1,7 +1,7 @@
 // The design model of a deck: the values of the variables, the relations and what they drive, and the
-// application of a design point: DLINK first, then the linear relations and the equations with the constants of a
-// DTABLE and a DTABLE2, the limits of a relation, the fields of the cards that a relation can name, and the refusal of
-// the rest. Every expected number is worked out in a comment next to it.
+// application of a design point: DesignVarLink first, then the linear relations and the equations with the constants of
+// a DesignConstants and a DesignFieldConstants, the limits of a relation, the fields of the cards that a relation can
+// name, and the refusal of the rest. Every expected number is worked out in a comment next to it.
 
 #include "oor/model/cards/elements/pointMassInertia/PointMassInertiaTable.hpp"
 #include "oor/model/cards/elements/shellQuad4/ShellQuad4Table.hpp"
@@ -37,10 +37,11 @@ namespace
 {
 
 // A deck with a plate, a bar, a rod and a material, and the design cards that drive them:
-//   T of the PSHELL 10     = 0.1 + 2 x1 + 0.5 x2                      (DVPREL1 11, two variables and a constant)
-//   A of the PBAR 20       = SCALE * x3**2, SCALE = 2 from a DTABLE   (DVPREL2 12, an equation)
-//   RHO of the MAT1 3      = 1000 x4, x4 = 0.5 + 2 (x1 + 3 x2)         (DVMREL1 13, x4 depends on x1 and x2 by a DLINK)
-//   A of the PROD 30       = 1.0E-4 x3                                 (DVPREL1 15, one variable and no constant)
+//   T of the ShellProp 10     = 0.1 + 2 x1 + 0.5 x2              (DesignPropRelation1 11, two variables and a constant)
+//   A of the BarProp 20       = SCALE * x3**2, SCALE = 2 from a DesignConstants  (DesignPropRelation2 12, an equation)
+//   RHO of the IsoMat 3      = 1000 x4, x4 = 0.5 + 2 (x1 + 3 x2) (DesignMatRelation1 13, x4 depends on x1 and x2 by a
+//                            DesignVarLink) A of the RodProp 30 = 1.0E-4 x3 (DesignPropRelation1 15, one variable and
+//                            no constant)
 // x1 = 0.05 and x2 = 0.2 give T = 0.1 + 0.1 + 0.1 = 0.3, x4 = 0.5 + 2 (0.05 + 0.6) = 1.8 and RHO = 1800.
 const std::string DECK =
     "IsoMat;3;2.1E+11;;0.3;7850.\n"
@@ -94,9 +95,9 @@ TEST_CASE("the design model lists the variables with their bounds, the move limi
     REQUIRE(thickness.initial == 0.05);
     REQUIRE(thickness.lower == 0.01);
     REQUIRE(thickness.upper == 0.1);
-    REQUIRE(thickness.moveLimit == 0.25); // no DELXV: the DELX of the DOPTPRM
+    REQUIRE(thickness.moveLimit == 0.25); // no DELXV: the DELX of the DesignOptimParams
     REQUIRE(thickness.link == 0);
-    REQUIRE(design.variables()[3].link == 1); // the variable 4 is given by the DLINK 1
+    REQUIRE(design.variables()[3].link == 1); // the variable 4 is given by the DesignVarLink 1
     REQUIRE(*design.findVariable("AREA") == 2);
     REQUIRE_FALSE(design.findVariable("area").has_value());
     REQUIRE_FALSE(design.findVariable(99).has_value());
@@ -477,7 +478,7 @@ TEST_CASE("TOMVAR, BEADVAR, DVLREL1 and DVPSURF are listed as not applied, with 
           "[model][design]")
 {
     // The regions of a topometry and a topography optimisation name no design variable (the solver makes theirs); a
-    // designed load and a designed control surface setting name one each. DESVAR 3 is named by nothing.
+    // designed load and a designed control surface setting name one each. DesignVar 3 is named by nothing.
     Model model = readBulk(
         "IsoMat;3;2.1E+11;;0.3\n"
         "ShellProp;10;3;0.01\n"
@@ -500,7 +501,7 @@ TEST_CASE("TOMVAR, BEADVAR, DVLREL1 and DVPSURF are listed as not applied, with 
     REQUIRE((design.notApplied()[3].card == "DesignControlSurface" && design.notApplied()[3].id == 11));
     REQUIRE_THAT(design.notApplied()[3].reason, ContainsSubstring("FLAP"));
     REQUIRE(design.relations().empty());
-    // The variable of a DVLREL1 term and the one of a DVPSURF are used, the third is not.
+    // The variable of a DesignLoadRelation1 term and the one of a DesignControlSurface are used, the third is not.
     REQUIRE(design.isUsed(1));
     REQUIRE(design.isUsed(2));
     REQUIRE_FALSE(design.isUsed(3));
@@ -536,7 +537,7 @@ TEST_CASE("setting the initial values gives the DESVAR cards the design point, t
     (void)applyDesign(model, design, pointOf(design, {{1, 0.06}, {2, 0.2}, {3, 3.0}}), options);
     const DesignVarTable& table = *model.findTable<DesignVarTable>();
     REQUIRE(table.card(0).initialValue == Approx(0.06));
-    REQUIRE(table.card(3).initialValue == Approx(0.5 + 2.0 * (0.06 + 0.6))); // the DLINK value
+    REQUIRE(table.card(3).initialValue == Approx(0.5 + 2.0 * (0.06 + 0.6))); // the DesignVarLink value
 }
 
 TEST_CASE("a design that changed since it was read is refused", "[model][design]")

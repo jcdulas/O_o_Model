@@ -18,8 +18,8 @@ struct NonlinearPositivePowerLoad3Format
     static void write(const NonlinearPositivePowerLoad3Card& card, FieldWriter& writer);
 };
 
-// All the NOLIN3 cards. The ID is a nonlinear load set ID shared by many cards (IdSpace::Group, category DynamicLoad):
-// the NONLINEAR Case Control command selects it.
+// All the NonlinearPositivePowerLoad3 cards. The ID is a nonlinear load set ID shared by many cards (IdSpace::Group,
+// category DynamicLoad): the NONLINEAR Case Control command selects it.
 class NonlinearPositivePowerLoad3Table final
     : public TypedTable<NonlinearPositivePowerLoad3Table, NonlinearPositivePowerLoad3Card>
 {

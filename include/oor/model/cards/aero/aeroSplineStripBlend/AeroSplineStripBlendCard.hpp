@@ -10,7 +10,7 @@
 namespace oor::model
 {
 
-// OPT of a SPBLND1: how the two splines are blended. The enumerators are numbered in the order of
+// OPT of an AeroSplineStripBlend: how the two splines are blended. The enumerators are numbered in the order of
 // AERO_SPLINE_STRIP_BLEND_OPTION_WORDS.
 enum class AeroSplineStripBlendOption : std::uint8_t
 {
@@ -22,16 +22,16 @@ enum class AeroSplineStripBlendOption : std::uint8_t
 inline constexpr std::array<std::string_view, 3> AERO_SPLINE_STRIP_BLEND_OPTION_WORDS{"WeightedAverage", "Linear",
                                                                                       "Cubic"};
 
-// One SPBLND1 card: a strip based blend of two splines, which the other splines name as their own (the blend has a
-// spline ID of its own and may be blended again).
+// One AeroSplineStripBlend card: a strip based blend of two splines, which the other splines name as their own (the
+// blend has a spline ID of its own and may be blended again).
 //
-// Card layout: SPBLND1  SID  SID1  SID2  OPT  W1  GID  D1  D2
-//                      X1   X2    X3    CID
-// SID is the number of the blended spline, in the category AeroSpline with SPLINE1 to SPLINE7 (the ID is unique per
-// card type and a check compares the types). SID1 and SID2 name the two splines it blends; either may be a blend
-// itself. OPT is WAVG when blank. W1 is the weight of the first spline, 0.5 when blank, greater than zero and at
-// most 1.0 (the format reference gives the weight of the second spline as 1 - W1); only WAVG uses it, the range is
-// checked for every OPT.
+// Card layout: AeroSplineStripBlend  SID  SID1  SID2  OPT  W1  GID  D1  D2
+//                                   X1   X2    X3  CID
+// SID is the number of the blended spline, in the category AeroSpline with AeroSurfaceSpline1 to AeroFiniteBeamSpline7
+// (the ID is unique per card type and a check compares the types). SID1 and SID2 name the two splines it blends; either
+// may be a blend itself. OPT is WAVG when blank. W1 is the weight of the first spline, 0.5 when blank, greater than
+// zero and at most 1.0 (the format reference gives the weight of the second spline as 1 - W1); only WAVG uses it, the
+// range is checked for every OPT.
 //
 // With WAVG the reference grid GID, the depths D1 and D2 and the direction vector (X1, X2, X3) are optional, so they
 // stay blank (GID 0, std::nullopt); with LIN or CUB the blending functions need them and the card refuses a blank one.

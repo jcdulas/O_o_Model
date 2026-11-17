@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One MAT10 card: the material of a fluid element in a coupled fluid-structure analysis.
+// One FluidMat card: the material of a fluid element in a coupled fluid-structure analysis.
 //
 // Card layout:
-//   MAT10  MID   BULK   RHO   C   GE   ALPHA
+//   FluidMat  MID   BULK   RHO   C   GE  ALPHA
 //
 // BULK, RHO and C are related by C^2 = BULK / RHO and two of them are enough: the card is stored with
 // the three, the one a blank card leaves out computed from the two it gives (resolved, and always written). When a card

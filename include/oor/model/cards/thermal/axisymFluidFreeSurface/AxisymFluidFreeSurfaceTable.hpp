@@ -19,8 +19,8 @@ struct AxisymFluidFreeSurfaceFormat
     static void write(const AxisymFluidFreeSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the FSLIST cards. A card has no ID (IdSpace::None, category Other): several of them follow the free surface, one
-// for each interval of density. A blank RHO is NaN.
+// All the AxisymFluidFreeSurface cards. A card has no ID (IdSpace::None, category Other): several of them follow the
+// free surface, one for each interval of density. A blank RHO is NaN.
 class AxisymFluidFreeSurfaceTable final : public TypedTable<AxisymFluidFreeSurfaceTable, AxisymFluidFreeSurfaceCard>
 {
 public:
@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // the RINGFL cards are not typed
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // the AxisymFluidRing cards are not typed
 
     [[nodiscard]] Column<double>& densityColumn() noexcept { return m_density; }
     [[nodiscard]] VariableLengthColumn<base::EntityId>& pointsColumn() noexcept { return m_points; }

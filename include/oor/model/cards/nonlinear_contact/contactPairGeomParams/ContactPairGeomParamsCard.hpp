@@ -8,13 +8,14 @@
 namespace oor::model
 {
 
-// One BCONPRG card: the geometric contact parameters of touching bodies (SOLs 101 and 400, and the glued contact of the
-// other solutions; SOL 700 has its own list of names, METHOD, ADAPT, SIDE, ... which the card reads too): the search
-// order, glue options, interference fit, initial gap and the numerical parameters of the segment-to-segment method, as
-// (name, value) pairs. The format lists the names. A BCONECT names the card by its
+// One ContactPairGeomParams card: the geometric contact parameters of touching bodies (SOLs 101 and 400, and the glued
+// contact of the other solutions; SOL 700 has its own list of names, METHOD, ADAPT, SIDE, ... which the card reads
+// too): the search order, glue options, interference fit, initial gap and the numerical parameters of the
+// segment-to-segment method, as (name, value) pairs. The format lists the names. A ContactPair names the card by its
 // BCGPID.
 //
-// Card layout: BCONPRG  BCGPID  (blank)  PARAM1  VAL1  PARAM2  VAL2  PARAM3  VAL3  / PARAM4  VAL4  PARAM5  VAL5 ...
+// Card layout: ContactPairGeomParams  BCGPID  (blank)  PARAM1  VAL1  PARAM2  VAL2  PARAM3  VAL3  / PARAM4  VAL4  PARAM5
+//                                     VAL5 ...
 // (the pairs go on in the continuation lines).
 struct ContactPairGeomParamsCard
 {

@@ -19,8 +19,9 @@ struct EulerHydrostaticPresetFormat
     static void write(const EulerHydrostaticPresetCard& card, FieldWriter& writer);
 };
 
-// All the HYDSTAT cards. The HID is unique among the HYDSTAT cards (IdSpace::PerCardType) and is in the category
-// HydrostaticPreset, which a COUPLE names. Its MID is a material, its GID a grid point and its CID a coordinate system.
+// All the EulerHydrostaticPreset cards. The HID is unique among the EulerHydrostaticPreset cards (IdSpace::PerCardType)
+// and is in the category HydrostaticPreset, which an EulerLagrangeCoupling names. Its MID is a material, its GID a grid
+// point and its CID a coordinate system.
 class EulerHydrostaticPresetTable final : public TypedTable<EulerHydrostaticPresetTable, EulerHydrostaticPresetCard>
 {
 public:

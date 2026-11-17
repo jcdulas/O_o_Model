@@ -19,7 +19,7 @@ struct Beam3Format
     static void write(const Beam3Card& card, FieldWriter& writer);
 };
 
-// All the CBEAM3 elements. The orientation vector, the offsets and the twists are (N, 3) NumPy views without copy.
+// All the Beam3 elements. The orientation vector, the offsets and the twists are (N, 3) NumPy views without copy.
 class Beam3Table final : public TypedTable<Beam3Table, Beam3Card>
 {
 public:

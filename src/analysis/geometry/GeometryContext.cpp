@@ -56,8 +56,8 @@ base::Vec3 GeometryContext::pointInSystem(base::EntityId cid, const base::Vec3& 
 namespace
 {
 
-// The thickness a PSHELL1 gives its elements: the mean of the thicknesses at the grid points that it states. T1 blank
-// or zero leaves the thickness to the element card, which the property cannot know: no thickness. A T2
+// The thickness a ShellPropNodal gives its elements: the mean of the thicknesses at the grid points that it states. T1
+// blank or zero leaves the thickness to the element card, which the property cannot know: no thickness. A T2
 // to T4 that is zero is a thickness the deck left blank, so it does not count.
 double meanThickness(const model::ShellPropNodalCard& card)
 {
@@ -135,7 +135,8 @@ double GeometryContext::sectionArea(base::EntityId pid) const
         }
         else if (SectionFormulas::supports(type))
         {
-            // PBEAM, PBEAML, PBEAM3, PBCOMP and PBARL: the section of the property, averaged along the beam.
+            // BeamProp, BeamShapeProp, BeamProp3, BeamLumpedAreaProp and BarShapeProp: the section of the property,
+            // averaged along the beam.
             if (const auto section = SectionFormulas::of(m_model, *location, ShearFactorRule::None))
                 area = section->meanArea();
         }

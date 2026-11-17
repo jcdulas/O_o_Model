@@ -19,9 +19,9 @@ struct NonlinearOutputItemsFormat
     static void write(const NonlinearOutputItemsCard& card, FieldWriter& writer);
 };
 
-// All the NLOUT cards. The ID is unique among them (IdSpace::PerCardType). The NLSTRESS command of Case Control names
-// it with a keyword that the Case Control commands do not take apart, so no reference is resolved. The cards are kept
-// whole (CardRows); the query engine reads the ID only.
+// All the NonlinearOutputItems cards. The ID is unique among them (IdSpace::PerCardType). The NLSTRESS command of Case
+// Control names it with a keyword that the Case Control commands do not take apart, so no reference is resolved. The
+// cards are kept whole (CardRows); the query engine reads the ID only.
 class NonlinearOutputItemsTable final : public TypedTable<NonlinearOutputItemsTable, NonlinearOutputItemsCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an NLOUT refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a NonlinearOutputItems refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

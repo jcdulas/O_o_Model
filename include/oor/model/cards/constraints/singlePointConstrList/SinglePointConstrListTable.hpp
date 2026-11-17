@@ -20,8 +20,8 @@ struct SinglePointConstrListFormat
     static void write(const SinglePointConstrListCard& card, FieldWriter& writer);
 };
 
-// All the SPC1 cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The node lists are one CSR
-// column of (first, last) runs.
+// All the SinglePointConstrList cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The node
+// lists are one CSR column of (first, last) runs.
 class SinglePointConstrListTable final : public TypedTable<SinglePointConstrListTable, SinglePointConstrListCard>
 {
 public:

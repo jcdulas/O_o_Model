@@ -20,7 +20,7 @@ struct RectFrame1Format
     static void write(const RectFrame1Card& card, FieldWriter& writer);
 };
 
-// All the CORD1R systems, one row each (a card with two systems gives two rows).
+// All the RectFrame1 systems, one row each (a card with two systems gives two rows).
 class RectFrame1Table final : public TypedTable<RectFrame1Table, RectFrame1Card>
 {
 public:

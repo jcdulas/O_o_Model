@@ -19,7 +19,8 @@ struct PlaneStrainTria3Format
     static void write(const PlaneStrainTria3Card& card, FieldWriter& writer);
 };
 
-// All the CPLSTN3 elements: the nodes are one column of three IDs per element (an (N, 3) NumPy view without copy).
+// All the PlaneStrainTria3 elements: the nodes are one column of three IDs per element (an (N, 3) NumPy view without
+// copy).
 class PlaneStrainTria3Table final : public TypedTable<PlaneStrainTria3Table, PlaneStrainTria3Card>
 {
 public:

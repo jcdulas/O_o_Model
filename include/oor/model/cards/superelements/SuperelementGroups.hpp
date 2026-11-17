@@ -16,17 +16,20 @@
 namespace oor::model
 {
 
-// The continuation lines of SEDRSP2 and SEDRSP3 are groups, as those of DRESP2 and DRESP3 are, with one difference:
-// every item is led by the number of the part superelement that holds what it names (a design variable of part 3 is not
-// one of part 5, each part having its own ID space). A group is a keyword in the first field of a line ("DESVAR",
-// "DTABLE", "DRESP1", "DNODE", ...) and the items it introduces on that line and on the lines after it that have a
-// blank keyword. Each card has its own array of SuperelementGroupKeyword, and this reads, writes, checks and visits the
-// groups by it. It describes no card: what a keyword means stays in the card.
+// The continuation lines of SuperelementDesignResp2 and SuperelementDesignResp3 are groups, as those of DesignResp2 and
+// DesignResp3 are, with one difference: every item is led by the number of the part superelement that holds what it
+// names (a design variable of part 3 is not one of part 5, each part having its own ID space). A group is a keyword in
+// the first field of a line ("DesignVar", "DesignConstants", "DesignResp1", "DNODE", ...) and the items it introduces
+// on that line and on the lines after it that have a blank keyword. Each card has its own array of
+// SuperelementGroupKeyword, and this reads, writes, checks and visits the groups by it. It describes no card: what a
+// keyword means stays in the card.
 
 enum class SuperelementGroupContent : std::uint8_t
 {
-    Pairs,  // (SEID, ID) pairs, three to a line (DESVAR, DRESP1, DVPREL1, DVCREL1, DVMREL1, DVPREL2, DVCREL2, DVMREL2)
-    Labels, // (SEID, label) pairs, three to a line (DTABLE)
+    // (SEID, ID) pairs, three to a line (DesignVar, DesignResp1, DesignPropRelation1, DesignElemRelation1,
+    // DesignMatRelation1, DesignPropRelation2, DesignElemRelation2, DesignMatRelation2)
+    Pairs,
+    Labels, // (SEID, label) pairs, three to a line (DesignConstants)
     Nodes,  // (SEID, grid point, component) triples, two to a line (DNODE)
     Text    // a text of up to seven fields to a line, with blanks (USRDATA)
 };
@@ -78,7 +81,7 @@ void writeSuperelementGroups(FieldWriter& writer, int firstField, const std::vec
                                                                  std::span<const SuperelementGroupKeyword> keywords);
 
 // Visits the superelement of every item and what it names in that superelement (a design variable, a response, a
-// relation, a grid point). The labels of a DTABLE name nothing a card owns.
+// relation, a grid point). The labels of a DesignConstants name nothing a card owns.
 void visitSuperelementGroups(ReferenceVisitor& visitor, std::vector<SuperelementGroup>& groups,
                              std::span<const SuperelementGroupKeyword> keywords);
 

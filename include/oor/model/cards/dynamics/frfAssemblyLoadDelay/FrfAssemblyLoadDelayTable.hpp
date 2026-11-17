@@ -19,10 +19,10 @@ struct FrfAssemblyLoadDelayFormat
     static void write(const FrfAssemblyLoadDelayCard& card, FieldWriter& writer);
 };
 
-// All the FBADLAY cards. The SID is a set ID shared by many cards, in the category of the DELAY cards (IdSpace::Group,
-// category Delay), so the DELAY field of a dynamic load finds it (ReferenceTarget::DelaySet). A component given by its
-// ID is a reference to an FRFCOMP (ReferenceTarget::FrfComponent); one given by its name is kept as written; the point
-// is a plain number of the component's own model.
+// All the FrfAssemblyLoadDelay cards. The SID is a set ID shared by many cards, in the category of the DELAY cards
+// (IdSpace::Group, category Delay), so the DELAY field of a dynamic load finds it (ReferenceTarget::DelaySet). A
+// component given by its ID is a reference to a FrfComponent (ReferenceTarget::FrfComponent); one given by its name is
+// kept as written; the point is a plain number of the component's own model.
 class FrfAssemblyLoadDelayTable final : public TypedTable<FrfAssemblyLoadDelayTable, FrfAssemblyLoadDelayCard>
 {
 public:

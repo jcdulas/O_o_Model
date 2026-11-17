@@ -20,8 +20,8 @@ struct NonStructMassFormat
     static void write(const NonStructMassCard& card, FieldWriter& writer);
 };
 
-// All the NSM cards. The ID is a set ID shared by many cards (IdSpace::Group); the IDs and the values of every card are
-// two lists in CSR form.
+// All the NonStructMass cards. The ID is a set ID shared by many cards (IdSpace::Group); the IDs and the values of
+// every card are two lists in CSR form.
 class NonStructMassTable final : public TypedTable<NonStructMassTable, NonStructMassCard>
 {
 public:

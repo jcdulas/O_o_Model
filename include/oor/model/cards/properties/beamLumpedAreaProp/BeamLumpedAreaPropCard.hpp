@@ -7,7 +7,7 @@
 namespace oor::model
 {
 
-// One lumped area of the cross-section of a PBCOMP.
+// One lumped area of the cross-section of a BeamLumpedAreaProp.
 struct BeamLumpedAreaPropArea
 {
     double y = 0.0; // the (y, z) coordinates of the area in the element coordinate system
@@ -16,14 +16,15 @@ struct BeamLumpedAreaPropArea
     base::EntityId matId = 0; // the material of the area
 };
 
-// One PBCOMP card: the alternate form of a PBEAM for a uniform beam, with the lumped areas of its cross-section.
+// One BeamLumpedAreaProp card: the alternate form of a BeamProp for a uniform beam, with the lumped areas of its
+// cross-section.
 //
 // Card layout:
-//   PBCOMP  PID  MID  A   I1  I2  I12  J       NSM
-//           K1   K2   M1  M2  N1  N2   SYMOPT
-//           Y1   Z1   C1  MID1
-//           Y2   Z2   C2  MID2
-//           -etc.-
+//   BeamLumpedAreaProp  PID  MID  A   I1  I2  I12  J  NSM
+//                       K1   K2   M1  M2  N1  N2  SYMOPT
+//                       Y1   Z1  C1  MID1
+//                       Y2   Z2  C2  MID2
+//                       -etc.-
 //
 // A blank MIDi is MID (stored resolved). I1, I2, I12 and J are 0.0 when blank (a common deck leaves them blank, and
 // they are ignored when lumped areas are given). A line of lumped area has four fields, the four after them are blank.

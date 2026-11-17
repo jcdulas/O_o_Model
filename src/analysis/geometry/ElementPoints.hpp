@@ -27,7 +27,8 @@ public:
     [[nodiscard]] bool exists(base::EntityId id) const noexcept;
     // The position of a slot point (an AcousticSlotSurfacePoint) in the plane of the slot cavity: x is its R, y its Z
     // and z is 0. The slot width W of the point is not a coordinate (the format reference only plots it as the basic
-    // z), so the elements of a slot cavity (CSLOT3, CSLOT4) are surfaces in the R-Z plane. Nothing for any other card.
+    // z), so the elements of a slot cavity (AcousticSlot3, AcousticSlot4) are surfaces in the R-Z plane. Nothing for
+    // any other card.
     [[nodiscard]] std::optional<base::Vec3> slotPoint(base::EntityId id) const;
 
 private:

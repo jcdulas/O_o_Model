@@ -19,8 +19,8 @@ struct MultiPointConstrUnionFormat
     static void write(const MultiPointConstrUnionCard& card, FieldWriter& writer);
 };
 
-// All the MPCADD cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The sets of every card are
-// one list in CSR form.
+// All the MultiPointConstrUnion cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The sets of
+// every card are one list in CSR form.
 class MultiPointConstrUnionTable final : public TypedTable<MultiPointConstrUnionTable, MultiPointConstrUnionCard>
 {
 public:

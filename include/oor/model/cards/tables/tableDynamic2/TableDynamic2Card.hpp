@@ -7,11 +7,11 @@
 namespace oor::model
 {
 
-// One TABLED2 card: a function of x - X1 for dynamic loads, given by points: y = yT(x - X1).
+// One TableDynamic2 card: a function of x - X1 for dynamic loads, given by points: y = yT(x - X1).
 //
 // Card layout:
-//   TABLED2  TID  X1
-//            x1   y1   x2   y2   x3   y3   -etc.-   ENDT
+//   TableDynamic2  TID  X1
+//                  x1   y1   x2   y2   x3   y3   -etc.-  ENDT
 // The points follow each other from field 9, two fields each, over as many continuation lines as needed, and the word
 // ENDT ends the table. x is ascending or descending; a repeated x makes a jump. The function is linear between the
 // points and carries on from the two first or the two last points outside. A blank X1 is 0.0 (the format reference

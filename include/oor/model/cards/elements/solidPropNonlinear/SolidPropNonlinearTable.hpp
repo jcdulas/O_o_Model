@@ -19,9 +19,9 @@ struct SolidPropNonlinearFormat
     static void write(const SolidPropNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the PSLDN1 cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the ID is the
-// one of the PSOLID that the card extends, so it is also a reference to a property (a renumbering of the properties
-// follows into it).
+// All the SolidPropNonlinear cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the
+// ID is the one of the SolidProp that the card extends, so it is also a reference to a property (a renumbering of the
+// properties follows into it).
 class SolidPropNonlinearTable final : public TypedTable<SolidPropNonlinearTable, SolidPropNonlinearCard>
 {
 public:

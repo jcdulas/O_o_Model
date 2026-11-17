@@ -4,9 +4,9 @@
 #include <cstdint>
 #include <string_view>
 
-// The one word that two cards of the brake squeal analysis (SOL 400) share: the BSONLY flag of a BSQUEAL and of a
-// BRKSYS. One kind of value used inside one family; each card still lays out, reads, writes and checks its own fields
-// by hand.
+// The one word that two cards of the brake squeal analysis (SOL 400) share: the BSONLY flag of a BrakeSqueal and of a
+// BrakeSystem. One kind of value used inside one family; each card still lays out, reads, writes and checks its own
+// fields by hand.
 namespace oor::model
 {
 

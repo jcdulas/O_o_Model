@@ -7,9 +7,9 @@
 namespace oor::model
 {
 
-// One FORCE card: a concentrated force at a grid point.
+// One PointForceLoad card: a concentrated force at a grid point.
 //
-// Card layout: FORCE  SID  G  CID  F  N1  N2  N3
+// Card layout: PointForceLoad  SID  G  CID  F  N1  N2  N3
 // The force is F times the vector (N1, N2, N3), given in coordinate system CID (0 = basic).
 struct PointForceLoadCard
 {

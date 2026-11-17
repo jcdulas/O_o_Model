@@ -1,4 +1,4 @@
-// The equations of a DEQATN: the grammar and its precedence, the functions, the integer rule (1/2 is
+// The equations of a DesignEquation: the grammar and its precedence, the functions, the integer rule (1/2 is
 // 0), the canonical text, and the evaluation of one point and of many.
 
 #include "oor/base/errors/Errors.hpp"

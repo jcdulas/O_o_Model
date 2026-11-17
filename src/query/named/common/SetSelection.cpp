@@ -154,7 +154,8 @@ std::span<const std::int32_t> idsInRun(std::span<const std::int32_t> sortedIds, 
                                         [](std::int32_t id, std::int64_t value) { return id < value; });
     if (first == last)
     {
-        // One ID (a PLOAD2 or PLOAD4 of one element: millions of them): the cards of that ID follow `begin`.
+        // One ID (a ShellPressureLoad or FacePressureLoad of one element: millions of them): the cards of that ID
+        // follow `begin`.
         auto end = begin;
         while (end != sortedIds.end() && *end == first)
             ++end;

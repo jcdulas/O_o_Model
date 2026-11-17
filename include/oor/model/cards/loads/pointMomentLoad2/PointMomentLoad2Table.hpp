@@ -18,7 +18,7 @@ struct PointMomentLoad2Format
     static void write(const PointMomentLoad2Card& card, FieldWriter& writer);
 };
 
-// All the MOMENT2 cards. The ID is a load set ID shared by many cards (IdSpace::Group).
+// All the PointMomentLoad2 cards. The ID is a load set ID shared by many cards (IdSpace::Group).
 class PointMomentLoad2Table final : public TypedTable<PointMomentLoad2Table, PointMomentLoad2Card>
 {
 public:

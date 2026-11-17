@@ -21,8 +21,8 @@ struct MonitorGroupFormat
     static void write(const MonitorGroupCard& card, FieldWriter& writer);
 };
 
-// All the MONGRP cards (category Other: a group is not a monitor point, and the monitor points of the model are the
-// cards of the category MonitorPoint). The group has no numeric ID (IdSpace::None): it is found by its GNAME. The
+// All the MonitorGroup cards (category Other: a group is not a monitor point, and the monitor points of the model are
+// the cards of the category MonitorPoint). The group has no numeric ID (IdSpace::None): it is found by its GNAME. The
 // members are names of monitor points, not IDs. The cards are kept whole next to a column of their group names.
 class MonitorGroupTable final : public TypedTable<MonitorGroupTable, MonitorGroupCard>
 {

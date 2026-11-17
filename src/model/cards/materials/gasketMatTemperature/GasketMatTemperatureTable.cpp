@@ -146,7 +146,7 @@ void GasketMatTemperatureTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void GasketMatTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MATG that the card extends; the tables are TABLEMi cards.
+    // The ID is the one of the GasketMat that the card extends; the tables are TABLEMi cards.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     const auto visitTable = [&](Column<base::EntityId>& column, const char* field)
     {

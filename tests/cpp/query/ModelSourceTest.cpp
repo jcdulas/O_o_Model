@@ -142,7 +142,7 @@ TEST_CASE("a card type is a table of its stored columns, shared with the model",
     q::ExecutionContext context;
     const auto table = on(model, type, "CQUAD4").run(context);
     REQUIRE(table->rowCount() == 4);
-    // every stored column of the CQUAD4 (src/query/providers/columns/), then the type
+    // every stored column of the ShellQuad4 (src/query/providers/columns/), then the type
     CHECK(table->columnNames() == std::vector<std::string>{"id", "propId", "nodes", "materialAngle", "matFrameId",
                                                            "offset", "thicknessFlag", "cornerThickness", "type"});
     CHECK(ints(table->column("id")) == std::vector<std::int32_t>{1, 2, 3, 4});

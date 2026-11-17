@@ -13,19 +13,20 @@
 
 // The concentrated masses.
 //
-//   CONM2   the mass M at its centre of gravity (the grid point plus the offset X1, X2, X3 read in the system CID, or
-//   the
+//   PointMassInertia  the mass M at its centre of gravity (the grid point plus the offset X1, X2, X3 read in the system
+//                     CID, or the
 //           point itself for CID -1), with the inertia I11 ... I33 taken about that point in the axes of CID
-//   CONM1   the translational mass is the mean of the three diagonal terms of the matrix (M11, M22, M33), the centre of
-//           gravity follows from the coupling between translation and rotation (a mass m at an offset r from the grid
-//           point gives m [r] there), and the inertia is the rotational block less the part the offset explains; the
-//           matrix is in the axes of CID
-//   CMASS1, CMASS2   the mass at the grid point (the middle of the two when it joins two), when one of its components
-//   is
+//   PointMassMatrix  the translational mass is the mean of the three diagonal terms of the matrix (M11, M22, M33), the
+//                    centre of gravity follows from the coupling between translation and rotation (a mass m at an
+//                    offset r from the grid point gives m [r] there), and the inertia is the rotational block less the
+//                    part the offset explains; the matrix is in the axes of CID
+//   MassDofProperty, MassDofInline  the mass at the grid point (the middle of the two when it joins two), when one of
+//                                   its components is
 //           a translation (1 to 3); a mass on a rotation (4 to 6) is an inertia about that axis and no mass. A mass
 //           between scalar points has no place and is not counted: the format reference says the grid point weight
-//           generator ignores masses on scalar points. CMASS3 and CMASS4 are such masses and have no provider here.
-//   CBUSH, CFAST   the mass M of the PBUSH or the PFAST, at the point of the element
+//           generator ignores masses on scalar points. MassScalarProperty and MassScalarInline are such masses and have
+//           no provider here.
+//   Bushing, Fastener  the mass M of the BushProp or the FastenerProp, at the point of the element
 
 namespace oor::analysis::detail
 {

@@ -119,7 +119,7 @@ void SpringDofInlineExplicitTable::keepRows(const std::vector<std::uint32_t>& ro
 
 void SpringDofInlineExplicitTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // G1 and G2 are grid points or scalar points (0: ground); a scalar point may be one no SPOINT defines.
+    // G1 and G2 are grid points or scalar points (0: ground); a scalar point may be one no ScalarPoint defines.
     if (const base::EntityId node1 = m_node1.get(row); node1 > 0)
         m_node1.set(row, visitor.visit("node1", ReferenceTarget::ScalarOrGridPoint, node1));
     if (const base::EntityId node2 = m_node2.get(row); node2 > 0)

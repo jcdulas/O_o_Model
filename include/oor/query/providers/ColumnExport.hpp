@@ -16,7 +16,7 @@
 #include <vector>
 
 // The columns of the cards as the query engine reads them: every card type registers its stored columns ("nodeId",
-// "positionFrameId", "xyz" of a GRID) in the StoredColumnCatalogue, each with a getter that turns a column of the model
+// "positionFrameId", "xyz" of a Node) in the StoredColumnCatalogue, each with a getter that turns a column of the model
 // into a QueryColumn sharing its buffer (no copy). The registrations are in src/query/providers/columns/ (one file a
 // family of cards); the helpers they use are here.
 namespace oor::query::column_export

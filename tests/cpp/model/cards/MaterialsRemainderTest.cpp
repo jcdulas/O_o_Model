@@ -1,6 +1,8 @@
-// Checks of the remaining materials: MAT3, MAT9, MAT10, MAT11, MATHP, MATHE, the companions of a material (MATT1 to
-// MATT11, MATS1, CREEP, MATEP, MATVE) and the tables of stress dependent and heat transfer properties (TABLES1,
-// TABLEST, TABLEH1, TABLEHT): field positions, defaults, variants, references, renumbering and rules.
+// Checks of the remaining materials: AxisymOrthoMat, AnisoMat3D, FluidMat, OrthoMat3D, HyperelasticPolynomialMat,
+// HyperelasticMat, the companions of a material (IsoMatTemperature to OrthoMat3DTemperature, IsoMatStressDependent,
+// CreepMat, ElastoPlasticMat, ViscoElasticMat) and the tables of stress dependent and heat transfer properties
+// (TableStress1, TableStressTemperature, TableHeat1, TableHeatTwoVariables): field positions, defaults, variants,
+// references, renumbering and rules.
 
 #include "oor/model/cards/materials/anisoMat2DTemperature/AnisoMat2DTemperatureTable.hpp"
 #include "oor/model/cards/materials/anisoMat3D/AnisoMat3DTable.hpp"
@@ -198,7 +200,7 @@ TEST_CASE("the table spaces are separate: the same ID in each of them is not a c
     REQUIRE(model.locate(base::IdSpace::MaterialTable, 5).has_value());
     REQUIRE(model.locate(base::IdSpace::StressTable, 5).has_value());
     REQUIRE(model.locate(base::IdSpace::HeatTable, 5).has_value());
-    // TABLES1 and TABLEST share a space, and so do TABLEH1 and TABLEHT.
+    // TableStress1 and TableStressTemperature share a space, and so do TableHeat1 and TableHeatTwoVariables.
     REQUIRE_THROWS_AS(readBulk("TableStress1;5;;0.;0.;EndTable\nTableStressTemperature;5;150.;5;EndTable"),
                       base::DeckError);
     REQUIRE_THROWS_AS(readBulk("TableHeat1;5;0.;0.;EndTable\nTableHeatTwoVariables;5;150.;5;EndTable"),
@@ -853,7 +855,7 @@ TEST_CASE("every companion holds the fields it should in the table and lists the
 TEST_CASE("the FID of a MATEP names a TABLES1 or a TABL3D, and follows the renumbering of the one it names",
           "[model][cards]")
 {
-    // format reference MATEP (SOL 400): FID is the ID of a TABLES1 or a TABL3D entry.
+    // format reference ElastoPlasticMat (SOL 400): FID is the ID of a TableStress1 or a TABL3D entry.
     Model model = readBulk(
         "IsoMat;1;2.1E+5;;0.3\n"
         "IsoMat;2;2.1E+5;;0.3\n"

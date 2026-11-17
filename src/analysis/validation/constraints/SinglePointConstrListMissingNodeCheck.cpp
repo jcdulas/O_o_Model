@@ -12,8 +12,9 @@ namespace oor::analysis
 namespace
 {
 
-// A grid point named by itself in an SPC1 that no card defines. The ends of a THRU range are allowed to be missing (the
-// gaps of a range are skipped), so ref.unresolved does not report them; a single grid point is not a range.
+// A grid point named by itself in a SinglePointConstrList that no card defines. The ends of a THRU range are allowed to
+// be missing (the gaps of a range are skipped), so ref.unresolved does not report them; a single grid point is not a
+// range.
 class SinglePointConstrListMissingNodeCheck final : public ValidationCheck
 {
 public:

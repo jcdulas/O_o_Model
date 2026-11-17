@@ -23,9 +23,10 @@ struct ContactPairPhysicalParamsFormat
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 };
 
-// All the BCONPRP cards. The PID is unique among them (IdSpace::PerCardType, category ContactPhysicalParameters); a
-// BCONECT names it. The cards are kept whole (CardRows); the query engine reads the ID only. The table IDs among the
-// values (FRIC, HCT, ...) are not visited as references: a table may be a TABL3D, which no card types yet.
+// All the ContactPairPhysicalParams cards. The PID is unique among them (IdSpace::PerCardType, category
+// ContactPhysicalParameters); a ContactPair names it. The cards are kept whole (CardRows); the query engine reads the
+// ID only. The table IDs among the values (FRIC, HCT, ...) are not visited as references: a table may be a TABL3D,
+// which no card types yet.
 class ContactPairPhysicalParamsTable final
     : public TypedTable<ContactPairPhysicalParamsTable, ContactPairPhysicalParamsCard>
 {

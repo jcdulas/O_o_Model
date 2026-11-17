@@ -122,7 +122,7 @@ TEST_CASE("the check reports missing nodes, missing elements and elements of ano
     const ResultAttachment& attachment = *attached.attachment;
     REQUIRE(has(attachment, "attach.node-missing"));
     REQUIRE(has(attachment, "attach.element-missing"));
-    REQUIRE(has(attachment, "attach.element-type")); // element 30 is a CTRIA3, the table says CQUAD4
+    REQUIRE(has(attachment, "attach.element-type")); // element 30 is a ShellTria3, the table says ShellQuad4
     REQUIRE(!attachment.consistent(*attached.model));
     const auto missing = std::find_if(attachment.diagnostics().begin(), attachment.diagnostics().end(),
                                       [](const base::Diagnostic& d) { return d.code == "attach.node-missing"; });

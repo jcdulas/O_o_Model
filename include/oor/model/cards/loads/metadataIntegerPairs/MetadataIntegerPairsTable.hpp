@@ -19,9 +19,9 @@ struct MetadataIntegerPairsFormat
     static void write(const MetadataIntegerPairsCard& card, FieldWriter& writer);
 };
 
-// All the ABSNMVI cards. The ID is the ID of the meta data group, shared by the cards that belong to it
-// (IdSpace::Group, category Other: the group itself is the ABSTRCT cards, category MetadataGroup), and a reference to
-// them. The cards are kept whole next to a column of their IDs.
+// All the MetadataIntegerPairs cards. The ID is the ID of the meta data group, shared by the cards that belong to it
+// (IdSpace::Group, category Other: the group itself is the MetadataGroup cards, category MetadataGroup), and a
+// reference to them. The cards are kept whole next to a column of their IDs.
 class MetadataIntegerPairsTable final : public TypedTable<MetadataIntegerPairsTable, MetadataIntegerPairsCard>
 {
 public:

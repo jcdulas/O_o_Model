@@ -20,9 +20,9 @@ struct Bushing2DFormat
     static void write(const Bushing2DCard& card, FieldWriter& writer);
 };
 
-// All the CBUSH2D elements: an element ID, in the space every element shares (IdSpace::Element). PID names a PBUSH2D,
-// the two points are grid points and CID is a coordinate system. The nodes are one column of two IDs per element and
-// the plane is a column of text.
+// All the Bushing2D elements: an element ID, in the space every element shares (IdSpace::Element). PID names a
+// BushProp2D, the two points are grid points and CID is a coordinate system. The nodes are one column of two IDs per
+// element and the plane is a column of text.
 class Bushing2DTable final : public TypedTable<Bushing2DTable, Bushing2DCard>
 {
 public:

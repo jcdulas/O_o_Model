@@ -11,8 +11,8 @@ namespace
 {
 
 // A degree of freedom that a rigid element makes dependent and that a single point constraint fixes as well: the solver
-// refuses it (a degree of freedom cannot be in the m-set and the s-set). The SPC and SPC1 sets are the ones the Case
-// Control selects; the PS field of a grid point always applies.
+// refuses it (a degree of freedom cannot be in the m-set and the s-set). The SinglePointConstr and
+// SinglePointConstrList sets are the ones the Case Control selects; the PS field of a grid point always applies.
 class SpcOnRigidDependentCheck final : public ValidationCheck
 {
 public:

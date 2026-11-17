@@ -41,7 +41,7 @@ TEST_CASE("applyDefaults gives a GRDSET added after the read to the grid points 
           "[model][cards]")
 {
     Model model = readBulk("Node;1;;0.;0.;0.\nNode;2;3;0.;0.;0.;0\nNode;3;;0.;0.;0.;;456;9");
-    // No GRDSET yet: the fields stay noted as blank.
+    // No NodeDefaults yet: the fields stay noted as blank.
     REQUIRE(cardAt<NodeTable>(model, 0).blankFields ==
             (NodeCard::BLANK_POSITION_FRAME | NodeCard::BLANK_DISPLACEMENT_FRAME |
              NodeCard::BLANK_PERMANENT_CONSTRAINTS | NodeCard::BLANK_SUPERELEMENT));
@@ -70,7 +70,7 @@ TEST_CASE("applyDefaults gives a GRDSET added after the read to the grid points 
     REQUIRE(third.displacementFrameId == 28);
     REQUIRE(third.permanentConstraints == 456);
     REQUIRE(third.superelementId == 9);
-    // It is applied once: another call changes nothing, and a changed GRDSET gives nothing to those that took it.
+    // It is applied once: another call changes nothing, and a changed NodeDefaults gives nothing to those that took it.
     model.table<NodeDefaultsTable>().store(0, NodeDefaultsCard{99, 99, 99, 99});
     model.applyDefaults();
     REQUIRE(cardAt<NodeTable>(model, 0).positionFrameId == 14);
@@ -170,7 +170,7 @@ TEST_CASE("applyDefaults works on the parts of a model, each with its own defaul
     model.parts()[0]->add<NodeDefaultsTable>(defaults);
     model.applyDefaults();
     REQUIRE(cardAt<NodeTable>(*model.parts()[0]).positionFrameId == 14);
-    REQUIRE(cardAt<NodeTable>(model).positionFrameId == 0); // the main model has no GRDSET
+    REQUIRE(cardAt<NodeTable>(model).positionFrameId == 0); // the main model has no NodeDefaults
 }
 
 TEST_CASE("scalar and extra points preserve their values, comments and record order", "[model][cards]")

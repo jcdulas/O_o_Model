@@ -9,10 +9,10 @@ namespace oor::analysis
 namespace
 {
 
-// A rotor ID that two kinds of card have: the format reference asks the ROTORIDs of the ROTORAX, ROTORG and ROTORSE
-// cards to be different (the format of each says so: a rotor is defined by one kind of card, of its own number). The
-// cards of one type may share a ROTORID (several cards make a rotor). A ROTOR, the 3D model of a rotor, is left out: it
-// goes with a line model of the same rotor in the frame FIX.
+// A rotor ID that two kinds of card have: the format reference asks the ROTORIDs of the RotorAxisym, RotorLineNodes and
+// RotorSuperelement cards to be different (the format of each says so: a rotor is defined by one kind of card, of its
+// own number). The cards of one type may share a ROTORID (several cards make a rotor). A RotorModel3D, the 3D model of
+// a rotor, is left out: it goes with a line model of the same rotor in the frame FIX.
 class RotorIdRepeatedCheck final : public ValidationCheck
 {
 public:

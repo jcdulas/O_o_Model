@@ -19,7 +19,7 @@ struct FatigueParamsFormat
     static void write(const FatigueParamsCard& card, FieldWriter& writer);
 };
 
-// All the FTGPARM cards (IdSpace::PerCardType, category Other: the Case Control FATIGUE command selects one). The
+// All the FatigueParams cards (IdSpace::PerCardType, category Other: the Case Control FATIGUE command selects one). The
 // OUTPUT of the NAVG line is a Coordinate reference when it is positive. The cards are kept whole (CardRows) next to
 // their ID: they have nine optional lines of many fields each, and the query engine reads the ID.
 class FatigueParamsTable final : public TypedTable<FatigueParamsTable, FatigueParamsCard>

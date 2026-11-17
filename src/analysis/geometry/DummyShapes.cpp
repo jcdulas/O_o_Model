@@ -9,7 +9,7 @@
 #include "oor/model/cards/elements/userDefined8/UserDefined8Table.hpp"
 #include "oor/model/cards/elements/userDefined9/UserDefined9Table.hpp"
 
-// The user dummy elements CDUM1 to CDUM9.
+// The user dummy elements UserDefined1 to UserDefined9.
 //
 // A dummy element is an element whose stiffness, mass and output the user writes in routines of his own, so nothing of
 // its shape is known: the provider of each card type gives its grid points (the leading run of positive integers after
@@ -119,8 +119,9 @@ struct UserDefined7Shape
     }
 };
 
-// CDUM8 and CDUM9 are the numbers the format reference reserves for the crack tip elements CRAC2D and CRAC3D (ADUM8 and
-// ADUM9); written as CDUM8 or CDUM9 they are dummy elements like the others and have no shape here either.
+// UserDefined8 and UserDefined9 are the numbers the format reference reserves for the crack tip elements CrackTip2D and
+// CrackTip3D (UserDefined8Attributes and UserDefined9Attributes); written as UserDefined8 or UserDefined9 they are
+// dummy elements like the others and have no shape here either.
 struct UserDefined8Shape
 {
     static void nodes(const model::UserDefined8Table& table, std::uint32_t row, std::vector<base::EntityId>& ids)

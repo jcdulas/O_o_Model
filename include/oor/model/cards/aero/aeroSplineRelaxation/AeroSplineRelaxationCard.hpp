@@ -5,11 +5,11 @@
 namespace oor::model
 {
 
-// One SPRELAX card: the relaxation of a spline on its neighbour. The displacements of spline 1 are pulled towards those
-// of spline 2 as the aerodynamic grid point gets close to a curve: the weight of spline 2 falls linearly from 1 on the
-// curve to 0 at the reference distance DREF.
+// One AeroSplineRelaxation card: the relaxation of a spline on its neighbour. The displacements of spline 1 are pulled
+// towards those of spline 2 as the aerodynamic grid point gets close to a curve: the weight of spline 2 falls linearly
+// from 1 on the curve to 0 at the reference distance DREF.
 //
-// Card layout: SPRELAX  SID1  SID2  LIST2  DREF  LIST1
+// Card layout: AeroSplineRelaxation  SID1  SID2  LIST2  DREF  LIST1
 // SID1 is the spline that is modified and SID2 the adjacent spline; both are splines of any type of the category
 // AeroSpline and either may be a blend (ReferenceTarget::AeroSpline). The format reference says SID1 need not be
 // unique: several cards may relax the same spline, so the card has no ID space (IdSpace::None) and its SID1 is a

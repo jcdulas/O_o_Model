@@ -139,7 +139,7 @@ void checkMatrixLabels(std::span<const NamedArrayInput> arrays, std::vector<std:
                                std::to_string(array->shape[0]) + " entries where the matrix has " +
                                std::to_string(*wanted) + (index < 2 ? " rows" : " columns"));
     }
-    // The harmonic numbers of a DMIAX matrix go with the labels and have the same lengths.
+    // The harmonic numbers of a DirectMatrixAxisym matrix go with the labels and have the same lengths.
     const char* const harmonicNames[] = {"rowHarmonics", "columnHarmonics"};
     for (std::size_t index = 0; index < 2; ++index)
     {

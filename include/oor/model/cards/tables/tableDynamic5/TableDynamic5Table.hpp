@@ -21,9 +21,9 @@ struct TableDynamic5Format
     static void write(const TableDynamic5Card& card, FieldWriter& writer);
 };
 
-// All the TABLED5 cards. The ID is a dynamic table ID, in the ID space the TABLED1 to TABLED4 cards share
-// (IdSpace::DynamicTable); the tables of the pairs are references to them (ReferenceTarget::DynamicTable). The pairs of
-// every table are two lists (x, table ID) in CSR form.
+// All the TableDynamic5 cards. The ID is a dynamic table ID, in the ID space the TableDynamic1 to TableDynamic4 cards
+// share (IdSpace::DynamicTable); the tables of the pairs are references to them (ReferenceTarget::DynamicTable). The
+// pairs of every table are two lists (x, table ID) in CSR form.
 class TableDynamic5Table final : public TypedTable<TableDynamic5Table, TableDynamic5Card>
 {
 public:
@@ -42,8 +42,8 @@ public:
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     // The value of f(x, y): the tables of the pairs are evaluated at y and interpolated linearly in x (the first and
-    // the last segment extended outside the x of the card, as TABLED1 does). NaN where it is not defined: x or y is
-    // NaN, or a table of the pairs is missing in `model` or is not a TABLED1 to TABLED4.
+    // the last segment extended outside the x of the card, as TableDynamic1 does). NaN where it is not defined: x or y
+    // is NaN, or a table of the pairs is missing in `model` or is not a TableDynamic1 to TableDynamic4.
     [[nodiscard]] static double evaluate(const Model& model, const TableDynamic5Card& card, double x, double y);
     [[nodiscard]] double evaluateRow(const Model& model, std::uint32_t row, double x, double y) const;
 

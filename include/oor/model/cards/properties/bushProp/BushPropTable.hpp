@@ -19,8 +19,8 @@ struct BushPropFormat
     static void write(const BushPropCard& card, FieldWriter& writer);
 };
 
-// All the PBUSH cards. The stiffness, damping and structural damping are (N, 6) NumPy views, the recovery coefficients
-// (SA, ST, EA, ET) an (N, 4) view and (ALPHA, TREF, COINL) an (N, 3) view.
+// All the BushProp cards. The stiffness, damping and structural damping are (N, 6) NumPy views, the recovery
+// coefficients (SA, ST, EA, ET) an (N, 4) view and (ALPHA, TREF, COINL) an (N, 3) view.
 class BushPropTable final : public TypedTable<BushPropTable, BushPropCard>
 {
 public:

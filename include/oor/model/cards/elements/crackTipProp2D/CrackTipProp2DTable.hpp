@@ -18,7 +18,7 @@ struct CrackTipProp2DFormat
     static void write(const CrackTipProp2DCard& card, FieldWriter& writer);
 };
 
-// All the PRAC2D properties. The ID is a property ID, in the space every property shares; MID names a material.
+// All the CrackTipProp2D properties. The ID is a property ID, in the space every property shares; MID names a material.
 class CrackTipProp2DTable final : public TypedTable<CrackTipProp2DTable, CrackTipProp2DCard>
 {
 public:

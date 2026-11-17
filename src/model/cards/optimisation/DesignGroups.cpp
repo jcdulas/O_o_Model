@@ -42,7 +42,8 @@ std::optional<std::size_t> indexOfKeyword(std::span<const GroupKeyword> keywords
     return std::nullopt;
 }
 
-// "DESVAR, DTABLE or DRESP1": the keywords of a card, for a message; `labelOf` gives the label of one keyword.
+// "DesignVar, DesignConstants or DesignResp1": the keywords of a card, for a message; `labelOf` gives the label of one
+// keyword.
 template <typename LabelOf>
 std::string keywordPhrase(std::span<const GroupKeyword> keywords, const LabelOf& labelOf)
 {

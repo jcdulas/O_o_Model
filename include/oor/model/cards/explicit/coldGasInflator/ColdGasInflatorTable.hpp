@@ -19,9 +19,9 @@ struct ColdGasInflatorFormat
     static void write(const ColdGasInflatorCard& card, FieldWriter& writer);
 };
 
-// All the INFLCG cards. The INFLID is unique among the INFLCG cards (IdSpace::PerCardType, category Inflator: INFLHB,
-// INFLTNK and INFLTR share the category, because an ABINFL names one of the four by number). GASNAM may name an
-// INFLGAS.
+// All the ColdGasInflator cards. The INFLID is unique among the ColdGasInflator cards (IdSpace::PerCardType, category
+// Inflator: HybridInflator, TankTestInflator and StandardInflator share the category, because an InflatorInlet names
+// one of the four by number). GASNAM may name an InflatorGas.
 class ColdGasInflatorTable final : public TypedTable<ColdGasInflatorTable, ColdGasInflatorCard>
 {
 public:

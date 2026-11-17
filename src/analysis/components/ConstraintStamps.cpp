@@ -17,7 +17,8 @@ namespace oor::analysis
 namespace
 {
 
-// What makes an entry: the SPC and SPC1 of the set, the SPCD of the load sets, the permanent constraints.
+// What makes an entry: the SinglePointConstr and SinglePointConstrList of the set, the EnforcedMotionConstr of the load
+// sets, the permanent constraints.
 enum class EntryKind : std::uint8_t
 {
     Constraint,
@@ -71,8 +72,8 @@ std::vector<ConstraintStamp> ConstraintStamps::compute(const model::Model& model
     std::sort(spcSets.begin(), spcSets.end());
     spcSets.erase(std::unique(spcSets.begin(), spcSets.end()), spcSets.end());
 
-    // The grid points of the model by ID, for the THRU ranges of SPC1: listed the first time one is met (a call again
-    // on a deck without THRU listed every grid point and sorted them each time).
+    // The grid points of the model by ID, for the THRU ranges of SinglePointConstrList: listed the first time one is
+    // met (a call again on a deck without THRU listed every grid point and sorted them each time).
     const model::NodeTable* grids = model.findTable<model::NodeTable>();
     std::vector<base::EntityId> gridIds;
     bool gridsListed = false;

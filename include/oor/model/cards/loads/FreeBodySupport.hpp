@@ -10,9 +10,9 @@
 #include <string>
 #include <string_view>
 
-// What the two free-body cards (FBODYLD and FBODYSB) have in common: the text of a name and of a LABEL. One kind of
-// value (a short text), two small rules; nothing here describes the fields of a card, each card still lays out, reads,
-// writes and checks its own fields by hand.
+// What the two free-body cards (FreeBodyLoad and FreeBodyLoadSubcase) have in common: the text of a name and of a
+// LABEL. One kind of value (a short text), two small rules; nothing here describes the fields of a card, each card
+// still lays out, reads, writes and checks its own fields by hand.
 //
 // The format reference draws the LABEL over the eight fields of the second line, a string of at most 64 characters. In
 // the small format the lexer cuts the line into pieces of eight characters, one per field, and trims each piece; in the

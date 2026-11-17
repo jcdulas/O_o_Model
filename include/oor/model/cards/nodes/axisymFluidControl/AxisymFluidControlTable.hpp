@@ -19,7 +19,7 @@ struct AxisymFluidControlFormat
     static void write(const AxisymFluidControlCard& card, FieldWriter& writer);
 };
 
-// All the AXIF cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category Other).
+// All the AxisymFluidControl cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category Other).
 // They are kept whole next to a column of their number of harmonic items. The CID names a coordinate system.
 class AxisymFluidControlTable final : public TypedTable<AxisymFluidControlTable, AxisymFluidControlCard>
 {

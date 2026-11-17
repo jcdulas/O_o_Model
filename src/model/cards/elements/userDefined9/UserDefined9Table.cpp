@@ -33,8 +33,8 @@ std::optional<CardProblem> UserDefined9Format::check(const UserDefined9Card& car
     if (const auto problem = checkRequiredId(card.propId, "propId"))
         return problem;
     // The element connects at least one grid point. Which fields are grid points and which are additional fields is the
-    // NG of the ADUM9 card, which a card alone does not have, so nothing else about the list is checked but its
-    // numbers.
+    // NG of the UserDefined9Attributes card, which a card alone does not have, so nothing else about the list is
+    // checked but its numbers.
     if (leadingGridCount(card.fields) == 0)
         return CardProblem{"card.missing-field",
                            "{field} is required: the field after {field:propId} is a positive integer", "node1"};
@@ -81,7 +81,7 @@ void UserDefined9Table::keepRows(const std::vector<std::uint32_t>& rows)
 
 void UserDefined9Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // PID is not visited: it names a PDUM9 or, when the element needs no property, a material, and the
+    // PID is not visited: it names an UserDefined9Prop or, when the element needs no property, a material, and the
     // card cannot tell which. The grid points are the leading integers of the list (see UserDefined9Card).
     const std::span<const base::EntityId> grids = m_nodes.get(row);
     std::vector<base::EntityId> updated(grids.begin(), grids.end());

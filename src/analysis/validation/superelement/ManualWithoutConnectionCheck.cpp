@@ -11,9 +11,9 @@ namespace oor::analysis
 namespace
 {
 
-// A superelement whose boundary is searched manually (SEBULK METHOD = MANUAL) and that no SECONCT connects: with MANUAL
-// the boundary is what the SECONCT cards say, so a superelement with none is joined
-// to nothing.
+// A superelement whose boundary is searched manually (SuperelementBulkOptions METHOD = MANUAL) and that no
+// SuperelementConnection connects: with MANUAL the boundary is what the SuperelementConnection cards say, so a
+// superelement with none is joined to nothing.
 class ManualWithoutConnectionCheck final : public ValidationCheck
 {
 public:

@@ -21,9 +21,9 @@ struct DirectMatrixFormat
     static void write(const DirectMatrixCard& card, FieldWriter& writer);
 };
 
-// All the DMI cards: the headers and the columns of every matrix, one row each, in the order of the deck. A card has no
-// numeric ID (IdSpace::None); the matrix is found by the name. The fields of a column after its first row are three
-// lists in CSR form (kind, value, row).
+// All the DirectMatrix cards: the headers and the columns of every matrix, one row each, in the order of the deck. A
+// card has no numeric ID (IdSpace::None); the matrix is found by the name. The fields of a column after its first row
+// are three lists in CSR form (kind, value, row).
 class DirectMatrixTable final : public TypedTable<DirectMatrixTable, DirectMatrixCard>
 {
 public:
@@ -39,7 +39,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a DMI refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a DirectMatrix refers to no card
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<std::string>& entryNameColumn() noexcept { return m_entryName; }

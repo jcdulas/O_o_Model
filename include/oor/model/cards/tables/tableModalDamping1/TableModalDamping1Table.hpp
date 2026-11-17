@@ -20,9 +20,9 @@ struct TableModalDamping1Format
     static void write(const TableModalDamping1Card& card, FieldWriter& writer);
 };
 
-// All the TABDMP1 cards. The ID is a damping table ID (IdSpace::HybridDampingRotorOptionsTable): the TABLEDi tables
-// have a space of their own (a deck may have a TABLED1 and a TABDMP1 of the same ID), and the SDAMPING command selects
-// either. The points of every table are two lists (x, y) in CSR form.
+// All the TableModalDamping1 cards. The ID is a damping table ID (IdSpace::HybridDampingRotorOptionsTable): the TABLEDi
+// tables have a space of their own (a deck may have a TableDynamic1 and a TableModalDamping1 of the same ID), and the
+// SDAMPING command selects either. The points of every table are two lists (x, y) in CSR form.
 class TableModalDamping1Table final : public TypedTable<TableModalDamping1Table, TableModalDamping1Card>
 {
 public:
@@ -41,8 +41,8 @@ public:
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a table refers to no card
 
     // The damping at natural frequency x (NaN where it is not defined): linear between the points, the first and the
-    // last segment extended outside (as TABLED1), the mean of the two values at a jump. The three forms are the same as
-    // for TABLED1.
+    // last segment extended outside (as TableDynamic1), the mean of the two values at a jump. The three forms are the
+    // same as for TableDynamic1.
     [[nodiscard]] static double evaluate(const TableModalDamping1Card& card, double x) noexcept;
     [[nodiscard]] double evaluateRow(std::uint32_t row, double x) const;
     void evaluateRow(std::uint32_t row, std::span<const double> x, std::span<double> y) const;

@@ -1,7 +1,8 @@
-// Checks of the cards of the Euler domain of the explicit solver: MESH, BIAS, PEULER1, PMARKER,
-// CMARKB2, CMARKN1, SURFINI, CYLINDR, SPHERE, EULFOR, EULFOR1, EULFREG and HYDSTAT. Per card: the fields in their
-// format reference positions, the defaults, the references the card lists, the renumbering of its ID space, the refused
-// values and the round trip through a model file.
+// Checks of the cards of the Euler domain of the explicit solver: EulerMeshGenerator, EulerMeshBias, EulerRegionProp,
+// MarkerProp, MarkerBody, MarkerNode, InitialSurfaceVolume, CylinderShape, SphereShape, EulerBodyForce,
+// EulerBodyForceSet, EulerForceRegion and EulerHydrostaticPreset. Per card: the fields in their format reference
+// positions, the defaults, the references the card lists, the renumbering of its ID space, the refused values and the
+// round trip through a model file.
 
 #include "oor/model/cards/elements/rod2/Rod2Table.hpp"
 #include "oor/model/cards/explicit/cylinderShape/CylinderShapeTable.hpp"
@@ -58,7 +59,7 @@ std::string withField(const std::string& name, const std::vector<std::string>& f
     return freeCard(name, fieldsWith(fields, field, value));
 }
 
-// The fields of a MESH from (field number, text) pairs: the card has eight lines of eight fields.
+// The fields of an EulerMeshGenerator from (field number, text) pairs: the card has eight lines of eight fields.
 std::vector<std::string> meshFields(const std::vector<std::pair<int, std::string>>& given)
 {
     std::vector<std::string> fields(64);
@@ -89,13 +90,13 @@ const std::vector<std::string> BOX_ALL_FIELDS =
 const std::vector<std::string> SUB_MESH_FIELDS = meshFields(
     {{1, "21"}, {2, "Box"}, {3, "0.05"}, {4, "0.05"}, {5, "0.05"}, {17, "4"}, {18, "4"}, {19, "4"}, {24, "6"}});
 
-// A TABLED1 of two points.
+// A TableDynamic1 of two points.
 std::string tableText(int id)
 {
     return "TableDynamic1;" + std::to_string(id) + ";;;0.;1.;1.;1.;EndTable\n";
 }
 
-// One element, which the BSURF cards of the decks name (a BSURF is a list of elements).
+// One element, which the ContactElemSurface cards of the decks name (a ContactElemSurface is a list of elements).
 const std::string ELEMENT_TEXT =
     "Node;1\nNode;2;;1.\nNode;3;;1.;1.\nNode;4;;0.;1.\nShellQuad4;1;1;1;2;3;4\nShellProp;1;1;0.1\nIsoMat;1;2.1E+11;;0."
     "3\n";
@@ -129,7 +130,7 @@ TEST_CASE("a PEULER1 is a property: its SID names a TICEUL1 and its SID2 an EULF
     model.table<EulerRegionPropTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"initialRegionsId"}); // a blank SID2 names nothing
 
-    // The property space is shared by every property type, PEULER included.
+    // The property space is shared by every property type, EulerProp included.
     REQUIRE_THROWS_AS(readBulk("EulerRegionProp;100;;300\nShellProp;100;1;0.1"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("EulerRegionProp;100;;300\nEulerProp;100"), base::DeckError);
     Renumbering::apply(model, RenumberSpace::Property, Renumbering::offset(1000));
@@ -138,7 +139,7 @@ TEST_CASE("a PEULER1 is a property: its SID names a TICEUL1 and its SID2 an EULF
     REQUIRE((cardAt<EulerRegionPropTable>(model, 1).bodyForceSetId == 17 &&
              cardAt<EulerBodyForceSetTable>(model, 0).id == 17));
     REQUIRE(cardAt<EulerRegionPropTable>(model, 1).initialRegionsId ==
-            301); // the TICEUL1 is not in the space renumbered here
+            301); // the EulerInitialRegions is not in the space renumbered here
     REQUIRE(unresolvedIn(model) == 0);
     requireRoundTrip(model);
 
@@ -259,8 +260,8 @@ TEST_CASE("a SURFINI, a SPHERE and a CYLINDR are the shapes of an Euler region, 
     model.table<CylinderShapeTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields.empty()); // the two geometric shapes name no card
 
-    // The VID is unique per card type: a SURFINI, a SPHERE and a CYLINDR may share a number (a check of the whole
-    // model looks at the category), but two of one type may not.
+    // The VID is unique per card type: an InitialSurfaceVolume, a SphereShape and a CylinderShape may share a number (a
+    // check of the whole model looks at the category), but two of one type may not.
     REQUIRE_NOTHROW(
         readBulk("InitialSurfaceVolume;20;1\nSphereShape;20;0.;0.;0.;1.\nCylinderShape;20;0.;0.;0.;0.;0.;1.;0.5"));
     REQUIRE_THROWS_AS(readBulk("SphereShape;20;0.;0.;0.;1.\nSphereShape;20;1.;1.;1.;1."), base::DeckError);
@@ -278,7 +279,8 @@ TEST_CASE("a SURFINI, a SPHERE and a CYLINDR are the shapes of an Euler region, 
     expectInvalid("InitialSurfaceVolume;0;37", "id");
     expectInvalid("InitialSurfaceVolume;100;0", "surfaceId");
     expectInvalid("InitialSurfaceVolume;100", "surfaceId");     // required
-    expectInvalid("InitialSurfaceVolume;100;37;None", "cover"); // a word of the COVER of a COUPLE, not of a SURFINI
+    // a word of the COVER of an EulerLagrangeCoupling, not of an InitialSurfaceVolume
+    expectInvalid("InitialSurfaceVolume;100;37;None", "cover");
     expectInvalid("InitialSurfaceVolume;100;37;AROUND", "cover");
     expectInvalid("InitialSurfaceVolume;100;37;;MAYBE", "reverseNormals");
     expectInvalid("InitialSurfaceVolume;100;37;;;MAYBE", "checkNormals");
@@ -394,11 +396,11 @@ TEST_CASE("an EULFOR1 names the set of regions of an EULFREG and an EULFREG name
                                                             ReferenceTarget::DynamicTable});
     visitor = RecordingVisitor{};
     model.table<EulerForceRegionTable>().visitReferences(3, visitor);
-    REQUIRE(visitor.targets.front() == ReferenceTarget::ContactSurface); // a BCBOX
+    REQUIRE(visitor.targets.front() == ReferenceTarget::ContactSurface); // a ContactBoxRegion
     Model elements = readBulk("EulerForceRegion;14;2;Elements;24;25;31;32;33");
     visitor = RecordingVisitor{};
     elements.table<EulerForceRegionTable>().visitReferences(0, visitor);
-    REQUIRE(visitor.targets.front() == ReferenceTarget::Set); // a SET1
+    REQUIRE(visitor.targets.front() == ReferenceTarget::Set); // an IdListSet1
 
     RecordingVisitor forceVisitor;
     model.table<EulerBodyForceSetTable>().visitReferences(0, forceVisitor);
@@ -416,7 +418,7 @@ TEST_CASE("an EULFOR1 names the set of regions of an EULFREG and an EULFREG name
     Renumbering::apply(model, RenumberSpace::ContactSurface, Renumbering::offset(1000));
     REQUIRE((cardAt<EulerForceRegionTable>(model, 3).shapeId == 1023 &&
              cardAt<InitialSurfaceVolumeTable>(model, 0).surfaceId == 1060));
-    // The set of the regions is renumbered with the EULFOR1 that names it.
+    // The set of the regions is renumbered with the EulerBodyForceSet that names it.
     Renumbering::apply(model, RenumberSpace::EulerRegionSet, Renumbering::offset(50));
     REQUIRE(
         (cardAt<EulerForceRegionTable>(model, 0).setId == 51 && cardAt<EulerForceRegionTable>(model, 3).setId == 51));
@@ -807,7 +809,8 @@ TEST_CASE("a MESH refuses what the format forbids", "[model][cards][explicit]")
     expectInvalid(withField("EulerMeshGenerator", ADAPT_FIELDS, 25, "Length"), "resizeTableIdX");
     expectInvalid(withField("EulerMeshGenerator", ADAPT_FIELDS, 49, "3"), "frameId");
 
-    // A biased mesh needs the grow factor of each direction unless a BIAS card of the direction gives the sizes.
+    // A biased mesh needs the grow factor of each direction unless an EulerMeshBias card of the direction gives the
+    // sizes.
     expectInvalid(withField("EulerMeshGenerator", BOX_FIELDS, 33, "EDGE"), "biasStart");
     expectInvalid(withField("EulerMeshGenerator", BOX_FIELDS, 33, "Center"), "growthX");
     expectInvalid(withField("EulerMeshGenerator", fieldsWith(BOX_FIELDS, 33, "Center"), 34, "2."), "growthY");

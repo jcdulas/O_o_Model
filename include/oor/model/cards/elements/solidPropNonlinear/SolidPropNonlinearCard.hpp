@@ -8,7 +8,7 @@
 namespace oor::model
 {
 
-// The words the keyword lines of a PSLDN1 allow. A line is for the elements with
+// The words the keyword lines of a SolidPropNonlinear allow. A line is for the elements with
 // the corner grids (and midside grids) its keyword says; the integration code goes with the element type and the number
 // of grids (L: the 8-node hexahedron, the 4-node tetrahedron, the 6-node pentahedron and the 5-node pyramid; Q: the
 // 20-node hexahedron, the 10-node tetrahedron, the 15-node pentahedron and the 13-node pyramid). The first word of each
@@ -114,20 +114,21 @@ inline constexpr std::array<BehaviorRules, 8> SOLID_PROP_NONLINEAR_GROUPS{
                   .heatBehaviors = SOLID_PROP_NONLINEAR_SOLID,
                   .heatIntegrations = SOLID_PROP_NONLINEAR_QUADRATIC}};
 
-// One PSLDN1 card (SOL 400): the nonlinear extension of the PSOLID with the same PID, for the solid elements (CHEXA,
-// CPENTA, CPYRAM and CTETRA) that name the PSOLID. The PSLDN1 is honoured in SOL 400 only.
+// One SolidPropNonlinear card (SOL 400): the nonlinear extension of the SolidProp with the same PID, for the solid
+// elements (SolidHexa, SolidPenta, SolidPyramid and SolidTetra) that name the SolidProp. The SolidPropNonlinear is
+// honoured in SOL 400 only.
 //
 // Card layout:
-//   PSLDN1  PID    MID     DIRECT   (blank)  ANAL
-//           "C4"   BEH4    INT4     BEH4H    INT4H          one line for each keyword,
-//           "C5"   BEH5    INT5     BEH5H    INT5H          fields 9 to 13 of its line
-//           ...    (C6, C8, C10, C13, C15, C20)
+//   SolidPropNonlinear  PID    MID  DIRECT   (blank)  ANAL
+//                       "C4"   BEH4    INT4     BEH4H    INT4H          one line for each keyword,
+//                       "C5"   BEH5    INT5     BEH5H    INT5H          fields 9 to 13 of its line
+//                       ...    (C6, C8, C10, C13, C15, C20)
 //
-// The ID is the one of the PSOLID it extends, so it is in the space of its own card type (one PSLDN1 for each PSOLID)
-// and is a reference to a property. A blank MID, or 0, keeps the material of the PSOLID; a MID above 0 replaces it (a
-// MAT1, MAT9, MATORT, MATHE or MATG, and a MAT4 or MAT5 for the heat analysis). DIRECT (1, 2 or 3, default 1) is the
-// direction of the layers of a BEH8 of SLCOMP; the solid shell (SLCOMP with the integration ASTN) takes DIRECT 1 only.
-// ANAL is IS, IH or ISH, the default.
+// The ID is the one of the SolidProp it extends, so it is in the space of its own card type (one SolidPropNonlinear for
+// each SolidProp) and is a reference to a property. A blank MID, or 0, keeps the material of the SolidProp; a MID above
+// 0 replaces it (a IsoMat, AnisoMat3D, OrthoMat3DNonlinear, HyperelasticMat or GasketMat, and a HeatIsoMat or
+// HeatAnisoMat for the heat analysis). DIRECT (1, 2 or 3, default 1) is the direction of the layers of a BEH8 of
+// SLCOMP; the solid shell (SLCOMP with the integration ASTN) takes DIRECT 1 only. ANAL is IS, IH or ISH, the default.
 //
 // The keyword lines may come in any order or not at all; a line that is not in the card gets the
 // defaults of its keyword, so `groups` always holds the eight lines resolved and a line is written only when a word of
@@ -136,7 +137,7 @@ inline constexpr std::array<BehaviorRules, 8> SOLID_PROP_NONLINEAR_GROUPS{
 struct SolidPropNonlinearCard
 {
     base::EntityId id = 0;
-    base::EntityId matId = 0; // 0: the material of the PSOLID
+    base::EntityId matId = 0; // 0: the material of the SolidProp
     int direction = 1;
     PropertyAnalysis analysisType = PropertyAnalysis::StructuralAndHeat;
     std::array<BehaviorGroup, 8> groups = defaultGroups(SOLID_PROP_NONLINEAR_GROUPS);

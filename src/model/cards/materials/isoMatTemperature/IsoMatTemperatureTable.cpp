@@ -123,7 +123,7 @@ void IsoMatTemperatureTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void IsoMatTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT1 that the card extends; the tables are TABLEMi cards (a negative T(A) is the table
+    // The ID is the one of the IsoMat that the card extends; the tables are TABLEMi cards (a negative T(A) is the table
     // of thermal strains of that number).
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     if (const base::EntityId id = m_youngsModulusTableId.get(row); id != 0)

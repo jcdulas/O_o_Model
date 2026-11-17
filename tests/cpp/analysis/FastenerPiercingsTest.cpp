@@ -1,5 +1,5 @@
-// The piercing points of CFAST and CWELD on the shells (FastenerPiercings), on small decks whose answers are worked out
-// by hand.
+// The piercing points of Fastener and Weld on the shells (FastenerPiercings), on small decks whose answers are worked
+// out by hand.
 
 #include "oor/analysis/connections/FastenerPiercings.hpp"
 #include "support/ModelRecord.hpp"
@@ -18,8 +18,8 @@ using oor::testing::readModelText;
 namespace
 {
 
-// Two plates of 2 by 2 unit squares, at z = 0 (nodes 1 to 9, elements 1 to 4, PSHELL 1) and z = 0.5 (nodes 101 to
-// 109, elements 101 to 104, PSHELL 2), and the cards `fasteners`.
+// Two plates of 2 by 2 unit squares, at z = 0 (nodes 1 to 9, elements 1 to 4, ShellProp 1) and z = 0.5 (nodes 101 to
+// 109, elements 101 to 104, ShellProp 2), and the cards `fasteners`.
 std::string twoPlates(const std::string& fasteners)
 {
     std::string text =
@@ -110,8 +110,8 @@ TEST_CASE("the fastener axis finds the shell of a property it crosses, not the l
 
 TEST_CASE("the fastener axis crosses a curved quadratic shell where its surface is", "[analysis][connections]")
 {
-    // A CQUAD8 on [-1, 1] x [-1, 1] whose mid-side points 5 and 7 are raised by h = 0.3: its surface is
-    // z = h (1 - xi^2) with x = xi, y = eta. A flat CQUAD4 below at z = -1; the location (0.4, 0.2, -0.5).
+    // A ShellQuad8 on [-1, 1] x [-1, 1] whose mid-side points 5 and 7 are raised by h = 0.3: its surface is
+    // z = h (1 - xi^2) with x = xi, y = eta. A flat ShellQuad4 below at z = -1; the location (0.4, 0.2, -0.5).
     const std::string deck =
         "IsoMat;1;2.E+5;7.5E+4;0.3\n"
         "ShellProp;1;1;0.1\n"

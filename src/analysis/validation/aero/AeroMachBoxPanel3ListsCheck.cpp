@@ -12,9 +12,9 @@ namespace oor::analysis
 namespace
 {
 
-// The AEFACT lists LISTW, LISTC1 and LISTC2 of a CAERO3 hold the (x, y) pairs of the aerodynamic grid points (format
-// reference), so each has an even number of values. A list that does not exist is `ref.unresolved`; a
-// blank LISTC1 or LISTC2 is 0 and names none.
+// The AeroFactorList lists LISTW, LISTC1 and LISTC2 of an AeroMachBoxPanel3 hold the (x, y) pairs of the aerodynamic
+// grid points (format reference), so each has an even number of values. A list that does not exist is `ref.unresolved`;
+// a blank LISTC1 or LISTC2 is 0 and names none.
 class AeroMachBoxPanel3ListsCheck final : public ValidationCheck
 {
 public:

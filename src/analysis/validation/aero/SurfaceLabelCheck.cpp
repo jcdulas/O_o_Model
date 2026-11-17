@@ -14,8 +14,8 @@ namespace oor::analysis
 namespace
 {
 
-// An AESURFS gives the structural grids of a control surface and finds the surface by its LABEL (format reference,
-// the ID is ignored). A label no AESURF has leaves the grids attached to nothing.
+// An AeroControlSurfaceNodes gives the structural grids of a control surface and finds the surface by its LABEL (format
+// reference, the ID is ignored). A label no AeroControlSurface has leaves the grids attached to nothing.
 class SurfaceLabelCheck final : public ValidationCheck
 {
 public:

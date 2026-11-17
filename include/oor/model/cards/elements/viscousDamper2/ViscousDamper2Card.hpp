@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One CVISC card: a viscous damper between two grid points, with a PVISC property.
+// One ViscousDamper2 card: a viscous damper between two grid points, with a ViscousDamperProp property.
 //
 // Card layout:
-//   CVISC  EID  PID  G1  G2
+//   ViscousDamper2  EID  PID  G1  G2
 //
 // G1 and G2 are two different grid points.
 struct ViscousDamper2Card

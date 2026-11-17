@@ -19,10 +19,11 @@ struct TableUserRoutineFormat
     static void write(const TableUserRoutineCard& card, FieldWriter& writer);
 };
 
-// All the TABLUDS cards. The ID is a table number in the space the TABLED1 to TABLED5 cards share
+// All the TableUserRoutine cards. The ID is a table number in the space the TableDynamic1 to TableDynamic5 cards share
 // (IdSpace::DynamicTable, category Table): the format reference says tables and user defined functions are one group,
-// so a TABLUDS and a TABLED1 may not have the same number, and a field that names a dynamic table finds a TABLUDS too.
-// The cards are kept whole (CardRows) next to their ID: they are few, and the query engine reads the ID.
+// so a TableUserRoutine and a TableDynamic1 may not have the same number, and a field that names a dynamic table finds
+// a TableUserRoutine too. The cards are kept whole (CardRows) next to their ID: they are few, and the query engine
+// reads the ID.
 class TableUserRoutineTable final : public TypedTable<TableUserRoutineTable, TableUserRoutineCard>
 {
 public:
@@ -38,7 +39,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TABLUDS refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TableUserRoutine refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

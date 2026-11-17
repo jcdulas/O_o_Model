@@ -120,7 +120,7 @@ public:
     // True when the check found no warning and no error and the model is as it was.
     [[nodiscard]] bool consistent(const model::Model& model) const noexcept;
     // The snapshot of what decides the frames of the results (the analysis layer computes it: the displacement systems
-    // of the nodes and PARAM,OMID), taken at the last attach or refresh.
+    // of the nodes and PARAM,OutputMaterialFrame), taken at the last attach or refresh.
     [[nodiscard]] std::uint64_t frameSignature() const noexcept { return m_frameSignature; }
     void setFrameSignature(std::uint64_t signature) noexcept { m_frameSignature = signature; }
 

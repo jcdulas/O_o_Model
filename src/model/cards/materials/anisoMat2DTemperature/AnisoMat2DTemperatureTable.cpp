@@ -165,8 +165,8 @@ void AnisoMat2DTemperatureTable::keepRows(const std::vector<std::uint32_t>& rows
 
 void AnisoMat2DTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT2 that the card extends; the tables are TABLEMi cards (a negative T(Ai) is the table
-    // of thermal strains of that number).
+    // The ID is the one of the AnisoMat2D that the card extends; the tables are TABLEMi cards (a negative T(Ai) is the
+    // table of thermal strains of that number).
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     std::array<base::EntityId, 6> stiffnessTables = m_stiffnessTableIds.get(row);
     if (visitTables(visitor, STIFFNESS_TABLE_NAMES, stiffnessTables))

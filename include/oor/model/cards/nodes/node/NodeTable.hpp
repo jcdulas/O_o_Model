@@ -13,7 +13,7 @@
 namespace oor::model
 {
 
-// How a GRID card is read from and written to its fields.
+// How a Node card is read from and written to its fields.
 struct NodeFormat
 {
     // The first thing wrong with the values of a card, if anything (used by read and by editing).
@@ -22,7 +22,7 @@ struct NodeFormat
     static void write(const NodeCard& card, FieldWriter& writer);
 };
 
-// All the GRID cards of a model, by column. The positions are one column of (x, y, z) triples, so that a NumPy view of
+// All the Node cards of a model, by column. The positions are one column of (x, y, z) triples, so that a NumPy view of
 // it is an (N, 3) array without copy.
 class NodeTable final : public TypedTable<NodeTable, NodeCard>
 {
@@ -46,9 +46,11 @@ public:
         m_changes.noteIdChange();
     }
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Applies the GRDSET defaults to the CP, CD, PS and SEID that were blank (nothing when there is no GRDSET).
+    // Applies the NodeDefaults defaults to the CP, CD, PS and SEID that were blank (nothing when there is no
+    // NodeDefaults).
     void finishRead(Model& model, const ReadContext& context) override;
-    // True when the model has a GRDSET: the grids then write CP, CD, PS and SEID explicitly (a zero overrides it).
+    // True when the model has a NodeDefaults: the grids then write CP, CD, PS and SEID explicitly (a zero overrides
+    // it).
     [[nodiscard]] bool fieldsGovernedByDefaults(const Model& model) const override;
 
     // Field access by row.

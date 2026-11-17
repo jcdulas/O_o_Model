@@ -18,9 +18,9 @@ struct TransientInitialConditionFormat
     static void write(const TransientInitialConditionCard& card, FieldWriter& writer);
 };
 
-// All the TIC cards. The ID is a set ID shared by the TIC cards (IdSpace::Group, category InitialCondition: the IC
-// command selects the set). G is a grid, scalar or extra point (ScalarOrGridPoint), except for C = -1 where it is a
-// modal coordinate: no reference.
+// All the TransientInitialCondition cards. The ID is a set ID shared by the TransientInitialCondition cards
+// (IdSpace::Group, category InitialCondition: the IC command selects the set). G is a grid, scalar or extra point
+// (ScalarOrGridPoint), except for C = -1 where it is a modal coordinate: no reference.
 class TransientInitialConditionTable final
     : public TypedTable<TransientInitialConditionTable, TransientInitialConditionCard>
 {

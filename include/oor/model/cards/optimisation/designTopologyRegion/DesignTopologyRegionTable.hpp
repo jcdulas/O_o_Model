@@ -19,8 +19,8 @@ struct DesignTopologyRegionFormat
     static void write(const DesignTopologyRegionCard& card, FieldWriter& writer);
 };
 
-// All the TOPVAR cards. The ID is unique among them (IdSpace::PerCardType, no category of its own: nothing names a
-// topology variable); the PID is a property and CID of a line a coordinate system.
+// All the DesignTopologyRegion cards. The ID is unique among them (IdSpace::PerCardType, no category of its own:
+// nothing names a topology variable); the PID is a property and CID of a line a coordinate system.
 class DesignTopologyRegionTable final : public TypedTable<DesignTopologyRegionTable, DesignTopologyRegionCard>
 {
 public:

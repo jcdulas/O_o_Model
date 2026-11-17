@@ -5,12 +5,13 @@
 
 // The concentrated mass elements. Their centre is where the mass is.
 //
-// The marker element CMARKN1 of the Euler domain sits at its grid point, like CONM1.
+// The marker element MarkerNode of the Euler domain sits at its grid point, like PointMassMatrix.
 //
-// CONM1 sits at its grid point. CONM2 sits at its center of gravity, which is the grid point shifted by the offset X1,
-// X2, X3 read in the system CID (format reference): the components of the offset are along the axes of the system
-// (along the directions of the coordinates at the grid point for a cylindrical or spherical one); CID 0 is the basic
-// system; CID -1 says X1, X2, X3 are the coordinates, not an offset, of the center of gravity in the basic system.
+// PointMassMatrix sits at its grid point. PointMassInertia sits at its center of gravity, which is the grid point
+// shifted by the offset X1, X2, X3 read in the system CID (format reference): the components of the offset are along
+// the axes of the system (along the directions of the coordinates at the grid point for a cylindrical or spherical
+// one); CID 0 is the basic system; CID -1 says X1, X2, X3 are the coordinates, not an offset, of the center of gravity
+// in the basic system.
 
 namespace oor::analysis::detail
 {

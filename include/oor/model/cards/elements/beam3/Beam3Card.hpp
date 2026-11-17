@@ -7,13 +7,13 @@
 namespace oor::model
 {
 
-// One CBEAM3 card: a three-node beam element (ends A and B and a middle point C).
+// One Beam3 card: a three-node beam element (ends A and B and a middle point C).
 //
 // Card layout (orientation by vector, or by a grid point in field 6 with fields 7 and 8 blank):
-//   CBEAM3  EID  PID  GA   GB   GC   X1   X2   X3
-//           W1A  W2A  W3A  W1B  W2B  W3B  W1C  W2C
-//           W3C  TWA  TWB  TWC  SA   SB   SC
-//   CBEAM3  EID  PID  GA   GB   GC   GO
+//   Beam3  EID  PID  GA   GB   GC   X1   X2   X3
+//          W1A  W2A  W3A  W1B  W2B  W3B  W1C  W2C
+//          W3C  TWA  TWB  TWC  SA   SB   SC
+//   Beam3  EID  PID  GA   GB   GC   GO
 //           (the same continuation lines)
 //
 // Field 6 is an integer (GO) or a real (X1): `orientationNode` and `orientation` are the two forms; the orientation is

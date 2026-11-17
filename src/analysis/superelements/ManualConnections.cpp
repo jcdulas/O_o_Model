@@ -35,7 +35,8 @@ std::string text(double value)
     return std::to_string(value);
 }
 
-// The start of a message about a superelement connection card: its keyword and its two superelements ("SECONCT 1 2").
+// The start of a message about a superelement connection card: its keyword and its two superelements
+// ("SuperelementConnection 1 2").
 std::string connectionText(const model::Model&, const model::SuperelementConnectionCard& card)
 {
     return std::string("SuperelementConnection") + " " + std::to_string(card.superelementIdA) + " " +

@@ -102,9 +102,9 @@ void UserMatTableTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void UserMatTableTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     UserMatTableCard& card = m_cards.edit(row);
-    // The ID is the one of the MATUSR that the card extends; every table field names a TABLEM1 or a TABL3Di: the target
-    // MaterialTable resolves to either (a TABLEMi first) and a renumbering of the TABLEMi or of the TABL3Di follows the
-    // fields that name its own.
+    // The ID is the one of the UserMat that the card extends; every table field names a TableMaterial1 or a TABL3Di:
+    // the target MaterialTable resolves to either (a TABLEMi first) and a renumbering of the TABLEMi or of the TABL3Di
+    // follows the fields that name its own.
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);
     const auto visitTable = [&](base::EntityId& table, const char* field)

@@ -73,8 +73,8 @@ private:
     bool m_expands = true;
 };
 
-// The element IDs of a group of an `IdSets` argument: the IDs given, or the members of the SET1 cards of its ID, sorted
-// and distinct. A SET1 that does not exist throws QueryError, the message starting with `query`.
+// The element IDs of a group of an `IdSets` argument: the IDs given, or the members of the IdListSet1 cards of its ID,
+// sorted and distinct. An IdListSet1 that does not exist throws QueryError, the message starting with `query`.
 [[nodiscard]] std::vector<std::int32_t> idSetMembers(const model::Model& model, const NamedIdSet& set,
                                                      std::string_view query);
 

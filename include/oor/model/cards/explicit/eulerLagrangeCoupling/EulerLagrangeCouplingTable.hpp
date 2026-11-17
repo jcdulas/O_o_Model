@@ -19,8 +19,8 @@ struct EulerLagrangeCouplingFormat
     static void write(const EulerLagrangeCouplingCard& card, FieldWriter& writer);
 };
 
-// All the COUPLE cards. The CID is unique among the COUPLE cards (IdSpace::PerCardType, category Coupling): a COUPINT,
-// a PORFCPL or a GBAG names a coupling surface by it.
+// All the EulerLagrangeCoupling cards. The CID is unique among the EulerLagrangeCoupling cards (IdSpace::PerCardType,
+// category Coupling): a CouplingInteraction, a CouplingHoleToCoupling or a GasBag names a coupling surface by it.
 class EulerLagrangeCouplingTable final : public TypedTable<EulerLagrangeCouplingTable, EulerLagrangeCouplingCard>
 {
 public:

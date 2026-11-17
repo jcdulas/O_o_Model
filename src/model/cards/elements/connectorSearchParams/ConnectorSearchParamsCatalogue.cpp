@@ -26,7 +26,7 @@ constexpr std::array<std::int32_t, 11> GENERATED_DATA_PRINT_VALUES{0, 1, 2, 11, 
 
 constexpr std::span<const std::int32_t> NO_VALUES;
 
-// The parameters of SWLDPRM, typed by hand.
+// The parameters of ConnectorSearchParams, typed by hand.
 constexpr auto CATALOGUE = std::to_array<ConnectorSearchParamsInfo>({
     {"ProjectionToleranceSwitches", INT, 1111.0, ConnectorSearchParamsRule::ProjectionDigits, 0.0, 0.0, NO_VALUES,
      false,

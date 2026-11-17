@@ -19,8 +19,8 @@ struct CrackTip3DFormat
     static void write(const CrackTip3DCard& card, FieldWriter& writer);
 };
 
-// All the CRAC3D elements: the nodes are one column of 64 IDs per element, 0 for a blank field (an (N, 64) NumPy view
-// without copy). The ID is an element ID, in the space every element shares; PID names a PRAC3D.
+// All the CrackTip3D elements: the nodes are one column of 64 IDs per element, 0 for a blank field (an (N, 64) NumPy
+// view without copy). The ID is an element ID, in the space every element shares; PID names a CrackTipProp3D.
 class CrackTip3DTable final : public TypedTable<CrackTip3DTable, CrackTip3DCard>
 {
 public:

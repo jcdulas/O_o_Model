@@ -8,7 +8,7 @@
 namespace oor::model
 {
 
-// A weighted group of an RBE3 card: components Ci of the grid points Gi,j count with the weight WTi.
+// A weighted group of a RigidInterpolation card: components Ci of the grid points Gi,j count with the weight WTi.
 struct RigidInterpolationGroup
 {
     double weight = 0.0;               // WTi
@@ -18,7 +18,7 @@ struct RigidInterpolationGroup
     [[nodiscard]] bool operator==(const RigidInterpolationGroup&) const noexcept = default;
 };
 
-// A dependent degree of freedom of an RBE3 card listed after "UM": components CMi of grid point GMi.
+// A dependent degree of freedom of a RigidInterpolation card listed after "UM": components CMi of grid point GMi.
 struct RigidInterpolationDependent
 {
     base::EntityId node = 0;     // GMi
@@ -27,12 +27,13 @@ struct RigidInterpolationDependent
     [[nodiscard]] bool operator==(const RigidInterpolationDependent&) const noexcept = default;
 };
 
-// One RBE3 card: the motion of a reference grid point is the weighted average of the motion of other grid points.
+// One RigidInterpolation card: the motion of a reference grid point is the weighted average of the motion of other grid
+// points.
 //
-// Card layout: RBE3  EID  (blank)  REFGRID  REFC  WT1  C1  G1,1  G1,2
-//                   G1,3  WT2  C2  G2,1  G2,2  -etc.-
-//                   "UM"  GM1  CM1  GM2  CM2  GM3  CM3
-//                   "ALPHA"  ALPHA  TREF
+// Card layout: RigidInterpolation  EID  (blank)  REFGRID  REFC  WT1  C1  G1,1  G1,2
+//                                 G1,3  WT2  C2  G2,1  G2,2  -etc.-
+//                                 "UM"  GM1  CM1  GM2  CM2  GM3  CM3
+//                                 "ALPHA"  ALPHA  TREF
 // The groups (WTi, Ci, Gi,j...) follow each other from field 5 on with no padding: a group ends where the next real
 // (the next WT) or a keyword starts. "UM" and "ALPHA" each begin a line, and both parts are
 // optional. Without "UM" only the REFC components of the reference point are dependent. ALPHA and TREF are 0.0 when

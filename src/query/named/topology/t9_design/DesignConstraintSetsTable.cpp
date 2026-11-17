@@ -11,7 +11,7 @@ namespace oor::query
 namespace
 {
 
-// designConstraintSetsTable: the DCONADD cards, one row per member set.
+// designConstraintSetsTable: the DesignConstrUnion cards, one row per member set.
 class DesignConstraintSetsTableQuery final : public QueryBase
 {
 public:

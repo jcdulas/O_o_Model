@@ -14,13 +14,13 @@ struct ScalarPointFormat
 {
     // The first thing wrong with the values of a card, if anything (used by read and by editing).
     [[nodiscard]] static std::optional<CardProblem> check(const ScalarPointCard& card);
-    // One SPOINT card gives one point per ID listed, a THRU range giving all the IDs of the range.
+    // One ScalarPoint card gives one point per ID listed, a THRU range giving all the IDs of the range.
     [[nodiscard]] static std::vector<ScalarPointCard> readAll(FieldReader& reader);
     static void write(const ScalarPointCard& card, FieldWriter& writer);
 };
 
-// All the scalar points defined by SPOINT cards: one row per point, in the node ID space (so a scalar point and a GRID
-// cannot have the same ID). The same point listed twice in a deck is one point.
+// All the scalar points defined by ScalarPoint cards: one row per point, in the node ID space (so a scalar point and a
+// Node cannot have the same ID). The same point listed twice in a deck is one point.
 class ScalarPointTable final : public TypedTable<ScalarPointTable, ScalarPointCard>
 {
 public:

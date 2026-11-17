@@ -16,15 +16,15 @@ namespace oor::analysis
 using ComponentSet = std::uint8_t;
 
 // The components through which an element or an MPC equation acts on a grid point (for the zones):
-//   solids 123; shells 123456, the axisymmetric and plane elements (CQUADX, CTRIAX, CPLSTN, CPLSTS families) 123;
-//   rods (CROD, CONROD) 123456 with a torsion constant J and 123 without one (J blank or 0: no torque), tubes, bars,
-//   beams and bends 123456; CONM1 and CONM2 123456;
-//   the scalar elements of grid points (CELAS1, CELAS2, CDAMP1, CDAMP2, CMASS1, CMASS2) the component of the card at
-//   the point, the scalar elements of scalar points 0; a CBUSH the components its PBUSH gives a stiffness K for (all
-//   six when the PBUSH is missing); CGAP and CBUSH1D 123; a CFAST or a CWELD 123 at the grid points of the elements
-//   it pierces (its piercing points follow the translations of those grid points through the shape functions) and
-//   123456 at its own grid points; any other connector 123456;
-//   a rigid element the components its card names at the point (an RROD end without any 123);
+//   solids 123; shells 123456, the axisymmetric and plane elements (AxisymQuad, AxisymTria, CPLSTN, CPLSTS families)
+//   123; rods (Rod2, Rod2InlineSection) 123456 with a torsion constant J and 123 without one (J blank or 0: no torque),
+//   tubes, bars, beams and bends 123456; PointMassMatrix and PointMassInertia 123456;
+//   the scalar elements of grid points (SpringDofProperty, SpringDofInline, DamperDofProperty, DamperDofInline,
+//   MassDofProperty, MassDofInline) the component of the card at the point, the scalar elements of scalar points 0; a
+//   Bushing the components its BushProp gives a stiffness K for (all six when the BushProp is missing); Gap2 and
+//   Bushing1D 123; a Fastener or a Weld 123 at the grid points of the elements it pierces (its piercing points follow
+//   the translations of those grid points through the shape functions) and 123456 at its own grid points; any other
+//   connector 123456; a rigid element the components its card names at the point (a RigidRod end without any 123);
 //   an MPC equation the components of its terms at the point.
 class EntityDofs
 {

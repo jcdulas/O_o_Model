@@ -19,8 +19,8 @@ struct OccupantAccelFieldFormat
     static void write(const OccupantAccelFieldCard& card, FieldWriter& writer);
 };
 
-// All the ATBACC cards. The LID is a set ID (IdSpace::Group, category Other: no other card of the model selects it)
-// that a TLOADn names in its EXCITEID, so the table says that its cards define an excitation set
+// All the OccupantAccelField cards. The LID is a set ID (IdSpace::Group, category Other: no other card of the model
+// selects it) that a TLOADn names in its EXCITEID, so the table says that its cards define an excitation set
 // (CardTable::definesExcitationIds) and a TLOADn that names it resolves. The cards are kept whole next to their ID.
 class OccupantAccelFieldTable final : public TypedTable<OccupantAccelFieldTable, OccupantAccelFieldCard>
 {

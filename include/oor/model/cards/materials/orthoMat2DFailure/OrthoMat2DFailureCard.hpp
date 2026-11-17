@@ -9,7 +9,8 @@
 namespace oor::model
 {
 
-// The failure theory of a MAT8A card (FT), and the theory that defines one failure mode of the COMBINAT theory.
+// The failure theory of an OrthoMat2DFailure card (FT), and the theory that defines one failure mode of the COMBINAT
+// theory.
 enum class OrthoMat2DFailureTheory : std::uint8_t
 {
     None,         // blank: no failure
@@ -44,15 +45,15 @@ enum class OrthoMat2DFailureDegradationStart : std::uint8_t
     All         // ALL: when all the elastic constants are zero
 };
 
-// One MAT8A card: the failure properties of an orthotropic material for shell elements (SOL 700); the MAT8 with the
-// same ID holds the elastic constants.
+// One OrthoMat2DFailure card: the failure properties of an orthotropic material for shell elements (SOL 700); the
+// OrthoMat2D with the same ID holds the elastic constants.
 //
 // Card layout (the fields are numbered across the lines, eight to a line):
-//   MAT8A  MID    FT     NV     S      ALPHA  TRSFAIL F12                        fields 1 to 7
-//          XT     XC     YT     YC     PFD    VALUE   PFDST                      9 to 15
-//          FBTEN  FBCOM  MXTEN  MXCOM  MXSHR                                     17 to 21
-//          (blank line)
-//          PRDFT  PRDFC  PRDMT  PRDMC  PRDSH                                      33 to 37
+//   OrthoMat2DFailure  MID    FT     NV     S      ALPHA  TRSFAIL F12            fields 1 to 7
+//                      XT     XC     YT     YC     PFD    VALUE   PFDST                      9 to 15
+//                      FBTEN  FBCOM  MXTEN  MXCOM  MXSHR                                     17 to 21
+//                      (blank line)
+//                      PRDFT  PRDFC  PRDMT  PRDMC  PRDSH                                      33 to 37
 // S, the failure stress of the in-plane shear, is greater than zero. NV (0 to 9) is the number of additional history
 // variables of a user model, ALPHA (0.0) the nonlinear shear coefficient, F12 (0.0) the interaction term of the Tsai-Wu
 // theory. XT, XC, YT and YC (0.0 when blank) are the failure stresses of the fibre and matrix directions, greater than
@@ -65,7 +66,7 @@ struct OrthoMat2DFailureCard
 {
     static constexpr std::size_t MODES = 5;
 
-    base::EntityId id = 0; // the MAT8 that the card extends
+    base::EntityId id = 0; // the OrthoMat2D that the card extends
     OrthoMat2DFailureTheory theory = OrthoMat2DFailureTheory::None;
     int historyVariableCount = 0;
     double shearStrength = 0.0;

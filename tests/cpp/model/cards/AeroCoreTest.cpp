@@ -1,7 +1,8 @@
-// Checks of what the aeroelastic cards share, on the four cards that show it: AEFACT (a list of reals),
-// AELIST (a list of boxes with THRU), CAERO1 (a panel: the aerodynamic element ID space, resolved references, the boxes
-// it owns) and TRIM (a card kept whole, labels, the Case Control command that selects it). The new ID spaces, the
-// reference kinds and the renumbering of the boxes are tested here once; the cards of the groups have their own files.
+// Checks of what the aeroelastic cards share, on the four cards that show it: AeroFactorList (a list of reals),
+// AeroBoxList (a list of boxes with THRU), AeroLiftingPanel1 (a panel: the aerodynamic element ID space, resolved
+// references, the boxes it owns) and TRIM (a card kept whole, labels, the Case Control command that selects it). The
+// new ID spaces, the reference kinds and the renumbering of the boxes are tested here once; the cards of the groups
+// have their own files.
 
 #include "oor/model/cards/aero/AeroBoxRanges.hpp"
 #include "oor/model/cards/aero/aeroBoxList/AeroBoxListTable.hpp"
@@ -49,7 +50,8 @@ TEST_CASE("an AEFACT is a list of reals with no blank inside", "[model][cards][a
     expectInvalid("AeroFactorList;5", "value1");          // at least one number
     expectInvalid("AeroFactorList;5;0.3;;0.7", "values"); // embedded blank fields are not allowed
     expectInvalid("AeroFactorList;5;0.3;LEFT", "values");
-    // An AEFACT and an FLFACT may have the same ID: the space is the card type's, but two AEFACTs may not.
+    // An AeroFactorList and an AeroFlutterFactors may have the same ID: the space is the card type's, but two
+    // AeroFactorLists may not.
     REQUIRE_THROWS_AS(readBulk("AeroFactorList;5;0.3\nAeroFactorList;5;0.4"), base::DeckError);
 }
 
@@ -92,7 +94,8 @@ TEST_CASE("a CAERO1 is an aerodynamic element: its own ID space, its references 
              lists.point1[2] == 3.0));
     requireRoundTrip(model);
 
-    // The element space of the aerodynamic panels is not the structural one: a CQUAD4 1000 and a CAERO1 1000 coexist.
+    // The element space of the aerodynamic panels is not the structural one: a ShellQuad4 1000 and an AeroLiftingPanel1
+    // 1000 coexist.
     REQUIRE(model.locate(base::IdSpace::AeroElement, 1000).has_value());
     REQUIRE(model.locate(base::IdSpace::Element, 1000).has_value());
     REQUIRE_THROWS_AS(readBulk("AeroLiftingPanel1;1;1;;2;1;;;1;0.;0.;0.;1.;0.;1.;0.;1.\nAeroLiftingPanel1;1;1;;2;1;;;1;"
@@ -110,7 +113,8 @@ TEST_CASE("a CAERO1 is an aerodynamic element: its own ID space, its references 
     REQUIRE(ranges.owner(2006) == nullptr);
     REQUIRE((ranges.ranges()[0].countKnown && ranges.ranges()[1].countKnown));
 
-    // Its references: the property, the coordinate system, the two division lists. PAERO1 is not in this deck.
+    // Its references: the property, the coordinate system, the two division lists. AeroLiftingPanelProp1 is not in this
+    // deck.
     RecordingVisitor visitor;
     model.table<AeroLiftingPanel1Table>().visitReferences(1, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"propId", "spanDivisionListId", "chordDivisionListId"});
@@ -119,7 +123,8 @@ TEST_CASE("a CAERO1 is an aerodynamic element: its own ID space, its references 
     visitor = RecordingVisitor{};
     model.table<AeroLiftingPanel1Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"propId", "positionFrameId"});
-    // The two PAERO1 cards that nothing defines yet, and the property and four grid points of the CQUAD4.
+    // The two AeroLiftingPanelProp1 cards that nothing defines yet, and the property and four grid points of the
+    // ShellQuad4.
     REQUIRE(unresolvedIn(model) == 7);
 
     Renumbering::apply(model, RenumberSpace::AeroFactor, Renumbering::offset(100));
@@ -162,7 +167,8 @@ TEST_CASE("the boxes of an AELIST and a CAERO1 move together when the aerodynami
         "AeroBoxList;1;1000;Through;1005\n"
         "AeroBoxList;2;2003;5001\n"
         "AeroBoxList;3;2000;Through;2005;1003");
-    REQUIRE(unresolvedIn(model) == 2); // the PAERO1 only: a box that no panel has is not reported (it may be a grid)
+    // the AeroLiftingPanelProp1 only: a box that no panel has is not reported (it may be a grid)
+    REQUIRE(unresolvedIn(model) == 2);
 
     const std::size_t changed = Renumbering::apply(model, RenumberSpace::AeroElement, Renumbering::offset(500));
     REQUIRE(changed == 2);

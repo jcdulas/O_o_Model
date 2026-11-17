@@ -20,11 +20,11 @@ struct ComplexEigenMethodFormat
     static void write(const ComplexEigenMethodCard& card, FieldWriter& writer);
 };
 
-// All the EIGC cards. The ID is the one the CMETHOD command selects: unique among the EIGC cards
-// (IdSpace::PerCardType; METHOD selects the real methods EIGR, EIGRL and EIGB, in the method space, and the two
-// commands are separate: an EIGRL and an EIGC may have the same ID), in the category
-// ComplexMethod with the EIGP cards of the same ID. A blank E is NaN in its column. The members of the search regions
-// are one list each, in CSR form.
+// All the ComplexEigenMethod cards. The ID is the one the CMETHOD command selects: unique among the ComplexEigenMethod
+// cards (IdSpace::PerCardType; METHOD selects the real methods RealEigenMethod, LanczosEigenMethod and
+// BucklingEigenMethod, in the method space, and the two commands are separate: a LanczosEigenMethod and a
+// ComplexEigenMethod may have the same ID), in the category ComplexMethod with the ComplexEigenPoles cards of the same
+// ID. A blank E is NaN in its column. The members of the search regions are one list each, in CSR form.
 class ComplexEigenMethodTable final : public TypedTable<ComplexEigenMethodTable, ComplexEigenMethodCard>
 {
 public:

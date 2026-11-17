@@ -21,10 +21,10 @@ struct TemperatureBoundaryFormat
     static void write(const TemperatureBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the TEMPBC cards. The ID is a set ID shared by many cards (IdSpace::Group). The category is Constraint: a STAT
-// set is selected by `SPC = SID`, so it resolves as a constraint set. A TRAN set is the EXCITEID of a
-// TLOADi: the table says it defines that excitation set (CardTable::definesExcitationIds). The temperatures are one CSR
-// column and the grid points one CSR column of (first, last, by) runs, one run per temperature.
+// All the TemperatureBoundary cards. The ID is a set ID shared by many cards (IdSpace::Group). The category is
+// Constraint: a STAT set is selected by `SPC = SID`, so it resolves as a constraint set. A TRAN set is the EXCITEID of
+// a TLOADi: the table says it defines that excitation set (CardTable::definesExcitationIds). The temperatures are one
+// CSR column and the grid points one CSR column of (first, last, by) runs, one run per temperature.
 class TemperatureBoundaryTable final : public TypedTable<TemperatureBoundaryTable, TemperatureBoundaryCard>
 {
 public:

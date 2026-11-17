@@ -19,8 +19,8 @@ struct SpringOffsetExplicitFormat
     static void write(const SpringOffsetExplicitCard& card, FieldWriter& writer);
 };
 
-// All the CSPR elements: an element in the space every element shares (IdSpace::Element). The nodes are one column of
-// two IDs (an (N, 2) NumPy view); PID names a PSPRMAT.
+// All the SpringOffsetExplicit elements: an element in the space every element shares (IdSpace::Element). The nodes are
+// one column of two IDs (an (N, 2) NumPy view); PID names a SpringOffsetProp.
 class SpringOffsetExplicitTable final
     : public TypedTable<SpringOffsetExplicitTable, SpringOffsetExplicitCard>
 {

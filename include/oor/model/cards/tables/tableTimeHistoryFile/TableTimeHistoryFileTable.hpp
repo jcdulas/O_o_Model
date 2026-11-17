@@ -19,10 +19,11 @@ struct TableTimeHistoryFileFormat
     static void write(const TableTimeHistoryFileCard& card, FieldWriter& writer);
 };
 
-// All the time-history-file table cards. The ID is a table number in the space the TABLED1 to TABLED5 cards share
-// (IdSpace::DynamicTable, category Table): such a card may be named by anything that names a TABLED1, and
-// may not have a TABLED1's number. The UID is a UserDefinedName reference (its absolute value: a negative UID inverts
-// the pairs). The cards are kept whole (CardRows) next to their ID: they are few, and the query engine reads the ID.
+// All the time-history-file table cards. The ID is a table number in the space the TableDynamic1 to TableDynamic5 cards
+// share (IdSpace::DynamicTable, category Table): such a card may be named by anything that names a TableDynamic1, and
+// may not have a TableDynamic1's number. The UID is a UserDefinedName reference (its absolute value: a negative UID
+// inverts the pairs). The cards are kept whole (CardRows) next to their ID: they are few, and the query engine reads
+// the ID.
 class TableTimeHistoryFileTable final : public TypedTable<TableTimeHistoryFileTable, TableTimeHistoryFileCard>
 {
 public:

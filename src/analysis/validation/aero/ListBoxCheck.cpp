@@ -18,13 +18,13 @@ namespace oor::analysis
 namespace
 {
 
-// The items of an AELIST are the boxes of the panels (a control surface, a spline, a component), the (x, y) points of a
-// Mach box surface, or the points and elements of an aerodynamic mesh (AEGRID, AEQUAD4, AETRIA3). An item that none of
-// them has moves nothing: the format reference does not call it an error, so this is a warning. A model with no panel
-// and no aerodynamic mesh has nothing to compare with (a deck split in several files) and is not judged. Two AELISTs
-// hold other numbers and are not judged either: the VSLIST of a SPLINE6 whose VSTYPE is STRUC lists structural shell
-// elements, and the AELIST of a SPLINEX is data for the spline server, which has no
-// meaning to the solver.
+// The items of an AeroBoxList are the boxes of the panels (a control surface, a spline, a component), the (x, y) points
+// of a Mach box surface, or the points and elements of an aerodynamic mesh (AeroNode, AeroQuad4, AeroTria3). An item
+// that none of them has moves nothing: the format reference does not call it an error, so this is a warning. A model
+// with no panel and no aerodynamic mesh has nothing to compare with (a deck split in several files) and is not judged.
+// Two AeroBoxLists hold other numbers and are not judged either: the VSLIST of an AeroFiniteSurfaceSpline6 whose VSTYPE
+// is STRUC lists structural shell elements, and the AeroBoxList of an AeroUserSpline is data for the spline server,
+// which has no meaning to the solver.
 class ListBoxCheck final : public ValidationCheck
 {
 public:

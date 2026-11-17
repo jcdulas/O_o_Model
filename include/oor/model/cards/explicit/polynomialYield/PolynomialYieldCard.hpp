@@ -8,11 +8,11 @@ namespace oor::model
 // The default of SMAX: no upper bound on the yield stress.
 inline constexpr double POLYNOMIAL_YIELD_NO_LIMIT = 1.0E20;
 
-// One YLDPOL card (SOL 700): the polynomial yield model. The yield stress is a polynomial of the effective plastic
-// strain p, cut off at SMAX: y = min(SMAX, A + B p + C p^2 + D p^3 + E p^4 + F p^5). A MATDEUL names the model in its
-// YID field.
+// One PolynomialYield card (SOL 700): the polynomial yield model. The yield stress is a polynomial of the effective
+// plastic strain p, cut off at SMAX: y = min(SMAX, A + B p + C p^2 + D p^3 + E p^4 + F p^5). An EulerMat names the
+// model in its YID field.
 //
-// Card layout: YLDPOL  YID  A  B  C  D  E  F  SMAX            fields 1 to 8
+// Card layout: PolynomialYield  YID  A  B  C  D  E  F  SMAX   fields 1 to 8
 // A is the initial yield stress (greater than zero, required); B to F (0.0) are the coefficients of the higher terms;
 // SMAX (1.E20) is the maximum yield stress. The format reference gives no sign for the coefficients and SMAX, so the
 // card only asks for finite numbers.

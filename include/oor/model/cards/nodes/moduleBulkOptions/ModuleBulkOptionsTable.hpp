@@ -19,9 +19,10 @@ struct ModuleBulkOptionsFormat
     static void write(const ModuleBulkOptionsCard& card, FieldWriter& writer);
 };
 
-// All the MDBULK cards. The module is the ID, unique among them (IdSpace::PerCardType, category Other); the word ALL is
-// not a number and is indexed as 0, which no module number has, so a deck has one MDBULK,ALL at most. A module is not a
-// card of the model, so the card names no other card. The cards are kept whole next to their ID.
+// All the ModuleBulkOptions cards. The module is the ID, unique among them (IdSpace::PerCardType, category Other); the
+// word ALL is not a number and is indexed as 0, which no module number has, so a deck has one ModuleBulkOptions,ALL at
+// most. A module is not a card of the model, so the card names no other card. The cards are kept whole next to their
+// ID.
 class ModuleBulkOptionsTable final : public TypedTable<ModuleBulkOptionsTable, ModuleBulkOptionsCard>
 {
 public:

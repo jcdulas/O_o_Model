@@ -22,7 +22,7 @@ enum class ContactParameterKind : std::uint8_t
     Real,    // a real (an integer is read as the real of the same value)
     Number,  // a real or an integer: a value, or the ID of a table of values
     Text,    // a word
-    Any      // an integer, a real or a word (BCAUTOP FTYPE: BLCOUL or 6)
+    Any      // an integer, a real or a word (ContactAutoParams FTYPE: BLCOUL or 6)
 };
 
 struct ContactParameterRule
@@ -47,7 +47,8 @@ struct ContactParameter
 [[nodiscard]] ContactValue readContactValue(FieldReader& reader, int field, const char* name);
 void writeContactValue(FieldWriter& writer, int field, const ContactValue& value);
 // The card types whose keywords the parameters of a card take, in the order they are looked up: the card type itself,
-// then the card types whose parameters it also accepts (a BCAUTOP takes those of BCPARA, BCONPRP, BCONPRG and BCBDPRP).
+// then the card types whose parameters it also accepts (a ContactAutoParams takes those of ContactParams,
+// ContactPairPhysicalParams, ContactPairGeomParams and ContactBodyParams).
 using ParameterOwners = std::span<const std::string_view>;
 
 // A field read as the kind `rule` says (what readContactParameters does for each pair): blank, an integer, a real or a
@@ -59,9 +60,10 @@ using ParameterOwners = std::span<const std::string_view>;
 // Whether the value is blank or a finite real or an integer (what readContactValue gives).
 [[nodiscard]] bool isContactNumber(const ContactValue& value) noexcept;
 
-// Reads the pairs of a card whose first pair is at field `firstPairField` (3 for BCONPRG, 2 for BCPARA). The first line
-// has the pairs that fit before field 8; the pairs after it start at field 9 and take two fields each. A name that is
-// not in `rules` is an error, and so is a value of the wrong kind. The names are keywords of the card types `owners`.
+// Reads the pairs of a card whose first pair is at field `firstPairField` (3 for ContactPairGeomParams, 2 for
+// ContactParams). The first line has the pairs that fit before field 8; the pairs after it start at field 9 and take
+// two fields each. A name that is not in `rules` is an error, and so is a value of the wrong kind. The names are
+// keywords of the card types `owners`.
 [[nodiscard]] std::vector<ContactParameter> readContactParameters(FieldReader& reader, int firstPairField,
                                                                   std::span<const ContactParameterRule> rules,
                                                                   ParameterOwners owners);

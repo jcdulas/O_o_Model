@@ -5,15 +5,15 @@
 namespace oor::model
 {
 
-// One PWELD card: the property of a connector element (CWELD).
+// One WeldProp card: the property of a connector element (Weld).
 //
 // Card layout:
-//   PWELD  PID    MID  D   (blank)  (blank)  MSET   (blank)  TYPE
-//          LDMIN  LDMAX
+//   WeldProp  PID  MID  D   (blank)  (blank)  MSET   (blank)  TYPE
+//             LDMIN  LDMAX
 //
-// MSET (ON or OFF, the default), LDMIN and LDMAX are active only with PARAM,OLDWELD,YES. TYPE is blank (a general
-// connector) or SPOT (a spot weld connector). The fields 5, 6 and 8 are blank, except in the older layout the solver
-// still reads, whose words in fields 5 and 6 (FF, CLAMP) are ignored (WeldPropFormat::read).
+// MSET (ON or OFF, the default), LDMIN and LDMAX are active only with PARAM,OldWeldFormulation,YES. TYPE is blank (a
+// general connector) or SPOT (a spot weld connector). The fields 5, 6 and 8 are blank, except in the older layout the
+// solver still reads, whose words in fields 5 and 6 (FF, CLAMP) are ignored (WeldPropFormat::read).
 struct WeldPropCard
 {
     static constexpr double DEFAULT_MIN_LENGTH_RATIO = 0.2;

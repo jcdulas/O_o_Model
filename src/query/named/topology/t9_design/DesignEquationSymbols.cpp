@@ -9,7 +9,7 @@ namespace oor::query
 namespace
 {
 
-// designEquationSymbols: the names of each DEQATN as an expression program.
+// designEquationSymbols: the names of each DesignEquation as an expression program.
 class DesignEquationSymbolsQuery final : public QueryBase
 {
 public:

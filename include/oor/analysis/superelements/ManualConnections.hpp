@@ -13,15 +13,15 @@ namespace oor::analysis
 {
 
 // The connections the cards give point by point:
-//   - SuperelementConnection (format reference SECONCT): GIDAi of SEIDA joined to GIDBi of SEIDB (0: the residual
-//     structure), a THRU range to a THRU range one by one; with LOC = YES a pair farther apart than the tolerance after
-//     placement is a fatal error of the solver (written to `problems`, the pair kept), with LOC = NO the points are
-//     joined wherever they are;
-//   - SuperelementExternalBoundary (format reference EXTRN): the boundary points of an external superelement and their
-//     components, in its part;
-//   - SuperelementCopyPoints (format reference CSUPER, SEQSEP): the exterior points GPi of a secondary superelement, in
-//     the superelement downstream of it, paired with the exterior points of its primary in the primary's order
-//     (ascending ID), or in the order of its SuperelementCopySequence.
+//   - SuperelementConnection (format reference SuperelementConnection): GIDAi of SEIDA joined to GIDBi of SEIDB (0: the
+//     residual structure), a THRU range to a THRU range one by one; with LOC = YES a pair farther apart than the
+//     tolerance after placement is a fatal error of the solver (written to `problems`, the pair kept), with LOC = NO
+//     the points are joined wherever they are;
+//   - SuperelementExternalBoundary (format reference SuperelementExternalBoundary): the boundary points of an external
+//     superelement and their components, in its part;
+//   - SuperelementCopyPoints (format reference SuperelementCopyPoints, SuperelementCopySequence): the exterior points
+//     GPi of a secondary superelement, in the superelement downstream of it, paired with the exterior points of its
+//     primary in the primary's order (ascending ID), or in the order of its SuperelementCopySequence.
 class ManualConnections
 {
 public:

@@ -19,8 +19,8 @@ struct AeroStaticParamsFormat
     static void write(const AeroStaticParamsCard& card, FieldWriter& writer);
 };
 
-// All the AEROS cards. The card has no ID (IdSpace::None, category Aero) and a deck may hold one: `finishRead` reports
-// a second one. ACSID and RCSID are coordinate systems (ReferenceTarget::Coordinate).
+// All the AeroStaticParams cards. The card has no ID (IdSpace::None, category Aero) and a deck may hold one:
+// `finishRead` reports a second one. ACSID and RCSID are coordinate systems (ReferenceTarget::Coordinate).
 class AeroStaticParamsTable final : public TypedTable<AeroStaticParamsTable, AeroStaticParamsCard>
 {
 public:

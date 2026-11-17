@@ -96,7 +96,8 @@ void PerforatedShellPropTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void PerforatedShellPropTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The material may also be a MAT4 or MAT5 for a heat analysis: the Material target falls back to them.
+    // The material may also be a HeatIsoMat or HeatAnisoMat for a heat analysis: the Material target falls back to
+    // them.
     visitId(visitor, "matId", ReferenceTarget::Material, m_cards.edit(row).matId);
 }
 

@@ -55,23 +55,23 @@ struct ConnectorSearchParamsSection
     [[nodiscard]] bool operator==(const ConnectorSearchParamsSection&) const noexcept = default;
 };
 
-// One SWLDPRM card: values for the parameters of the connectivity search of the connector elements CFAST, CWELD and
-// CSEAM (`ConnectorSearchParamsCatalogue.hpp`: the kind, range and default of
+// One ConnectorSearchParams card: values for the parameters of the connectivity search of the connector elements
+// Fastener, Weld and Seam (`ConnectorSearchParamsCatalogue.hpp`: the kind, range and default of
 // each).
 //
-// Card layout: SWLDPRM  PARAM1  VAL1  PARAM2  VAL2  PARAM3  VAL3  PARAM4  VAL4        fields 1 to 8
-//                      PARAM5  VAL5  -etc.-                                           fields 9 to 16, and so on
-// and, with the keywords, the same run of name and value pairs in which a field that holds CFAST, CWELD or CSEAM starts
-// a section (the keyword takes one field and the next pair follows it). The parameters before the first keyword are
-// global (`global`); those after a keyword apply to that element type only (`sections`, in the order of the card). A
-// parameter that does not concern the element type of its section is ignored by the solver, so it is kept.
+// Card layout: ConnectorSearchParams  PARAM1  VAL1  PARAM2  VAL2  PARAM3  VAL3  PARAM4  VAL4  fields 1 to 8
+//                                    PARAM5  VAL5  -etc.-                             fields 9 to 16, and so on
+// and, with the keywords, the same run of name and value pairs in which a field that holds Fastener, Weld or Seam
+// starts a section (the keyword takes one field and the next pair follows it). The parameters before the first keyword
+// are global (`global`); those after a keyword apply to that element type only (`sections`, in the order of the card).
+// A parameter that does not concern the element type of its section is ignored by the solver, so it is kept.
 // Blank fields between the pairs are allowed for readability and are not kept; a name is followed in the next field by
 // its value. The format reference says none of the parameters is required, so a card may have none.
 //
 // A name that the catalogue does not list is kept with its value as written: the format reference says the allowable
 // names are the table's, but its own text names SKIN, which the table lacks, and a later release may add names. A
 // listed name takes the values the table gives it (the card is refused otherwise), and CHKRUN is only valid before any
-// keyword. Only one SWLDPRM card is allowed in the Bulk Data (a rule between cards, not checked
+// keyword. Only one ConnectorSearchParams card is allowed in the Bulk Data (a rule between cards, not checked
 // here).
 struct ConnectorSearchParamsCard
 {

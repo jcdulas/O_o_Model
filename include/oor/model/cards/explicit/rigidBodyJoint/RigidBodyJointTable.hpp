@@ -19,8 +19,8 @@ struct RigidBodyJointFormat
     static void write(const RigidBodyJointCard& card, FieldWriter& writer);
 };
 
-// All the RBJOINT cards. The ID is unique among them (IdSpace::PerCardType, category Other: no other card names a
-// joint). The nodes are references to GRID cards. The cards are kept whole next to their ID.
+// All the RigidBodyJoint cards. The ID is unique among them (IdSpace::PerCardType, category Other: no other card names
+// a joint). The nodes are references to Node cards. The cards are kept whole next to their ID.
 class RigidBodyJointTable final : public TypedTable<RigidBodyJointTable, RigidBodyJointCard>
 {
 public:

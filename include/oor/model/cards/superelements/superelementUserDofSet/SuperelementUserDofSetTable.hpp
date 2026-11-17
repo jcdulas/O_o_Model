@@ -20,8 +20,8 @@ struct SuperelementUserDofSetFormat
     static void write(const SuperelementUserDofSetCard& card, FieldWriter& writer);
 };
 
-// All the SEUSET cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to columns
-// of their SEIDs and set names.
+// All the SuperelementUserDofSet cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole
+// next to columns of their SEIDs and set names.
 class SuperelementUserDofSetTable final : public TypedTable<SuperelementUserDofSetTable, SuperelementUserDofSetCard>
 {
 public:

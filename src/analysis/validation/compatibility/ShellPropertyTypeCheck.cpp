@@ -7,9 +7,9 @@ namespace oor::analysis
 namespace
 {
 
-// A shell element (CQUAD4, CTRIA3, ...) whose property is not a shell property (the format reference gives PSHELL,
-// PCOMP, PCOMPG, PSHELL1 for SOL 700, PSHLPF for the perforated shell of a trim component and, for the plane elements
-// of a nonlinear analysis, PLPLANE and PLCOMP).
+// A shell element (ShellQuad4, ShellTria3, ...) whose property is not a shell property (the format reference gives
+// ShellProp, CompProp, CompPropGlobal, ShellPropNodal for SOL 700, PerforatedShellProp for the perforated shell of a
+// trim component and, for the plane elements of a nonlinear analysis, PlanePropNonlinear and PlaneCompProp).
 class ShellPropertyTypeCheck final : public ValidationCheck
 {
 public:

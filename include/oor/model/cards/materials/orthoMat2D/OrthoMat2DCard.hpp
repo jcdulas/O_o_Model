@@ -8,17 +8,17 @@
 namespace oor::model
 {
 
-// One MAT8 card: an orthotropic material for shell elements.
+// One OrthoMat2D card: an orthotropic material for shell elements.
 //
 // Card layout:
-//   MAT8  MID      E1    E2    NU12  G12   G1Z   G2Z   RHO
-//         A1       A2    TREF  Xt    Xc    Yt    Yc    S
-//         GE       F12   STRN
-//         "HFAIL"  HF1   HF2   HF3   HF4   HF10  HF11
-//         "HTAPE"  HT1   HT2   HT3   HT4   HT5   HT6   HT10
-//                  HT11  HT12
-//         "HFABR"  HFB1  HFB2  HFB3  HFB4  HFB5  HFB6  HFB10
-//                  HFB11 HFB12
+//   OrthoMat2D  MID  E1    E2    NU12  G12   G1Z   G2Z   RHO
+//               A1  A2    TREF  Xt    Xc    Yt    Yc    S
+//               GE  F12   STRN
+//               "HFAIL"  HF1   HF2   HF3   HF4  HF10  HF11
+//               "HTAPE"  HT1   HT2   HT3   HT4   HT5   HT6  HT10
+//                        HT11  HT12
+//               "HFABR"  HFB1  HFB2  HFB3  HFB4  HFB5  HFB6  HFB10
+//                        HFB11 HFB12
 //
 // Dependent defaults are stored resolved: Xc is Xt and Yc is Yt when blank, and in the three optional groups of
 // Hashin failure criteria each "compressive" or second value is the one before it when blank. A group is absent (an

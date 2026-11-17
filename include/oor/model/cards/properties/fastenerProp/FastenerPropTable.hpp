@@ -19,7 +19,7 @@ struct FastenerPropFormat
     static void write(const FastenerPropCard& card, FieldWriter& writer);
 };
 
-// All the PFAST cards. The stiffnesses are (N, 3) NumPy views without copy.
+// All the FastenerProp cards. The stiffnesses are (N, 3) NumPy views without copy.
 class FastenerPropTable final : public TypedTable<FastenerPropTable, FastenerPropCard>
 {
 public:

@@ -19,8 +19,9 @@ struct DynamicLoadPhaseFormat
     static void write(const DynamicLoadPhaseCard& card, FieldWriter& writer);
 };
 
-// All the DPHASE cards. The ID is a set ID shared by many cards (IdSpace::Group, category PhaseLead), which the DPHASE
-// field of a dynamic load refers to. The two groups of a card are kept as three columns of two values.
+// All the DynamicLoadPhase cards. The ID is a set ID shared by many cards (IdSpace::Group, category PhaseLead), which
+// the DynamicLoadPhase field of a dynamic load refers to. The two groups of a card are kept as three columns of two
+// values.
 class DynamicLoadPhaseTable final : public TypedTable<DynamicLoadPhaseTable, DynamicLoadPhaseCard>
 {
 public:

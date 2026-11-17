@@ -20,8 +20,8 @@ struct ContactTable1Format
     static void write(const ContactTable1Card& card, FieldWriter& writer);
 };
 
-// All the BCTABL1 cards. The BCID is unique among them (IdSpace::PerCardType, category ContactTable, shared with
-// BCTABLE), which the BCONTACT command names. The pairs are references to BCONECT cards.
+// All the ContactTable1 cards. The BCID is unique among them (IdSpace::PerCardType, category ContactTable, shared with
+// ContactTable), which the BCONTACT command names. The pairs are references to ContactPair cards.
 class ContactTable1Table final : public TypedTable<ContactTable1Table, ContactTable1Card>
 {
 public:

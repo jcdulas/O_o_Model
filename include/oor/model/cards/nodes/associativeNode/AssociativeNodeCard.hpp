@@ -8,15 +8,15 @@
 namespace oor::model
 {
 
-// One GRIDA card: an associative grid point of the COMBINE step of a Part Assembly Analysis (PAA). It lets the Bulk
-// Data of the assembly name a grid point or a scalar point of a Part that is being combined: the program connects the
-// GRIDA to that point and treats it as a point defined in the current run.
+// One AssociativeNode card: an associative grid point of the COMBINE step of a Part Assembly Analysis (PAA). It lets
+// the Bulk Data of the assembly name a grid point or a scalar point of a Part that is being combined: the program
+// connects the AssociativeNode to that point and treats it as a point defined in the current run.
 //
 // Card layout (the name is on the continuation line, in the fields the format spans):
-//   GRIDA  GID  ORIG_GID
-//          PARTNAME
+//   AssociativeNode  GID  ORIG_GID
+//                    PARTNAME
 //
-// GID is the number the point has in the current run, in the node ID space (a GRID or an SPOINT cannot have it).
+// GID is the number the point has in the current run, in the node ID space (a Node or a ScalarPoint cannot have it).
 // ORIG_GID is the number of the grid point in the Part. It exists in that Part, which is not a model of this
 // run (a Part is a different run), so it is a plain ID and no reference is visited. PARTNAME is the name of the Part,
 // up to 64 characters with no blank (the format's C64): a word of one field in the free and large formats, written in

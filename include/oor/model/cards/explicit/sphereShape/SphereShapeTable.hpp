@@ -19,8 +19,8 @@ struct SphereShapeFormat
     static void write(const SphereShapeCard& card, FieldWriter& writer);
 };
 
-// All the SPHERE cards. The VID is unique among the SPHERE cards (IdSpace::PerCardType) and is in the category
-// EulerRegionShape, with the SURFINI and CYLINDR shapes. A SPHERE names no other card.
+// All the SphereShape cards. The VID is unique among the SphereShape cards (IdSpace::PerCardType) and is in the
+// category EulerRegionShape, with the InitialSurfaceVolume and CylinderShape shapes. A SphereShape names no other card.
 class SphereShapeTable final : public TypedTable<SphereShapeTable, SphereShapeCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a SPHERE refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a SphereShape refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

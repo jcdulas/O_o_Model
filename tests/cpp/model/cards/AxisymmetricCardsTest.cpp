@@ -1,9 +1,10 @@
-// The axisymmetric cards: the conical shell cards (RINGAX, POINTAX, AXIC, MOMAX, PRESAX, OMITAX), the
-// axisymmetric fluid cards (RINGFL, FREEPT, PRESPT, AXIF) and the slot cards (GRIDF, GRIDS, GRIDA, AXSLOT, SLBDY), with
-// SNORM, the surface normal of a grid point. Per card: the fields in their format reference positions, the defaults,
-// the forms the format draws, the references the card lists and the numbers it owns, the refused values and the round
-// trip through a model file. The generic tests of CardRoundTripTest.cpp read, write and copy every sample of the
-// group.
+// The axisymmetric cards: the conical shell cards (AxisymConeRing, AxisymConePoint, AxisymConeControl,
+// AxisymRingMomentLoad, AxisymConePressureLoad, AxisymOmittedDofSet), the axisymmetric fluid cards (AxisymFluidRing,
+// AxisymFluidFreePoint, AxisymFluidPressurePoint, AxisymFluidControl) and the slot cards (AcousticSlotFluidPoint,
+// AcousticSlotSurfacePoint, AssociativeNode, AcousticSlotControl, AcousticSlotBoundary), with ShellNormal, the surface
+// normal of a grid point. Per card: the fields in their format reference positions, the defaults, the forms the format
+// draws, the references the card lists and the numbers it owns, the refused values and the round trip through a model
+// file. The generic tests of CardRoundTripTest.cpp read, write and copy every sample of the group.
 
 #include "oor/model/cards/loads/axisymConePressureLoad/AxisymConePressureLoadTable.hpp"
 #include "oor/model/cards/loads/axisymRingMomentLoad/AxisymRingMomentLoadTable.hpp"
@@ -38,7 +39,7 @@ namespace
 
 // How many times `part` is in `text`.
 
-// An OMITAX record of `count` degrees of freedom of the ring 81001.
+// An AxisymOmittedDofSet record of `count` degrees of freedom of the ring 81001.
 std::string omitax(int count)
 {
     std::string text = "AxisymOmittedDofSet";
@@ -52,7 +53,7 @@ std::string omitax(int count)
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The points of the conical shell model: RINGAX and POINTAX
+// The points of the conical shell model: AxisymConeRing and AxisymConePoint
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a RINGAX reads the layout of the format, keeps its constraints sorted and shares the node ID space",
@@ -67,10 +68,10 @@ TEST_CASE("a RINGAX reads the layout of the format, keeps its constraints sorted
     REQUIRE(cardAt<AxisymConeRingTable>(model, 2).permanentConstraints == 123);
     REQUIRE((AxisymConeRingTable::INFO.category == CardCategory::Point &&
              AxisymConeRingTable::INFO.idSpace == base::IdSpace::Node));
-    REQUIRE(unresolvedIn(model) == 0); // a RINGAX names no other card
+    REQUIRE(unresolvedIn(model) == 0); // an AxisymConeRing names no other card
     requireRoundTrip(model);
 
-    // The number is one of the node ID space: a GRID, a POINTAX or another RINGAX cannot have it.
+    // The number is one of the node ID space: a Node, an AxisymConePoint or another AxisymConeRing cannot have it.
     REQUIRE_THROWS_AS(readBulk("Node;5\nAxisymConeRing;5;1.;1."), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("AxisymConeRing;5;1.;1.\nAxisymConePoint;5;5;0."), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("AxisymConeRing;5;1.;1.\nAxisymConeRing;5;2.;2."), base::DeckError);
@@ -125,7 +126,7 @@ TEST_CASE("a POINTAX names a ring, is a point of the node ID space and follows i
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// AXIC, AXIF and AXSLOT: one of each in a deck
+// AxisymConeControl, AxisymFluidControl and AcousticSlotControl: one of each in a deck
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an AXIC has the highest harmonic and is the only one of a deck", "[model][cards][axisymmetric]")
@@ -274,7 +275,7 @@ TEST_CASE("an AXSLOT keeps its blank fields blank and is the only one of a deck"
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The axisymmetric fluid: RINGFL, FREEPT and PRESPT
+// The axisymmetric fluid: AxisymFluidRing, AxisymFluidFreePoint and AxisymFluidPressurePoint
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a RINGFL gives one fluid point per object, one or two to a card", "[model][cards][axisymmetric]")
@@ -333,7 +334,7 @@ TEST_CASE(
     REQUIRE(cardAt<AxisymFluidFreePointTable>(model, 4).pointId == 81205);
     REQUIRE((AxisymFluidFreePointTable::INFO.category == CardCategory::Point &&
              AxisymFluidFreePointTable::INFO.idSpace == base::IdSpace::Node));
-    REQUIRE(unresolvedIn(model) == 0); // the fluid point is a RINGFL
+    REQUIRE(unresolvedIn(model) == 0); // the fluid point is an AxisymFluidRing
     requireRoundTrip(model);
 
     // The writer always gives the layout of the format, one point to a card.
@@ -398,7 +399,7 @@ TEST_CASE("a PRESPT gives one pressure point per pair, with a blank pair between
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The slot cards: GRIDF, GRIDS, GRIDA, SLBDY
+// The slot cards: AcousticSlotFluidPoint, AcousticSlotSurfacePoint, AssociativeNode, AcousticSlotBoundary
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a GRIDF is a point of the node ID space below 1000000", "[model][cards][axisymmetric]")
@@ -430,7 +431,8 @@ TEST_CASE("a GRIDS keeps a blank width blank and names the GRIDF of an interface
     const AcousticSlotSurfacePointCard example = cardAt<AcousticSlotSurfacePointTable>(model, 0);
     REQUIRE((example.id == 81601 && example.radius == 3.25 && example.zCoord == -6.5 && example.slotWidth == 0.625 &&
              example.fluidPointId == 0));
-    REQUIRE_FALSE(cardAt<AcousticSlotSurfacePointTable>(model, 1).slotWidth.has_value()); // the AXSLOT default applies
+    // the AcousticSlotControl default applies
+    REQUIRE_FALSE(cardAt<AcousticSlotSurfacePointTable>(model, 1).slotWidth.has_value());
     const AcousticSlotSurfacePointCard onInterface = cardAt<AcousticSlotSurfacePointTable>(model, 2);
     REQUIRE((onInterface.slotWidth == 0.25 && onInterface.fluidPointId == 81501));
     REQUIRE(cardAt<AcousticSlotSurfacePointTable>(model, 3).radius ==
@@ -526,7 +528,7 @@ TEST_CASE("an SLBDY lists the slot points of a boundary in order and keeps blank
              AcousticSlotBoundaryTable::INFO.idSpace == base::IdSpace::None));
     requireRoundTrip(model);
 
-    // The points are GRIDS points of the node ID space: five of the seven here are not defined.
+    // The points are AcousticSlotSurfacePoint points of the node ID space: five of the seven here are not defined.
     REQUIRE(unresolvedIn(model) == 5);
     RecordingVisitor visitor;
     model.table<AcousticSlotBoundaryTable>().visitReferences(1, visitor);
@@ -552,7 +554,7 @@ TEST_CASE("an SLBDY lists the slot points of a boundary in order and keeps blank
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// SNORM
+// ShellNormal
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an SNORM gives the normal of a grid point in a system and has one card per grid point",
@@ -598,7 +600,7 @@ TEST_CASE("an SNORM gives the normal of a grid point in a system and has one car
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The loads and the omitted degrees of freedom: MOMAX, PRESAX, OMITAX
+// The loads and the omitted degrees of freedom: AxisymRingMomentLoad, AxisymConePressureLoad, AxisymOmittedDofSet
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a MOMAX has a harmonic or a sequence of them, a load set ID and a ring", "[model][cards][axisymmetric]")

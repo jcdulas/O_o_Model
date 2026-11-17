@@ -21,14 +21,14 @@ struct SplineEntry
     base::EntityId eid = 0;
     std::string_view type;     // the card type: "AeroSurfaceSpline1" ... "AeroUserSpline"
     base::EntityId caero = 0;  // 0: the card names none
-    base::EntityId aelist = 0; // 0: the card gives a range of boxes instead (or none: SPLINEX)
-    base::EntityId setg = 0;   // 0: the card has no set (SPLINE3, SPLINEX)
+    base::EntityId aelist = 0; // 0: the card gives a range of boxes instead (or none: AeroUserSpline)
+    base::EntityId setg = 0;   // 0: the card has no set (AeroSplineEquation3, AeroUserSpline)
     std::optional<std::pair<base::EntityId, base::EntityId>> boxRange; // BOX1 and BOX2, ID1 and ID2, or BOXID twice
     std::optional<double> dz;
     std::string_view method;            // empty: the card has no method
     std::string_view usage;             // FORCE, DISP or BOTH
-    std::vector<base::EntityId> points; // SPLINE3: the points G of its independent degrees of freedom
-    bool hasPointList = false;          // SPLINE3 gives its structural points itself, with no set
+    std::vector<base::EntityId> points; // AeroSplineEquation3: the points G of its independent degrees of freedom
+    bool hasPointList = false;          // AeroSplineEquation3 gives its structural points itself, with no set
 };
 
 // The splines of the model, by EID (cards that share an EID stay in the order of the deck).

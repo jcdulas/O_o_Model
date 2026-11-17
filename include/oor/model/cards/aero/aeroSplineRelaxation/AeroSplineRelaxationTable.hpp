@@ -19,10 +19,11 @@ struct AeroSplineRelaxationFormat
     static void write(const AeroSplineRelaxationCard& card, FieldWriter& writer);
 };
 
-// All the SPRELAX cards, in the category Other. A card has no ID (IdSpace::None): its SID1 names the spline it modifies
-// and several cards may name the same one. SID1 and SID2 name splines (ReferenceTarget::AeroSpline), LIST2 and LIST1
-// AELIST cards (ReferenceTarget::AeroList). The cards are kept whole (CardRows) next to a column of their SID1, which
-// is what the query engine and the Arrow export see; a renumbering of the splines changes it with the card.
+// All the AeroSplineRelaxation cards, in the category Other. A card has no ID (IdSpace::None): its SID1 names the
+// spline it modifies and several cards may name the same one. SID1 and SID2 name splines (ReferenceTarget::AeroSpline),
+// LIST2 and LIST1 AeroBoxList cards (ReferenceTarget::AeroList). The cards are kept whole (CardRows) next to a column
+// of their SID1, which is what the query engine and the Arrow export see; a renumbering of the splines changes it with
+// the card.
 class AeroSplineRelaxationTable final : public TypedTable<AeroSplineRelaxationTable, AeroSplineRelaxationCard>
 {
 public:

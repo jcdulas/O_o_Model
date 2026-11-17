@@ -31,8 +31,9 @@ enum class ConnectorSearchParamsRule : std::uint8_t
     NonNegativeReal      // a real, 0.0 or more (GSTOL, SCLSKIN)
 };
 
-// One parameter that a SWLDPRM card may set. `defaultValue` is the value the solver uses when no SWLDPRM card
-// gives the parameter. `low`, `high` are the ends of the range of the real rules, `allowed` the integers of OneOf.
+// One parameter that a ConnectorSearchParams card may set. `defaultValue` is the value the solver uses when no
+// ConnectorSearchParams card gives the parameter. `low`, `high` are the ends of the range of the real rules, `allowed`
+// the integers of OneOf.
 struct ConnectorSearchParamsInfo
 {
     std::string_view name; // the neutral name (ProjectionTolerance for PROJTOL)
@@ -42,7 +43,7 @@ struct ConnectorSearchParamsInfo
     double low;
     double high;
     std::span<const std::int32_t> allowed;
-    bool onlyGlobal; // true when the parameter is invalid after a CFAST, CWELD or CSEAM keyword
+    bool onlyGlobal; // true when the parameter is invalid after a Fastener, Weld or Seam keyword
     std::string_view note;
 };
 

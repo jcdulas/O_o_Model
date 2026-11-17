@@ -79,7 +79,7 @@ std::optional<CardProblem> checkTerms(const TermTables& tables,
     return std::nullopt;
 }
 
-// Visits the tables of a group as TABLED1 entries.
+// Visits the tables of a group as TableDynamic1 entries.
 void visitTerms(ReferenceVisitor& visitor, Column<TermTables>& column, std::uint32_t row,
                 const char* const (&references)[BushProp2DFreqCard::TERM_COUNT])
 {
@@ -225,7 +225,7 @@ void BushProp2DFreqTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void BushProp2DFreqTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the PBUSH2D that the card extends.
+    // The ID is the one of the BushProp2D that the card extends.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Property, m_id.get(row)));
     visitTerms(visitor, m_stiffnessTableIds, row, K_REFERENCES);
     visitTerms(visitor, m_dampingTableIds, row, B_REFERENCES);

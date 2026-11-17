@@ -10,9 +10,9 @@
 #include <string>
 #include <string_view>
 
-// What HYDROC and HYDROS have in common: the field that says where the z direction of the fluid is measured from. One
-// kind of value, one helper; nothing here describes the fields of a card, each card still lays out, reads, writes and
-// checks its own fields by hand.
+// What HydrostaticCavityLoad and HydrostaticLoad have in common: the field that says where the z direction of the fluid
+// is measured from. One kind of value, one helper; nothing here describes the fields of a card, each card still lays
+// out, reads, writes and checks its own fields by hand.
 //
 // The CID/GRD field holds one number whose sign is the switch (format reference): zero or above is the ID of a
 // coordinate system (0 is the basic one) and its z axis is the direction; below zero is minus the ID of a grid point,

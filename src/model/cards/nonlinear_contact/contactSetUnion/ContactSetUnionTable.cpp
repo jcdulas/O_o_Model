@@ -27,7 +27,7 @@ std::optional<CardProblem> ContactSetUnionFormat::check(const ContactSetUnionCar
     {
         if (set <= 0)
             return CardProblem{"card.bad-id", "a contact set ID must be a positive integer", "memberSetId"};
-        // Si is not the ID of this or of any other BCTADD, which the table checks across the
+        // Si is not the ID of this or of any other ContactSetUnion, which the table checks across the
         // cards.
         if (set == card.id)
             return CardProblem{"card.bad-id", "a contact set of the union is not the ID of the union itself",

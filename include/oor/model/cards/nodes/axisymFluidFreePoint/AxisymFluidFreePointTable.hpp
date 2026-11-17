@@ -14,13 +14,14 @@ struct AxisymFluidFreePointFormat
 {
     // The first thing wrong with the values of a free surface point, if anything (used by read and by editing).
     [[nodiscard]] static std::optional<CardProblem> check(const AxisymFluidFreePointCard& card);
-    // One FREEPT card gives one point per pair IDPi PHIi it lists, all on the same fluid point.
+    // One AxisymFluidFreePoint card gives one point per pair IDPi PHIi it lists, all on the same fluid point.
     [[nodiscard]] static std::vector<AxisymFluidFreePointCard> readAll(FieldReader& reader);
     static void write(const AxisymFluidFreePointCard& card, FieldWriter& writer);
 };
 
-// All the free surface points defined by FREEPT cards: one row per point, in the node ID space (IdSpace::Node, category
-// Point), kept in columns. The IDF names the RINGFL fluid point the point is on (a node reference).
+// All the free surface points defined by AxisymFluidFreePoint cards: one row per point, in the node ID space
+// (IdSpace::Node, category Point), kept in columns. The IDF names the AxisymFluidRing fluid point the point is on (a
+// node reference).
 class AxisymFluidFreePointTable final : public TypedTable<AxisymFluidFreePointTable, AxisymFluidFreePointCard>
 {
 public:

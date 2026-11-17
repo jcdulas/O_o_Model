@@ -9,11 +9,11 @@
 namespace oor::model
 {
 
-// One CTRIA6 card: a curved triangular shell element with three corners and up to three edge points.
+// One ShellTria6 card: a curved triangular shell element with three corners and up to three edge points.
 //
 // Card layout:
-//   CTRIA6  EID         PID    G1  G2  G3  G4  G5  G6
-//           THETA/MCID  ZOFFS  T1  T2  T3  TFLAG
+//   ShellTria6  EID     PID    G1  G2  G3  G4  G5  G6
+//               THETA/MCID  ZOFFS  T1  T2  T3  TFLAG
 //
 // G1 to G3 are the corners and G4 to G6 the optional points on the edges G1-G2, G2-G3 and G3-G1: `nodes` always has
 // room for all six, and an edge point that is blank on the card is 0, so that the edge a point belongs to is its
@@ -35,7 +35,7 @@ struct ShellTria6Card
 
     double offset = 0.0;
     std::int32_t thicknessFlag = 0;
-    // T1..T3: thicknesses at the corners; NO_THICKNESS where blank (the PSHELL thickness is used).
+    // T1..T3: thicknesses at the corners; NO_THICKNESS where blank (the ShellProp thickness is used).
     std::array<double, CORNER_COUNT> cornerThickness = {NO_THICKNESS, NO_THICKNESS, NO_THICKNESS};
 
     [[nodiscard]] bool usesMaterialSystem() const noexcept { return matFrameId != NO_MAT_FRAME_ID; }

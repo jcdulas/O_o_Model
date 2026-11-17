@@ -18,7 +18,7 @@ struct MassDofPropertyFormat
     static void write(const MassDofPropertyCard& card, FieldWriter& writer);
 };
 
-// All the CMASS1 elements.
+// All the MassDofProperty elements.
 class MassDofPropertyTable final : public TypedTable<MassDofPropertyTable, MassDofPropertyCard>
 {
 public:

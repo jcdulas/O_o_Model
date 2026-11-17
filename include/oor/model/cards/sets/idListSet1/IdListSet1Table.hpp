@@ -21,9 +21,9 @@ struct IdListSet1Format
     static void write(const IdListSet1Card& card, FieldWriter& writer);
 };
 
-// All the SET1 cards, in the category Set. The ID is a set ID shared by the cards that have it (IdSpace::Group); the
-// ReferenceTarget::Set of other cards resolves to it. The IDs of every card are one column of (first, last) runs. The
-// members are grid points or elements, which the card cannot tell: they are not references and a renumbering leaves
+// All the IdListSet1 cards, in the category Set. The ID is a set ID shared by the cards that have it (IdSpace::Group);
+// the ReferenceTarget::Set of other cards resolves to it. The IDs of every card are one column of (first, last) runs.
+// The members are grid points or elements, which the card cannot tell: they are not references and a renumbering leaves
 // them alone.
 class IdListSet1Table final : public TypedTable<IdListSet1Table, IdListSet1Card>
 {

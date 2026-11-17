@@ -14,11 +14,11 @@ namespace oor::analysis
 namespace
 {
 
-// A SPLINE3 sets one component of motion of a box (COMP, 1 to 6) from structural degrees of freedom, and the components
-// a box has depend on the kind of the CAERO that owns it: a Doublet-Lattice box moves in the normal direction and in
-// rotation about the y axis (3 and 5), a body in its two lateral translations and rotations (2, 3, 5 and 6), a Mach box
-// only in the normal direction (3), a strip of strip or piston theory in the normal direction and the two rotations (3,
-// 5 and 6). A CAERO that does not exist is `ref.unresolved`.
+// An AeroSplineEquation3 sets one component of motion of a box (COMP, 1 to 6) from structural degrees of freedom, and
+// the components a box has depend on the kind of the CAERO that owns it: a Doublet-Lattice box moves in the normal
+// direction and in rotation about the y axis (3 and 5), a body in its two lateral translations and rotations (2, 3, 5
+// and 6), a Mach box only in the normal direction (3), a strip of strip or piston theory in the normal direction and
+// the two rotations (3, 5 and 6). A CAERO that does not exist is `ref.unresolved`.
 class AeroSplineEquation3ComponentCheck final : public ValidationCheck
 {
 public:

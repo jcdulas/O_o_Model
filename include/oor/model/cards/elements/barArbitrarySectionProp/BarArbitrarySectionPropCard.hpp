@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One PBRSECT card: the arbitrary cross-section of a CBAR, described by the points of a set of POINT cards. The theory
-// that computes the section properties is the one of the PBMSECT.
+// One BarArbitrarySectionProp card: the arbitrary cross-section of a Bar2, described by the points of a set of
+// GeomPoint cards. The theory that computes the section properties is the one of the BeamArbitrarySectionProp.
 //
 // Card layout:
-//   PBRSECT  PID  MID  FORM  NSM
+//   BarArbitrarySectionProp  PID  MID  FORM  NSM
 //            data description of the section: items KEY=value separated by commas, over as many continuation lines as
 //            it needs
 //   for instance: OUTP=5,BRP=7,T=0.8,T(3)=[1.5,PT=(31,32)]
@@ -25,7 +25,8 @@ namespace oor::model
 // (`checkSectionItems`: INP for GS, BRP and T for OP and CP). The section needs an OUTP; that OP and CP sections have a
 // T without a PT as the thickness of the segments that have none, that the points of a segment are in the sets, and the
 // rest of the geometry are rules the checks of the model keep. The ID is in the space of all the properties (the format
-// reference asks it to be unique among PBAR, PBARL and PBRSECT, which is a rule between cards).
+// reference asks it to be unique among BarProp, BarShapeProp and BarArbitrarySectionProp, which is a rule between
+// cards).
 struct BarArbitrarySectionPropCard
 {
     base::EntityId id = 0;

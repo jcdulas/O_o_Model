@@ -18,7 +18,8 @@ struct FreqSpreadAroundModes4Format
     static void write(const FreqSpreadAroundModes4Card& card, FieldWriter& writer);
 };
 
-// All the FREQ4 cards. The ID is a frequency set ID shared by the FREQ, FREQ1 to FREQ5 cards (IdSpace::Group).
+// All the FreqSpreadAroundModes4 cards. The ID is a frequency set ID shared by the FreqList, FreqLinearSteps1 to
+// FreqModeFractions5 cards (IdSpace::Group).
 class FreqSpreadAroundModes4Table final : public TypedTable<FreqSpreadAroundModes4Table, FreqSpreadAroundModes4Card>
 {
 public:
@@ -34,7 +35,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FREQ4 refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FreqSpreadAroundModes4 refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& frequency1Column() noexcept { return m_frequency1; }

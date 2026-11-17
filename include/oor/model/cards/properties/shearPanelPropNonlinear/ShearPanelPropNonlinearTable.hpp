@@ -19,9 +19,9 @@ struct ShearPanelPropNonlinearFormat
     static void write(const ShearPanelPropNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the PSHEARN cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the ID is the
-// one of the PSHEAR that the card extends, so it is also a reference to a property (a renumbering of the properties
-// follows into it).
+// All the ShearPanelPropNonlinear cards, kept whole next to a column of their PIDs. The ID space is the card type's
+// own: the ID is the one of the ShearPanelProp that the card extends, so it is also a reference to a property (a
+// renumbering of the properties follows into it).
 class ShearPanelPropNonlinearTable final : public TypedTable<ShearPanelPropNonlinearTable, ShearPanelPropNonlinearCard>
 {
 public:

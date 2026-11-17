@@ -71,7 +71,7 @@ void BeamPropNonlinearTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void BeamPropNonlinearTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     BeamPropNonlinearCard& card = m_cards.edit(row);
-    // The ID is the one of the PBEAM or PBEAML that the card extends (the two share the property space).
+    // The ID is the one of the BeamProp or BeamShapeProp that the card extends (the two share the property space).
     card.id = visitor.visit("id", ReferenceTarget::Property, card.id);
     m_id.set(row, card.id);
     visitId(visitor, "matId", ReferenceTarget::Material, card.matId);

@@ -8,7 +8,7 @@ namespace oor::analysis
 namespace
 {
 
-// A PSOLID that makes fluid elements (FCTN = PFLUID or FFLUID) must use a MAT10.
+// A SolidProp that makes fluid elements (FCTN = PFLUID or FFLUID) must use a FluidMat.
 class FluidSolidMaterialCheck final : public ValidationCheck
 {
 public:

@@ -189,7 +189,7 @@ BeamSection tubePropSection(const model::TubePropCard& card)
     section.propertyType = "TubeProp";
     section.materialId = card.matId;
     const double radius = card.outerDiameter / 2.0;
-    // A zero thickness is a solid rod. A CTUBE carries no shear: the tube has no shear factors.
+    // A zero thickness is a solid rod. A Tube2 carries no shear: the tube has no shear factors.
     SectionProperties station;
     if (card.thickness > 0.0 && card.thickness < radius)
     {
@@ -369,7 +369,8 @@ ShearFactorRule SectionFormulas::ruleOf(const model::Model& model)
     const model::ModelParamsTable* table = model.findTable<model::ModelParamsTable>();
     if (table == nullptr)
         return ShearFactorRule::Solver;
-    // The last MDLPRM that gives TWBRBML (BeamLibraryShearFactor) decides (a model has one MDLPRM in practice).
+    // The last ModelParams that gives TWBRBML (BeamLibraryShearFactor) decides (a model has one ModelParams in
+    // practice).
     ShearFactorRule rule = ShearFactorRule::Solver;
     for (std::uint32_t row = 0; row < table->rows().rowCount(); ++row)
     {

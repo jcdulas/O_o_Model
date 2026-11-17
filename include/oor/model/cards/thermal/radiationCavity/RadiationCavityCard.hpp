@@ -9,14 +9,14 @@
 namespace oor::model
 {
 
-// One RADCAV card: the characteristics of one radiation enclosure (cavity).
+// One RadiationCavity card: the characteristics of one radiation enclosure (cavity).
 //
 // Card layout:
-//   RADCAV  ICAVITY  ELEAMB  SHADOW  SCALE  PRTPCH  NFECI  RMAX  NCOMP
-//           SET11  SET12  SET21  SET22  SET31  SET32 -etc.-
+//   RadiationCavity  ICAVITY  ELEAMB  SHADOW  SCALE  PRTPCH  NFECI  RMAX  NCOMP
+//                    SET11  SET12  SET21  SET22  SET31  SET32 -etc.-
 // ELEAMB is the ambient surface element (0 when blank); SHADOW is YES (blank) or NO; SCALE is 0.0 when blank; PRTPCH is
 // 0 to 5 or absent (a blank PRTPCH is not 0); NFECI is FD, CONT or empty (the program chooses); RMAX is 0.1 when blank
-// (the format reference) and NCOMP is 32. The SET pairs name SET1 cards that group the faces into the surfaces
+// (the format reference) and NCOMP is 32. The SET pairs name IdListSet1 cards that group the faces into the surfaces
 // of the global view factors: up to 30 pairs, so `sets` has an even number of IDs.
 struct RadiationCavityCard
 {

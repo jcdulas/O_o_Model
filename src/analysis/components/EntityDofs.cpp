@@ -48,8 +48,8 @@ ComponentSet scalarComponents(const model::Model& model, model::CardLocation car
 }
 
 // The components of a rod: a rod carries an axial force and, with a torsion constant J, a torque; without one (J blank
-// or 0, format reference PROD and CONROD) it acts on the translations only. A CTUBE always has a torsion constant (from
-// its section).
+// or 0, format reference RodProp and Rod2InlineSection) it acts on the translations only. A Tube2 always has a torsion
+// constant (from its section).
 ComponentSet rodComponents(const model::Model& model, model::CardLocation card, std::string_view name)
 {
     double torsion = 0.0;

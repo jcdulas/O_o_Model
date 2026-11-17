@@ -9,18 +9,18 @@
 namespace oor::model
 {
 
-// The arguments of a DRESP2 or a DRESP3: groups of numbers, each introduced by a keyword on its own line, that say what
-// the equation (or the routine) takes as its arguments. The keywords must come in the order below, which is also the
-// order of the arguments: the design variables, the constants of the DTABLE
-// cards, the DRESP1 responses, the displacements of grid points, the relations, the other DRESP2 responses.
+// The arguments of a DesignResp2 or a DesignResp3: groups of numbers, each introduced by a keyword on its own line,
+// that say what the equation (or the routine) takes as its arguments. The keywords must come in the order below, which
+// is also the order of the arguments: the design variables, the constants of the DesignConstants
+// cards, the DesignResp1 responses, the displacements of grid points, the relations, the other DesignResp2 responses.
 //
-//   DESVAR  DVID1 ...      design variables             DVPREL2  DPI2P1 ...   property relations (equations)
-//   DTABLE  LABL1 ...      constants (by label)         DVCREL2  DCI2C1 ...   connectivity relations (equations)
-//   DRESP1  NR1 ...        DRESP1 responses             DVMREL2  DMI2M1 ...   material relations (equations)
-//   DNODE   G1 C1 ...      grid point and component     DRESP2   NRR1 ...     DRESP2 responses
-//   DVPREL1 DPIP1 ...      property relations           DVLREL1  DLIL1 ...    load relations (SOL 200 statics)
-//   DVCREL1 DCIC1 ...      connectivity relations       USRDATA  text         user data (DRESP3 only)
-//   DVMREL1 DMIM1 ...      material relations
+//   DesignVar  DVID1 ...      design variables          DesignPropRelation2  DPI2P1 ...  property relations (equations)
+//   DesignConstants  LABL1 ...  constants (by label)  DesignElemRelation2  DCI2C1 ...  connectivity relations
+//   (equations) DesignResp1  NR1 ...        DesignResp1 responses    DesignMatRelation2  DMI2M1 ...  material relations
+//   (equations) DNODE   G1 C1 ...      grid point and component     DesignResp2  NRR1 ...     DesignResp2 responses
+//   DesignPropRelation1 DPIP1 ...      property relations  DesignLoadRelation1  DLIL1 ...  load relations (SOL 200
+//   statics) DesignElemRelation1 DCIC1 ...      connectivity relations       USRDATA  text         user data
+//   (DesignResp3 only) DesignMatRelation1 DMIM1 ...  material relations
 inline constexpr std::array<GroupKeyword, 12> DESIGN_RESP2_GROUPS{{
     {"DesignVar", GroupContent::Integers, "designVarIds"},
     {"DesignConstants", GroupContent::Words, "constantLabels"},
@@ -36,7 +36,7 @@ inline constexpr std::array<GroupKeyword, 12> DESIGN_RESP2_GROUPS{{
     {"DesignLoadRelation1", GroupContent::Integers, "loadRelationIds"},
 }};
 
-// A DRESP3 has the same groups and the text of USRDATA after them.
+// A DesignResp3 has the same groups and the text of USRDATA after them.
 inline constexpr std::array<GroupKeyword, 13> DESIGN_RESP3_GROUPS{{
     {"DesignVar", GroupContent::Integers, "designVarIds"},
     {"DesignConstants", GroupContent::Words, "constantLabels"},
@@ -58,8 +58,8 @@ inline constexpr std::array<GroupKeyword, 13> DESIGN_RESP3_GROUPS{{
 [[nodiscard]] std::optional<CardProblem> checkResponseArguments(const std::vector<DesignGroup>& groups,
                                                                 std::span<const GroupKeyword> keywords);
 
-// Visits what the groups name: the design variables, the DRESP1 and DRESP2 responses, the relations and the grid points
-// of DNODE (the load relations are not typed, and the constants are named by label).
+// Visits what the groups name: the design variables, the DesignResp1 and DesignResp2 responses, the relations and the
+// grid points of DNODE (the load relations are not typed, and the constants are named by label).
 void visitResponseArguments(ReferenceVisitor& visitor, std::vector<DesignGroup>& groups);
 
 } // namespace oor::model

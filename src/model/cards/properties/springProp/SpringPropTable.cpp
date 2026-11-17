@@ -85,7 +85,7 @@ void SpringPropTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void SpringPropTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // A PELAS refers to no other card.
+    // A SpringProp refers to no other card.
 }
 
 } // namespace oor::model

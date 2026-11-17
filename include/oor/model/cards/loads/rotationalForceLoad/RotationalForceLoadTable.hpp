@@ -19,7 +19,7 @@ struct RotationalForceLoadFormat
     static void write(const RotationalForceLoadCard& card, FieldWriter& writer);
 };
 
-// All the RFORCE cards. The ID is a load set ID shared by many cards (IdSpace::Group).
+// All the RotationalForceLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group).
 class RotationalForceLoadTable final : public TypedTable<RotationalForceLoadTable, RotationalForceLoadCard>
 {
 public:

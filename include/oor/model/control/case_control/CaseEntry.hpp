@@ -16,7 +16,7 @@ enum class EntryKind : std::uint8_t
     Command,      // a valued command or a flag: SPC = 1, TITLE = a plate, SEPLOT 0,1,2, a plot command
     Output,       // an output request: DISPLACEMENT(PLOT,SORT1,REAL) = ALL
     Set,          // SET 10 = 1 THRU 5, 9
-    Param,        // PARAM,POST,-1
+    Param,        // PARAM,PostprocessingFile,-1
     Header,       // SUBCASE 1, STEP 2: the line that opens a subcase or a step
     OutputBlock,  // OUTPUT(PLOT), OUTPUT(POST), OUTPUT(XYPLOT): the line that opens a block of plot commands
     Raw,          // opaque command text, omitted by the model writer

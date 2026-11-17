@@ -21,7 +21,7 @@ namespace
 {
 
 // How many cards of the deck define each monitor result name. The name of a monitor point or of a sum is the key of its
-// card; a structural and an aerodynamic MONPNT1 may share one, so the cards are
+// card; a structural and an aerodynamic MonitorIntegratedLoad1 may share one, so the cards are
 // counted.
 using NameCounts = std::map<std::string, int>;
 
@@ -45,11 +45,11 @@ void countDefinitions(NameCounts& counts, const model::Model& model)
         model, [&](const model::MonitorSumTotalCard& card, model::CardLocation) { ++counts[card.entryName]; });
 }
 
-// The monitor results that a MONSUM, MONSUM1, MONSUMT or MONGRP names are matched by NAME, not by an ID, against the
-// cards that define a monitor result: the monitor points MONPNT1, MONPNT2, MONPNT3, MONDSP1 and MONCNCM and the sums
-// themselves (a sum may add the result of another one). The names of the whole deck
-// count, because a deck may keep its monitor points in a part. A sum whose NAME is the one it adds scales that monitor
-// result: another card has to define it.
+// The monitor results that a MonitorSum, MonitorSumLocated, MonitorSumTotal or MonitorGroup names are matched by NAME,
+// not by an ID, against the cards that define a monitor result: the monitor points MonitorIntegratedLoad1,
+// MonitorElemLoad2, MonitorNodeForceSum3, MonitorDisplacement and MonitorChordNormalCoeffs and the sums themselves (a
+// sum may add the result of another one). The names of the whole deck count, because a deck may keep its monitor points
+// in a part. A sum whose NAME is the one it adds scales that monitor result: another card has to define it.
 class MonitorNameCheck final : public ValidationCheck
 {
 public:

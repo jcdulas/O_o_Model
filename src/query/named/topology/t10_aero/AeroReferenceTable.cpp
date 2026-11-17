@@ -14,8 +14,8 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// aeroReferenceTable: the AERO cards (the unsteady analyses) and then the AEROS cards (the static ones). Each card
-// fills the columns it has a field for and leaves the others null.
+// aeroReferenceTable: the AeroUnsteadyParams cards (the unsteady analyses) and then the AeroStaticParams cards (the
+// static ones). Each card fills the columns it has a field for and leaves the others null.
 class AeroReferenceTableQuery final : public QueryBase
 {
 public:

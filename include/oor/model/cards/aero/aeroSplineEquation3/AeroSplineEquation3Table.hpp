@@ -20,11 +20,12 @@ struct AeroSplineEquation3Format
     static void write(const AeroSplineEquation3Card& card, FieldWriter& writer);
 };
 
-// All the SPLINE3 cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7
-// and SPLINEX; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the others).
-// The CAERO is an aerodynamic element (ReferenceTarget::AeroElement), the BOXID an aerodynamic box
-// (ReferenceTarget::AeroBox) and each G a grid point or scalar point (ReferenceTarget::ScalarOrGridPoint). The cards
-// are kept whole (CardRows) next to their EID: a SPLINE3 has a handful of points.
+// All the AeroSplineEquation3 cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline; IdSpace::PerCardType refuses a repeat inside this
+// type and a check across the types reports the others). The CAERO is an aerodynamic element
+// (ReferenceTarget::AeroElement), the BOXID an aerodynamic box (ReferenceTarget::AeroBox) and each G a grid point or
+// scalar point (ReferenceTarget::ScalarOrGridPoint). The cards are kept whole (CardRows) next to their EID: an
+// AeroSplineEquation3 has a handful of points.
 class AeroSplineEquation3Table final : public TypedTable<AeroSplineEquation3Table, AeroSplineEquation3Card>
 {
 public:

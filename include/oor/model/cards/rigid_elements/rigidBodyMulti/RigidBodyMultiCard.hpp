@@ -8,13 +8,13 @@
 namespace oor::model
 {
 
-// One RBE1 card: a rigid body connected to any number of grid points, with its independent components given point by
-// point.
+// One RigidBodyMulti card: a rigid body connected to any number of grid points, with its independent components given
+// point by point.
 //
-// Card layout: RBE1  EID  GN1  CN1  GN2  CN2  GN3  CN3
-//                   .    GN4  CN4  GN5  CN5  GN6  CN6
-//                   "UM"  GM1  CM1  GM2  CM2  GM3  CM3
-//                   .    GM4  CM4  -etc.-  ALPHA  TREF
+// Card layout: RigidBodyMulti  EID  GN1  CN1  GN2  CN2  GN3  CN3
+//                             .  GN4  CN4  GN5  CN5  GN6  CN6
+//                             "UM"  GM1  CM1  GM2  CM2  GM3  CM3
+//                             .  GM4  CM4  -etc.-  ALPHA  TREF
 // The independent pairs (GNi, CNi) are at most six: three on the first line, from the second field, and three on the
 // next, from the third field of that line. "UM" starts the dependent pairs (GMj, CMj) and is the first field of a line:
 // field 9 after one line of independent pairs, field 17 after two. The dependent pairs follow it, three to a line from

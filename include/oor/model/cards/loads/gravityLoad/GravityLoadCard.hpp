@@ -8,9 +8,9 @@
 namespace oor::model
 {
 
-// One GRAV card: an acceleration (gravity) load.
+// One GravityLoad card: an acceleration (gravity) load.
 //
-// Card layout: GRAV  SID  CID  A  N1  N2  N3  MB
+// Card layout: GravityLoad  SID  CID  A  N1  N2  N3  MB
 // The acceleration is A times the vector (N1, N2, N3), given in coordinate system CID (0 = basic). The vector must not
 // be zero. MB tells whether CID is defined in the main Bulk Data (-1) or in the partitioned superelement (0).
 struct GravityLoadCard

@@ -16,7 +16,7 @@ namespace oor::results
 // What tells two tables of a set made in memory apart: two tables with the
 // same key would be the same table given twice. Besides the kind, the variant, the container (element type or variant
 // of the grid point stresses), the subcase, the analysis, the design cycle and the superelement, the key holds:
-// - the row layout, so that the centre and the corner layouts of a CQUAD4 are two tables;
+// - the row layout, so that the centre and the corner layouts of a ShellQuad4 are two tables;
 // - the load set, so that the shapes of a buckling analysis (a table a shape, the mode number in the load set) are one
 //   table each;
 // - the name of the table, so that the same results in two frames or sorts are two tables.

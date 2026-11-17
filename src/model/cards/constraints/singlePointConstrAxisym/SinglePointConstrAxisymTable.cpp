@@ -77,7 +77,7 @@ void SinglePointConstrAxisymTable::keepRows(const std::vector<std::uint32_t>& ro
 
 void SinglePointConstrAxisymTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // A RINGAX point, which is in the node ID space.
+    // An AxisymConeRing point, which is in the node ID space.
     m_ringId.set(row, visitor.visit("ringId", ReferenceTarget::Node, m_ringId.get(row)));
 }
 

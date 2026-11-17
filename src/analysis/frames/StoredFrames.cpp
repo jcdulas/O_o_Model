@@ -38,13 +38,14 @@ StoredFrameInfo known(StoredFrame kind, std::string source, std::int32_t system 
     return info;
 }
 
-// The parameter that puts shell results in the material system, as a deck writes it ("PARAM,OMID"), for the messages.
+// The parameter that puts shell results in the material system, as a deck writes it ("PARAM,OutputMaterialFrame"), for
+// the messages.
 std::string materialFrameText(const model::Model&)
 {
     return std::string("Parameter") + "," + std::string("OutputMaterialFrame");
 }
 
-// The material system field of a solid property, as a deck writes it ("PSOLID CORDM"), for the messages.
+// The material system field of a solid property, as a deck writes it ("SolidProp CORDM"), for the messages.
 std::string cordmText(const model::Model&)
 {
     return std::string("SolidProp") + " " + std::string("matFrameId");
@@ -58,8 +59,9 @@ std::string cdText(const model::Model&)
 
 bool materialFrameApplies(std::string_view elementName) noexcept
 {
-    // PARAM,OMID is documented for the triangles and quadrilaterals CTRIA3, CQUAD4, CQUAD8 and the "TRIAR6" (read here
-    // as CTRIAR and CTRIA6); the format reference lists nothing for CQUADR
+    // PARAM,OutputMaterialFrame is documented for the triangles and quadrilaterals ShellTria3, ShellQuad4, ShellQuad8
+    // and the "TRIAR6" (read here as ShellTria3Drilling and ShellTria6); the format reference lists nothing for
+    // ShellQuad4Drilling
     return elementName == "ShellQuad4" || elementName == "ShellQuad8" || elementName == "ShellTria3" ||
            elementName == "ShellTria6" || elementName == "ShellTria3Drilling";
 }
@@ -122,8 +124,8 @@ StoredFrameInfo describeSolids(const model::Model& model, const results::ResultA
 
 MaterialFrameOutput StoredFrames::materialFrameOutput(const model::Model& model)
 {
-    // PARAM,OMID: the last card, else the format reference default (No). A value that is not one of the words Yes, No
-    // and Both is Invalid.
+    // PARAM,OutputMaterialFrame: the last card, else the format reference default (No). A value that is not one of the
+    // words Yes, No and Both is Invalid.
     const std::optional<model::ParameterValue> value = model::parameterValue(model, "OutputMaterialFrame");
     if (!value)
         return MaterialFrameOutput::No;

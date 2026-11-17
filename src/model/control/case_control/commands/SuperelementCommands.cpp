@@ -21,7 +21,8 @@ void defineSuperelementCommands(CommandCatalogue& commands)
     commands.integerOrKeyword("SuperelementMassReduction").refersTo(ReferenceTarget::Superelement);
     commands.integerOrKeyword("SuperelementResponseSensitivity").refersTo(ReferenceTarget::Superelement);
     commands.integerOrKeyword("SuperelementDampingSelection")
-        .refersTo(ReferenceTarget::HybridDampingRotorOptionsSpecification); // a DAMPING entry, not a superelement
+        // a HybridDampingRotorOptions entry, not a superelement
+        .refersTo(ReferenceTarget::HybridDampingRotorOptionsSpecification);
     commands.integer("SuperelementFinal").refersTo(ReferenceTarget::Superelement);
 
     commands.text("ExternalDataRecoveryInput");

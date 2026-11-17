@@ -20,9 +20,10 @@ struct RadiationCavityFormat
     static void write(const RadiationCavityCard& card, FieldWriter& writer);
 };
 
-// All the RADCAV cards. The ID is the ICAVITY that the RADLST, RADMTX, VIEW3D and VIEW cards of the cavity name
-// (category RadiationCavity, IdSpace::PerCardType: one RADCAV per cavity). ELEAMB is a surface element, the SET pairs
-// are SET1 cards. A blank PRTPCH is -1 in the column.
+// All the RadiationCavity cards. The ID is the ICAVITY that the RadiationCavityList, RadiationExchangeMatrix,
+// ViewFactorIntegration and ViewFactorFace cards of the cavity name (category RadiationCavity, IdSpace::PerCardType:
+// one RadiationCavity per cavity). ELEAMB is a surface element, the SET pairs are IdListSet1 cards. A blank PRTPCH is
+// -1 in the column.
 class RadiationCavityTable final : public TypedTable<RadiationCavityTable, RadiationCavityCard>
 {
 public:

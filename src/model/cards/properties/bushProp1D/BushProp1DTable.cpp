@@ -101,7 +101,7 @@ BushProp1DGeneral readGeneral(FieldReader& reader, int field)
     return general;
 }
 
-// What the IDs of a continuation point to: a TABLEDi for a table, a DEQATN for an equation.
+// What the IDs of a continuation point to: a TABLEDi for a table, a DesignEquation for an equation.
 ReferenceTarget targetOf(BushProp1DDefinition type)
 {
     return type == BushProp1DDefinition::Table ? ReferenceTarget::DynamicTable : ReferenceTarget::DesignEquation;
@@ -519,7 +519,7 @@ void BushProp1DTable::visitReferences(std::uint32_t row, ReferenceVisitor& visit
     }
     if ((groups & HAS_GENER) != 0)
     {
-        // The equations of a GENER are DEQATN entries.
+        // The equations of a GENER are DesignEquation entries.
         std::array<base::EntityId, 6> ids = m_generalIds.get(row);
         const char* const names[6] = {"tensionCurveId",
                                       "compressionCurveId",

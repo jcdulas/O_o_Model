@@ -20,9 +20,9 @@ struct RigidInterpolationFormat
     static void write(const RigidInterpolationCard& card, FieldWriter& writer);
 };
 
-// All the RBE3 cards. A rigid element is an element: its ID is in the ID space shared by all the elements. The groups
-// of every card are four lists in CSR form (weights, components, number of nodes, and all the nodes one group after the
-// other); the UM list is two more.
+// All the RigidInterpolation cards. A rigid element is an element: its ID is in the ID space shared by all the
+// elements. The groups of every card are four lists in CSR form (weights, components, number of nodes, and all the
+// nodes one group after the other); the UM list is two more.
 class RigidInterpolationTable final : public TypedTable<RigidInterpolationTable, RigidInterpolationCard>
 {
 public:

@@ -39,7 +39,8 @@ std::optional<Bar2Card> Bar2Format::read(FieldReader& reader)
     Bar2Card card;
     card.id = reader.requiredInteger(1, "id");
     card.propId =
-        reader.integer(2, "propId", card.id); // format reference: PID defaults to EID (unless a BAROR says otherwise)
+        // format reference: PID defaults to EID (unless a Bar2Defaults says otherwise)
+        reader.integer(2, "propId", card.id);
     card.nodeA = reader.requiredInteger(3, "nodeA");
     card.nodeB = reader.requiredInteger(4, "nodeB");
     // Field 5 is G0 (an integer) or X1 (a real); a blank field 5 is the vector form too.
@@ -69,7 +70,7 @@ std::optional<Bar2Card> Bar2Format::read(FieldReader& reader)
         card.offsetA[static_cast<std::size_t>(index)] = reader.real(11 + index, NAMES_A[index], 0.0);
         card.offsetB[static_cast<std::size_t>(index)] = reader.real(14 + index, NAMES_B[index], 0.0);
     }
-    // Which of the fields a BAROR gives a default to were blank (a zero is not blank).
+    // Which of the fields a Bar2Defaults gives a default to were blank (a zero is not blank).
     if (reader.isBlank(2))
         card.blankFields |= Bar2Card::BLANK_PROP_ID;
     if (reader.isBlank(5))
@@ -125,8 +126,8 @@ void Bar2Format::write(const Bar2Card& card, FieldWriter& writer)
     }
     else
     {
-        // With a BAROR in the model, a blank field would take its default when the deck is read again, so the vector is
-        // written as it is, zeros included. Otherwise a zero vector is written as blanks.
+        // With a Bar2Defaults in the model, a blank field would take its default when the deck is read again, so the
+        // vector is written as it is, zeros included. Otherwise a zero vector is written as blanks.
         if (writer.governedFieldsExplicit())
         {
             writer.real(5, card.orientation[0]);
@@ -231,8 +232,8 @@ void Bar2Table::finishRead(Model& model, const ReadContext&)
 {
     if (!m_blankFields.isMaterialised())
         return;
-    // The defaults of the (only) BAROR, for the fields that were blank on the card. Without a BAROR the blank fields
-    // stay noted: one added later (and Model::applyDefaults) gives them their defaults.
+    // The defaults of the (only) Bar2Defaults, for the fields that were blank on the card. Without a Bar2Defaults the
+    // blank fields stay noted: one added later (and Model::applyDefaults) gives them their defaults.
     const Bar2DefaultsTable* defaults = model.findTable<Bar2DefaultsTable>();
     if (defaults == nullptr || defaults->rows().aliveCount() == 0)
         return;
@@ -255,7 +256,8 @@ void Bar2Table::finishRead(Model& model, const ReadContext&)
             std::array<double, 3> vector = m_orientation.get(row);
             if ((blank & Bar2Card::BLANK_ORIENTATION1) != 0 && set.usesGridPoint())
             {
-                // A blank X1/G0 takes the grid point of the BAROR; the vector fields of the card are then unused.
+                // A blank X1/G0 takes the grid point of the Bar2Defaults; the vector fields of the card are then
+                // unused.
                 m_orientationNode.set(row, set.orientationNode);
                 m_orientation.set(row, std::array<double, 3>{});
                 continue;
@@ -268,7 +270,7 @@ void Bar2Table::finishRead(Model& model, const ReadContext&)
                 vector[2] = set.orientation[2];
             m_orientation.set(row, vector);
         }
-        break; // only one BAROR counts (Bar2DefaultsTable::finishRead reports a second one)
+        break; // only one Bar2Defaults counts (Bar2DefaultsTable::finishRead reports a second one)
     }
     // The defaults are applied: the cards no longer remember what was blank.
     m_blankFields = Column<std::uint8_t>(0);

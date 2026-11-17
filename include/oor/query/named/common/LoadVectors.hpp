@@ -14,7 +14,8 @@
 namespace oor::query
 {
 
-// A force and a moment applied at a node, in the basic system, already multiplied by the factors of the LOAD cards.
+// A force and a moment applied at a node, in the basic system, already multiplied by the factors of the LoadCombination
+// cards.
 struct NodalLoad
 {
     std::int32_t node = 0;
@@ -24,9 +25,9 @@ struct NodalLoad
 
 // What a load card puts on the structure as vectors, in the basic system. FORCE and MOMENT give their direction in the
 // coordinate system CID (the components along the axes at the node: the R, theta and Z directions of a cylindrical
-// system at the position of the node); FORCE1/FORCE2 and MOMENT1/MOMENT2 are along the line between two grid points or
-// the cross product of two lines; an SLOAD is a scalar: its value is put in the first component of the force. The
-// objects must not outlive the model's cards or an edit of them.
+// system at the position of the node); PointForceLoad1/PointForceLoad2 and PointMomentLoad1/PointMomentLoad2 are along
+// the line between two grid points or the cross product of two lines; a ScalarPointLoad is a scalar: its value is put
+// in the first component of the force. The objects must not outlive the model's cards or an edit of them.
 class LoadVectors
 {
 public:
@@ -34,7 +35,7 @@ public:
 
     // The concentrated forces and moments of an elementary load (none for a load of another kind).
     [[nodiscard]] std::vector<NodalLoad> nodal(const analysis::ElementaryLoad& load);
-    // The acceleration a GRAV card gives, in the basic system and scaled (nothing for another card).
+    // The acceleration a GravityLoad card gives, in the basic system and scaled (nothing for another card).
     [[nodiscard]] std::optional<base::Vec3> acceleration(const analysis::ElementaryLoad& load);
     // The coordinate system a force, moment or gravity card is given in (nothing for another card).
     [[nodiscard]] std::optional<std::int32_t> systemOf(const analysis::ElementaryLoad& load) const;
@@ -46,8 +47,8 @@ public:
     [[nodiscard]] base::Vec3 positionOf(std::int32_t node) const { return positions().position(node); }
 
 private:
-    // The positions of the grid points, the first time a load needs one (a FORCE in the basic system needs none: the
-    // loads of a model made only of them no longer pay the positions of every grid point).
+    // The positions of the grid points, the first time a load needs one (a PointForceLoad in the basic system needs
+    // none: the loads of a model made only of them no longer pay the positions of every grid point).
     [[nodiscard]] const NodePositions& positions() const;
 
     const model::Model& m_model;

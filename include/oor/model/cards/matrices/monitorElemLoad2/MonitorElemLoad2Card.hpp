@@ -7,12 +7,12 @@
 namespace oor::model
 {
 
-// One MONPNT2 card: an internal load monitor point. One output item of one element (a stress, force or strain
+// One MonitorElemLoad2 card: an internal load monitor point. One output item of one element (a stress, force or strain
 // component, named by its NDDL label) is monitored, in the solutions the format reference lists (101, 103, 108 to 112,
 // 144, 146, 200). The component is assumed linear in the displacement vector.
 //
-// Card layout: MONPNT2  NAME  LABEL (fields 3 to 9: up to 56 characters)
-//                      .     TABLE  TYPE  NDDLITEM  EID
+// Card layout: MonitorElemLoad2  NAME  LABEL (fields 3 to 9: up to 56 characters)
+//                               .  TABLE  TYPE  NDDLITEM  EID
 // In this library's numbering (field 1 is NAME): LABEL is fields 2 to 8, TABLE field 9, TYPE 10, NDDLITEM 11, EID 12.
 // NAME and NDDLITEM are kept in upper case, TABLE and TYPE (neutral names) and the LABEL as written. NDDLITEM is a
 // word, or an integer (kept as the text of the field).

@@ -1,7 +1,9 @@
-// Checks of the cards of the design optimisation family: DEQATN with its equations, the design variables,
-// the relations (DVPREL1/2, DVMREL1/2, DVCREL1/2), DLINK, DVGRID, DVSHAP, DVBSHAP, the responses (DRESP1/2/3), the
-// constraints (DCONSTR, DCONADD), DSCREEN, DTABLE, DTABLE2, DOPTPRM and TOPVAR: field positions, defaults, the
-// continuation groups, references, renumbering, the Case Control commands that name them, and refused values.
+// Checks of the cards of the design optimisation family: DesignEquation with its equations, the design variables,
+// the relations (DesignPropRelation1/2, DesignMatRelation1/2, DesignElemRelation1/2), DesignVarLink, DesignNodeMove,
+// DesignShapeBasis, DesignBoundaryShape, the responses (DesignResp1/2/3), the constraints (DesignConstr,
+// DesignConstrUnion), DesignConstrScreen, DesignConstants, DesignFieldConstants, DesignOptimParams and
+// DesignTopologyRegion: field positions, defaults, the continuation groups, references, renumbering, the Case Control
+// commands that name them, and refused values.
 
 #include "oor/deck/records/RecordText.hpp"
 #include "oor/model/cards/optimisation/designBoundaryShape/DesignBoundaryShapeTable.hpp"
@@ -46,7 +48,8 @@ using Catch::Approx;
 namespace
 {
 
-// A DEQATN card in the fixed columns the deck lexer reads it by: the ID in columns 9 to 16 and the text from column 17.
+// A DesignEquation card in the fixed columns the deck lexer reads it by: the ID in columns 9 to 16 and the text from
+// column 17.
 std::string designEquationCard(int id, const std::string& text)
 {
     return deck::RecordText::format({"DesignEquation", std::to_string(id), text}) + "\n";
@@ -102,7 +105,8 @@ const std::string DESIGN_DECK =
 
 } // namespace
 
-// ------------------------------------------------------------------------------------------------------------ DEQATN
+// ------------------------------------------------------------------------------------------------------------
+// DesignEquation
 
 TEST_CASE("a DesignEquation preserves its exact text in one quoted value", "[model][cards][design]")
 {
@@ -166,7 +170,8 @@ TEST_CASE("a DEQATN that does not parse is an error, and in tolerant mode stays 
     expectInvalid("DesignEquation;7", "equation");
 }
 
-// ------------------------------------------------------------------------------------------------------- DESVAR, DLINK
+// ------------------------------------------------------------------------------------------------------- DesignVar,
+// DesignVarLink
 
 TEST_CASE("a DESVAR has its bounds as defaults and does not refuse a start outside them", "[model][cards][design]")
 {
@@ -287,7 +292,8 @@ TEST_CASE("a DTABLE2 names the field of a property, a material or a connection a
     expectInvalid("DesignFieldConstants", "label");
 }
 
-// ------------------------------------------------------------------------------------------------------------ DOPTPRM
+// ------------------------------------------------------------------------------------------------------------
+// DesignOptimParams
 
 TEST_CASE("a DOPTPRM keeps its pairs as the deck wrote them and the catalogue gives the defaults",
           "[model][cards][design]")
@@ -349,7 +355,8 @@ TEST_CASE("a DOPTPRM reads the print flag of the analysis results under both of 
     requireRoundTrip(model);
 }
 
-// ------------------------------------------------------------------------------------- DSCREEN, DCONSTR and DCONADD
+// ------------------------------------------------------------------------------------- DesignConstrScreen,
+// DesignConstr and DesignConstrUnion
 
 TEST_CASE("a DSCREEN has its threshold and count as defaults", "[model][cards][design]")
 {
@@ -420,8 +427,8 @@ TEST_CASE("a DCONADD joins DCONSTR sets, and a DESSUB or DESGLB selects a set", 
         cards);
     REQUIRE(cardAt<DesignConstrUnionTable>(model).sets == std::vector<base::EntityId>{10, 12});
     REQUIRE(unresolvedIn(model) == 0);
-    REQUIRE(resolveReference(model, ReferenceTarget::DesignConstraintSet, 20).has_value()); // a DCONADD
-    REQUIRE(resolveReference(model, ReferenceTarget::DesignConstraintSet, 12).has_value()); // a DCONSTR
+    REQUIRE(resolveReference(model, ReferenceTarget::DesignConstraintSet, 20).has_value()); // a DesignConstrUnion
+    REQUIRE(resolveReference(model, ReferenceTarget::DesignConstraintSet, 12).has_value()); // a DesignConstr
     REQUIRE_FALSE(resolveReference(model, ReferenceTarget::DesignConstraintSet, 13).has_value());
     // The commands name sets that do not exist.
     Model missing = readModelText(
@@ -447,7 +454,8 @@ TEST_CASE("a DCONADD joins DCONSTR sets, and a DESSUB or DESGLB selects a set", 
     expectInvalid("DesignConstrUnion;0;10", "constraintSetId");
 }
 
-// -------------------------------------------------------------------------------------- DVGRID, DVSHAP and DVBSHAP
+// -------------------------------------------------------------------------------------- DesignNodeMove,
+// DesignShapeBasis and DesignBoundaryShape
 
 TEST_CASE("a DVGRID moves a grid point by a vector, and several cards add", "[model][cards][design]")
 {
@@ -597,14 +605,14 @@ TEST_CASE("a DVPREL2 gives a field by an equation of design variables and consta
     REQUIRE((card.minValue == 0.15 && card.maxValue == 0.35 && card.equationId == 1));
     REQUIRE(card.designVarIds == std::vector<base::EntityId>{1, 2, 3});
     REQUIRE(card.labels == std::vector<std::string>{"KT"});
-    // The DESVAR line goes on over the lines after it.
+    // The DesignVar line goes on over the lines after it.
     REQUIRE(cardAt<DesignPropRelation2Table>(model, 1).designVarIds == std::vector<base::EntityId>{1, 2, 3});
     REQUIRE(unresolvedIn(model) == 0);
     const RecordingVisitor visitor = referencesOf<DesignPropRelation2Table>(model, 0);
     REQUIRE(lists(visitor, "equationId", ReferenceTarget::DesignEquation));
     REQUIRE(lists(visitor, "propId", ReferenceTarget::Property));
     requireRoundTrip(model);
-    // The DTABLE line before the DESVAR line is out of order.
+    // The DesignConstants line before the DesignVar line is out of order.
     expectInvalid("DesignPropRelation2;13;ShellProp;10;thickness;;;1;DesignConstants;1;PI;DesignVar;1;1",
                   "groupKeyword");
     expectInvalid("DesignPropRelation2;13;ShellProp;10;thickness;;;1", "designVarIds");
@@ -823,7 +831,8 @@ TEST_CASE("the responses of the three cards share one number space", "[model][ca
                       base::DeckError);
 }
 
-// --------------------------------------------------------------------------------------------------------- TOPVAR
+// ---------------------------------------------------------------------------------------------------------
+// DesignTopologyRegion
 
 TEST_CASE("a TOPVAR has its constraint lines each once and its density limits as written", "[model][cards][design]")
 {
@@ -916,7 +925,7 @@ TEST_CASE("the design cards of a small model resolve and follow every renumberin
     REQUIRE(cardAt<DesignResp1Table>(model, 1).attributes[0].integer == 11);
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The relations as the lists of a DRESP2 name them.
+    // The relations as the lists of a DesignResp2 name them.
     Model relations = readBulk(
         "DesignVar;1;A;1.\n"
         "ShellProp;10;1;0.01\n"

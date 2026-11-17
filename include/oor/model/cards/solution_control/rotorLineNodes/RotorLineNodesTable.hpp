@@ -19,11 +19,12 @@ struct RotorLineNodesFormat
     static void write(const RotorLineNodesCard& card, FieldWriter& writer);
 };
 
-// All the ROTORG cards. The ID is the rotor ID shared by the ROTORG cards of a rotor (IdSpace::Group), in the category
-// Rotor that the other rotor cards (ROTOR, ROTORAX, ROTORSE) share: the RSPINR, RSPINT, REFROT, REFRTSE, ROTBENT,
-// ROTHYBD and RGYRO cards name a rotor by it. The grids are nodes: a single grid is a Node reference, the two ends of
-// a run are NodeInRange (the grids between them keep their numbers). The three members of a run are one list each, in
-// CSR form.
+// All the RotorLineNodes cards. The ID is the rotor ID shared by the RotorLineNodes cards of a rotor (IdSpace::Group),
+// in the category Rotor that the other rotor cards (RotorModel3D, RotorAxisym, RotorSuperelement) share: the
+// RotorRelativeSpin, RotorTransientSpin, ReferenceRotor, SuperelementReferenceRotor, RotorInitialBend,
+// RotorHybridDamping and RotordynamicParams cards name a rotor by it. The grids are nodes: a single grid is a Node
+// reference, the two ends of a run are NodeInRange (the grids between them keep their numbers). The three members of a
+// run are one list each, in CSR form.
 class RotorLineNodesTable final : public TypedTable<RotorLineNodesTable, RotorLineNodesCard>
 {
 public:

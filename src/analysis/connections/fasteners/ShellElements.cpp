@@ -138,7 +138,7 @@ std::optional<ShellElement> ShellElements::fromGrids(std::span<const base::Entit
         element.nodes[slot] = grids[slot];
         anyMidSide = anyMidSide || (slot >= corners && grids[slot] != 0);
     }
-    // The GRIDID of a CWELD: Q4 to Q8 and T3 to T6, the mid-side points optional.
+    // The GRIDID of a Weld: Q4 to Q8 and T3 to T6, the mid-side points optional.
     if (quadrilateral)
         element.kind = anyMidSide ? ShellShapeKind::Quad8 : ShellShapeKind::Quad4;
     else

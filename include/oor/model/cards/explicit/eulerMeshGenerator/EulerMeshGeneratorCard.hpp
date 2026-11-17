@@ -10,12 +10,15 @@
 namespace oor::model
 {
 
-// The kind of Euler mesh (the TYPE field of a MESH): a mesh that follows a coupling surface by adding and removing
-// elements as it moves, or a plain box of elements. The enumerators are numbered in the order of EULER_MESH_TYPE_WORDS.
+// The kind of Euler mesh (the TYPE field of an EulerMeshGenerator): a mesh that follows a coupling surface by adding
+// and removing elements as it moves, or a plain box of elements. The enumerators are numbered in the order of
+// EULER_MESH_TYPE_WORDS.
 enum class EulerMeshGeneratorType : std::uint8_t
 {
-    Adapt, // ADAPT: the mesh adapts itself around a coupling surface (a COUPLE names the MESH in its MESHID)
-    Box    // BOX: a rectangular mesh of CHEXA elements aligned with the basic system (or with CID)
+    // ADAPT: the mesh adapts itself around a coupling surface (an EulerLagrangeCoupling names the EulerMeshGenerator in
+    // its MESHID)
+    Adapt,
+    Box    // BOX: a rectangular mesh of SolidHexa elements aligned with the basic system (or with CID)
 };
 inline constexpr std::array<std::string_view, 2> EULER_MESH_TYPE_WORDS{"Adaptive", "Box"};
 
@@ -67,10 +70,11 @@ inline constexpr std::array<std::string_view, 5> EULER_MESH_PARTITION_WORDS{"XDi
 // The default of XREF, YREF and ZREF.
 inline constexpr double EULER_MESH_DEFAULT_REFERENCE = -1.0e-6;
 
-// One MESH card (SOL 700): the generator of an Eulerian mesh, either a box of elements or a mesh that adapts around a
-// coupling surface. It generates the grid points and the CHEXA elements of the Euler domain, with the property PID (a
-// PEULER or a PEULER1). The card shares its name with the PARAM,MESH parameter of the format reference chapter on
-// parameters, which is another thing; the MESH and BIAS cards are the Bulk Data entries of the Euler mesh.
+// One EulerMeshGenerator card (SOL 700): the generator of an Eulerian mesh, either a box of elements or a mesh that
+// adapts around a coupling surface. It generates the grid points and the SolidHexa elements of the Euler domain, with
+// the property PID (a EulerProp or an EulerRegionProp). The card shares its name with the PARAM,MESH parameter of the
+// format reference chapter on parameters, which is another thing; the EulerMeshGenerator and EulerMeshBias cards are
+// the Bulk Data entries of the Euler mesh.
 //
 // Card layout, eight lines, each of eight fields (a line is a block of fields 8n+1 to 8n+8):
 //   1 to 8   MID TYPE DXEL DYEL DZEL XREF YREF ZREF
@@ -128,15 +132,16 @@ struct EulerMeshGeneratorCard
     std::optional<std::int32_t> elemCountX; // numbers of elements
     std::optional<std::int32_t> elemCountY;
     std::optional<std::int32_t> elemCountZ;
-    base::EntityId subMeshId = 0;   // a finer MESH that replaces a part of this one, 0 for none
+    base::EntityId subMeshId = 0;   // a finer EulerMeshGenerator that replaces a part of this one, 0 for none
     base::EntityId firstNodeId = 0; // first grid point number, 0 for the model's next free one
     base::EntityId firstElemId = 0; // first element number, 0 for the model's next free one
     EulerMeshGeneratorProperty propKind = EulerMeshGeneratorProperty::Euler;
-    base::EntityId propId = 0; // a PEULER or PEULER1
+    base::EntityId propId = 0; // an EulerProp or EulerRegionProp
 
     // Fields 25 to 32
     EulerMeshGeneratorResize resize = EulerMeshGeneratorResize::None;
-    base::EntityId resizeTableIdX = 0; // TABLED1 of the resizing in each direction (TID-Y, TID-Z resolved from TID-X)
+    // TableDynamic1 of the resizing in each direction (TID-Y, TID-Z resolved from TID-X)
+    base::EntityId resizeTableIdX = 0;
     base::EntityId resizeTableIdY = 0;
     base::EntityId resizeTableIdZ = 0;
     EulerMeshGeneratorRemesh method = EulerMeshGeneratorRemesh::All;

@@ -18,7 +18,7 @@ namespace oor::analysis
 //
 // The inertia is the tensor: Ixx = integral of (y^2 + z^2) dm on the diagonal and the negative products of inertia off
 // the diagonal (-Ixy = -integral of x y dm). `products` gives the six numbers (Ixx, Iyy, Izz, Ixy, Ixz, Iyz) with the
-// products positive, the order and the signs of the inertia fields of CONM2.
+// products positive, the order and the signs of the inertia fields of PointMassInertia.
 struct MassProperties
 {
     double mass = 0.0;

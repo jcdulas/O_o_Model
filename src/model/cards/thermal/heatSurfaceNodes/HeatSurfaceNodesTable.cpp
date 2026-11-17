@@ -50,7 +50,7 @@ std::optional<HeatSurfaceNodesCard> HeatSurfaceNodesFormat::read(FieldReader& re
 {
     HeatSurfaceNodesCard card;
     card.id = reader.requiredInteger(1, "id");
-    // A blank TYPE takes the TYPE of the BDYOR, given in finishRead once the whole
+    // A blank TYPE takes the TYPE of the HeatSurfaceDefaults, given in finishRead once the whole
     // Bulk Data is read.
     card.kind =
         readKeyword(reader, 3, "kind",
@@ -80,7 +80,7 @@ std::optional<CardProblem> HeatSurfaceNodesFormat::check(const HeatSurfaceNodesC
     if (card.frontRadiationPropId < 0 || card.backRadiationPropId < 0)
         return CardProblem{"card.bad-id", std::string(CardProblem::FIELD) + " cannot be negative",
                            "frontRadiationPropId"};
-    // A blank TYPE (from the BDYOR) is checked with the type once it has one.
+    // A blank TYPE (from the HeatSurfaceDefaults) is checked with the type once it has one.
     const std::size_t required = card.kind.empty() ? 0 : requiredNodeCount(card.kind);
     const std::size_t maximum = card.kind.empty() ? HeatSurfaceNodesCard::NODE_COUNT : maximumNodeCount(card.kind);
     for (std::size_t index = 0; index < HeatSurfaceNodesCard::NODE_COUNT; ++index)
@@ -199,8 +199,8 @@ void HeatSurfaceNodesTable::visitReferences(std::uint32_t row, ReferenceVisitor&
 void HeatSurfaceNodesTable::finishRead(Model& model, const ReadContext& context)
 {
     const std::optional<HeatSurfaceDefaultsCard> defaults = heatSurfaceDefaultsDefaults(model);
-    // The surface type a BDYOR gives a CHBDYG with a blank TYPE: one of the types of a CHBDYG (REV, AREA3, AREA4,
-    // AREA6, AREA8), or nothing.
+    // The surface type a HeatSurfaceDefaults gives a HeatSurfaceNodes with a blank TYPE: one of the types of a
+    // HeatSurfaceNodes (REV, AREA3, AREA4, AREA6, AREA8), or nothing.
     std::string defaultType;
     if (defaults && defaults->kind)
     {

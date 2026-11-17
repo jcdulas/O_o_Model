@@ -19,11 +19,11 @@ struct AdaptiveRefineControlFormat
     static void write(const AdaptiveRefineControlCard& card, FieldWriter& writer);
 };
 
-// All the HADAPTL cards, in the category AdaptivitySet. The ID is shared by the cards of a set (IdSpace::Group: several
-// cards may have one ID), so `model.hadaptl[1]` is the list of the cards of the set 1.
-// CRITID is a reference to a HADACRI; WHEREID is a reference to a property when WHEREMET is PROP, to a superelement
-// when it is SUPER and nothing when it is ALL (the format reference says the field is ignored then). The cards are kept
-// whole next to a column of their IDs.
+// All the AdaptiveRefineControl cards, in the category AdaptivitySet. The ID is shared by the cards of a set
+// (IdSpace::Group: several cards may have one ID), so `model.hadaptl[1]` is the list of the cards of the set 1.
+// CRITID is a reference to an AdaptiveRefineCriterion; WHEREID is a reference to a property when WHEREMET is PROP, to a
+// superelement when it is SUPER and nothing when it is ALL (the format reference says the field is ignored then). The
+// cards are kept whole next to a column of their IDs.
 class AdaptiveRefineControlTable final : public TypedTable<AdaptiveRefineControlTable, AdaptiveRefineControlCard>
 {
 public:

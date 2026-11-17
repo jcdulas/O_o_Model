@@ -19,9 +19,9 @@ struct FrfConnectionFormat
     static void write(const FrfConnectionCard& card, FieldWriter& writer);
 };
 
-// All the FRFCONN cards. The CONNID is unique among them (IdSpace::PerCardType, category Other). A component given by
-// its ID is a reference to an FRFCOMP (ReferenceTarget::FrfComponent); one given by its name is not an ID and is kept
-// as written. The points are plain numbers. The cards are kept whole next to a column of their IDs.
+// All the FrfConnection cards. The CONNID is unique among them (IdSpace::PerCardType, category Other). A component
+// given by its ID is a reference to a FrfComponent (ReferenceTarget::FrfComponent); one given by its name is not an ID
+// and is kept as written. The points are plain numbers. The cards are kept whole next to a column of their IDs.
 class FrfConnectionTable final : public TypedTable<FrfConnectionTable, FrfConnectionCard>
 {
 public:

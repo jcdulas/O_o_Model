@@ -19,9 +19,9 @@ struct InitialSurfaceVolumeFormat
     static void write(const InitialSurfaceVolumeCard& card, FieldWriter& writer);
 };
 
-// All the SURFINI cards. The VID is unique among the SURFINI cards (IdSpace::PerCardType) and is in the category
-// EulerRegionShape, the one the region cards (TICREG, EULFREG) name through their VID. Its BSID names the BSURF that
-// holds the segments of the surface.
+// All the InitialSurfaceVolume cards. The VID is unique among the InitialSurfaceVolume cards (IdSpace::PerCardType) and
+// is in the category EulerRegionShape, the one the region cards (InitialConditionRegion, EulerForceRegion) name through
+// their VID. Its BSID names the ContactElemSurface that holds the segments of the surface.
 class InitialSurfaceVolumeTable final : public TypedTable<InitialSurfaceVolumeTable, InitialSurfaceVolumeCard>
 {
 public:

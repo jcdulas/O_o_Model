@@ -20,11 +20,12 @@ struct AeroControlSurfaceFormat
     static void write(const AeroControlSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the AESURF cards, in the category AeroControlSurface. The solver ignores the ID, but a CSSCHD names the surface
-// by it (ReferenceTarget::AeroControlSurface), so it is unique among the AESURF cards (IdSpace::PerCardType). CID1 and
-// CID2 are coordinate systems (ReferenceTarget::Coordinate), ALID1 and ALID2 AELIST cards (ReferenceTarget::AeroList),
-// TQLLIM and TQULIM TABLED1 cards (ReferenceTarget::DynamicTable). A TRIM, an AELINK and a UXVEC find the surface by
-// its label, which is not a reference. The absent limits are NaN in the columns of the hinge moments.
+// All the AeroControlSurface cards, in the category AeroControlSurface. The solver ignores the ID, but an
+// AeroControlSchedule names the surface by it (ReferenceTarget::AeroControlSurface), so it is unique among the
+// AeroControlSurface cards (IdSpace::PerCardType). CID1 and CID2 are coordinate systems (ReferenceTarget::Coordinate),
+// ALID1 and ALID2 AeroBoxList cards (ReferenceTarget::AeroList), TQLLIM and TQULIM TableDynamic1 cards
+// (ReferenceTarget::DynamicTable). An AeroTrim, an AeroTrimLink and an AeroControlVector find the surface by its label,
+// which is not a reference. The absent limits are NaN in the columns of the hinge moments.
 class AeroControlSurfaceTable final : public TypedTable<AeroControlSurfaceTable, AeroControlSurfaceCard>
 {
 public:

@@ -4,15 +4,17 @@
 #include "oor/model/cards/elements/springDofPropertyExplicit/SpringDofPropertyExplicitTable.hpp"
 #include "oor/model/cards/elements/springDofInlineExplicit/SpringDofInlineExplicitTable.hpp"
 
-// The scalar springs and dampers of SOL 700: CELAS1D, CELAS2D, CDAMP1D and CDAMP2D.
+// The scalar springs and dampers of SOL 700: SpringDofPropertyExplicit, SpringDofInlineExplicit,
+// DamperDofPropertyExplicit and DamperDofInlineExplicit.
 //
-// They are the CELAS1, CELAS2, CDAMP1 and CDAMP2 with a coordinate system and a FOLLOW word, and have the same
-// geometry: the centre is the middle of the segment between the two end points (the point itself when only one end is a
-// grid point), and the length is the distance between the two grid points. An end that is a scalar point or is blank
-// (ground) has no position, so a spring between scalar points, or between a scalar point and ground, has no centre and
-// no length (NaN); a scalar point gives nothing. The format reference gives no area, volume, normal or frame for them,
-// and the coordinate system of CORD is the one the degree of freedom is defined in, not an element system: those
-// quantities stay NaN, and the element is in the node-to-element index through its two points.
+// They are the SpringDofProperty, SpringDofInline, DamperDofProperty and DamperDofInline with a coordinate system and a
+// FOLLOW word, and have the same geometry: the centre is the middle of the segment between the two end points (the
+// point itself when only one end is a grid point), and the length is the distance between the two grid points. An end
+// that is a scalar point or is blank (ground) has no position, so a spring between scalar points, or between a scalar
+// point and ground, has no centre and no length (NaN); a scalar point gives nothing. The format reference gives no
+// area, volume, normal or frame for them, and the coordinate system of CORD is the one the degree of freedom is defined
+// in, not an element system: those quantities stay NaN, and the element is in the node-to-element index through its two
+// points.
 
 namespace oor::analysis::detail
 {

@@ -18,7 +18,7 @@ struct ViscousDamperPropNonlinearFormat
     static void write(const ViscousDamperPropNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the PVISC1 properties, kept in columns (IdSpace::Property, shared with every other property).
+// All the ViscousDamperPropNonlinear properties, kept in columns (IdSpace::Property, shared with every other property).
 class ViscousDamperPropNonlinearTable final
     : public TypedTable<ViscousDamperPropNonlinearTable, ViscousDamperPropNonlinearCard>
 {

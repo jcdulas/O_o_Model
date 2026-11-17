@@ -19,10 +19,10 @@ struct TrimLayeredComponentFormat
     static void write(const TrimLayeredComponentCard& card, FieldWriter& writer);
 };
 
-// All the TCOMPG cards, in the category Other. The ID of a card is its SET3ID, a reference to a SET3
-// (ReferenceTarget::Set: a renumbering of the sets follows into it and moves the ID with it), shared by the cards that
-// name the same SET3 (IdSpace::Group). Each MID is a reference to a material. The cards are kept whole next to a column
-// of their IDs.
+// All the TrimLayeredComponent cards, in the category Other. The ID of a card is its SET3ID, a reference to a
+// TypedListSet3 (ReferenceTarget::Set: a renumbering of the sets follows into it and moves the ID with it), shared by
+// the cards that name the same TypedListSet3 (IdSpace::Group). Each MID is a reference to a material. The cards are
+// kept whole next to a column of their IDs.
 class TrimLayeredComponentTable final : public TypedTable<TrimLayeredComponentTable, TrimLayeredComponentCard>
 {
 public:

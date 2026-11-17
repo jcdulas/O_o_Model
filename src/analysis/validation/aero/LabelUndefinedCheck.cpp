@@ -16,13 +16,13 @@ namespace oor::analysis
 namespace
 {
 
-// The word that stands for the intercept aerodynamics in a UXVEC; it is no trim
+// The word that stands for the intercept aerodynamics in an AeroControlVector; it is no trim
 // variable.
 constexpr std::string_view INTERCEPT_LABEL = "Intercept";
 
-// A TRIM, a TRIM2, an AELINK and a UXVEC name trim variables by label (they are AESURF, AESTAT or AEPARM
-// labels). A label that none defines is a variable the solver does not have, and
-// the trim fails.
+// An AeroTrim, an AeroTrim2, an AeroTrimLink and an AeroControlVector name trim variables by label (they are
+// AeroControlSurface, AeroRigidTrimVariable or AeroController labels). A label that none defines is a variable the
+// solver does not have, and the trim fails.
 class LabelUndefinedCheck final : public ValidationCheck
 {
 public:

@@ -70,8 +70,8 @@ void HybridDampingTable::visitReferences(std::uint32_t row, ReferenceVisitor& vi
 {
     HybridDampingCard& card = m_cards.edit(row);
     visitId(visitor, "methodId", ReferenceTarget::Method, card.methodId);
-    // The SDAMP of the format reference is a TABDMP1 (the Case Control SDAMPING also takes a TABLEDi, this field does
-    // not).
+    // The SDAMP of the format reference is a TableModalDamping1 (the Case Control SDAMPING also takes a TABLEDi, this
+    // field does not).
     visitId(visitor, "modalDampingTableId", ReferenceTarget::HybridDampingRotorOptionsTable, card.modalDampingTableId);
 }
 

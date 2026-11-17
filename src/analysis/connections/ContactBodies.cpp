@@ -45,8 +45,8 @@ bool isSurfaceType(std::uint16_t type) noexcept
     return dimension == 2 || dimension == 3;
 }
 
-// format reference BCBODY and BCBODY1, BEHAV: Deformable (DEFORM) is a deformable body; Rigid, Symmetric (a symmetry
-// rigid body) and HeatTransfer (a heat-rigid body) are rigid surfaces.
+// format reference ContactBody and ContactBody1, BEHAV: Deformable (DEFORM) is a deformable body; Rigid, Symmetric (a
+// symmetry rigid body) and HeatTransfer (a heat-rigid body) are rigid surfaces.
 bool isRigidBehaviour(const std::string& behav) noexcept
 {
     return behav != "Deformable";
@@ -65,14 +65,16 @@ const ContactBody* findIn(const std::vector<ContactBody>& bodies, base::EntityId
     return found != bodies.end() && found->id == id ? &*found : nullptr;
 }
 
-// Reads the element sets the BSID of a body names (BSURF, BCPROP, BCMATL), each once.
+// Reads the element sets the BSID of a body names (ContactElemSurface, ContactPropertyRegion, ContactMaterialRegion),
+// each once.
 class SurfaceReader
 {
 public:
     explicit SurfaceReader(const model::Model& model) : m_model(model) {}
 
-    // The elements of a BSURF, a BCPROP or a BCMATL with this ID (one ID space: format reference BSURF, BCPROP,
-    // BCMATL), with the card; nothing when the ID is none of them (a BCBOX, a BCSEG, a rigid surface, or nothing).
+    // The elements of a ContactElemSurface, a ContactPropertyRegion or a ContactMaterialRegion with this ID (one ID
+    // space: format reference ContactElemSurface, ContactPropertyRegion, ContactMaterialRegion), with the card; nothing
+    // when the ID is none of them (a ContactBoxRegion, a ContactSegment, a rigid surface, or nothing).
     [[nodiscard]] std::optional<std::pair<model::CardLocation, std::vector<model::CardLocation>>> read(
         base::EntityId id)
     {
@@ -116,7 +118,7 @@ public:
     }
 
 private:
-    // format reference BCPROP: every element that has one of the listed properties.
+    // format reference ContactPropertyRegion: every element that has one of the listed properties.
     [[nodiscard]] std::vector<model::CardLocation> elementsWithProperty(const std::set<base::EntityId>& properties)
     {
         prepareProperties();
@@ -131,7 +133,7 @@ private:
         return elements;
     }
 
-    // format reference BCMATL: every element whose property has one of the listed materials.
+    // format reference ContactMaterialRegion: every element whose property has one of the listed materials.
     [[nodiscard]] std::vector<model::CardLocation> elementsWithMaterial(const std::vector<base::EntityId>& materials)
     {
         prepareProperties();
@@ -217,7 +219,9 @@ ContactBodies ContactBodies::read(const model::Model& model)
                 body.elements = std::move(found->second);
             }
             else
-                body.isRigid = true; // a BCBOX, a BCSEG, a BCELIPS or a rigid surface: no element of the structure
+                // a ContactBoxRegion, a ContactSegment, a ContactEllipsoidList or a rigid surface: no element of the
+                // structure
+                body.isRigid = true;
         }
         result.m_bodies.push_back(std::move(body));
     };

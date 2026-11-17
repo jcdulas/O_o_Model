@@ -706,7 +706,7 @@ void ElastoPlasticMatTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void ElastoPlasticMatTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the material that the card extends; FID and RTID are TABLES1 cards.
+    // The ID is the one of the material that the card extends; FID and RTID are TableStress1 cards.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     if (const base::EntityId stressStrainTable = m_stressStrainTableId.get(row); stressStrainTable > 0)
         m_stressStrainTableId.set(

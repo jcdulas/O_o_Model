@@ -19,10 +19,10 @@ struct PlotLine2Format
     static void write(const PlotLine2Card& card, FieldWriter& writer);
 };
 
-// All the PLOTEL elements. A PLOTEL is only drawn on plots, never used in a solution phase: the format reference asks
-// for an ID that is unique among the elements, but decks that the solver ran reuse the ID of a structural element for a
-// PLOTEL (the public elements/geom.inc has a PLOTEL 13 and a CBAR 13), so the PLOTELs have an ID space of their own and
-// a structural element is never replaced by one.
+// All the PlotLine2 elements. A PlotLine2 is only drawn on plots, never used in a solution phase: the format reference
+// asks for an ID that is unique among the elements, but decks that the solver ran reuse the ID of a structural element
+// for a PlotLine2 (the public elements/geom.inc has a PlotLine2 13 and a Bar2 13), so the PlotLine2s have an ID space
+// of their own and a structural element is never replaced by one.
 class PlotLine2Table final : public TypedTable<PlotLine2Table, PlotLine2Card>
 {
 public:

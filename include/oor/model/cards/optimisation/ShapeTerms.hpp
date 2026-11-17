@@ -11,8 +11,8 @@
 namespace oor::model
 {
 
-// One column of a displacement matrix (DVSHAP) or of the load sequences of an auxiliary model (DVBSHAP) and the factor
-// it is scaled by: COLi and SFi.
+// One column of a displacement matrix (DesignShapeBasis) or of the load sequences of an auxiliary model
+// (DesignBoundaryShape) and the factor it is scaled by: COLi and SFi.
 struct ShapeTerm
 {
     std::int32_t column = 0; // >= 1

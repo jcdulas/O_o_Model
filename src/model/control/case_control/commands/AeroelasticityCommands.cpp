@@ -17,7 +17,7 @@ void defineAeroelasticityCommands(CommandCatalogue& commands)
     commands.integer("ControlScheduleSelection").refersTo(ReferenceTarget::ControlSchedule);
     commands.integer("DivergenceSelection").refersTo(ReferenceTarget::DivergenceSet);
     commands.integer("GustSelection").refersTo(ReferenceTarget::AeroGustSet);
-    commands.integer("TrimSelection").refersTo(ReferenceTarget::AeroTrimSet); // a TRIM or a TRIM2
+    commands.integer("TrimSelection").refersTo(ReferenceTarget::AeroTrimSet); // an AeroTrim or an AeroTrim2
     commands.text("TrimGroupSelection");
     commands.text("TrimmedMaterialSelection");
     commands.text("VortexLatticeExport");

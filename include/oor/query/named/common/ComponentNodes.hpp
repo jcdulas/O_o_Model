@@ -12,7 +12,7 @@ namespace oor::query
 {
 
 // Every grid point of the model and every point an element or an MPC equation uses, with its component (null for a
-// point no component holds) and isConnectionOnly (a point that only connections use; a CFAST or a CWELD uses the
+// point no component holds) and isConnectionOnly (a point that only connections use; a Fastener or a Weld uses the
 // grid points of the shells it pierces and its GA and GB, not GS): the table of connectedComponents(detail="nodes")
 // and of connectionNodes. `empty` gives the columns of a model with no point.
 [[nodiscard]] std::shared_ptr<const QueryTable> componentNodesTable(const model::Model& model,

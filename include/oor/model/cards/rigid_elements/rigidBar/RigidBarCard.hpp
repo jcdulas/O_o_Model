@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One RBAR card: a rigid bar with six degrees of freedom at each end.
+// One RigidBar card: a rigid bar with six degrees of freedom at each end.
 //
-// Card layout: RBAR  EID  GA  GB  CNA  CNB  CMA  CMB  ALPHA
-//                   TREF
+// Card layout: RigidBar  EID  GA  GB  CNA  CNB  CMA  CMB  ALPHA
+//                       TREF
 // CNA and CNB are the independent components at GA and GB, CMA and CMB the dependent ones, each the digits 1 to 6 as
 // one number (0 when blank). Two defaults depend on other fields and are stored resolved (and always written): when CNA
 // and CNB are both blank, CNA is 123456; when CMA and CMB are both blank, every component that is not

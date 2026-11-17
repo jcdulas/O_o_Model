@@ -21,8 +21,8 @@ struct FreeBoundaryDofs1Format
     static void write(const FreeBoundaryDofs1Card& card, FieldWriter& writer);
 };
 
-// All the BNDFRE1 cards. A card has no ID (IdSpace::None, category Set, like the CSET1 it equals). The points of every
-// card are one column of (first, last) runs.
+// All the FreeBoundaryDofs1 cards. A card has no ID (IdSpace::None, category Set, like the FreeBoundaryDofSet1 it
+// equals). The points of every card are one column of (first, last) runs.
 class FreeBoundaryDofs1Table final : public TypedTable<FreeBoundaryDofs1Table, FreeBoundaryDofs1Card>
 {
 public:

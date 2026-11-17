@@ -19,9 +19,10 @@ struct AeroTrimLinkFormat
     static void write(const AeroTrimLinkCard& card, FieldWriter& writer);
 };
 
-// All the AELINK cards, in the category Aero. The ID is the number of the trim set the relation applies to (0 for every
-// subcase), shared by the cards of that trim: IdSpace::Group, so that `model.aelink[1]` is the list of the relations of
-// the trim 1. The card names no card by number (the labels are names). It is kept whole next to a column of its ID.
+// All the AeroTrimLink cards, in the category Aero. The ID is the number of the trim set the relation applies to (0 for
+// every subcase), shared by the cards of that trim: IdSpace::Group, so that `model.aelink[1]` is the list of the
+// relations of the trim 1. The card names no card by number (the labels are names). It is kept whole next to a column
+// of its ID.
 class AeroTrimLinkTable final : public TypedTable<AeroTrimLinkTable, AeroTrimLinkCard>
 {
 public:

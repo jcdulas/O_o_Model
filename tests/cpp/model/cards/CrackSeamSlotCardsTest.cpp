@@ -1,8 +1,9 @@
-// Checks of the crack tip, seam, slot and spring cards: CRAC2D, CRAC3D, PRAC2D, PRAC3D, CSEAM,
-// PSEAM, CSLOT3, CSLOT4, CSPR and SWLDPRM. Per card: the fields in their format reference positions, the forms and the
-// defaults, the references the card lists, the renumbering of the ID spaces it owns, the refused values and the round
-// trip through a model file. The other cards (ADUM8, ADUM9, AXSLOT, GRIDS, PSPRMAT) are not needed: a reference to
-// one is simply unresolved, and the tests that care read the references through a visitor.
+// Checks of the crack tip, seam, slot and spring cards: CrackTip2D, CrackTip3D, CrackTipProp2D, CrackTipProp3D, Seam,
+// SeamProp, AcousticSlot3, AcousticSlot4, SpringOffsetExplicit and ConnectorSearchParams. Per card: the fields in their
+// format reference positions, the forms and the defaults, the references the card lists, the renumbering of the ID
+// spaces it owns, the refused values and the round trip through a model file. The other cards (UserDefined8Attributes,
+// UserDefined9Attributes, AcousticSlotControl, AcousticSlotSurfacePoint, SpringOffsetProp) are not needed: a reference
+// to one is simply unresolved, and the tests that care read the references through a visitor.
 
 #include "oor/model/cards/elements/acousticSlot3/AcousticSlot3Table.hpp"
 #include "oor/model/cards/elements/acousticSlot4/AcousticSlot4Table.hpp"
@@ -61,8 +62,8 @@ GridPoints joined(GridPoints first, const GridPoints& second)
     return first;
 }
 
-// A CRAC2D or a CRAC3D record: EID and PID, then the grid points by their G numbers (G1 is slot 3), blank where the
-// list does not give one. `slots` is 18 or 64.
+// A CrackTip2D or a CrackTip3D record: EID and PID, then the grid points by their G numbers (G1 is slot 3), blank where
+// the list does not give one. `slots` is 18 or 64.
 std::string crackCard(const std::string& name, std::size_t slots, int eid, int pid, const GridPoints& points)
 {
     std::vector<std::string> fields(slots + 2);
@@ -83,7 +84,7 @@ std::string crac3d(int eid, const GridPoints& points)
     return crackCard("CrackTip3D", 64, eid, 96511, points);
 }
 
-// The G numbers of a CRAC3D that the full crack requires (G1 to G10 and G19 to G28).
+// The G numbers of a CrackTip3D that the full crack requires (G1 to G10 and G19 to G28).
 GridPoints requiredOfFullCrack3d()
 {
     return joined(run(1, 10), run(19, 28));
@@ -98,7 +99,7 @@ std::string gridCards(int first, int last)
     return text;
 }
 
-// Four global parameters of a SWLDPRM.
+// Four global parameters of a ConnectorSearchParams.
 const char* const GLOBAL_PARAMETERS =
     "ConnectorSearchParams;4;GeneratedDataPrint;1;GeometryCheckLevel;1;"
     "MaxDiameterHalvings;2;MoveEndPointsToProjection;1";
@@ -378,7 +379,7 @@ TEST_CASE("the patch numbers of a CSEAM name properties or elements as its CTYPE
             std::vector<std::string>{"propId", "patchAStart", "patchBStart"}); // no grid point: the coordinates
 
     // The reference is of the kind the CTYPE says: properties 201 and 202 do not satisfy the elements of an ELEM seam,
-    // and elements 37 and 52 do not satisfy the PSHELL properties of the first format.
+    // and elements 37 and 52 do not satisfy the ShellProp properties of the first format.
     const std::string common =
         "IsoMat;1;2.1E+11;;0.3\nShellProp;1;1;0.1\nSeamProp;96521;1;;2.\nNode;21450\nNode;63318\n";
     Model propertiesNamedByElements = readBulk(

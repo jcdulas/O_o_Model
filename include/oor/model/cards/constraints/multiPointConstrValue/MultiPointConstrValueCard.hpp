@@ -8,16 +8,17 @@
 namespace oor::model
 {
 
-// One MPCD card: the load selectable right hand side Ym of one or two equations of non-homogeneous multipoint
-// constraints (the MPCY cards). The value of an equation replaces the YM of its MPCY.
+// One MultiPointConstrValue card: the load selectable right hand side Ym of one or two equations of non-homogeneous
+// multipoint constraints (the MultiPointConstrWithValue cards). The value of an equation replaces the YM of its
+// MultiPointConstrWithValue.
 //
-// Card layout: MPCD  SID  GM1  CM1  YM1  GM2  CM2  YM2
+// Card layout: MultiPointConstrValue  SID  GM1  CM1  YM1  GM2  CM2  YM2
 // An equation is named by its dependent degree of freedom: the point GMi and the component CMi (one of 1 to 6 for a
 // grid point; blank, 0 or 1 for a scalar point; the card keeps 0 for a blank). The second equation is optional: its GM2
 // is 0 when it is absent (then CM2 and YM2 are 0 too). The format reference gives no default to YMi; a blank value is
-// kept as 0.0, as the SPCD it resembles does. SID is selected by the LOAD Case Control command in the static solutions,
-// so it is a load set ID like the SID of an SPCD and the card is in the Load category; the MPC command
-// selects the MPCY.
+// kept as 0.0, as the EnforcedMotionConstr it resembles does. SID is selected by the LOAD Case Control command in the
+// static solutions, so it is a load set ID like the SID of an EnforcedMotionConstr and the card is in the Load
+// category; the MPC command selects the MultiPointConstrWithValue.
 struct MultiPointConstrValueCard
 {
     base::EntityId id = 0;

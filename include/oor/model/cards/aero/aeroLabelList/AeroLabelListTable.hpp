@@ -19,8 +19,8 @@ struct AeroLabelListFormat
     static void write(const AeroLabelListCard& card, FieldWriter& writer);
 };
 
-// All the AELISTC cards, in the category Aero. The SID is unique among the AELISTC cards (IdSpace::PerCardType). The
-// card is kept whole next to a column of its SID.
+// All the AeroLabelList cards, in the category Aero. The SID is unique among the AeroLabelList cards
+// (IdSpace::PerCardType). The card is kept whole next to a column of its SID.
 class AeroLabelListTable final : public TypedTable<AeroLabelListTable, AeroLabelListCard>
 {
 public:

@@ -24,14 +24,14 @@
 
 // The mass of the shells, the shear panels, the plane elements and the axisymmetric elements.
 //
-//   PSHELL, PSHEAR   area times (density times the thickness of the element + NSM); the thickness is the effective one
-//                    of the element (the mean of its corner thicknesses when it has some, else the property's), the
-//                    density is the one of MID1 (MID2 when there is no MID1)
-//   PCOMP, PCOMPG    area times (the sum over the plies of density times thickness + NSM)
-//   PLPLANE          density times the volume of the element: a plane strain element is one unit deep and an
-//   axisymmetric
+//   ShellProp, ShearPanelProp  area times (density times the thickness of the element + NSM); the thickness is the
+//                              effective one of the element (the mean of its corner thicknesses when it has some, else
+//                              the property's), the density is the one of MID1 (MID2 when there is no MID1)
+//   CompProp, CompPropGlobal  area times (the sum over the plies of density times thickness + NSM)
+//   PlanePropNonlinear  density times the volume of the element: a plane strain element is one unit deep and an
+//                       axisymmetric
 //                    one is a ring of 360 degrees (the geometry gives both)
-//   CTRIAX6          the same, with the material on the element card
+//   AxisymTria6      the same, with the material on the element card
 
 namespace oor::analysis::detail
 {
@@ -43,7 +43,7 @@ constexpr std::uint8_t SHELL_QUANTITIES = bit(Quantity::Center) | bit(Quantity::
                                           bit(Quantity::Thickness) | bit(Quantity::Normal);
 
 // The offset ZOFFS of the card in `row` (the distance from the plane of the grid points to the reference plane of the
-// shell, along its normal; format reference CQUAD4), 0 for a card that has none.
+// shell, along its normal; format reference ShellQuad4), 0 for a card that has none.
 template <typename TableT>
 double offsetOf(const TableT& table, std::uint32_t row)
 {
@@ -85,14 +85,14 @@ struct ShellShape
             throw MassError(owner.text(context.model()) + " refers to property " + std::to_string(pid) +
                             ", which is not a shell, shear panel or plane property");
         }
-        // Under MDLPRM OFFDEF ELMOFF, the solver's default, the mass stays on the plane of the grid points (an
-        // offset leaves the mass properties as they are);
-        // under LROFF and ELMZ it is on the reference plane, ZOFFS from the grid points along the normal (the element
-        // normal: LROFF's normals at the grid points are not computed; MassCalculator::offsetMassOf). The Z0 of a PCOMP
-        // or PCOMPG moves the plies, not the mass, whatever OFFDEF: the solver uses ELMOFF for Z0 whatever MDLPRM says
-        // (format reference MDLPRM OFFDEF note, Z0 does not change the reference plane), and its grid
-        // point weight generator keeps the mass of a Z0 laminate on the grid point plane (the solver 2018.2, a public
-        // wing model with Z0 = 0).
+        // Under ModelParams OffsetDefinition ElemOffsetsOnly, the solver's default, the mass stays on the plane of the
+        // grid points (an offset leaves the mass properties as they are);
+        // under LoadRecoveryOffsets and ElemOffsetZ it is on the reference plane, ZOFFS from the grid points along the
+        // normal (the element normal: LoadRecoveryOffsets's normals at the grid points are not computed;
+        // MassCalculator::offsetMassOf). The Z0 of a CompProp or CompPropGlobal moves the plies, not the mass, whatever
+        // OFFDEF: the solver uses ElemOffsetsOnly for Z0 whatever ModelParams says (format reference ModelParams
+        // OffsetDefinition note, Z0 does not change the reference plane), and its grid point weight generator keeps the
+        // mass of a Z0 laminate on the grid point plane (the solver 2018.2, a public wing model with Z0 = 0).
         const double height = offsetOf(table, row);
         if (context.massOnOffsets() && height != 0.0 && isDefined(geometry.normal))
             value.center = geometry.center + height * geometry.normal;

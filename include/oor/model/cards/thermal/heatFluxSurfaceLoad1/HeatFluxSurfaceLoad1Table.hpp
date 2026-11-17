@@ -20,8 +20,8 @@ struct HeatFluxSurfaceLoad1Format
     static void write(const HeatFluxSurfaceLoad1Card& card, FieldWriter& writer);
 };
 
-// All the QBDY1 cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). The element lists
-// are one CSR column of (first, last, by) runs.
+// All the HeatFluxSurfaceLoad1 cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). The
+// element lists are one CSR column of (first, last, by) runs.
 class HeatFluxSurfaceLoad1Table final : public TypedTable<HeatFluxSurfaceLoad1Table, HeatFluxSurfaceLoad1Card>
 {
 public:

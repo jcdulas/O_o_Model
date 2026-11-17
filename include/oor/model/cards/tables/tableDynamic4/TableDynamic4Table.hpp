@@ -21,7 +21,7 @@ struct TableDynamic4Format
     static void write(const TableDynamic4Card& card, FieldWriter& writer);
 };
 
-// All the TABLED4 cards. The ID is a dynamic table ID, in the ID space the other TABLED cards share
+// All the TableDynamic4 cards. The ID is a dynamic table ID, in the ID space the other TABLED cards share
 // (IdSpace::DynamicTable). The coefficients of every table are one list in CSR form.
 class TableDynamic4Table final : public TypedTable<TableDynamic4Table, TableDynamic4Card>
 {

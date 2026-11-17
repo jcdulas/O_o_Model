@@ -24,7 +24,8 @@ namespace oor::model
 // ---------------------------------------------------------------------------------------------------------------------
 
 // A superelement number is a positive integer. The residual structure is superelement 0, which only the cards that
-// say so accept (SECONCT SEIDB, SEBULK, SEELT with a BEGIN SUPER, SETREE).
+// say so accept (SuperelementConnection SEIDB, SuperelementBulkOptions, SuperelementElemTransfer with a BEGIN SUPER,
+// SuperelementTree).
 [[nodiscard]] std::optional<CardProblem> checkSuperelementId(base::EntityId id, const char* field,
                                                              bool residualAllowed);
 
@@ -36,16 +37,16 @@ inline void visitSuperelement(ReferenceVisitor& visitor, std::string_view field,
         id = visitor.visit(field, ReferenceTarget::Superelement, id);
 }
 
-// A field that holds the number of a superelement or the word ALL: SEIDB of SEBNDRY and SEEXCLD (blank means ALL), SEID
-// of SENQSET. Nothing is ALL.
+// A field that holds the number of a superelement or the word ALL: SEIDB of SuperelementBoundarySearch and
+// SuperelementExcludedNodes (blank means ALL), SEID of SuperelementGeneralizedPointCount. Nothing is ALL.
 using SuperelementOrAll = std::optional<base::EntityId>;
 
 // Reads the field: the word ALL (any case) or an integer; blank gives `fallback`.
 [[nodiscard]] SuperelementOrAll readSuperelementOrAll(FieldReader& reader, int field, const char* name,
                                                       SuperelementOrAll fallback);
 
-// Writes it. With `blankIsAll` the word ALL is a blank where defaults are left out (SEBNDRY and SEEXCLD: ALL by
-// default), otherwise it is always written.
+// Writes it. With `blankIsAll` the word ALL is a blank where defaults are left out (SuperelementBoundarySearch and
+// SuperelementExcludedNodes: ALL by default), otherwise it is always written.
 void writeSuperelementOrAll(FieldWriter& writer, int field, const SuperelementOrAll& value, bool blankIsAll);
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -86,7 +87,8 @@ void visitRunList(ReferenceVisitor& visitor, std::string_view field, std::vector
 // Labels
 // ---------------------------------------------------------------------------------------------------------------------
 
-// The longest label of SELABEL: the format reference gives it fields 3 to 9, seven fields of eight characters.
+// The longest label of SuperelementLabel: the format reference gives it fields 3 to 9, seven fields of eight
+// characters.
 
 // The problem with a label that is written over several fields, if there is one: at most `maxLength` characters, not
 // beginning or ending with a blank (the lexer trims the fields), and no '$', comma, tab or line break (the line would

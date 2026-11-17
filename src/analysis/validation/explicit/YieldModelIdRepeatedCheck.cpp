@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// A yield model number that two kinds of card have: the YLDxxx cards are named by the YID of a MATDEUL, and the format
-// reference says a YID is unique among all of them.
+// A yield model number that two kinds of card have: the YLDxxx cards are named by the YID of an EulerMat, and the
+// format reference says a YID is unique among all of them.
 class YieldModelIdRepeatedCheck final : public ValidationCheck
 {
 public:

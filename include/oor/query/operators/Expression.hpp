@@ -53,11 +53,12 @@ struct Literal
 
 // An expression over the columns of a table: the condition of a `where`, or the formula of a computed column.
 //
-//   text         area > 2.0 and pid in (1, 2) and not (type == 'CQUAD4' or t <= 0.5)
-//   values       numbers (1, 2.5, 1e-3), texts ('CQUAD4' or "CQUAD4"), true, false, null, and the names of columns
-//   arithmetic   + - * / % ** and unary minus, with the usual precedence (** binds tighter than unary minus on its
-//   left) comparison   == != < <= > >=   (a single = means ==, <> means !=) logic        and, or, not (words, any
-//   case); a comparison is above `not`, `not` above `and`, `and` above `or` membership   x in (1, 2, 3)    x not in
+//   text         area > 2.0 and pid in (1, 2) and not (type == 'ShellQuad4' or t <= 0.5)
+//   values       numbers (1, 2.5, 1e-3), texts ('ShellQuad4' or "ShellQuad4"), true, false, null, and the names of
+//   columns arithmetic   + - * / % ** and unary minus, with the usual precedence (** binds tighter than unary minus on
+//   its left) comparison   == != < <= > >= (a single = means ==, <> means !=) logic and, or, not (words, any case); a
+//                          comparison is above `not`, `not` above `and`, `and` above `or` membership x in (1, 2, 3) x
+//                          not in
 //   ('A', 'B')    (lists of constants only) null         x is null    x is not null functions    abs(x)  sqrt(x)
 //   isnull(x)  isnan(x)
 //

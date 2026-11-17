@@ -8,10 +8,10 @@
 namespace oor::model
 {
 
-// One RSPLINE card: multipoint constraints that interpolate the displacements of grid points along an elastic beam.
+// One RigidSpline card: multipoint constraints that interpolate the displacements of grid points along an elastic beam.
 //
-// Card layout: RSPLINE  EID  D/L  G1  G2  C2  G3  C3  G4
-//                      C4  G5  C5  G6  -etc.-
+// Card layout: RigidSpline  EID  D/L  G1  G2  C2  G3  C3  G4
+//                          C4  G5  C5  G6  -etc.-
 // The points and the components follow each other from field 3 over the continuation lines: G1, then a point and its
 // components for each of the others. A blank Ci means that all six components of Gi are independent; a Ci that is given
 // names the components that depend on the independent points. G1 and the last point are independent, so they have no

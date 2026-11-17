@@ -18,8 +18,8 @@ struct UserDefined6PropFormat
     static void write(const UserDefined6PropCard& card, FieldWriter& writer);
 };
 
-// All the PDUM6 properties. The ID is a property ID, in the space every property shares (IdSpace::Property); MID names
-// a material. The additional fields are kept as two columns, the kind and the number of each field.
+// All the UserDefined6Prop properties. The ID is a property ID, in the space every property shares (IdSpace::Property);
+// MID names a material. The additional fields are kept as two columns, the kind and the number of each field.
 class UserDefined6PropTable final : public TypedTable<UserDefined6PropTable, UserDefined6PropCard>
 {
 public:

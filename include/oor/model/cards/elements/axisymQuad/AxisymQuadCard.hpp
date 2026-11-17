@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One CQUADX card: an axisymmetric quadrilateral element with four corners, up to four edge points and an optional
+// One AxisymQuad card: an axisymmetric quadrilateral element with four corners, up to four edge points and an optional
 // centre point.
 //
 // Layout:
-//   CQUADX  EID  PID  G1  G2  G3  G4  G5  G6
-//           G7   G8   G9  THETA or MCID
+//   AxisymQuad  EID  PID  G1  G2  G3  G4  G5  G6
+//               G7   G8  G9  THETA or MCID
 //
 // G1 to G4 are the corners, G5 to G8 the optional points on the edges and G9 the optional centre point: `nodes` always
 // has room for all nine, and an

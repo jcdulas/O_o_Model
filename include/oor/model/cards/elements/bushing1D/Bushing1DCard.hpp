@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One CBUSH1D card: a rod-type spring and damper between two grid points.
+// One Bushing1D card: a rod-type spring and damper between two grid points.
 //
 // Card layout:
-//   CBUSH1D  EID  PID  GA  GB  CID
+//   Bushing1D  EID  PID  GA  GB  CID
 //
 // GB blank (0) is a grounded end. CID is the coordinate system whose x-axis is the element axis; blank, the axis is the
 // line from GA to GB. A CID is needed when GA and GB are coincident or GB is blank (the format reference; a later

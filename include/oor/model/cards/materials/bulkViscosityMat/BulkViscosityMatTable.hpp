@@ -18,8 +18,8 @@ struct BulkViscosityMatFormat
     static void write(const BulkViscosityMatCard& card, FieldWriter& writer);
 };
 
-// All the MATBV cards. The ID space is the card type's own: the ID is the one of the material that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it).
+// All the BulkViscosityMat cards. The ID space is the card type's own: the ID is the one of the material that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it).
 class BulkViscosityMatTable final : public TypedTable<BulkViscosityMatTable, BulkViscosityMatCard>
 {
 public:

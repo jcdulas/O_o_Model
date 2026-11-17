@@ -10,9 +10,10 @@ namespace oor::analysis
 namespace
 {
 
-// A SOL 101 or 106 subcase with nothing that loads it: no LOAD, LOADSET, CLOAD, DEFORM, TEMPERATURE(LOAD),
-// TEMPERATURE(BOTH) or P2G (a load matrix of DMIG, added to the load vector: format reference P2G), and no enforced
-// displacement (an SPC set with a value in its D field). The response is zero.
+// A SOL 101 or 106 subcase with nothing that loads it: no LoadCombination, LOADSET, SuperelementLoadCombination,
+// AxialDeformationLoad, TEMPERATURE(LOAD), TEMPERATURE(BOTH) or P2G (a load matrix of DirectMatrixNodal, added to the
+// load vector: format reference P2G), and no enforced displacement (an SPC set with a value in its D field). The
+// response is zero.
 class MissingLoadCheck final : public ValidationCheck
 {
 public:

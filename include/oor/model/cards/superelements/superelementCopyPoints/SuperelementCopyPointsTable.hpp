@@ -19,8 +19,8 @@ struct SuperelementCopyPointsFormat
     static void write(const SuperelementCopyPointsCard& card, FieldWriter& writer);
 };
 
-// All the CSUPER cards, filed under the number of the secondary superelement (SSID below 10000: IdSpace::Group,
-// category Superelement). The cards are kept whole next to a column of their numbers.
+// All the SuperelementCopyPoints cards, filed under the number of the secondary superelement (SSID below 10000:
+// IdSpace::Group, category Superelement). The cards are kept whole next to a column of their numbers.
 class SuperelementCopyPointsTable final : public TypedTable<SuperelementCopyPointsTable, SuperelementCopyPointsCard>
 {
 public:

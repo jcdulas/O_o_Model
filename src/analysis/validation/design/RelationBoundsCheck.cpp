@@ -13,8 +13,8 @@ namespace
 // A relation gives its field a value at the initial values of the design variables; the limits of the relation (PMIN
 // and PMAX, or the default PMIN of the field) must not exclude it, or the optimiser starts from a design that violates
 // its own side constraint (and, with the default limits, from a thickness that cannot be positive). The relations that
-// cannot be applied are not judged, and neither is a model whose design variables are not defined (a DLINK that names a
-// variable that is not there: `ref.unresolved` reports it).
+// cannot be applied are not judged, and neither is a model whose design variables are not defined (a DesignVarLink that
+// names a variable that is not there: `ref.unresolved` reports it).
 class RelationBoundsCheck final : public ValidationCheck
 {
 public:

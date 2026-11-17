@@ -17,11 +17,12 @@ struct ComplexEigenPolesPole
     std::int32_t multiplicity = 1;
 };
 
-// One EIGP card: one or two poles of the determinant method (EIGC with METHOD = DET).
+// One ComplexEigenPoles card: one or two poles of the determinant method (ComplexEigenMethod with METHOD = DET).
 //
-// Card layout: EIGP  SID  ALPHA1  OMEGA1  M1  ALPHA2  OMEGA2  M2
-// The SID is the ID of the EIGC card the poles go with (the EIGC of the same set number), not a
-// method of its own: several EIGP cards may share it, and it is renumbered with the EIGC (the ComplexMethod space).
+// Card layout: ComplexEigenPoles  SID  ALPHA1  OMEGA1  M1  ALPHA2  OMEGA2  M2
+// The SID is the ID of the ComplexEigenMethod card the poles go with (the ComplexEigenMethod of the same set number),
+// not a method of its own: several ComplexEigenPoles cards may share it, and it is renumbered with the
+// ComplexEigenMethod (the ComplexMethod space).
 struct ComplexEigenPolesCard
 {
     base::EntityId id = 0;

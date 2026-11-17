@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// An EIGRL with no V1, no V2 and no ND: the format reference gives the lowest root only, which is rarely what was
-// meant.
+// A LanczosEigenMethod with no V1, no V2 and no ND: the format reference gives the lowest root only, which is rarely
+// what was meant.
 class LanczosEigenMethodSingleRootCheck final : public ValidationCheck
 {
 public:

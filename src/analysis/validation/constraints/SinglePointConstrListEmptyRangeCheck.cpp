@@ -10,7 +10,7 @@ namespace oor::analysis
 namespace
 {
 
-// A THRU range of an SPC1 in which no grid point exists: the constraint fixes nothing.
+// A THRU range of a SinglePointConstrList in which no grid point exists: the constraint fixes nothing.
 class SinglePointConstrListEmptyRangeCheck final : public ValidationCheck
 {
 public:

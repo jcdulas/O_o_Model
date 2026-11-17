@@ -5,9 +5,9 @@
 namespace oor::base
 {
 
-// Fields that list degrees of freedom or components (PS of a GRID, C of an SPC1, ...) hold a set of the digits 0 to 6
-// written as one integer: "123", "321" and "213" are the same set. The library keeps the digits in ascending order, so
-// that equal sets compare equal and are written the same way.
+// Fields that list degrees of freedom or components (PS of a Node, C of a SinglePointConstrList, ...) hold a set of the
+// digits 0 to 6 written as one integer: "123", "321" and "213" are the same set. The library keeps the digits in
+// ascending order, so that equal sets compare equal and are written the same way.
 [[nodiscard]] constexpr std::int32_t sortedDigits(std::int32_t value) noexcept
 {
     if (value <= 0)

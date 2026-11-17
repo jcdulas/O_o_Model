@@ -19,8 +19,8 @@ struct ContactNurbsCurveFormat
     static void write(const ContactNurbsCurveCard& card, FieldWriter& writer);
 };
 
-// All the BCNURB2 cards (category ContactSurface, unique among them). The cards are kept whole (CardRows); the query
-// engine reads the ID only. The grid points are references.
+// All the ContactNurbsCurve cards (category ContactSurface, unique among them). The cards are kept whole (CardRows);
+// the query engine reads the ID only. The grid points are references.
 class ContactNurbsCurveTable final : public TypedTable<ContactNurbsCurveTable, ContactNurbsCurveCard>
 {
 public:

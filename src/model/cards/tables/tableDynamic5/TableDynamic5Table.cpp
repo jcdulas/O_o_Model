@@ -24,7 +24,8 @@ bool isEndOfTable(std::string_view text)
     return (text == "EndTable");
 }
 
-// The value at `y` of the TABLED1 to TABLED4 with this ID in the model; NaN when there is none (or it is a TABLED5).
+// The value at `y` of the TableDynamic1 to TableDynamic4 with this ID in the model; NaN when there is none (or it is a
+// TableDynamic5).
 double evaluateReferenced(const Model& model, base::EntityId table, double y)
 {
     const std::optional<CardLocation> location = model.locate(base::IdSpace::DynamicTable, table);

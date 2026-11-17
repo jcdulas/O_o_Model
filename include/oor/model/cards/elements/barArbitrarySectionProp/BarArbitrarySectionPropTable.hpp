@@ -19,8 +19,9 @@ struct BarArbitrarySectionPropFormat
     static void write(const BarArbitrarySectionPropCard& card, FieldWriter& writer);
 };
 
-// All the PBRSECT cards, kept whole next to a column of their PIDs. A PBRSECT is a property (IdSpace::Property): the
-// PID of a CBAR finds it. It names a material and the SET1 or SET3 cards of its perimeters and branches.
+// All the BarArbitrarySectionProp cards, kept whole next to a column of their PIDs. A BarArbitrarySectionProp is a
+// property (IdSpace::Property): the PID of a Bar2 finds it. It names a material and the IdListSet1 or TypedListSet3
+// cards of its perimeters and branches.
 class BarArbitrarySectionPropTable final : public TypedTable<BarArbitrarySectionPropTable, BarArbitrarySectionPropCard>
 {
 public:

@@ -15,9 +15,9 @@ namespace oor::analysis
 namespace
 {
 
-// Each CAEROi names a property of its own kind: the CAERO1 a PAERO1, the CAERO2 a PAERO2, and so on (format reference,
-// the PID fields). The five PAERO cards share one number space, so a PID that names a PAERO of another kind resolves,
-// and the card reads it as if it were the right one.
+// Each CAEROi names a property of its own kind: the AeroLiftingPanel1 an AeroLiftingPanelProp1, the AeroBody2 an
+// AeroBodyProp2, and so on (format reference, the PID fields). The five PAERO cards share one number space, so a PID
+// that names a PAERO of another kind resolves, and the card reads it as if it were the right one.
 class PanelPropertyCheck final : public ValidationCheck
 {
 public:

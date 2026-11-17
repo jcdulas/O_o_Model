@@ -19,9 +19,9 @@ struct NonlinearSqueezeFilmDamperFormat
     static void write(const NonlinearSqueezeFilmDamperCard& card, FieldWriter& writer);
 };
 
-// All the NLRSFD cards. The SID is a nonlinear load set ID shared by the NOLIN cards and the other nonlinear loads
-// (IdSpace::Group, category DynamicLoad): the NONLINEAR Case Control command selects it. GA and GB are grid points. The
-// cards are kept whole (CardRows); the query engine reads the SID only.
+// All the NonlinearSqueezeFilmDamper cards. The SID is a nonlinear load set ID shared by the NOLIN cards and the other
+// nonlinear loads (IdSpace::Group, category DynamicLoad): the NONLINEAR Case Control command selects it. GA and GB are
+// grid points. The cards are kept whole (CardRows); the query engine reads the SID only.
 class NonlinearSqueezeFilmDamperTable final
     : public TypedTable<NonlinearSqueezeFilmDamperTable, NonlinearSqueezeFilmDamperCard>
 {

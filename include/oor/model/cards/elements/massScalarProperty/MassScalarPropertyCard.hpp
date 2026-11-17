@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One CMASS3 card: a scalar mass element between two scalar points, with a PMASS property.
+// One MassScalarProperty card: a scalar mass element between two scalar points, with a MassProp property.
 //
 // Card layout:
-//   CMASS3  EID  PID  S1  S2
+//   MassScalarProperty  EID  PID  S1  S2
 //
 // S1 and S2 are scalar points; 0 (or blank) is a grounded end.
 struct MassScalarPropertyCard

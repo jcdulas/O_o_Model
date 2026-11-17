@@ -19,11 +19,11 @@ struct CosimulationAreaFormat
     static void write(const CosimulationAreaCard& card, FieldWriter& writer);
 };
 
-// All the COSMGRP cards, in the category CosimulationGroup: the GRPID is unique among them (IdSpace::PerCardType) and a
-// COSMSRV names a group by it. What the card names depends on its TYPE: the elements of the faces (SURFACE) and of a
-// VOLUME are `Element` references (the two ends of a THRU range `ElementInRange`), the grid points of a POINT `Node`
-// (`NodeInRange` for the ends). The cards are kept whole next to a column of their GRPIDs, because each of the three
-// forms has lists of a length of its own.
+// All the CosimulationArea cards, in the category CosimulationGroup: the GRPID is unique among them
+// (IdSpace::PerCardType) and a CosimulationService names a group by it. What the card names depends on its TYPE: the
+// elements of the faces (SURFACE) and of a VOLUME are `Element` references (the two ends of a THRU range
+// `ElementInRange`), the grid points of a POINT `Node` (`NodeInRange` for the ends). The cards are kept whole next to a
+// column of their GRPIDs, because each of the three forms has lists of a length of its own.
 class CosimulationAreaTable final : public TypedTable<CosimulationAreaTable, CosimulationAreaCard>
 {
 public:

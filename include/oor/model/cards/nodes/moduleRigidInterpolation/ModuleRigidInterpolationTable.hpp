@@ -19,11 +19,11 @@ struct ModuleRigidInterpolationFormat
     static void write(const ModuleRigidInterpolationCard& card, FieldWriter& writer);
 };
 
-// All the MDRBE3 cards. The EID is an element number, which the format reference wants unique with respect to all
-// elements; the table only keeps it unique among the MDRBE3 cards (IdSpace::PerCardType, category Other) and a
-// validation check looks for a number that another kind of element shares. The reference point, the points of the
-// groups and the points after UM are references to grid points in their module: the main Bulk Data, or the part of
-// another module. The cards are kept whole next to their ID.
+// All the ModuleRigidInterpolation cards. The EID is an element number, which the format reference wants unique with
+// respect to all elements; the table only keeps it unique among the ModuleRigidInterpolation cards
+// (IdSpace::PerCardType, category Other) and a validation check looks for a number that another kind of element shares.
+// The reference point, the points of the groups and the points after UM are references to grid points in their module:
+// the main Bulk Data, or the part of another module. The cards are kept whole next to their ID.
 class ModuleRigidInterpolationTable final
     : public TypedTable<ModuleRigidInterpolationTable, ModuleRigidInterpolationCard>
 {

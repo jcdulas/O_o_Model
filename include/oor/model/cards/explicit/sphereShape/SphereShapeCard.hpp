@@ -5,10 +5,11 @@
 namespace oor::model
 {
 
-// One SPHERE card (SOL 700): a spherical shape that a TICEUL1 region (a TICREG of type SPHERE) or an EULFREG region of
-// type SPHERE uses to give initial conditions or an acceleration field to the Eulerian elements inside it.
+// One SphereShape card (SOL 700): a spherical shape that an EulerInitialRegions region (an InitialConditionRegion of
+// type SPHERE) or an EulerForceRegion region of type SPHERE uses to give initial conditions or an acceleration field to
+// the Eulerian elements inside it.
 //
-// Card layout: SPHERE  VID  X  Y  Z  RADIUS            fields 1 to 5
+// Card layout: SphereShape  VID  X  Y  Z  RADIUS       fields 1 to 5
 // The centre is the origin when blank. Only this entry of the format reference is typed here: the shapes of the initial
 // conditions are named by the VID of the region cards, whose TYPE (SURF, SPHERE, CYLINDER, BOX, ELEM) tells which card
 // holds the shape. SPHERE has no other entry of the same name, and no keyword tells it from another form.

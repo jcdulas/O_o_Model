@@ -8,10 +8,10 @@
 namespace oor::model
 {
 
-// One BCTRIM card: the geometry of a trimming curve of a NURBS surface of a rigid contact body. A BCNURBS names it in
-// its TRIM list.
+// One ContactTrimCurve card: the geometry of a trimming curve of a NURBS surface of a rigid contact body. A
+// ContactNurbsSurface names it in its TRIM list.
 //
-// Card layout: BCTRIM  IDtrim  NPTUtrim  NORUtrim  NSUBtrim
+// Card layout: ContactTrimCurve  IDtrim  NPTUtrim  NORUtrim  NSUBtrim
 //             COORD Xiso1 Yiso1 Xiso2 Yiso2 ...   HOMO Homo1 Homo2 ...   KNOT Knot1 Knot2 ...
 // each list on lines of its own: NPTUtrim points of the isoparametric space (two coordinates each), one homogeneous
 // coordinate for each, and NPTUtrim + NORUtrim knots.

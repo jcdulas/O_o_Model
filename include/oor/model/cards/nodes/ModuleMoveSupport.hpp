@@ -9,13 +9,13 @@
 #include <optional>
 #include <string>
 
-// What the cards that reposition a module (MDTRAN, MDROT1, MDROT2, MDMIR1, MDMIR2, MDMOVE, MDMPLN, MDLOC) have in
-// common: the points they name to define a vector or a plane. One kind of value; every card still lays out, reads,
-// writes and checks its own fields by hand.
+// What the cards that reposition a module (ModuleTranslation, ModuleRotation1, ModuleRotation2, ModuleMirror1,
+// ModuleMirror2, ModuleMoveSequence, ModuleMirrorPlane, ModuleLocation) have in common: the points they name to define
+// a vector or a plane. One kind of value; every card still lays out, reads, writes and checks its own fields by hand.
 //
 // A module is a BEGIN MODULE section, a part of the deck that no card defines, so a module number (MVID, MODID) is a
 // plain integer and never a reference. The GRID or POINT IDs of these cards name points of the main Bulk Data (module
-// 0), except the PAi of an MDLOC, which are points of the module that is moved.
+// 0), except the PAi of a ModuleLocation, which are points of the module that is moved.
 namespace oor::model
 {
 

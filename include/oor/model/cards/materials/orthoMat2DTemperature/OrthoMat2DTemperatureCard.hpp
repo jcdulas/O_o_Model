@@ -5,21 +5,21 @@
 namespace oor::model
 {
 
-// One MATT8 card: the temperature dependent properties of a MAT8. Each field holds the ID of a TABLEMi (0 when blank:
-// the property does not depend on the temperature) that modifies the property of the same name on the MAT8 with the
-// same MID.
+// One OrthoMat2DTemperature card: the temperature dependent properties of an OrthoMat2D. Each field holds the ID of a
+// TABLEMi (0 when blank: the property does not depend on the temperature) that modifies the property of the same name
+// on the OrthoMat2D with the same MID.
 //
 // Card layout:
-//   MATT8  MID     T(E1)   T(E2)   T(NU12)   T(G12)   T(G1Z)   T(G2Z)   T(RHO)
-//          T(A1)   T(A2)   (blank) T(XT)     T(XC)    T(YT)    T(YC)    T(S)
-//          T(GE)   T(F12)
-// The cell of field 11 is blank (the MAT8 keeps TREF there: the format reference grid draws it).
+//   OrthoMat2DTemperature  MID  T(E1)   T(E2)   T(NU12)   T(G12)   T(G1Z)   T(G2Z)   T(RHO)
+//                          T(A1)   T(A2)   (blank) T(XT)  T(XC)    T(YT)    T(YC)    T(S)
+//                          T(GE)  T(F12)
+// The cell of field 11 is blank (the OrthoMat2D keeps TREF there: the format reference grid draws it).
 //
 // The T(A1) and T(A2) table IDs may be negative: a negative ID is a table of thermal strains rather than of expansion
 // coefficients; it names the TABLEMi that has that negative ID.
 struct OrthoMat2DTemperatureCard
 {
-    base::EntityId id = 0; // the MAT8 that the card extends
+    base::EntityId id = 0; // the OrthoMat2D that the card extends
     base::EntityId youngsModulus1TableId = 0;
     base::EntityId youngsModulus2TableId = 0;
     base::EntityId poissonRatio12TableId = 0;

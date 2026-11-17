@@ -11,10 +11,10 @@ namespace oor::model
 // The subroutine of the standard user-defined shear model, which a blank UNAME means.
 inline constexpr std::string_view USER_SHEAR_MODEL_DEFAULT_ROUTINE_NAME = "ExternalShear";
 
-// One SHRUDS card (SOL 700): a shear model whose modulus is computed by a user subroutine. A MATDEUL names it in its
-// SID field.
+// One UserShearModel card (SOL 700): a shear model whose modulus is computed by a user subroutine. An EulerMat names it
+// in its SID field.
 //
-// Card layout: SHRUDS  SID  GROUP  UNAME            fields 1 to 3
+// Card layout: UserShearModel  SID  GROUP  UNAME    fields 1 to 3
 // GROUP is the name that a CONNECT SERVICE statement of the FMS section gives to the library of user routines
 // (required, no default) and UNAME the name of the routine, EXSHR when blank. The format says that only EXSHR
 // can be used; the card keeps any name of at most eight characters and leaves that rule to a check of the model,

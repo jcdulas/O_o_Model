@@ -222,8 +222,8 @@ ListSuperelementPartition::ListSuperelementPartition(const SuperelementCatalogue
             m_dofs[point] = "0";
             continue;
         }
-        // format reference RELEASE: the components C of the listed exterior grid points (or of all of them) are not
-        // connected.
+        // format reference SuperelementReleasedDofs: the components C of the listed exterior grid points (or of all of
+        // them) are not connected.
         std::int32_t released = 0;
         for (const model::SuperelementReleasedDofsCard& release : releases)
         {

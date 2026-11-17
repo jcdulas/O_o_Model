@@ -19,8 +19,8 @@ struct FixedBoundaryDofSetFormat
     static void write(const FixedBoundaryDofSetCard& card, FieldWriter& writer);
 };
 
-// All the BSET cards. A card has no ID (IdSpace::None). The points and the components of every card are two lists in
-// CSR form.
+// All the FixedBoundaryDofSet cards. A card has no ID (IdSpace::None). The points and the components of every card are
+// two lists in CSR form.
 class FixedBoundaryDofSetTable final : public TypedTable<FixedBoundaryDofSetTable, FixedBoundaryDofSetCard>
 {
 public:

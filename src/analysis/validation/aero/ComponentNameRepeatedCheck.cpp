@@ -14,8 +14,8 @@ namespace oor::analysis
 namespace
 {
 
-// The names of the AECOMP and AECOMPL cards are one set: a
-// monitor point or an AECOMPL finds a component by its name, compared without regard to the case.
+// The names of the AeroComponent and AeroComponentUnion cards are one set: a
+// monitor point or an AeroComponentUnion finds a component by its name, compared without regard to the case.
 class ComponentNameRepeatedCheck final : public ValidationCheck
 {
 public:

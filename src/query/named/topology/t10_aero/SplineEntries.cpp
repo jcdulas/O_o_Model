@@ -57,8 +57,8 @@ void addBeamSplines2(const model::Model& model, std::vector<SplineEntry>& entrie
     }
 }
 
-// A SPLINE3 ties one component of one box to structural degrees of freedom: its structural points are the G of its
-// terms, listed on the card.
+// An AeroSplineEquation3 ties one component of one box to structural degrees of freedom: its structural points are the
+// G of its terms, listed on the card.
 void addSplineEquations3(const model::Model& model, std::vector<SplineEntry>& entries)
 {
     for (const model::AeroSplineEquation3Card& card : cardsOf<model::AeroSplineEquation3Table>(model))
@@ -150,8 +150,8 @@ void addFiniteBeamSplines7(const model::Model& model, std::vector<SplineEntry>& 
     }
 }
 
-// A SPLINEX is evaluated by a program of the user: it has no CAERO, no SET and no flexibility, only the AELIST the
-// program reads (optional) and the components it joins, which are named by AECOMP cards.
+// An AeroUserSpline is evaluated by a program of the user: it has no CAERO, no SET and no flexibility, only the
+// AeroBoxList the program reads (optional) and the components it joins, which are named by AeroComponent cards.
 void addUserSplines(const model::Model& model, std::vector<SplineEntry>& entries)
 {
     for (const model::AeroUserSplineCard& card : cardsOf<model::AeroUserSplineTable>(model))

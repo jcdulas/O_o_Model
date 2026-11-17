@@ -9,12 +9,13 @@
 namespace oor::model
 {
 
-// One RELEASE card: degrees of freedom of exterior grid points of a superelement that its connection leaves free.
+// One SuperelementReleasedDofs card: degrees of freedom of exterior grid points of a superelement that its connection
+// leaves free.
 //
-// Card layout: RELEASE  SEID  C  G1  G2  G3  G4  G5  G6
-//                      G7  G8  -etc.-
-// or:         RELEASE  SEID  C  G1  "THRU"  G2
-// or:         RELEASE  SEID  C  "ALL"           (no continuation line)
+// Card layout: SuperelementReleasedDofs  SEID  C  G1  G2  G3  G4  G5  G6
+//                                       G7  G8  -etc.-
+// or:         SuperelementReleasedDofs  SEID  C  G1  "THRU"  G2
+// or:         SuperelementReleasedDofs  SEID  C  "ALL"  (no continuation line)
 // SEID is a superelement (never the residual structure), C the digits of the components as one number (1 to
 // 6, each at most once). The points are kept as written: single points and THRU ranges, in order, or `all` for the word
 // ALL, which releases every exterior grid point. A point must be an exterior grid point of the superelement,

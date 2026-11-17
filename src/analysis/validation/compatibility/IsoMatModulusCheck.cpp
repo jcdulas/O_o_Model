@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// Young's modulus of a MAT1 that is zero or negative (a blank E is taken from G and NU when it can be, so this is what
-// the card means).
+// Young's modulus of an IsoMat that is zero or negative (a blank E is taken from G and NU when it can be, so this is
+// what the card means).
 class IsoMatModulusCheck final : public ValidationCheck
 {
 public:

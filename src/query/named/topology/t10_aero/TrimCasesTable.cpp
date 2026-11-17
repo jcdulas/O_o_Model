@@ -28,7 +28,7 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// The labels of the rigid body motions the program knows: any other AESTAT label is
+// The labels of the rigid body motions the program knows: any other AeroRigidTrimVariable label is
 // a variable whose forces the user supplies.
 constexpr std::array<std::string_view, 11> RIGID_BODY_LABELS{
     "AngleOfAttack", "SideSlip",    "RollRate",           "PitchRate",          "YawRate",           "RigidAccelX",
@@ -48,14 +48,15 @@ std::string_view stateName(State state)
     return NAMES[static_cast<std::size_t>(state)];
 }
 
-// A trim variable of the model: the AESTAT, AESURF or AEPARM card that defines its label.
+// A trim variable of the model: the AeroRigidTrimVariable, AeroControlSurface or AeroController card that defines its
+// label.
 struct Variable
 {
     std::string label;     // as written on the card
     std::string_view kind; // rigidBody, controlSurface or user
 };
 
-// What a TRIM or TRIM2 card says of one variable.
+// What an AeroTrim or AeroTrim2 card says of one variable.
 struct NamedVariable
 {
     std::string label; // as written on the card
@@ -79,8 +80,9 @@ std::string keyOf(const std::string& label)
     return std::string(label);
 }
 
-// The variables of the model: the AESTAT cards, then the AESURF cards, then the AEPARM cards, each by ID. A label that
-// two cards define belongs to the first (the check `aero.label-repeated` reports the second).
+// The variables of the model: the AeroRigidTrimVariable cards, then the AeroControlSurface cards, then the
+// AeroController cards, each by ID. A label that two cards define belongs to the first (the check `aero.label-repeated`
+// reports the second).
 std::vector<Variable> readVariables(const model::Model& model)
 {
     std::vector<Variable> variables;
@@ -123,7 +125,7 @@ State stateOfWord(model::TrimState word)
     return State::Free;
 }
 
-// The TRIM and TRIM2 cards by SID (a TRIM before a TRIM2 of the same SID, which a check reports).
+// The AeroTrim and AeroTrim2 cards by SID (a TRIM before an AeroTrim2 of the same SID, which a check reports).
 std::vector<TrimCase> readCases(const model::Model& model)
 {
     std::vector<TrimCase> cases;
@@ -151,12 +153,13 @@ std::vector<TrimCase> readCases(const model::Model& model)
     return cases;
 }
 
-// What links or schedules the variables of each trim set. An AELINK with the ID of the set, or with ID 0 (every
-// subcase), makes its LABLD depend on other variables. A CSSCHD schedules the AESURF of its AESID: it applies to a trim
-// set when a subcase that selects the set also selects the CSSCHD (Case Control CSSCHD).
+// What links or schedules the variables of each trim set. An AeroTrimLink with the ID of the set, or with ID 0 (every
+// subcase), makes its LABLD depend on other variables. An AeroControlSchedule schedules the AeroControlSurface of its
+// AESID: it applies to a trim set when a subcase that selects the set also selects the AeroControlSchedule (Case
+// Control AeroControlSchedule).
 struct Constraints
 {
-    std::vector<std::pair<base::EntityId, std::string>> links;   // (AELINK ID, key of LABLD)
+    std::vector<std::pair<base::EntityId, std::string>> links;   // (AeroTrimLink ID, key of LABLD)
     std::map<base::EntityId, std::set<std::string>> scheduledBy; // trim SID -> keys of the scheduled surfaces
 
     [[nodiscard]] bool linked(base::EntityId sid, const std::string& key) const
@@ -207,8 +210,8 @@ Constraints readConstraints(const model::Model& model)
     return constraints;
 }
 
-// aeroTrimCasesTable: for every TRIM and TRIM2 card, one row for each trim variable of the model, with what the case
-// does with it.
+// aeroTrimCasesTable: for every AeroTrim and AeroTrim2 card, one row for each trim variable of the model, with what the
+// case does with it.
 class TrimCasesTableQuery final : public QueryBase
 {
 public:
@@ -276,7 +279,8 @@ public:
                 else
                     addRow(trim, variable.label, variable.kind, State::Free, 0.0);
             }
-            // a label the card names that no AESTAT, AESURF or AEPARM defines (`aero.label-undefined`)
+            // a label the card names that no AeroRigidTrimVariable, AeroControlSurface or AeroController defines
+            // (`aero.label-undefined`)
             std::set<std::string> listed;
             for (const NamedVariable& entry : trim.named)
             {

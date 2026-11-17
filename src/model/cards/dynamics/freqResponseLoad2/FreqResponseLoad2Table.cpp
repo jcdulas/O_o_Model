@@ -127,7 +127,7 @@ void FreqResponseLoad2Table::visitReferences(std::uint32_t row, ReferenceVisitor
 {
     const auto type = static_cast<ExcitationType>(m_kind.get(row));
     m_excitationId.set(row, visitIfSet(visitor, "excitationId", excitationTarget(type), m_excitationId.get(row)));
-    // The DELAY and DPHASE cards are not typed cards yet: their IDs are kept as plain IDs.
+    // The DynamicLoadDelay and DynamicLoadPhase cards are not typed cards yet: their IDs are kept as plain IDs.
     m_delayId.set(row, visitIfSet(visitor, "delayId", ReferenceTarget::DelaySet, m_delayId.get(row)));
     m_phaseId.set(row, visitIfSet(visitor, "phaseId", ReferenceTarget::PhaseSet, m_phaseId.get(row)));
     m_amplitudeTableId.set(

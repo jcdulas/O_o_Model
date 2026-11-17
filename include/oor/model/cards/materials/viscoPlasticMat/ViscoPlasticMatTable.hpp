@@ -19,10 +19,10 @@ struct ViscoPlasticMatFormat
     static void write(const ViscoPlasticMatCard& card, FieldWriter& writer);
 };
 
-// All the MATVP cards. The ID space is the card type's own: the ID is the one of the material that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it). IT3D names a TABL3D0, TABL3D1 or
-// TABL3D2 (ReferenceTarget::MultiDimensionalTable), so a renumbering of those tables follows into it. The cards are
-// kept whole (CardRows); the query engine reads the ID only.
+// All the ViscoPlasticMat cards. The ID space is the card type's own: the ID is the one of the material that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it). IT3D names a
+// TableMultiVariable0, TableMultiVariable1 or TableMultiVariable2 (ReferenceTarget::MultiDimensionalTable), so a
+// renumbering of those tables follows into it. The cards are kept whole (CardRows); the query engine reads the ID only.
 class ViscoPlasticMatTable final : public TypedTable<ViscoPlasticMatTable, ViscoPlasticMatCard>
 {
 public:

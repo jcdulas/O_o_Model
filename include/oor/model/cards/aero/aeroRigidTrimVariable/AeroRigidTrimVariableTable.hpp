@@ -20,9 +20,10 @@ struct AeroRigidTrimVariableFormat
     static void write(const AeroRigidTrimVariableCard& card, FieldWriter& writer);
 };
 
-// All the AESTAT cards, in the category AeroTrimVariable that AEPARM shares. The ID is ignored by the solver, so the
-// space is IdSpace::Group: several cards may carry the same number, and `model.aestat[5]` is the list of the cards of
-// that ID. The card names no other card by number; a TRIM, AELINK or UXVEC finds it by its label.
+// All the AeroRigidTrimVariable cards, in the category AeroTrimVariable that AeroController shares. The ID is ignored
+// by the solver, so the space is IdSpace::Group: several cards may carry the same number, and `model.aestat[5]` is the
+// list of the cards of that ID. The card names no other card by number; an AeroTrim, AeroTrimLink or AeroControlVector
+// finds it by its label.
 class AeroRigidTrimVariableTable final : public TypedTable<AeroRigidTrimVariableTable, AeroRigidTrimVariableCard>
 {
 public:

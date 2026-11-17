@@ -11,9 +11,9 @@ namespace oor::analysis
 namespace
 {
 
-// A PBSH2DT gives the frequency dependent terms of the PBUSH2D that has its ID, and the PBUSH2D must exist (its
-// values are the nominal ones). The ID resolves to any property, so a PBSH2DT with the
-// ID of a PSHELL reads without a reference problem and means nothing.
+// A BushProp2DFreq gives the frequency dependent terms of the BushProp2D that has its ID, and the BushProp2D must exist
+// (its values are the nominal ones). The ID resolves to any property, so a BushProp2DFreq with the
+// ID of a ShellProp reads without a reference problem and means nothing.
 class BushProp2DFreqPropertyTypeCheck final : public ValidationCheck
 {
 public:

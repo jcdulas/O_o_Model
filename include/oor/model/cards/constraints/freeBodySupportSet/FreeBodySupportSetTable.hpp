@@ -20,8 +20,9 @@ struct FreeBodySupportSetFormat
     static void write(const FreeBodySupportSetCard& card, FieldWriter& writer);
 };
 
-// All the SUPORT1 cards. The ID is a set ID shared by many cards (IdSpace::Group), in the Constraint category: the
-// SUPORT1 Case Control command selects it. The points and the components of every card are two lists in CSR form.
+// All the FreeBodySupportSet cards. The ID is a set ID shared by many cards (IdSpace::Group), in the Constraint
+// category: the FreeBodySupportSet Case Control command selects it. The points and the components of every card are two
+// lists in CSR form.
 class FreeBodySupportSetTable final : public TypedTable<FreeBodySupportSetTable, FreeBodySupportSetCard>
 {
 public:

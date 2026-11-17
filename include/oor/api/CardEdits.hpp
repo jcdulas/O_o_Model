@@ -18,7 +18,8 @@
 //
 // Where a card is looked for (`source`): a category of cards that share an ID space ("nodes", "elements", "properties",
 // "materials", "coordinates"), or a card type ("ShellQuad4", "ShellProp", "SinglePointConstrList"). A card type whose
-// cards share an ID (the set cards: several SPC1 of SID 7) gives the first card of that ID, in the order of the deck.
+// cards share an ID (the set cards: several SinglePointConstrList of SID 7) gives the first card of that ID, in the
+// order of the deck.
 namespace oor::api
 {
 

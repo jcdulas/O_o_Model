@@ -19,8 +19,9 @@ struct SurfacePermeabilityFormat
     static void write(const SurfacePermeabilityCard& card, FieldWriter& writer);
 };
 
-// All the PERMEAB cards: the PID is unique among the PERMEAB cards (IdSpace::PerCardType, category Porosity, shared
-// with the other porosity cards only by the check of the coordinator). A LEAKAGE names it.
+// All the SurfacePermeability cards: the PID is unique among the SurfacePermeability cards (IdSpace::PerCardType,
+// category Porosity, shared with the other porosity cards only by the check of the coordinator). A GasBagLeakage names
+// it.
 class SurfacePermeabilityTable final : public TypedTable<SurfacePermeabilityTable, SurfacePermeabilityCard>
 {
 public:

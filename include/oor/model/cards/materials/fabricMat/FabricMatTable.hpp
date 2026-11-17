@@ -19,7 +19,7 @@ struct FabricMatFormat
     static void write(const FabricMatCard& card, FieldWriter& writer);
 };
 
-// All the MATFAB cards. The ID is a material ID, in the space every material type shares (IdSpace::Material): the
+// All the FabricMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material): the
 // properties of the elements name it. The cards are kept whole (CardRows: most of the fields are optional); the query
 // engine reads the ID only.
 class FabricMatTable final : public TypedTable<FabricMatTable, FabricMatCard>
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MATFAB refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FabricMat refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

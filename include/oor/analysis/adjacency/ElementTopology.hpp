@@ -11,10 +11,10 @@
 namespace oor::analysis
 {
 
-// The shape of an element as far as connectivity is concerned (the PLOTEL, which is for plotting and whose IDs are not
-// in the element ID space, is not an element here): which of its nodes are corners, which are edges and faces. Mid-side
-// nodes never define an edge or a face (a CQUAD8 and a CQUAD4 that share two corners share an edge); they are nodes the
-// element uses.
+// The shape of an element as far as connectivity is concerned (the PlotLine2, which is for plotting and whose IDs are
+// not in the element ID space, is not an element here): which of its nodes are corners, which are edges and faces.
+// Mid-side nodes never define an edge or a face (a ShellQuad8 and a ShellQuad4 that share two corners share an edge);
+// they are nodes the element uses.
 enum class ElementShape : std::uint8_t
 {
     None,          // not an element, or an element that has no nodes in the model
@@ -103,8 +103,8 @@ public:
         return shapeOf(typeIndex) != ElementShape::None;
     }
 
-    // True for the card type whose corners are every other node of the card (CTRIAX6: G1, G3 and G5 are the corners,
-    // G2, G4 and G6 the mid-side nodes between them).
+    // True for the card type whose corners are every other node of the card (AxisymTria6: G1, G3 and G5 are the
+    // corners, G2, G4 and G6 the mid-side nodes between them).
     [[nodiscard]] static bool alternatingCorners(std::uint16_t typeIndex) noexcept;
 
     // The nodes the element in `row` is attached to: every node ID the card gives that is not blank, the corners and
@@ -137,14 +137,15 @@ public:
     // The mid-side nodes of the same faces, parallel to orientedFacesOf: for each face, entry k is the node on the edge
     // from its corner k to its corner k + 1 (the last corner to the first), 0 when the card leaves it blank or the
     // element has no mid-side node. The mid-side slots follow the format reference: the edges of the shape in the order of the card
-    // (CHEXA: G9 to G12 on the edges of G1..G4, G13 to G16 from G1..G4 to G5..G8, G17 to G20 on the edges of G5..G8;
-    // CPENTA: G7 to G9 on the first triangle, G10 to G12 between the triangles, G13 to G15 on the second one; CTRIAX6:
-    // G2, G4, G6 between its corners).
+    // (SolidHexa: G9 to G12 on the edges of G1..G4, G13 to G16 from G1..G4 to G5..G8, G17 to G20 on the edges of
+    // G5..G8; SolidPenta: G7 to G9 on the first triangle, G10 to G12 between the triangles, G13 to G15 on the second
+    // one; AxisymTria6: G2, G4, G6 between its corners).
     static void orientedFaceMidSidesOf(const model::CardTable& table, std::uint16_t typeIndex, std::uint32_t row,
                                        std::vector<std::array<base::EntityId, 4>>& midSides);
 
     // The edge and face templates of a shape, by corner index (the corners of the element in the order of the format reference: the
-    // first slots of the card, except for CTRIAX6 whose corners are G1, G3 and G5). The quality metrics use them too.
+    // first slots of the card, except for AxisymTria6 whose corners are G1, G3 and G5). The quality metrics use them
+    // too.
     [[nodiscard]] static std::span<const std::array<std::uint8_t, 2>> edgeTemplate(ElementShape shape) noexcept;
     [[nodiscard]] static std::span<const FaceCorners> faceTemplate(ElementShape shape) noexcept;
 };

@@ -9,9 +9,9 @@ namespace oor::analysis
 namespace
 {
 
-// A parameter of the format reference given a value of another kind: a word for a real (PARAM,WTMASS,YES), a real for
-// an integer (PARAM,POST,-1.5). The reader keeps the card and warns; this finds it again in a model that was edited,
-// and in the parts. An integer where a real is expected is accepted, as the solver does.
+// A parameter of the format reference given a value of another kind: a word for a real (PARAM,WeightToMass,YES), a real
+// for an integer (PARAM,PostprocessingFile,-1.5). The reader keeps the card and warns; this finds it again in a model
+// that was edited, and in the parts. An integer where a real is expected is accepted, as the solver does.
 class ParameterKindCheck final : public ValidationCheck
 {
 public:

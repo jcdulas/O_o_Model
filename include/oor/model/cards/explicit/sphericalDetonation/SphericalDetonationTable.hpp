@@ -19,8 +19,9 @@ struct SphericalDetonationFormat
     static void write(const SphericalDetonationCard& card, FieldWriter& writer);
 };
 
-// All the DETSPH cards. The DID is unique among them (IdSpace::PerCardType) and no other card names it, so the category
-// is Other. The MID is the MATDEUL of the explosive. The cards are kept whole (CardRows) next to their ID.
+// All the SphericalDetonation cards. The DID is unique among them (IdSpace::PerCardType) and no other card names it, so
+// the category is Other. The MID is the EulerMat of the explosive. The cards are kept whole (CardRows) next to their
+// ID.
 class SphericalDetonationTable final : public TypedTable<SphericalDetonationTable, SphericalDetonationCard>
 {
 public:

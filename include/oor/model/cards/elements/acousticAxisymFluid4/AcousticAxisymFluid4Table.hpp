@@ -19,9 +19,9 @@ struct AcousticAxisymFluid4Format
     static void write(const AcousticAxisymFluid4Card& card, FieldWriter& writer);
 };
 
-// All the CAXIF4 cards. A fluid element is an element (IdSpace::Element, CardCategory::Element): its EID is unique
-// among all the structural and fluid elements. Its points are GRIDF fluid points that no card defines: nothing is
-// visited.
+// All the AcousticAxisymFluid4 cards. A fluid element is an element (IdSpace::Element, CardCategory::Element): its EID
+// is unique among all the structural and fluid elements. Its points are AcousticSlotFluidPoint fluid points that no
+// card defines: nothing is visited.
 class AcousticAxisymFluid4Table final
     : public TypedTable<AcousticAxisymFluid4Table, AcousticAxisymFluid4Card>
 {

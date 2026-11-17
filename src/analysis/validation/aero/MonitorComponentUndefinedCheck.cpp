@@ -15,8 +15,8 @@ namespace oor::analysis
 namespace
 {
 
-// The COMP of a MONPNT1 or a MONDSP1 is the name of the AECOMP or AECOMPL that says which grids or boxes the point
-// sums. A blank COMP is not judged.
+// The COMP of a MonitorIntegratedLoad1 or a MonitorDisplacement is the name of the AeroComponent or AeroComponentUnion
+// that says which grids or boxes the point sums. A blank COMP is not judged.
 class MonitorComponentUndefinedCheck final : public ValidationCheck
 {
 public:

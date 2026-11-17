@@ -19,10 +19,10 @@ struct InitialVelocityFieldFormat
     static void write(const InitialVelocityFieldCard& card, FieldWriter& writer);
 };
 
-// All the TIC3 cards. The SID is a set ID shared by the cards of the set (IdSpace::Group, category InitialCondition:
-// the IC command selects the set, as for the TIC). G is a grid point and so are the IDs of the list, whose ranges name
-// their two ends with NodeInRange. The cards are kept whole (CardRows) next to their ID, because the list of runs has a
-// length of its own.
+// All the InitialVelocityField cards. The SID is a set ID shared by the cards of the set (IdSpace::Group, category
+// InitialCondition: the IC command selects the set, as for the TransientInitialCondition). G is a grid point and so are
+// the IDs of the list, whose ranges name their two ends with NodeInRange. The cards are kept whole (CardRows) next to
+// their ID, because the list of runs has a length of its own.
 class InitialVelocityFieldTable final : public TypedTable<InitialVelocityFieldTable, InitialVelocityFieldCard>
 {
 public:

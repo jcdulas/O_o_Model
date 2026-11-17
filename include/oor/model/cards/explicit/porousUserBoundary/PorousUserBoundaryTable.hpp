@@ -19,8 +19,8 @@ struct PorousUserBoundaryFormat
     static void write(const PorousUserBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the PORUDS cards: the PID is unique among them (IdSpace::PerCardType, category Porosity). A LEAKAGE names it; the
-// card references nothing (its service is connected in the File Management Section).
+// All the PorousUserBoundary cards: the PID is unique among them (IdSpace::PerCardType, category Porosity). A
+// GasBagLeakage names it; the card references nothing (its service is connected in the File Management Section).
 class PorousUserBoundaryTable final : public TypedTable<PorousUserBoundaryTable, PorousUserBoundaryCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a PORUDS refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a PorousUserBoundary refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

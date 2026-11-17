@@ -19,8 +19,8 @@ struct AxialDeformationLoadFormat
     static void write(const AxialDeformationLoadCard& card, FieldWriter& writer);
 };
 
-// All the DEFORM cards. The ID is a deformation set ID shared by many cards (IdSpace::Group, category Load: the set is
-// selected like a load set). The elements and their deformations are two lists in CSR form.
+// All the AxialDeformationLoad cards. The ID is a deformation set ID shared by many cards (IdSpace::Group, category
+// Load: the set is selected like a load set). The elements and their deformations are two lists in CSR form.
 class AxialDeformationLoadTable final : public TypedTable<AxialDeformationLoadTable, AxialDeformationLoadCard>
 {
 public:

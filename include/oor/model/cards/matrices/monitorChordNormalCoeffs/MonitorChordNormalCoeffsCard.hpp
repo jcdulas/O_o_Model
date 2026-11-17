@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One MONCNCM card: a monitor point of the stripwise normal force and pitching moment coefficients of the chordwise
-// strips of CAERO1 panels (flutter and aeroelastic response). A strip is made of the boxes of a CAERO1 along a span
-// station; strips that continue one another across panels are one strip.
+// One MonitorChordNormalCoeffs card: a monitor point of the stripwise normal force and pitching moment coefficients of
+// the chordwise strips of AeroLiftingPanel1 panels (flutter and aeroelastic response). A strip is made of the boxes of
+// an AeroLiftingPanel1 along a span station; strips that continue one another across panels are one strip.
 //
-// Card layout: MONCNCM  NAME  LABEL (columns 3 to 9: up to 56 characters)
-//                      .     MREF  CAERID1  CAERID2  -etc.-  CAERIDn
+// Card layout: MonitorChordNormalCoeffs  NAME  LABEL (columns 3 to 9: up to 56 characters)
+//                                       .  MREF  CAERID1  CAERID2  -etc.-  CAERIDn
 // In this library's numbering (field 1 is NAME): LABEL is fields 2 to 8, MREF field 9 and the CAERIDs fields 10 and on
 // (the list goes on over the next fields and lines). NAME is kept in upper case, the LABEL as written. MREF is the
 // fractional chord position the moment is taken about, from 0.0 to 1.0, and the quarter chord (0.25) when blank. The
@@ -27,7 +27,7 @@ struct MonitorChordNormalCoeffsCard
     std::string label; // up to 56 characters, may be empty
     double momentChordFraction = 0.25;
     bool allStrips = false;                   // CAERID1 is the word ALL
-    std::vector<base::EntityId> aeroPanelIds; // CAERO1 elements; empty when allStrips
+    std::vector<base::EntityId> aeroPanelIds; // AeroLiftingPanel1 elements; empty when allStrips
 
     [[nodiscard]] bool operator==(const MonitorChordNormalCoeffsCard&) const noexcept = default;
 };

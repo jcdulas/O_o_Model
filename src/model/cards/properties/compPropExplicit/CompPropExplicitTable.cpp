@@ -110,7 +110,7 @@ void CompPropExplicitTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void CompPropExplicitTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the PCOMP that the card extends; the column follows the value the visitor returns.
+    // The ID is the one of the CompProp that the card extends; the column follows the value the visitor returns.
     CompPropExplicitCard& card = m_cards.edit(row);
     visitId(visitor, "id", ReferenceTarget::Property, card.id);
     m_id.set(row, card.id);

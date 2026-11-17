@@ -12,8 +12,9 @@
 namespace oor::analysis
 {
 
-// Which card the boxes come from, by its card type. A CAERO1 is a lattice of chord boxes; a CAERO4 and a CAERO5 are
-// made of strips, which are boxes that span the whole chord (one chordwise box).
+// Which card the boxes come from, by its card type. An AeroLiftingPanel1 is a lattice of chord boxes; an
+// AeroStripPanel4 and an AeroPistonPanel5 are made of strips, which are boxes that span the whole chord (one chordwise
+// box).
 enum class AeroPanelKind : std::uint8_t
 {
     AeroLiftingPanel1,
@@ -64,25 +65,27 @@ struct AeroPanelBoxes
     [[nodiscard]] std::size_t boxCount() const noexcept { return boxId.size(); }
 };
 
-// The boxes of the panel with this EID (a CAERO1, CAERO4 or CAERO5). The leading edge points are taken from their
-// system CP to the basic system; point 2 is X12 behind point 1 and point 3 X43 behind point 4 along the x axis of the
-// aerodynamic coordinate system (the ACSID of the AERO card, else of the AEROS card, else the basic system). The
-// division points are the equal fractions of NSPAN and NCHORD, or the values of the AEFACT LSPAN and LCHORD, used as
-// they are (the first and last need not be 0 and 1). Throws GeometryError when there is no such
-// panel or a division list is missing or has fewer than two points, and CoordinateSystemError when a coordinate system
-// cannot be resolved.
+// The boxes of the panel with this EID (an AeroLiftingPanel1, AeroStripPanel4 or AeroPistonPanel5). The leading edge
+// points are taken from their system CP to the basic system; point 2 is X12 behind point 1 and point 3 X43 behind point
+// 4 along the x axis of the aerodynamic coordinate system (the ACSID of the AeroUnsteadyParams card, else of the
+// AeroStaticParams card, else the basic system). The division points are the equal fractions of NSPAN and NCHORD, or
+// the values of the AeroFactorList LSPAN and LCHORD, used as they are (the first and last need not be 0 and 1). Throws
+// GeometryError when there is no such panel or a division list is missing or has fewer than two points, and
+// CoordinateSystemError when a coordinate system cannot be resolved.
 [[nodiscard]] AeroPanelBoxes aeroPanelBoxes(const model::Model& model, base::EntityId eid);
 
-// The boxes of every CAERO1, CAERO4 and CAERO5 panel of the model, ordered by EID; a panel whose boxes cannot be made
-// (the problem the function above throws for) is left out and its EID is put in `skipped` when it is given.
+// The boxes of every AeroLiftingPanel1, AeroStripPanel4 and AeroPistonPanel5 panel of the model, ordered by EID; a
+// panel whose boxes cannot be made (the problem the function above throws for) is left out and its EID is put in
+// `skipped` when it is given.
 [[nodiscard]] std::vector<AeroPanelBoxes> allAeroPanelBoxes(const model::Model& model,
                                                             std::vector<base::EntityId>* skipped = nullptr);
 
-// What the outline of a panel card needs from the model, for the cards that have no box geometry (CAERO2 and CAERO3)
-// and for the table of panels: the points of the card in the basic system and the direction of the flow. The chords of
-// a panel run along that direction, so the span of a CAERO1, CAERO3, CAERO4 or CAERO5 is the distance between its two
-// chords (the part of the vector from point 1 to point 4 that is perpendicular to the flow), and its area the
-// trapezoid (x12 + x43) / 2 times that span, which is the sum of the areas of its boxes.
+// What the outline of a panel card needs from the model, for the cards that have no box geometry (AeroBody2 and
+// AeroMachBoxPanel3) and for the table of panels: the points of the card in the basic system and the direction of the
+// flow. The chords of a panel run along that direction, so the span of an AeroLiftingPanel1, AeroMachBoxPanel3,
+// AeroStripPanel4 or AeroPistonPanel5 is the distance between its two chords (the part of the vector from point 1 to
+// point 4 that is perpendicular to the flow), and its area the trapezoid (x12 + x43) / 2 times that span, which is the
+// sum of the areas of its boxes.
 class PanelFrame
 {
 public:
@@ -94,8 +97,9 @@ public:
     // A point given in the system `cp` of its card, in the basic system. Throws CoordinateSystemError when the system
     // cannot be resolved.
     [[nodiscard]] base::Vec3 toBasic(base::EntityId cp, const base::Vec3& point);
-    // The unit vector of the flow: the x axis of the aerodynamic coordinate system (the ACSID of the AERO card, else of
-    // the AEROS card, else the basic system), in the basic system. Throws CoordinateSystemError.
+    // The unit vector of the flow: the x axis of the aerodynamic coordinate system (the ACSID of the AeroUnsteadyParams
+    // card, else of the AeroStaticParams card, else the basic system), in the basic system. Throws
+    // CoordinateSystemError.
     [[nodiscard]] base::Vec3 flowDirection();
     // The distance between two chords of a panel whose leading edge points are given in the basic system.
     [[nodiscard]] double spanBetween(const base::Vec3& inboard, const base::Vec3& outboard);

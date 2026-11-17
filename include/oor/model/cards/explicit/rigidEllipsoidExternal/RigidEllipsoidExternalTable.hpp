@@ -20,9 +20,10 @@ struct RigidEllipsoidExternalFormat
     static void write(const RigidEllipsoidExternalCard& card, FieldWriter& writer);
 };
 
-// All the RELEX cards. A RELEX has no numeric ID (IdSpace::None, category Other): it is found by its NAME, which the
-// format reference uses to tie the ellipsoid to the contact definitions and to the output, so a repeated NAME is
-// reported when the deck is read. The cards are kept whole next to a column of their names.
+// All the RigidEllipsoidExternal cards. A RigidEllipsoidExternal has no numeric ID (IdSpace::None, category Other): it
+// is found by its NAME, which the format reference uses to tie the ellipsoid to the contact definitions and to the
+// output, so a repeated NAME is reported when the deck is read. The cards are kept whole next to a column of their
+// names.
 class RigidEllipsoidExternalTable final : public TypedTable<RigidEllipsoidExternalTable, RigidEllipsoidExternalCard>
 {
 public:
@@ -39,7 +40,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // the card refers to no other card
-    // Two RELEX cards of one NAME are reported.
+    // Two RigidEllipsoidExternal cards of one NAME are reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<std::string>& nameColumn() noexcept { return m_name; }

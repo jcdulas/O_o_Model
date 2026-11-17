@@ -457,7 +457,8 @@ public:
             const QueryRun run{context.modelPointer(), arguments, context.exec(), nullptr, {}};
             const std::shared_ptr<const QueryTable> table = NamedQueryRegistry::instance().run("loadResultant", run);
             const auto subcases = asInt32(table->column("subcase"));
-            // what the query says of its sources: the load cards it does not sum (RFORCE and PLOAD1) are named there
+            // what the query says of its sources: the load cards it does not sum (RotationalForceLoad and
+            // BeamDistributedLoad) are named there
             const auto sources = asTexts(table->column("source"));
             std::array<std::vector<double>, 6> values;
             const char* const names[6] = {"fx", "fy", "fz", "mx", "my", "mz"};

@@ -18,8 +18,9 @@ struct NonlinearHarmonicParamsFormat
     static void write(const NonlinearHarmonicParamsCard& card, FieldWriter& writer);
 };
 
-// All the NLHARM cards. The ID is unique among them (IdSpace::PerCardType, category NonlinearHarmonic): the NLHARM
-// command of Case Control selects it. NLFREQ is a reference to the forcing frequencies (category NonlinearFrequency).
+// All the NonlinearHarmonicParams cards. The ID is unique among them (IdSpace::PerCardType, category
+// NonlinearHarmonic): the NonlinearHarmonicParams command of Case Control selects it. NLFREQ is a reference to the
+// forcing frequencies (category NonlinearFrequency).
 class NonlinearHarmonicParamsTable final : public TypedTable<NonlinearHarmonicParamsTable, NonlinearHarmonicParamsCard>
 {
 public:

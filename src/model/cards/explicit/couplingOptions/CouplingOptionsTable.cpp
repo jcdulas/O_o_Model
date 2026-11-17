@@ -11,7 +11,8 @@ std::optional<CouplingOptionsCard> CouplingOptionsFormat::read(FieldReader& read
     card.subsurfaceId = reader.integer(3, "subsurfaceId", 0);
     card.factor = readSourcedValue(reader, COUPLING_OPTIONS_FACTOR_LAYOUT);
     card.coverPressure = readSourcedValue(reader, COUPLING_OPTIONS_COVER_PRESSURE_LAYOUT);
-    // format reference COUOPT: PLCOVER and PLCOVERV start the continuation line; the rest of the first line is blank.
+    // format reference CouplingOptions: PLCOVER and PLCOVERV start the continuation line; the rest of the first line is
+    // blank.
     for (const int field : {6, 7, 8})
     {
         if (!reader.isBlank(field) && !reader.failed())

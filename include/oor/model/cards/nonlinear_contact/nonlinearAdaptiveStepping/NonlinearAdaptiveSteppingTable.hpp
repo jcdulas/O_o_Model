@@ -23,11 +23,12 @@ struct NonlinearAdaptiveSteppingFormat
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 };
 
-// All the NLADAPT cards. The ID is the ID of the NLPARM it goes with: unique among the NLADAPT cards
-// (IdSpace::PerCardType) and numbering, in the category NonlinearStatic, the same selection as that NLPARM and its
-// NLPCI, so that a renumbering of the category moves them together. An NLADAPT may also go with an NLSTEP (the format
-// reference allows both); that case is not followed by a renumbering of the NLSTEP IDs, and no reference check is made,
-// like for an NLPCI.
+// All the NonlinearAdaptiveStepping cards. The ID is the ID of the NonlinearStaticParams it goes with: unique among the
+// NonlinearAdaptiveStepping cards (IdSpace::PerCardType) and numbering, in the category NonlinearStatic, the same
+// selection as that NonlinearStaticParams and its ArcLengthParams, so that a renumbering of the category moves them
+// together. A NonlinearAdaptiveStepping may also go with a NonlinearStepControl (the format reference allows both);
+// that case is not followed by a renumbering of the NonlinearStepControl IDs, and no reference check is made, like for
+// an ArcLengthParams.
 class NonlinearAdaptiveSteppingTable final
     : public TypedTable<NonlinearAdaptiveSteppingTable, NonlinearAdaptiveSteppingCard>
 {

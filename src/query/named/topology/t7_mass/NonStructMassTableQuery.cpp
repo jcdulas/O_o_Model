@@ -54,7 +54,7 @@ std::vector<std::int32_t> propertiesOfType(const model::Model& model, const std:
     std::vector<std::int32_t> ids;
     for (const std::uint16_t cardType : typesInSpace(model::CardCategory::Property, base::IdSpace::Property))
     {
-        // The TYPE of an NSM card is the neutral name of a card type.
+        // The TYPE of a NonStructMass card is the neutral name of a card type.
         if (std::find(names.begin(), names.end(), typeName(cardType)) == names.end())
             continue;
         const model::CardTable* table = model.findTable(cardType);
@@ -83,7 +83,7 @@ void collectSets(const model::Model& model, std::set<base::EntityId>& found)
     }
 }
 
-// The sets of cards a set ID stands for: an NSMADD gives the sets it adds (and theirs), else the set itself.
+// The sets of cards a set ID stands for: a NonStructMassUnion gives the sets it adds (and theirs), else the set itself.
 void expandSet(const model::Model& model, base::EntityId set, int depth, std::vector<base::EntityId>& out)
 {
     bool added = false;
@@ -157,7 +157,7 @@ public:
         std::vector<double> mass;
         for (const base::EntityId set : sets)
         {
-            // An NSMADD takes precedence over cards of the same ID: the set is the sets it adds.
+            // A NonStructMassUnion takes precedence over cards of the same ID: the set is the sets it adds.
             std::vector<base::EntityId> members;
             expandSet(model, set, 0, members);
             for (const base::EntityId member : members)

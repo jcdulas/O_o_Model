@@ -11,8 +11,8 @@ namespace oor::analysis
 namespace
 {
 
-// CYSUP cards that name more than one grid point: the fictitious supports of a cyclic symmetry model are applied at one
-// grid point (a model has at most one such point), all the
+// CyclicSupport cards that name more than one grid point: the fictitious supports of a cyclic symmetry model are
+// applied at one grid point (a model has at most one such point), all the
 // degrees of freedom of which are on one card or on several cards of the same point.
 class CyclicSupportOnePointCheck final : public ValidationCheck
 {

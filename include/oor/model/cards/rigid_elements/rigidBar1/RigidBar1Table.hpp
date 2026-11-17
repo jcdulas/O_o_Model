@@ -19,7 +19,7 @@ struct RigidBar1Format
     static void write(const RigidBar1Card& card, FieldWriter& writer);
 };
 
-// All the RBAR1 cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
+// All the RigidBar1 cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
 class RigidBar1Table final : public TypedTable<RigidBar1Table, RigidBar1Card>
 {
 public:

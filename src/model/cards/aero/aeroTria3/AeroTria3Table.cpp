@@ -48,7 +48,7 @@ std::optional<CardProblem> AeroTria3Format::check(const AeroTria3Card& card)
         if (const auto problem = checkRequiredId(grids[index], GRID_NAMES[index]))
             return problem;
     }
-    // Not in the format reference (it says it for the AEQUAD4 only): a triangle with a repeated point has no area.
+    // Not in the format reference (it says it for the AeroQuad4 only): a triangle with a repeated point has no area.
     for (std::size_t later = 1; later < GRID_COUNT; ++later)
     {
         for (std::size_t earlier = 0; earlier < later; ++earlier)

@@ -79,10 +79,10 @@ void PlanePropNonlinearExtTable::setIdAtRow(std::uint32_t row, base::EntityId id
 void PlanePropNonlinearExtTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     PlanePropNonlinearExtCard& card = m_cards.edit(row);
-    // The ID is the one of the PLPLANE that the card extends.
+    // The ID is the one of the PlanePropNonlinear that the card extends.
     card.id = visitor.visit("id", ReferenceTarget::Property, card.id);
     m_id.set(row, card.id);
-    // The material may be a MAT4 or MAT5 for the heat analysis: the Material target falls back to them.
+    // The material may be a HeatIsoMat or HeatAnisoMat for the heat analysis: the Material target falls back to them.
     visitId(visitor, "matId", ReferenceTarget::Material, card.matId);
 }
 

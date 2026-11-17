@@ -9,13 +9,13 @@
 namespace oor::model
 {
 
-// One NLRSFD card: a nonlinear transient radial squeeze film damper between two coincident grid points (a nonlinear
-// load, selected with NONLINEAR = SID, like the NOLIN cards).
+// One NonlinearSqueezeFilmDamper card: a nonlinear transient radial squeeze film damper between two coincident grid
+// points (a nonlinear load, selected with NONLINEAR = SID, like the NOLIN cards).
 //
-// Card layout: NLRSFD  SID  GA  GB  PLANE  BDIA  BLEN  BCLR  SOLN
-//                     VISCO  PVAPCO  NPORT  PRES1  THETA1  PRES2  THETA2  NPNT
-//                     OFFSET1  OFFSET2  GRPNAME  EVALNAME
-//                     RDATA1  RDATA2  RDATA3  RDATA4  RDATA5  RDATA6  RDATA7  RDATA8
+// Card layout: NonlinearSqueezeFilmDamper  SID  GA  GB  PLANE  BDIA  BLEN  BCLR  SOLN
+//                                         VISCO  PVAPCO  NPORT  PRES1  THETA1  PRES2  THETA2  NPNT
+//                                         OFFSET1  OFFSET2  GRPNAME  EVALNAME
+//                                         RDATA1  RDATA2  RDATA3  RDATA4  RDATA5  RDATA6  RDATA7  RDATA8
 // With GRPNAME the damper takes its characteristics from an external service (CONNECT SERVICE) and the fields from BDIA
 // to OFFSET2 are ignored: they may be blank, and are then 0.0 in the card. Without it, BDIA, BLEN, BCLR, VISCO, PVAPCO
 // and NPORT are required, and so are PRES1 and THETA1 with one or two ports and PRES2 and THETA2 with two.

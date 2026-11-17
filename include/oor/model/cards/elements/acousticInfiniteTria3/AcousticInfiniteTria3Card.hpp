@@ -8,11 +8,12 @@
 namespace oor::model
 {
 
-// One CACINF3 card: the base of an acoustic conjugate infinite element, a triangle of three acoustic grid points. The
-// element goes from this base out to infinity along the lines through the pole that its PACINF gives.
+// One AcousticInfiniteTria3 card: the base of an acoustic conjugate infinite element, a triangle of three acoustic grid
+// points. The element goes from this base out to infinity along the lines through the pole that its
+// AcousticInfiniteProp gives.
 //
-// Card layout: CACINF3  EID  PID  G1  G2  G3
-// EID is a positive integer below 100,000,000 and unique among all the elements; PID names a PACINF; the
+// Card layout: AcousticInfiniteTria3  EID  PID  G1  G2  G3
+// EID is a positive integer below 100,000,000 and unique among all the elements; PID names an AcousticInfiniteProp; the
 // three points are positive IDs. The format reference does not say the points must be distinct (it says it of the
 // cohesive elements), so the card does not refuse a repeated point. The element normal follows the right-hand rule on
 // G1, G2, G3: a normal that points into the fluid is reversed by the solver, which is a rule of the model,

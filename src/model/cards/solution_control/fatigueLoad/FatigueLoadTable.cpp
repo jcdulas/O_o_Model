@@ -337,8 +337,8 @@ void FatigueLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visi
     FatigueLoadCard& card = m_cards.edit(row);
     if (const std::optional<ReferenceTarget> target = fatigueLoadTidTarget(card))
         card.tableId = visitor.visit("tableId", *target, card.tableId);
-    // The LCID of a random load names the RANDPS cards of the set; a negative one is the correlation of the inputs of a
-    // time history converted by a TIM2PSD, and 0 a constant offset: not references.
+    // The LCID of a random load names the RandomSpectralDensity cards of the set; a negative one is the correlation of
+    // the inputs of a time history converted by a TimeToSpectrum, and 0 a constant offset: not references.
     if (card.type == FatigueLoadType::Psd && card.loadCaseId > 0)
         card.loadCaseId = visitor.visit("loadCaseId", ReferenceTarget::RandomSet, card.loadCaseId);
 }

@@ -19,9 +19,9 @@ struct AxisymOmittedDofSetFormat
     static void write(const AxisymOmittedDofSetCard& card, FieldWriter& writer);
 };
 
-// All the OMITAX cards, category Set, no ID (IdSpace::None, like the other sets of degrees of freedom). They are kept
-// whole next to a column of their number of degrees of freedom. The rings are RINGAX cards, points of the node ID
-// space.
+// All the AxisymOmittedDofSet cards, category Set, no ID (IdSpace::None, like the other sets of degrees of freedom).
+// They are kept whole next to a column of their number of degrees of freedom. The rings are AxisymConeRing cards,
+// points of the node ID space.
 class AxisymOmittedDofSetTable final : public TypedTable<AxisymOmittedDofSetTable, AxisymOmittedDofSetCard>
 {
 public:

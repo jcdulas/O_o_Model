@@ -1,8 +1,8 @@
-// The geometry of two element cards: the RBAX3D (a rigid connection between two grid
-// points, as the RBAR is: the middle of the two points and their distance) and the PLTSURF (a plot surface of 3, 4, 6
-// or 8 points: a surface with no thickness, whose planar quantities come from the corners). The RBAX3D is in the node
-// to element index and has the role of a rigid element; the PLTSURF has an ID space of its own and is, like the PLOTEL,
-// not an element of the connectivity.
+// The geometry of two element cards: the RigidAxisymConnection (a rigid connection between two grid
+// points, as the RigidBar is: the middle of the two points and their distance) and the PlotSurface (a plot surface of
+// 3, 4, 6 or 8 points: a surface with no thickness, whose planar quantities come from the corners). The
+// RigidAxisymConnection is in the node to element index and has the role of a rigid element; the PlotSurface has an ID
+// space of its own and is, like the PlotLine2, not an element of the connectivity.
 
 #include "oor/analysis/adjacency/MeshAdjacency.hpp"
 #include "oor/analysis/components/ElementRoles.hpp"
@@ -153,8 +153,8 @@ TEST_CASE("a PLTSURF is not an element of the connectivity and does not take the
     // The plot surface is in no node to element index: only the rod is attached to the grid point 1.
     REQUIRE(MeshAdjacency::elementsOfNode(model, 1) == std::vector<base::EntityId>{10});
     REQUIRE(MeshAdjacency::elementsOfNode(model, 3).empty());
-    REQUIRE(elementGeometry(model, 10).length == Approx(2.0)); // the CROD 10 of the element space
-    REQUIRE(plotGeometry(model, 10).area == Approx(1.0));      // and the PLTSURF 10 of its own
+    REQUIRE(elementGeometry(model, 10).length == Approx(2.0)); // the Rod2 10 of the element space
+    REQUIRE(plotGeometry(model, 10).area == Approx(1.0));      // and the PlotSurface 10 of its own
 }
 
 TEST_CASE("a PLTSURF with a point that no card defines is an error, as for every element", "[analysis][geometry]")

@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One CDAMP1 card: a scalar damper that refers to a PDAMP property.
+// One DamperDofProperty card: a scalar damper that refers to a DamperProp property.
 //
 // Card layout:
-//   CDAMP1  EID  PID  G1  C1  G2  C2
+//   DamperDofProperty  EID  PID  G1  C1  G2  C2
 //
 // G1 and G2 are grid points or scalar points; 0 (or blank) is a grounded end, a point whose displacement is zero. C1
 // and C2 are the component (1 to 6) at a grid point, and 0 at a scalar point or at ground.

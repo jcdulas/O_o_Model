@@ -19,9 +19,10 @@ struct TiltingPadBearingPropFormat
     static void write(const TiltingPadBearingPropCard& card, FieldWriter& writer);
 };
 
-// All the THPAD cards. A THPAD extends the PBUSH2D that has the same number, as an ELEMUDS does: the RID is a reference
-// to a property (a renumbering of the properties follows into it) and the card has an ID space of its own
-// (IdSpace::PerCardType), in the category Property. The cards are kept whole next to a column of their RIDs.
+// All the TiltingPadBearingProp cards. A TiltingPadBearingProp extends the BushProp2D that has the same number, as an
+// UserElemService does: the RID is a reference to a property (a renumbering of the properties follows into it) and the
+// card has an ID space of its own (IdSpace::PerCardType), in the category Property. The cards are kept whole next to a
+// column of their RIDs.
 class TiltingPadBearingPropTable final : public TypedTable<TiltingPadBearingPropTable, TiltingPadBearingPropCard>
 {
 public:

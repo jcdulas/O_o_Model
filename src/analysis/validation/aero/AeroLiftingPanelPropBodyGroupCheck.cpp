@@ -13,10 +13,10 @@ namespace oor::analysis
 namespace
 {
 
-// The bodies a PAERO1 lists must be in the same aerodynamic group as the panels ("in
-// the same aerodynamic group, as specified in the IGID field on the CAERO2 entry"); elements of different groups are
-// uncoupled (CAERO1 and CAERO2, IGID), so a body of another group than its panel does not interact with it. A warning:
-// the run goes on, with an aerodynamic model that is not what the PAERO1 says.
+// The bodies an AeroLiftingPanelProp1 lists must be in the same aerodynamic group as the panels ("in
+// the same aerodynamic group, as specified in the IGID field on the AeroBody2 entry"); elements of different groups are
+// uncoupled (AeroLiftingPanel1 and AeroBody2, IGID), so a body of another group than its panel does not interact with
+// it. A warning: the run goes on, with an aerodynamic model that is not what the AeroLiftingPanelProp1 says.
 class AeroLiftingPanelPropBodyGroupCheck final : public ValidationCheck
 {
 public:
@@ -44,7 +44,7 @@ public:
                 {
                     const std::optional<model::CardLocation> body =
                         id != 0 ? model.locate(base::IdSpace::AeroElement, id) : std::nullopt;
-                    // a number that is no CAERO2 is reported by `aero.aero-lifting-panel-prop1-body-kind`, or by the
+                    // a number that is no AeroBody2 is reported by `aero.aero-lifting-panel-prop1-body-kind`, or by the
                     // references
                     if (!body || !isType<model::AeroBody2Table>(*body))
                         continue;

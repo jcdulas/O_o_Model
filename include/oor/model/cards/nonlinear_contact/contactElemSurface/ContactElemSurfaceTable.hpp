@@ -20,8 +20,9 @@ struct ContactElemSurfaceFormat
     static void write(const ContactElemSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the BSURF cards. The ID is unique among the cards that make a contact surface (category ContactSurface), which is
-// what the BSID of a BCBODY or BCBODY1 names. The element lists are one CSR column of (first, last, by) runs.
+// All the ContactElemSurface cards. The ID is unique among the cards that make a contact surface (category
+// ContactSurface), which is what the BSID of a ContactBody or ContactBody1 names. The element lists are one CSR column
+// of (first, last, by) runs.
 class ContactElemSurfaceTable final : public TypedTable<ContactElemSurfaceTable, ContactElemSurfaceCard>
 {
 public:

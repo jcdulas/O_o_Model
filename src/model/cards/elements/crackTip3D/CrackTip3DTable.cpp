@@ -172,7 +172,7 @@ void CrackTip3DTable::keepRows(const std::vector<std::uint32_t>& rows)
 void CrackTip3DTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     if (const base::EntityId propId = m_propId.get(row); propId > 0)
-        m_propId.set(row, visitor.visit("propId", ReferenceTarget::Property, propId)); // a PRAC3D
+        m_propId.set(row, visitor.visit("propId", ReferenceTarget::Property, propId)); // a CrackTipProp3D
     std::array<base::EntityId, CrackTip3DCard::NODE_COUNT> nodes = m_nodes.get(row);
     bool changed = false;
     for (base::EntityId& node : nodes)

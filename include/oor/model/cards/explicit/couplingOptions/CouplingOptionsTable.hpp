@@ -19,9 +19,9 @@ struct CouplingOptionsFormat
     static void write(const CouplingOptionsCard& card, FieldWriter& writer);
 };
 
-// All the COUOPT cards. The cards of a set share their OPTID, which is the ID of the table (IdSpace::Group, category
-// CouplingOptions): a COUPLE names the set, not a card. The CID is a number of the card only. SUBID names a surface,
-// the pressure a table of time.
+// All the CouplingOptions cards. The cards of a set share their OPTID, which is the ID of the table (IdSpace::Group,
+// category CouplingOptions): an EulerLagrangeCoupling names the set, not a card. The CID is a number of the card only.
+// SUBID names a surface, the pressure a table of time.
 class CouplingOptionsTable final : public TypedTable<CouplingOptionsTable, CouplingOptionsCard>
 {
 public:

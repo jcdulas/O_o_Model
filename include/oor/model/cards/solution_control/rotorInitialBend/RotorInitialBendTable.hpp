@@ -19,9 +19,10 @@ struct RotorInitialBendFormat
     static void write(const RotorInitialBendCard& card, FieldWriter& writer);
 };
 
-// All the ROTBENT cards. The ID is unique among them (IdSpace::PerCardType, category Other: no card names a ROTBENT).
-// The rotor is a Rotor reference, the load a LoadCombinationSet reference and the grid points of the BRGDPR rows Node
-// references. The cards are kept whole next to the columns the query engine reads: the three numbers of the first line.
+// All the RotorInitialBend cards. The ID is unique among them (IdSpace::PerCardType, category Other: no card names a
+// RotorInitialBend). The rotor is a Rotor reference, the load a LoadCombinationSet reference and the grid points of the
+// BRGDPR rows Node references. The cards are kept whole next to the columns the query engine reads: the three numbers
+// of the first line.
 class RotorInitialBendTable final : public TypedTable<RotorInitialBendTable, RotorInitialBendCard>
 {
 public:

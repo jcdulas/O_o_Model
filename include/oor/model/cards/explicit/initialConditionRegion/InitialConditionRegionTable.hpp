@@ -19,10 +19,10 @@ struct InitialConditionRegionFormat
     static void write(const InitialConditionRegionCard& card, FieldWriter& writer);
 };
 
-// All the TICREG cards. The cards of a group share their TSID, which is the ID of the table (IdSpace::Group, category
-// EulerInitialRegions): a TICEUL1 names the group, not a card. The TRID is a number of the card only. The VID is
-// visited with the target its TYPE selects (a shape, a BCBOX, a SET1), the MID is a material and the second TSID a
-// TICVAL.
+// All the InitialConditionRegion cards. The cards of a group share their TSID, which is the ID of the table
+// (IdSpace::Group, category EulerInitialRegions): an EulerInitialRegions names the group, not a card. The TRID is a
+// number of the card only. The VID is visited with the target its TYPE selects (a shape, a ContactBoxRegion, an
+// IdListSet1), the MID is a material and the second TSID a InitialConditionValues.
 class InitialConditionRegionTable final : public TypedTable<InitialConditionRegionTable, InitialConditionRegionCard>
 {
 public:

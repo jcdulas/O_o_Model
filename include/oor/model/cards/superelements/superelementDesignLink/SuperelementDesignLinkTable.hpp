@@ -19,8 +19,8 @@ struct SuperelementDesignLinkFormat
     static void write(const SuperelementDesignLinkCard& card, FieldWriter& writer);
 };
 
-// All the SEDLINK cards, filed under their ID (IdSpace::PerCardType, category Other like DLINK). The cards are kept
-// whole next to a column of their IDs.
+// All the SuperelementDesignLink cards, filed under their ID (IdSpace::PerCardType, category Other like DesignVarLink).
+// The cards are kept whole next to a column of their IDs.
 class SuperelementDesignLinkTable final : public TypedTable<SuperelementDesignLinkTable, SuperelementDesignLinkCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    // DSEID and every ISEIDi are superelements; each design variable is a DESVAR of its superelement.
+    // DSEID and every ISEIDi are superelements; each design variable is a DesignVar of its superelement.
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }

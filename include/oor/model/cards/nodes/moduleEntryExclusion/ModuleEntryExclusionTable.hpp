@@ -18,8 +18,8 @@ struct ModuleEntryExclusionFormat
     static void write(const ModuleEntryExclusionCard& card, FieldWriter& writer);
 };
 
-// All the EXCLUDE cards, category Other. A card has no ID (IdSpace::None) and names no card of the model: the names are
-// entry names. The cards are kept whole, one value per row.
+// All the ModuleEntryExclusion cards, category Other. A card has no ID (IdSpace::None) and names no card of the model:
+// the names are entry names. The cards are kept whole, one value per row.
 class ModuleEntryExclusionTable final : public TypedTable<ModuleEntryExclusionTable, ModuleEntryExclusionCard>
 {
 public:

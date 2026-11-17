@@ -19,10 +19,11 @@ struct ElastoPlasticMatTemperatureFormat
     static void write(const ElastoPlasticMatTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATTEP cards. The ID space is the card type's own: the ID is the one of the MATEP that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it). T(Y0), T(H) and the constants of
-// the Chaboche group are references to TABLEMi cards (ReferenceTarget::MaterialTable) and T(FID) to a TABLEST
-// (StressTable). The cards are kept whole (CardRows); the query engine reads the ID only.
+// All the ElastoPlasticMatTemperature cards. The ID space is the card type's own: the ID is the one of the
+// ElastoPlasticMat that the card extends, so it is also a reference to a material (renumbering the materials follows
+// into it). T(Y0), T(H) and the constants of the Chaboche group are references to TABLEMi cards
+// (ReferenceTarget::MaterialTable) and T(FID) to a TableStressTemperature (StressTable). The cards are kept whole
+// (CardRows); the query engine reads the ID only.
 class ElastoPlasticMatTemperatureTable final
     : public TypedTable<ElastoPlasticMatTemperatureTable, ElastoPlasticMatTemperatureCard>
 {

@@ -19,8 +19,9 @@ struct EulerRegionPropFormat
     static void write(const EulerRegionPropCard& card, FieldWriter& writer);
 };
 
-// All the PEULER1 cards. A PEULER1 is a property: its ID is in the space every property type shares
-// (IdSpace::Property). Its SID names a TICEUL1 (the initial regions) and its SID2 a body force (an EULFOR1).
+// All the EulerRegionProp cards. An EulerRegionProp is a property: its ID is in the space every property type shares
+// (IdSpace::Property). Its SID names an EulerInitialRegions (the initial regions) and its SID2 a body force (an
+// EulerBodyForceSet).
 class EulerRegionPropTable final : public TypedTable<EulerRegionPropTable, EulerRegionPropCard>
 {
 public:

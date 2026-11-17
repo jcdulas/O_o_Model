@@ -19,8 +19,8 @@ struct PlaneStressQuad8Format
     static void write(const PlaneStressQuad8Card& card, FieldWriter& writer);
 };
 
-// All the CPLSTS8 elements: the nodes are one column of eight IDs per element, 0 for an absent edge point (an (N, 8)
-// NumPy view without copy).
+// All the PlaneStressQuad8 elements: the nodes are one column of eight IDs per element, 0 for an absent edge point (an
+// (N, 8) NumPy view without copy).
 class PlaneStressQuad8Table final : public TypedTable<PlaneStressQuad8Table, PlaneStressQuad8Card>
 {
 public:

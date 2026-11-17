@@ -9,9 +9,11 @@ namespace oor::analysis
 namespace
 {
 
-// A static solution (101, 105, 106, 144) of a model with no constraint at all: no SPC, SPC1, SUPORT, GMSPC, SPCAX card,
-// no ring or point of a conical shell (RINGAX and POINTAX: the PS of a ring and the harmonics are constraints the check
-// does not judge) and no PS on any grid point, and no inertia relief (PARAM,INREL). The stiffness matrix is singular.
+// A static solution (101, 105, 106, 144) of a model with no constraint at all: no SinglePointConstr,
+// SinglePointConstrList, FreeBodySupport, GeomSinglePointConstr, SinglePointConstrAxisym card, no ring or point of a
+// conical shell (AxisymConeRing and AxisymConePoint: the PS of a ring and the harmonics are constraints the check does
+// not judge) and no PS on any grid point, and no inertia relief (PARAM,InertiaRelief). The stiffness matrix is
+// singular.
 class NoConstraintCheck final : public ValidationCheck
 {
 public:
@@ -32,7 +34,7 @@ public:
         const model::Model& model = context.model();
         if (isHeatTransfer(model))
             return; // the constraints of a thermal analysis are temperatures: nothing is singular without them
-        // PARAM,INREL (inertia relief): a negative value, else the format reference default (0).
+        // PARAM,InertiaRelief (inertia relief): a negative value, else the format reference default (0).
         if (const std::optional<std::int32_t> relief = model::integerParameter(model, "InertiaRelief");
             relief && *relief < 0)
             return;

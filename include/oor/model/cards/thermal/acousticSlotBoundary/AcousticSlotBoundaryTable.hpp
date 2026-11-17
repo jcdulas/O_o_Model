@@ -19,8 +19,9 @@ struct AcousticSlotBoundaryFormat
     static void write(const AcousticSlotBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the SLBDY cards, category Other, no ID (IdSpace::None: a deck has one for each boundary and none is named). They
-// are kept whole next to a column of their number of points. The points are GRIDS cards, points of the node ID space.
+// All the AcousticSlotBoundary cards, category Other, no ID (IdSpace::None: a deck has one for each boundary and none
+// is named). They are kept whole next to a column of their number of points. The points are AcousticSlotSurfacePoint
+// cards, points of the node ID space.
 class AcousticSlotBoundaryTable final : public TypedTable<AcousticSlotBoundaryTable, AcousticSlotBoundaryCard>
 {
 public:

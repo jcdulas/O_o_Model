@@ -20,9 +20,9 @@ struct OrthoMat2DFormat
     static void write(const OrthoMat2DCard& card, FieldWriter& writer);
 };
 
-// All the MAT8 cards. The three groups of Hashin criteria are (N, 6) and (N, 9) NumPy views, all zero for a card that
-// has no such group; `hashin` says which cards have which group (bit 1 HFAIL, bit 2 HTAPE, bit 4 HFABR). G1Z and G2Z
-// are NaN where the card leaves them blank.
+// All the OrthoMat2D cards. The three groups of Hashin criteria are (N, 6) and (N, 9) NumPy views, all zero for a card
+// that has no such group; `hashin` says which cards have which group (bit 1 HFAIL, bit 2 HTAPE, bit 4 HFABR). G1Z and
+// G2Z are NaN where the card leaves them blank.
 class OrthoMat2DTable final : public TypedTable<OrthoMat2DTable, OrthoMat2DCard>
 {
 public:

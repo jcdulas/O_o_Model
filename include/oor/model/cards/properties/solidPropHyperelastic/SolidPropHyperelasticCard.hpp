@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One PLSOLID card: the property of a fully nonlinear hyperelastic solid element.
+// One SolidPropHyperelastic card: the property of a fully nonlinear hyperelastic solid element.
 //
 // Card layout:
-//   PLSOLID  PID  MID  STR
+//   SolidPropHyperelastic  PID  MID  STR
 //
 // STR is the location of the stress and strain output, GRID (the default) or GAUS.
 struct SolidPropHyperelasticCard

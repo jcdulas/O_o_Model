@@ -12,8 +12,8 @@ namespace oor::analysis
 namespace
 {
 
-// A PDISTB or PDISTBM whose PID names a property that is not of the kind TYPE says. The format asks the
-// PID to point to an existing entry of that TYPE, and the names of the data a PDISTB
+// A PropDistribution or PropMatDistribution whose PID names a property that is not of the kind TYPE says. The format
+// asks the PID to point to an existing entry of that TYPE, and the names of the data a PropDistribution
 // gives are the ones of that kind of property, so a PID that names another kind has no datum of that name to replace.
 // The reference to the property is the business of ref.unresolved: a PID that no property has is left alone here.
 class DistributionPropertyTypeCheck final : public ValidationCheck

@@ -17,7 +17,7 @@ namespace
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
 // The values of the variables a design point gives: the independent ones as the point has them, the dependent ones from
-// their DLINK (DDVID = C0 + CMULT * the sum of Ci * IDVi). A value given for a dependent variable is ignored.
+// their DesignVarLink (DDVID = C0 + CMULT * the sum of Ci * IDVi). A value given for a dependent variable is ignored.
 std::vector<double> variableValues(const DesignModel& design, const DesignPoint& point)
 {
     std::vector<double> values = point.values;
@@ -128,8 +128,8 @@ DesignEvaluation DesignModel::evaluate(const Model& model, const DesignPoint& po
         value.requested = sum;
     }
 
-    // The equations: the relations that share a DEQATN are evaluated together, each argument an array with one value
-    // for each relation. A relation gives the DEQATN its variables and then its constants, in this order.
+    // The equations: the relations that share a DesignEquation are evaluated together, each argument an array with one
+    // value for each relation. A relation gives the DesignEquation its variables and then its constants, in this order.
     for (const auto& [equationId, members] : byEquation)
     {
         const EquationSet& equations = m_equations.at(equationId);

@@ -19,8 +19,9 @@ struct DesignControlSurfaceFormat
     static void write(const DesignControlSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the DVPSURF cards. The ID is unique among them (IdSpace::PerCardType, category Other: no card names a DVPSURF).
-// The TRIMID is a TRIM or TRIM2 (AeroTrimSet) and the DVID a design variable (DesignVariable); the AELABEL is a name.
+// All the DesignControlSurface cards. The ID is unique among them (IdSpace::PerCardType, category Other: no card names
+// a DesignControlSurface). The TRIMID is an AeroTrim or AeroTrim2 (AeroTrimSet) and the DVID a design variable
+// (DesignVariable); the AELABEL is a name.
 class DesignControlSurfaceTable final : public TypedTable<DesignControlSurfaceTable, DesignControlSurfaceCard>
 {
 public:

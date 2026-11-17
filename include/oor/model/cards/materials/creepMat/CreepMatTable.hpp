@@ -24,10 +24,10 @@ struct CreepMatFormat
     [[nodiscard]] static std::optional<CreepMatForm> parseForm(std::string_view text) noexcept;
 };
 
-// All the CREEP cards. The ID space is the card type's own: the ID is the one of the MAT1, MAT2 or MAT9 that the card
-// extends, so it is also a reference to a material (renumbering the materials follows into it), and the three tables
-// are references to TABLES1 cards (ReferenceTarget::StressTable). The coefficients are an (N, 7) NumPy view, NaN where
-// blank.
+// All the CreepMat cards. The ID space is the card type's own: the ID is the one of the IsoMat, AnisoMat2D or
+// AnisoMat3D that the card extends, so it is also a reference to a material (renumbering the materials follows into
+// it), and the three tables are references to TableStress1 cards (ReferenceTarget::StressTable). The coefficients are
+// an (N, 7) NumPy view, NaN where blank.
 class CreepMatTable final : public TypedTable<CreepMatTable, CreepMatCard>
 {
 public:

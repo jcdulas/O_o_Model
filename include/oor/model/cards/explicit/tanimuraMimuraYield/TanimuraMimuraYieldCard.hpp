@@ -5,18 +5,19 @@
 namespace oor::model
 {
 
-// The defaults of a YLDTM that are not zero: the specific heat and the melt temperature are 1.E20 (no heating, no
-// melting), the room temperature is 293, the quasi-static and the reference strain rates, the critical yield stress and
-// the strain rate exponent are 1.
+// The defaults of a TanimuraMimuraYield that are not zero: the specific heat and the melt temperature are 1.E20 (no
+// heating, no melting), the room temperature is 293, the quasi-static and the reference strain rates, the critical
+// yield stress and the strain rate exponent are 1.
 inline constexpr double TANIMURA_MIMURA_YIELD_NO_LIMIT = 1.0E20;
 inline constexpr double TANIMURA_MIMURA_YIELD_ROOM_TEMPERATURE = 293.0;
 
-// One YLDTM card (SOL 700): the Tanimura-Mimura yield model, for metals over a wide range of strain rates. The yield
-// stress depends on the effective plastic strain, on the strain rate (against a quasi-static and a reference rate) and
-// on the temperature (between the room and the melt temperature). A MATDEUL names the model in its YID field.
+// One TanimuraMimuraYield card (SOL 700): the Tanimura-Mimura yield model, for metals over a wide range of strain
+// rates. The yield stress depends on the effective plastic strain, on the strain rate (against a quasi-static and a
+// reference rate) and on the temperature (between the room and the melt temperature). An EulerMat names the model in
+// its YID field.
 //
-// Card layout: YLDTM  YID    A      B      C      D      M      EPSM   CP         fields 1 to 8
-//                    TMELT  TROOM  SCR    E      K      EPS0                     fields 9 to 14
+// Card layout: TanimuraMimuraYield  YID    A      B      C      D      M      EPSM   CP  fields 1 to 8
+//                                  TMELT  TROOM  SCR    E      K      EPS0       fields 9 to 14
 // A is the static yield parameter (greater than zero, required). B (0.0), C (0.0), D (0.0), M (0.0, the temperature
 // exponent), E (0.0) and K (1.0, the strain rate exponent) are the constants of the formula. EPSM (1.0) is the
 // quasi-static strain rate, EPS0 (1.0) the reference strain rate (both per unit time) and SCR (1.0) the critical yield

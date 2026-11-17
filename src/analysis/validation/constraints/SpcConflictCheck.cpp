@@ -10,7 +10,8 @@ namespace oor::analysis
 namespace
 {
 
-// Two SPC cards of one set that fix the same degree of freedom at different values of the enforced displacement.
+// Two SinglePointConstr cards of one set that fix the same degree of freedom at different values of the enforced
+// displacement.
 class SpcConflictCheck final : public ValidationCheck
 {
 public:

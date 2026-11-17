@@ -19,11 +19,12 @@ namespace oor::analysis
 namespace
 {
 
-// An FRF assembly card that names its component by name: the name must be the COMPNAME of an FRFCOMP. A component that
-// is given by its ID is found (or not) by `ref.unresolved`, which cannot see a name: a name is not an ID, so no
-// reference is visited for it. The match ignores the case, as the solver's names do. An FRFCONN, FRFFLEX,
-// FRFRELS, FRFSPC1 or an FBA load card whose component is not part of the FBA process is ignored with a warning, so the
-// finding is a warning too (it is the mistake that a misspelt name makes).
+// An FRF assembly card that names its component by name: the name must be the COMPNAME of a FrfComponent. A component
+// that is given by its ID is found (or not) by `ref.unresolved`, which cannot see a name: a name is not an ID, so no
+// reference is visited for it. The match ignores the case, as the solver's names do. A FrfConnection,
+// FrfFlexibleConnection, FrfReleasedDofs, FrfSinglePointConstr or an FBA load card whose component is not part of the
+// FBA process is ignored with a warning, so the finding is a warning too (it is the mistake that a misspelt name
+// makes).
 class FrfComponentNameCheck final : public ValidationCheck
 {
 public:
@@ -35,7 +36,7 @@ public:
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
         const model::Model& model = context.model();
-        std::set<std::string> known; // the names of the FRFCOMP cards, in upper case
+        std::set<std::string> known; // the names of the FrfComponent cards, in upper case
         forEachCard<model::FrfComponentTable>(model,
                                               [&](const model::FrfComponentCard& card, model::CardLocation)
                                               {

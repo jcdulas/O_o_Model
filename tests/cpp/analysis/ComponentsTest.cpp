@@ -64,8 +64,8 @@ const char* const CASES =
     "StaticLoadSelection;99\n"
     "[model]\n";
 
-// Plate A (2 by 2, nodes 1 to 9, elements 1 to 4, PSHELL 1), plate B (1 by 2, nodes 11 to 16, elements 5 and 6, PSHELL
-// 2), an RBE2 from node 9 to node 11, forces: set 10 on node 5 (A) and 16 (B), set 11 on node 6 (A).
+// Plate A (2 by 2, nodes 1 to 9, elements 1 to 4, ShellProp 1), plate B (1 by 2, nodes 11 to 16, elements 5 and 6,
+// ShellProp 2), a RigidBodyStar from node 9 to node 11, forces: set 10 on node 5 (A) and 16 (B), set 11 on node 6 (A).
 std::string twoPlates(const std::string& loads =
                           "PointForceLoad;10;5;0;100.;0.;0.;1.\nPointForceLoad;10;16;0;50.;0.;1.;0.\nPointForceLoad;11;"
                           "6;0;10.;0.;0.;1.\n")
@@ -241,7 +241,8 @@ TEST_CASE("boundaries are the interface nodes, plus the retained nodes, plus the
 TEST_CASE("the boundary of a component does not depend on what its neighbour holds", "[analysis][components]")
 {
     const model::Model reference = readModelText(twoPlates());
-    // the other neighbour: a plate of nine squares with other node numbers, tied to node 9 by an RBE2 on its node 21
+    // the other neighbour: a plate of nine squares with other node numbers, tied to node 9 by a RigidBodyStar on its
+    // node 21
     const model::Model other = readModelText(
         std::string(CASES) + MATERIALS + plate(2, 2, 1, 1, 1, 0.0) + plate(3, 3, 21, 50, 2, 10.0) +
         "RigidBodyStar;100;9;123456;21\nPointForceLoad;10;5;0;100.;0.;0.;1.\nPointForceLoad;11;6;0;10.;0.;0.;1.\n");
@@ -303,7 +304,7 @@ TEST_CASE("the revision stamp is the same after the model is written and read ba
     const model::Model again = readModelText(oor::testing::writeModelText(original));
     const auto second = analysis::RevisionStamp::of(again);
     REQUIRE(first->size() == second->size());
-    // (a MAT1 whose G is blank is written with the G it derives: the deck here gives G, so the content is the same)
+    // (an IsoMat whose G is blank is written with the G it derives: the deck here gives G, so the content is the same)
     CHECK(*first == *second);
     const model::Model copy = original;
     CHECK(*analysis::RevisionStamp::of(copy) == *first);

@@ -13,20 +13,21 @@ namespace oor::analysis
 {
 
 // Reports each element of the card types `elements` whose property exists and is not one of the card types `allowed`.
-// `needs` are the card types the message names as the right ones ("needs a PSHELL, PCOMP or PCOMPG"); all of `allowed`
-// when it is empty.
+// `needs` are the card types the message names as the right ones ("needs a ShellProp, CompProp or CompPropGlobal"); all
+// of `allowed` when it is empty.
 void reportWrongPropertyType(const ValidationContext& context, FindingSink& sink,
                              std::initializer_list<std::string_view> elements,
                              std::initializer_list<std::string_view> allowed,
                              std::initializer_list<std::string_view> needs = {});
 
-// Reports each material of the property card types `properties` whose card type is in `refused` ("MAT8" for a solid).
+// Reports each material of the property card types `properties` whose card type is in `refused` ("OrthoMat2D" for a
+// solid).
 void reportRefusedMaterial(const ValidationContext& context, FindingSink& sink,
                            std::initializer_list<std::string_view> properties,
                            std::initializer_list<std::string_view> refused,
                            std::initializer_list<std::string_view> needs);
 
-// True for the material field of a property that a heat conduction analysis reads: the PSHELL membrane material MID1
+// True for the material field of a property that a heat conduction analysis reads: the ShellProp membrane material MID1
 // (MID2 to MID4 are the bending, transverse shear and coupling materials, which conduction does not use), the plies of
 // a laminate, and the single material of a solid, rod, tube, bar or beam property.
 [[nodiscard]] bool isConductionMaterialField(std::string_view property, std::string_view field) noexcept;

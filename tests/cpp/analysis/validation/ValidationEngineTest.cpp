@@ -249,8 +249,8 @@ TEST_CASE("each part is checked with its own IDs and its findings name it", "[va
             inPart.push_back(finding.code);
     }
     // The part has a material with a negative modulus, and a rod that names a property and no grid points of its own...
-    // no: the grid points are its own, the property is the residual structure's (PSHELL 1 only: PROD 3 does not exist
-    // anywhere).
+    // no: the grid points are its own, the property is the residual structure's (ShellProp 1 only: RodProp 3 does not
+    // exist anywhere).
     REQUIRE(std::find(inPart.begin(), inPart.end(), "compat.iso-mat-modulus") != inPart.end());
     REQUIRE(std::find(inPart.begin(), inPart.end(), "ref.unresolved") != inPart.end());
     // The residual structure's findings do not carry a part.

@@ -78,7 +78,7 @@ std::optional<base::IdSpace> spaceOf(ReferenceTarget target) noexcept
     case ReferenceTarget::RandomSet:
     case ReferenceTarget::TransferFunctionSet:
     case ReferenceTarget::InitialConditionSet:
-    case ReferenceTarget::Set: // a SET1 or SET3 ID: found with the set cards (categoriesOfSet)
+    case ReferenceTarget::Set: // an IdListSet1 or TypedListSet3 ID: found with the set cards (categoriesOfSet)
     case ReferenceTarget::HeatBoundaryProperty:
     case ReferenceTarget::ConvectionProperty:
     case ReferenceTarget::ForcedConvectionProperty:
@@ -195,7 +195,8 @@ std::optional<base::IdSpace> spaceOf(ReferenceTarget target) noexcept
     return std::nullopt;
 }
 
-// The excitation set IDs that live cards define (the EXCITEID of each LSEQ), with the first card that defines each.
+// The excitation set IDs that live cards define (the EXCITEID of each StaticLoadSequence), with the first card that
+// defines each.
 std::unordered_map<base::EntityId, CardLocation> definedExcitations(const Model& model)
 {
     std::unordered_map<base::EntityId, CardLocation> defined;
@@ -216,7 +217,7 @@ std::unordered_map<base::EntityId, CardLocation> definedExcitations(const Model&
     return defined;
 }
 
-// The first AEQUAD4 or AETRIA3 whose component (CMPID) is `component`.
+// The first AeroQuad4 or AeroTria3 whose component (CMPID) is `component`.
 std::optional<CardLocation> aeroMeshComponent(const Model& model, base::EntityId component)
 {
     if (const AeroQuad4Table* quads = model.findTable<AeroQuad4Table>())
@@ -238,7 +239,7 @@ std::optional<CardLocation> aeroMeshComponent(const Model& model, base::EntityId
     return std::nullopt;
 }
 
-// The targets that name a grid or scalar point: the ones an EXTRN of a part defines.
+// The targets that name a grid or scalar point: the ones a SuperelementExternalBoundary of a part defines.
 bool isPointTarget(ReferenceTarget target) noexcept
 {
     return target == ReferenceTarget::Node || target == ReferenceTarget::NodeInRange ||
@@ -249,9 +250,10 @@ bool isPointTarget(ReferenceTarget target) noexcept
 // once per index; the other targets in the ID index of their space.
 //
 // Two things belong to the superelements. A superelement number exists when the deck defines it (SuperelementIds). The
-// exterior points an EXTRN lists exist in its part, which has no GRID cards for them: the card says they are there.
-// And a part may name what other models of the deck have (PartScopes::sharedModels: the image of a mirrored
-// superelement, the base model of a mass increment, the primary of a copied module, the other sub-models of a TPA).
+// exterior points a SuperelementExternalBoundary lists exist in its part, which has no Node cards for them: the card
+// says they are there. And a part may name what other models of the deck have (PartScopes::sharedModels: the image of a
+// mirrored superelement, the base model of a mass increment, the primary of a copied module, the other sub-models of a
+// TPA).
 class ExistenceIndex
 {
 public:
@@ -308,7 +310,7 @@ private:
                 if (found->second.contains(id))
                     return true;
             }
-            // An EXCITEID may also be the one an LSEQ defines.
+            // An EXCITEID may also be the one a StaticLoadSequence defines.
             if (target == ReferenceTarget::ExcitationSet)
             {
                 if (!m_excitations)
@@ -320,7 +322,7 @@ private:
         return !spaceOf(target) || resolveReference(m_model, target, id).has_value();
     }
 
-    // The exterior points an EXTRN of this model lists.
+    // The exterior points a SuperelementExternalBoundary of this model lists.
     bool isExternalPoint(base::EntityId id)
     {
         if (!m_externalPoints)
@@ -593,7 +595,8 @@ std::span<const CardCategory> categoriesOfSet(ReferenceTarget target) noexcept
     static constexpr CardCategory NONLINEAR[] = {CardCategory::NonlinearStatic};
     static constexpr CardCategory RANDOM[] = {CardCategory::Random};
     static constexpr CardCategory TRANSFER_FUNCTION[] = {CardCategory::TransferFunction};
-    // IC selects TIC cards, or (in heat transfer) the temperature sets TEMP and TEMPD, which are of the Load category.
+    // IC selects TransientInitialCondition cards, or (in heat transfer) the temperature sets NodeTemperatureLoad and
+    // DefaultTemperatureLoad, which are of the Load category.
     static constexpr CardCategory INITIAL_CONDITION[] = {CardCategory::InitialCondition, CardCategory::Load};
     static constexpr CardCategory HEAT_BOUNDARY_PROPERTY[] = {CardCategory::HeatBoundaryProperty};
     static constexpr CardCategory CONVECTION_PROPERTY[] = {CardCategory::ConvectionProperty};
@@ -602,8 +605,8 @@ std::span<const CardCategory> categoriesOfSet(ReferenceTarget target) noexcept
     static constexpr CardCategory VIEW_FACTOR[] = {CardCategory::ViewFactorFaceFactor};
     static constexpr CardCategory RADIATION_CAVITY[] = {CardCategory::RadiationCavity};
     static constexpr CardCategory CONTACT_BODY[] = {CardCategory::ContactBody};
-    // A BSID names the surface of a body; the SOL 700 form of BCGRID (a cloud of grid points) is one too, and it is a
-    // card of the body category (its other form is a body of its own).
+    // A BSID names the surface of a body; the SOL 700 form of ContactNodeRegion (a cloud of grid points) is one too,
+    // and it is a card of the body category (its other form is a body of its own).
     static constexpr CardCategory CONTACT_SURFACE[] = {CardCategory::ContactSurface, CardCategory::ContactBody};
     static constexpr CardCategory CONTACT_RIGID[] = {CardCategory::ContactRigid};
     static constexpr CardCategory CONTACT_BODY_PARAMETERS[] = {CardCategory::ContactBodyParameters};
@@ -670,7 +673,7 @@ std::span<const CardCategory> categoriesOfSet(ReferenceTarget target) noexcept
     static constexpr CardCategory ELEMENT_LIST[] = {CardCategory::ElementList};
     static constexpr CardCategory MODULE_MOVE[] = {CardCategory::ModuleMove};
     static constexpr CardCategory MULTI_DIMENSIONAL_TABLE[] = {CardCategory::MultiDimensionalTable};
-    // The TID of an FTGLOAD with no TYPE is a TABLFTG, or a TABLEDi: the dynamic
+    // The TID of a FatigueLoad with no TYPE is a TableFatigueHistory, or a TABLEDi: the dynamic
     // tables are in the category Table.
     static constexpr CardCategory FATIGUE_TABLE[] = {CardCategory::FatigueTable, CardCategory::Table};
     static constexpr CardCategory IMPERFECTION_CASE[] = {CardCategory::ImperfectionCase};
@@ -1000,7 +1003,7 @@ std::unordered_set<base::EntityId> setIdsOfCategory(const Model& model, CardCate
     for (std::uint16_t type = 1; type < registry.size(); ++type)
     {
         const CardTable* table = model.findTable(type);
-        // A card with no ID (SUPORT among the constraints, ASET among the sets) is in no set.
+        // A card with no ID (FreeBodySupport among the constraints, ASET among the sets) is in no set.
         if (table == nullptr || registry.entry(type).info.category != category ||
             registry.entry(type).info.idSpace == base::IdSpace::None)
             continue;
@@ -1061,15 +1064,16 @@ std::optional<CardLocation> resolveReference(const Model& model, ReferenceTarget
     if (!space)
         return std::nullopt;
     const std::optional<CardLocation> found = model.locate(*space, id);
-    // SDAMPING selects a TABDMP1, or in direct frequency response a TABLEDi that holds a viscoelastic material.
+    // SDAMPING selects a TableModalDamping1, or in direct frequency response a TABLEDi that holds a viscoelastic
+    // material.
     if (!found && target == ReferenceTarget::HybridDampingRotorOptionsTable)
         return model.locate(base::IdSpace::DynamicTable, id);
-    // The material of a property is a MAT1, MAT2, ... for a structural analysis and a MAT4 or MAT5 for a heat transfer
-    // analysis (the same PSOLID serves both).
+    // The material of a property is an IsoMat, AnisoMat2D, ... for a structural analysis and a HeatIsoMat or
+    // HeatAnisoMat for a heat transfer analysis (the same SolidProp serves both).
     if (!found && target == ReferenceTarget::Material)
         return model.locate(base::IdSpace::ThermalMaterial, id);
-    // A table of a material law (the T(RHO) of a MATTUSR) is a TABLEMi, or a TABL3Di of the SOL 400 materials; the FID
-    // of a MATEP a TABLES1 or TABLEST, or a TABL3Di.
+    // A table of a material law (the T(RHO) of an UserMatTable) is a TABLEMi, or a TABL3Di of the SOL 400 materials;
+    // the FID of an ElastoPlasticMat a TableStress1 or TableStressTemperature, or a TABL3Di.
     if (!found &&
         (target == ReferenceTarget::MaterialTable || target == ReferenceTarget::StressOrMultiDimensionalTable))
     {
@@ -1077,8 +1081,8 @@ std::optional<CardLocation> resolveReference(const Model& model, ReferenceTarget
         if (!multiDimensional.empty())
             return multiDimensional.front();
     }
-    // format reference SPLINE4: the CAERO field is the aerodynamic component that defines the interpolation surface: a
-    // CAERO panel, or the component number of the AEQUAD4 and AETRIA3 elements of an aerodynamic mesh.
+    // format reference AeroSurfaceSpline4: the CAERO field is the aerodynamic component that defines the interpolation
+    // surface: a CAERO panel, or the component number of the AeroQuad4 and AeroTria3 elements of an aerodynamic mesh.
     if (!found && target == ReferenceTarget::AeroPanelOrComponent)
         return aeroMeshComponent(model, id);
     return found;

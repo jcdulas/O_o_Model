@@ -19,9 +19,10 @@ struct CosimulationServiceFormat
     static void write(const CosimulationServiceCard& card, FieldWriter& writer);
 };
 
-// All the COSMSRV cards, in the category CosimulationService: the CSRVID is unique among them (IdSpace::PerCardType)
-// and a COSMSEL names a card by it. GRPID1 and GRPID2 are references to COSMGRP cards, PHYINP to a COSMINP and PHYOUT
-// to a COSMOUT; the SERV is a name, not a reference. The cards are kept whole next to a column of their CSRVIDs.
+// All the CosimulationService cards, in the category CosimulationService: the CSRVID is unique among them
+// (IdSpace::PerCardType) and a CosimulationSelection names a card by it. GRPID1 and GRPID2 are references to
+// CosimulationArea cards, PHYINP to a CosimulationInputs and PHYOUT to a CosimulationOutputs; the SERV is a name, not a
+// reference. The cards are kept whole next to a column of their CSRVIDs.
 class CosimulationServiceTable final : public TypedTable<CosimulationServiceTable, CosimulationServiceCard>
 {
 public:

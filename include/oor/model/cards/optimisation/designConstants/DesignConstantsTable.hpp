@@ -18,8 +18,8 @@ struct DesignConstantsFormat
     static void write(const DesignConstantsCard& card, FieldWriter& writer);
 };
 
-// All the DTABLE cards. A card has no ID (IdSpace::None): the constants are found by label, and the labels must be
-// unique over every DTABLE and DTABLE2 card (the check `design.dtable-label-repeated`).
+// All the DesignConstants cards. A card has no ID (IdSpace::None): the constants are found by label, and the labels
+// must be unique over every DesignConstants and DesignFieldConstants card (the check `design.dtable-label-repeated`).
 class DesignConstantsTable final : public TypedTable<DesignConstantsTable, DesignConstantsCard>
 {
 public:

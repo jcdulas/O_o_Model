@@ -150,7 +150,7 @@ void AxisymRingMomentLoadTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AxisymRingMomentLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ring is a RINGAX, a point of the node ID space.
+    // The ring is an AxisymConeRing, a point of the node ID space.
     if (const base::EntityId ringId = m_ringId.get(row); ringId > 0)
         m_ringId.set(row, visitor.visit("ringId", ReferenceTarget::Node, ringId));
 }

@@ -19,10 +19,10 @@ struct WettedSurfaceLoadFormat
     static void write(const WettedSurfaceLoadCard& card, FieldWriter& writer);
 };
 
-// All the WETLOAD cards. The WLID is a set ID that several cards may share (IdSpace::Group, category Other) and it is
-// the excitation set that a TLOAD1 names in its EXCITEID, so the table says it defines excitation IDs
-// (CardTable::definesExcitationIds). The WSID is a reference to a WETSURF; the SERV_ID is a name. The cards are kept
-// whole next to a column of their WLIDs.
+// All the WettedSurfaceLoad cards. The WLID is a set ID that several cards may share (IdSpace::Group, category Other)
+// and it is the excitation set that a TransientTableLoad1 names in its EXCITEID, so the table says it defines
+// excitation IDs (CardTable::definesExcitationIds). The WSID is a reference to a WettedSurface; the SERV_ID is a name.
+// The cards are kept whole next to a column of their WLIDs.
 class WettedSurfaceLoadTable final : public TypedTable<WettedSurfaceLoadTable, WettedSurfaceLoadCard>
 {
 public:

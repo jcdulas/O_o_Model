@@ -7,7 +7,7 @@ namespace oor::analysis
 namespace
 {
 
-// A CBAR whose property is not a PBAR or a PBARL (a CBAR with a PSHELL).
+// A Bar2 whose property is not a BarProp or a BarShapeProp (a Bar2 with a ShellProp).
 class BarPropertyTypeCheck final : public ValidationCheck
 {
 public:
@@ -19,7 +19,7 @@ public:
 
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
-        // format reference CBAR: PID names a PBAR, PBARL or PBRSECT.
+        // format reference Bar2: PID names a BarProp, BarShapeProp or BarArbitrarySectionProp.
         reportWrongPropertyType(context, sink, {"Bar2"}, {"BarProp", "BarShapeProp", "BarArbitrarySectionProp"});
     }
 };

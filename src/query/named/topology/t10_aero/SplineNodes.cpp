@@ -55,7 +55,8 @@ public:
     }
 
 private:
-    // The distinct points of a spline in increasing order: the IDs of its SETG, or the points of a SPLINE3.
+    // The distinct points of a spline in increasing order: the IDs of its SETG, or the points of an
+    // AeroSplineEquation3.
     static std::vector<base::EntityId> pointsOf(const model::Model& model, const aero::SplineEntry& entry)
     {
         if (entry.hasPointList)

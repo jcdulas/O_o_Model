@@ -21,11 +21,12 @@ struct DirectMatrixAxisymFormat
     static void write(const DirectMatrixAxisymCard& card, FieldWriter& writer);
 };
 
-// All the DMIAX cards: the headers and the columns of every matrix, one row each, in the order of the deck. A card has
-// no numeric ID (IdSpace::None); the matrix is found by the name. The terms of a column are five lists in CSR form
-// (point, component, harmonic, real part, imaginary part). The points of the column and of its terms are grid, scalar
-// or extra points (the fluid points RINGFL, PRESPT and FREEPT are not typed cards yet, so a field may name one that the
-// model does not have: ScalarOrGridPoint, which is never reported as missing).
+// All the DirectMatrixAxisym cards: the headers and the columns of every matrix, one row each, in the order of the
+// deck. A card has no numeric ID (IdSpace::None); the matrix is found by the name. The terms of a column are five lists
+// in CSR form (point, component, harmonic, real part, imaginary part). The points of the column and of its terms are
+// grid, scalar or extra points (the fluid points AxisymFluidRing, AxisymFluidPressurePoint and AxisymFluidFreePoint are
+// not typed cards yet, so a field may name one that the model does not have: ScalarOrGridPoint, which is never reported
+// as missing).
 class DirectMatrixAxisymTable final : public TypedTable<DirectMatrixAxisymTable, DirectMatrixAxisymCard>
 {
 public:

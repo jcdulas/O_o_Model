@@ -14,9 +14,9 @@ enum class ElementRole : std::uint8_t
     Shell,     // two-dimensional elements: shells, plane and axisymmetric elements, shear panels
     Solid,     // three-dimensional elements
     Line,      // structural 1D elements: rods, tubes, bars, beams, bends
-    Mass,      // concentrated masses (CONM1, CONM2, CMASS1 to CMASS4)
+    Mass,      // concentrated masses (PointMassMatrix, PointMassInertia, MassDofProperty to MassScalarInline)
     Connector, // springs, dampers, bushes, gaps, fasteners, welds, general elements: connections
-    Rigid      // rigid elements (RBE1, RBE2, RBE3, RBAR, ...): connections
+    Rigid      // rigid elements (RigidBodyMulti, RigidBodyStar, RigidInterpolation, RigidBar, ...): connections
 };
 
 // The role of the elements of a card type (by the type index of the registry). `name` is the card name.

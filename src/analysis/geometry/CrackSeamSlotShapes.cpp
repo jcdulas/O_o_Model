@@ -10,22 +10,24 @@
 // The crack tip, seam, slot and spring elements.
 //
 // What each gives:
-//   CRAC2D, CRAC3D  the nodes only (G1 to G18 and G1 to G64, 0 for a blank field), so that the element is in the
-//                   node-to-element index; every quantity is NaN. The format reference draws the crack tip elements in
-//                   figures but gives no rule for an area or a volume.
-//   CSEAM           a segment from GS to GE when the seam is given by its two grid points: the centre is the middle and
-//                   the length the distance between them (the format reference: the length of the seam is the distance
-//                   between GS and GE). A seam given by coordinates (the alternate format) has no nodes and no
-//                   quantity.
-//   CSPR            a segment from G1 to G2: the centre and the length.
-//   CSLOT3, CSLOT4  a surface of three or four points, as the acoustic absorber CAABSF is: the centre is the mean of
-//                   the points, the normal follows the right-hand rule on the order of the points and the area is that
-//                   of a shell with no thickness (no thickness, no volume, no element system). The points are GRIDS
-//                   slot points: a GRIDS has no position of its own in the basic system, so the element lies in the
-//                   plane of the slot cavity, x being the R of a point and y its Z (NodeLookup::slotPoint; the slot
-//                   width W is not a coordinate). A point that is a grid point is used as it is, one that is another
-//                   point (a scalar point) has no position and the quantities are NaN, and a point that no card defines
-//                   at all makes the geometry of the whole card type fail, as it does for every element.
+//   CrackTip2D, CrackTip3D  the nodes only (G1 to G18 and G1 to G64, 0 for a blank field), so that the element is in
+//                           the node-to-element index; every quantity is NaN. The format reference draws the crack tip
+//                           elements in figures but gives no rule for an area or a volume.
+//   Seam           a segment from GS to GE when the seam is given by its two grid points: the centre is the middle and
+//                  the length the distance between them (the format reference: the length of the seam is the distance
+//                  between GS and GE). A seam given by coordinates (the alternate format) has no nodes and no
+//                  quantity.
+//   SpringOffsetExplicit  a segment from G1 to G2: the centre and the length.
+//   AcousticSlot3, AcousticSlot4  a surface of three or four points, as the acoustic absorber AcousticAbsorber is: the
+//                                 centre is the mean of the points, the normal follows the right-hand rule on the order
+//                                 of the points and the area is that of a shell with no thickness (no thickness, no
+//                                 volume, no element system). The points are AcousticSlotSurfacePoint slot points: an
+//                                 AcousticSlotSurfacePoint has no position of its own in the basic system, so the
+//                                 element lies in the plane of the slot cavity, x being the R of a point and y its Z
+//                                 (NodeLookup::slotPoint; the slot width W is not a coordinate). A point that is a grid
+//                                 point is used as it is, one that is another point (a scalar point) has no position
+//                                 and the quantities are NaN, and a point that no card defines at all makes the
+//                                 geometry of the whole card type fail, as it does for every element.
 
 namespace oor::analysis::detail
 {

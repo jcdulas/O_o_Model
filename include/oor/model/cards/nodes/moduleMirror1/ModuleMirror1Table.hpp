@@ -19,9 +19,9 @@ struct ModuleMirror1Format
     static void write(const ModuleMirror1Card& card, FieldWriter& writer);
 };
 
-// All the MDMIR1 cards, in the category ModuleMove with the other four moves: the MVID is unique per card type
-// (IdSpace::PerCardType) and an MDMOVE names it. P1, P2 and P3 are references to points (GRID or POINT) of the main
-// Bulk Data. The cards are kept whole next to a column of their MVIDs.
+// All the ModuleMirror1 cards, in the category ModuleMove with the other four moves: the MVID is unique per card type
+// (IdSpace::PerCardType) and a ModuleMoveSequence names it. P1, P2 and P3 are references to points (GRID or POINT) of
+// the main Bulk Data. The cards are kept whole next to a column of their MVIDs.
 class ModuleMirror1Table final : public TypedTable<ModuleMirror1Table, ModuleMirror1Card>
 {
 public:

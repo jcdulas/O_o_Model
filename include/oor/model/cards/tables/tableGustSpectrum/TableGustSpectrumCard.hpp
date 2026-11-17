@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One TABRNDG card: the power spectral density of a gust for an aeroelastic response analysis (referenced by the
-// RANDPS cards).
+// One TableGustSpectrum card: the power spectral density of a gust for an aeroelastic response analysis (referenced by
+// the RandomSpectralDensity cards).
 //
-// Card layout: TABRNDG  TID  TYPE  L/U  WG
+// Card layout: TableGustSpectrum  TID  TYPE  L/U  WG
 // TYPE is 1 for the von Karman model and 2 for the Dryden one; L/U is the scale of the turbulence divided by the
 // velocity (a time), WG the root-mean-square gust velocity. The density is then
 //   Sq(w) = 2 WG^2 (L/U) (1 + 2 (p + 1) k^2 (L/U)^2 w^2) / (1 + k^2 (L/U)^2 w^2)^(p + 3/2)

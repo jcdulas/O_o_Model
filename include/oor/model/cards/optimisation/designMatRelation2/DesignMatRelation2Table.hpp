@@ -19,9 +19,9 @@ struct DesignMatRelation2Format
     static void write(const DesignMatRelation2Card& card, FieldWriter& writer);
 };
 
-// All the DVMREL2 cards. The ID is unique among the DVMREL2 cards (IdSpace::PerCardType) and in the category
-// MaterialRelation with the DVMREL1 cards; the MID is a material of the type TYPE names, the EQID a DEQATN and the
-// DVIDs design variables.
+// All the DesignMatRelation2 cards. The ID is unique among the DesignMatRelation2 cards (IdSpace::PerCardType) and in
+// the category MaterialRelation with the DesignMatRelation1 cards; the MID is a material of the type TYPE names, the
+// EQID a DesignEquation and the DVIDs design variables.
 class DesignMatRelation2Table final : public TypedTable<DesignMatRelation2Table, DesignMatRelation2Card>
 {
 public:

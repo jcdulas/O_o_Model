@@ -18,8 +18,8 @@ struct NonlinearHarmonicSolverParamsFormat
     static void write(const NonlinearHarmonicSolverParamsCard& card, FieldWriter& writer);
 };
 
-// All the NHRMPRM cards (no ID: IdSpace::None, category Other). The card names no other card. It is kept whole: its
-// pairs of name and value are a list that nobody reads as columns.
+// All the NonlinearHarmonicSolverParams cards (no ID: IdSpace::None, category Other). The card names no other card. It
+// is kept whole: its pairs of name and value are a list that nobody reads as columns.
 class NonlinearHarmonicSolverParamsTable final
     : public TypedTable<NonlinearHarmonicSolverParamsTable, NonlinearHarmonicSolverParamsCard>
 {

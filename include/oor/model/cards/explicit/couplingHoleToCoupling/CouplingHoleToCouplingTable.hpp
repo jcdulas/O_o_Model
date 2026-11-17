@@ -19,8 +19,8 @@ struct CouplingHoleToCouplingFormat
     static void write(const CouplingHoleToCouplingCard& card, FieldWriter& writer);
 };
 
-// All the PORFCPL cards: the PID is unique among them (IdSpace::PerCardType, category Porosity). A LEAKAGE names it;
-// the CSID is a COUPLE and the MID a MATDEUL.
+// All the CouplingHoleToCoupling cards: the PID is unique among them (IdSpace::PerCardType, category Porosity). A
+// GasBagLeakage names it; the CSID is an EulerLagrangeCoupling and the MID an EulerMat.
 class CouplingHoleToCouplingTable final : public TypedTable<CouplingHoleToCouplingTable, CouplingHoleToCouplingCard>
 {
 public:

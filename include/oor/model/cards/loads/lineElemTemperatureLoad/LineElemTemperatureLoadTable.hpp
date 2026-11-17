@@ -20,8 +20,8 @@ struct LineElemTemperatureLoadFormat
     static void write(const LineElemTemperatureLoadCard& card, FieldWriter& writer);
 };
 
-// All the TEMPRB cards. The ID is a temperature set ID shared by many cards (IdSpace::Group, category Load). The
-// element lists are one CSR column of (first, last) runs.
+// All the LineElemTemperatureLoad cards. The ID is a temperature set ID shared by many cards (IdSpace::Group, category
+// Load). The element lists are one CSR column of (first, last) runs.
 class LineElemTemperatureLoadTable final : public TypedTable<LineElemTemperatureLoadTable, LineElemTemperatureLoadCard>
 {
 public:

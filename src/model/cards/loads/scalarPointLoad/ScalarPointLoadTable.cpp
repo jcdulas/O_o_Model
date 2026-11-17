@@ -109,7 +109,8 @@ void ScalarPointLoadTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void ScalarPointLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // A scalar point may be named without an SPOINT that defines it (a scalar element does), so the check lets it be.
+    // A scalar point may be named without a ScalarPoint that defines it (a scalar element does), so the check lets it
+    // be.
     std::vector<base::EntityId> nodes(m_node.get(row).begin(), m_node.get(row).end());
     bool changed = false;
     for (base::EntityId& node : nodes)

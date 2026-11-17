@@ -137,7 +137,7 @@ void GapPropTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void GapPropTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // A PGAP refers to no other card.
+    // A GapProp refers to no other card.
 }
 
 } // namespace oor::model

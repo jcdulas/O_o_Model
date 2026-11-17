@@ -19,8 +19,9 @@ struct AcousticAbsorberBrickPropFormat
     static void write(const AcousticAbsorberBrickPropCard& card, FieldWriter& writer);
 };
 
-// All the PACABS cards. The ID is a property ID, in the space every property shares (IdSpace::Property: a CHACAB names
-// it as its PID). The tables are references to dynamic tables. The absent values are NaN.
+// All the AcousticAbsorberBrickProp cards. The ID is a property ID, in the space every property shares
+// (IdSpace::Property: an AcousticAbsorberHexa names it as its PID). The tables are references to dynamic tables. The
+// absent values are NaN.
 class AcousticAbsorberBrickPropTable final
     : public TypedTable<AcousticAbsorberBrickPropTable, AcousticAbsorberBrickPropCard>
 {

@@ -19,9 +19,9 @@ struct IgnitionGrowthStateEquationFormat
     static void write(const IgnitionGrowthStateEquationCard& card, FieldWriter& writer);
 };
 
-// All the EOSIG cards. The ID is the number of an equation of state, unique among the cards of its category
-// (IdSpace::PerCardType: the other EOSxxx cards share the category, and a check reports an ID two of them have). The
-// cards are kept whole (CardRows) next to their ID: they are few, and the query engine reads the ID.
+// All the IgnitionGrowthStateEquation cards. The ID is the number of an equation of state, unique among the cards of
+// its category (IdSpace::PerCardType: the other EOSxxx cards share the category, and a check reports an ID two of them
+// have). The cards are kept whole (CardRows) next to their ID: they are few, and the query engine reads the ID.
 class IgnitionGrowthStateEquationTable final
     : public TypedTable<IgnitionGrowthStateEquationTable, IgnitionGrowthStateEquationCard>
 {
@@ -38,7 +38,8 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an EOSIG refers to no other card
+    // an IgnitionGrowthStateEquation refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

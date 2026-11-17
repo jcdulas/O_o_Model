@@ -19,7 +19,7 @@ struct RigidMatFormat
     static void write(const RigidMatCard& card, FieldWriter& writer);
 };
 
-// All the MATRIG cards. The ID is a material ID, in the space every material type shares (IdSpace::Material): the
+// All the RigidMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material): the
 // properties of the elements of the rigid body name it. The cards are kept whole (CardRows: most of the fields are
 // optional); the query engine reads the ID only. CID refers to a coordinate system.
 class RigidMatTable final : public TypedTable<RigidMatTable, RigidMatCard>

@@ -9,7 +9,7 @@
 namespace oor::model
 {
 
-// The hyperelastic model of a MATHE card.
+// The hyperelastic model of a HyperelasticMat card.
 enum class HyperelasticMatModel : std::uint8_t
 {
     Mooney, // MOONEY: the generalised Mooney-Rivlin model (the default)
@@ -25,28 +25,28 @@ enum class HyperelasticMatModel : std::uint8_t
     Ghem6
 };
 
-// One MATHE card: a hyperelastic (rubber-like) material of SOL 400.
+// One HyperelasticMat card: a hyperelastic (rubber-like) material of SOL 400.
 //
 // Card layout (the fields are numbered across the lines, eight to a line; the format reference draws four formats
 // selected by MODEL).
 //
 // Format 1, MOONEY (the default):
-//   MATHE  MID    MODEL  (blank) K      RHO    TEXP   TREF   GE             fields 1 to 8
-//          C10    C01    D1      TAB1   TAB2   TAB3   TAB4   TABD           9 to 16
-//          C20    C11    C02     D2     NA     ND                           17 to 22
-//          C30    C21    C12     C03    D3                                  25 to 29
-//          C40    C31    C22     C13    C04    D4                           33 to 38
-//          C50    C41    C32     C23    C14    C05    D5                    41 to 47
+//   HyperelasticMat  MID    MODEL  (blank) K      RHO    TEXP   TREF   GE   fields 1 to 8
+//                    C10    C01    D1      TAB1   TAB2   TAB3   TAB4   TABD           9 to 16
+//                    C20    C11    C02     D2     NA     ND                           17 to 22
+//                    C30    C21    C12     C03    D3                                  25 to 29
+//                    C40    C31    C22     C13    C04    D4                           33 to 38
+//                    C50    C41    C32     C23    C14    C05    D5                    41 to 47
 // Format 2, OGDEN and FOAM:
-//   MATHE  MID    MODEL  NOT     K      RHO    TEXP   TREF   GE             1 to 8
-//          MU1    ALPHA1 BETA1                                               9 to 11
-//          MU2    ALPHA2 BETA2   MU3    ALPHA3 BETA3                        17 to 22
-//          MU4    ALPHA4 BETA4   MU5    ALPHA5 BETA5                        25 to 30
-//          D1     D2     D3      D4     D5                                   33 to 37
+//   HyperelasticMat  MID    MODEL  NOT     K      RHO    TEXP   TREF   GE   1 to 8
+//                    MU1    ALPHA1 BETA1                                               9 to 11
+//                    MU2    ALPHA2 BETA2   MU3    ALPHA3 BETA3                        17 to 22
+//                    MU4    ALPHA4 BETA4   MU5    ALPHA5 BETA5                        25 to 30
+//                    D1     D2     D3      D4     D5                                   33 to 37
 // Format 3, ABOYCE and GENT:
-//   MATHE  MID    MODEL  (blank) K      RHO    TEXP   TREF   GE             1 to 8
-//          NKT    N/E    IM                                                  9 to 11
-//          D1     D2     D3      D4     D5                                   17 to 21
+//   HyperelasticMat  MID    MODEL  (blank) K      RHO    TEXP   TREF   GE   1 to 8
+//                    NKT    N/E    IM                                                  9 to 11
+//                    D1     D2     D3      D4     D5                                   17 to 21
 // Format 4, GHEM1 to GHEM6: the first line only.
 //
 // K is the bulk modulus: absent (blank) for the automatic nearly incompressible value, -1.0 for the volumetric strain
@@ -54,8 +54,8 @@ enum class HyperelasticMatModel : std::uint8_t
 // not written: a card that gives a value the model has no field for is an error. The constants of the Mooney-Rivlin
 // model are kept in `coefficientsC` in the order C10 C01 C20 C11 C02 C30 C21 C12 C03 C40 C31 C22 C13 C04 C50 C41 C32
 // C23 C14 C05; `coefficientsD` is D1 to D5 for MOONEY, OGDEN (not FOAM), ABOYCE and GENT. NA is 2 when blank, ND is 1,
-// NOT is 1. The five tables are TABLES1 cards of the experiments from which the Cij and Di can be estimated (0 when
-// blank). NKT and N/E are 1.0 when blank and IM (GENT only) is 0.0.
+// NOT is 1. The five tables are TableStress1 cards of the experiments from which the Cij and Di can be estimated (0
+// when blank). NKT and N/E are 1.0 when blank and IM (GENT only) is 0.0.
 struct HyperelasticMatCard
 {
     static constexpr int DEFAULT_DISTORTIONAL_ORDER = 2;

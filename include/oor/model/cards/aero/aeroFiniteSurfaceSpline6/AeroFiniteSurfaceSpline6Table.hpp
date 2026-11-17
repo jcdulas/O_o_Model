@@ -20,11 +20,12 @@ struct AeroFiniteSurfaceSpline6Format
     static void write(const AeroFiniteSurfaceSpline6Card& card, FieldWriter& writer);
 };
 
-// All the SPLINE6 cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7
-// and SPLINEX; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the others).
-// The CAERO is an aerodynamic element (ReferenceTarget::AeroElement) and may be blank, the AELIST and the VSLIST AELIST
-// cards (ReferenceTarget::AeroList) and SETG a SET1 or SET3 (ReferenceTarget::Set). The cards are kept whole (CardRows)
-// next to their EID: a SPLINE6 has nineteen fields of its own and few of them are ever set.
+// All the AeroFiniteSurfaceSpline6 cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline; IdSpace::PerCardType refuses a repeat inside this
+// type and a check across the types reports the others). The CAERO is an aerodynamic element
+// (ReferenceTarget::AeroElement) and may be blank, the AELIST and the VSLIST AELIST cards (ReferenceTarget::AeroList)
+// and SETG an IdListSet1 or TypedListSet3 (ReferenceTarget::Set). The cards are kept whole (CardRows) next to their
+// EID: an AeroFiniteSurfaceSpline6 has nineteen fields of its own and few of them are ever set.
 class AeroFiniteSurfaceSpline6Table final
     : public TypedTable<AeroFiniteSurfaceSpline6Table, AeroFiniteSurfaceSpline6Card>
 {

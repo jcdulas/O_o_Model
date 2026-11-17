@@ -10,8 +10,8 @@
 namespace oor::model
 {
 
-// The surface finish of the material of an element (the FINISH field of a PFTG), in the order of the format reference
-// list.
+// The surface finish of the material of an element (the FINISH field of a FatigueProp), in the order of the format
+// reference list.
 enum class FatiguePropFinish : std::uint8_t
 {
     None,
@@ -28,11 +28,12 @@ inline constexpr std::array<std::string_view, 9> FATIGUE_PROP_FINISH_WORDS{
     "None", "PolishedSurface", "GroundSurface",      "MachinedSurface", "PoorSurface", "RolledSurface",
     "Cast", "RoughnessFactor", "SurfaceFinishFactor"};
 
-// One PFTG card: the fatigue properties of the elements that an FTGDEF gives it to (its PFTGID or PFTGIDi).
+// One FatigueProp card: the fatigue properties of the elements that a FatigueDefinition gives it to (its PFTGID or
+// PFTGIDi).
 //
 // Card layout:
-//   PFTG  ID   (blank)  FINISH  KFINISH  KF     SCALE  OFFSET                       fields 1 to 7
-//         (blank)  KTREAT  DIAM  T1  T2  SPTFLG                                      fields 8 to 13
+//   FatigueProp  ID   (blank)  FINISH  KFINISH  KF     SCALE  OFFSET                fields 1 to 7
+//                (blank)  KTREAT  DIAM  T1  T2  SPTFLG                                      fields 8 to 13
 // Field 2 and the first field of the continuation line are unused blank cells (SCALE is field 6), so a value there is
 // refused.
 //
@@ -42,7 +43,8 @@ inline constexpr std::array<std::string_view, 9> FATIGUE_PROP_FINISH_WORDS{
 // T1 and T2 are for spot welds only; T1 and T2 come as a pair (one given without the other is an error), and the
 // thicknesses come from the shells when they are blank.
 //
-// The ID is unique among the PFTG cards (IdSpace::PerCardType, the category FatigueProperty that an FTGDEF names).
+// The ID is unique among the FatigueProp cards (IdSpace::PerCardType, the category FatigueProperty that a
+// FatigueDefinition names).
 struct FatiguePropCard
 {
     base::EntityId id = 0;
@@ -55,7 +57,7 @@ struct FatiguePropCard
     std::optional<double> diameter;
     std::optional<double> thickness1;
     std::optional<double> thickness2;
-    int spotWeldFlag = 0; // 1: the spot weld diameter is looked up in a table even for a CWELD
+    int spotWeldFlag = 0; // 1: the spot weld diameter is looked up in a table even for a Weld
 };
 
 } // namespace oor::model

@@ -19,11 +19,11 @@ struct DesignTopometryRegionFormat
     static void write(const DesignTopometryRegionCard& card, FieldWriter& writer);
 };
 
-// All the TOMVAR cards. The ID is unique among them (IdSpace::PerCardType, no category of its own: the TID of a DLINK
-// line names another TOMVAR by its number, which stays a plain ID since nothing but this line names a TOMVAR). The PID
-// and the SYMPIDs are properties (Property), the CID of the SYM line a coordinate system (Coordinate) and the DSVID of
-// the DDVAL line a DDVAL (DiscreteValueSet). The cards are kept whole next to the columns the query engine reads: the
-// ID and the property.
+// All the DesignTopometryRegion cards. The ID is unique among them (IdSpace::PerCardType, no category of its own: the
+// TID of a DesignVarLink line names another DesignTopometryRegion by its number, which stays a plain ID since nothing
+// but this line names a DesignTopometryRegion). The PID and the SYMPIDs are properties (Property), the CID of the SYM
+// line a coordinate system (Coordinate) and the DSVID of the DesignDiscreteValues line a DesignDiscreteValues
+// (DiscreteValueSet). The cards are kept whole next to the columns the query engine reads: the ID and the property.
 class DesignTopometryRegionTable final : public TypedTable<DesignTopometryRegionTable, DesignTopometryRegionCard>
 {
 public:

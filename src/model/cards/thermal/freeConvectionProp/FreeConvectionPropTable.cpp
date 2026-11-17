@@ -116,7 +116,7 @@ std::optional<CardProblem> FreeConvectionPropFormat::check(const FreeConvectionP
                                "convectionCoefficient"};
     }
     // MID gives the coefficient (FTYPE 0) or the conductivity (FTYPE 2); the tabular function
-    // of FTYPE 1 and 2 is the TABLEHT of TID.
+    // of FTYPE 1 and 2 is the TableHeatTwoVariables of TID.
     if ((card.formulaKind == 0 || card.formulaKind == 2) && card.matId == 0)
         return CardProblem{
             "card.missing-field",

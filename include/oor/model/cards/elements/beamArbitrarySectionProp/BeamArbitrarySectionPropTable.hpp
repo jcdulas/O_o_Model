@@ -19,9 +19,9 @@ struct BeamArbitrarySectionPropFormat
     static void write(const BeamArbitrarySectionPropCard& card, FieldWriter& writer);
 };
 
-// All the PBMSECT cards, kept whole next to a column of their PIDs. A PBMSECT is a property (IdSpace::Property): the
-// PID of a CBEAM finds it. It names a material, the SET1 or SET3 cards of its perimeters and branches, and the PCOMP or
-// PCOMPG cards of its core and layers.
+// All the BeamArbitrarySectionProp cards, kept whole next to a column of their PIDs. A BeamArbitrarySectionProp is a
+// property (IdSpace::Property): the PID of a Beam2 finds it. It names a material, the IdListSet1 or TypedListSet3 cards
+// of its perimeters and branches, and the CompProp or CompPropGlobal cards of its core and layers.
 class BeamArbitrarySectionPropTable final
     : public TypedTable<BeamArbitrarySectionPropTable, BeamArbitrarySectionPropCard>
 {

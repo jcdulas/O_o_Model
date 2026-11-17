@@ -7,15 +7,15 @@
 namespace oor::model
 {
 
-// One AEPARM card: a general controller of a trim, an aerodynamic extra point whose forces come from the AEDW, AEFORCE
-// and AEPRESS cards that name it.
+// One AeroController card: a general controller of a trim, an aerodynamic extra point whose forces come from the
+// AeroDownwash, AeroForceVector and AeroPressureVector cards that name it.
 //
-// Card layout: AEPARM  ID  LABEL  UNITS
-// The LABEL names the controller; together with the labels of every AESURF and AESTAT it must be unique, because the
-// set of labels is the set of trim variables of the model (a check across the cards, not made here). A
-// TRIM, an AELINK or a UXVEC finds the controller by its label, without regard to the case. UNITS is a text that only
-// labels the output and may be blank, which the card keeps as an empty string. The ID is ignored by
-// the solver: two cards may have the same one. Label and units are kept as written.
+// Card layout: AeroController  ID  LABEL  UNITS
+// The LABEL names the controller; together with the labels of every AeroControlSurface and AeroRigidTrimVariable it
+// must be unique, because the set of labels is the set of trim variables of the model (a check across the cards, not
+// made here). A TRIM, an AeroTrimLink or an AeroControlVector finds the controller by its label, without regard to the
+// case. UNITS is a text that only labels the output and may be blank, which the card keeps as an empty string. The ID
+// is ignored by the solver: two cards may have the same one. Label and units are kept as written.
 struct AeroControllerCard
 {
     base::EntityId id = 0;

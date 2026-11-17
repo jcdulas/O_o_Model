@@ -20,10 +20,11 @@ struct AeroBody2Format
     static void write(const AeroBody2Card& card, FieldWriter& writer);
 };
 
-// All the CAERO2 cards. The EID is in the space of the aerodynamic elements (IdSpace::AeroElement, category
-// AeroElement) that CAERO1 to CAERO5 share: a PAERO1 names it as one of its bodies (ReferenceTarget::AeroElement) and a
-// spline names the elements it owns from the EID on (ReferenceTarget::AeroBox). The PID is a PAERO2
-// (ReferenceTarget::AeroProperty), CP a coordinate system, LSB and LINT AEFACT cards (ReferenceTarget::AeroFactor).
+// All the AeroBody2 cards. The EID is in the space of the aerodynamic elements (IdSpace::AeroElement, category
+// AeroElement) that AeroLiftingPanel1 to AeroPistonPanel5 share: an AeroLiftingPanelProp1 names it as one of its bodies
+// (ReferenceTarget::AeroElement) and a spline names the elements it owns from the EID on (ReferenceTarget::AeroBox).
+// The PID is an AeroBodyProp2 (ReferenceTarget::AeroProperty), CP a coordinate system, LSB and LINT AeroFactorList
+// cards (ReferenceTarget::AeroFactor).
 class AeroBody2Table final : public TypedTable<AeroBody2Table, AeroBody2Card>
 {
 public:

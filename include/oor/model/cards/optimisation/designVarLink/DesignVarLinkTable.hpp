@@ -19,8 +19,8 @@ struct DesignVarLinkFormat
     static void write(const DesignVarLinkCard& card, FieldWriter& writer);
 };
 
-// All the DLINK cards. The ID is unique among them (IdSpace::PerCardType); the dependent variable and the independent
-// ones are DESVAR IDs.
+// All the DesignVarLink cards. The ID is unique among them (IdSpace::PerCardType); the dependent variable and the
+// independent ones are DesignVar IDs.
 class DesignVarLinkTable final : public TypedTable<DesignVarLinkTable, DesignVarLinkCard>
 {
 public:

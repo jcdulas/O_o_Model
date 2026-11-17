@@ -159,7 +159,7 @@ void CompSolidPropNonlinearTable::setIdAtRow(std::uint32_t row, base::EntityId i
 void CompSolidPropNonlinearTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     CompSolidPropNonlinearCard& card = m_cards.edit(row);
-    // The material of a ply may be a MAT4 or MAT5 for a heat ply: the Material target falls back to them.
+    // The material of a ply may be a HeatIsoMat or HeatAnisoMat for a heat ply: the Material target falls back to them.
     for (CompSolidPropNonlinearPly& ply : card.plies)
         ply.matId = visitor.visit("matId1", ReferenceTarget::Material, ply.matId);
     // 0 is the basic system and -1 the element system: neither is a card.

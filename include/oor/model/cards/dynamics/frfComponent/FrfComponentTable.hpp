@@ -19,8 +19,8 @@ struct FrfComponentFormat
     static void write(const FrfComponentCard& card, FieldWriter& writer);
 };
 
-// All the FRFCOMP cards. The COMPID is unique among them (IdSpace::PerCardType, category FrfComponent): the other FRF
-// cards name a component by it (ReferenceTarget::FrfComponent), or by its name. The card names no other card.
+// All the FrfComponent cards. The COMPID is unique among them (IdSpace::PerCardType, category FrfComponent): the other
+// FRF cards name a component by it (ReferenceTarget::FrfComponent), or by its name. The card names no other card.
 class FrfComponentTable final : public TypedTable<FrfComponentTable, FrfComponentCard>
 {
 public:

@@ -19,10 +19,10 @@ struct FailureMatTemperatureFormat
     static void write(const FailureMatTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATTF cards. The ID space is the card type's own: the ID is the one of the MATF that the card extends (the ID
-// of its material), so it is also a reference to a material (renumbering the materials follows into it), and the tables
-// are references to TABLEMi cards (ReferenceTarget::MaterialTable). The cards are kept whole (CardRows: the blocks have
-// a count of their own); the query engine reads the ID only.
+// All the FailureMatTemperature cards. The ID space is the card type's own: the ID is the one of the FailureMat that
+// the card extends (the ID of its material), so it is also a reference to a material (renumbering the materials follows
+// into it), and the tables are references to TABLEMi cards (ReferenceTarget::MaterialTable). The cards are kept whole
+// (CardRows: the blocks have a count of their own); the query engine reads the ID only.
 class FailureMatTemperatureTable final : public TypedTable<FailureMatTemperatureTable, FailureMatTemperatureCard>
 {
 public:

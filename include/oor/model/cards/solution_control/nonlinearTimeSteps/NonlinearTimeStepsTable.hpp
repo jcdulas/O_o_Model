@@ -20,9 +20,9 @@ struct NonlinearTimeStepsFormat
     static void write(const NonlinearTimeStepsCard& card, FieldWriter& writer);
 };
 
-// All the TSTEPNL cards. The ID is the one a TSTEP command of the Case Control selects: it is unique among the TSTEPNL
-// cards (IdSpace::PerCardType) and shared in the category TimeStep with the TSTEP cards. A field that is not given is
-// NO_INTEGER or NaN in its column.
+// All the NonlinearTimeSteps cards. The ID is the one a TransientTimeSteps command of the Case Control selects: it is
+// unique among the NonlinearTimeSteps cards (IdSpace::PerCardType) and shared in the category TimeStep with the
+// TransientTimeSteps cards. A field that is not given is NO_INTEGER or NaN in its column.
 class NonlinearTimeStepsTable final : public TypedTable<NonlinearTimeStepsTable, NonlinearTimeStepsCard>
 {
 public:
@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TSTEPNL refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a NonlinearTimeSteps refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<std::int32_t>& stepCountColumn() noexcept { return m_stepCount; }

@@ -19,7 +19,7 @@ struct DesignResp1Format
     static void write(const DesignResp1Card& card, FieldWriter& writer);
 };
 
-// All the DRESP1 cards. The ID is in the number space the three response cards share (category DesignResponse,
+// All the DesignResp1 cards. The ID is in the number space the three response cards share (category DesignResponse,
 // IdSpace::PerCardType: the check `design.response-id-repeated` reports a number two of them have); what the numbers of
 // the attributes name depends on the type of response (`DesignResp1References.hpp`).
 class DesignResp1Table final : public TypedTable<DesignResp1Table, DesignResp1Card>

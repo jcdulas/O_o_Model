@@ -19,9 +19,9 @@ struct ModuleFluidSetFormat
     static void write(const ModuleFluidSetCard& card, FieldWriter& writer);
 };
 
-// All the MDFSET cards, category Other. A card has no ID of its own (IdSpace::None): several cards may list the same
-// module. They are kept whole next to a column of their MODIDs. The IDs are fluid points or elements of a module and
-// name no card of this model: nothing is visited.
+// All the ModuleFluidSet cards, category Other. A card has no ID of its own (IdSpace::None): several cards may list the
+// same module. They are kept whole next to a column of their MODIDs. The IDs are fluid points or elements of a module
+// and name no card of this model: nothing is visited.
 class ModuleFluidSetTable final : public TypedTable<ModuleFluidSetTable, ModuleFluidSetCard>
 {
 public:

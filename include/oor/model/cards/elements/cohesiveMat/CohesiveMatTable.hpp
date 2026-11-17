@@ -19,10 +19,10 @@ struct CohesiveMatFormat
     static void write(const CohesiveMatCard& card, FieldWriter& writer);
 };
 
-// All the MCOHE cards. An MCOHE is a material: its ID is in the space every material type shares (IdSpace::Material),
-// so the cohesive elements' property and a MATUDS that names the material find it. Its TID is a stress table (TABLES1
-// or TABLEST: ReferenceTarget::StressTable). The cards are kept whole (CardRows) next to their ID: they are few, and
-// the query engine reads the ID.
+// All the CohesiveMat cards. A CohesiveMat is a material: its ID is in the space every material type shares
+// (IdSpace::Material), so the cohesive elements' property and an UserMatService that names the material find it. Its
+// TID is a stress table (TableStress1 or TableStressTemperature: ReferenceTarget::StressTable). The cards are kept
+// whole (CardRows) next to their ID: they are few, and the query engine reads the ID.
 class CohesiveMatTable final : public TypedTable<CohesiveMatTable, CohesiveMatCard>
 {
 public:

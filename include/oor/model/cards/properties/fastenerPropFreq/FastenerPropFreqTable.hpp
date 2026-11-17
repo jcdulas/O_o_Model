@@ -19,8 +19,8 @@ struct FastenerPropFreqFormat
     static void write(const FastenerPropFreqCard& card, FieldWriter& writer);
 };
 
-// All the PFASTT cards. The ID space is the card type's own: the ID is the one of the PFAST that the card extends, so
-// it is also a reference to a property. The two lists of tables are (N, 6) NumPy views without copy.
+// All the FastenerPropFreq cards. The ID space is the card type's own: the ID is the one of the FastenerProp that the
+// card extends, so it is also a reference to a property. The two lists of tables are (N, 6) NumPy views without copy.
 class FastenerPropFreqTable final : public TypedTable<FastenerPropFreqTable, FastenerPropFreqCard>
 {
 public:

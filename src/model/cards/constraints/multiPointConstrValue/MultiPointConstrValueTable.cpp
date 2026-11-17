@@ -9,8 +9,8 @@ namespace oor::model
 namespace
 {
 
-// The component of the dependent degree of freedom is one digit, unlike the set of digits of an SPCD: the equation has
-// one dependent term.
+// The component of the dependent degree of freedom is one digit, unlike the set of digits of an EnforcedMotionConstr:
+// the equation has one dependent term.
 bool isSingleComponent(std::int32_t component) noexcept
 {
     return component >= 0 && component <= 6;

@@ -20,11 +20,12 @@ struct AeroSurfaceSpline1Format
     static void write(const AeroSurfaceSpline1Card& card, FieldWriter& writer);
 };
 
-// All the SPLINE1 cards, in the category AeroSpline. The EID is in the number space of the splines, which the cards
-// SPLINE1 to SPLINE7 and SPLINEX share; each type refuses a repeat of its own (IdSpace::PerCardType) and a check across
-// the types reports the others. Nothing names a SPLINE, so no card points here. The CAERO is an aerodynamic element
-// (ReferenceTarget::AeroElement), BOX1 and BOX2 aerodynamic boxes (ReferenceTarget::AeroBox) and SETG a SET1 or SET3
-// (ReferenceTarget::Set). The method and the usage are kept as the numbers of their enumerators.
+// All the AeroSurfaceSpline1 cards, in the category AeroSpline. The EID is in the number space of the splines, which
+// the cards AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline share; each type refuses a repeat of its own
+// (IdSpace::PerCardType) and a check across the types reports the others. Nothing names a SPLINE, so no card points
+// here. The CAERO is an aerodynamic element (ReferenceTarget::AeroElement), BOX1 and BOX2 aerodynamic boxes
+// (ReferenceTarget::AeroBox) and SETG an IdListSet1 or TypedListSet3 (ReferenceTarget::Set). The method and the usage
+// are kept as the numbers of their enumerators.
 class AeroSurfaceSpline1Table final : public TypedTable<AeroSurfaceSpline1Table, AeroSurfaceSpline1Card>
 {
 public:

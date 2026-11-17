@@ -20,8 +20,8 @@ struct RadiationToSpaceFormat
     static void write(const RadiationToSpaceCard& card, FieldWriter& writer);
 };
 
-// All the RADBC cards. A RADBC has no ID (IdSpace::None, category Other: several cards may apply to the same ambient
-// point). The element lists are one CSR column of (first, last, by) runs.
+// All the RadiationToSpace cards. A RadiationToSpace has no ID (IdSpace::None, category Other: several cards may apply
+// to the same ambient point). The element lists are one CSR column of (first, last, by) runs.
 class RadiationToSpaceTable final : public TypedTable<RadiationToSpaceTable, RadiationToSpaceCard>
 {
 public:

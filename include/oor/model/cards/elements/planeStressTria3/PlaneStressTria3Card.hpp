@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One CPLSTS3 card: a three-node plane stress element (a card of another implementation: it is not in the format
-// reference).
+// One PlaneStressTria3 card: a three-node plane stress element (a card of another implementation: it is not in the
+// format reference).
 //
 // Layout:
-//   CPLSTS3  EID    PID    G1  G2  G3  THETA
-//                   TFLAG  T1  T2  T3
+//   PlaneStressTria3  EID    PID  G1  G2  G3  THETA
+//                            TFLAG  T1  T2  T3
 struct PlaneStressTria3Card
 {
     static constexpr double NO_THICKNESS = -1.0;

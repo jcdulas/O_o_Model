@@ -20,8 +20,9 @@ struct CrossSpectrumPairFormat
     static void write(const CrossSpectrumPairCard& card, FieldWriter& writer);
 };
 
-// All the RCROSS cards. The ID is a set ID shared by the RCROSS cards (IdSpace::Group). The ID of a response is an
-// element for STRESS, STRAIN and FORCE (ReferenceTarget::Element) and a grid or scalar point (Node) for the others.
+// All the CrossSpectrumPair cards. The ID is a set ID shared by the CrossSpectrumPair cards (IdSpace::Group). The ID of
+// a response is an element for STRESS, STRAIN and FORCE (ReferenceTarget::Element) and a grid or scalar point (Node)
+// for the others.
 class CrossSpectrumPairTable final : public TypedTable<CrossSpectrumPairTable, CrossSpectrumPairCard>
 {
 public:

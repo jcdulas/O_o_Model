@@ -18,8 +18,8 @@ struct SpringPropTableFormat
     static void write(const SpringPropTableCard& card, FieldWriter& writer);
 };
 
-// All the PELAS1 properties, kept in columns. The ID space is the one of every property (IdSpace::Property): a PELAS
-// and a PELAS1 cannot share an ID, as the format reference says.
+// All the SpringPropTable properties, kept in columns. The ID space is the one of every property (IdSpace::Property): a
+// SpringProp and a SpringPropTable cannot share an ID, as the format reference says.
 class SpringPropTableTable final : public TypedTable<SpringPropTableTable, SpringPropTableCard>
 {
 public:

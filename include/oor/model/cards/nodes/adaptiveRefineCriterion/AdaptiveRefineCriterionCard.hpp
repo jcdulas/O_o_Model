@@ -10,15 +10,15 @@
 namespace oor::model
 {
 
-// The number of parameters of a HADACRI. The layout has F1 to F6 (fields 3 to 8) while the field list
+// The number of parameters of an AdaptiveRefineCriterion. The layout has F1 to F6 (fields 3 to 8) while the field list
 // goes to F8, but no criterion reads more than six and there is no place for a seventh on the first line of
 // the card: the card has six.
 inline constexpr std::size_t ADAPTIVE_CRITERION_PARAMETER_COUNT = 6;
 
-// One HADACRI card: a criterion that picks the elements to refine in the adaptive mesh refinement of SOL 101 and 400. A
-// HADAPTL names it by CRITID.
+// One AdaptiveRefineCriterion card: a criterion that picks the elements to refine in the adaptive mesh refinement of
+// SOL 101 and 400. A AdaptiveRefineControl names it by CRITID.
 //
-// Card layout: HADACRI  CRITID  TYPE  F1  F2  F3  F4  F5  F6            fields 1 to 8
+// Card layout: AdaptiveRefineCriterion  CRITID  TYPE  F1  F2  F3  F4  F5  F6  fields 1 to 8
 // TYPE is the kind of criterion, 1 to 4, and is 1 when blank. The parameters are reals with no default; what each one
 // means depends on the TYPE (the format reference lists the others as ignored):
 //   TYPE 1  error indicator: an element is refined when the square of its error indicator (computed from the grid point
@@ -37,7 +37,8 @@ inline constexpr std::size_t ADAPTIVE_CRITERION_PARAMETER_COUNT = 6;
 // The text of the format gives TYPE as strictly between 1 and 4, its drawing as 1 to 4 (a lost sign); the drawing and
 // the list of four criteria decide.
 //
-// The CRITID is unique per card type (IdSpace::PerCardType, category AdaptivityCriterion); a HADAPTL names it.
+// The CRITID is unique per card type (IdSpace::PerCardType, category AdaptivityCriterion); an AdaptiveRefineControl
+// names it.
 struct AdaptiveRefineCriterionCard
 {
     base::EntityId id = 0;

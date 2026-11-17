@@ -128,7 +128,8 @@ public:
         std::vector<std::int64_t> cps(count);
         std::vector<std::int64_t> cds(count);
         std::vector<std::int64_t> elementCounts(count);
-        // the grid points that define a CORD1R, CORD1C or CORD1S (G1, G2, G3), null for a system given by coordinates
+        // the grid points that define a RectFrame1, CylindricalFrame1 or SphericalFrame1 (G1, G2, G3), null for a
+        // system given by coordinates
         std::array<std::vector<std::int32_t>, 3> points;
         std::array<std::vector<std::uint8_t>, 3> pointsValid;
         for (std::size_t item = 0; item < 3; ++item)

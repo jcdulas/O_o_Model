@@ -1,6 +1,6 @@
-// The geometry of the interface elements (CACINF3, CACINF4, CAXISYM, CBUSH2D, CIFHEX, CIFPENT, CIFQDX, CIFQUAD): the
-// base of an acoustic infinite element is a shell with no thickness, the axisymmetric line and the 2-D bush are
-// segments, and a cohesive element has its centre only.
+// The geometry of the interface elements (AcousticInfiniteTria3, AcousticInfiniteQuad4, ShellAxisym, Bushing2D,
+// CohesiveHexa, CohesivePenta, CohesiveAxisymQuad, CohesiveQuad): the base of an acoustic infinite element is a shell
+// with no thickness, the axisymmetric line and the 2-D bush are segments, and a cohesive element has its centre only.
 
 #include "oor/analysis/frames/FrameMath.hpp"
 #include "oor/analysis/geometry/ElementGeometry.hpp"
@@ -138,8 +138,8 @@ TEST_CASE("the 2-D bush is the segment between its two grids", "[analysis][geome
 
 TEST_CASE("the cohesive elements have the mean of their corner points as centre", "[analysis][geometry][interface]")
 {
-    // The unit cube for the CIFHEX: the bottom face z = 0 (G1 to G4) and the top face z = 1 (G5 to G8); the edge point
-    // 9 is far away, to show that the optional points do not count.
+    // The unit cube for the CohesiveHexa: the bottom face z = 0 (G1 to G4) and the top face z = 1 (G5 to G8); the edge
+    // point 9 is far away, to show that the optional points do not count.
     std::string deck = grid(1, 0, 0, 0) + grid(2, 1, 0, 0) + grid(3, 1, 1, 0) + grid(4, 0, 1, 0);
     deck += grid(5, 0, 0, 1) + grid(6, 1, 0, 1) + grid(7, 1, 1, 1) + grid(8, 0, 1, 1) + grid(9, 9, 9, 9);
     deck += "ScalarPoint;99\nCohesiveHexa;730;7;1;2;3;4;5;6;7;8;9\nCohesiveHexa;731;7;1;2;3;4;5;99;7;8\n";

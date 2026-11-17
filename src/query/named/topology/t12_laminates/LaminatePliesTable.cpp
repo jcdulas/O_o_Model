@@ -10,7 +10,7 @@ namespace oor::query
 namespace
 {
 
-// The laminate cards of a model (PCOMP and PCOMPG) in order of property ID.
+// The laminate cards of a model (CompProp and CompPropGlobal) in order of property ID.
 CardList laminateCards(const model::Model& model, const std::optional<std::vector<std::int64_t>>& ids)
 {
     std::vector<std::uint16_t> types;

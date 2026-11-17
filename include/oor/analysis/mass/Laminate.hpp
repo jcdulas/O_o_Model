@@ -30,7 +30,7 @@ struct LaminatePly
 //   d   the bending matrix D: the sum of Q (z top cubed - z bottom cubed) / 3
 //   g   the transverse shear matrix: SHEAR_FACTOR times the sum of the shear moduli of the plies (turned by the ply
 //       angle) times the thickness, for the shears (xz, yz); infinite on the diagonal (and 0 off it) when a ply has no
-//       transverse shear flexibility (a MAT8 with G1Z or G2Z blank or zero)
+//       transverse shear flexibility (an OrthoMat2D with G1Z or G2Z blank or zero)
 //
 // A, B and D are 3 x 3 matrices for the resultants (x, y, xy) and the engineering strains, G is 2 x 2; all are row by
 // row. The stack of the plies and the density of the plies come with them. All the matrices are NaN for a laminate
@@ -97,7 +97,7 @@ public:
     // classical correction of 5/6 for a rectangular section.
     static constexpr double SHEAR_FACTOR = 5.0 / 6.0;
 
-    // True for PCOMP and PCOMPG.
+    // True for CompProp and CompPropGlobal.
     [[nodiscard]] static bool supports(std::uint16_t propertyType) noexcept;
 
     // The plane stress stiffness of a ply (3 x 3, row by row, engineering shear) turned by its fibre angle (degrees,
@@ -105,12 +105,13 @@ public:
     [[nodiscard]] static std::array<double, 9> turnedStiffness(const std::array<double, 9>& stiffness,
                                                                double angleInDegrees);
 
-    // The stack of the plies of a PCOMP (the mirror image of the plies of a SYM laminate included) or PCOMPG, with the
-    // z of each face. Empty for another property.
+    // The stack of the plies of a CompProp (the mirror image of the plies of a SYM laminate included) or
+    // CompPropGlobal, with the z of each face. Empty for another property.
     [[nodiscard]] static std::vector<LaminatePly> stack(const model::Model& model, model::CardLocation location);
 
     // The stack and the matrices; nullopt for a property that is not a laminate. Throws MassError when a ply
-    // refers to a material that does not exist or has no plane stress law (the MAT1, MAT2, MAT8 and MAT9 give one).
+    // refers to a material that does not exist or has no plane stress law (the IsoMat, AnisoMat2D, OrthoMat2D and
+    // AnisoMat3D give one).
     [[nodiscard]] static std::optional<LaminateStiffness> of(const model::Model& model, model::CardLocation location);
     // The same with the derivatives of the matrices with respect to the thickness of each ply of the card.
     [[nodiscard]] static std::optional<LaminateStiffness> of(const model::Model& model, model::CardLocation location,

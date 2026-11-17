@@ -19,8 +19,8 @@ struct SuperelementGeneralizedDofSet1Format
     static void write(const SuperelementGeneralizedDofSet1Card& card, FieldWriter& writer);
 };
 
-// All the SEQSET1 cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a
-// column of their SEIDs.
+// All the SuperelementGeneralizedDofSet1 cards, category Superelement, no ID of their own (IdSpace::None). They are
+// kept whole next to a column of their SEIDs.
 class SuperelementGeneralizedDofSet1Table final
     : public TypedTable<SuperelementGeneralizedDofSet1Table, SuperelementGeneralizedDofSet1Card>
 {

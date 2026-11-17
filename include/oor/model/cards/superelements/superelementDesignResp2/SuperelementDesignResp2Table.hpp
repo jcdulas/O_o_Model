@@ -19,8 +19,8 @@ struct SuperelementDesignResp2Format
     static void write(const SuperelementDesignResp2Card& card, FieldWriter& writer);
 };
 
-// All the SEDRSP2 cards, filed under their ID (IdSpace::PerCardType, category DesignResponse like DRESP2). The cards
-// are kept whole next to a column of their IDs.
+// All the SuperelementDesignResp2 cards, filed under their ID (IdSpace::PerCardType, category DesignResponse like
+// DesignResp2). The cards are kept whole next to a column of their IDs.
 class SuperelementDesignResp2Table final : public TypedTable<SuperelementDesignResp2Table, SuperelementDesignResp2Card>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    // EQID is a DEQATN of this model; every item names a superelement and what it holds.
+    // EQID is a DesignEquation of this model; every item names a superelement and what it holds.
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }

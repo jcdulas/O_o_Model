@@ -19,10 +19,10 @@ struct ModuleRigidJointFormat
     static void write(const ModuleRigidJointCard& card, FieldWriter& writer);
 };
 
-// All the MDRJNT cards. The EID is an element number, which the rules of the RJOINT want unique among all the
-// elements; the table only keeps it unique among the MDRJNT cards (IdSpace::PerCardType, category Other) and a
-// validation check looks for a number that another kind of element shares. GA and GB are references to grid points in
-// their module: the main Bulk Data, or the part of another module. The cards are kept whole next to their
+// All the ModuleRigidJoint cards. The EID is an element number, which the rules of the RigidJoint want unique among all
+// the elements; the table only keeps it unique among the ModuleRigidJoint cards (IdSpace::PerCardType, category Other)
+// and a validation check looks for a number that another kind of element shares. GA and GB are references to grid
+// points in their module: the main Bulk Data, or the part of another module. The cards are kept whole next to their
 // ID.
 class ModuleRigidJointTable final : public TypedTable<ModuleRigidJointTable, ModuleRigidJointCard>
 {

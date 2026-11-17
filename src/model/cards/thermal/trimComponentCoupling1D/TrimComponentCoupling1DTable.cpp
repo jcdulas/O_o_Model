@@ -12,8 +12,8 @@ namespace
 constexpr int REGION_ID_FIELD = 16; // the last cell of the second line
 constexpr int METHOD_FIELD = 17;    // the first cell of the third line
 
-// A SET3 of the PLTSURF surfaces of the trim component TID: it is in the Bulk Data section BEGIN BULK TRMC=TID, a part
-// of the deck, as for an ACPEMCP, while the card itself is in the main Bulk Data.
+// A TypedListSet3 of the PlotSurface surfaces of the trim component TID: it is in the Bulk Data section BEGIN BULK
+// TRMC=TID, a part of the deck, as for a TrimComponentCoupling, while the card itself is in the main Bulk Data.
 // A blank set (0) is not visited.
 void visitTrimSet(ReferenceVisitor& visitor, std::string_view field, base::EntityId componentId, base::EntityId& set)
 {
@@ -98,7 +98,7 @@ void TrimComponentCoupling1DTable::setIdAtRow(std::uint32_t row, base::EntityId 
 void TrimComponentCoupling1DTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     // The TID and the RID are numbers of a trim component and of one of its regions: no card defines either. The four
-    // sets are SET3 cards of PLTSURF surfaces, in the part TRMC=TID.
+    // sets are TypedListSet3 cards of PlotSurface surfaces, in the part TRMC=TID.
     TrimComponentCoupling1DCard& card = m_cards.edit(row);
     visitTrimSet(visitor, "gluedSetId", card.id, card.gluedSetId);
     visitTrimSet(visitor, "slidingSetId", card.id, card.slidingSetId);

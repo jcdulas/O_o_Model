@@ -19,8 +19,8 @@ struct CouplingHoleToGasBagFormat
     static void write(const CouplingHoleToGasBagCard& card, FieldWriter& writer);
 };
 
-// All the PORFGBG cards: the FID is unique among them (IdSpace::PerCardType, category Porosity). A LEAKAGE names it;
-// the GBID is a GBAG and the MID a MATDEUL.
+// All the CouplingHoleToGasBag cards: the FID is unique among them (IdSpace::PerCardType, category Porosity). A
+// GasBagLeakage names it; the GBID is a GasBag and the MID an EulerMat.
 class CouplingHoleToGasBagTable final : public TypedTable<CouplingHoleToGasBagTable, CouplingHoleToGasBagCard>
 {
 public:

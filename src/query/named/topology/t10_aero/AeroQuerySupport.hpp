@@ -12,8 +12,9 @@
 #include <string_view>
 #include <vector>
 
-// What the queries of the aeroelastic model share: the IDs a list of runs stands for (the boxes of an AELIST, the
-// points of a SET1 or SET3), the cards of one type, and the subcases that select a card by a Case Control command.
+// What the queries of the aeroelastic model share: the IDs a list of runs stands for (the boxes of an AeroBoxList, the
+// points of an IdListSet1 or TypedListSet3), the cards of one type, and the subcases that select a card by a Case
+// Control command.
 
 namespace oor::query::aero
 {
@@ -48,12 +49,12 @@ private:
     std::vector<model::IdRun> m_runs;
 };
 
-// The items of the AELIST with this SID (aerodynamic boxes, or the points of an aerodynamic mesh); nothing when no
-// AELIST has it.
+// The items of the AeroBoxList with this SID (aerodynamic boxes, or the points of an aerodynamic mesh); nothing when no
+// AeroBoxList has it.
 [[nodiscard]] std::optional<IdRuns> aelistItems(const model::Model& model, base::EntityId sid);
 
-// The IDs of the SET1 cards and the SET3 cards of grid points that have this set ID (several cards with one ID are one
-// set); nothing when no such card exists.
+// The IDs of the IdListSet1 cards and the TypedListSet3 cards of grid points that have this set ID (several cards with
+// one ID are one set); nothing when no such card exists.
 [[nodiscard]] std::optional<IdRuns> setMembers(const model::Model& model, base::EntityId sid);
 
 // The live cards of one type, in the order of the deck.

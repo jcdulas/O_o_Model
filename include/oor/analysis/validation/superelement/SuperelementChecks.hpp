@@ -3,8 +3,9 @@
 #include "oor/analysis/validation/engine/CheckRegistry.hpp"
 
 // Family 9: superelements. The structure of the deck (the parts opened by BEGIN SUPER, BEGIN AUXMODEL, ...) and the
-// rules of the superelement cards that the format reference states (SESET, SEBULK, SECONCT, SETREE, ...): which cards
-// belong in the main Bulk Data, the points of a list, the tree, the mirror plane, the manual search of the boundary.
+// rules of the superelement cards that the format reference states (SuperelementInteriorNodes, SuperelementBulkOptions,
+// SuperelementConnection, SuperelementTree, ...): which cards belong in the main Bulk Data, the points of a list, the
+// tree, the mirror plane, the manual search of the boundary.
 
 namespace oor::analysis
 {

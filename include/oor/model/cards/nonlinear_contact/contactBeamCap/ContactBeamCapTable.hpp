@@ -18,8 +18,8 @@ struct ContactBeamCapFormat
     static void write(const ContactBeamCapCard& card, FieldWriter& writer);
 };
 
-// All the BCSCAP cards. The card is keyed by its beam element: unique among them (IdSpace::PerCardType, category
-// Other); the element is a reference.
+// All the ContactBeamCap cards. The card is keyed by its beam element: unique among them (IdSpace::PerCardType,
+// category Other); the element is a reference.
 class ContactBeamCapTable final : public TypedTable<ContactBeamCapTable, ContactBeamCapCard>
 {
 public:

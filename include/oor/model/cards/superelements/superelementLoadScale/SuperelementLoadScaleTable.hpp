@@ -19,8 +19,9 @@ struct SuperelementLoadScaleFormat
     static void write(const SuperelementLoadScaleCard& card, FieldWriter& writer);
 };
 
-// All the SELOAD cards. The cards of a load set share their SID (IdSpace::Group, category Load): the Case Control LOAD
-// and the EXCITEID of a dynamic load name the set. The cards are kept whole next to a column of their SIDs.
+// All the SuperelementLoadScale cards. The cards of a load set share their SID (IdSpace::Group, category Load): the
+// Case Control LOAD and the EXCITEID of a dynamic load name the set. The cards are kept whole next to a column of their
+// SIDs.
 class SuperelementLoadScaleTable final : public TypedTable<SuperelementLoadScaleTable, SuperelementLoadScaleCard>
 {
 public:

@@ -7,7 +7,7 @@
 namespace oor::model
 {
 
-// What a field of a DMI column entry is after the first row number I1.
+// What a field of a DirectMatrix column entry is after the first row number I1.
 enum class DirectMatrixTokenKind : std::uint8_t
 {
     Value, // an element of the column: A (and B after it for a complex matrix)
@@ -25,14 +25,14 @@ struct DirectMatrixToken
     [[nodiscard]] bool operator==(const DirectMatrixToken&) const noexcept = default;
 };
 
-// One DMI card: either the header of a matrix (the second field is the integer 0) or one column of it. The elements of
-// a column are kept as written (groups of elements after a row number, THRU runs): whether a value is real or the real
-// part of a complex pair depends on TIN of the header, which is another card, so a column is turned into elements by
-// the matrix (`directMatrixCoo`, MatrixCards.hpp), not by the card.
+// One DirectMatrix card: either the header of a matrix (the second field is the integer 0) or one column of it. The
+// elements of a column are kept as written (groups of elements after a row number, THRU runs): whether a value is real
+// or the real part of a complex pair depends on TIN of the header, which is another card, so a column is turned into
+// elements by the matrix (`directMatrixCoo`, MatrixCards.hpp), not by the card.
 //
-// Card layout, header:  DMI  NAME  "0"  FORM  TIN  TOUT  .  M  N
-//         column:      DMI  NAME  J    I1    A(I1,J)  A(I1+1,J)  -etc.-   I2  A(I2,J)  -etc.-
-//         complex:     DMI  NAME  J    I1    A(I1,J)  B(I1,J)  A(I1+1,J)  B(I1+1,J)  -etc.-
+// Card layout, header:  DirectMatrix  NAME  "0"  FORM  TIN  TOUT  .  M  N
+//         column:      DirectMatrix  NAME  J    I1  A(I1,J)  A(I1+1,J)  -etc.-   I2  A(I2,J)  -etc.-
+//         complex:     DirectMatrix  NAME  J    I1  A(I1,J)  B(I1,J)  A(I1+1,J)  B(I1+1,J)  -etc.-
 // FORM: 1 square, 2 rectangular, 3 diagonal, 4 lower triangular factor, 5 upper triangular factor, 6 symmetric,
 // 8 identity. TIN: 1 real single, 2 real double, 3 complex single, 4 complex double. TOUT: 0 set by the system, 1 to 4
 // as TIN. M rows and N columns (N is not used for FORM 3 and 8).

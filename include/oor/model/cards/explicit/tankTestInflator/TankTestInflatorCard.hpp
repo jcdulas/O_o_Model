@@ -20,38 +20,39 @@ enum class TankTestInflatorMethod : std::uint8_t
 inline constexpr std::array<std::string_view, 2> TANK_TEST_INFLATOR_METHOD_WORDS{"AverageTemperatureMethod",
                                                                                  "InfinitePressure"};
 
-// One INFLTNK card (SOL 700): an inflator described by what a tank test measured: the pressure in the tank against time
-// gives the mass flow rate and the temperature of the gas that the inflator blows into a GBAG or an Euler coupling
-// surface (COUPLE) through the ABINFL that names the card. With an Euler domain it works only with the single material
-// hydrodynamic solver and an EOSGAM equation of state.
+// One TankTestInflator card (SOL 700): an inflator described by what a tank test measured: the pressure in the tank
+// against time gives the mass flow rate and the temperature of the gas that the inflator blows into a GasBag or an
+// Euler coupling surface (EulerLagrangeCoupling) through the InflatorInlet that names the card. With an Euler domain it
+// works only with the single material hydrodynamic solver and a GammaLawStateEquation equation of state.
 //
 // Card layout, three lines:
-//   INFLTNK  INFLID  METHOD  TPTABLE  TANKVOL  INFLMAS  INITPRES  ENDPRES  INITTEMP   fields 1 to 8
+//   TankTestInflator  INFLID  METHOD  TPTABLE  TANKVOL  INFLMAS  INITPRES  ENDPRES  INITTEMP  fields 1 to 8
 //   ENDTEMP  GAMMA  CV  R  CP  IPTABLE  INFLPRES  INFLTEMP                             fields 9 to 16
 //   INFLAREA  SFTP  SFIP                                                              fields 17 to 19
 // (the format reference draws the ratio of the specific heats and the two specific heats as symbols; GAMMA, CV and CP
 // are the names the other gas cards give them; the grid also spells ENDPRES as ENDTPRES.) INFLID numbers the card
-// (unique among the inflators of every kind, which the ABINFL INFTYPID names). TPTABLE is the number of a TABLED1, the
-// tank pressure against time; TANKVOL is the volume of the tank and INFLMAS the total mass of gas that the inflator
-// generates.
+// (unique among the inflators of every kind, which the InflatorInlet INFTYPID names). TPTABLE is the number of a
+// TableDynamic1, the tank pressure against time; TANKVOL is the volume of the tank and INFLMAS the total mass of gas
+// that the inflator generates.
 //
 // The two methods use different fields (the fields of the pressure method are given only
 // with that method). The common decks, an AVTEMP card, leaves them blank, and the card
 // does the same: with METHOD = AVTEMP, ENDPRES, INITTEMP, ENDTEMP, IPTABLE, INFLPRES, INFLTEMP, INFLAREA, SFTP and SFIP
 // have no value (SFTP and SFIP are 1.0); with METHOD = INFPRES the card needs ENDPRES, INITTEMP, ENDTEMP, IPTABLE,
-// INFLPRES and INFLAREA, the format reference marking all six required. IPTABLE is the number of a TABLED1, the
+// INFLPRES and INFLAREA, the format reference marking all six required. IPTABLE is the number of a TableDynamic1, the
 // inflator pressure against time. INFLTEMP is the temperature of the inflowing gas, a real, or the word ATM (and blank)
 // for the average temperature of the AVTEMP method: the card keeps no value for ATM. SFTP and SFIP scale the two
 // pressure tables.
 //
 // INITPRES is meant to be positive, but a tank that starts at zero gauge pressure is a real case: zero is accepted.
 // The gas: R is required. The format reference asks for two of the four gas constants (GAMMA, CV, R, CP), so one of the
-// other three comes with it; the solver derives the rest, and the card does not count them, as the EOSGAM does not.
+// other three comes with it; the solver derives the rest, and the card does not count them, as the
+// GammaLawStateEquation does not.
 struct TankTestInflatorCard
 {
     base::EntityId id = 0; // unique number of the inflator
     TankTestInflatorMethod method = TankTestInflatorMethod::AverageTemperature;
-    base::EntityId tankPressureTableId = 0;     // a TABLED1: the tank pressure against time
+    base::EntityId tankPressureTableId = 0;     // a TableDynamic1: the tank pressure against time
     double tankVolume = 0.0;                    // the volume of the tank, greater than zero
     double inflatorMass = 0.0;                  // the mass of gas the inflator generates, greater than zero
     double initialPressure = 0.0;               // the initial pressure in the tank, not negative
@@ -62,7 +63,7 @@ struct TankTestInflatorCard
     std::optional<double> specificHeatVolume;   // specific heat at constant volume
     double gasConstant = 0.0;                   // gas constant, greater than zero
     std::optional<double> specificHeatPressure; // specific heat at constant pressure
-    base::EntityId inflatorPressureTableId = 0; // INFPRES only: a TABLED1, the inflator pressure against time
+    base::EntityId inflatorPressureTableId = 0; // INFPRES only: a TableDynamic1, the inflator pressure against time
     std::optional<double> inflatorPressure;     // INFPRES only: the initial pressure in the inflator
     std::optional<double> inflatorTemperature;  // INFPRES only: the temperature of the gas, nothing for ATM
     std::optional<double> inflatorArea;         // INFPRES only: the area of the holes of the inflator

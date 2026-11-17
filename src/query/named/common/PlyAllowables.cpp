@@ -27,7 +27,7 @@ std::int8_t codeOf(const std::string& theory)
     return found == names.end() ? std::int8_t{-1} : static_cast<std::int8_t>(found - names.begin());
 }
 
-// The FT of a PCOMP or PCOMPG as the margins name it ("" for none).
+// The FT of a CompProp or CompPropGlobal as the margins name it ("" for none).
 std::string propertyTheory(const model::Model& model, const model::CardLocation& location)
 {
     const model::CardTable* table = model.findTable(location.table);
@@ -71,7 +71,7 @@ std::vector<std::int32_t> addPlies(const model::Model& model, std::int32_t pid, 
             result.strainAllowables.push_back(0);
             continue;
         }
-        // Hashin reads the strengths of the HFAIL group where the MAT8 has one (as PlyFailureModes.cpp does)
+        // Hashin reads the strengths of the HFAIL group where the OrthoMat2D has one (as PlyFailureModes.cpp does)
         const bool hfail = theory == codeOf("hashin") && material->hashin.has_value();
         const std::array<double, 6> hashin = hfail ? *material->hashin : std::array<double, 6>{};
         result.xt.push_back(hfail ? hashin[0] : material->xt);

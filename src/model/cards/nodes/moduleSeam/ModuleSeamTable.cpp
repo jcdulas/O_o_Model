@@ -238,9 +238,9 @@ void ModuleSeamTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void ModuleSeamTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     ModuleSeamCard& card = m_cards.edit(row);
-    visitId(visitor, "propId", ReferenceTarget::Property, card.propId); // a PSEAM of the main Bulk Data
-    // The four patch numbers are the properties of PSHELL cards or element IDs, as CTYPE says, in the module MODA (the
-    // patch A) or MODB (the patch B): looked up only in the main Bulk Data (ModuleConnectionSupport.hpp).
+    visitId(visitor, "propId", ReferenceTarget::Property, card.propId); // a SeamProp of the main Bulk Data
+    // The four patch numbers are the properties of ShellProp cards or element IDs, as CTYPE says, in the module MODA
+    // (the patch A) or MODB (the patch B): looked up only in the main Bulk Data (ModuleConnectionSupport.hpp).
     const ReferenceTarget patches =
         card.patchKind == ModuleSeamPatchType::Element ? ReferenceTarget::Element : ReferenceTarget::Property;
     visitIdInModule(visitor, "startPatchIdA", patches, card.moduleIdA, card.startPatchIdA);

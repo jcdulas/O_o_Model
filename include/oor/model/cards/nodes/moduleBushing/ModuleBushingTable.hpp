@@ -19,8 +19,8 @@ struct ModuleBushingFormat
     static void write(const ModuleBushingCard& card, FieldWriter& writer);
 };
 
-// All the MDBUSH cards. The EID is unique among them (IdSpace::PerCardType, category Other: the element is of the
-// multi-module family, and the format reference leaves it to the deck to keep it apart from the element IDs of the
+// All the ModuleBushing cards. The EID is unique among them (IdSpace::PerCardType, category Other: the element is of
+// the multi-module family, and the format reference leaves it to the deck to keep it apart from the element IDs of the
 // model). The property is looked up as a property of the main Bulk Data; GA, GB, GO, CID and OCID are looked up in this
 // model only when their module (MODA, MODB, MODC) is 0. The cards are kept whole next to their ID.
 class ModuleBushingTable final : public TypedTable<ModuleBushingTable, ModuleBushingCard>

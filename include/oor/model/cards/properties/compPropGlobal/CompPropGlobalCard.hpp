@@ -8,7 +8,7 @@
 namespace oor::model
 {
 
-// One ply of a PCOMPG laminate: a PCOMP ply with the global (external) ID the user gives it.
+// One ply of a CompPropGlobal laminate: a CompProp ply with the global (external) ID the user gives it.
 struct PlygCard
 {
     base::EntityId globalId = 0; // GPLYID, unique in the card
@@ -18,12 +18,12 @@ struct PlygCard
     bool stressOutput = false; // SOUT = YES
 };
 
-// One PCOMPG card: the property of a layered composite shell whose plies have global ply IDs.
+// One CompPropGlobal card: the property of a layered composite shell whose plies have global ply IDs.
 //
-// Card layout (one ply per line, with the same ply fields as PCOMP plus the global ID in front):
-//   PCOMPG  PID       Z0   NSM     SB     FT     TREF  GE  LAM
-//           GPLYID1   MID1 T1      THETA1 SOUT1  GEFLG
-//           GPLYID2   MID2 T2      THETA2 SOUT2
+// Card layout (one ply per line, with the same ply fields as CompProp plus the global ID in front):
+//   CompPropGlobal  PID  Z0   NSM     SB     FT     TREF  GE  LAM
+//                   GPLYID1   MID1 T1  THETA1 SOUT1  GEFLG
+//                   GPLYID2   MID2 T2  THETA2 SOUT2
 //
 // Z0 is stored resolved (blank gives minus half the laminate thickness). A blank MID or T repeats the one of the ply
 // before. GEFLG, the ply structural damping flag (0, -1 or -2), is written on the first ply only. Every ply is given

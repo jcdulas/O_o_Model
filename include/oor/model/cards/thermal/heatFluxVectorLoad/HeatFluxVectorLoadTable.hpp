@@ -20,9 +20,9 @@ struct HeatFluxVectorLoadFormat
     static void write(const HeatFluxVectorLoadCard& card, FieldWriter& writer);
 };
 
-// All the QVECT cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). A blank Q0 or
-// TSOUR is NaN and a blank CE is NO_DIRECTION_FRAME in the columns; the element lists are one CSR column of (first,
-// last, by) runs.
+// All the HeatFluxVectorLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). A
+// blank Q0 or TSOUR is NaN and a blank CE is NO_DIRECTION_FRAME in the columns; the element lists are one CSR column of
+// (first, last, by) runs.
 class HeatFluxVectorLoadTable final : public TypedTable<HeatFluxVectorLoadTable, HeatFluxVectorLoadCard>
 {
 public:

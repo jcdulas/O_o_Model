@@ -19,8 +19,9 @@ struct BoltConnectionFormat
     static void write(const BoltConnectionCard& card, FieldWriter& writer);
 };
 
-// All the BOLT cards. The format reference calls the ID an element ID, but a bolt makes no element of the model: the ID
-// is unique among the BOLT cards (IdSpace::PerCardType, category Other). The grid points are references.
+// All the BoltConnection cards. The format reference calls the ID an element ID, but a bolt makes no element of the
+// model: the ID is unique among the BoltConnection cards (IdSpace::PerCardType, category Other). The grid points are
+// references.
 class BoltConnectionTable final : public TypedTable<BoltConnectionTable, BoltConnectionCard>
 {
 public:

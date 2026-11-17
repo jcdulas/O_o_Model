@@ -9,8 +9,8 @@ namespace oor::analysis
 namespace
 {
 
-// A set of loads that no subcase selects (LOAD, DLOAD, TEMPERATURE) and no LOAD or dynamic load combines. Only a deck
-// with a Case Control section is judged: without one nothing selects anything.
+// A set of loads that no subcase selects (LoadCombination, DynamicLoadCombination, TEMPERATURE) and no LoadCombination
+// or dynamic load combines. Only a deck with a Case Control section is judged: without one nothing selects anything.
 class UnusedLoadSetCheck final : public ValidationCheck
 {
 public:

@@ -19,8 +19,8 @@ struct BushPropFreqFormat
     static void write(const BushPropFreqCard& card, FieldWriter& writer);
 };
 
-// All the PBUSHT cards. The ID space is the card type's own: the ID is the one of the PBUSH that the card extends, so
-// it is also a reference to a property. The four lists of tables are (N, 6) NumPy views without copy.
+// All the BushPropFreq cards. The ID space is the card type's own: the ID is the one of the BushProp that the card
+// extends, so it is also a reference to a property. The four lists of tables are (N, 6) NumPy views without copy.
 class BushPropFreqTable final : public TypedTable<BushPropFreqTable, BushPropFreqCard>
 {
 public:

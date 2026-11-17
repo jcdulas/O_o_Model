@@ -6,13 +6,13 @@
 namespace oor::model
 {
 
-// One DSCREEN card: the screening of the constraints of one response type, to the most critical ones.
+// One DesignConstrScreen card: the screening of the constraints of one response type, to the most critical ones.
 //
-// Card layout: DSCREEN  RTYPE  TRS  NSTR                                  fields 1 to 3
-// RTYPE is a response type of the DRESP1 cards (DISP, STRESS, FREQ, ...), EQUA for the constraints of DRESP2 cards,
-// DRESP3 for those of DRESP3 cards, or ALL for every type (then the other DSCREEN cards are ignored). A
-// constraint is kept only if it is above the truncation threshold TRS, and at most NSTR constraints are kept
-// for each region of each load case.
+// Card layout: DesignConstrScreen  RTYPE  TRS  NSTR                       fields 1 to 3
+// RTYPE is a response type of the DesignResp1 cards (DISP, STRESS, FREQ, ...), EQUA for the constraints of DesignResp2
+// cards, DesignResp3 for those of DesignResp3 cards, or ALL for every type (then the other DesignConstrScreen cards are
+// ignored). A constraint is kept only if it is above the truncation threshold TRS, and at most NSTR constraints are
+// kept for each region of each load case.
 struct DesignConstrScreenCard
 {
     static constexpr double DEFAULT_THRESHOLD = -0.5;

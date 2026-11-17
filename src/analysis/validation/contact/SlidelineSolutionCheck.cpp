@@ -9,9 +9,9 @@ namespace oor::analysis
 namespace
 {
 
-// A slideline contact region (BCONP) or its friction (BFRIC) in a deck that does not run the slideline contact: the
-// format reference gives both for SOL 106 and SOL 129 only (SOL 400 has the contact tables and BCONECT instead). A deck
-// with no SOL statement is not judged.
+// A slideline contact region (ContactSlideline) or its friction (SlidelineFriction) in a deck that does not run the
+// slideline contact: the format reference gives both for SOL 106 and SOL 129 only (SOL 400 has the contact tables and
+// ContactPair instead). A deck with no SOL statement is not judged.
 class SlidelineSolutionCheck final : public ValidationCheck
 {
 public:

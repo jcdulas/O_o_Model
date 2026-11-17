@@ -10,7 +10,7 @@ namespace oor::model
 namespace
 {
 
-// The parameters of DOPTPRM, typed by hand. A parameter whose default
+// The parameters of DesignOptimParams, typed by hand. A parameter whose default
 // depends on something else (the objective of the first cycle, the size of the model) has no default here.
 constexpr DesignOptimParamsKind INT = DesignOptimParamsKind::Integer;
 constexpr DesignOptimParamsKind REAL = DesignOptimParamsKind::Real;

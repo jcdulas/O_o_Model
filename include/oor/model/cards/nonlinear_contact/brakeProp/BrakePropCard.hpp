@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One BRKPROP card (SOL 400): the property of a brake system for the brake squeal analysis, named by a BRKSYS.
+// One BrakeProp card (SOL 400): the property of a brake system for the brake squeal analysis, named by a BrakeSystem.
 //
-// Card layout: BRKPROP  ID  (blank)  PARAM1  VALUE1  PARAM2  VALUE2  PARAM3  VALUE3        fields 1 to 8
-//                          PARAM4  VALUE4  -etc.-                                          fields 9 to 16, and so on
+// Card layout: BrakeProp  ID  (blank)  PARAM1  VALUE1  PARAM2  VALUE2  PARAM3  VALUE3      fields 1 to 8
+//                            PARAM4  VALUE4  -etc.-                                        fields 9 to 16, and so on
 // The card is a list of NAME and VALUE pairs that starts in field 3 (field 2 is blank) and goes on from the first
 // field of each continuation line. The format names three parameters, and a deck may give them in any
 // order (the card keeps the values, not the order): AVSTIF (the penalty stiffness per unit area between
@@ -23,7 +23,7 @@ namespace oor::model
 // (the card stays text in tolerant mode).
 struct BrakePropCard
 {
-    base::EntityId id = 0;                   // the number that a BRKSYS names in BProp_ID
+    base::EntityId id = 0;                   // the number that a BrakeSystem names in BProp_ID
     std::optional<double> areaStiffness;     // AVSTIF: blank when TAVSTIF gives the stiffness
     base::EntityId areaStiffnessTableId = 0; // TAVSTIF: the TABL3Di of the stiffness, 0 when blank
     double friction = 0.0;                   // FRICT: 0.0 means the friction comes from the CONTACT TABLE option

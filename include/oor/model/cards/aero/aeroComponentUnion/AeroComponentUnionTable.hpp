@@ -21,7 +21,7 @@ struct AeroComponentUnionFormat
     static void write(const AeroComponentUnionCard& card, FieldWriter& writer);
 };
 
-// All the AECOMPL cards, in the category AeroComponent that AECOMP shares. A component has no number
+// All the AeroComponentUnion cards, in the category AeroComponent that AeroComponent shares. A component has no number
 // (IdSpace::None): it is found by its NAME (`model.aecompl["WgAR"]`, matched without regard to the case). The labels
 // are names of other components, not IDs, so the card refers to no card by number. The cards are kept whole next to a
 // column of their names.

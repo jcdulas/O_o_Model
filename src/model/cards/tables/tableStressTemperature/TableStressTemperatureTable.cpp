@@ -117,7 +117,8 @@ void TableStressTemperatureTable::keepRows(const std::vector<std::uint32_t>& row
 
 void TableStressTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The table IDs of the pairs are TABLES1 cards (or other TABLEST: the stress table space has both).
+    // The table IDs of the pairs are TableStress1 cards (or other TableStressTemperature: the stress table space has
+    // both).
     const auto current = m_tables.get(row);
     std::vector<base::EntityId> tables(current.begin(), current.end());
     bool changed = false;

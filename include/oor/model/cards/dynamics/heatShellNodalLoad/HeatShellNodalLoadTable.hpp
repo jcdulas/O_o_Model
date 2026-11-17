@@ -19,9 +19,9 @@ struct HeatShellNodalLoadFormat
     static void write(const HeatShellNodalLoadCard& card, FieldWriter& writer);
 };
 
-// All the SLOADN1 cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load), like the SLOAD
-// it parallels. The loads are three lists in CSR form (the grid points, the components and the powers); each grid point
-// is a Node reference.
+// All the HeatShellNodalLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load), like
+// the ScalarPointLoad it parallels. The loads are three lists in CSR form (the grid points, the components and the
+// powers); each grid point is a Node reference.
 class HeatShellNodalLoadTable final : public TypedTable<HeatShellNodalLoadTable, HeatShellNodalLoadCard>
 {
 public:

@@ -26,8 +26,8 @@ namespace
 
 constexpr std::int32_t BLANK = DirectMatrixAxisymCard::NO_HARMONIC;
 
-// The matrices of the aerodynamic mesh (DMIJ, DMIJI, DMIK): the layout of DMIG, a table each, so that one name can be
-// a matrix of each kind.
+// The matrices of the aerodynamic mesh (DirectMatrixAeroJ, DirectMatrixAeroJInterference, DirectMatrixAeroK): the
+// layout of DirectMatrixNodal, a table each, so that one name can be a matrix of each kind.
 const char* const AERO_MATRICES =
     "DirectMatrixAeroJ;AOAJ;0;9;2;0;;2\n"
     "DirectMatrixAeroJ;AOAJ;1;1;1;1;0.4;;2;1;0.6\n"
@@ -55,7 +55,7 @@ TEST_CASE("DMIJ, DMIJI and DMIK are matrices of points like DMIG, each kind with
     CHECK(pointMatrixNames(model, PointMatrixCard::AeroJ) == std::vector<std::string>{"AOAJ"});
     CHECK(pointMatrixNames(model, PointMatrixCard::AeroJInterference) == std::vector<std::string>{"WJI"});
     CHECK(pointMatrixNames(model, PointMatrixCard::AeroK) == std::vector<std::string>{"WTK"});
-    // the DMIG of the same name is another matrix
+    // the DirectMatrixNodal of the same name is another matrix
     CHECK(pointMatrixNames(model, PointMatrixCard::Nodal) == std::vector<std::string>{"AOAJ"});
     CHECK(directMatrixNodalTerms(model, "AOAJ")->real == std::vector<double>{9.0});
 
@@ -108,7 +108,7 @@ TEST_CASE("a matrix stored as DMIK or DMIJI cards reads back from a model file; 
         CHECK(back->columnId == terms.columnId);
         CHECK(back->rowComponent == terms.rowComponent);
         CHECK(back->real == terms.real);
-        // a DMIG of the same name does not stand in the way
+        // a DirectMatrixNodal of the same name does not stand in the way
         (void)addPointMatrix(model, PointMatrixCard::Nodal, "wkk", terms);
         CHECK(removePointMatrix(model, kind, "wkk") == 3);
         CHECK(pointMatrixNames(model, kind).empty());
@@ -411,7 +411,7 @@ TEST_CASE("a repeated MONPNT2 or MONPNT3 name is reported, a MONPNT1 one is not"
     const Model three = readModelText("MonitorNodeForceSum3;A;;123;1\nMonitorNodeForceSum3;A;;123;2\n");
     REQUIRE(three.diagnostics().hasErrors());
     CHECK(three.diagnostics().firstError()->code == "deck.duplicate-monitor-node-force-sum3");
-    // a structural and an aerodynamic MONPNT1 may share a NAME (told apart by their AECOMP)
+    // a structural and an aerodynamic MonitorIntegratedLoad1 may share a NAME (told apart by their AeroComponent)
     const Model one = readModelText("MonitorIntegratedLoad1;A;;1;STRUCT\nMonitorIntegratedLoad1;A;;1;AERO\n");
     CHECK_FALSE(one.diagnostics().hasErrors());
 }
@@ -434,8 +434,8 @@ TEST_CASE("a monitor point refers to its systems, set and element", "[model][mon
     CHECK(model.findTable<MonitorNodeForceSum3Table>()->card(0).displacementFrameId == 17);
     Model missing = readModelText("MonitorNodeForceSum3;B;;123;5\n", false);
     sink = base::DiagnosticSink(base::ReadMode::Tolerant);
-    CHECK(ReferenceChecker::check(missing, sink) == 1); // the SET1 of GRIDSET does not exist
-    // a MONPNT2 may name an element the model lacks: the format reference ignores a fictitious one
+    CHECK(ReferenceChecker::check(missing, sink) == 1); // the IdListSet1 of GRIDSET does not exist
+    // a MonitorElemLoad2 may name an element the model lacks: the format reference ignores a fictitious one
     Model fictitious = readModelText("MonitorElemLoad2;A;;Stress;Bar2;SX;1\n", true);
     sink = base::DiagnosticSink(base::ReadMode::Tolerant);
     CHECK(ReferenceChecker::check(fictitious, sink) == 0);

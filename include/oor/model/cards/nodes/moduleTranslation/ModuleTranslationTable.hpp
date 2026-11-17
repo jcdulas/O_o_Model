@@ -19,9 +19,10 @@ struct ModuleTranslationFormat
     static void write(const ModuleTranslationCard& card, FieldWriter& writer);
 };
 
-// All the MDTRAN cards, in the category ModuleMove with the other four moves (MDROT1, MDROT2, MDMIR1, MDMIR2): the MVID
-// is unique per card type (IdSpace::PerCardType) and an MDMOVE names it. IDS and IDE are references to the points
-// (GRID or POINT) of the main Bulk Data. The cards are kept whole next to a column of their MVIDs.
+// All the ModuleTranslation cards, in the category ModuleMove with the other four moves (ModuleRotation1,
+// ModuleRotation2, ModuleMirror1, ModuleMirror2): the MVID is unique per card type (IdSpace::PerCardType) and a
+// ModuleMoveSequence names it. IDS and IDE are references to the points (GRID or POINT) of the main Bulk Data. The
+// cards are kept whole next to a column of their MVIDs.
 class ModuleTranslationTable final : public TypedTable<ModuleTranslationTable, ModuleTranslationCard>
 {
 public:

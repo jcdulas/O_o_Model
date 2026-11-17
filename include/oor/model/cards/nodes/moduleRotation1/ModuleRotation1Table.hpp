@@ -19,9 +19,9 @@ struct ModuleRotation1Format
     static void write(const ModuleRotation1Card& card, FieldWriter& writer);
 };
 
-// All the MDROT1 cards, in the category ModuleMove with the other four moves: the MVID is unique per card type
-// (IdSpace::PerCardType) and an MDMOVE names it. RID, IDS and IDE are references to points (GRID or POINT) of the main
-// Bulk Data. The cards are kept whole next to a column of their MVIDs.
+// All the ModuleRotation1 cards, in the category ModuleMove with the other four moves: the MVID is unique per card type
+// (IdSpace::PerCardType) and a ModuleMoveSequence names it. RID, IDS and IDE are references to points (GRID or POINT)
+// of the main Bulk Data. The cards are kept whole next to a column of their MVIDs.
 class ModuleRotation1Table final : public TypedTable<ModuleRotation1Table, ModuleRotation1Card>
 {
 public:

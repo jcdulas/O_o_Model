@@ -21,7 +21,8 @@ struct HeatVolumeSourceLoadFormat
 };
 
 // All the QVOL cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load), so that
-// `LOAD = n` and a TLOAD1 EXCITEID find it. The element lists are one CSR column of (first, last, by) runs.
+// `LOAD = n` and a TransientTableLoad1 EXCITEID find it. The element lists are one CSR column of (first, last, by)
+// runs.
 class HeatVolumeSourceLoadTable final : public TypedTable<HeatVolumeSourceLoadTable, HeatVolumeSourceLoadCard>
 {
 public:

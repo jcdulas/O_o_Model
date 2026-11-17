@@ -19,9 +19,10 @@ struct ImperfectionGeometryFormat
     static void write(const ImperfectionGeometryCard& card, FieldWriter& writer);
 };
 
-// All the IMPGEOM cards, in the category ImperfectionGeometry: the ID is unique per card type (IdSpace::PerCardType)
-// and is what the IMPFIDi of an IMPCASE names (ReferenceTarget::ImperfectionGeometry). The cards are kept whole next to
-// their ID. The sets of the card and of its groups are Set references; a zero names nothing.
+// All the ImperfectionGeometry cards, in the category ImperfectionGeometry: the ID is unique per card type
+// (IdSpace::PerCardType) and is what the IMPFIDi of an ImperfectionCase names (ReferenceTarget::ImperfectionGeometry).
+// The cards are kept whole next to their ID. The sets of the card and of its groups are Set references; a zero names
+// nothing.
 class ImperfectionGeometryTable final : public TypedTable<ImperfectionGeometryTable, ImperfectionGeometryCard>
 {
 public:

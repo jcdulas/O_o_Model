@@ -9,11 +9,11 @@
 namespace oor::model
 {
 
-// One CORD3G card: a general coordinate system whose three rotation angles are functions of the coordinates in the
-// reference system.
+// One GeneralFrame3 card: a general coordinate system whose three rotation angles are functions of the coordinates in
+// the reference system.
 //
 // Card layout:
-//   CORD3G  CID  METHOD  FORM  THETAID1  THETAID2  THETAID3  CIDREF
+//   GeneralFrame3  CID  METHOD  FORM  THETAID1  THETAID2  THETAID3  CIDREF
 //
 // METHOD is EulerAngles313 (Euler angles in the 313 sequence) or SpaceFixed321 (space-fixed rotations in the 321
 // sequence); the card accepts EulerAngles or SpaceFixed followed by any three digits. FORM says what THETAIDi names:
@@ -28,7 +28,8 @@ struct GeneralFrame3Card
     std::string methodName{DEFAULT_METHOD_NAME};
     std::string matrixForm{DEFAULT_MATRIX_FORM};
     std::array<base::EntityId, 3> angleFunctionIds =
-        {};                              // THETAID1..3: the DEQATN or TABLE3D entries that give the angles
+        // THETAID1..3: the DesignEquation or TableScattered3D entries that give the angles
+        {};
     base::EntityId referenceFrameId = 0; // the coordinate system the orientation is measured from (0 = basic)
 };
 

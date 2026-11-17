@@ -20,8 +20,9 @@ struct TableRandomSpectrum1Format
     static void write(const TableRandomSpectrum1Card& card, FieldWriter& writer);
 };
 
-// All the TABRND1 cards. The ID is a random table ID, in the ID space that TABRNDG shares (IdSpace::RandomTable): the
-// TID of a RANDPS card names either. The points of every table are two lists (x, y) in CSR form.
+// All the TableRandomSpectrum1 cards. The ID is a random table ID, in the ID space that TableGustSpectrum shares
+// (IdSpace::RandomTable): the TID of a RandomSpectralDensity card names either. The points of every table are two lists
+// (x, y) in CSR form.
 class TableRandomSpectrum1Table final : public TypedTable<TableRandomSpectrum1Table, TableRandomSpectrum1Card>
 {
 public:
@@ -39,8 +40,9 @@ public:
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a table refers to no card
 
-    // The power spectral density at frequency x (NaN where it is not defined), as TABLED1 gives its value: interpolated
-    // in the scales of XAXIS and YAXIS, the first and the last segment extended outside, the mean at a jump.
+    // The power spectral density at frequency x (NaN where it is not defined), as TableDynamic1 gives its value:
+    // interpolated in the scales of XAXIS and YAXIS, the first and the last segment extended outside, the mean at a
+    // jump.
     [[nodiscard]] static double evaluate(const TableRandomSpectrum1Card& card, double x) noexcept;
     [[nodiscard]] double evaluateRow(std::uint32_t row, double x) const;
     void evaluateRow(std::uint32_t row, std::span<const double> x, std::span<double> y) const;

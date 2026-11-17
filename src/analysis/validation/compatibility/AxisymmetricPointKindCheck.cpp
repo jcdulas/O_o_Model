@@ -17,9 +17,10 @@ namespace
 {
 
 // A field of the axisymmetric cards that names a point of another kind than the one the format reference says: the ring
-// of a POINTAX, MOMAX or PRESAX is a RINGAX, the fluid point of a FREEPT or a PRESPT a RINGFL and the interface point
-// of a GRIDS a GRIDF. The points share the node ID space, so the reference resolves to whatever card has the number; a
-// number that names no card is reported by `ref.unresolved`.
+// of an AxisymConePoint, AxisymRingMomentLoad or AxisymConePressureLoad is an AxisymConeRing, the fluid point of an
+// AxisymFluidFreePoint or an AxisymFluidPressurePoint an AxisymFluidRing and the interface point of an
+// AcousticSlotSurfacePoint an AcousticSlotFluidPoint. The points share the node ID space, so the reference resolves to
+// whatever card has the number; a number that names no card is reported by `ref.unresolved`.
 class AxisymmetricPointKindCheck final : public ValidationCheck
 {
 public:

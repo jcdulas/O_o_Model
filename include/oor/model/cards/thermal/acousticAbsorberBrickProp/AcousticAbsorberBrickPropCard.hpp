@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One PACABS card: the property of a CHACAB acoustic absorber element.
+// One AcousticAbsorberBrickProp card: the property of an AcousticAbsorberHexa acoustic absorber element.
 //
 // Card layout:
-//   PACABS  PID  SYNTH  TID1  TID2  TID3  (blank)  CUTFR  B
-//           K    M
+//   AcousticAbsorberBrickProp  PID  SYNTH  TID1  TID2  TID3  (blank)  CUTFR  B
+//                              K    M
 // SYNTH is YES (blank: B, K and M are computed from the tables) or NO (they are given). TID1, TID2 and TID3 are the
 // TABLEDi of the resistance, the reactance and the weighting function (0 when blank; TID3 is optional). CUTFR is the
 // cutoff frequency of the tables. B, K and M are the equivalent damping, stiffness and mass per unit area. Field 6 is

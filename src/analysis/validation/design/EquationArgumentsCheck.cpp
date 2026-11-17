@@ -17,15 +17,15 @@ namespace oor::analysis
 namespace
 {
 
-// The relations hand their values to the arguments of the function of the DEQATN by position: the design variables,
-// then the constants, for a DVPREL2, DVMREL2 or DVCREL2; the groups of a DRESP2 in
-// the order of the card, a grid point and its component being one value. An argument that no value
+// The relations hand their values to the arguments of the function of the DesignEquation by position: the design
+// variables, then the constants, for a DesignPropRelation2, DesignMatRelation2 or DesignElemRelation2; the groups of a
+// DesignResp2 in the order of the card, a grid point and its component being one value. An argument that no value
 // reaches has nothing to compute with. The other way round (more values than arguments) the format reference says
 // nothing and the check says nothing either.
 //
-// when the DRESP1 responses of the card are frequency responses (an RTYPE that begins with FR or PSD),
+// when the DesignResp1 responses of the card are frequency responses (an RTYPE that begins with FR or PSD),
 // the equation may have more arguments than the card has values: the missing ones, at the end, are the forcing
-// frequencies of the responses. Such a DRESP2 is not judged.
+// frequencies of the responses. Such a DesignResp2 is not judged.
 class EquationArgumentsCheck final : public ValidationCheck
 {
 public:
@@ -73,7 +73,7 @@ public:
             model, [&](const model::DesignElemRelation2Card& card, model::CardLocation where)
             { judge(where, card.equationId, card.designVarIds.size() + card.labels.size()); });
 
-        std::unordered_map<base::EntityId, bool> frequencyResponse; // by DRESP1 ID
+        std::unordered_map<base::EntityId, bool> frequencyResponse; // by DesignResp1 ID
         forEachCard<model::DesignResp1Table>(model,
                                              [&](const model::DesignResp1Card& card, model::CardLocation)
                                              {

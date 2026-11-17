@@ -73,7 +73,7 @@ void FluidMatFreqTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void FluidMatFreqTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT10 that the card extends; the tables are TABLEDi cards.
+    // The ID is the one of the FluidMat that the card extends; the tables are TABLEDi cards.
     FluidMatFreqCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);

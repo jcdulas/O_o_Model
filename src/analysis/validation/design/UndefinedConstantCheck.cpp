@@ -19,10 +19,11 @@ namespace oor::analysis
 namespace
 {
 
-// The constants of the "DTABLE" lines of a DVPREL2, DVMREL2, DVCREL2, DRESP2 or DRESP3 are named by label, which is not
-// an ID that `ref.unresolved` follows: the label must be one a DTABLE or a DTABLE2 entry defines,
-// whatever the case of the letters. The check needs the whole list of constants, so a deck that has a
-// DTABLE or DTABLE2 the library keeps as text (one it could not read) is not judged.
+// The constants of the "DesignConstants" lines of a DesignPropRelation2, DesignMatRelation2, DesignElemRelation2,
+// DesignResp2 or DesignResp3 are named by label, which is not an ID that `ref.unresolved` follows: the label must be
+// one a DesignConstants or a DesignFieldConstants entry defines, whatever the case of the letters. The check needs the
+// whole list of constants, so a deck that has a DesignConstants or DesignFieldConstants the library keeps as text (one
+// it could not read) is not judged.
 class UndefinedConstantCheck final : public ValidationCheck
 {
 public:

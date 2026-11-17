@@ -18,8 +18,8 @@ struct SuperelementBulkOptionsFormat
     static void write(const SuperelementBulkOptionsCard& card, FieldWriter& writer);
 };
 
-// All the SEBULK cards, one column for each field. The card is filed under its SEID (IdSpace::Group, category
-// Superelement): a superelement has one, which a check (`superelement.sebulk-repeated`) looks for.
+// All the SuperelementBulkOptions cards, one column for each field. The card is filed under its SEID (IdSpace::Group,
+// category Superelement): a superelement has one, which a check (`superelement.sebulk-repeated`) looks for.
 class SuperelementBulkOptionsTable final : public TypedTable<SuperelementBulkOptionsTable, SuperelementBulkOptionsCard>
 {
 public:

@@ -70,7 +70,7 @@ void WettedSurfaceLoadTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void WettedSurfaceLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The WLID is the TLOAD1's EXCITEID that names this card, so it is not a reference of the card.
+    // The WLID is the TransientTableLoad1's EXCITEID that names this card, so it is not a reference of the card.
     visitId(visitor, "wettedSurfaceId", ReferenceTarget::WettedSurface, m_cards.edit(row).wettedSurfaceId);
 }
 

@@ -289,7 +289,8 @@ TEST_CASE("the centre and the corner layouts of a CQUAD4 are told apart by the r
 
 TEST_CASE("the repeated places of an element table are found in the rows of each element", "[results][memory]")
 {
-    // three CQUAD4 at their centre and corners, two fibres each (ten rows an element), the rows of an element together
+    // three ShellQuad4 at their centre and corners, two fibres each (ten rows an element), the rows of an element
+    // together
     MemoryTableInput input;
     input.kind = ResultKind::Stress;
     input.elementName = "ShellQuad4";

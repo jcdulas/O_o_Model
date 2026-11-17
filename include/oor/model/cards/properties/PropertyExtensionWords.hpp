@@ -16,11 +16,12 @@
 #include <string>
 #include <string_view>
 
-// What the nonlinear property extensions (PBARN1, PBEMN1, PRODN1, PSHEARN, PSLDN1) and the layered solid and plane
-// composites (PCOMPLS, PLCOMP) have in common: the words of the format reference tables (the analysis type, the section
-// integration, the behaviour and integration codes of an element) and the keyword line "Ck BEHk INTk BEHkH INTkH". Each
-// helper moves one kind of value. Nothing here describes the fields of a card: every card still lays out its own first
-// line, says which keyword lines it has and which words each line allows (`BehaviorRules`, written next to the card).
+// What the nonlinear property extensions (BarPropNonlinear, BeamPropNonlinear, RodPropNonlinear,
+// ShearPanelPropNonlinear, SolidPropNonlinear) and the layered solid and plane composites (CompSolidPropNonlinear,
+// PlaneCompProp) have in common: the words of the format reference tables (the analysis type, the section integration,
+// the behaviour and integration codes of an element) and the keyword line "Ck BEHk INTk BEHkH INTkH". Each helper moves
+// one kind of value. Nothing here describes the fields of a card: every card still lays out its own first line, says
+// which keyword lines it has and which words each line allows (`BehaviorRules`, written next to the card).
 namespace oor::model
 {
 
@@ -39,11 +40,11 @@ enum class PropertyAnalysis : std::uint8_t
 inline constexpr std::array<std::string_view, 3> PROPERTY_ANALYSIS_WORDS{"ImplicitStructural", "ImplicitHeat",
                                                                          "ImplicitStructuralHeat"};
 
-// SECT of a PBARN1 and a PBEMN1: how the section is integrated.
+// SECT of a BarPropNonlinear and a BeamPropNonlinear: how the section is integrated.
 enum class SectionIntegration : std::uint8_t
 {
-    Smeared,   // S: the section properties of the PBAR or PBEAM (the default)
-    Numerical, // N: the section is integrated numerically (PBARL, PBEAML)
+    Smeared,   // S: the section properties of the BarProp or BeamProp (the default)
+    Numerical, // N: the section is integrated numerically (BarShapeProp, BeamShapeProp)
 };
 
 inline constexpr std::array<std::string_view, 2> SECTION_INTEGRATION_WORDS{"Smeared", "Numerical"};
@@ -57,7 +58,8 @@ enum class ElementBehavior : std::uint8_t
     Rod,                  // ROD
     Shear,                // MB: the membrane behaviour of a shear panel
     Solid,                // SOLID
-    SolidComposite,       // SLCOMP: layered solid (also the 3D solid gasket and the solid shell of a PSLDN1)
+    // SLCOMP: layered solid (also the 3D solid gasket and the solid shell of a SolidPropNonlinear)
+    SolidComposite,
     IncompressibleSolid,  // ISOL
     PlaneStrainComposite, // COMPS
     AxisymmetricComposite // AXCOMP
@@ -208,9 +210,10 @@ void writeBehaviorGroup(FieldWriter& writer, int keywordField, const BehaviorRul
 // The first word that the rules do not allow, if there is one.
 [[nodiscard]] std::optional<CardProblem> checkBehaviorGroup(const BehaviorGroup& group, const BehaviorRules& rules);
 
-// A card whose continuation lines from `firstField` on are all keyword lines (PBARN1, PBEMN1, PRODN1, PSHEARN, PSLDN1):
-// the lines may come in any order and may be missing (the group keeps its default), blank lines are padding, a keyword
-// may not be given twice. `groups` has one entry for each of `rules`, in the same order.
+// A card whose continuation lines from `firstField` on are all keyword lines (BarPropNonlinear, BeamPropNonlinear,
+// RodPropNonlinear, ShearPanelPropNonlinear, SolidPropNonlinear): the lines may come in any order and may be missing
+// (the group keeps its default), blank lines are padding, a keyword may not be given twice. `groups` has one entry for
+// each of `rules`, in the same order.
 void readBehaviorLines(FieldReader& reader, int firstField, std::span<const BehaviorRules> rules,
                        std::span<BehaviorGroup> groups);
 

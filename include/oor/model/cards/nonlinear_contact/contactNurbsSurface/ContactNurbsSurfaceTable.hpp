@@ -19,8 +19,8 @@ struct ContactNurbsSurfaceFormat
     static void write(const ContactNurbsSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the BCNURBS cards (category ContactSurface, unique among them). The cards are kept whole (CardRows); the query
-// engine reads the ID only. The grid points are references, and so are the trimming curves.
+// All the ContactNurbsSurface cards (category ContactSurface, unique among them). The cards are kept whole (CardRows);
+// the query engine reads the ID only. The grid points are references, and so are the trimming curves.
 class ContactNurbsSurfaceTable final : public TypedTable<ContactNurbsSurfaceTable, ContactNurbsSurfaceCard>
 {
 public:

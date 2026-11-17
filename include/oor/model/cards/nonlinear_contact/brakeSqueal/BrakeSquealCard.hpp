@@ -8,14 +8,14 @@
 namespace oor::model
 {
 
-// One BSQUEAL card (SOL 400): the data of a brake squeal analysis of one wheel, or of another rotating object in
+// One BrakeSqueal card (SOL 400): the data of a brake squeal analysis of one wheel, or of another rotating object in
 // contact with friction between sets of bodies (unsymmetric friction stiffness matrices).
 //
-// Card layout: BSQUEAL  ID  OMETH  AVSTIF  (blank)  (blank)  BSONLY                  fields 1 to 6 of the first line
-//                      RX  RY  RZ  X  Y  Z                                          fields 9 to 14 of the second line
+// Card layout: BrakeSqueal  ID  OMETH  AVSTIF  (blank)  (blank)  BSONLY              fields 1 to 6 of the first line
+//                          RX  RY  RZ  X  Y  Z                                      fields 9 to 14 of the second line
 // BSONLY is the seventh field of the layout of the format, field 6 in this library's numbering, and the second line is
-// a line of its own. ID is the number that a Case Control BSQUEAL selects (it is the
-// ID of a BRKSYS card too: `contact.brake-squeal-id-repeated`). OMETH is the load factor (or time) of the analysis
+// a line of its own. ID is the number that a Case Control BrakeSqueal selects (it is the
+// ID of a BrakeSystem card too: `contact.brake-squeal-id-repeated`). OMETH is the load factor (or time) of the analysis
 // (real, default 0.0; the format gives the range of a static analysis, 0.0 < OMETH < 1.0, which depends on the SUBCASE
 // and is not checked here); AVSTIF the penalty stiffness per unit area between the two surfaces (real, required);
 // BSONLY is YES (default) or NO. RX, RY and RZ are the direction cosines of the axis of rotation in the basic system

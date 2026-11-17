@@ -214,7 +214,7 @@ void NonlinearStepControlTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void NonlinearStepControlTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The CRITTID of the ADAPT line names a TABSCTL: the user criteria that control the load step.
+    // The CRITTID of the ADAPT line names a StepControlCriteria: the user criteria that control the load step.
     std::int64_t* table = findCriteriaTable(m_cards.edit(row).sections);
     if (table != nullptr && *table > 0 && *table <= std::numeric_limits<base::EntityId>::max())
         *table =

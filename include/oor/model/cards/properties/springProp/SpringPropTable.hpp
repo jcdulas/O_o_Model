@@ -19,7 +19,7 @@ struct SpringPropFormat
     static void write(const SpringPropCard& card, FieldWriter& writer);
 };
 
-// All the PELAS properties, one row each.
+// All the SpringProp properties, one row each.
 class SpringPropTable final : public TypedTable<SpringPropTable, SpringPropCard>
 {
 public:

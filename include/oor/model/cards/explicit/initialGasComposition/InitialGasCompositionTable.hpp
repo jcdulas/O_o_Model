@@ -19,8 +19,8 @@ struct InitialGasCompositionFormat
     static void write(const InitialGasCompositionCard& card, FieldWriter& writer);
 };
 
-// All the INITGAS cards. The INTID is unique among them (IdSpace::PerCardType, category InitialGas): a GBAG or a COUPLE
-// names it. Each gas is an INFLGAS.
+// All the InitialGasComposition cards. The INTID is unique among them (IdSpace::PerCardType, category InitialGas): a
+// GasBag or an EulerLagrangeCoupling names it. Each gas is an InflatorGas.
 class InitialGasCompositionTable final : public TypedTable<InitialGasCompositionTable, InitialGasCompositionCard>
 {
 public:

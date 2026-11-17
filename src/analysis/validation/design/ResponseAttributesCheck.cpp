@@ -110,8 +110,8 @@ std::optional<Problem> problemWith(const model::Model&, const model::DesignResp1
     return std::nullopt;
 }
 
-// The ATTA and ATTB of a DRESP1 must fit its type of response: a mode number where the type wants an item code, a real
-// where it wants a component, an attribute where the type takes none.
+// The ATTA and ATTB of a DesignResp1 must fit its type of response: a mode number where the type wants an item code, a
+// real where it wants a component, an attribute where the type takes none.
 class ResponseAttributesCheck final : public ValidationCheck
 {
 public:

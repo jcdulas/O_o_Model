@@ -12,7 +12,7 @@
 namespace oor::model
 {
 
-// The fields of a PSOLID that take a word (or an integer that stands for one).
+// The fields of a SolidProp that take a word (or an integer that stands for one).
 enum class SolidPropOption
 {
     Integration, // IN
@@ -34,7 +34,7 @@ struct SolidPropFormat
     [[nodiscard]] static std::optional<std::string> canonicalOption(SolidPropOption which, std::string_view text);
 };
 
-// All the PSOLID cards. IN, STRESS, ISOP and FCTN are lists of texts in Python.
+// All the SolidProp cards. IN, STRESS, ISOP and FCTN are lists of texts in Python.
 class SolidPropTable final : public TypedTable<SolidPropTable, SolidPropCard>
 {
 public:

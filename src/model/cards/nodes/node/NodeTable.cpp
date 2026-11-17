@@ -39,7 +39,7 @@ std::optional<NodeCard> NodeFormat::read(FieldReader& reader)
     card.displacementFrameId = reader.integer(6, "displacementFrameId", 0);
     card.permanentConstraints = base::sortedDigits(reader.integer(7, "permanentConstraints", 0));
     card.superelementId = reader.integer(8, "superelementId", 0);
-    // Which of the optional fields were blank (a GRDSET gives them a default); zero is not blank.
+    // Which of the optional fields were blank (a NodeDefaults gives them a default); zero is not blank.
     if (reader.isBlank(2))
         card.blankFields |= NodeCard::BLANK_POSITION_FRAME;
     if (reader.isBlank(6))
@@ -69,8 +69,8 @@ std::optional<CardProblem> NodeFormat::check(const NodeCard& card)
 void NodeFormat::write(const NodeCard& card, FieldWriter& writer)
 {
     writer.integer(1, card.id);
-    // With a GRDSET in the model, a blank field would take its default when the deck is read again, so a field that is
-    // zero is written as 0 (the format reference: zero overrides the default).
+    // With a NodeDefaults in the model, a blank field would take its default when the deck is read again, so a field
+    // that is zero is written as 0 (the format reference: zero overrides the default).
     const bool explicitFields = writer.governedFieldsExplicit();
     if (explicitFields)
         writer.integer(2, card.positionFrameId);
@@ -182,8 +182,8 @@ void NodeTable::finishRead(Model& model, const ReadContext&)
 {
     if (!m_blankFields.isMaterialised())
         return;
-    // The defaults of the (only) GRDSET, for the fields that were blank on the GRID. Without a GRDSET the blank fields
-    // stay noted: one added later (and Model::applyDefaults) gives them their defaults.
+    // The defaults of the (only) NodeDefaults, for the fields that were blank on the GRID. Without a NodeDefaults the
+    // blank fields stay noted: one added later (and Model::applyDefaults) gives them their defaults.
     const NodeDefaultsTable* defaults = model.findTable<NodeDefaultsTable>();
     if (defaults == nullptr || defaults->rows().aliveCount() == 0)
         return;
@@ -209,7 +209,7 @@ void NodeTable::finishRead(Model& model, const ReadContext&)
             if ((blank & NodeCard::BLANK_SUPERELEMENT) != 0)
                 m_superelementId.set(row, set.superelementId);
         }
-        break; // only one GRDSET counts (NodeDefaultsTable::finishRead reports a second one)
+        break; // only one NodeDefaults counts (NodeDefaultsTable::finishRead reports a second one)
     }
     // The defaults are applied: the grids no longer remember what was blank.
     m_blankFields = Column<std::uint8_t>(0);

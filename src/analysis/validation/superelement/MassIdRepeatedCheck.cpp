@@ -9,9 +9,10 @@ namespace oor::analysis
 namespace
 {
 
-// A MASSSET whose ID is also the number of a mass increment (the MASSID of a BEGIN MASSID=n or BEGIN SUPER=m MASSID=n
-// section): the Case Control MASSSET command selects one of the mass combinations, and the format reference asks for
-// numbers that are unique among the mass combinations and the mass increments, so that the number names one thing.
+// A MassCaseCombination whose ID is also the number of a mass increment (the MASSID of a BEGIN MASSID=n or BEGIN
+// SUPER=m MASSID=n section): the Case Control MassCaseCombination command selects one of the mass combinations, and the
+// format reference asks for numbers that are unique among the mass combinations and the mass increments, so that the
+// number names one thing.
 class MassIdRepeatedCheck final : public ValidationCheck
 {
 public:

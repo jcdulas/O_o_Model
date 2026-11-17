@@ -19,10 +19,10 @@ struct FrfReleasedDofsFormat
     static void write(const FrfReleasedDofsCard& card, FieldWriter& writer);
 };
 
-// All the FRFRELS cards. The SID is a set ID that several cards may share (IdSpace::Group, category Other). A component
-// given by its ID is a reference to an FRFCOMP (ReferenceTarget::FrfComponent), one given by its name is kept as
-// written; the grid points are plain numbers of the components' own models. The cards are kept whole next to columns of
-// their IDs and component digits.
+// All the FrfReleasedDofs cards. The SID is a set ID that several cards may share (IdSpace::Group, category Other). A
+// component given by its ID is a reference to a FrfComponent (ReferenceTarget::FrfComponent), one given by its name is
+// kept as written; the grid points are plain numbers of the components' own models. The cards are kept whole next to
+// columns of their IDs and component digits.
 class FrfReleasedDofsTable final : public TypedTable<FrfReleasedDofsTable, FrfReleasedDofsCard>
 {
 public:

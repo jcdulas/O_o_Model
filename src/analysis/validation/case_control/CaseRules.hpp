@@ -53,7 +53,7 @@ enum class RequestTarget
 [[nodiscard]] RequestTarget targetOfRequest(const std::string& name);
 
 // True for the output requests whose number selects a SET of the Case Control. The number of the others is the ID of a
-// Bulk Data card (RCROSS = 20 selects an RCROSS card), or of something else.
+// Bulk Data card (CrossSpectrumPair = 20 selects a CrossSpectrumPair card), or of something else.
 [[nodiscard]] bool selectsSet(const std::string& name);
 
 } // namespace oor::analysis

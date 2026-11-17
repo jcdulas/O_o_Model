@@ -7,12 +7,12 @@ namespace oor::analysis
 namespace
 {
 
-// The elements whose property card is of a kind of its own: the cohesive interface elements (PCOHE), the
-// acoustic infinite elements (PACINF), the two-dimensional bush (PBUSH2D), the crack tip and seam elements (PRAC2D,
-// PRAC3D, PSEAM), the axisymmetric line element and the SOL 700 spring (PAXISYM, PSPRMAT), and the SOL 700 scalar
-// springs and dampers. The format reference of each element names the property card it takes; PELAS1 may only be
-// named by a CELAS1D, which the check of the ordinary scalar elements already
-// refuses.
+// The elements whose property card is of a kind of its own: the cohesive interface elements (CohesiveProp), the
+// acoustic infinite elements (AcousticInfiniteProp), the two-dimensional bush (BushProp2D), the crack tip and seam
+// elements (CrackTipProp2D, CrackTipProp3D, SeamProp), the axisymmetric line element and the SOL 700 spring
+// (AxisymShellProp, SpringOffsetProp), and the SOL 700 scalar springs and dampers. The format reference of each element
+// names the property card it takes; SpringPropTable may only be named by a SpringDofPropertyExplicit, which the check
+// of the ordinary scalar elements already refuses.
 class SpecialPropertyTypeCheck final : public ValidationCheck
 {
 public:
@@ -37,8 +37,8 @@ public:
         reportWrongPropertyType(context, sink, {"ShellAxisym"}, {"AxisymShellProp"});
         reportWrongPropertyType(context, sink, {"SpringOffsetExplicit"}, {"SpringOffsetProp"});
         reportWrongPropertyType(context, sink, {"SpringDofPropertyExplicit"}, {"SpringProp", "SpringPropTable"});
-        // The format reference names "a PDAMPn" for the SOL 700 damper; PVISC1 is the nonlinear damper property of SOL
-        // 700.
+        // The format reference names "a PDAMPn" for the SOL 700 damper; ViscousDamperPropNonlinear is the nonlinear
+        // damper property of SOL 700.
         reportWrongPropertyType(context, sink, {"DamperDofPropertyExplicit"},
                                 {"DamperProp", "HeatCapacityProp5", "ViscousDamperPropNonlinear"},
                                 {"DamperProp", "ViscousDamperPropNonlinear"});

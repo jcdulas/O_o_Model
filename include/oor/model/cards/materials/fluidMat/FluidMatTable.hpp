@@ -24,8 +24,8 @@ struct FluidMatFormat
                                                             std::optional<double> soundSpeed, FluidMatCard& card);
 };
 
-// All the MAT10 cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). ALPHA is
-// NaN for a card that has none.
+// All the FluidMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). ALPHA
+// is NaN for a card that has none.
 class FluidMatTable final : public TypedTable<FluidMatTable, FluidMatCard>
 {
 public:
@@ -43,7 +43,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MAT10 refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a FluidMat refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& bulkModulusColumn() noexcept { return m_bulkModulus; }

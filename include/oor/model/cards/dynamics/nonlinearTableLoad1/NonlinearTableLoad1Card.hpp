@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One NOLIN1 card: a nonlinear load that is a tabular function of a displacement or a velocity (selected by the Case
-// Control command NONLINEAR).
+// One NonlinearTableLoad1 card: a nonlinear load that is a tabular function of a displacement or a velocity (selected
+// by the Case Control command NONLINEAR).
 //
-// Card layout: NOLIN1  SID  GI  CI  S  GJ  CJ  TID
+// Card layout: NonlinearTableLoad1  SID  GI  CI  S  GJ  CJ  TID
 // The load at point GI, component CI, is S times the table TID of the displacement of point GJ, component CJ (a
 // velocity when CJ is 10 more than the component: 11 to 16 for a grid point, 10 for a scalar or extra point). CI and CJ
 // are 0 (blank) for a scalar or extra point.

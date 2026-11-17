@@ -12,19 +12,19 @@
 namespace oor::model
 {
 
-// One CWELD card: a weld or fastener between two surface patches, a point and a patch, or two points. The format of
+// One Weld card: a weld or fastener between two surface patches, a point and a patch, or two points. The format of
 // the rest of the card depends on TYPE (field 4):
 //
 //   PARTPAT / ELPAT / ELEMID:
-//     CWELD  EWID  PWID  GS  TYPE  GA  GB      MCID
-//            IDA   IDB                                   IDA and IDB: PSHELL properties (PARTPAT) or shell elements
-//            XS    YS    ZS                              XS YS ZS: PARTPAT and ELPAT only (ELEMID has no third line)
+//     Weld  EWID  PWID  GS  TYPE  GA  GB      MCID
+//           IDA   IDB                                   IDA and IDB: ShellProp properties (PARTPAT) or shell elements
+//           XS    YS    ZS                              XS YS ZS: PARTPAT and ELPAT only (ELEMID has no third line)
 //   GRIDID:
-//     CWELD  EWID  PWID  GS  GRIDID  GA  GB  SPTYP  MCID
-//            GA1   GA2   GA3  GA4  GA5  GA6  GA7  GA8
-//            GB1   GB2   GB3  GB4  GB5  GB6  GB7  GB8
+//     Weld  EWID  PWID  GS  GRIDID  GA  GB  SPTYP  MCID
+//           GA1   GA2   GA3  GA4  GA5  GA6  GA7  GA8
+//           GB1   GB2   GB3  GB4  GB5  GB6  GB7  GB8
 //   ALIGN:
-//     CWELD  EWID  PWID      ALIGN  GA  GB      MCID
+//     Weld  EWID  PWID      ALIGN  GA  GB      MCID
 //
 // `patchIdA`/`patchIdB` hold PIDA/PIDB or SHIDA/SHIDB; they and the members of the other formats stay at their blank
 // value when the format does not use them. A blank MCID is -1 (the format reference default). GS, GA, GB, IDB (ELEMID:

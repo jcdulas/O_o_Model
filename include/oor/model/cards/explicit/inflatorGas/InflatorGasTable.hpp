@@ -19,8 +19,9 @@ struct InflatorGasFormat
     static void write(const InflatorGasCard& card, FieldWriter& writer);
 };
 
-// All the INFLGAS cards. The GASNAM is unique among the gases (IdSpace::PerCardType, category InflatorGas): an INFLCG,
-// INFLTR, INFLHB or INITGAS names it. The specific heat may be a TABLED1 of the temperature.
+// All the InflatorGas cards. The GASNAM is unique among the gases (IdSpace::PerCardType, category InflatorGas): a
+// ColdGasInflator, StandardInflator, HybridInflator or InitialGasComposition names it. The specific heat may be a
+// TableDynamic1 of the temperature.
 class InflatorGasTable final : public TypedTable<InflatorGasTable, InflatorGasCard>
 {
 public:

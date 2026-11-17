@@ -78,23 +78,24 @@ inline constexpr std::array<ShellLineRules, 4> SHELL_PROP_NONLINEAR_LINES{
                    .structural = SHELL_PROP_NONLINEAR_C8_STRUCTURAL,
                    .heat = SHELL_PROP_NONLINEAR_C8_HEAT}};
 
-// One PSHLN1 card (SOL 400): the nonlinear extension of the PSHELL, PCOMP or PCOMPG with the same PID, for the shell
-// elements (CQUAD4, CQUADR, CQUAD8, CTRIA3, CTRIAR, CTRIA6) that name it. It also gives the implicit heat transfer
-// shell elements their formulation (ANAL = IH or ISH): the structural and the heat use are one card. It is honoured in
-// SOL 400 only.
+// One ShellPropNonlinear card (SOL 400): the nonlinear extension of the ShellProp, CompProp or CompPropGlobal with the
+// same PID, for the shell elements (ShellQuad4, ShellQuad4Drilling, ShellQuad8, ShellTria3, ShellTria3Drilling,
+// ShellTria6) that name it. It also gives the implicit heat transfer shell elements their formulation (ANAL = IH or
+// ISH): the structural and the heat use are one card. It is honoured in SOL 400 only.
 //
 // Card layout:
-//   PSHLN1  PID    MID1    MID2     (blank)  ANAL
-//           "C3"   BEH3    INT3     BEH3H    INT3H          one line for each keyword,
-//           "C4"   BEH4    INT4     BEH4H    INT4H          fields 9 to 13 of its line
-//           "C6"   BEH6    INT6     BEH6H    INT6H
-//           "C8"   BEH8    INT8     BEH8H    INT8H
+//   ShellPropNonlinear  PID    MID1    MID2  (blank)  ANAL
+//                       "C3"   BEH3    INT3     BEH3H    INT3H          one line for each keyword,
+//                       "C4"   BEH4    INT4     BEH4H    INT4H          fields 9 to 13 of its line
+//                       "C6"   BEH6    INT6     BEH6H    INT6H
+//                       "C8"   BEH8    INT8     BEH8H    INT8H
 //
-// The ID is the one of the property it extends, so it is in the space of its own card type (one PSHLN1 for each
-// property) and is a reference to a property (a rule between cards says it is a PSHELL, PCOMP or PCOMPG). MID1 and MID2
-// are the membrane and bending materials: a blank or 0 keeps the ones of the PSHELL, a value above 0 replaces them, and
-// both are ignored for a PCOMP or PCOMPG. They name a structural material, or a MAT4 or MAT5 for the
-// heat analysis (the Material target falls back to those). ANAL is IS, IH or ISH, the default.
+// The ID is the one of the property it extends, so it is in the space of its own card type (one ShellPropNonlinear for
+// each property) and is a reference to a property (a rule between cards says it is a ShellProp, CompProp or
+// CompPropGlobal). MID1 and MID2 are the membrane and bending materials: a blank or 0 keeps the ones of the ShellProp,
+// a value above 0 replaces them, and both are ignored for a CompProp or CompPropGlobal. They name a structural
+// material, or a HeatIsoMat or HeatAnisoMat for the heat analysis (the Material target falls back to those). ANAL is
+// IS, IH or ISH, the default.
 //
 // The keyword lines may come in any order or not at all; a line that is not in the card gets the
 // defaults of its keyword, so `lines` always holds the four lines resolved and a line is written only when a word of it
@@ -104,8 +105,8 @@ inline constexpr std::array<ShellLineRules, 4> SHELL_PROP_NONLINEAR_LINES{
 struct ShellPropNonlinearCard
 {
     base::EntityId id = 0;
-    base::EntityId matId1 = 0; // 0: the MID1 of the PSHELL
-    base::EntityId matId2 = 0; // 0: the MID2 of the PSHELL
+    base::EntityId matId1 = 0; // 0: the MID1 of the ShellProp
+    base::EntityId matId2 = 0; // 0: the MID2 of the ShellProp
     PropertyAnalysis analysisType = PropertyAnalysis::StructuralAndHeat;
     std::array<ShellLine, 4> lines = defaultLines(SHELL_PROP_NONLINEAR_LINES);
 };

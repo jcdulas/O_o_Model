@@ -20,7 +20,7 @@ struct RigidBodyStarFormat
     static void write(const RigidBodyStarCard& card, FieldWriter& writer);
 };
 
-// All the RBE2 cards. A rigid element is an element: its ID is in the ID space shared by all the elements. The
+// All the RigidBodyStar cards. A rigid element is an element: its ID is in the ID space shared by all the elements. The
 // dependent grid points of every card are one list in CSR form.
 class RigidBodyStarTable final : public TypedTable<RigidBodyStarTable, RigidBodyStarCard>
 {

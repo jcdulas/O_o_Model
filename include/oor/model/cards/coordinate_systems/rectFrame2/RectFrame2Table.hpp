@@ -19,7 +19,8 @@ struct RectFrame2Format
     static void write(const RectFrame2Card& card, FieldWriter& writer);
 };
 
-// All the CORD2R systems. The three points are one column of (x, y, z) triples each: (N, 3) NumPy views without copy.
+// All the RectFrame2 systems. The three points are one column of (x, y, z) triples each: (N, 3) NumPy views without
+// copy.
 class RectFrame2Table final : public TypedTable<RectFrame2Table, RectFrame2Card>
 {
 public:

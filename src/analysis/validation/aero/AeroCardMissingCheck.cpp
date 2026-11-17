@@ -14,9 +14,9 @@ namespace
 {
 
 // The Case Control commands that run an aeroelastic analysis need its physical data: the flutter and gust analyses the
-// AERO card (every aerodynamic run needs it), the static trim and the divergence
-// analysis the AEROS card (static aeroelastic runs need it). A deck whose AERO or AEROS is in a
-// file the model does not have is not told apart from one that lacks it.
+// AeroUnsteadyParams card (every aerodynamic run needs it), the static trim and the divergence
+// analysis the AeroStaticParams card (static aeroelastic runs need it). A deck whose AeroUnsteadyParams or
+// AeroStaticParams is in a file the model does not have is not told apart from one that lacks it.
 class AeroCardMissingCheck final : public ValidationCheck
 {
 public:

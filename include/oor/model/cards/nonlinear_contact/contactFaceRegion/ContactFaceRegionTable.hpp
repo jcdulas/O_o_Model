@@ -19,10 +19,10 @@ struct ContactFaceRegionFormat
     static void write(const ContactFaceRegionCard& card, FieldWriter& writer);
 };
 
-// All the BCSURF cards. The BID is unique among them (IdSpace::PerCardType, category ContactBody, shared with BCBODY1
-// and BCGRID, which a BCONECT also names). The cards are kept whole (CardRows); the query engine reads the ID only. The
-// elements, the SET3 of an entry of type SET, the grid points, the parameter set, the rigid surface and the rigid body
-// are references.
+// All the ContactFaceRegion cards. The BID is unique among them (IdSpace::PerCardType, category ContactBody, shared
+// with ContactBody1 and ContactNodeRegion, which a ContactPair also names). The cards are kept whole (CardRows); the
+// query engine reads the ID only. The elements, the TypedListSet3 of an entry of type SET, the grid points, the
+// parameter set, the rigid surface and the rigid body are references.
 class ContactFaceRegionTable final : public TypedTable<ContactFaceRegionTable, ContactFaceRegionCard>
 {
 public:

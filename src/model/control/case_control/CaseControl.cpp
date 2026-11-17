@@ -695,10 +695,10 @@ bool CaseControl::removeEntry(std::uint32_t entryKey)
 namespace
 {
 
-// RANDOM = n may name a Case Control SET (format reference: the SET lists RANDPS and RANDT1 set IDs), and SEALL, SEDR,
-// SUPER, ... = n a SET of superelement numbers (format reference: n is the number of a previously appearing SET, which
-// must differ from the number of any superelement), not a set of Bulk Data cards or a superelement: such a number is
-// not a reference.
+// RANDOM = n may name a Case Control SET (format reference: the SET lists RandomSpectralDensity and RandomTimeLags set
+// IDs), and SEALL, SEDR, SUPER, ... = n a SET of superelement numbers (format reference: n is the number of a
+// previously appearing SET, which must differ from the number of any superelement), not a set of Bulk Data cards or a
+// superelement: such a number is not a reference.
 bool namesCaseSet(const CommandDefinition& definition, std::int64_t number, const std::vector<std::int64_t>& sets)
 {
     return (definition.reference == ReferenceTarget::RandomSet ||

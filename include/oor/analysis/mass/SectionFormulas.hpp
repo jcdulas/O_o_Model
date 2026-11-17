@@ -15,9 +15,9 @@ namespace oor::analysis
 {
 
 // The section properties of a bar or beam at one station, in the element coordinate system of the bar: y is the
-// vertical axis of the format reference figures of PBARL (figure 9-106 and following), z the horizontal one, and the
-// section lies in the plane perpendicular to the element x axis. NaN means "not defined" (a blank value on the card, a
-// section whose dimensions are impossible, a property that has no such value).
+// vertical axis of the format reference figures of BarShapeProp (figure 9-106 and following), z the horizontal one, and
+// the section lies in the plane perpendicular to the element x axis. NaN means "not defined" (a blank value on the
+// card, a section whose dimensions are impossible, a property that has no such value).
 //
 //   area     the cross-section area
 //   i1       area moment of inertia in plane 1 (the x-y plane), about the neutral axis: the integral of y squared
@@ -26,7 +26,7 @@ namespace oor::analysis
 //   j        torsional constant
 //   k1, k2   shear area factors in planes 1 and 2 (the shear area divided by the area); NaN when the card leaves them
 //            blank (no shear flexibility) or when they were not asked for (ShearFactorRule::None).
-//            A CBAR ignores them when I12 is not zero.
+//            A Bar2 ignores them when I12 is not zero.
 //   nsm      non-structural mass per unit length at the station (0 for a section that has none)
 //   recovery the stress recovery points C, D, E, F as (y, z) pairs, measured from the neutral axis; NaN where not given
 //   xxb      the station along the element, 0.0 at end A and 1.0 at end B
@@ -61,33 +61,35 @@ struct SectionProperties
     [[nodiscard]] bool hasArea() const noexcept { return area == area; }
 };
 
-// The section of a bar or beam property: its card type, the library section type of a PBARL or PBEAML, and one set of
-// properties per station, in the order of increasing X/XB (a PBAR, PBARL and PBCOMP have one).
+// The section of a bar or beam property: its card type, the library section type of a BarShapeProp or BeamShapeProp,
+// and one set of properties per station, in the order of increasing X/XB (a BarProp, BarShapeProp and
+// BeamLumpedAreaProp have one).
 struct BeamSection
 {
     std::string propertyType; // the card type: "BarProp", "BeamShapeProp", ...
-    std::string sectionType;  // "I", "TUBE", ... for PBARL and PBEAML; empty for the others
+    std::string sectionType;  // "I", "TUBE", ... for BarShapeProp and BeamShapeProp; empty for the others
     base::EntityId materialId = 0;
     std::vector<SectionProperties> stations;
     // Where the centre of gravity of the non-structural mass is, as (y, z) in the element system, at the two ends: M1A,
-    // M2A and M1B, M2B of a PBEAM, M1 and M2 of a PBCOMP, MY and MZ of the ends of a PBEAM3 (zero for the others).
+    // M2A and M1B, M2B of a BeamProp, M1 and M2 of a BeamLumpedAreaProp, MY and MZ of the ends of a BeamProp3 (zero for
+    // the others).
     std::array<double, 2> nsmCenterA = {0.0, 0.0};
     std::array<double, 2> nsmCenterB = {0.0, 0.0};
 
     // The average of `area` over the length of the element, the section varying linearly between the stations
-    // (the rule of the PBEAM: the trapezoid over X/XB). NaN when a station has no area.
+    // (the rule of the BeamProp: the trapezoid over X/XB). NaN when a station has no area.
     [[nodiscard]] double meanArea() const;
     // The same for the non-structural mass per unit length.
     [[nodiscard]] double meanNsm() const;
 };
 
-// How the shear factors (and, for the sections without a closed form, the torsional constant) of the PBARL and PBEAML
-// library are computed:
+// How the shear factors (and, for the sections without a closed form, the torsional constant) of the BarShapeProp and
+// BeamShapeProp library are computed:
 //   Solver       the solver's finite element formulation of the cross-section, the default of the solver:
 //                ROD 6/7, TUBE 6 (1 + m^2)^2 / (7 (1 + m^2)^2 + 20 m^2) with m the ratio of the
 //                radii, BAR 5/6, the other sections by SectionShearSolver;
-//   BeamLibrary  the beam library equations the solver uses under MDLPRM,TWBRBML,1 (and other implementations and
-//                earlier versions before the
+//   BeamLibrary  the beam library equations the solver uses under ModelParams,BeamLibraryShearFactor,1 (and other
+//                implementations and earlier versions before the
 //                finite element formulation): the net area of the walls along the shear over the area, the corner
 //                squares where two walls meet counting for neither direction; ROD 0.9, TUBE 0.5, BAR 5/6; the
 //                torsional constant of the thin-walled formulas;
@@ -108,8 +110,8 @@ struct LinearIntegral
 };
 
 // The values at the stations of a property (area times density plus nsm, say), integrated over the length with the
-// linear interpolation the PBEAM defines; the stations outside [0, 1] are not extrapolated (the first station's value
-// holds before the first, the last's after the last).
+// linear interpolation the BeamProp defines; the stations outside [0, 1] are not extrapolated (the first station's
+// value holds before the first, the last's after the last).
 [[nodiscard]] LinearIntegral integrateAlongBeam(std::span<const double> positions, std::span<const double> values);
 
 class SectionCache;
@@ -176,8 +178,8 @@ struct SectionOutline
     std::vector<std::uint8_t> holes;
 };
 
-// The section formulas of the library of cross-sections (PBARL and PBEAML, the standard GROUP), and the sections of the
-// bar and beam property cards as they are given.
+// The section formulas of the library of cross-sections (BarShapeProp and BeamShapeProp, the standard GROUP), and the
+// sections of the bar and beam property cards as they are given.
 class SectionFormulas
 {
 public:
@@ -206,16 +208,16 @@ public:
     // is not in the library.
     [[nodiscard]] static SectionOutline outline(std::string_view type, std::span<const double> dimensions);
 
-    // The rule of a model: BeamLibrary when it has MDLPRM,TWBRBML,1 (format reference MDLPRM: 0, the default, is the
-    // finite element formulation), else Solver.
+    // The rule of a model: BeamLibrary when it has ModelParams,BeamLibraryShearFactor,1 (format reference ModelParams:
+    // 0, the default, is the finite element formulation), else Solver.
     [[nodiscard]] static ShearFactorRule ruleOf(const model::Model& model);
 
-    // True when the property card type is one whose section is known (PBAR, PBARL, PBEAM, PBEAML, PBEAM3, PBCOMP, PROD,
-    // PTUBE, PBEND).
+    // True when the property card type is one whose section is known (BarProp, BarShapeProp, BeamProp, BeamShapeProp,
+    // BeamProp3, BeamLumpedAreaProp, RodProp, TubeProp, CurvedBeamProp).
     [[nodiscard]] static bool supports(std::uint16_t propertyType) noexcept;
 
     // The section of the property in `location` (a live row of a property table), or nullopt for a property that has
-    // none (PSHELL, PSOLID, ...). The shear factors of a library section follow `rule`; with a `cache`, a library
+    // none (ShellProp, SolidProp, ...). The shear factors of a library section follow `rule`; with a `cache`, a library
     // section already computed is taken from it.
     [[nodiscard]] static std::optional<BeamSection> of(const model::Model& model, model::CardLocation location,
                                                        ShearFactorRule rule, SectionCache* cache = nullptr);

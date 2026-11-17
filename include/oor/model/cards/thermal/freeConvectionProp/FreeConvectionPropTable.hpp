@@ -19,8 +19,9 @@ struct FreeConvectionPropFormat
     static void write(const FreeConvectionPropCard& card, FieldWriter& writer);
 };
 
-// All the PCONV cards. The ID is the PCONID a CONV names, in a space of its own (category ConvectionProperty,
-// IdSpace::PerCardType: a PCONVM may have the same number). The absent values are NaN.
+// All the FreeConvectionProp cards. The ID is the PCONID a FreeConvection names, in a space of its own (category
+// ConvectionProperty, IdSpace::PerCardType: a ForcedConvectionProp may have the same number). The absent values are
+// NaN.
 class FreeConvectionPropTable final : public TypedTable<FreeConvectionPropTable, FreeConvectionPropCard>
 {
 public:

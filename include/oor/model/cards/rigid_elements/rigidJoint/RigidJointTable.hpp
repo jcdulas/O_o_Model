@@ -19,7 +19,7 @@ struct RigidJointFormat
     static void write(const RigidJointCard& card, FieldWriter& writer);
 };
 
-// All the RJOINT cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
+// All the RigidJoint cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
 class RigidJointTable final : public TypedTable<RigidJointTable, RigidJointCard>
 {
 public:

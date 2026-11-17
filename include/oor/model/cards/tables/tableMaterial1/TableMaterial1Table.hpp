@@ -20,8 +20,8 @@ struct TableMaterial1Format
     static void write(const TableMaterial1Card& card, FieldWriter& writer);
 };
 
-// All the TABLEM1 cards. The ID is a material table ID, in the ID space the TABLEM2 to TABLEM4 cards share
-// (IdSpace::MaterialTable). The points of every table are two lists (x, y) in CSR form.
+// All the TableMaterial1 cards. The ID is a material table ID, in the ID space the TableMaterial2 to TableMaterial4
+// cards share (IdSpace::MaterialTable). The points of every table are two lists (x, y) in CSR form.
 class TableMaterial1Table final : public TypedTable<TableMaterial1Table, TableMaterial1Card>
 {
 public:

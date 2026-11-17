@@ -53,7 +53,8 @@ std::optional<CardProblem> AeroLiftingPanel1Format::check(const AeroLiftingPanel
         return problem;
     if (const auto problem = checkOptionalId(card.chordDivisionListId, "chordDivisionListId"))
         return problem;
-    // The boxes come from the number of divisions, or else from the AEFACT list (format reference fields 4 to 7).
+    // The boxes come from the number of divisions, or else from the AeroFactorList list (format reference fields 4 to
+    // 7).
     if (card.spanBoxCount == 0 && card.spanDivisionListId == 0)
         return CardProblem{"card.missing-field", "{field} or {field:spanDivisionListId} is required", "spanBoxCount"};
     if (card.chordBoxCount == 0 && card.chordDivisionListId == 0)

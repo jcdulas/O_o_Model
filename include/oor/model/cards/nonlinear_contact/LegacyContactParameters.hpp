@@ -10,11 +10,11 @@
 #include <string_view>
 #include <vector>
 
-// The parameter lists of the legacy contact cards that no format reference describes (BCTPARM, BCTPARA): a NAME
-// and a value, pair after pair. One kind of value used by two cards. Unlike the lists of BCPARA and its relatives, the
-// list of names is open: a card checks the names it knows and reads any other name as a number, because the decks of
-// the older contact use many more names (FRICMOD, FPARA1 to FPARA5, EPSN, EPST, PENTYP, ...). Each card has its own
-// array of rules for the names it knows.
+// The parameter lists of the legacy contact cards that no format reference describes (ContactControlParams,
+// ContactSurfaceParams): a NAME and a value, pair after pair. One kind of value used by two cards. Unlike the lists of
+// ContactParams and its relatives, the list of names is open: a card checks the names it knows and reads any other name
+// as a number, because the decks of the older contact use many more names (FRICMOD, FPARA1 to FPARA5, EPSN, EPST,
+// PENTYP, ...). Each card has its own array of rules for the names it knows.
 namespace oor::model
 {
 

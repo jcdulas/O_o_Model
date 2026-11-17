@@ -19,9 +19,10 @@ struct AeroControlSurfaceNodesFormat
     static void write(const AeroControlSurfaceNodesCard& card, FieldWriter& writer);
 };
 
-// All the AESURFS cards, in the category Aero. The ID is ignored by the solver, so the space is IdSpace::Group (several
-// cards may carry the same number). LIST1 and LIST2 are SET1 cards (ReferenceTarget::Set); the label names an AESURF
-// but is not a reference. The card is kept whole next to a column of its ID.
+// All the AeroControlSurfaceNodes cards, in the category Aero. The ID is ignored by the solver, so the space is
+// IdSpace::Group (several cards may carry the same number). LIST1 and LIST2 are IdListSet1 cards
+// (ReferenceTarget::Set); the label names an AeroControlSurface but is not a reference. The card is kept whole next to
+// a column of its ID.
 class AeroControlSurfaceNodesTable final : public TypedTable<AeroControlSurfaceNodesTable, AeroControlSurfaceNodesCard>
 {
 public:

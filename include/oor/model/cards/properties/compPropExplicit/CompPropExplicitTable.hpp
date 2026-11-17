@@ -19,9 +19,9 @@ struct CompPropExplicitFormat
     static void write(const CompPropExplicitCard& card, FieldWriter& writer);
 };
 
-// All the PCOMPA cards. The ID space is the card type's own: the ID is the one of the PCOMP that the card extends, so
-// it is also a reference to a property (renumbering the properties follows into it). The cards are kept whole
-// (CardRows); the query engine reads the PID.
+// All the CompPropExplicit cards. The ID space is the card type's own: the ID is the one of the CompProp that the card
+// extends, so it is also a reference to a property (renumbering the properties follows into it). The cards are kept
+// whole (CardRows); the query engine reads the PID.
 class CompPropExplicitTable final : public TypedTable<CompPropExplicitTable, CompPropExplicitCard>
 {
 public:

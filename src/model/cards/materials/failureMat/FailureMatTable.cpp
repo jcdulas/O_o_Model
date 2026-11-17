@@ -25,7 +25,7 @@ constexpr int BLOCK_FIELDS = 3 * LINE; // the three lines of a criterion
 
 constexpr int CRITERIA[] = {1, 2, 3, 4, 5, 7, 8, 10, 11, 13};
 
-// The SOL 700 criteria (the SOL 700 form of MATF in the format reference): 101 maximum equivalent stress, 102
+// The SOL 700 criteria (the SOL 700 form of FailureMat in the format reference): 101 maximum equivalent stress, 102
 // Johnson-Cook, 103 maximum plastic strain, 104 maximum pressure, 105 CAP.
 constexpr int FIRST_EXPLICIT_CRITERION = 101;
 constexpr int LAST_EXPLICIT_CRITERION = 105;
@@ -62,7 +62,7 @@ bool isExplicitCriterion(int code)
 }
 
 // The cell of a SOL 700 criterion that holds a word instead of a number, as the index into FailureMatCriterion::words,
-// or -1: MTH sits in the cell of V11 for 102; TYPE in the cell of V12 and ITER in that of W1 for 105.
+// or -1: MTH sits in the cell of V11 for 102; TYPE in the cell of V12 and IterativeSolverOptions in that of W1 for 105.
 int vWordIndex(int criterion, std::size_t vIndex)
 {
     if (criterion == JOHNSON_COOK && vIndex == 10)

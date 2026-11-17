@@ -63,8 +63,8 @@ public:
         std::vector<std::uint8_t> targetValid;
         std::vector<double> temperature;
         std::vector<double> gradient;
-        // The columns of a TEMPRB row (NaN, so null, for the other cards): TB, the four gradients and the eight point
-        // temperatures, which stay null when the card gives none.
+        // The columns of a LineElemTemperatureLoad row (NaN, so null, for the other cards): TB, the four gradients and
+        // the eight point temperatures, which stay null when the card gives none.
         std::vector<double> temperatureB;
         std::array<std::vector<double>, 4> gradients;
         std::vector<std::int64_t> pointOffsets{0};

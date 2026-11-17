@@ -11,43 +11,44 @@
 namespace oor::model
 {
 
-// CTYPE of an MDSEAM: what the four patch numbers IDAS, IDBS, IDAE and IDBE name. A blank CTYPE is PSHELL. The
+// CTYPE of a ModuleSeam: what the four patch numbers IDAS, IDBS, IDAE and IDBE name. A blank CTYPE is ShellProp. The
 // enumerators are numbered in the order of MODULE_SEAM_PATCH_TYPE_WORDS.
 enum class ModuleSeamPatchType : std::uint8_t
 {
-    Property, // PSHELL (the default): property IDs of PSHELL cards
+    Property, // ShellProp (the default): property IDs of ShellProp cards
     Element   // ELEM: element IDs
 };
 
 inline constexpr std::array<std::string_view, 2> MODULE_SEAM_PATCH_TYPE_WORDS{"ShellProp", "Elements"};
 
-// How an MDSEAM gives the start and the end of the seam: by the grid points GS and GE, or by the coordinates XS YS ZS
-// and XE YE ZE (the alternate format of the format reference).
+// How a ModuleSeam gives the start and the end of the seam: by the grid points GS and GE, or by the coordinates XS YS
+// ZS and XE YE ZE (the alternate format of the format reference).
 enum class ModuleSeamEnds : std::uint8_t
 {
     GridPoints,
     Coordinates
 };
 
-// One MDSEAM card: a seam that connects two surface patches (shell elements) that lie in two modules (the multi-module
-// counterpart of the CSEAM, whose rules apply). The patch A is in the module MODA and the patch B in MODB; a module
-// is a BEGIN MODULE section of the deck, a part of the deck, and module 0 (a blank field) is the main Bulk Data.
+// One ModuleSeam card: a seam that connects two surface patches (shell elements) that lie in two modules (the
+// multi-module counterpart of the Seam, whose rules apply). The patch A is in the module MODA and the patch B in MODB;
+// a module is a BEGIN MODULE section of the deck, a part of the deck, and module 0 (a blank field) is the main Bulk
+// Data.
 //
 // Card layout (the first form, with the grid points):
-//   MDSEAM  EID  PID  SMLN  CTYPE  IDAS  IDBS  IDAE  IDBE         fields 1 to 8
-//           GS   GE                                 MODA  MODB     fields 9 and 10, and 15 and 16
+//   ModuleSeam  EID  PID  SMLN  CTYPE  IDAS  IDBS  IDAE  IDBE     fields 1 to 8
+//               GS   GE                                 MODA  MODB     fields 9 and 10, and 15 and 16
 // and the alternate form, which gives the ends as coordinates and leaves SMLN out:
-//   MDSEAM  EID  PID  (blank)  CTYPE  IDAS  IDBS  IDAE  IDBE
-//           XS   YS   ZS   XE   YE   ZE   MODA  MODB             fields 9 to 14, 15 and 16
+//   ModuleSeam  EID  PID  (blank)  CTYPE  IDAS  IDBS  IDAE  IDBE
+//               XS   YS   ZS   XE   YE   ZE   MODA  MODB             fields 9 to 14, 15 and 16
 // In the first form fields 11 to 14 are blank. The card belongs in the main Bulk Data (a rule of the deck,
 // not of the card).
 //
-// PID names a PSEAM of the main Bulk Data. SMLN names the seam line (up to eight characters, no blank; blank is
+// PID names a SeamProp of the main Bulk Data. SMLN names the seam line (up to eight characters, no blank; blank is
 // nothing); the alternate form has no SMLN in the format reference, and the card keeps one that a deck writes there
-// rather than refuse it (as the CSEAM does). CTYPE says what the patch numbers are (PSHELL by default). IDAS and IDBS
+// rather than refuse it (as the Seam does). CTYPE says what the patch numbers are (ShellProp by default). IDAS and IDBS
 // define the patches A and B, or their start for a tailored blank, in the modules MODA and MODB; IDAE and IDBE their
-// end, in the same modules. IDAS is required. With CTYPE PSHELL an IDBS that is blank or equal to IDAS makes the patch
-// two-sided, and so for the end; with CTYPE ELEM IDBS is required and differs from IDAS, and IDAE and
+// end, in the same modules. IDAS is required. With CTYPE ShellProp an IDBS that is blank or equal to IDAS makes the
+// patch two-sided, and so for the end; with CTYPE ELEM IDBS is required and differs from IDAS, and IDAE and
 // IDBE differ when both are given. The format reference says "differ" with no regard to the modules; two patches of two
 // modules may have the same number, so the rule is asked of the numbers of one module. A blank IDBS, IDAE or IDBE is 0.
 //

@@ -176,8 +176,8 @@ void UserElemServiceTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void UserElemServiceTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the PBUSH2D the card extends. The ID column follows the card (a companion owns its ID: the
-    // renumbering of the properties moves both).
+    // The ID is the one of the BushProp2D the card extends. The ID column follows the card (a companion owns its ID:
+    // the renumbering of the properties moves both).
     UserElemServiceCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Property, card.id);
     m_id.set(row, card.id);

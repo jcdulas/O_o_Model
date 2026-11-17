@@ -19,8 +19,8 @@ struct CohesivePropFormat
     static void write(const CohesivePropCard& card, FieldWriter& writer);
 };
 
-// All the PCOHE properties: the ID is in the space every property type shares (IdSpace::Property), so the PID of a
-// CIFQUAD, CIFHEX, CIFPENT or CIFQDX finds it; the MID is a material (an MCOHE).
+// All the CohesiveProp properties: the ID is in the space every property type shares (IdSpace::Property), so the PID of
+// a CohesiveQuad, CohesiveHexa, CohesivePenta or CohesiveAxisymQuad finds it; the MID is a material (a CohesiveMat).
 class CohesivePropTable final : public TypedTable<CohesivePropTable, CohesivePropCard>
 {
 public:

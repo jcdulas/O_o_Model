@@ -19,8 +19,8 @@ struct FreeBodyLoadFormat
     static void write(const FreeBodyLoadCard& card, FieldWriter& writer);
 };
 
-// All the FBODYLD cards. A load case has no number (IdSpace::None): it is found by its name, which the format reference
-// says is unique (a repeated name is reported when the deck is read). The three fields are text columns.
+// All the FreeBodyLoad cards. A load case has no number (IdSpace::None): it is found by its name, which the format
+// reference says is unique (a repeated name is reported when the deck is read). The three fields are text columns.
 class FreeBodyLoadTable final : public TypedTable<FreeBodyLoadTable, FreeBodyLoadCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // the subsystem is named, not numbered
-    // Two FBODYLD cards of one name are reported.
+    // Two FreeBodyLoad cards of one name are reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
     // The name of a row, as written, without copying the card.

@@ -19,7 +19,7 @@ struct SpringScalarInlineFormat
     static void write(const SpringScalarInlineCard& card, FieldWriter& writer);
 };
 
-// All the CELAS4 elements.
+// All the SpringScalarInline elements.
 class SpringScalarInlineTable final : public TypedTable<SpringScalarInlineTable, SpringScalarInlineCard>
 {
 public:

@@ -11,10 +11,12 @@ namespace oor::analysis
 namespace
 {
 
-// A LEAKAGE whose PORTYPE word does not match the porosity card that has the number PORTYPID. The nine porosity cards
-// (PORFLOW, PORFLWT, PORHOLE, PERMEAB, PORFGBG, PERMGBG, PORFCPL, PORHYDS, PORUDS) share one category, so the model
-// resolves the number to whichever has it; the word is what says which one was meant. The words are the names of the
-// cards. Two porosity cards of different types may share a number: it is enough that one of them is the type named.
+// A GasBagLeakage whose PORTYPE word does not match the porosity card that has the number PORTYPID. The nine porosity
+// cards (PorousFlowBoundary, PorousTimeFlowBoundary, GasBagVentHole, SurfacePermeability, CouplingHoleToGasBag,
+// GasBagPermeableLink, CouplingHoleToCoupling, PorousHydrostaticBoundary, PorousUserBoundary) share one category, so
+// the model resolves the number to whichever has it; the word is what says which one was meant. The words are the names
+// of the cards. Two porosity cards of different types may share a number: it is enough that one of them is the type
+// named.
 class GasBagLeakagePorosityTypeCheck final : public ValidationCheck
 {
 public:

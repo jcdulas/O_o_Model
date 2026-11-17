@@ -94,7 +94,8 @@ void RadiationPropTemperatureTable::keepRows(const std::vector<std::uint32_t>& r
 
 void RadiationPropTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the RADM that the card extends; the tables are TABLEMj cards. A blank field (0) is no table.
+    // The ID is the one of the RadiationProp that the card extends; the tables are TABLEMj cards. A blank field (0) is
+    // no table.
     m_id.set(row, visitor.visit("id", ReferenceTarget::RadiationMaterial, m_id.get(row)));
     if (const base::EntityId table = m_absorptivityTableId.get(row); table > 0)
         m_absorptivityTableId.set(row, visitor.visit("absorptivityTableId", ReferenceTarget::MaterialTable, table));

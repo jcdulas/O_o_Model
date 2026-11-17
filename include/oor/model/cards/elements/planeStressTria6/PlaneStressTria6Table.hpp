@@ -19,8 +19,8 @@ struct PlaneStressTria6Format
     static void write(const PlaneStressTria6Card& card, FieldWriter& writer);
 };
 
-// All the CPLSTS6 elements: the nodes are one column of six IDs per element, 0 for an absent edge point (an (N, 6)
-// NumPy view without copy).
+// All the PlaneStressTria6 elements: the nodes are one column of six IDs per element, 0 for an absent edge point (an
+// (N, 6) NumPy view without copy).
 class PlaneStressTria6Table final : public TypedTable<PlaneStressTria6Table, PlaneStressTria6Card>
 {
 public:

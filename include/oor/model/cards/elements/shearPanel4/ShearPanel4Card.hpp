@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One CSHEAR card: a shear panel element with four corner grid points.
+// One ShearPanel4 card: a shear panel element with four corner grid points.
 //
 // Card layout:
-//   CSHEAR  EID  PID  G1  G2  G3  G4
+//   ShearPanel4  EID  PID  G1  G2  G3  G4
 //
 // The grid points are listed in order around the perimeter of the panel.
 struct ShearPanel4Card

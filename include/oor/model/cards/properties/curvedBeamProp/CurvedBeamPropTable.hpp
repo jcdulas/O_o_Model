@@ -19,8 +19,8 @@ struct CurvedBeamPropFormat
     static void write(const CurvedBeamPropCard& card, FieldWriter& writer);
 };
 
-// All the PBEND cards, both forms in one table: the section values, the pipe values and the common ones are columns of
-// their own (the values of the form that a card does not have are zero, or NaN for a blank field).
+// All the CurvedBeamProp cards, both forms in one table: the section values, the pipe values and the common ones are
+// columns of their own (the values of the form that a card does not have are zero, or NaN for a blank field).
 class CurvedBeamPropTable final : public TypedTable<CurvedBeamPropTable, CurvedBeamPropCard>
 {
 public:

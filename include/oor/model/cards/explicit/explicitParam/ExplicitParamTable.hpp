@@ -21,11 +21,11 @@ struct ExplicitParamFormat
     static void write(const ExplicitParamCard& card, FieldWriter& writer);
 };
 
-// All the DYPARAM cards. A DYPARAM has no number (IdSpace::None, category Other): it is found by its name, and the
-// model keeps every card (a deck gives CONTACT, SMP and MATRMERG several times, each a separate setting). Two cards of
-// one setting are not reported at read time (the model only keeps the errors a table's finishRead finds, and the format
-// reference does not call this an error): `explicitParamIdentity` tells the setting a card gives, for a validation
-// check. The cards are kept whole (CardRows) next to their name, which is what the query engine reads.
+// All the ExplicitParam cards. An ExplicitParam has no number (IdSpace::None, category Other): it is found by its name,
+// and the model keeps every card (a deck gives CONTACT, SMP and MATRMERG several times, each a separate setting). Two
+// cards of one setting are not reported at read time (the model only keeps the errors a table's finishRead finds, and
+// the format reference does not call this an error): `explicitParamIdentity` tells the setting a card gives, for a
+// validation check. The cards are kept whole (CardRows) next to their name, which is what the query engine reads.
 class ExplicitParamTable final : public TypedTable<ExplicitParamTable, ExplicitParamCard>
 {
 public:
@@ -41,7 +41,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    // The tables of COSUBMXT, the grid points of CONTACT,INFO and the MATRIGs of MATRMERG and MATRMRG1.
+    // The tables of COSUBMXT, the grid points of CONTACT,INFO and the RigidMats of MATRMERG and MATRMRG1.
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     [[nodiscard]] std::string nameAtRow(std::uint32_t row) const { return m_entryName.get(row); }

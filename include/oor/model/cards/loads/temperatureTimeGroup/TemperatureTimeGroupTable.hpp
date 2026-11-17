@@ -19,9 +19,9 @@ struct TemperatureTimeGroupFormat
     static void write(const TemperatureTimeGroupCard& card, FieldWriter& writer);
 };
 
-// All the TMPSET cards, in the category TemperatureGroup: the ID is unique per card type (IdSpace::PerCardType) and is
-// what the GROUP_ID of a TTEMP names. The cards are kept whole next to their ID. A single grid point of the list is a
-// Node reference and the ends of a THRU range are NodeInRange.
+// All the TemperatureTimeGroup cards, in the category TemperatureGroup: the ID is unique per card type
+// (IdSpace::PerCardType) and is what the GROUP_ID of a TimeTemperatureLoad names. The cards are kept whole next to
+// their ID. A single grid point of the list is a Node reference and the ends of a THRU range are NodeInRange.
 class TemperatureTimeGroupTable final : public TypedTable<TemperatureTimeGroupTable, TemperatureTimeGroupCard>
 {
 public:

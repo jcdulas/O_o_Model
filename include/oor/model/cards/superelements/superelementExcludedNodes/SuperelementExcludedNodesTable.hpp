@@ -19,8 +19,8 @@ struct SuperelementExcludedNodesFormat
     static void write(const SuperelementExcludedNodesCard& card, FieldWriter& writer);
 };
 
-// All the SEEXCLD cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a
-// column of their SEIDAs.
+// All the SuperelementExcludedNodes cards, category Superelement, no ID of their own (IdSpace::None). They are kept
+// whole next to a column of their SEIDAs.
 class SuperelementExcludedNodesTable final
     : public TypedTable<SuperelementExcludedNodesTable, SuperelementExcludedNodesCard>
 {

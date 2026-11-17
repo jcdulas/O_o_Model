@@ -12,9 +12,10 @@ namespace oor::analysis
 namespace
 {
 
-// A THPAD whose bearing has no ELEMUDS that calls the THPAD service. The RID of a THPAD matches the PID of an ELEMUDS
-// and of a PBUSH2D, and the ELEMUDS needs UNAME=THPAD when the external bearing service is used; a THPAD without it is
-// data that no service reads. The PBUSH2D is the business of ref.unresolved.
+// A TiltingPadBearingProp whose bearing has no UserElemService that calls the TiltingPadBearingProp service. The RID of
+// a TiltingPadBearingProp matches the PID of an UserElemService and of a BushProp2D, and the UserElemService needs
+// UNAME=TiltingPadBearingProp when the external bearing service is used; a TiltingPadBearingProp without it is data
+// that no service reads. The BushProp2D is the business of ref.unresolved.
 class TiltingPadBearingPropServiceCheck final : public ValidationCheck
 {
 public:

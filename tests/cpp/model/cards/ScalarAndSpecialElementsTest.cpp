@@ -120,7 +120,7 @@ TEST_CASE("CDAMP1, CMASS1 and CDAMP5 default PID to EID and take a blank point a
     REQUIRE(heat.node1 == 10);
     REQUIRE(heat.node2 == 20);
     // The property is a reference; the points are grid or scalar points, which a scalar element may name without an
-    // SPOINT: only the three missing properties (and the fourth) are reported.
+    // ScalarPoint: only the three missing properties (and the fourth) are reported.
     RecordingVisitor visitor;
     model.table<DamperDofPropertyTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"propId", "node1"});
@@ -230,7 +230,7 @@ TEST_CASE("CVISC connects two different grid points with a property that default
     REQUIRE(visitor.fields == std::vector<std::string>{"propId", "node1", "node2"});
     REQUIRE(visitor.targets ==
             std::vector<ReferenceTarget>{ReferenceTarget::Property, ReferenceTarget::Node, ReferenceTarget::Node});
-    // Two properties and four grid points are missing (a CVISC has no scalar points).
+    // Two properties and four grid points are missing (a ViscousDamper2 has no scalar points).
     REQUIRE(unresolvedIn(model) == 2 + 4);
 }
 
@@ -505,8 +505,8 @@ TEST_CASE("PLOTEL may carry a second element and has an ID space of its own", "[
     REQUIRE(cardAt<PlotLine2Table>(model, 1).id == 2);
     REQUIRE(cardAt<PlotLine2Table>(model, 2).id == 3);
     REQUIRE(cardAt<PlotLine2Table>(model, 2).node2 == 3);
-    // A PLOTEL with the ID of a bar does not replace it (the format reference asks for distinct IDs; decks that ran in
-    // a solver do not always keep them): both are there. Two PLOTELs cannot have the same ID.
+    // A PlotLine2 with the ID of a bar does not replace it (the format reference asks for distinct IDs; decks that ran
+    // in a solver do not always keep them): both are there. Two PlotLine2s cannot have the same ID.
     REQUIRE(countOfCards<Bar2Table>(model) == 1);
     REQUIRE_THROWS_AS(readBulk("PlotLine2;1;37;18\nPlotLine2;1;1;2"), base::DeckError);
 
@@ -554,11 +554,11 @@ TEST_CASE("CBARAO lists up to six stations or gives equally spaced ones, and ref
     expectInvalid("Bar2Stations;1;FractionalLength;;4;0.2;0.2;0.3", "stationSpacing");
     REQUIRE_THROWS_AS(readBulk("Bar2Stations;1;FractionalLength;0.2\nBar2Stations;1;ActualLength;0.3"),
                       base::DeckError);
-    // It refers to the CBAR whose ID it carries; it does not define an element of that ID.
+    // It refers to the Bar2 whose ID it carries; it does not define an element of that ID.
     RecordingVisitor visitor;
     model.table<Bar2StationsTable>().visitReferences(0, visitor);
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::Element});
-    // The CBARAO of the bar 1 resolves; those of the bars 2 and 3 do not, and the CBAR 1 misses its property and
+    // The Bar2Stations of the bar 1 resolves; those of the bars 2 and 3 do not, and the Bar2 1 misses its property and
     // points.
     REQUIRE(unresolvedIn(model) == 2 + 3);
 }
@@ -570,7 +570,8 @@ TEST_CASE("renumbering the elements renumbers the CBAR that a CBARAO refers to",
     Renumbering::apply(model, RenumberSpace::Element, Renumbering::offset(100));
     REQUIRE(cardAt<Bar2Table>(model, 0).id == 110);
     REQUIRE(cardAt<Bar2StationsTable>(model).id == 110);
-    REQUIRE(unresolvedIn(model) == 2 + 4); // the properties and the grid points are missing, not the bar of the CBARAO
+    // the properties and the grid points are missing, not the bar of the Bar2Stations
+    REQUIRE(unresolvedIn(model) == 2 + 4);
 }
 
 TEST_CASE("CQUAD takes four corners, edge points, a centre point and THETA or MCID", "[model][cards]")
@@ -651,7 +652,7 @@ TEST_CASE("CCONEAX defaults PID to EID and names two rings", "[model][cards]")
     REQUIRE(cardAt<ShellConical2Table>(model, 1).propId == 5);
     expectInvalid("ShellConical2;1;;3;3", "ringIdB");
     expectInvalid("ShellConical2;1;;3", "ringIdB");
-    // The rings are RINGAX points of the node ID space: the deck has none, so they are unresolved.
+    // The rings are AxisymConeRing points of the node ID space: the deck has none, so they are unresolved.
     RecordingVisitor visitor;
     model.table<ShellConical2Table>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"propId", "ringIdA", "ringIdB"});

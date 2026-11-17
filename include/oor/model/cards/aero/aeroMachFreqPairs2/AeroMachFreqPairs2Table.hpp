@@ -22,8 +22,8 @@ struct AeroMachFreqPairs2Format
     static void write(const AeroMachFreqPairs2Card& card, FieldWriter& writer);
 };
 
-// All the MKAERO2 cards, in the category Aero. A card has no ID (IdSpace::None) and a model may have as many as it
-// likes. The pairs (Mach number, frequency) of all the cards are one column of lists.
+// All the AeroMachFreqPairs2 cards, in the category Aero. A card has no ID (IdSpace::None) and a model may have as many
+// as it likes. The pairs (Mach number, frequency) of all the cards are one column of lists.
 class AeroMachFreqPairs2Table final : public TypedTable<AeroMachFreqPairs2Table, AeroMachFreqPairs2Card>
 {
 public:

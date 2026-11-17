@@ -18,7 +18,7 @@ struct ViscousDamper2Format
     static void write(const ViscousDamper2Card& card, FieldWriter& writer);
 };
 
-// All the CVISC elements.
+// All the ViscousDamper2 elements.
 class ViscousDamper2Table final : public TypedTable<ViscousDamper2Table, ViscousDamper2Card>
 {
 public:

@@ -12,7 +12,7 @@ namespace oor::model
 namespace
 {
 
-// The parameters of the card. The SET1 IDs are integers; FTYPE is BLCOUL or BLSHEAR, or 6 or 7; FRIC is
+// The parameters of the card. The IdListSet1 IDs are integers; FTYPE is BLCOUL or BLSHEAR, or 6 or 7; FRIC is
 // a real or the ID of a table.
 constexpr ContactParameterRule OWN_RULES[] = {
     {"ContactKind", ContactParameterKind::Text},

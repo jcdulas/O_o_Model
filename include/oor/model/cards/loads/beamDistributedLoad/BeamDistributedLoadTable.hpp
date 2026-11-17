@@ -25,7 +25,7 @@ struct BeamDistributedLoadFormat
     [[nodiscard]] static std::optional<BarLoadScale> scaleFromName(std::string_view name) noexcept;
 };
 
-// All the PLOAD1 cards. The ID is a load set ID shared by many cards (IdSpace::Group).
+// All the BeamDistributedLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group).
 class BeamDistributedLoadTable final : public TypedTable<BeamDistributedLoadTable, BeamDistributedLoadCard>
 {
 public:

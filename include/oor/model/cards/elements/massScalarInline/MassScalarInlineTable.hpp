@@ -19,7 +19,7 @@ struct MassScalarInlineFormat
     static void write(const MassScalarInlineCard& card, FieldWriter& writer);
 };
 
-// All the CMASS4 elements.
+// All the MassScalarInline elements.
 class MassScalarInlineTable final : public TypedTable<MassScalarInlineTable, MassScalarInlineCard>
 {
 public:

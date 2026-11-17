@@ -71,7 +71,7 @@ void AxisymConePointTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AxisymConePointTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The RID names a RINGAX, which is a point of the node ID space.
+    // The RID names an AxisymConeRing, which is a point of the node ID space.
     if (const base::EntityId ring = m_ringId.get(row); ring > 0)
         m_ringId.set(row, visitor.visit("ringId", ReferenceTarget::Node, ring));
 }

@@ -7,8 +7,8 @@ namespace oor::analysis
 namespace
 {
 
-// A normal modes, buckling or modal response solution (SOL 103, 105, 111, 112) with no METHOD command: no EIGRL is
-// selected, so the eigenvalue problem has no method.
+// A normal modes, buckling or modal response solution (SOL 103, 105, 111, 112) with no METHOD command: no
+// LanczosEigenMethod is selected, so the eigenvalue problem has no method.
 class MissingMethodCheck final : public ValidationCheck
 {
 public:

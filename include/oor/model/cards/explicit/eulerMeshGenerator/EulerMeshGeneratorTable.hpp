@@ -24,9 +24,10 @@ struct EulerMeshGeneratorFormat
     static void resolveDefaults(EulerMeshGeneratorCard& card);
 };
 
-// All the MESH cards. The MID is unique among the MESH cards (IdSpace::PerCardType) and is in the category EulerMesh,
-// which a COUPLE, a BARRIER or a flow boundary names. A MESH names a property (PEULER or PEULER1), another mesh
-// (SUBMESH), tables of resizing, a coordinate system and the BIAS cards of the three directions.
+// All the EulerMeshGenerator cards. The MID is unique among the EulerMeshGenerator cards (IdSpace::PerCardType) and is
+// in the category EulerMesh, which an EulerLagrangeCoupling, an EulerBarrier or a flow boundary names. An
+// EulerMeshGenerator names a property (EulerProp or EulerRegionProp), another mesh (SUBMESH), tables of resizing, a
+// coordinate system and the BIAS cards of the three directions.
 class EulerMeshGeneratorTable final : public TypedTable<EulerMeshGeneratorTable, EulerMeshGeneratorCard>
 {
 public:

@@ -21,9 +21,9 @@ struct RigidShellSolidConnectionFormat
     static void write(const RigidShellSolidConnectionCard& card, FieldWriter& writer);
 };
 
-// All the RSSCON cards. A rigid element is an element: its ID is in the ID space shared by all the elements. The six
-// IDs of a card are one column of six values; they are element references for TYPE = ELEM and grid point references for
-// TYPE = GRID.
+// All the RigidShellSolidConnection cards. A rigid element is an element: its ID is in the ID space shared by all the
+// elements. The six IDs of a card are one column of six values; they are element references for TYPE = ELEM and grid
+// point references for TYPE = GRID.
 class RigidShellSolidConnectionTable final
     : public TypedTable<RigidShellSolidConnectionTable, RigidShellSolidConnectionCard>
 {

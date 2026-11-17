@@ -19,8 +19,8 @@ struct SuperelementExternalBoundaryFormat
     static void write(const SuperelementExternalBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the EXTRN cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a column
-// of the number of connection points each has.
+// All the SuperelementExternalBoundary cards, category Superelement, no ID of their own (IdSpace::None). They are kept
+// whole next to a column of the number of connection points each has.
 class SuperelementExternalBoundaryTable final
     : public TypedTable<SuperelementExternalBoundaryTable, SuperelementExternalBoundaryCard>
 {
@@ -38,7 +38,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     // The points are grid or scalar points of the part the card is in; the card defines them (they resolve through
-    // `connectionPoints`, not through a GRID card).
+    // `connectionPoints`, not through a Node card).
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     // The points of every live card, as runs in ascending order that do not overlap (the lookup of the reference

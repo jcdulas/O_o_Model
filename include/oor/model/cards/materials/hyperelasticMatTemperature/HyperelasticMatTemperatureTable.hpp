@@ -24,10 +24,10 @@ struct HyperelasticMatTemperatureFormat
     static void write(const HyperelasticMatTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATTHE cards. The ID space is the card type's own: the ID is the one of the MATHE that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEMi cards (ReferenceTarget::MaterialTable). The cards are kept whole (CardRows); the query engine reads the ID
-// only.
+// All the HyperelasticMatTemperature cards. The ID space is the card type's own: the ID is the one of the
+// HyperelasticMat that the card extends, so it is also a reference to a material (renumbering the materials follows
+// into it), and the tables are references to TABLEMi cards (ReferenceTarget::MaterialTable). The cards are kept whole
+// (CardRows); the query engine reads the ID only.
 class HyperelasticMatTemperatureTable final
     : public TypedTable<HyperelasticMatTemperatureTable, HyperelasticMatTemperatureCard>
 {

@@ -11,13 +11,13 @@ namespace oor::model
 
 struct EchoOnMarkerFormat
 {
-    // An ECHOON has no value that can be wrong: nothing to check.
+    // An EchoOnMarker has no value that can be wrong: nothing to check.
     [[nodiscard]] static std::optional<CardProblem> check(const EchoOnMarkerCard& card);
     [[nodiscard]] static std::optional<EchoOnMarkerCard> read(FieldReader& reader);
     static void write(const EchoOnMarkerCard& card, FieldWriter& writer);
 };
 
-// All the ECHOON cards: a row each and nothing else, since the card has no field and no ID (IdSpace::None).
+// All the EchoOnMarker cards: a row each and nothing else, since the card has no field and no ID (IdSpace::None).
 class EchoOnMarkerTable final : public TypedTable<EchoOnMarkerTable, EchoOnMarkerCard>
 {
 public:

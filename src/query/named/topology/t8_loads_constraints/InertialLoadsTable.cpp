@@ -54,7 +54,8 @@ std::pair<base::Vec3, double> unitInBasic(LoadVectors& vectors, std::int32_t cid
     return {vector / length, length};
 }
 
-// inertialLoadsTable: the GRAV, ACCEL, ACCEL1 and RFORCE cards of the load sets, LOAD factors applied.
+// inertialLoadsTable: the GravityLoad, AccelFieldLoad, AccelNodeLoad and RotationalForceLoad cards of the load sets,
+// LOAD factors applied.
 class InertialLoadsTableQuery final : public QueryBase
 {
 public:
@@ -86,7 +87,7 @@ public:
                 const std::uint32_t at = load.card.row;
                 if (type == model::typeIndexOf<model::GravityLoadTable>())
                 {
-                    // format reference GRAV: the acceleration is A times the vector (N1, N2, N3) of CID.
+                    // format reference GravityLoad: the acceleration is A times the vector (N1, N2, N3) of CID.
                     const model::GravityLoadCard card = model.findTable<model::GravityLoadTable>()->card(at);
                     const auto [direction, length] = unitInBasic(vectors, card.frameId, base::Vec3{}, card.direction);
                     row.card = "GravityLoad";
@@ -118,8 +119,8 @@ public:
                 }
                 else if (type == model::typeIndexOf<model::AccelNodeLoadTable>())
                 {
-                    // format reference ACCEL1: the acceleration A times the vector (N1, N2, N3) of CID on the grid
-                    // points listed.
+                    // format reference AccelNodeLoad: the acceleration A times the vector (N1, N2, N3) of CID on the
+                    // grid points listed.
                     const model::AccelNodeLoadCard card = model.findTable<model::AccelNodeLoadTable>()->card(at);
                     const auto [direction, length] = unitInBasic(vectors, card.frameId, base::Vec3{},
                                                                  {card.directionX, card.directionY, card.directionZ});
@@ -131,9 +132,9 @@ public:
                 }
                 else if (type == model::typeIndexOf<model::RotationalForceLoadTable>())
                 {
-                    // format reference RFORCE: the rotation about the axis (R1, R2, R3) of CID through grid point G
-                    // (the origin of the basic system when G is blank), A revolutions per unit time and RACC per unit
-                    // time squared.
+                    // format reference RotationalForceLoad: the rotation about the axis (R1, R2, R3) of CID through
+                    // grid point G (the origin of the basic system when G is blank), A revolutions per unit time and
+                    // RACC per unit time squared.
                     const model::RotationalForceLoadCard card =
                         model.findTable<model::RotationalForceLoadTable>()->card(at);
                     const base::Vec3 point = card.node != 0 ? vectors.positionOf(card.node) : base::Vec3{};

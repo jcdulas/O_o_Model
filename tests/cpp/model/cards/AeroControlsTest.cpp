@@ -1,6 +1,7 @@
-// Checks of the cards of the control surfaces and the trim: AESURF, AESURFS, AESTAT and AEPARM (the trim
-// variables, found by label), AELINK (the ID or the word ALWAYS), the components AECOMP and AECOMPL (found by name),
-// TRIM2 (values that are numbers or words), UXVEC, CSSCHD and AELISTC. Each card is tested on the fields of its format
+// Checks of the cards of the control surfaces and the trim: AeroControlSurface, AeroControlSurfaceNodes,
+// AeroRigidTrimVariable and AeroController (the trim variables, found by label), AeroTrimLink (the ID or the word
+// ALWAYS), the components AeroComponent and AeroComponentUnion (found by name), AeroTrim2 (values that are numbers or
+// words), AeroControlVector, AeroControlSchedule and AeroLabelList. Each card is tested on the fields of its format
 // reference layout, its defaults, the references it lists and the renumbering of its ID space, the values it refuses
 // and the round trip through the three formats.
 
@@ -139,7 +140,8 @@ TEST_CASE("an AESURF lists its coordinate systems, boxes and tables, which follo
     Renumbering::apply(model, RenumberSpace::DynamicTable, Renumbering::offset(5));
     REQUIRE((cardAt<AeroControlSurfaceTable>(model, 0).lowerLimitTableId == 7506 &&
              cardAt<AeroControlSurfaceTable>(model, 0).upperLimitTableId == 7507));
-    // The ID is the number of the surface: a CSSCHD names it, and it is unique among the AESURF cards.
+    // The ID is the number of the surface: an AeroControlSchedule names it, and it is unique among the
+    // AeroControlSurface cards.
     REQUIRE(model.locateInType(typeIndexOf<AeroControlSurfaceTable>(), 7001).has_value());
     REQUIRE_THROWS_AS(readBulk("AeroControlSurface;1;A;100;100\nAeroControlSurface;1;B;100;100"), base::DeckError);
 }
@@ -187,7 +189,7 @@ TEST_CASE("an AESURFS lists the grids of a control surface in SET1 cards", "[mod
     visitor = RecordingVisitor{};
     model.table<AeroControlSurfaceNodesTable>().visitReferences(1, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"nodeSetId1"});
-    REQUIRE(unresolvedIn(model) == 3); // no SET1 is in this deck
+    REQUIRE(unresolvedIn(model) == 3); // no IdListSet1 is in this deck
 
     Renumbering::apply(model, RenumberSpace::Set, Renumbering::offset(10));
     REQUIRE((cardAt<AeroControlSurfaceNodesTable>(model, 0).nodeSetId1 == 6116 &&
@@ -357,9 +359,9 @@ TEST_CASE("a TRIM2 has AEQR in field 8 and its variables from field 9, with numb
     REQUIRE(std::get<TrimState>(words.variables[4].value) == TrimState::Free);
     requireRoundTrip(model);
 
-    // AEQR is field 8 of the first line and the pairs start the continuation line: not the layout of a TRIM.
+    // AEQR is field 8 of the first line and the pairs start the continuation line: not the layout of an AeroTrim.
 
-    // The Case Control TRIM selects a TRIM2 as it selects a TRIM, and a renumbering follows it.
+    // The Case Control TRIM selects an AeroTrim2 as it selects an AeroTrim, and a renumbering follows it.
     REQUIRE(unresolvedIn(model) == 0);
     Model dangling = readModelText("[case]\nTrimSelection;9\n[model]\nAeroTrim2;4621;0.5;10.\n", true);
     REQUIRE(unresolvedIn(dangling) == 1);
@@ -445,8 +447,8 @@ TEST_CASE("a CSSCHD names a control surface and the AEFACT lists of its schedule
     visitor = RecordingVisitor{};
     model.table<AeroControlScheduleTable>().visitReferences(1, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"controlSurfaceId", "machListId", "scheduleListId"});
-    // The AESURF 4950 has a system 1 and an AELIST 2 that are not in the deck; the schedule 4902 lacks its AEFACT 4939
-    // and the schedule 4903 the surface 4951 and the AEFACT 4933 and 4940.
+    // The AeroControlSurface 4950 has a system 1 and an AeroBoxList 2 that are not in the deck; the schedule 4902 lacks
+    // its AeroFactorList 4939 and the schedule 4903 the surface 4951 and the AeroFactorList 4933 and 4940.
     REQUIRE(unresolvedIn(model) == 6);
 
     Renumbering::apply(model, RenumberSpace::AeroControlSurface, Renumbering::offset(10));
@@ -495,7 +497,7 @@ TEST_CASE("the Case Control CSSCHD and AEUXREF select a schedule and a control v
         "AeroControlVector;4702;FANPWR;2500.\n";
     Model model = readModelText(
         "[case]\nControlScheduleSelection;4901\nAeroReferenceControlVector;4702\n[model]\n" + cards, true);
-    // The commands name cards of the deck: only the system and the AELIST of the AESURF are missing.
+    // The commands name cards of the deck: only the system and the AeroBoxList of the AeroControlSurface are missing.
     const std::size_t missing = unresolvedIn(model);
     REQUIRE(missing == 2);
     Model dangling =

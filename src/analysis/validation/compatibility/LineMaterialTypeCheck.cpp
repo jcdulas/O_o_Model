@@ -7,8 +7,8 @@ namespace oor::analysis
 namespace
 {
 
-// A rod, tube, bar, beam or shear panel property with a structural material that is not a MAT1 (the format reference:
-// in a structural run, MID names a MAT1).
+// A rod, tube, bar, beam or shear panel property with a structural material that is not an IsoMat (the format
+// reference: in a structural run, MID names an IsoMat).
 class LineMaterialTypeCheck final : public ValidationCheck
 {
 public:

@@ -73,7 +73,8 @@ void BeamArbitrarySectionPropTable::visitReferences(std::uint32_t row, Reference
 {
     BeamArbitrarySectionPropCard& card = m_cards.edit(row);
     visitId(visitor, "matId", ReferenceTarget::Material, card.matId);
-    // The SET1 or SET3 of OUTP, INP, BRP and LAYER, the PCOMP or PCOMPG of CORE and LAYER, the POINTs of PT=().
+    // The IdListSet1 or TypedListSet3 of OUTP, INP, BRP and LAYER, the CompProp or CompPropGlobal of CORE and LAYER,
+    // the POINTs of PT=().
     visitSectionItems(card.items, visitor);
 }
 

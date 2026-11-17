@@ -19,8 +19,8 @@ struct RealEigenMethodFormat
     static void write(const RealEigenMethodCard& card, FieldWriter& writer);
 };
 
-// All the EIGR cards. The ID is a method ID, in the ID space that EIGRL shares (IdSpace::Method). A blank F1 or F2 is
-// NaN in its column, a blank ND is NO_DESIRED_MODE_COUNT.
+// All the RealEigenMethod cards. The ID is a method ID, in the ID space that LanczosEigenMethod shares
+// (IdSpace::Method). A blank F1 or F2 is NaN in its column, a blank ND is NO_DESIRED_MODE_COUNT.
 class RealEigenMethodTable final : public TypedTable<RealEigenMethodTable, RealEigenMethodCard>
 {
 public:

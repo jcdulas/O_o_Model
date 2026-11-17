@@ -7,7 +7,7 @@
 namespace oor::model
 {
 
-// A grid of a ROTORG card, or a run of grids "first THRU last BY by".
+// A grid of a RotorLineNodes card, or a run of grids "first THRU last BY by".
 struct RotorLineNodesRun
 {
     base::EntityId first = 0;
@@ -17,15 +17,16 @@ struct RotorLineNodesRun
     [[nodiscard]] bool operator==(const RotorLineNodesRun&) const noexcept = default;
 };
 
-// One ROTORG card: the grids that make the line model of a rotor.
+// One RotorLineNodes card: the grids that make the line model of a rotor.
 //
-// Card layout:  ROTORG  ROTORID  GRID1  GRID2  GRID3  -etc.-
-//        or:   ROTORG  ROTORID  GRID1  THRU  GRID2  BY  INC
+// Card layout:  RotorLineNodes  ROTORID  GRID1  GRID2  GRID3  -etc.-
+//        or:   RotorLineNodes  ROTORID  GRID1  THRU  GRID2  BY  INC
 // The grids are kept as written: single grids and runs, in order, from field 2 on over as many continuation lines as
-// needed (a run is never split between two lines). The ROTORID is shared by the ROTORG cards of one rotor
-// and by the other rotor cards (ROTOR, ROTORAX and ROTORSE: the category Rotor, which the RSPINR, RSPINT, REFROT,
-// REFRTSE, ROTBENT, ROTHYBD and RGYRO name). The ROTORIDs of the ROTORG, ROTORAX and ROTORSE cards must be different
-// (the check `compat.rotor-id-repeated`).
+// needed (a run is never split between two lines). The ROTORID is shared by the RotorLineNodes cards of one rotor
+// and by the other rotor cards (RotorModel3D, RotorAxisym and RotorSuperelement: the category Rotor, which the
+// RotorRelativeSpin, RotorTransientSpin, ReferenceRotor, SuperelementReferenceRotor, RotorInitialBend,
+// RotorHybridDamping and RotordynamicParams name). The ROTORIDs of the RotorLineNodes, RotorAxisym and
+// RotorSuperelement cards must be different (the check `compat.rotor-id-repeated`).
 struct RotorLineNodesCard
 {
     base::EntityId id = 0;

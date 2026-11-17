@@ -7,9 +7,9 @@
 namespace oor::model
 {
 
-// One FREQ2 card: excitation frequencies at equal logarithmic steps.
+// One FreqLogSteps2 card: excitation frequencies at equal logarithmic steps.
 //
-// Card layout: FREQ2  SID  F1  F2  NF
+// Card layout: FreqLogSteps2  SID  F1  F2  NF
 // The frequencies are F1 * exp(i * d) for i = 0 to NF, with d = ln(F2 / F1) / NF, in cycles per unit time.
 struct FreqLogSteps2Card
 {

@@ -16,13 +16,13 @@ namespace oor::query
 
 // True when the position (from 0) in the node list of an element of this card type is a corner node (the others are
 // mid-side nodes and the like): the first nodes of a shell or solid up to its number of corners, the two ends of a
-// line, every other node of a CTRIAX6, every node of a point element.
+// line, every other node of an AxisymTria6, every node of a point element.
 [[nodiscard]] bool isCornerPosition(std::uint16_t type, std::size_t position) noexcept;
 
 // The mid-side node of the edge between the corners `first` and `second` (positions from 0 in the node list of the
-// card) of an element whose nodes are `nodes`, for the cards that number their mid-side nodes the standard way (CQUAD8,
-// CTRIA6, CQUAD, CTETRA with ten nodes, CPENTA with fifteen, CHEXA with twenty, CPYRAM with thirteen); 0 when the
-// element has no mid-side node there.
+// card) of an element whose nodes are `nodes`, for the cards that number their mid-side nodes the standard way
+// (ShellQuad8, ShellTria6, PlaneStrainQuad, SolidTetra with ten nodes, SolidPenta with fifteen, SolidHexa with twenty,
+// SolidPyramid with thirteen); 0 when the element has no mid-side node there.
 [[nodiscard]] std::int32_t midSideNodeOf(std::uint16_t type, std::span<const std::int32_t> nodes, std::size_t first,
                                          std::size_t second) noexcept;
 
@@ -49,11 +49,12 @@ namespace oor::query
                                                                         base::EntityId node1, base::EntityId node3Or4);
 
 // The unit normal of the mean plane of a warped quadrilateral face (the cross product of its diagonals, in the sense of
-// the order of its corners): a PLOAD4 on a four-noded quadrilateral shell (CQUAD4, CQUADR) acts on that plane, its
-// pressure integrated over the projection of the face on it and along its normal, this library's rule, the solver's
-// unverified (a companion package's D-039 alike: the plane a CQUAD4 is formulated on), the loads at the grid points p n
-// int N_i (xXi x xEta) . n. Nothing for a face whose corners are within 1e-10 of its size of a plane (the rounding of
-// the corners of a flat face), whose surface is that plane: its loads are those of the surface, to the bit.
+// the order of its corners): a FacePressureLoad on a four-noded quadrilateral shell (ShellQuad4, ShellQuad4Drilling)
+// acts on that plane, its pressure integrated over the projection of the face on it and along its normal, this
+// library's rule, the solver's unverified (a companion package's D-039 alike: the plane a ShellQuad4 is formulated on),
+// the loads at the grid points p n int N_i (xXi x xEta) . n. Nothing for a face whose corners are within 1e-10 of its
+// size of a plane (the rounding of the corners of a flat face), whose surface is that plane: its loads are those of the
+// surface, to the bit.
 [[nodiscard]] std::optional<base::Vec3> warpedMeanPlane(const std::array<base::Vec3, 4>& corners);
 
 // The elements with nodes by ID, for the queries that look an element up by its ID: the list, the nodes of each and the

@@ -19,7 +19,7 @@ struct UserDefined9AttributesFormat
     static void write(const UserDefined9AttributesCard& card, FieldWriter& writer);
 };
 
-// All the ADUM9 cards. A card has no ID (IdSpace::None, category Other) and names no other card.
+// All the UserDefined9Attributes cards. A card has no ID (IdSpace::None, category Other) and names no other card.
 class UserDefined9AttributesTable final : public TypedTable<UserDefined9AttributesTable, UserDefined9AttributesCard>
 {
 public:

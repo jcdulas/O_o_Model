@@ -20,7 +20,7 @@ namespace
 
 constexpr double ANGLE_EPSILON = 1.0e-6; // degrees: two angles that agree to this are the same
 
-// The way two plies are matched: by global ply ID when both laminates are PCOMPG, else by material and angle.
+// The way two plies are matched: by global ply ID when both laminates are CompPropGlobal, else by material and angle.
 bool samePly(const PlyInfo& left, const PlyInfo& right, bool byGlobalId)
 {
     if (byGlobalId)

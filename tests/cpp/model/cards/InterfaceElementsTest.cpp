@@ -1,9 +1,10 @@
-// Checks of the interface element cards: CACINF3, CACINF4 and PACINF (the acoustic infinite
-// elements), CAXISYM (the axisymmetric line), CBUSH2D and PBUSH2D (the 2-D bush), CIFHEX, CIFPENT, CIFQDX, CIFQUAD and
-// PCOHE (the cohesive interface elements) and CINTC (the line interface element). Per card: the fields in their format
-// reference positions, the defaults, the references the card lists, the renumbering of the ID space it owns, the
-// refused values and the round trip through a model file. The generic tests of CardRoundTripTest.cpp cover
-// reading, writing and copying every sample; this file covers what each card means.
+// Checks of the interface element cards: AcousticInfiniteTria3, AcousticInfiniteQuad4 and AcousticInfiniteProp (the
+// acoustic infinite elements), ShellAxisym (the axisymmetric line), Bushing2D and BushProp2D (the 2-D bush),
+// CohesiveHexa, CohesivePenta, CohesiveAxisymQuad, CohesiveQuad and CohesiveProp (the cohesive interface elements) and
+// LineInterface (the line interface element). Per card: the fields in their format reference positions, the defaults,
+// the references the card lists, the renumbering of the ID space it owns, the refused values and the round trip through
+// a model file. The generic tests of CardRoundTripTest.cpp cover reading, writing and copying every sample; this file
+// covers what each card means.
 
 #include "oor/model/cards/elements/acousticInfiniteTria3/AcousticInfiniteTria3Table.hpp"
 #include "oor/model/cards/elements/acousticInfiniteQuad4/AcousticInfiniteQuad4Table.hpp"
@@ -121,7 +122,8 @@ TEST_CASE("the acoustic infinite element cards refuse what their formats do not 
     REQUIRE_NOTHROW(readBulk("AcousticInfiniteTria3;1;100;5;5;6"));
 }
 
-// --- CAXISYM -------------------------------------------------------------------------------------------------------
+// --- ShellAxisym
+// -------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CAXISYM has two or three nodes and an optional offset", "[model][cards][interface]")
 {
@@ -146,7 +148,7 @@ TEST_CASE("a CAXISYM has two or three nodes and an optional offset", "[model][ca
 
     RecordingVisitor visitor;
     model.table<ShellAxisymTable>().visitReferences(0, visitor);
-    // The PAXISYM is a property card: the reference is a property reference, and the blank G3 is not visited.
+    // The AxisymShellProp is a property card: the reference is a property reference, and the blank G3 is not visited.
     REQUIRE(visitor.fields == std::vector<std::string>{"propId", "nodes", "nodes"});
     REQUIRE(visitor.targets ==
             std::vector<ReferenceTarget>{ReferenceTarget::Property, ReferenceTarget::Node, ReferenceTarget::Node});
@@ -180,7 +182,7 @@ TEST_CASE("a CAXISYM refuses what its format does not allow", "[model][cards][in
     expectInvalid("ShellAxisym;2201;2098;3008;3016;;x", "offset");
 }
 
-// --- CBUSH2D -------------------------------------------------------------------------------------------------------
+// --- Bushing2D -------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CBUSH2D has a plane in a system, an inner and an outer grid", "[model][cards][interface]")
 {
@@ -234,7 +236,8 @@ TEST_CASE("a CBUSH2D refuses what its format does not allow", "[model][cards][in
     expectInvalid("Bushing2D;2100;2101;1;2;0;AB", "plane");
 }
 
-// --- PBUSH2D -------------------------------------------------------------------------------------------------------
+// --- BushProp2D
+// -------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PBUSH2D is the nominal line alone, with a squeeze film damper or with cross coupling terms",
           "[model][cards][interface]")
@@ -275,7 +278,7 @@ TEST_CASE("a PBUSH2D is the nominal line alone, with a squeeze film damper or wi
 
     RecordingVisitor visitor;
     model.table<BushProp2DTable>().visitReferences(0, visitor);
-    REQUIRE(visitor.fields.empty()); // a PBUSH2D names no other card
+    REQUIRE(visitor.fields.empty()); // a BushProp2D names no other card
     // A property: its ID is in the space of all the properties.
     REQUIRE_THROWS_AS(readBulk("BushProp2D;5;1.;2.\nShellProp;5;1;0.1"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("BushProp2D;5;1.;2.\nBushProp2D;5;3.;4."), base::DeckError);
@@ -400,8 +403,8 @@ TEST_CASE("the cohesive elements keep their corner and edge points in one array"
         "CohesivePenta;710;700;1;2;3;4;5;6\n" + "CohesivePenta;711;700;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15\n" +
         "CohesiveAxisymQuad;720;700;1;2;3;4\n" + "CohesiveAxisymQuad;721;700;1;2;3;4;5;6;7;8\n" +
         "CohesiveQuad;730;700;1;2;3;4\nCohesiveQuad;731;700;1;2;3;4;5;;7");
-    // CIFHEX: the linear element (G1 to G8), then all the points, then the quadratic one without the points halfway
-    // between the faces.
+    // CohesiveHexa: the linear element (G1 to G8), then all the points, then the quadratic one without the points
+    // halfway between the faces.
     const CohesiveHexaCard linear = cardAt<CohesiveHexaTable>(model, 0);
     REQUIRE((linear.id == 700 && linear.propId == 700));
     for (std::size_t index = 0; index < 8; ++index)
@@ -473,7 +476,8 @@ TEST_CASE("the cohesive elements refuse what their formats do not allow", "[mode
     expectInvalid("CohesiveQuad;1;700;1;2;3;4;1", "node1");
 }
 
-// --- CINTC ---------------------------------------------------------------------------------------------------------
+// --- LineInterface
+// ---------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CINTC reads its LIST into boundaries and writes it back", "[model][cards][interface]")
 {
@@ -504,7 +508,8 @@ TEST_CASE("a CINTC reads its LIST into boundaries and writes it back", "[model][
     REQUIRE(longList.boundaries.size() == 12);
     REQUIRE((longList.boundaries[11].boundaryId == 12 &&
              longList.boundaries[11].interpolation == LineInterfaceInterpolation::Quadratic));
-    REQUIRE(unresolvedIn(model) == 21); // the 21 boundaries of the four lists name GMBNDC cards that the deck lacks
+    // the 21 boundaries of the four lists name GeomBoundaryCurve cards that the deck lacks
+    REQUIRE(unresolvedIn(model) == 21);
 
     // The written LIST has its commas and no blank; a linear boundary has no parentheses unless defaults are written.
     const std::string text = writeModelText(model);
@@ -519,7 +524,8 @@ TEST_CASE("a CINTC reads its LIST into boundaries and writes it back", "[model][
         "LineInterface;1001;NodeList;boundaries=(421(Linear),422(Quadratic),-423(Quadratic),424(Linear))", true);
     REQUIRE(cardAt<LineInterfaceTable>(again, 0).boundaries == example.boundaries);
 
-    // A CINTC is the only line interface element: its ID is unique among the CINTC cards and nothing else.
+    // A LineInterface is the only line interface element: its ID is unique among the LineInterface cards and nothing
+    // else.
     REQUIRE_THROWS_AS(readBulk("LineInterface;1;;boundaries=(1,2)\nLineInterface;1;;boundaries=(3,4)"),
                       base::DeckError);
     REQUIRE_NOTHROW(readBulk("LineInterface;1;;boundaries=(1,2)\nRod2;1;1;1;2"));

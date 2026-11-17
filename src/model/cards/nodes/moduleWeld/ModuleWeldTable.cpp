@@ -333,7 +333,7 @@ void ModuleWeldTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 void ModuleWeldTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
     ModuleWeldCard& card = m_cards.edit(row);
-    visitId(visitor, "propId", ReferenceTarget::Property, card.propId); // a PWELD of the main Bulk Data
+    visitId(visitor, "propId", ReferenceTarget::Property, card.propId); // a WeldProp of the main Bulk Data
     // GS is in the module MODS for an ELEMID, which may connect the point to a patch; otherwise the format reference
     // puts it in the main Bulk Data.
     if (card.type == ModuleWeldType::ElementId)

@@ -17,8 +17,8 @@ enum class CoordinateKind : std::uint8_t
 };
 
 // A coordinate system resolved to the basic system: where its origin is and where its x, y and z axes point, whatever
-// the kind (CORD1R/2R, CORD1C/2C and CORD1S/2S all have rectangular axes; the kind says how coordinates are read and
-// how the directions of the coordinates vary from point to point).
+// the kind (RectFrame1/2R, CylindricalFrame1/2C and SphericalFrame1/2S all have rectangular axes; the kind says how
+// coordinates are read and how the directions of the coordinates vary from point to point).
 struct CoordinateFrame
 {
     CoordinateKind kind = CoordinateKind::Rectangular;

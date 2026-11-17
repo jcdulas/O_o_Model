@@ -19,8 +19,8 @@ struct DynamicLoadDelayFormat
     static void write(const DynamicLoadDelayCard& card, FieldWriter& writer);
 };
 
-// All the DELAY cards. The ID is a set ID shared by many cards (IdSpace::Group, category Delay), which the DELAY field
-// of a dynamic load refers to. The two groups of a card are kept as three columns of two values.
+// All the DynamicLoadDelay cards. The ID is a set ID shared by many cards (IdSpace::Group, category Delay), which the
+// DELAY field of a dynamic load refers to. The two groups of a card are kept as three columns of two values.
 class DynamicLoadDelayTable final : public TypedTable<DynamicLoadDelayTable, DynamicLoadDelayCard>
 {
 public:

@@ -19,9 +19,9 @@ struct RotorUnbalanceLoadFormat
     static void write(const RotorUnbalanceLoadCard& card, FieldWriter& writer);
 };
 
-// All the UNBALNC cards. The ID is a set ID shared by the UNBALNC cards and the other dynamic loads (IdSpace::Group,
-// category DynamicLoad: the DLOAD command selects it). GRID and the EPOINTs are points (Node); the integer MASS,
-// ROFFSET and ZOFFSET are dynamic tables.
+// All the RotorUnbalanceLoad cards. The ID is a set ID shared by the RotorUnbalanceLoad cards and the other dynamic
+// loads (IdSpace::Group, category DynamicLoad: the DynamicLoadCombination command selects it). GRID and the ExtraPoints
+// are points (Node); the integer MASS, ROFFSET and ZOFFSET are dynamic tables.
 class RotorUnbalanceLoadTable final : public TypedTable<RotorUnbalanceLoadTable, RotorUnbalanceLoadCard>
 {
 public:

@@ -7,11 +7,12 @@
 namespace oor::model
 {
 
-// One NLHARM card: the parameters of a nonlinear harmonic response analysis (selected by the NLHARM Case Control
-// command).
+// One NonlinearHarmonicParams card: the parameters of a nonlinear harmonic response analysis (selected by the
+// NonlinearHarmonicParams Case Control command).
 //
-// Card layout: NLHARM  ID  SUBFAC  NHARM  NLFREQ
-// NLFREQ names the NLFREQ, NLFREQ1 or NLFREQC card that lists the forcing frequencies.
+// Card layout: NonlinearHarmonicParams  ID  SUBFAC  NHARM  NLFREQ
+// NLFREQ names the NonlinearHarmonicFreqList, NonlinearHarmonicFreqSteps or NonlinearHarmonicFreqContinuation card that
+// lists the forcing frequencies.
 struct NonlinearHarmonicParamsCard
 {
     base::EntityId id = 0;

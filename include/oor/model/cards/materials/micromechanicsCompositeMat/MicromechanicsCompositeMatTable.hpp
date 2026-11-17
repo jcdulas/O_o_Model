@@ -18,8 +18,8 @@ struct MicromechanicsCompositeMatFormat
     static void write(const MicromechanicsCompositeMatCard& card, FieldWriter& writer);
 };
 
-// All the MATDIGI cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). UDID
-// names a UDNAME card: a UserDefinedName reference. The density is NaN where blank.
+// All the MicromechanicsCompositeMat cards. The ID is a material ID, in the space every material type shares
+// (IdSpace::Material). UDID names an UserFileName card: a UserDefinedName reference. The density is NaN where blank.
 class MicromechanicsCompositeMatTable final
     : public TypedTable<MicromechanicsCompositeMatTable, MicromechanicsCompositeMatCard>
 {

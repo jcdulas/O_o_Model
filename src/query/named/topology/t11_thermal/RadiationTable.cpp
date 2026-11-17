@@ -67,9 +67,9 @@ base::EntityId radiationMaterialOf(const model::Model& model, model::CardLocatio
     return front != 0 ? front : back;
 }
 
-// radiationTable: the surface elements that radiate: those of a RADBC (radiation to an ambient point) and those of a
-// RADLST (the elements of a cavity), with the radiation material of the element, the ambient element of a RADCAV and
-// the cavities of a RADSET.
+// radiationTable: the surface elements that radiate: those of a RadiationToSpace (radiation to an ambient point) and
+// those of a RadiationCavityList (the elements of a cavity), with the radiation material of the element, the ambient
+// element of a RadiationCavity and the cavities of a RadiationCavitySet.
 class RadiationTableQuery final : public QueryBase
 {
 public:
@@ -84,7 +84,7 @@ public:
         { return !wanted || std::binary_search(wanted->begin(), wanted->end(), static_cast<std::int64_t>(eid)); };
 
         std::vector<Row> rows;
-        // The material of a surface element, then what the RADM gives.
+        // The material of a surface element, then what the RadiationProp gives.
         const auto fillMaterial = [&](Row& row)
         {
             const thermal::SurfaceElement* surface = surfaces.find(row.eid);

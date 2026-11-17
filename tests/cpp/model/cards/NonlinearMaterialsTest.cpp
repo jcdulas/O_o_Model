@@ -1,8 +1,11 @@
-// Checks of the non-linear materials: the non-linear laws of SOL 400 and SOL 700 (MATS3, MATS8, MATG, MATTG, MATSORT,
-// MATTORT, MATORT, MATPE1, MATRIG, MATSMA, MATUSR, MATUDS, MATVP, MATF, MATCB, MATFAB, MATDEUL, MATDIGI, MATBV,
-// NLMOPTS) and their companions (MATTEP, MATTHE, MATTVE, MATTUSR, MATTF, MAT1A, MAT8A, MATF1, MAT1F, MAT2F, MAT8F,
-// MAT9F, MAT10F, MATFTG) and the SOL 700 form of the MATVE: field positions, variants, references, ID spaces,
-// renumbering and refused values.
+// Checks of the non-linear materials: the non-linear laws of SOL 400 and SOL 700 (AxisymOrthoMatStressDependent,
+// OrthoMat2DStressDependent, GasketMat, GasketMatTemperature, OrthoMat3DNonlinearStressDependent,
+// OrthoMat3DNonlinearTemperature, OrthoMat3DNonlinear, PoroElasticMat, RigidMat, ShapeMemoryMat, UserMat,
+// UserMatService, ViscoPlasticMat, FailureMat, ProgressiveFailureMat, FabricMat, EulerMat, MicromechanicsCompositeMat,
+// BulkViscosityMat, NonlinearMatOptions) and their companions (ElastoPlasticMatTemperature, HyperelasticMatTemperature,
+// ViscoElasticMatTemperature, UserMatTable, FailureMatTemperature, IsoMatExplicitExt, OrthoMat2DFailure,
+// PoroElasticMatFreq, IsoMatFreq, AnisoMat2DFreq, OrthoMat2DFreq, AnisoMat3DFreq, FluidMatFreq, FatigueMat) and the SOL
+// 700 form of the ViscoElasticMat: field positions, variants, references, ID spaces, renumbering and refused values.
 
 #include "oor/model/cards/materials/anisoMat2DFreq/AnisoMat2DFreqTable.hpp"
 #include "oor/model/cards/materials/anisoMat3DFreq/AnisoMat3DFreqTable.hpp"
@@ -247,7 +250,7 @@ TEST_CASE("the SOL 700 materials MATBV, MAT1A, MAT8A, MATDEUL and MATFAB have th
     REQUIRE(fabric.weftAngle.value() == Approx(115.0));
     REQUIRE(fabric.lockAngle2 == Approx(16.0));
     REQUIRE(cardAt<FabricMatTable>(model, 0).warpDirection == std::array<double, 3>{1.0, 0.0, 0.0});
-    // The SOL 700 form of the MATVE: the four constants of the linear isotropic model.
+    // The SOL 700 form of the ViscoElasticMat: the four constants of the linear isotropic model.
     const ViscoElasticMatCard isolin = cardAt<ViscoElasticMatTable>(model, 0);
     REQUIRE(isolin.model == ViscoElasticMatModel::IsoLin);
     REQUIRE(isolin.terms.size() == 1);
@@ -264,7 +267,7 @@ TEST_CASE("the SOL 700 materials MATBV, MAT1A, MAT8A, MATDEUL and MATFAB have th
     expectInvalid("OrthoMat2DFailure;1", "shearStrength");                                     // S is required
     expectInvalid("EulerMat;1;1.", "equationOfStateId");
     expectInvalid("FabricMat;1;850;;;;;;50.;1.;;;;;;1.", "coatingThicknessPercent"); // a coating needs two constants
-    // MATVE's own laws still read.
+    // ViscoElasticMat's own laws still read.
     REQUIRE_NOTHROW(readBulk("ViscoElasticMat;1;IsotropicForm1;1.E-5;;1.E+3;10."));
 }
 
@@ -401,7 +404,7 @@ TEST_CASE(
     REQUIRE(every.materials->matIds.size() == 6);
     REQUIRE(cardAt<FatigueMatTable>(model, 4).debugOutput == 1);
     requireRoundTrip(model);
-    // The ID is a reference to the MAT1 only when there is no MATID line, and the single MIDi are references then.
+    // The ID is a reference to the IsoMat only when there is no MATID line, and the single MIDi are references then.
     RecordingVisitor plainVisitor;
     model.table<FatigueMatTable>().visitReferences(0, plainVisitor);
     REQUIRE(plainVisitor.fields == std::vector<std::string>{"id"});
@@ -466,7 +469,8 @@ TEST_CASE("the frequency dependent cards have their tables where the material ha
         "52;53;54;55;56;57;58;59;60;61\n"
         "FluidMatFreq;103;555\n"
         "FluidMatFreq;104;1;2;3;4;5");
-    REQUIRE(cardAt<IsoMatFreqTable>(model).structuralDampingTableId == 19); // GE is in the eighth field, as on a MAT1
+    // GE is in the eighth field, as on an IsoMat
+    REQUIRE(cardAt<IsoMatFreqTable>(model).structuralDampingTableId == 19);
     REQUIRE(cardAt<AnisoMat2DFreqTable>(model, 0).structuralDampingTermTableIds[0] == 44); // GE11 is field 18
     REQUIRE(cardAt<AnisoMat2DFreqTable>(model, 1).structuralDampingTableId == 7);          // GE is field 13
     REQUIRE(cardAt<AnisoMat2DFreqTable>(model, 1).stiffnessTableIds == std::array<base::EntityId, 6>{1, 2, 3, 4, 5, 6});
@@ -580,7 +584,7 @@ TEST_CASE("the new companions refer to their material and their tables, and foll
     REQUIRE(cardAt<HyperelasticMatTemperatureTable>(model).bulkModulusTableId == 5201);
     REQUIRE(cardAt<HyperelasticMatTemperatureTable>(model).coefficientCTableIds[0] == 0);
     REQUIRE(cardAt<UserMatTableTable>(model).structuralDampingTableId == 5201);
-    // T(RHO) may be a TABL3Di too: this one is a TABLEM1.
+    // T(RHO) may be a TABL3Di too: this one is a TableMaterial1.
     REQUIRE(cardAt<UserMatTableTable>(model).densityTableId == 5201);
     REQUIRE(cardAt<PoroElasticMatFreqTable>(model).youngsModulusTableId == 5201);
     REQUIRE(cardAt<FailureMatTemperatureTable>(model).blocks[0].tables[0] == 5201);
@@ -600,7 +604,7 @@ TEST_CASE("the new companions refer to their material and their tables, and foll
 TEST_CASE("the MATFTG with a MATID line and the materials of SOL 700 are primaries of the shared material space",
           "[model][cards]")
 {
-    // The primaries share one ID space; a MATFTG with a MATID line has an ID of its own that is not a material.
+    // The primaries share one ID space; a FatigueMat with a MATID line has an ID of its own that is not a material.
     REQUIRE_NOTHROW(
         readBulk("IsoMat;9;1.;;0.3\nFatigueMat;9;;;Static;410;655\nFatigueMat;13;;;Static;410;655;;;;;;;MatIds;2.1E+5;"
                  "0.3;;1;9"));

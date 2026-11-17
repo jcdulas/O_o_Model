@@ -18,7 +18,7 @@ struct PlanePropFormat
     static void write(const PlanePropCard& card, FieldWriter& writer);
 };
 
-// All the PPLANE cards: properties (IdSpace::Property), so the PID of a plane element finds them. The column of the
+// All the PlaneProp cards: properties (IdSpace::Property), so the PID of a plane element finds them. The column of the
 // thickness holds NaN for a blank T (aero/BlankReal.hpp).
 class PlanePropTable final : public TypedTable<PlanePropTable, PlanePropCard>
 {

@@ -19,9 +19,9 @@ struct PlaneCompPropFormat
     static void write(const PlaneCompPropCard& card, FieldWriter& writer);
 };
 
-// All the PLCOMP cards, kept whole next to a column of their PIDs. A PLCOMP is a property (IdSpace::Property): the PID
-// of a plane element finds it, and it shares its number with the PSHELL, PLPLANE, PSOLID, PCOMPG and every other
-// property.
+// All the PlaneCompProp cards, kept whole next to a column of their PIDs. A PlaneCompProp is a property
+// (IdSpace::Property): the PID of a plane element finds it, and it shares its number with the ShellProp,
+// PlanePropNonlinear, SolidProp, CompPropGlobal and every other property.
 class PlaneCompPropTable final : public TypedTable<PlaneCompPropTable, PlaneCompPropCard>
 {
 public:

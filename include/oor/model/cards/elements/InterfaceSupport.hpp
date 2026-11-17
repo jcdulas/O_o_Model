@@ -14,11 +14,12 @@
 #include <span>
 #include <string>
 
-// What the interface elements share (the acoustic infinite elements CACINF3 and CACINF4, the axisymmetric line CAXISYM,
-// the 2-D bush CBUSH2D and the cohesive elements CIFHEX, CIFPENT, CIFQDX and CIFQUAD): the rule of an element ID and
-// ONE kind of value, a row of connection points that starts at field 3 (after EID and PID), whose first `required`
-// points must be given and whose others may be blank. No helper describes the fields of a card: each card still says
-// how many points it has, which of them are required and what its other fields are.
+// What the interface elements share (the acoustic infinite elements AcousticInfiniteTria3 and AcousticInfiniteQuad4,
+// the axisymmetric line ShellAxisym, the 2-D bush Bushing2D and the cohesive elements CohesiveHexa, CohesivePenta,
+// CohesiveAxisymQuad and CohesiveQuad): the rule of an element ID and ONE kind of value, a row of connection points
+// that starts at field 3 (after EID and PID), whose first `required` points must be given and whose others may be
+// blank. No helper describes the fields of a card: each card still says how many points it has, which of them are
+// required and what its other fields are.
 namespace oor::model
 {
 
@@ -38,8 +39,8 @@ inline constexpr std::array<const char*, 20> INTERFACE_NODE_NAMES{
     return std::nullopt;
 }
 
-// The names of the points of a card that does not call them G1, G2, ... (the GA and GB of a CBUSH2D): at least as many
-// literals as the card has points.
+// The names of the points of a card that does not call them G1, G2, ... (the GA and GB of a Bushing2D): at least as
+// many literals as the card has points.
 using InterfaceNodeNames = std::span<const char* const>;
 
 // The problem with the connection points of an element, if there is one: the first `required` are positive IDs, the

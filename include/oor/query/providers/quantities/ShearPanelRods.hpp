@@ -16,10 +16,10 @@
 namespace oor::query
 {
 
-// The effective extensional rods of a shear panel. A CSHEAR whose PSHEAR has an effectiveness F1
+// The effective extensional rods of a shear panel. A ShearPanel4 whose ShearPanelProp has an effectiveness F1
 // (F2) above zero carries its extension along edges 1-2 and 3-4 (2-3 and 1-4) in rods of area F T PA / (L12 + L34)
 // for F up to 1.01, else 0.5 F T^2 each (PA the area of the panel, half the cross product of its
-// diagonals). A rod is a two-node rod of the Young's modulus of the MAT1: its axial force, the same at both ends, is
+// diagonals). A rod is a two-node rod of the Young's modulus of the IsoMat: its axial force, the same at both ends, is
 // E A / L times the elongation of its edge. The force table of the panel gives its shear flows, not the forces of these
 // rods: they are recovered here from the translations of its grid points. The edges are taken in the mean plane of the
 // panel (the plane through the centroid normal to the cross product of the diagonals), as the element frame is (x from

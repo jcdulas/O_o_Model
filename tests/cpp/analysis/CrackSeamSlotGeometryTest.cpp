@@ -1,5 +1,6 @@
-// The geometry of the crack tip, seam, slot and spring elements: CSPR and CSEAM are segments,
-// CSLOT3 and CSLOT4 are surfaces with no thickness, CRAC2D and CRAC3D have their nodes and no quantity.
+// The geometry of the crack tip, seam, slot and spring elements: SpringOffsetExplicit and Seam are segments,
+// AcousticSlot3 and AcousticSlot4 are surfaces with no thickness, CrackTip2D and CrackTip3D have their nodes and no
+// quantity.
 
 #include "oor/analysis/geometry/ElementGeometry.hpp"
 #include "oor/model/cards/elements/acousticSlot3/AcousticSlot3Table.hpp"
@@ -104,8 +105,8 @@ TEST_CASE("a CSEAM given by grid points is a segment, and one given by coordinat
 TEST_CASE("a CSLOT3 and a CSLOT4 are surfaces: area, normal by the right-hand rule and centre, no thickness",
           "[analysis][geometry][crack-seam-slot]")
 {
-    // The slot points are GRIDS cards in the format reference; they share the node IDs, so grid points stand for them
-    // here.
+    // The slot points are AcousticSlotSurfacePoint cards in the format reference; they share the node IDs, so grid
+    // points stand for them here.
     const Model model =
         readModelText(grid(1, 0, 0, 0) + grid(2, 2, 0, 0) + grid(3, 0, 2, 0) + grid(4, 1, 0, 0) + grid(5, 1, 1, 0) +
                       grid(6, 0, 1, 0) + "AcousticSlot3;30;1;2;3\nAcousticSlot3;31;1;3;2\n" +
@@ -131,8 +132,8 @@ TEST_CASE("a CSLOT3 and a CSLOT4 are surfaces: area, normal by the right-hand ru
 TEST_CASE("a slot point that is not a grid point has no position, and one that no card defines is an error",
           "[analysis][geometry][crack-seam-slot]")
 {
-    // The GRIDS of a slot are not grid points: where a card of the node space exists with the ID (a scalar point stands
-    // for it here) the element has no position and every quantity is NaN.
+    // The AcousticSlotSurfacePoint of a slot are not grid points: where a card of the node space exists with the ID (a
+    // scalar point stands for it here) the element has no position and every quantity is NaN.
     const Model model = readModelText(
         "ScalarPoint;1;2;3;4\nAcousticSlot3;40;1;2;3\nAcousticSlot4;41;1;2;3;4\nAcousticSlot3;42;1;2;99\n");
     requireNothingDefined(geometryOf(model, 40));
@@ -144,8 +145,8 @@ TEST_CASE("a slot point that is not a grid point has no position, and one that n
 TEST_CASE("the elements of a slot cavity lie in the plane of their GRIDS points: x is R, y is Z",
           "[analysis][geometry][crack-seam-slot]")
 {
-    // GRIDS id R Z W: the slot width W is not a coordinate, so a point with a width and one without are in the same
-    // plane. (R is not zero for a GRIDS.)
+    // AcousticSlotSurfacePoint id R Z W: the slot width W is not a coordinate, so a point with a width and one without
+    // are in the same plane. (R is not zero for an AcousticSlotSurfacePoint.)
     const Model model = readModelText(
         "AcousticSlotControl;0.003;150.;3;0.75;6\n"
         "AcousticSlotSurfacePoint;1;1.;0.;0.5\n"
@@ -174,7 +175,7 @@ TEST_CASE("the crack tip elements have their nodes and no quantity", "[analysis]
     for (int id = 1; id <= 28; ++id)
         deck += grid(id, id, 0.0, 0.0);
     deck += "CrackTip2D;50;1;1;2;3;4;5;6;7;8;9;10\n";
-    // A CRAC3D with the required G1 to G10 and G19 to G28: G number n is slot n + 2.
+    // A CrackTip3D with the required G1 to G10 and G19 to G28: G number n is slot n + 2.
     std::vector<std::string> fields(30);
     fields[0] = "51";
     fields[1] = "1";

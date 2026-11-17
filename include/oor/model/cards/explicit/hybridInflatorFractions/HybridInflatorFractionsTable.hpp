@@ -19,8 +19,8 @@ struct HybridInflatorFractionsFormat
     static void write(const HybridInflatorFractionsCard& card, FieldWriter& writer);
 };
 
-// All the INFLFRC cards. The FRACID is unique among them (IdSpace::PerCardType, category GasFractions): an INFLHB
-// names it. An INFLFRC refers to no other card.
+// All the HybridInflatorFractions cards. The FRACID is unique among them (IdSpace::PerCardType, category GasFractions):
+// a HybridInflator names it. A HybridInflatorFractions refers to no other card.
 class HybridInflatorFractionsTable final : public TypedTable<HybridInflatorFractionsTable, HybridInflatorFractionsCard>
 {
 public:
@@ -36,7 +36,8 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an INFLFRC refers to no other card
+    // a HybridInflatorFractions refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

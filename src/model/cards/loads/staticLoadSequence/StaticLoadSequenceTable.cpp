@@ -73,7 +73,8 @@ void StaticLoadSequenceTable::visitReferences(std::uint32_t row, ReferenceVisito
     m_excitationId.set(row, visitor.visit("excitationId", ReferenceTarget::ExcitationDefined, m_excitationId.get(row)));
     if (const base::EntityId loadId = m_loadId.get(row); loadId > 0)
         m_loadId.set(row, visitor.visit("loadId", ReferenceTarget::LoadCombinationSet, loadId));
-    // A temperature set is a set of the Load category (TEMP, TEMPD, ...): Case Control selects it with TEMPERATURE.
+    // A temperature set is a set of the Load category (NodeTemperatureLoad, DefaultTemperatureLoad, ...): Case Control
+    // selects it with TEMPERATURE.
     if (const base::EntityId tableId = m_tableId.get(row); tableId > 0)
         m_tableId.set(row, visitor.visit("tableId", ReferenceTarget::LoadCombinationSet, tableId));
 }

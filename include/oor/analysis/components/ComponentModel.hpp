@@ -41,9 +41,9 @@ enum class ConnectionKind : std::uint8_t
     Contact   // a pair of contact bodies that meet, in the "connection" mode of contact
 };
 
-// A connection: whatever acts as one is part of no component. `card` is the element (the MPC card for an equation) and
-// `id` its element ID (the set ID of an MPC). A contact connection has its table as `card` and the table ID as `id`
-// (its secondary body and 0 when the Bulk Data has no table).
+// A connection: whatever acts as one is part of no component. `card` is the element (the MultiPointConstr card for an
+// equation) and `id` its element ID (the set ID of a MultiPointConstr). A contact connection has its table as `card`
+// and the table ID as `id` (its secondary body and 0 when the Bulk Data has no table).
 struct Connection
 {
     ConnectionKind kind = ConnectionKind::Fastener;
@@ -87,7 +87,7 @@ struct InterfaceNode
 // assembly level, so every node they touch must stay in the boundary of the component, whether the connection links it
 // to another component or to nothing.
 //
-// A CFAST or a CWELD acts on the grid points of the elements it pierces (ModelEntities), so those grid points are
+// A Fastener or a Weld acts on the grid points of the elements it pierces (ModelEntities), so those grid points are
 // interface nodes of the components they belong to.
 //
 // Contact between bodies (ContactSearch) acts as the contact options say: in "merge" mode (the default) each grid point

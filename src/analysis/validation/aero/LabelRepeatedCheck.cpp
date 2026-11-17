@@ -16,9 +16,9 @@ namespace oor::analysis
 namespace
 {
 
-// The labels of the AESURF, AESTAT and AEPARM cards together are the set of trim variables of the model (format
-// reference), and a TRIM or an AELINK names one by its label: two cards with one label make the name
-// ambiguous. The cards have IDs, but the solver ignores them, so the label is the key.
+// The labels of the AeroControlSurface, AeroRigidTrimVariable and AeroController cards together are the set of trim
+// variables of the model (format reference), and an AeroTrim or an AeroTrimLink names one by its label: two cards with
+// one label make the name ambiguous. The cards have IDs, but the solver ignores them, so the label is the key.
 class LabelRepeatedCheck final : public ValidationCheck
 {
 public:

@@ -11,7 +11,7 @@ namespace oor::model
 namespace
 {
 
-// A word of the fields 5 and 6 of the older PWELD layout: letters only (FF, CLAMP, ...), never a number.
+// A word of the fields 5 and 6 of the older WeldProp layout: letters only (FF, CLAMP, ...), never a number.
 bool isOlderLayoutWord(std::string_view text) noexcept
 {
     return !text.empty() && std::all_of(text.begin(), text.end(), [](char character)
@@ -26,7 +26,7 @@ std::optional<WeldPropCard> WeldPropFormat::read(FieldReader& reader)
     card.id = reader.requiredInteger(1, "id");
     card.matId = reader.requiredInteger(2, "matId");
     card.diameter = reader.requiredReal(3, "diameter");
-    // An older layout of PWELD had connection words in fields 5 and 6 (for example `FF` and `CLAMP`), which the
+    // An older layout of WeldProp had connection words in fields 5 and 6 (for example `FF` and `CLAMP`), which the
     // current layout leaves blank; a solver ignores them. A word there is accepted and dropped (written back blank,
     // in the current layout); a number there is still an error.
     for (const int field : {4, 5})

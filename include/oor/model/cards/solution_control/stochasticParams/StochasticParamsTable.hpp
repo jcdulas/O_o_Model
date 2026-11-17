@@ -19,9 +19,9 @@ struct StochasticParamsFormat
     static void write(const StochasticParamsCard& card, FieldWriter& writer);
 };
 
-// All the STOCHAS cards (category Other). The SID is unique (IdSpace::PerCardType); the Case Control STOCHASTICS that
-// selects it is kept as text, so no reference to it is resolved. The card names no other card. It is kept whole next to
-// a column of its IDs.
+// All the StochasticParams cards (category Other). The SID is unique (IdSpace::PerCardType); the Case Control
+// STOCHASTICS that selects it is kept as text, so no reference to it is resolved. The card names no other card. It is
+// kept whole next to a column of its IDs.
 class StochasticParamsTable final : public TypedTable<StochasticParamsTable, StochasticParamsCard>
 {
 public:

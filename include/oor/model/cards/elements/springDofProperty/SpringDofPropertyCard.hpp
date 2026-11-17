@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One CELAS1 card: a scalar spring that refers to a PELAS property.
+// One SpringDofProperty card: a scalar spring that refers to a SpringProp property.
 //
 // Card layout:
-//   CELAS1  EID  PID  G1  C1  G2  C2
+//   SpringDofProperty  EID  PID  G1  C1  G2  C2
 //
 // G1 and G2 are grid points or scalar points; 0 (or blank) is a grounded end, a point whose displacement is zero. C1
 // and C2 are the component (1 to 6) at a grid point, and 0 at a scalar point or at ground.

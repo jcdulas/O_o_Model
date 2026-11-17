@@ -186,8 +186,8 @@ void CompPropIntegrationTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void CompPropIntegrationTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // A PID that stands alone names a PCOMP or PCOMPG; the ends of a THRU range may name nothing (the list inside the
-    // range need not be continuous), so they are the "in range" target.
+    // A PID that stands alone names a CompProp or CompPropGlobal; the ends of a THRU range may name nothing (the list
+    // inside the range need not be continuous), so they are the "in range" target.
     for (CompPropIntegrationRun& run : m_cards.edit(row).runs)
     {
         if (!run.isRange())

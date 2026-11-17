@@ -1,5 +1,5 @@
-// Checks of the beam, solid, spring and bush properties and of the MAT2 and MAT8 materials: their variants, defaults,
-// errors and references.
+// Checks of the beam, solid, spring and bush properties and of the AnisoMat2D and OrthoMat2D materials: their variants,
+// defaults, errors and references.
 
 #include "oor/model/cards/materials/anisoMat2D/AnisoMat2DTable.hpp"
 #include "oor/model/cards/materials/isoMat/IsoMatTable.hpp"

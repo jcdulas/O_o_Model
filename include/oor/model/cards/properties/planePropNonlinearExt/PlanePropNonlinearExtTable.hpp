@@ -19,9 +19,9 @@ struct PlanePropNonlinearExtFormat
     static void write(const PlanePropNonlinearExtCard& card, FieldWriter& writer);
 };
 
-// All the PSHLN2 cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the ID is the
-// one of the PLPLANE that the card extends, so it is also a reference to a property (a renumbering of the properties
-// follows into it). The material is a reference too.
+// All the PlanePropNonlinearExt cards, kept whole next to a column of their PIDs. The ID space is the card type's own:
+// the ID is the one of the PlanePropNonlinear that the card extends, so it is also a reference to a property (a
+// renumbering of the properties follows into it). The material is a reference too.
 class PlanePropNonlinearExtTable final : public TypedTable<PlanePropNonlinearExtTable, PlanePropNonlinearExtCard>
 {
 public:

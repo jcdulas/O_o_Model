@@ -18,8 +18,8 @@ struct ModuleResultFileParamsFormat
     static void write(const ModuleResultFileParamsCard& card, FieldWriter& writer);
 };
 
-// All the H5OUT cards (no ID: IdSpace::None, category Other). The card names no other card. It is kept whole
-// (CardRows): its pairs of name and value are a list that nobody reads as columns.
+// All the ModuleResultFileParams cards (no ID: IdSpace::None, category Other). The card names no other card. It is kept
+// whole (CardRows): its pairs of name and value are a list that nobody reads as columns.
 class ModuleResultFileParamsTable final : public TypedTable<ModuleResultFileParamsTable, ModuleResultFileParamsCard>
 {
 public:

@@ -19,10 +19,11 @@ struct AeroPressureVectorFormat
     static void write(const AeroPressureVectorCard& card, FieldWriter& writer);
 };
 
-// All the AEPRESS cards. An AEPRESS has no numeric ID of its own (IdSpace::None, category Aero): there is one for each
-// Mach number, symmetry and control vector, so a deck has many. The UXID names a UXVEC
-// (ReferenceTarget::ControlVector); the DMIJ and DMIJI are matrix names, not references. The cards are kept whole next
-// to a column of their UXIDs, which is what the query engine and the Arrow export see.
+// All the AeroPressureVector cards. An AeroPressureVector has no numeric ID of its own (IdSpace::None, category Aero):
+// there is one for each Mach number, symmetry and control vector, so a deck has many. The UXID names an
+// AeroControlVector (ReferenceTarget::ControlVector); the DirectMatrixAeroJ and DirectMatrixAeroJInterference are
+// matrix names, not references. The cards are kept whole next to a column of their UXIDs, which is what the query
+// engine and the Arrow export see.
 class AeroPressureVectorTable final : public TypedTable<AeroPressureVectorTable, AeroPressureVectorCard>
 {
 public:

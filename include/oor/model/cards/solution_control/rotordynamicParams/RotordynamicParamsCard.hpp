@@ -16,19 +16,19 @@ enum class RotorSynchronisation : std::uint8_t
     Async     // ASYNC
 };
 
-// The unit of the speeds of an RGYRO card.
+// The unit of the speeds of a RotordynamicParams card.
 enum class RotorSpeedUnit : std::uint8_t
 {
     Rpm, // RPM: revolutions per minute
     Freq // FREQ: revolutions (cycles) per unit time
 };
 
-// One RGYRO card: the parameters of a rotordynamic analysis (selected by RGYRO in Case Control; several cards may share
-// a RID).
+// One RotordynamicParams card: the parameters of a rotordynamic analysis (selected by RotordynamicParams in Case
+// Control; several cards may share a RID).
 //
 // Card layout:
-//   RGYRO  RID  SYNCFLG  REFROTR  SPDUNIT  SPDLOW  SPDHIGH  SPEED  ROTRSEID
-//          WR3WRL  WR4WRL  WRHWRL
+//   RotordynamicParams  RID  SYNCFLG  REFROTR  SPDUNIT  SPDLOW  SPDHIGH  SPEED  ROTRSEID
+//                       WR3WRL  WR4WRL  WRHWRL
 // The reference rotor is REFROTR (defined in superelement ROTRSEID, 0 for the residual structure: only then is it a
 // rotor of the model, a Rotor reference; a rotor of a superelement is a card of that part). SPDLOW and SPDHIGH
 // are the speed range of a synchronous analysis, SPEED the speed of an asynchronous or static one; WR3WRL, WR4WRL and

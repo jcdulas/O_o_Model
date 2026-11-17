@@ -10,10 +10,10 @@
 namespace oor::model
 {
 
-// The unit systems that EOSIG names in UNITDEF (the system the inputs are written in) and UNITCNV (the system the
-// parameters are converted to): centimeter-gram-microsecond, SI, metric (cm, g, s), imperial (inch, slug, s) and
-// millimeter-milligram-microsecond. The format spells the first word CCGMS and the last MMMG in the list of UNITDEF,
-// and CGMS and MMMGS in the list of UNITCNV and in its table of units: the card knows the second spellings.
+// The unit systems that IgnitionGrowthStateEquation names in UNITDEF (the system the inputs are written in) and UNITCNV
+// (the system the parameters are converted to): centimeter-gram-microsecond, SI, metric (cm, g, s), imperial (inch,
+// slug, s) and millimeter-milligram-microsecond. The format spells the first word CCGMS and the last MMMG in the list
+// of UNITDEF, and CGMS and MMMGS in the list of UNITCNV and in its table of units: the card knows the second spellings.
 enum class IgnitionGrowthStateEquationUnitSystem : std::uint8_t
 {
     Cgms,
@@ -56,15 +56,15 @@ inline constexpr double IGNITION_GROWTH_DENSITY_EXPONENT_DEFAULT = 0.4;
 inline constexpr double IGNITION_GROWTH_PRESSURE_TOLERANCE_DEFAULT = 1.0E-6;
 inline constexpr int IGNITION_GROWTH_MAX_ITERATIONS_DEFAULT = 16;
 
-// One EOSIG card (SOL 700): the ignition and growth equation of state of a high explosive, with its reaction rate: a
-// JWL form for the unreacted explosive (the constants end in E), another for the reaction products (the constants end
-// in P), and the rate that turns one into the other. A MATDEUL names it in its EID field.
+// One IgnitionGrowthStateEquation card (SOL 700): the ignition and growth equation of state of a high explosive, with
+// its reaction rate: a JWL form for the unreacted explosive (the constants end in E), another for the reaction products
+// (the constants end in P), and the rate that turns one into the other. An EulerMat names it in its EID field.
 //
 // Card layout (the continuation lines start at fields 9, 17 and 25):
-//   EOSIG  EID  UNITDEF  DBEXPL  UNITCNV  (fields 5 to 9 blank)                  fields 1 to 4
-//          AE  BE  R1E  R2E  OMGE  I  G                                           fields 10 to 16 (field 9 is blank)
-//          A  AP  BP  R1P  R2P  OMGP  X  Y                                        fields 17 to 24
-//          Z  R  ECHEM  PRSTOL  ITRMAX                                            fields 25 to 29
+//   IgnitionGrowthStateEquation  EID  UNITDEF  DBEXPL  UNITCNV  (fields 5 to 9 blank)  fields 1 to 4
+//                                AE  BE  R1E  R2E  OMGE  I  G                        fields 10 to 16 (field 9 is blank)
+//                                A  AP  BP  R1P  R2P  OMGP  X  Y                                        fields 17 to 24
+//                                Z  R  ECHEM  PRSTOL  ITRMAX                                            fields 25 to 29
 // DBEXPL names an explosive of the database (anything but NO): the values of the database then replace everything
 // given in fields 10 to 29, so in that form the card may leave them blank (and the card keeps what is written there).
 // With DBEXPL = NO, or blank, the fifteen constants AE to OMGP, Z and ECHEM are required: they are std::optional here
@@ -73,7 +73,7 @@ inline constexpr int IGNITION_GROWTH_MAX_ITERATIONS_DEFAULT = 16;
 // constants (the database has a negative BE), so only PRSTOL and ITRMAX must be positive. UNITDEF is the system the
 // inputs are written in. The format needs it only to convert (UNITCNV): with a database the data are in the CGMS system
 // and UNITDEF is not needed, but a UNITCNV without a database needs it, so a card with a UNITCNV, no UNITDEF
-// and DBEXPL = NO is refused. The density that the material of a MATDEUL gives is read in the unit system of UNITDEF,
+// and DBEXPL = NO is refused. The density that the material of an EulerMat gives is read in the unit system of UNITDEF,
 // and with a database the density is the one of the database; none of this is checked here.
 struct IgnitionGrowthStateEquationCard
 {

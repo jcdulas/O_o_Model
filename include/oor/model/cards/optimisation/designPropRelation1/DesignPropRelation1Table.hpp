@@ -19,9 +19,10 @@ struct DesignPropRelation1Format
     static void write(const DesignPropRelation1Card& card, FieldWriter& writer);
 };
 
-// All the DVPREL1 cards. The ID is unique among the DVPREL1 cards (IdSpace::PerCardType); the category PropertyRelation
-// is shared with the DVPREL2 cards, so that a renumbering and the DPIPi of a DRESP2 treat the two kinds as one set of
-// numbers. The PID is a property of the type TYPE names, and the DVIDs are design variables.
+// All the DesignPropRelation1 cards. The ID is unique among the DesignPropRelation1 cards (IdSpace::PerCardType); the
+// category PropertyRelation is shared with the DesignPropRelation2 cards, so that a renumbering and the DPIPi of a
+// DesignResp2 treat the two kinds as one set of numbers. The PID is a property of the type TYPE names, and the DVIDs
+// are design variables.
 class DesignPropRelation1Table final : public TypedTable<DesignPropRelation1Table, DesignPropRelation1Card>
 {
 public:

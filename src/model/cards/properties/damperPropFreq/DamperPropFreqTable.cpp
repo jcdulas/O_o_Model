@@ -57,7 +57,7 @@ void DamperPropFreqTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void DamperPropFreqTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the PDAMP that the card extends.
+    // The ID is the one of the DamperProp that the card extends.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Property, m_id.get(row)));
     if (const base::EntityId dampingTableId = m_dampingTableId.get(row); dampingTableId > 0)
         m_dampingTableId.set(row, visitor.visit("dampingTableId", ReferenceTarget::DynamicTable, dampingTableId));

@@ -19,9 +19,10 @@ struct ModuleMoveSequenceFormat
     static void write(const ModuleMoveSequenceCard& card, FieldWriter& writer);
 };
 
-// All the MDMOVE cards, in the category Other: the MODID is unique per card type (IdSpace::PerCardType). Each MVID is a
-// reference to a move (ReferenceTarget::ModuleMove: an MDTRAN, MDROT1, MDROT2, MDMIR1 or MDMIR2), so a renumbering of
-// the moves follows into the list. The cards are kept whole next to a column of their MODIDs.
+// All the ModuleMoveSequence cards, in the category Other: the MODID is unique per card type (IdSpace::PerCardType).
+// Each MVID is a reference to a move (ReferenceTarget::ModuleMove: a ModuleTranslation, ModuleRotation1,
+// ModuleRotation2, ModuleMirror1 or ModuleMirror2), so a renumbering of the moves follows into the list. The cards are
+// kept whole next to a column of their MODIDs.
 class ModuleMoveSequenceTable final : public TypedTable<ModuleMoveSequenceTable, ModuleMoveSequenceCard>
 {
 public:

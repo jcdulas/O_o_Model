@@ -19,8 +19,9 @@ struct AeroNodeScaleFormat
     static void write(const AeroNodeScaleCard& card, FieldWriter& writer);
 };
 
-// All the AESCALE cards, in the category AeroScale that the ASID of an AEGRID names (ReferenceTarget::AeroScale). The
-// ASID is unique among the AESCALE cards (IdSpace::PerCardType). The card is kept whole next to its ID.
+// All the AeroNodeScale cards, in the category AeroScale that the ASID of an AeroNode names
+// (ReferenceTarget::AeroScale). The ASID is unique among the AeroNodeScale cards (IdSpace::PerCardType). The card is
+// kept whole next to its ID.
 class AeroNodeScaleTable final : public TypedTable<AeroNodeScaleTable, AeroNodeScaleCard>
 {
 public:

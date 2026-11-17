@@ -9,8 +9,8 @@
 namespace oor::model
 {
 
-// The values of one argument of a DEQATN: one number, or one number per point when the equation is evaluated for many
-// points at once. The name is matched without regard to the case.
+// The values of one argument of a DesignEquation: one number, or one number per point when the equation is evaluated
+// for many points at once. The name is matched without regard to the case.
 struct EquationVariable
 {
     std::string_view name;

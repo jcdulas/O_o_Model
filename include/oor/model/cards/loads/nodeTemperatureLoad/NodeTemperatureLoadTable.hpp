@@ -19,8 +19,8 @@ struct NodeTemperatureLoadFormat
     static void write(const NodeTemperatureLoadCard& card, FieldWriter& writer);
 };
 
-// All the TEMP cards. The ID is a load set ID shared by many cards (IdSpace::Group). The grid points and their
-// temperatures are two lists in CSR form.
+// All the NodeTemperatureLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group). The grid points and
+// their temperatures are two lists in CSR form.
 class NodeTemperatureLoadTable final : public TypedTable<NodeTemperatureLoadTable, NodeTemperatureLoadCard>
 {
 public:

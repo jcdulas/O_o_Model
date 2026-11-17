@@ -18,7 +18,8 @@ struct DesignOptimParamsFormat
     static void write(const DesignOptimParamsCard& card, FieldWriter& writer);
 };
 
-// All the DOPTPRM cards (no ID: IdSpace::None). A model has one; a second is reported by `design.doptprm-repeated`.
+// All the DesignOptimParams cards (no ID: IdSpace::None). A model has one; a second is reported by
+// `design.doptprm-repeated`.
 class DesignOptimParamsTable final : public TypedTable<DesignOptimParamsTable, DesignOptimParamsCard>
 {
 public:

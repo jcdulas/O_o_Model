@@ -91,7 +91,8 @@ void CosimulationServiceTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void CosimulationServiceTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The CSRVID is selected by a COSMSEL and names nothing; the four IDs after it name the areas and the quantities.
+    // The CSRVID is selected by a CosimulationSelection and names nothing; the four IDs after it name the areas and the
+    // quantities.
     CosimulationServiceCard& card = m_cards.edit(row);
     visitId(visitor, "inputAreaId", ReferenceTarget::CosimulationGroup, card.inputAreaId);
     visitId(visitor, "inputId", ReferenceTarget::CosimulationInput, card.inputId);

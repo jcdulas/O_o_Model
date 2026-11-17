@@ -12,8 +12,8 @@ namespace oor::analysis
 namespace
 {
 
-// A setting of DYPARAM given twice with different values: the solver takes the last card, so the first is dead text. A
-// setting is the name, or the name and its option for CONTACT, or the name, the entity and the keyword for SMP
+// A setting of ExplicitParam given twice with different values: the solver takes the last card, so the first is dead
+// text. A setting is the name, or the name and its option for CONTACT, or the name, the entity and the keyword for SMP
 // (`explicitParamIdentity`); the entries that may be repeated on purpose (MATRMERG, one group of rigid bodies per card)
 // and the names the catalogue does not know are not judged. Each model on its own, as PARAM is.
 class ExplicitParamRepeatedCheck final : public ValidationCheck

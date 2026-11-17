@@ -11,7 +11,7 @@ namespace oor::model
 
 // METHOD of a complex eigenvalue extraction. INV, HESS and CLAN are the methods the METHOD field lists; IRAM
 // is a method the format accepts although that field does not list it; DET is the determinant method that the format of
-// EIGP names (poles come from the EIGP cards of the same ID).
+// ComplexEigenPoles names (poles come from the ComplexEigenPoles cards of the same ID).
 enum class ComplexMethod : std::uint8_t
 {
     Inv,  // INV: inverse power
@@ -28,8 +28,8 @@ enum class ComplexNorm : std::uint8_t
     Point // POINT: the component of point G and component C is one
 };
 
-// One continuation line of an EIGC card: a search region of the complex plane (or, for CLAN, a shift point), in the
-// field layout of the method of the card.
+// One continuation line of a ComplexEigenMethod card: a search region of the complex plane (or, for CLAN, a shift
+// point), in the field layout of the method of the card.
 //
 // Region form (INV, DET, HESS, IRAM):  ALPHAAJ OMEGAAJ ALPHABJ OMEGABJ LJ NEJ NDJ   (fields 9 to 15 of the line)
 // Block Lanczos form (CLAN):           ALPHAAJ OMEGAAJ MBLKSZ IBLKSZ KSTEPS (blank) NJI
@@ -49,11 +49,11 @@ struct ComplexEigenMethodRegion
     std::int32_t desiredModeCount = 0;   // the number of roots wanted
 };
 
-// One EIGC card: the data of a complex eigenvalue extraction (selected by CMETHOD in Case Control).
+// One ComplexEigenMethod card: the data of a complex eigenvalue extraction (selected by CMETHOD in Case Control).
 //
 // Card layout:
-//   EIGC  SID  METHOD  NORM  G  C  E  ND0
-//         ALPHAAJ  OMEGAAJ  ALPHABJ  OMEGABJ  LJ  NEJ  NDJ            (one line per search region)
+//   ComplexEigenMethod  SID  METHOD  NORM  G  C  E  ND0
+//                       ALPHAAJ  OMEGAAJ  ALPHABJ  OMEGABJ  LJ  NEJ  NDJ  (one line per search region)
 // ND0 is the number of roots wanted when there is no continuation line; with lines NDJ is on them (the card keeps what
 // it was given and does not refuse both). A blank E is the default of the method: nothing is stored for it. G and C
 // are the point of NORM = POINT, the format reference requires them there and nowhere else.

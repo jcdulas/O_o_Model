@@ -7,8 +7,8 @@
 namespace oor::model
 {
 
-// The kind of Eulerian material of a PEULER or PEULER1 (the TYPE field): which solver the elements use and whether the
-// material has shear strength. The enumerators are numbered in the order of EULER_SOLVER_WORDS.
+// The kind of Eulerian material of an EulerProp or EulerRegionProp (the TYPE field): which solver the elements use and
+// whether the material has shear strength. The enumerators are numbered in the order of EULER_SOLVER_WORDS.
 enum class EulerSolverType : std::uint8_t
 {
     Hydro,                // HYDRO (the default): hydrodynamic, no shear strength, plus void

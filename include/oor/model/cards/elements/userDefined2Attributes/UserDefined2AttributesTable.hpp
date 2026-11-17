@@ -19,7 +19,7 @@ struct UserDefined2AttributesFormat
     static void write(const UserDefined2AttributesCard& card, FieldWriter& writer);
 };
 
-// All the ADUM2 cards. A card has no ID (IdSpace::None, category Other) and names no other card.
+// All the UserDefined2Attributes cards. A card has no ID (IdSpace::None, category Other) and names no other card.
 class UserDefined2AttributesTable final : public TypedTable<UserDefined2AttributesTable, UserDefined2AttributesCard>
 {
 public:

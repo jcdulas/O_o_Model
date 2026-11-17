@@ -18,9 +18,9 @@ struct TrimCouplingTolerancesFormat
     static void write(const TrimCouplingTolerancesCard& card, FieldWriter& writer);
 };
 
-// All the TRMCPL cards, in the category Other. The TID is the trim component, which no card defines and which the cards
-// of the component share (IdSpace::Group: one card for each interface coupling type). The card names no other card, so
-// its fields are columns.
+// All the TrimCouplingTolerances cards, in the category Other. The TID is the trim component, which no card defines and
+// which the cards of the component share (IdSpace::Group: one card for each interface coupling type). The card names no
+// other card, so its fields are columns.
 class TrimCouplingTolerancesTable final : public TypedTable<TrimCouplingTolerancesTable, TrimCouplingTolerancesCard>
 {
 public:
@@ -45,7 +45,8 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TRMCPL refers to no other card
+    // a TrimCouplingTolerances refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<std::uint8_t>& couplingKindColumn() noexcept { return m_couplingKind; }

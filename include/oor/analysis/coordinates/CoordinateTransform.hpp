@@ -21,8 +21,8 @@ class Model;
 namespace oor::analysis
 {
 
-// A coordinate system card, as the geometry needs it: CORD1R/1C/1S give three grid points, CORD2R/2C/2S three points in
-// the system RID. The cards of the six types are read into this one shape.
+// A coordinate system card, as the geometry needs it: RectFrame1/1C/1S give three grid points, RectFrame2/2C/2S three
+// points in the system RID. The cards of the six types are read into this one shape.
 struct SystemDefinition
 {
     enum class Form : std::uint8_t

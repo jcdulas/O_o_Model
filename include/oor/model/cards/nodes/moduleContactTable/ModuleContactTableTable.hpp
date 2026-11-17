@@ -19,11 +19,11 @@ struct ModuleContactTableFormat
     static void write(const ModuleContactTableCard& card, FieldWriter& writer);
 };
 
-// All the MDBCTB1 cards. The BCID is a contact table number (IdSpace::PerCardType, category ContactTable): the format
-// reference says it is unique among the BCTABL1 and MDBCTB1 cards, which is what the contact table check of the
-// validation looks for across the types of the category. The IDs of the pairs are references to contact pairs (BCONECT
-// or MDBCNCT) in their module: the main Bulk Data, or the part of another module. The cards are kept whole next to
-// their ID.
+// All the ModuleContactTable cards. The BCID is a contact table number (IdSpace::PerCardType, category ContactTable):
+// the format reference says it is unique among the ContactTable1 and ModuleContactTable cards, which is what the
+// contact table check of the validation looks for across the types of the category. The IDs of the pairs are references
+// to contact pairs (ContactPair or ModuleContactPair) in their module: the main Bulk Data, or the part of another
+// module. The cards are kept whole next to their ID.
 class ModuleContactTableTable final : public TypedTable<ModuleContactTableTable, ModuleContactTableCard>
 {
 public:

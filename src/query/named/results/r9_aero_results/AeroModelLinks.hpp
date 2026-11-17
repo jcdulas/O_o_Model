@@ -13,7 +13,7 @@
 #include <vector>
 
 // What the aeroelastic result queries take from the model a result set is attached to: the CAERO that owns a box and
-// the AESURF that has a label. A result set that has no model, a box no panel owns and a
+// the AeroControlSurface that has a label. A result set that has no model, a box no panel owns and a
 // label no surface has give a null, never a guess; the queries record which in the provenance of their table.
 //
 // The IDs of a result file are the IDs of the deck the analysis ran. The attachment follows nodes and elements by card
@@ -29,7 +29,7 @@ struct IdLookup
     std::vector<std::uint8_t> valid; // 0: null
     std::size_t found = 0;
     std::size_t withoutCard = 0; // the model has no card for the row
-    std::size_t ambiguous = 0;   // several cards fit (two AESURF cards with one label)
+    std::size_t ambiguous = 0;   // several cards fit (two AeroControlSurface cards with one label)
 };
 
 class AeroModelLinks
@@ -42,9 +42,9 @@ public:
     // takes so that the provenance says the lookup is made in a model that may not be the one that was analysed.
     [[nodiscard]] std::string editedNote(std::size_t set) const;
 
-    // The CAERO1 to CAERO5 that owns each box (`AeroBoxRanges`).
+    // The AeroLiftingPanel1 to AeroPistonPanel5 that owns each box (`AeroBoxRanges`).
     [[nodiscard]] IdLookup panelsOfBoxes(std::size_t set, std::span<const std::int32_t> boxes);
-    // The AESURF that has each label (compared without regard to the case and to the blanks around it).
+    // The AeroControlSurface that has each label (compared without regard to the case and to the blanks around it).
     [[nodiscard]] IdLookup surfacesOfLabels(std::size_t set, const std::vector<std::string>& labels);
 
 private:

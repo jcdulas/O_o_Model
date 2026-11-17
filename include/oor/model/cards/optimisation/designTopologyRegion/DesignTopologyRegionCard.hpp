@@ -10,8 +10,9 @@
 namespace oor::model
 {
 
-// The symmetry line of a TOPVAR ("SYM"): the planes of mirror symmetry (MS1 to MS3: XY, YZ or ZX) and the axis of
-// cyclic symmetry (CS: X, Y or Z) with its number of segments in 360 degrees (NCS), in the coordinate system CID.
+// The symmetry line of a DesignTopologyRegion ("SYM"): the planes of mirror symmetry (MS1 to MS3: XY, YZ or ZX) and the
+// axis of cyclic symmetry (CS: X, Y or Z) with its number of segments in 360 degrees (NCS), in the coordinate system
+// CID.
 struct DesignTopologyRegionSymmetry
 {
     base::EntityId frameId = 0;              // blank: 0
@@ -63,24 +64,25 @@ struct DesignTopologyRegionMemberSize
     [[nodiscard]] bool operator==(const DesignTopologyRegionMemberSize&) const noexcept = default;
 };
 
-// One TOPVAR card: a region of a topology optimisation, the elements of one property whose density the optimisation
-// designs.
+// One DesignTopologyRegion card: a region of a topology optimisation, the elements of one property whose density the
+// optimisation designs.
 //
-// Card layout: TOPVAR  ID  LABEL  PTYPE  XINIT  XLB  DELXV  POWER  PID                    fields 1 to 8
-//                     SYM  CID MS1 MS2 MS3 CS NCS                                         each of these lines is
-//                     optional, once, CAST  CID DD DIE ALIGN                                              starts with
-//                     its keyword in field 9, EXT   CID ED ALIGN                                                  and
+// Card layout: DesignTopologyRegion  ID  LABEL  PTYPE  XINIT  XLB  DELXV  POWER  PID      fields 1 to 8
+//                                   SYM  CID MS1 MS2 MS3 CS NCS                           each of these lines is
+//                                   optional, once, CAST  CID DD DIE ALIGN starts with its keyword in field 9, EXT CID
+//                                                         ED ALIGN and
 //                     takes its values from field 10 PRINT CID PD TDMIN TVMIN TVMAX STRESS STLIM
-// PTYPE is the property card (PROD, PBAR, PSHELL, PSOLID, ...) and PID the property, which no other TOPVAR, DVPREL1 or
-// DVPREL2 may name (topology and sizing variables cannot share a property). XINIT, the initial density, is
-// blank when the format's rule gives it (the constraint value, 0.9 or 0.6, which depend on the responses of the deck),
-// DELXV when the DELX of the DOPTPRM gives it (0.2) and POWER when 3.0 (4.0 with symmetry constraints) is meant: none
-// of them is resolved here, since the value depends on other cards.
+// PTYPE is the property card (RodProp, BarProp, ShellProp, SolidProp, ...) and PID the property, which no other
+// DesignTopologyRegion, DesignPropRelation1 or DesignPropRelation2 may name (topology and sizing variables cannot share
+// a property). XINIT, the initial density, is blank when the format's rule gives it (the constraint value, 0.9 or 0.6,
+// which depend on the responses of the deck), DELXV when the DELX of the DesignOptimParams gives it (0.2) and POWER
+// when 3.0 (4.0 with symmetry constraints) is meant: none of them is resolved here, since the value depends on other
+// cards.
 struct DesignTopologyRegionCard
 {
     static constexpr double DEFAULT_LOWER_BOUND = 0.001;
 
-    base::EntityId id = 0; // unique among the TOPVAR cards
+    base::EntityId id = 0; // unique among the DesignTopologyRegion cards
     std::string entryLabel;
     std::string propType; // the neutral name of the property card type ("SolidProp"), or the word in upper case
     std::optional<double> initialValue;

@@ -28,7 +28,7 @@ struct ShellInput
     base::EntityId mcid = -1; // negative: no system, THETA applies
     bool hasFrame = true;      // false for the elements that have no element coordinate system
     // The element x axis along G1-G2 (in the plane of the normal) instead of the bisector of the diagonals, and no
-    // material axes: the shear panel (CSHEAR, format reference Figure 9-65).
+    // material axes: the shear panel (ShearPanel4, format reference Figure 9-65).
     bool shearPanel = false;
     // An axisymmetric element is a ring: its volume is the area times the length of the circle its centre describes
     // around the axis (the z axis of the basic system, grid points in the x-z plane).

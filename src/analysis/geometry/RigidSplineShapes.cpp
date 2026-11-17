@@ -2,19 +2,20 @@
 #include "oor/model/cards/rigid_elements/rigidAxisymConnection/RigidAxisymConnectionTable.hpp"
 #include "oor/model/cards/rigid_elements/rigidBodySearched/RigidBodySearchedTable.hpp"
 
-// The RBE2GS and the RBAX3D, the two element cards of the rigid element family that no other file of this folder
-// holds.
+// The RigidBodySearched and the RigidAxisymConnection, the two element cards of the rigid element family that no other
+// file of this folder holds.
 //
-// An RBE2GS has no connectivity: it names the grid or point GS where the solver starts its search for the two grids of
-// the RBE2 it builds (or, with GS blank, a search location that is three numbers). The grids the solver picks are not
-// on the card, and the exclusion lists name grids that may not be picked, not grids the element connects. So the nodes
-// of the element are GS alone (0 when GS is blank), which puts the element in the node to element index of its search
-// grid, and every quantity (centre, area, volume, length, normal) is left NaN: the format reference gives no shape for
-// it. The search radius R is not a length of the element either.
+// A RigidBodySearched has no connectivity: it names the grid or point GS where the solver starts its search for the two
+// grids of the RigidBodyStar it builds (or, with GS blank, a search location that is three numbers). The grids the
+// solver picks are not on the card, and the exclusion lists name grids that may not be picked, not grids the element
+// connects. So the nodes of the element are GS alone (0 when GS is blank), which puts the element in the node to
+// element index of its search grid, and every quantity (centre, area, volume, length, normal) is left NaN: the format
+// reference gives no shape for it. The search radius R is not a length of the element either.
 //
-// An RBAX3D connects two grid points, G3D on the axis of symmetry and GAX on an axisymmetric harmonic element, like an
-// RBAR does: its centre is the middle of the two points and its length their distance, which is the radius of GAX when
-// both have the same axial coordinate. A point that is not a grid point leaves the quantities NaN.
+// A RigidAxisymConnection connects two grid points, G3D on the axis of symmetry and GAX on an axisymmetric harmonic
+// element, like an RigidBar does: its centre is the middle of the two points and its length their distance, which is
+// the radius of GAX when both have the same axial coordinate. A point that is not a grid point leaves the quantities
+// NaN.
 
 namespace oor::analysis::detail
 {

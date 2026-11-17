@@ -7,12 +7,13 @@
 namespace oor::model
 {
 
-// One FORCEAX card: a static concentrated force on a ring of a conical shell model (it needs an AXIC card).
+// One AxisymRingForceLoad card: a static concentrated force on a ring of a conical shell model (it needs an
+// AxisymConeControl card).
 //
-// Card layout: FORCEAX  SID  RID  HID  S  FR  FP  FZ
+// Card layout: AxisymRingForceLoad  SID  RID  HID  S  FR  FP  FZ
 // HID is a harmonic number, or a sequence of harmonics written "Sn1Tn2" ("S0T10" is the harmonics 0 to
 // 10). The force is S times the components (FR, FP, FZ) in the radial, azimuthal and axial directions. RID names a
-// RINGAX card, which is not modelled yet.
+// AxisymConeRing card, which is not modelled yet.
 struct AxisymRingForceLoadCard
 {
     static constexpr std::int32_t SINGLE_HARMONIC = -1; // harmonicEnd of a card that names one harmonic

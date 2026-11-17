@@ -10,7 +10,8 @@ namespace oor::analysis
 namespace
 {
 
-// True when a MATT4 of the same MID gives the conductivity K a table (T(K)): the MAT4 may leave K blank then.
+// True when a HeatIsoMatTemperature of the same MID gives the conductivity K a table (T(K)): the HeatIsoMat may leave K
+// blank then.
 bool conductivityHasTable(const model::Model& model, base::EntityId mid)
 {
     bool found = false;
@@ -24,10 +25,11 @@ bool conductivityHasTable(const model::Model& model, base::EntityId mid)
     return found;
 }
 
-// A heat transfer analysis whose conduction property names a MAT4 with no conductivity K (and no MATT4 table for it),
-// or a MAT5 whose conductivity matrix has a zero diagonal (format reference: K > 0 for MAT4; a MAT5 needs positive KXX,
-// KYY and KZZ for a solid and the ones its element uses for a shell or a rod). The element conducts no heat in that
-// direction, and the matrix of the model is singular unless something else holds the temperatures.
+// A heat transfer analysis whose conduction property names a HeatIsoMat with no conductivity K (and no
+// HeatIsoMatTemperature table for it), or a HeatAnisoMat whose conductivity matrix has a zero diagonal (format
+// reference: K > 0 for HeatIsoMat; a HeatAnisoMat needs positive KXX, KYY and KZZ for a solid and the ones its element
+// uses for a shell or a rod). The element conducts no heat in that direction, and the matrix of the model is singular
+// unless something else holds the temperatures.
 class ThermalConductivityMissingCheck final : public ValidationCheck
 {
 public:
@@ -47,7 +49,7 @@ public:
         {
             if (!isConductionMaterialField(cardNameAt(model, use.location), use.field))
                 continue;
-            // A material ID may be a MAT1 and a MAT4 at once: heat conduction takes the thermal one.
+            // A material ID may be an IsoMat and a HeatIsoMat at once: heat conduction takes the thermal one.
             const std::optional<model::CardLocation> thermal = model.locate(base::IdSpace::ThermalMaterial, use.id);
             if (!thermal)
                 continue;

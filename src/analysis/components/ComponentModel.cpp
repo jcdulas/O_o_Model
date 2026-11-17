@@ -239,7 +239,7 @@ ComponentModel ComponentBuilder::build(const model::Model& model)
         }
     }
     // Contact in "merge" mode: a grid point that meets a face joins its grid points, so the bodies in contact are one
-    // component (a grid point no shell or solid uses, of a BCGRID body, joins nothing).
+    // component (a grid point no shell or solid uses, of a ContactNodeRegion body, joins nothing).
     if (m_mode == ContactMode::Merge)
     {
         std::vector<base::EntityId> facePoints;

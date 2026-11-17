@@ -25,14 +25,14 @@ struct HeatLoad
     base::EntityId target = 0;
     bool targetValid = true;
     double flux = std::numeric_limits<double>::quiet_NaN(); // the magnitude on the card (the mean of the corner fluxes
-                                                            // of a QBDY2)
+                                                            // of a HeatFluxNodalLoad2)
     double extent =
         std::numeric_limits<double>::quiet_NaN(); // the area of the surface element, or the volume of the element
     double power = std::numeric_limits<double>::quiet_NaN(); // the heat per unit time the load puts into the target
     base::EntityId control = 0;
     base::Vec3 direction{
         std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN()}; // QVECT: the unit flux direction in the basic system
+        std::numeric_limits<double>::quiet_NaN()}; // HeatFluxVectorLoad: the unit flux direction in the basic system
 };
 
 // The heat loads of the model, in the order of their sets (then of the cards): the loads of the sets in `sets`, or of

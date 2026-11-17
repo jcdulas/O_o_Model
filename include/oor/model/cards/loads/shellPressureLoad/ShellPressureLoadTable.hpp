@@ -20,8 +20,8 @@ struct ShellPressureLoadFormat
     static void write(const ShellPressureLoadCard& card, FieldWriter& writer);
 };
 
-// All the PLOAD2 cards. The ID is a load set ID shared by many cards (IdSpace::Group). The element lists are one CSR
-// column of (first, last) runs.
+// All the ShellPressureLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group). The element lists are
+// one CSR column of (first, last) runs.
 class ShellPressureLoadTable final : public TypedTable<ShellPressureLoadTable, ShellPressureLoadCard>
 {
 public:

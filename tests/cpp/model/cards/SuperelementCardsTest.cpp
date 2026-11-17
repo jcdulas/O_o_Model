@@ -134,7 +134,8 @@ TEST_CASE("CSUPEXT lists exterior points and refuses an empty list", "[model][su
     expectInvalid("SuperelementExteriorPoints;2", "nodes");
 }
 
-// --- SEBULK, CSUPER, SEQSEP, SETREE --------------------------------------------------------------------------------
+// --- SuperelementBulkOptions, SuperelementCopyPoints, SuperelementCopySequence, SuperelementTree
+// --------------------------------------------------------------------------------
 
 TEST_CASE("SEBULK reads a repeated, an external and a primary superelement and resolves its defaults",
           "[model][superelements]")
@@ -154,7 +155,7 @@ TEST_CASE("SEBULK reads a repeated, an external and a primary superelement and r
     REQUIRE(smart.partType == SuperelementBulkOptionsType::ExternalReducedModel);
     REQUIRE(smart.method == SuperelementBulkOptionsMethod::Manual);
     REQUIRE(smart.unitNumber == 31);
-    // A TOL of 0.0 is the default: it means the value of PARAM,CONFAC.
+    // A TOL of 0.0 is the default: it means the value of PARAM,ConnectionTolerance.
     REQUIRE(cardAt<SuperelementBulkOptionsTable>(model, 2).tolerance == 0.0);
     requireRoundTrip(model);
 }
@@ -192,7 +193,7 @@ TEST_CASE("SEBULK names its reference superelement", "[model][superelements]")
     Model model = readBulk("SuperelementInteriorNodes;40;1\nSuperelementBulkOptions;1400;Repeat;40");
     const ScopedRecorder recorder = referencesOf<SuperelementBulkOptionsTable>(model);
     REQUIRE(recorder.of("referenceSuperelementId") == std::vector<std::pair<base::EntityId, base::EntityId>>{{40, -1}});
-    REQUIRE(unresolvedIn(model) == 0); // SESET defines superelement 40
+    REQUIRE(unresolvedIn(model) == 0); // SuperelementInteriorNodes defines superelement 40
     Model missing = readBulk("SuperelementBulkOptions;1400;Repeat;90");
     REQUIRE(unresolvedIn(missing) == 1);
 }
@@ -210,7 +211,7 @@ TEST_CASE("CSUPER codes the mirror in the number of the superelement", "[model][
     REQUIRE(cardAt<SuperelementCopyPointsTable>(model, 1).primarySuperelementId == -23); // a z-reversal mirror
     REQUIRE(cardAt<SuperelementCopyPointsTable>(model, 2).primarySuperelementId ==
             0); // an external superelement has no primary
-    // The ID of the card is the number: CSUPER defines the superelement.
+    // The ID of the card is the number: SuperelementCopyPoints defines the superelement.
     REQUIRE(model.findTable<SuperelementCopyPointsTable>()->idAtRow(0) == 4);
     // A renumbering changes the number and keeps the code, and the sign of the primary.
     model.table<SuperelementCopyPointsTable>().setIdAtRow(0, 9);
@@ -426,7 +427,7 @@ TEST_CASE("SENQSET takes a superelement or ALL", "[model][superelements]")
     expectInvalid("SuperelementGeneralizedPointCount;120;-1", "count");
 }
 
-// --- RELEASE, EXTRN and the sets of degrees of freedom
+// --- SuperelementReleasedDofs, SuperelementExternalBoundary and the sets of degrees of freedom
 // -------------------------------------------------------------------
 
 TEST_CASE("RELEASE reads points, a range and ALL", "[model][superelements]")
@@ -464,7 +465,7 @@ TEST_CASE("EXTRN reads pairs, ranges and blank pairs and defines its points", "[
     REQUIRE(ranged.items[2].points == run(5, 5));
     REQUIRE(ranged.items[2].components == 1);                                       // a scalar point may say 1
     REQUIRE(cardAt<SuperelementExternalBoundaryTable>(model, 2).items.size() == 4); // the blank pair is padding
-    // The points of an EXTRN resolve in the part that holds it, which has no GRID for them.
+    // The points of a SuperelementExternalBoundary resolve in the part that holds it, which has no GRID for them.
     REQUIRE(unresolvedIn(model) == 0);
     const std::vector<IdRun> points = model.findTable<SuperelementExternalBoundaryTable>()->connectionPoints();
     REQUIRE(points.front() == run(1, 1));
@@ -517,7 +518,8 @@ TEST_CASE("the pairs of an SEBSET continue on the lines after three pairs", "[mo
     // Three pairs fill fields 2 to 7; the next ones go four to a line from field 9.
     const Model model = readBulk("SuperelementFixedDofSet;5;1;1;2;1;3;1;4;1;5;1;6;1;7;1");
     REQUIRE(cardAt<SuperelementFixedDofSetTable>(model).dofs.size() == 7);
-    // SEUSET has the set name in the first line, so it holds three pairs there as well and goes on from field 9.
+    // SuperelementUserDofSet has the set name in the first line, so it holds three pairs there as well and goes on from
+    // field 9.
     REQUIRE(cardAt<SuperelementUserDofSetTable>(readBulk("SuperelementUserDofSet;5;U1;1;1;2;1;3;1;4;1")).dofs.size() ==
             4);
     requireRoundTrip(model);
@@ -586,7 +588,7 @@ TEST_CASE("BNDFIX and BNDFREE are the BSET and CSET cards under other names", "[
     expectInvalid("FreeBoundaryDofs1;125", "nodes");
 }
 
-// --- MASSSET, SELOAD, the conical shell cards, the design cards
+// --- MassCaseCombination, SuperelementLoadScale, the conical shell cards, the design cards
 // ----------------------------------------------------------
 
 TEST_CASE("MASSSET combines the mass cases of a deck", "[model][superelements]")
@@ -784,7 +786,7 @@ TEST_CASE("the items of an SEDRSP2 go to the model of their part superelement", 
     REQUIRE(recorder.of("responseIds") == std::vector<std::pair<base::EntityId, base::EntityId>>{{14, 2}});
     REQUIRE(recorder.of("nodeIds") == std::vector<std::pair<base::EntityId, base::EntityId>>{{14, 10}});
     REQUIRE(recorder.of("propRelationIds") == std::vector<std::pair<base::EntityId, base::EntityId>>{{7, 3}});
-    // The label of a DTABLE names no card, but the superelement before it is one.
+    // The label of a DesignConstants names no card, but the superelement before it is one.
     bool labelVisited = false;
     for (const ScopedReference& reference : recorder.seen)
         labelVisited = labelVisited || reference.field == "constantLabels";
@@ -808,8 +810,8 @@ TEST_CASE("a superelement number is defined by a part, a card or the SEID of a g
         "[model;SuperelementPart;3]\n"
         "Node;1;;0.;0.;0.\n",
         true);
-    // 5 (SESET), 6 (SEBULK), 7 (the SEID of a GRID), 8 (CSUPEXT), 9 (CSUPER 120009) and 3 (a part) are defined; 10 is
-    // not.
+    // 5 (SuperelementInteriorNodes), 6 (SuperelementBulkOptions), 7 (the SEID of a Node), 8
+    // (SuperelementExteriorPoints), 9 (SuperelementCopyPoints 120009) and 3 (a part) are defined; 10 is not.
     base::DiagnosticSink sink(base::ReadMode::Tolerant);
     REQUIRE(ReferenceChecker::check(model, sink) == 1);
     REQUIRE(sink.diagnostics().front().location.fieldName == "superelementId");

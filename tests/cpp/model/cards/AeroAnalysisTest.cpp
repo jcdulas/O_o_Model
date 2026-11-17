@@ -1,7 +1,8 @@
-// Checks of the aeroelastic analysis cards: AERO and AEROS (one of each per model, coordinate systems, symmetry
-// keys), FLUTTER (a field that is an integer or a real by its method, the words, the FLFACT cards it names), FLFACT (a
-// list, or the THRU form that keeps its form and expands by the formula of the format reference), MKAERO1 and MKAERO2
-// (the tables of Mach numbers and reduced frequencies), GUST and DIVERG (the sets the Case Control selects) and CLOAD
+// Checks of the aeroelastic analysis cards: AeroUnsteadyParams and AeroStaticParams (one of each per model, coordinate
+// systems, symmetry keys), FLUTTER (a field that is an integer or a real by its method, the words, the
+// AeroFlutterFactors cards it names), AeroFlutterFactors (a list, or the THRU form that keeps its form and expands by
+// the formula of the format reference), AeroMachFreqTable1 and AeroMachFreqPairs2 (the tables of Mach numbers and
+// reduced frequencies), AeroGust and AeroDivergence (the sets the Case Control selects) and SuperelementLoadCombination
 // (a combination of superelement load vectors, filed with the loads).
 
 #include "oor/model/cards/aero/aeroDivergence/AeroDivergenceTable.hpp"
@@ -81,7 +82,7 @@ TEST_CASE("an AERO has its fields in the places of the format reference and a de
     Renumbering::apply(model, RenumberSpace::Coordinate, Renumbering::offset(100));
     REQUIRE(cardAt<AeroUnsteadyParamsTable>(model).aeroFrameId == 104);
 
-    // Only one AERO is allowed: the second is reported when the deck is read.
+    // Only one AeroUnsteadyParams is allowed: the second is reported when the deck is read.
     const Model twice = readModelText("[model]\nAeroUnsteadyParams;;;1.;1.\nAeroUnsteadyParams;;;2.;2.\n", false);
     REQUIRE(twice.diagnostics().firstError()->code == "deck.duplicate-aero-unsteady-params");
 
@@ -193,7 +194,7 @@ TEST_CASE("a FLUTTER has an integer or a real in field 7 by its method and names
 
     const Model counted = readBulk("AeroFlutter;31;KMethodEfficient;1;2;3;;3");
 
-    // The three FLFACT cards of every FLUTTER, and the numbers they are renumbered with.
+    // The three AeroFlutterFactors cards of every AeroFlutter, and the numbers they are renumbered with.
     RecordingVisitor visitor;
     model.table<AeroFlutterTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"densityFactorsId", "machFactorsId", "reducedFreqFactorsId"});
@@ -274,14 +275,14 @@ TEST_CASE("an FLFACT lists its factors or gives the THRU form, and keeps the for
 
     // A card read as THRU is written as THRU, with a blank FMID left blank.
 
-    // An FLFACT names no other card; its numbers are those of the FLFACT space.
+    // An AeroFlutterFactors names no other card; its numbers are those of the AeroFlutterFactors space.
     RecordingVisitor visitor;
     model.table<AeroFlutterFactorsTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields.empty());
     Renumbering::apply(model, RenumberSpace::AeroFlutterFactor, Renumbering::offset(100));
     REQUIRE(
         (cardAt<AeroFlutterFactorsTable>(model, 0).id == 194 && cardAt<AeroFlutterFactorsTable>(model, 2).id == 305));
-    // An AEFACT and an FLFACT may share a number, two FLFACT cards may not.
+    // An AeroFactorList and an AeroFlutterFactors may share a number, two AeroFlutterFactors cards may not.
     REQUIRE_NOTHROW(readBulk("AeroFactorList;5;0.3\nAeroFlutterFactors;5;0.3"));
     REQUIRE_THROWS_AS(readBulk("AeroFlutterFactors;5;0.3\nAeroFlutterFactors;5;0.4"), base::DeckError);
 
@@ -375,7 +376,8 @@ TEST_CASE("a GUST has its fields in the places of the format reference and is se
     requireRoundTrip(model);
     const Model plain = readBulk("AeroGust;5;6;1.5;2.5;100.");
 
-    // DLOAD names a TLOADi or an RLOADi: a set of the dynamic loads. The GUST SID is what the command names.
+    // DynamicLoadCombination names a TLOADi or an RLOADi: a set of the dynamic loads. The AeroGust SID is what the
+    // command names.
     RecordingVisitor visitor;
     model.table<AeroGustTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"dynamicLoadId"});
@@ -385,12 +387,12 @@ TEST_CASE("a GUST has its fields in the places of the format reference and is se
     REQUIRE(unresolvedIn(other) == unresolvedIn(matching) + 1);
     Renumbering::apply(matching, RenumberSpace::DynamicLoadSet, Renumbering::offset(5));
     REQUIRE(cardAt<AeroGustTable>(matching).dynamicLoadId == 69);
-    REQUIRE(unresolvedIn(model) == 2); // the two DLOAD sets that no card of this deck has
+    REQUIRE(unresolvedIn(model) == 2); // the two DynamicLoadCombination sets that no card of this deck has
     Renumbering::apply(model, RenumberSpace::AeroGustSet, Renumbering::offset(10));
     REQUIRE((cardAt<AeroGustTable>(model, 0).id == 147 && cardAt<AeroGustTable>(model, 1).id == 3014));
     REQUIRE(globalCommand(model, "GustSelection") == 147);
     Model dangling = readModelText("[case]\nGustSelection;9\n[model]\nAeroGust;137;64;1.;0.;2.E+4\n", true);
-    REQUIRE(unresolvedIn(dangling) == 2); // the command and the DLOAD
+    REQUIRE(unresolvedIn(dangling) == 2); // the command and the DynamicLoadCombination
     REQUIRE_THROWS_AS(readBulk("AeroGust;5;61;1.;0.;1.\nAeroGust;5;62;1.;0.;1."), base::DeckError);
 
     expectInvalid("AeroGust;0;61;1.;0.;1.", "id");
@@ -470,7 +472,7 @@ TEST_CASE("a CLOAD combines the load vectors of a superelement and is filed with
 
     // The pairs are in fields 3 and 4, 5 and 6, then from field 9 on the continuation line.
 
-    // Each IDV is an excitation set: a load set or the EXCITEID of an LSEQ card.
+    // Each IDV is an excitation set: a load set or the EXCITEID of a StaticLoadSequence card.
     RecordingVisitor visitor;
     model.table<SuperelementLoadCombinationTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"loadIds", "loadIds", "loadIds", "loadIds"});
@@ -479,8 +481,8 @@ TEST_CASE("a CLOAD combines the load vectors of a superelement and is filed with
     Model lacking = readBulk("SuperelementLoadCombination;35;1.;1.;10;2.;11");
     REQUIRE(unresolvedIn(lacking) == 2);
 
-    // The CID is a load set: a CLOAD and a FORCE may share a number, and the renumbering of the loads follows the
-    // vectors.
+    // The CID is a load set: a SuperelementLoadCombination and a PointForceLoad may share a number, and the renumbering
+    // of the loads follows the vectors.
     REQUIRE_NOTHROW(readBulk("SuperelementLoadCombination;10;1.;1.;5\nPointForceLoad;10;1;;1.;1.;0.;0.\nNode;1"));
     Renumbering::apply(model, RenumberSpace::LoadCombinationSet, Renumbering::offset(100));
     REQUIRE((cardAt<SuperelementLoadCombinationTable>(model, 0).id == 135 &&

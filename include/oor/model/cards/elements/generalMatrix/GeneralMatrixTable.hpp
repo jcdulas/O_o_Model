@@ -21,7 +21,8 @@ struct GeneralMatrixFormat
     static void write(const GeneralMatrixCard& card, FieldWriter& writer);
 };
 
-// All the GENEL elements. The degree-of-freedom lists are (point, component) pairs, the matrices lists of reals.
+// All the GeneralMatrix elements. The degree-of-freedom lists are (point, component) pairs, the matrices lists of
+// reals.
 class GeneralMatrixTable final : public TypedTable<GeneralMatrixTable, GeneralMatrixCard>
 {
 public:

@@ -64,7 +64,7 @@ void IsoMatExplicitExtTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void IsoMatExplicitExtTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT1 that the card extends.
+    // The ID is the one of the IsoMat that the card extends.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     if (const base::EntityId equationOfState = m_equationOfStateId.get(row); equationOfState > 0)
         m_equationOfStateId.set(row,

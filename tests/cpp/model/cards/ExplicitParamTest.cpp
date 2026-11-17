@@ -1,4 +1,4 @@
-// Checks of the DYPARAM card: one card type with 80 documented entries, typed in a catalogue. The catalogue
+// Checks of the ExplicitParam card: one card type with 80 documented entries, typed in a catalogue. The catalogue
 // is checked against a line typed for every entry, the card keeps unknown names as written, the references of its
 // values are visited and renumbered, and each rule of an entry (kinds, words, ranges, the values that go together)
 // refuses what the format reference forbids.
@@ -161,7 +161,7 @@ TEST_CASE("the DYPARAM catalogue lists the names of the format reference with th
           "[model][cards][explicit][dyparam]")
 {
     const ExplicitParamCatalogue& catalogue = ExplicitParamCatalogue::instance();
-    // 79 names: 78 headings of one name each, and DYPARAM,SMP with its two headings (BATCHSIZ and CPUINFO).
+    // 79 names: 78 headings of one name each, and ExplicitParam,SMP with its two headings (BATCHSIZ and CPUINFO).
     REQUIRE(catalogue.entries().size() == 79);
     std::size_t forms = 0;
     for (const ExplicitParamEntry& entry : catalogue.entries())
@@ -382,7 +382,8 @@ TEST_CASE("the tables, the grid points and the MATRIGs a DYPARAM names are refer
     model.table<ExplicitParamTable>().visitReferences(1, grids);
     REQUIRE(grids.fields == std::vector<std::string>{"monitoredGrid", "monitoredGrid"});
     REQUIRE(grids.targets == std::vector<ReferenceTarget>{ReferenceTarget::Node, ReferenceTarget::Node});
-    // A MATRIG is named MR<id>; an FR<id> is an assembly (the new one of a MATRMERG does not exist) and is not visited.
+    // A RigidMat is named MR<id>; an FR<id> is an assembly (the new one of a MATRMERG does not exist) and is not
+    // visited.
     RecordingVisitor merge;
     model.table<ExplicitParamTable>().visitReferences(2, merge);
     REQUIRE(merge.fields == std::vector<std::string>{"firstBodyName", "mergedBodyNames"});

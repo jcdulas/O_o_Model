@@ -15,9 +15,9 @@ struct DofSetRenamesRename
     [[nodiscard]] bool operator==(const DofSetRenamesRename&) const noexcept = default;
 };
 
-// One DEFUSET card: new names for the degree-of-freedom sets.
+// One DofSetRenames card: new names for the degree-of-freedom sets.
 //
-// Card layout: DEFUSET  OLD1  NEW1  OLD2  NEW2  OLD3  NEW3  OLD4  NEW4
+// Card layout: DofSetRenames  OLD1  NEW1  OLD2  NEW2  OLD3  NEW3  OLD4  NEW4
 // From one to four pairs on a card, all in the first line; each name is one to four characters. The names are kept in
 // upper case (the deck is case-insensitive). The format reference asks that the NEWi be unique among all the set names
 // and that the OLDi be set names of its table of degree-of-freedom sets (never PA or PS, which the solver refuses): the

@@ -19,10 +19,11 @@ struct CompPropIntegrationFormat
     static void write(const CompPropIntegrationCard& card, FieldWriter& writer);
 };
 
-// All the PCOMPF cards. A PCOMPF has no ID of its own (IdSpace::None, category Property): it is a list of properties,
-// and a deck has as many as it has integration procedures. The PIDs name PCOMP and PCOMPG cards: a single one must
-// exist (ReferenceTarget::Property), the ends of a THRU range may name nothing (PropertyInRange). The cards are kept
-// whole next to a column of their INT values, which is what the query engine and the Arrow export see.
+// All the CompPropIntegration cards. A CompPropIntegration has no ID of its own (IdSpace::None, category Property): it
+// is a list of properties, and a deck has as many as it has integration procedures. The PIDs name CompProp and
+// CompPropGlobal cards: a single one must exist (ReferenceTarget::Property), the ends of a THRU range may name nothing
+// (PropertyInRange). The cards are kept whole next to a column of their INT values, which is what the query engine and
+// the Arrow export see.
 class CompPropIntegrationTable final : public TypedTable<CompPropIntegrationTable, CompPropIntegrationCard>
 {
 public:

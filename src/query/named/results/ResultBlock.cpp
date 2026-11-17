@@ -223,7 +223,7 @@ public:
         return provider;
     }
 
-    // The global ID of the ply of a row (0 for a PCOMP, or an element without a laminate).
+    // The global ID of the ply of a row (0 for a CompProp, or an element without a laminate).
     [[nodiscard]] std::int32_t globalId(const DirectForceTable& table, std::size_t row) const
     {
         const RowFacts& facts = (*m_rows[static_cast<std::size_t>(&table - m_tables)])[row];

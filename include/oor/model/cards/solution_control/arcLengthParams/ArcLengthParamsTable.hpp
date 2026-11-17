@@ -18,9 +18,9 @@ struct ArcLengthParamsFormat
     static void write(const ArcLengthParamsCard& card, FieldWriter& writer);
 };
 
-// All the NLPCI cards. The ID is the ID of the NLPARM it goes with: unique among the NLPCI cards
-// (IdSpace::PerCardType) and numbering, in the category NonlinearStatic, the same selection as that NLPARM, so that a
-// renumbering of the category moves the two together.
+// All the ArcLengthParams cards. The ID is the ID of the NonlinearStaticParams it goes with: unique among the
+// ArcLengthParams cards (IdSpace::PerCardType) and numbering, in the category NonlinearStatic, the same selection as
+// that NonlinearStaticParams, so that a renumbering of the category moves the two together.
 class ArcLengthParamsTable final : public TypedTable<ArcLengthParamsTable, ArcLengthParamsCard>
 {
 public:

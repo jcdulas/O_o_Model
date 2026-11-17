@@ -7,10 +7,11 @@
 namespace oor::model
 {
 
-// One SELOC card: where a part superelement is placed, by three of its points and the three points they go to.
+// One SuperelementLocation card: where a part superelement is placed, by three of its points and the three points they
+// go to.
 //
-// Card layout: SELOC  SEID  PA1  PA2  PA3  PB1  PB2  PB3                          fields 1 to 7
-// SEID is the partitioned superelement to move. PA1 to PA3 are three noncolinear grid points or POINT cards of that
+// Card layout: SuperelementLocation  SEID  PA1  PA2  PA3  PB1  PB2  PB3           fields 1 to 7
+// SEID is the partitioned superelement to move. PA1 to PA3 are three noncolinear grid points or GeomPoint cards of that
 // superelement (so they are in its own ID space), PB1 to PB3 three points of the main Bulk Data the superelement is
 // aligned to: the superelement is rotated and translated so that PAi lands on PBi. The PBi must
 // have the same relative locations as the PAi. Three points are needed even if the superelement connects to

@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One CTRIAX card: an axisymmetric triangular element with three corners and up to three edge points.
+// One AxisymTria card: an axisymmetric triangular element with three corners and up to three edge points.
 //
 // Layout:
-//   CTRIAX  EID  PID  G1  G2  G3  G4  G5  G6
-//           THETA or MCID
+//   AxisymTria  EID  PID  G1  G2  G3  G4  G5  G6
+//               THETA or MCID
 //
 // G1 to G3 are the corners and G4 to G6 the optional points on the edges: `nodes` always has room for all six, and an
 // edge point that is blank on the card is 0.

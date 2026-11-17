@@ -15,23 +15,24 @@
 // cohesive interface elements. Every card type gives its nodes in the order of its card (0 for a blank slot), so each
 // is in the node-to-element index.
 //
-// CACINF3 and CACINF4 are the base of an infinite element, a triangle and a quadrilateral of acoustic grid points, with
-// no thickness: like the CAABSF they have the centre, the normal by the right-hand rule on the connection order and the
-// area of a shell of no thickness (no frame, no volume).
+// AcousticInfiniteTria3 and AcousticInfiniteQuad4 are the base of an infinite element, a triangle and a quadrilateral
+// of acoustic grid points, with no thickness: like the AcousticAbsorber they have the centre, the normal by the
+// right-hand rule on the connection order and the area of a shell of no thickness (no frame, no volume).
 //
-// CAXISYM is a line in the x-y plane. Its centre is the middle of the chord G1-G2 and its length is the chord, or, when
-// the middle point G3 is given, the sum of the chords G1-G3 and G3-G2 (G3 lies on the curve: the format draws it
+// ShellAxisym is a line in the x-y plane. Its centre is the middle of the chord G1-G2 and its length is the chord, or,
+// when the middle point G3 is given, the sum of the chords G1-G3 and G3-G2 (G3 lies on the curve: the format draws it
 // between the ends). The element has no other geometry here: it is a thick shell of an axisymmetric model, whose area
 // and volume depend on the property and on the revolution.
 //
-// CBUSH2D is the segment GA-GB (the format wants two coincident grids, so its length is normally zero): centre and
+// Bushing2D is the segment GA-GB (the format wants two coincident grids, so its length is normally zero): centre and
 // length only. Its frame depends on the displacement systems of the two grids, which the format reference does not
 // check.
 //
-// CIFHEX, CIFPENT, CIFQDX and CIFQUAD are cohesive layers between two faces, possibly infinitely thin (the faces may
-// coincide). Only the centre is given, the mean of the corner points (8, 6, 4 and 4: the points G1 to G8, G1 to G6 and
-// G1 to G4 of the cards; the optional edge points are not used). The area, volume, normal and length of such an element
-// are not defined by the format (they depend on the property and on the opening of the faces) and stay NaN.
+// CohesiveHexa, CohesivePenta, CohesiveAxisymQuad and CohesiveQuad are cohesive layers between two faces, possibly
+// infinitely thin (the faces may coincide). Only the centre is given, the mean of the corner points (8, 6, 4 and 4: the
+// points G1 to G8, G1 to G6 and G1 to G4 of the cards; the optional edge points are not used). The area, volume, normal
+// and length of such an element are not defined by the format (they depend on the property and on the opening of the
+// faces) and stay NaN.
 
 namespace oor::analysis::detail
 {

@@ -19,9 +19,9 @@ struct CyclicSupportFormat
     static void write(const CyclicSupportCard& card, FieldWriter& writer);
 };
 
-// All the CYSUP cards. A support has no ID of its own (IdSpace::None), like the SUPORT it resembles; the format
-// reference allows one supported grid point in the model, which a check between cards looks at. The grid point is a
-// reference.
+// All the CyclicSupport cards. A support has no ID of its own (IdSpace::None), like the FreeBodySupport it resembles;
+// the format reference allows one supported grid point in the model, which a check between cards looks at. The grid
+// point is a reference.
 class CyclicSupportTable final : public TypedTable<CyclicSupportTable, CyclicSupportCard>
 {
 public:

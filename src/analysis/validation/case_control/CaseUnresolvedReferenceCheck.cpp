@@ -11,8 +11,8 @@ namespace
 {
 
 // A Case Control command that selects a set of cards that is not in the Bulk Data, of the residual structure or of a
-// part (SPC = 5 with no SPC, SPC1 or SPCADD of set 5; METHOD = 3 with no EIGRL 3). A warning: the cards may be of a
-// type the library does not read yet.
+// part (SPC = 5 with no SinglePointConstr, SinglePointConstrList or SinglePointConstrUnion of set 5; METHOD = 3 with no
+// LanczosEigenMethod 3). A warning: the cards may be of a type the library does not read yet.
 class CaseUnresolvedReferenceCheck final : public ValidationCheck
 {
 public:
@@ -37,9 +37,9 @@ public:
         return false;
     }
 
-    // With PARAM,HEATSTAT,YES (a heat transfer then a thermal stress analysis in SOL 101) the TEMPERATURE(LOAD) of the
-    // stress subcase does not name a set of TEMP cards but the heat transfer subcase whose temperatures it takes: a
-    // number that is the number of a subcase of the deck is not a missing set.
+    // With PARAM,HeatStaticAnalysis,YES (a heat transfer then a thermal stress analysis in SOL 101) the
+    // TEMPERATURE(LOAD) of the stress subcase does not name a set of NodeTemperatureLoad cards but the heat transfer
+    // subcase whose temperatures it takes: a number that is the number of a subcase of the deck is not a missing set.
     static bool namesHeatSubcase(const ValidationContext& context, const UnresolvedUse& use)
     {
         if (use.field != "TemperatureSelection" || !isHeatThenStress(context.root()))

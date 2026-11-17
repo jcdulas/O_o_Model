@@ -19,8 +19,8 @@ struct CompPropGlobalFormat
     static void write(const CompPropGlobalCard& card, FieldWriter& writer);
 };
 
-// All the PCOMPG cards. The plies of every laminate are five lists (global IDs, materials, thicknesses, angles, output
-// flags) in CSR form: the row of a laminate gives where its plies begin and how many there are.
+// All the CompPropGlobal cards. The plies of every laminate are five lists (global IDs, materials, thicknesses, angles,
+// output flags) in CSR form: the row of a laminate gives where its plies begin and how many there are.
 class CompPropGlobalTable final : public TypedTable<CompPropGlobalTable, CompPropGlobalCard>
 {
 public:

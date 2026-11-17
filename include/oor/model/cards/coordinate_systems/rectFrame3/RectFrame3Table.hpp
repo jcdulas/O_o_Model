@@ -20,8 +20,8 @@ struct RectFrame3Format
     static void write(const RectFrame3Card& card, FieldWriter& writer);
 };
 
-// All the CORD3R systems, one row each (a card with two systems gives two rows). Their IDs are in the space of every
-// coordinate system (IdSpace::Coordinate).
+// All the RectFrame3 systems, one row each (a card with two systems gives two rows). Their IDs are in the space of
+// every coordinate system (IdSpace::Coordinate).
 class RectFrame3Table final : public TypedTable<RectFrame3Table, RectFrame3Card>
 {
 public:

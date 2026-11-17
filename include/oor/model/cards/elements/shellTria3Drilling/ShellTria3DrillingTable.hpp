@@ -19,7 +19,8 @@ struct ShellTria3DrillingFormat
     static void write(const ShellTria3DrillingCard& card, FieldWriter& writer);
 };
 
-// All the CTRIAR elements: the nodes are one column of three IDs per element (an (N, 3) NumPy view without copy).
+// All the ShellTria3Drilling elements: the nodes are one column of three IDs per element (an (N, 3) NumPy view without
+// copy).
 class ShellTria3DrillingTable final : public TypedTable<ShellTria3DrillingTable, ShellTria3DrillingCard>
 {
 public:

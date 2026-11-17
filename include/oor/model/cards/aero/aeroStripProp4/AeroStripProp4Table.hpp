@@ -19,10 +19,10 @@ struct AeroStripProp4Format
     static void write(const AeroStripProp4Card& card, FieldWriter& writer);
 };
 
-// All the PAERO4 cards. The PID is in the space of the aerodynamic properties (IdSpace::AeroProperty, category
-// AeroProperty), which PAERO1 to PAERO5 share: a CAERO4 names it (ReferenceTarget::AeroProperty). LCLA and LCIRC are
-// AEFACT cards (ReferenceTarget::AeroFactor). The card is kept whole: the strips are a list of triples that nobody
-// reads as columns.
+// All the AeroStripProp4 cards. The PID is in the space of the aerodynamic properties (IdSpace::AeroProperty, category
+// AeroProperty), which AeroLiftingPanelProp1 to AeroPistonProp5 share: an AeroStripPanel4 names it
+// (ReferenceTarget::AeroProperty). LCLA and LCIRC are AeroFactorList cards (ReferenceTarget::AeroFactor). The card is
+// kept whole: the strips are a list of triples that nobody reads as columns.
 class AeroStripProp4Table final : public TypedTable<AeroStripProp4Table, AeroStripProp4Card>
 {
 public:

@@ -18,8 +18,8 @@ struct AxisymConePressureLoadFormat
     static void write(const AxisymConePressureLoadCard& card, FieldWriter& writer);
 };
 
-// All the PRESAX cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load). RID1 and RID2
-// name RINGAX cards, points of the node ID space (node references).
+// All the AxisymConePressureLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load).
+// RID1 and RID2 name AxisymConeRing cards, points of the node ID space (node references).
 class AxisymConePressureLoadTable final : public TypedTable<AxisymConePressureLoadTable, AxisymConePressureLoadCard>
 {
 public:

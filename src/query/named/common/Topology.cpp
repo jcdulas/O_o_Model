@@ -76,7 +76,8 @@ struct MidSide
 };
 
 constexpr std::array<MidSide, 3> TRIANGLE6 = {{{0, 1, 3}, {1, 2, 4}, {2, 0, 5}}};
-// CTRIAX6: the corners are the nodes 0, 2 and 4, so the mid-side nodes are between them (positions in the node list).
+// AxisymTria6: the corners are the nodes 0, 2 and 4, so the mid-side nodes are between them (positions in the node
+// list).
 constexpr std::array<MidSide, 3> TRIANGLE_ALTERNATING = {{{0, 2, 1}, {2, 4, 3}, {4, 0, 5}}};
 constexpr std::array<MidSide, 4> QUAD8 = {{{0, 1, 4}, {1, 2, 5}, {2, 3, 6}, {3, 0, 7}}};
 constexpr std::array<MidSide, 6> TETRA10 = {{{0, 1, 4}, {1, 2, 5}, {2, 0, 6}, {0, 3, 7}, {1, 3, 8}, {2, 3, 9}}};
@@ -230,8 +231,8 @@ std::optional<std::array<base::EntityId, 4>> pressureFace(const model::Model& mo
             continue;
         if (node3Or4 == 0)
         {
-            // CTETRA: G1 is on the face and G4 is not given: any face with G1 would do, the format reference gives
-            // both. A CPENTA triangle is found by G1 alone.
+            // SolidTetra: G1 is on the face and G4 is not given: any face with G1 would do, the format reference gives
+            // both. A SolidPenta triangle is found by G1 alone.
             return face;
         }
         const bool containsNode3Or4 = has(face, node3Or4);

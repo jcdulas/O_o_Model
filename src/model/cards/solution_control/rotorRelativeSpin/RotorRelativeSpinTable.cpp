@@ -23,7 +23,7 @@ std::optional<RotorRelativeSpinCard> RotorRelativeSpinFormat::read(FieldReader& 
     card.nodeA = reader.requiredInteger(2, "nodeA");
     card.nodeB = reader.requiredInteger(3, "nodeB");
     card.speedUnit = readRequiredKeyword<RotorSpeedUnit>(reader, 4, "speedUnit", ROTOR_SPEED_UNIT_WORDS);
-    // SPTID is required: a real is a constant rate, an integer the number of a DDVAL.
+    // SPTID is required: a real is a constant rate, an integer the number of a DesignDiscreteValues.
     if (const auto rate = reader.integerOrReal(5, "spinTableId"))
     {
         if (std::holds_alternative<std::int32_t>(*rate))

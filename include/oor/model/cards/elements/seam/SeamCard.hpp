@@ -11,16 +11,16 @@
 namespace oor::model
 {
 
-// CTYPE of a CSEAM: what the four patch numbers IDAS, IDBS, IDAE and IDBE name. A blank CTYPE is PSHELL.
+// CTYPE of a Seam: what the four patch numbers IDAS, IDBS, IDAE and IDBE name. A blank CTYPE is ShellProp.
 enum class SeamPatchType : std::uint8_t
 {
-    Property, // PSHELL (the default): property IDs of PSHELL cards
+    Property, // ShellProp (the default): property IDs of ShellProp cards
     Element   // ELEM: element IDs
 };
 
 inline constexpr std::array<std::string_view, 2> SEAM_PATCH_TYPE_WORDS{"ShellProp", "Elements"};
 
-// How a CSEAM gives the start and the end of the seam: by the grid points GS and GE, or by the coordinates XS YS ZS and
+// How a Seam gives the start and the end of the seam: by the grid points GS and GE, or by the coordinates XS YS ZS and
 // XE YE ZE (the alternate format of the format reference).
 enum class SeamEnds : std::uint8_t
 {
@@ -28,22 +28,22 @@ enum class SeamEnds : std::uint8_t
     Coordinates
 };
 
-// One CSEAM card: a seam that connects two surface patches (shell elements).
+// One Seam card: a seam that connects two surface patches (shell elements).
 //
 // Card layout (the first form, with the grid points):
-//   CSEAM  EID  PID  SMLN  CTYPE  IDAS  IDBS  IDAE  IDBE
-//          GS   GE
+//   Seam  EID  PID  SMLN  CTYPE  IDAS  IDBS  IDAE  IDBE
+//         GS   GE
 // and the alternate form, which gives the ends as coordinates and leaves SMLN out:
-//   CSEAM  EID  PID  (blank)  CTYPE  IDAS  IDBS  IDAE  IDBE
-//          XS   YS   ZS   XE   YE   ZE
+//   Seam  EID  PID  (blank)  CTYPE  IDAS  IDBS  IDAE  IDBE
+//         XS   YS   ZS   XE   YE   ZE
 //
-// PID names a PSEAM. SMLN names the seam line (up to eight characters, no blank; blank is nothing): the seam elements
-// of one line are continuous where their ends coincide. The alternate form has no SMLN in the format reference; the
-// card keeps one that a deck writes there rather than refuse it. CTYPE says what the patch numbers are (PSHELL by
-// default).
+// PID names a SeamProp. SMLN names the seam line (up to eight characters, no blank; blank is nothing): the seam
+// elements of one line are continuous where their ends coincide. The alternate form has no SMLN in the format
+// reference; the card keeps one that a deck writes there rather than refuse it. CTYPE says what the patch numbers are
+// (ShellProp by default).
 //
 // IDAS and IDBS define the patches A and B, or their start for a tailored blank; IDAE and IDBE their end. IDAS is
-// required. With CTYPE PSHELL an IDBS that is blank or equal to IDAS makes the patch two-sided, and so for
+// required. With CTYPE ShellProp an IDBS that is blank or equal to IDAS makes the patch two-sided, and so for
 // the end; with CTYPE ELEM IDBS is required and differs from IDAS, and IDAE and IDBE differ when both are given. A
 // blank IDBS, IDAE or IDBE is 0.
 //

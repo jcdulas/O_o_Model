@@ -19,8 +19,8 @@ struct SolidHexaFormat
     static void write(const SolidHexaCard& card, FieldWriter& writer);
 };
 
-// All the CHEXA elements: the nodes are one column of twenty IDs per element, 0 for an absent edge point (an (N, 20)
-// NumPy view without copy).
+// All the SolidHexa elements: the nodes are one column of twenty IDs per element, 0 for an absent edge point (an (N,
+// 20) NumPy view without copy).
 class SolidHexaTable final : public TypedTable<SolidHexaTable, SolidHexaCard>
 {
 public:

@@ -21,7 +21,8 @@ struct OmittedDofSet1Format
     static void write(const OmittedDofSet1Card& card, FieldWriter& writer);
 };
 
-// All the OMIT1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first, last) runs.
+// All the OmittedDofSet1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first,
+// last) runs.
 class OmittedDofSet1Table final : public TypedTable<OmittedDofSet1Table, OmittedDofSet1Card>
 {
 public:

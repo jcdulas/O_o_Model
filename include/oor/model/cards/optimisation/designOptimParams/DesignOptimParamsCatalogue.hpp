@@ -17,10 +17,10 @@ enum class DesignOptimParamsKind : std::uint8_t
     Word,
 };
 
-// One parameter that a DOPTPRM card sets. `defaultValue` is the value
-// the optimisation uses when no DOPTPRM gives the parameter; where the format reference gives one value for sizing and
-// shape optimisation and another for topology optimisation (DELX, DESMAX, DXMIN, CONVDV, DELB for fatigue) it is the
-// first, the one of a model with no TOPVAR.
+// One parameter that a DesignOptimParams card sets. `defaultValue` is the value
+// the optimisation uses when no DesignOptimParams gives the parameter; where the format reference gives one value for
+// sizing and shape optimisation and another for topology optimisation (DELX, DESMAX, DXMIN, CONVDV, DELB for fatigue)
+// it is the first, the one of a model with no DesignTopologyRegion.
 struct DesignOptimParamsInfo
 {
     std::string_view name; // the neutral name (MaxDesignCycles for DESMAX)

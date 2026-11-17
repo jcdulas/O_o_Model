@@ -17,8 +17,8 @@ namespace oor::analysis::detail
 namespace
 {
 
-// The SWLDPRM projection tolerance PROJTOL that applies to one element type: the global value, then the one of its
-// section (a parameter after a CFAST or CWELD keyword applies to that type only).
+// The ConnectorSearchParams projection tolerance PROJTOL that applies to one element type: the global value, then the
+// one of its section (a parameter after a Fastener or Weld keyword applies to that type only).
 void apply(const model::ConnectorSearchParamsParameter& parameter, double& projtol)
 {
     if (parameter.name == "ProjectionTolerance")

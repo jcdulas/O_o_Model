@@ -20,9 +20,9 @@ struct AccelFieldLoadFormat
     static void write(const AccelFieldLoadCard& card, FieldWriter& writer);
 };
 
-// All the ACCEL cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load), as for the other
-// loads. CID is a reference to a coordinate system. Every field is a column (a companion package reads the inertial
-// loads as arrays): DIR is the index of its word in ACCEL_FIELD_DIRECTION_WORDS, and the (LOC, VAL) pairs of
+// All the AccelFieldLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group, category Load), as for
+// the other loads. CID is a reference to a coordinate system. Every field is a column (a companion package reads the
+// inertial loads as arrays): DIR is the index of its word in ACCEL_FIELD_DIRECTION_WORDS, and the (LOC, VAL) pairs of
 // all the cards are one column of lists.
 class AccelFieldLoadTable final : public TypedTable<AccelFieldLoadTable, AccelFieldLoadCard>
 {

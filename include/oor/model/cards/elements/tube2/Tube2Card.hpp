@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One CTUBE card: a tension-compression-torsion tube element between two grid points.
+// One Tube2 card: a tension-compression-torsion tube element between two grid points.
 //
 // Card layout:
-//   CTUBE  EID  PID  G1  G2
+//   Tube2  EID  PID  G1  G2
 struct Tube2Card
 {
     base::EntityId id = 0;

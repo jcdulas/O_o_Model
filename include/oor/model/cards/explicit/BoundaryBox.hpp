@@ -7,8 +7,9 @@
 #include <optional>
 
 // The one value that the barrier and flow cards of the explicit solver share: the box that picks faces of an Euler mesh
-// by their coordinates (XMIN to ZMAX of BARRIER, FLOW, FLOWC, FLOWT and FLOWUDS). Where the six fields are on a card,
-// and every other field of the card, belong to the card: it reads, writes and checks them itself.
+// by their coordinates (XMIN to ZMAX of EulerBarrier, EulerFlowBoundary, EulerCyclicFlowBoundary, EulerTimeFlowBoundary
+// and EulerUserFlowBoundary). Where the six fields are on a card, and every other field of the card, belong to the
+// card: it reads, writes and checks them itself.
 namespace oor::model
 {
 

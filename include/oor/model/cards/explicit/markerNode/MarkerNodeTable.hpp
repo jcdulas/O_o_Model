@@ -20,8 +20,8 @@ struct MarkerNodeFormat
     static void write(const MarkerNodeCard& card, FieldWriter& writer);
 };
 
-// All the CMARKN1 cards. A marker element is an element (IdSpace::Element, CardCategory::Element): its ID is unique
-// among all the elements. Its PID names a PMARKER and its grid point is a node.
+// All the MarkerNode cards. A marker element is an element (IdSpace::Element, CardCategory::Element): its ID is unique
+// among all the elements. Its PID names a MarkerProp and its grid point is a node.
 class MarkerNodeTable final : public TypedTable<MarkerNodeTable, MarkerNodeCard>
 {
 public:

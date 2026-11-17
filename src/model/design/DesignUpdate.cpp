@@ -40,7 +40,7 @@ std::string label(const DesignRelation& relation)
     throw DesignError(message);
 }
 
-// The field of a card as a user names it, for a message: "PSHELL 10 T".
+// The field of a card as a user names it, for a message: "ShellProp 10 T".
 std::string describeTarget(const DesignRelation& relation)
 {
     return relation.targetLabel + " " + std::to_string(relation.targetId) + " " +

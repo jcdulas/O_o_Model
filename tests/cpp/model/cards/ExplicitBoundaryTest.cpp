@@ -1,7 +1,9 @@
 // Checks of the boundary and user data cards of the explicit solver: the flow boundaries of an
-// Euler mesh (BARRIER, FLOW, FLOWC, FLOWDEF, FLOWT, FLOWUDS), the rigid wall and the detonation point (WALL, DETSPH),
-// the hourglass suppression (HGSUPPR), the breakable join (BJOIN), the user subroutines (FORCUDS, GENUDS, UDSESV) and
-// the fluid-structure switch (DYFSISW). The generic checks (read, write in every format, copy) run on their samples in
+// Euler mesh (EulerBarrier, EulerFlowBoundary, EulerCyclicFlowBoundary, EulerDefaultFlowBoundary,
+// EulerTimeFlowBoundary, EulerUserFlowBoundary), the rigid wall and the detonation point (RigidWall,
+// SphericalDetonation), the hourglass suppression (HourglassSuppression), the breakable join (SpotweldJoinPairs), the
+// user subroutines (UserEnforcedVelocity, UserServiceData, UserStateVariables) and the fluid-structure switch
+// (FluidStructureSwitch). The generic checks (read, write in every format, copy) run on their samples in
 // CardRoundTripTest; this file has what is particular to each card: its fields in their places, the defaults, the
 // references and the sets, and the refused values.
 
@@ -33,8 +35,8 @@ using namespace oor::testing;
 namespace
 {
 
-// The four grid points that the BCSEG cards of these tests are made of, so that a set of BCSEG cards leaves no dangling
-// reference.
+// The four grid points that the ContactSegment cards of these tests are made of, so that a set of ContactSegment cards
+// leaves no dangling reference.
 constexpr const char* FACE_NODES = "Node;10;;0.;0.;0.\nNode;11;;1.;0.;0.\nNode;12;;1.;1.;0.\nNode;13;;0.;1.;0.\n";
 
 } // namespace
@@ -70,9 +72,9 @@ TEST_CASE("a BARRIER has its fields in the order of the format reference and a b
 
     // A card with the default box has no box fields, and a box that is given is written with its six values.
 
-    // BID is a number of its own; BCID names the set of BCSEG cards and MESH an Euler mesh.
+    // BID is a number of its own; BCID names the set of ContactSegment cards and EulerMeshGenerator an Euler mesh.
     REQUIRE(rowCount<EulerBarrierTable>(model) == 5);
-    REQUIRE(unresolvedIn(model) == 1); // the MESH 5
+    REQUIRE(unresolvedIn(model) == 1); // the EulerMeshGenerator 5
     RecordingVisitor visitor;
     model.table<EulerBarrierTable>().visitReferences(1, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"contactBodyId", "meshId"});
@@ -142,8 +144,8 @@ TEST_CASE(
     REQUIRE(rowCount<EulerFlowBoundaryTable>(model) == 6);
     REQUIRE(model.table<EulerFlowBoundaryTable>().idAtRow(0) == model.table<EulerFlowBoundaryTable>().idAtRow(1));
 
-    // The TLOAD1 finds the set 130 (the table defines excitation IDs); the MESH 5 and the HYDSTAT 3 are cards of the
-    // deck that no card defines.
+    // The TransientTableLoad1 finds the set 130 (the table defines excitation IDs); the EulerMeshGenerator 5 and the
+    // EulerHydrostaticPreset 3 are cards of the deck that no card defines.
     REQUIRE(unresolvedIn(model) == 2);
     Model lacking = readBulk("TransientTableLoad1;1;130;;;;;5.");
     REQUIRE(unresolvedIn(lacking) == 1);
@@ -154,7 +156,8 @@ TEST_CASE(
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::EulerMesh, ReferenceTarget::Material});
     visitor = RecordingVisitor{};
     model.table<EulerFlowBoundaryTable>().visitReferences(2, visitor);
-    REQUIRE(visitor.fields == std::vector<std::string>{"propertyValue4"}); // the HYDSTAT is the fourth pair
+    // the EulerHydrostaticPreset is the fourth pair
+    REQUIRE(visitor.fields == std::vector<std::string>{"propertyValue4"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::HydrostaticPreset});
     visitor = RecordingVisitor{};
     model.table<EulerFlowBoundaryTable>().visitReferences(0, visitor);
@@ -201,7 +204,7 @@ TEST_CASE("a FLOWDEF has its properties in pairs from field 9, as many as it nee
     REQUIRE((bare.solverType == EulerSolverType::Hydro && bare.properties.empty())); // the default type
     requireRoundTrip(model);
 
-    REQUIRE(unresolvedIn(model) == 1); // the HYDSTAT 2
+    REQUIRE(unresolvedIn(model) == 1); // the EulerHydrostaticPreset 2
     RecordingVisitor visitor;
     model.table<EulerDefaultFlowBoundaryTable>().visitReferences(1, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"propertyValue1", "propertyValue5"});
@@ -212,7 +215,7 @@ TEST_CASE("a FLOWDEF has its properties in pairs from field 9, as many as it nee
 
     expectInvalid("EulerDefaultFlowBoundary;0", "id");
     expectInvalid("EulerDefaultFlowBoundary;1;FirstOrder",
-                  "solverType"); // the kinds of a PEULER that a FLOWDEF does not list
+                  "solverType"); // the kinds of an EulerProp that an EulerDefaultFlowBoundary does not list
     expectInvalid("EulerDefaultFlowBoundary;1;SecondOrder", "solverType");
     expectInvalid("EulerDefaultFlowBoundary;1;FAST", "solverType");
     expectInvalid("EulerDefaultFlowBoundary;1;;Flow;Symmetry", "propertyValue1"); // SYM is a value of FLOW only
@@ -246,9 +249,9 @@ TEST_CASE("a FLOWC is one of a pair, with a TYPE, a FID2 and a method, and its F
     REQUIRE((full.box.minX == 0.0 && full.box.maxX == 1.0 && full.box.minY == -1.0 && full.box.maxZ == 2.0));
     requireRoundTrip(model);
 
-    // FID2 names a FLOWC, which no category stands for: it is not visited and not looked up (the FLOWC 21 is not
-    // there).
-    REQUIRE(unresolvedIn(model) == 1); // the MESH 5
+    // FID2 names an EulerCyclicFlowBoundary, which no category stands for: it is not visited and not looked up (the
+    // EulerCyclicFlowBoundary 21 is not there).
+    REQUIRE(unresolvedIn(model) == 1); // the EulerMeshGenerator 5
     RecordingVisitor visitor;
     model.table<EulerCyclicFlowBoundaryTable>().visitReferences(2, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"contactBodyId", "meshId", "tableId"});
@@ -316,7 +319,9 @@ TEST_CASE("a FLOWT has a velocity, a pressure, a material, a density and an ener
     REQUIRE((full.density.constant == 1000.0 && full.specificEnergy.constant == 2.5E5));
     requireRoundTrip(model);
 
-    REQUIRE(unresolvedIn(model) == 2); // the MESH 6 and the MATDEUL 92 (the FLOWT 2 is the excitation of the TLOAD1)
+    // the EulerMeshGenerator 6 and the EulerMat 92 (the EulerTimeFlowBoundary 2 is the excitation of the
+    // TransientTableLoad1)
+    REQUIRE(unresolvedIn(model) == 2);
     RecordingVisitor visitor;
     model.table<EulerTimeFlowBoundaryTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields ==
@@ -387,10 +392,10 @@ TEST_CASE("a FLOWUDS names a group and a user subroutine, which default to EXFLO
     REQUIRE((plane.minX == 5.0 && plane.maxX == 5.0 && plane.maxY == BoundaryBox::HIGHEST));
     requireRoundTrip(model);
 
-    // Two cards share the LID 13, the ID of a set; the TLOAD1 finds the set 14.
+    // Two cards share the LID 13, the ID of a set; the TransientTableLoad1 finds the set 14.
     REQUIRE(model.table<EulerUserFlowBoundaryTable>().idAtRow(1) ==
             model.table<EulerUserFlowBoundaryTable>().idAtRow(2));
-    REQUIRE(unresolvedIn(model) == 1); // the MESH 5
+    REQUIRE(unresolvedIn(model) == 1); // the EulerMeshGenerator 5
     RecordingVisitor visitor;
     model.table<EulerUserFlowBoundaryTable>().visitReferences(2, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"contactBodyId", "meshId"});
@@ -435,8 +440,8 @@ TEST_CASE("a WALL has its plane, its BCGRID and its friction, and the BCGRID is 
              full.frictionDecay == 0.1));
     requireRoundTrip(model);
 
-    // The BCGRID 144 exists, so the walls add no dangling reference to those that the BCGRID itself has (its grid
-    // points).
+    // The ContactNodeRegion 144 exists, so the walls add no dangling reference to those that the ContactNodeRegion
+    // itself has (its grid points).
     Model onlyGrid = readBulk("ContactNodeRegion;144;5;6;7;Through;12");
     REQUIRE(unresolvedIn(model) == unresolvedIn(onlyGrid));
     RecordingVisitor visitor;
@@ -474,7 +479,7 @@ TEST_CASE("a DETSPH has its point, speed and time, which are zero when blank", "
              bare.detonationTime == 0.0));
     requireRoundTrip(model);
 
-    REQUIRE(unresolvedIn(model) == 1); // the MATDEUL 11
+    REQUIRE(unresolvedIn(model) == 1); // the EulerMat 11
     RecordingVisitor visitor;
     model.table<SphericalDetonationTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"matId"});
@@ -528,7 +533,7 @@ TEST_CASE("a HGSUPPR resolves the method its class of elements defaults to, and 
     // The resolved method is written, so the card does not change meaning when its class is edited.
 
     // The PID is a property, whatever the class named by PROP.
-    REQUIRE(unresolvedIn(model) == 5); // the properties 101 to 105: the PSHELL 100 is there
+    REQUIRE(unresolvedIn(model) == 5); // the properties 101 to 105: the ShellProp 100 is there
     RecordingVisitor visitor;
     model.table<HourglassSuppressionTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"propId"});
@@ -572,8 +577,8 @@ TEST_CASE("a BJOIN has its gaps in the layout, a tolerance and failure forces, a
     REQUIRE((full.multiplePairs == SpotweldJoinPairsPairs::Matched && full.failureTime == 0.5));
     requireRoundTrip(model);
 
-    // The BCGRID 2 exists, so the joins add no dangling reference to those that the BCGRID itself has (its grid
-    // points).
+    // The ContactNodeRegion 2 exists, so the joins add no dangling reference to those that the ContactNodeRegion itself
+    // has (its grid points).
     Model onlyGrid = readBulk("ContactNodeRegion;2;5;6;7;Through;12");
     REQUIRE(unresolvedIn(model) == unresolvedIn(onlyGrid));
     RecordingVisitor visitor;
@@ -674,7 +679,7 @@ TEST_CASE("a GENUDS has the blocks INT, REAL and CHAR after its service name, an
 
     RecordingVisitor visitor;
     model.table<UserServiceDataTable>().visitReferences(0, visitor);
-    REQUIRE(visitor.fields.empty()); // a GENUDS refers to no card
+    REQUIRE(visitor.fields.empty()); // an UserServiceData refers to no card
     REQUIRE(model.table<UserServiceDataTable>().idAtRow(0) == 0);
 
     expectInvalid("UserServiceData", "serviceId");
@@ -711,7 +716,7 @@ TEST_CASE("a UDSESV gives the number of state variables and names some of them",
 
     RecordingVisitor visitor;
     model.table<UserStateVariablesTable>().visitReferences(0, visitor);
-    REQUIRE(visitor.fields.empty()); // a UDSESV refers to no card
+    REQUIRE(visitor.fields.empty()); // an UserStateVariables refers to no card
 
     expectInvalid("UserStateVariables", "variableCount");
     expectInvalid("UserStateVariables;0", "variableCount");
@@ -738,7 +743,7 @@ TEST_CASE("a DYFSISW switches the fluid-structure interaction with a table", "[m
     REQUIRE(cardAt<FluidStructureSwitchTable>(model, 2).eulerInitialization == EulerInitialization::WhenActive);
     requireRoundTrip(model);
 
-    REQUIRE(unresolvedIn(model) == 1); // the TABLED1 11
+    REQUIRE(unresolvedIn(model) == 1); // the TableDynamic1 11
     RecordingVisitor visitor;
     model.table<FluidStructureSwitchTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"tableId"});

@@ -19,8 +19,9 @@ struct EulerPropFormat
     static void write(const EulerPropCard& card, FieldWriter& writer);
 };
 
-// All the PEULER cards. A PEULER is a property: its ID is in the space every property type shares
-// (IdSpace::Property), so an element, a MESH or a HGSUPPR that names a PID finds it. Its MID is a material.
+// All the EulerProp cards. An EulerProp is a property: its ID is in the space every property type shares
+// (IdSpace::Property), so an element, an EulerMeshGenerator or a HourglassSuppression that names a PID finds it. Its
+// MID is a material.
 class EulerPropTable final : public TypedTable<EulerPropTable, EulerPropCard>
 {
 public:

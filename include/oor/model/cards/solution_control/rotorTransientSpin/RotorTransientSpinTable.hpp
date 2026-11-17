@@ -19,10 +19,11 @@ struct RotorTransientSpinFormat
     static void write(const RotorTransientSpinCard& card, FieldWriter& writer);
 };
 
-// All the RSPINT cards (category Other, IdSpace::None: the pair of the rotor and its superelement identifies a card,
-// no number does). The rotor (Rotor) and the two grid points (Node) are looked up when ROTRSEID is 0; the table of the
-// spin rate (DynamicTable, a TABLED1) and the output point SPDOUT (Node: an EPOINT is a point of the node space) are
-// always looked up. The cards are kept whole next to the two columns that identify them for the query engine.
+// All the RotorTransientSpin cards (category Other, IdSpace::None: the pair of the rotor and its superelement
+// identifies a card, no number does). The rotor (Rotor) and the two grid points (Node) are looked up when ROTRSEID is
+// 0; the table of the spin rate (DynamicTable, a TableDynamic1) and the output point SPDOUT (Node: an ExtraPoint is a
+// point of the node space) are always looked up. The cards are kept whole next to the two columns that identify them
+// for the query engine.
 class RotorTransientSpinTable final : public TypedTable<RotorTransientSpinTable, RotorTransientSpinCard>
 {
 public:

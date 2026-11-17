@@ -19,9 +19,9 @@ struct RodPropNonlinearFormat
     static void write(const RodPropNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the PRODN1 cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the ID is the
-// one of the PROD that the card extends, so it is also a reference to a property (a renumbering of the properties
-// follows into it).
+// All the RodPropNonlinear cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the
+// ID is the one of the RodProp that the card extends, so it is also a reference to a property (a renumbering of the
+// properties follows into it).
 class RodPropNonlinearTable final : public TypedTable<RodPropNonlinearTable, RodPropNonlinearCard>
 {
 public:

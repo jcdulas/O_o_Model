@@ -150,7 +150,7 @@ void MultiPointConstrAxisymTable::keepRows(const std::vector<std::uint32_t>& row
 
 void MultiPointConstrAxisymTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The rings are RINGAX points, which are in the node ID space.
+    // The rings are AxisymConeRing points, which are in the node ID space.
     visitIdList(m_ringId, row, visitor, "ringId", ReferenceTarget::Node);
 }
 

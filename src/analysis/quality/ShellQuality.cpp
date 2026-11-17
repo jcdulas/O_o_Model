@@ -10,7 +10,7 @@ namespace
 {
 
 // The quality of a triangle or a quadrilateral from the points of its card: corners first and then the mid-side nodes
-// of the sides G1-G2, G2-G3, ... (CTRIAX6 alternates corners and mid-side nodes).
+// of the sides G1-G2, G2-G3, ... (AxisymTria6 alternates corners and mid-side nodes).
 QualityValues shellValues(ElementShape shape, bool alternating, std::span<const base::Vec3> points)
 {
     const base::Vec3 missing = undefinedVector();

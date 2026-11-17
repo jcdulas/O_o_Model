@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One MATUSR card: the generic properties of a user defined material of SOL 400 (hypoelastic or user material model);
-// the MATUDS card with the same ID activates the user subroutine.
+// One UserMat card: the generic properties of a user defined material of SOL 400 (hypoelastic or user material model);
+// the UserMatService card with the same ID activates the user subroutine.
 //
 // Card layout:
-//   MATUSR  MID    IPREF  IKINEM RHO    A1     A2     A3     TREF                 fields 1 to 8
-//           GE     ST     SC     SS                                                9 to 12
+//   UserMat  MID    IPREF  IKINEM RHO    A1     A2     A3     TREF                fields 1 to 8
+//            GE     ST     SC     SS                                                9 to 12
 // IPREF is 0 (the user stress-strain law is isotropic, the default) or 1 (it is given in a user defined coordinate
 // system). IKINEM (0 by default) says which kinematic quantities the subroutine receives besides the strains: 0 the
 // incremental strain only, 1, 2 and 3 more quantities of the deformation, 13 and 23 the same with the quantities taken

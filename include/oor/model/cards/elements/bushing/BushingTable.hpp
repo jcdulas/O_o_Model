@@ -19,7 +19,7 @@ struct BushingFormat
     static void write(const BushingCard& card, FieldWriter& writer);
 };
 
-// All the CBUSH elements. The orientation vector and the offset are (N, 3) NumPy views without copy.
+// All the Bushing elements. The orientation vector and the offset are (N, 3) NumPy views without copy.
 class BushingTable final : public TypedTable<BushingTable, BushingCard>
 {
 public:

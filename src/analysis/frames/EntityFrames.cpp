@@ -109,8 +109,8 @@ struct EntitySet
 };
 
 // True when two frames are one within the rounding of their axes: each entry within 1e-14 (the change between them a
-// turn of less than 1e-14 radians). The material frame of a CQUAD4 without MCID and THETA (from the line G1-G2) and its
-// element frame (from the diagonals) are one on a rectangle, to their rounding only.
+// turn of less than 1e-14 radians). The material frame of a ShellQuad4 without MCID and THETA (from the line G1-G2) and
+// its element frame (from the diagonals) are one on a rectangle, to their rounding only.
 bool sameFrames(const base::Mat3& a, const base::Mat3& b) noexcept
 {
     constexpr double ROUNDING = 1.0e-14;

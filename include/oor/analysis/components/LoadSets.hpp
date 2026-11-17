@@ -15,21 +15,24 @@ namespace oor::analysis
 // What a load card does to the structure.
 enum class LoadKind : std::uint8_t
 {
-    Force,              // FORCE, FORCE1, FORCE2: a concentrated force on a node
-    Moment,             // MOMENT, MOMENT1, MOMENT2
-    ScalarLoad,         // SLOAD: a load on a scalar point (or on T1 of a grid point)
-    EnforcedMotion,     // SPCD: an enforced non-zero motion counts as a load
-    Pressure,           // PLOAD (on the face of grid points), PLOAD2, PLOAD4: a pressure on elements or faces
-    LineLoad,           // PLOAD1: a distributed load on a bar or a beam
-    Gravity,            // GRAV: an acceleration of the whole model
+    Force,              // PointForceLoad, PointForceLoad1, PointForceLoad2: a concentrated force on a node
+    Moment,             // PointMomentLoad, PointMomentLoad1, PointMomentLoad2
+    ScalarLoad,         // ScalarPointLoad: a load on a scalar point (or on T1 of a grid point)
+    EnforcedMotion,     // EnforcedMotionConstr: an enforced non-zero motion counts as a load
+    // PointsPressureLoad (on the face of grid points), ShellPressureLoad, FacePressureLoad: a pressure on elements or
+    // faces
+    Pressure,
+    LineLoad,           // BeamDistributedLoad: a distributed load on a bar or a beam
+    Gravity,            // GravityLoad: an acceleration of the whole model
     Acceleration,       // ACCEL: an acceleration of the whole model that varies along an axis
-    PointAcceleration,  // ACCEL1: an acceleration of the grid points it lists
-    Rotation,           // RFORCE: a rotation of the whole model
+    PointAcceleration,  // AccelNodeLoad: an acceleration of the grid points it lists
+    Rotation,           // RotationalForceLoad: a rotation of the whole model
     NodeTemperature,    // TEMP: temperatures on nodes
-    DefaultTemperature, // TEMPD: the temperature of every node that TEMP does not give
-    ElementTemperature, // TEMPP1, TEMPRB: temperatures of elements
+    DefaultTemperature, // DefaultTemperatureLoad: the temperature of every node that TEMP does not give
+    ElementTemperature, // PlateTemperatureLoad, LineElemTemperatureLoad: temperatures of elements
     Deformation,        // DEFORM: imposed deformations of line elements
-    Other               // a card of the Load category that applies no load of its own (LSEQ, the cyclic loads)
+    // a card of the Load category that applies no load of its own (StaticLoadSequence, the cyclic loads)
+    Other
 };
 
 // A run of element IDs (first == last for one element).
@@ -40,15 +43,15 @@ struct IdRun
 };
 
 // One load card of a load set once the LOAD combinations are expanded: what it is, how much of it counts (the product
-// of the factors of the LOAD cards it was reached through), and where it acts.
+// of the factors of the LoadCombination cards it was reached through), and where it acts.
 struct ElementaryLoad
 {
     model::CardLocation card;
     base::EntityId sourceSid = 0; // the set the card belongs to
     double scale = 1.0;
     LoadKind kind = LoadKind::Other;
-    // the nodes it acts on (a pressure given by grid points, temperatures: theirs; the grid points of an ACCEL1 that
-    // the model has)
+    // the nodes it acts on (a pressure given by grid points, temperatures: theirs; the grid points of an AccelNodeLoad
+    // that the model has)
     std::vector<base::EntityId> nodes;
     std::vector<IdRun> elements; // the elements it acts on (a pressure, a line load, an element temperature)
     // True for a load that acts on the whole model: gravity, a varying acceleration, a rotation, the default
@@ -66,14 +69,14 @@ struct ElementaryLoad
     }
 };
 
-// A load set as the cards of the Load category define it. The set is the cards that have this ID; a LOAD card is
-// replaced by the sets it combines, each with its factor times the overall factor S (the
+// A load set as the cards of the Load category define it. The set is the cards that have this ID; a LoadCombination
+// card is replaced by the sets it combines, each with its factor times the overall factor S (the
 // combination applies to the cards of the sets it names). The order is that of the cards of the set (table, then row),
-// a LOAD card giving its terms in the order of the card. A set that does not exist gives nothing; a combination that
-// comes back to itself stops there. The cards of each load set of a model (the Load category: the load cards and the
-// LOAD combinations), found in one pass over the load tables, in the order of the types and rows: what the expansion of
-// a set looks up, so that a query that expands thousands of sets reads the cards once (looking each set up in the
-// tables costs every card of the model for every set). Valid while the model is not edited.
+// a LoadCombination card giving its terms in the order of the card. A set that does not exist gives nothing; a
+// combination that comes back to itself stops there. The cards of each load set of a model (the Load category: the load
+// cards and the LOAD combinations), found in one pass over the load tables, in the order of the types and rows: what
+// the expansion of a set looks up, so that a query that expands thousands of sets reads the cards once (looking each
+// set up in the tables costs every card of the model for every set). Valid while the model is not edited.
 class LoadSetIndex
 {
 public:
@@ -83,7 +86,7 @@ public:
     // True when the model has a card of this type in a load set.
     [[nodiscard]] bool hasType(std::uint16_t typeIndex) const noexcept;
     // The LOAD entries of the set, in the order of their rows (none for a set of load cards): what a walk of the
-    // combinations reads without going over the cards of a set (700 000 PLOAD2 of a skin panel).
+    // combinations reads without going over the cards of a set (700 000 ShellPressureLoad of a skin panel).
     [[nodiscard]] const std::vector<model::CardLocation>& loadEntriesOf(base::EntityId sid) const;
     // True when the set holds cards other than LOAD entries.
     [[nodiscard]] bool hasOwnCards(base::EntityId sid) const;

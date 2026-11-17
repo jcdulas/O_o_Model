@@ -19,8 +19,8 @@ struct SinglePointConstrUnionFormat
     static void write(const SinglePointConstrUnionCard& card, FieldWriter& writer);
 };
 
-// All the SPCADD cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The sets of every card are
-// one list in CSR form.
+// All the SinglePointConstrUnion cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The sets
+// of every card are one list in CSR form.
 class SinglePointConstrUnionTable final : public TypedTable<SinglePointConstrUnionTable, SinglePointConstrUnionCard>
 {
 public:

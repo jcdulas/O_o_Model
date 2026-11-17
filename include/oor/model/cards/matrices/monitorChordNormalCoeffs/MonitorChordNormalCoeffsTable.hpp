@@ -21,10 +21,10 @@ struct MonitorChordNormalCoeffsFormat
     static void write(const MonitorChordNormalCoeffsCard& card, FieldWriter& writer);
 };
 
-// All the MONCNCM cards, in the category MonitorPoint with the other monitor points. A monitor point has no numeric ID
-// (IdSpace::None): it is found by its NAME, which the format reference says is unique (a repeated NAME is reported when
-// the deck is read). The CAERO1 elements it lists are references to aerodynamic elements. The cards are kept whole next
-// to a column of their names.
+// All the MonitorChordNormalCoeffs cards, in the category MonitorPoint with the other monitor points. A monitor point
+// has no numeric ID (IdSpace::None): it is found by its NAME, which the format reference says is unique (a repeated
+// NAME is reported when the deck is read). The AeroLiftingPanel1 elements it lists are references to aerodynamic
+// elements. The cards are kept whole next to a column of their names.
 class MonitorChordNormalCoeffsTable final
     : public TypedTable<MonitorChordNormalCoeffsTable, MonitorChordNormalCoeffsCard>
 {
@@ -42,7 +42,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Two MONCNCM cards of one NAME are reported.
+    // Two MonitorChordNormalCoeffs cards of one NAME are reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
     // The name of a row, without copying the card.

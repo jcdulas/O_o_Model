@@ -11,13 +11,15 @@ void defineSolutionCommands(CommandCatalogue& commands)
     commands.integer("EigenMethodSelection").refersTo(ReferenceTarget::Method);
     commands.integer("ComplexEigenMethodSelection").refersTo(ReferenceTarget::ComplexMethod);
     commands.integer("FlutterMethodSelection").refersTo(ReferenceTarget::AeroFlutterSet);
-    commands.integer("IterativeSolverSelection").refersTo(ReferenceTarget::IterativeSolver); // an ITER entry
+    // an IterativeSolverOptions entry
+    commands.integer("IterativeSolverSelection").refersTo(ReferenceTarget::IterativeSolver);
     commands.integer("RotorMethodSelection");
     commands.integer("FreqSetSelection").refersTo(ReferenceTarget::FrequencySet);
     // FRF and FRF(GEN | ASM | GENASM, COMPID=..., COMPNAME=..., CONNPTS=..., ...): a list of describers in parentheses
     // and no value (format reference FRF); the describers are kept as written.
     commands.flag("FrfGeneration");
-    commands.integer("TimeStepSelection").refersTo(ReferenceTarget::TimeStepSet); // a TSTEP or a TSTEPNL
+    // a TransientTimeSteps or a NonlinearTimeSteps
+    commands.integer("TimeStepSelection").refersTo(ReferenceTarget::TimeStepSet);
     commands.integer("InitialConditionSelection").refersTo(ReferenceTarget::InitialConditionSet);
     commands.text("ModeSelectionList");
     commands.text("ModeMapping");
@@ -31,9 +33,9 @@ void defineSolutionCommands(CommandCatalogue& commands)
     commands.text("OperatingShapeFreqs");
 
     // Damping, mass, random analysis and harmonics.
-    // a TABDMP1, or a TABLEDi
+    // a TableModalDamping1, or a TABLEDi
     commands.integer("ModalDampingSelection").refersTo(ReferenceTarget::HybridDampingRotorOptionsTable);
-    // a DAMPING entry
+    // a HybridDampingRotorOptions entry
     commands.integer("RotorDampingSelection").refersTo(ReferenceTarget::HybridDampingRotorOptionsSpecification);
     commands.integer("NonStructMassSelection");
     commands.integer("RandomAnalysisSelection").refersTo(ReferenceTarget::RandomSet);
@@ -44,7 +46,7 @@ void defineSolutionCommands(CommandCatalogue& commands)
     commands.keyword("SequenceDependentLoads");
 
     // Nonlinear analysis.
-    // an NLPARM and its NLPCI
+    // a NonlinearStaticParams and its ArcLengthParams
     commands.integer("NonlinearStaticParamsSelection").refersTo(ReferenceTarget::NonlinearSet);
     commands.integer("NonlinearStepSelection").refersTo(ReferenceTarget::NonlinearStep);
     commands.integer("NonlinearInitialConditionSelection");

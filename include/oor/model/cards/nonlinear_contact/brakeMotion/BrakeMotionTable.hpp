@@ -19,8 +19,8 @@ struct BrakeMotionFormat
     static void write(const BrakeMotionCard& card, FieldWriter& writer);
 };
 
-// All the MOTION cards. The ID is unique among them (IdSpace::PerCardType, category BrakeMotion): the MT1_ID and MT2_ID
-// of a BRKSYS name it. The card names no other card. The cards are kept whole next to their ID.
+// All the BrakeMotion cards. The ID is unique among them (IdSpace::PerCardType, category BrakeMotion): the MT1_ID and
+// MT2_ID of a BrakeSystem name it. The card names no other card. The cards are kept whole next to their ID.
 class BrakeMotionTable final : public TypedTable<BrakeMotionTable, BrakeMotionCard>
 {
 public:

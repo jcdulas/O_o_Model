@@ -19,8 +19,8 @@ struct AnalysisDofSetFormat
     static void write(const AnalysisDofSetCard& card, FieldWriter& writer);
 };
 
-// All the ASET cards. A card has no ID (IdSpace::None). The points and the components of every card are two lists in
-// CSR form.
+// All the AnalysisDofSet cards. A card has no ID (IdSpace::None). The points and the components of every card are two
+// lists in CSR form.
 class AnalysisDofSetTable final : public TypedTable<AnalysisDofSetTable, AnalysisDofSetCard>
 {
 public:

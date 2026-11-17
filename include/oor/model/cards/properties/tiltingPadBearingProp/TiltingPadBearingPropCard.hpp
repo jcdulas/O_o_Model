@@ -41,11 +41,11 @@ inline constexpr double TILTING_PAD_BEARING_DEFAULT_HOT_OIL_CARRY_OVER = 100.0;
 inline constexpr double TILTING_PAD_BEARING_DEFAULT_COLD_OIL_CARRY_OVER = 0.0;
 inline constexpr double TILTING_PAD_BEARING_DEFAULT_MAX_ITERATIONS = 100.0;
 
-// One THPAD card: the parameters of a tilting pad journal bearing for an external bearing user service, which an
-// ELEMUDS with the UNAME THPAD links to a PBUSH2D. All units are English.
+// One TiltingPadBearingProp card: the parameters of a tilting pad journal bearing for an external bearing user service,
+// which an UserElemService with the UNAME TiltingPadBearingProp links to a BushProp2D. All units are English.
 //
 // Card layout, one line of eight fields each (the fields are numbered 1 to 8 after the card name, then 9 to 16, ...):
-//   line 1   THPAD  RID  TLIMIT
+//   line 1   TiltingPadBearingProp  RID  TLIMIT
 //   line 2   TITLE1                       text over fields 9 to 16 (64 characters)
 //   line 3   TITLE2                       text over fields 17 to 24
 //   line 4   RADIUS  CLEAR  OUTR  LENGTH  E  ALPHP  ALPHJ  ALPHS
@@ -65,11 +65,11 @@ inline constexpr double TILTING_PAD_BEARING_DEFAULT_MAX_ITERATIONS = 100.0;
 // the expansion coefficients after it, the order in which the fields are described: RADIUS, CLEAR, OUTR, LENGTH, E,
 // ALPHP, ALPHJ, ALPHS.
 //
-// RID is the number the PBUSH2D and the ELEMUDS of the bearing have: the card is a companion of the PBUSH2D,
-// with an ID space of its own. NPADS and NCASE are the number of pad and case lines, so the card holds no count: it is
-// the length of `pads` and `cases`, each at least one. The format types MAXC as a real although it counts iterations,
-// and gives IALPH, the stiffness smoothing factor, no integer type either: both are kept as reals (a whole number reads
-// as a real too).
+// RID is the number the BushProp2D and the UserElemService of the bearing have: the card is a companion of the
+// BushProp2D, with an ID space of its own. NPADS and NCASE are the number of pad and case lines, so the card holds no
+// count: it is the length of `pads` and `cases`, each at least one. The format types MAXC as a real although it counts
+// iterations, and gives IALPH, the stiffness smoothing factor, no integer type either: both are kept as reals (a whole
+// number reads as a real too).
 //
 // Nothing but KTHETA (0.0), DEL0 (0.0), HOTOVER (100.0), COLDOVER (0.0) and MAXC (100) has a default on the format, so
 // any other blank field stays blank (None) and is written blank. The flags take the values their descriptions list:
@@ -80,7 +80,8 @@ inline constexpr double TILTING_PAD_BEARING_DEFAULT_MAX_ITERATIONS = 100.0;
 // They are kept, each under a name that says what it is, so that a deck is written back as it was read.
 struct TiltingPadBearingPropCard
 {
-    base::EntityId id = 0; // unique among the THPAD cards; the PBUSH2D and ELEMUDS of the bearing
+    // unique among the TiltingPadBearingProp cards; the BushProp2D and UserElemService of the bearing
+    base::EntityId id = 0;
     std::optional<double> timeLimit;
     std::string title1; // may be empty
     std::string title2;

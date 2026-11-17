@@ -7,18 +7,18 @@
 namespace oor::model
 {
 
-// The bulk viscosity type of a MATBV card.
+// The bulk viscosity type of a BulkViscosityMat card.
 enum class BulkViscosityMatType : std::uint8_t
 {
     Standard, // the default: the standard model
     Enhanced  // the enhanced model
 };
 
-// One MATBV card: the bulk viscosity of a material (SOL 700). The material is a basic one: the MAT1, MAT2, MAT8, MATORT
-// or MATHE with the same ID.
+// One BulkViscosityMat card: the bulk viscosity of a material (SOL 700). The material is a basic one: the IsoMat,
+// AnisoMat2D, OrthoMat2D, OrthoMat3DNonlinear or HyperelasticMat with the same ID.
 //
 // Card layout:
-//   MATBV  MID  BULKTYP  BULKQ  BULKL  CSCALE  DMPFAC  IIMMREL                    fields 1 to 7
+//   BulkViscosityMat  MID  BULKTYP  BULKQ  BULKL  CSCALE  DMPFAC  IIMMREL         fields 1 to 7
 // BULKQ and BULKL are the quadratic and the linear coefficients (0.0 and 1.0 when blank). CSCALE (1.0) scales the
 // compressive stresses of membrane shell elements, 0.0 making a tension only material; DMPFAC (0.0) is the damping
 // applied to their stresses (0.05 for 5%); IIMMREL (1.0E-3) is the relaxation factor of the Initial Metric Method,

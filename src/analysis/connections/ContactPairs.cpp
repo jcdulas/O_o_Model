@@ -63,17 +63,18 @@ ResolvedContactParameter resolve(std::initializer_list<const ParameterSource*> s
     return ResolvedContactParameter{};
 }
 
-// format reference BCTABLE and BCONPRG: IGLUE not 0 activates the glue (a negative value is the step glue of SOL 400);
-// JGLUE, only relevant with the glue, is 0 for a node that does not separate, 1 for the separation on the residual
-// force and 2 for the breaking glue. ERROR is the distance below which a node touches a body; DQNEAR (BCTABLE, BCONPRP)
-// the distance of near thermal contact: the larger of the two given is the distance of the pair. ISEARCH 1 searches
-// from the secondary body only.
+// format reference ContactTable and ContactPairGeomParams: IGLUE not 0 activates the glue (a negative value is the step
+// glue of SOL 400); JGLUE, only relevant with the glue, is 0 for a node that does not separate, 1 for the separation on
+// the residual force and 2 for the breaking glue. ERROR is the distance below which a node touches a body; DQNEAR
+// (ContactTable, ContactPairPhysicalParams) the distance of near thermal contact: the larger of the two given is the
+// distance of the pair. ISEARCH 1 searches from the secondary body only.
 //
-// The parameters as the solver resolves them: the pair's own fields (`geometric`: a BCTABLE section or a BCONPRG;
-// `physical`: a BCONPRP, which gives DQNEAR), else the BCPARA of the model for ERROR and, for a pair without glue, BIAS
-// (format reference BCPARA: with a nonzero IGLUE, BIAS comes only from BCTABLE or BCONPRG), else the format
-// reference default: BIAS 0.0 with the glue, 0.9 without it; ERROR blank is computed by the solver (the the solver rule
-// of ContactSearch).
+// The parameters as the solver resolves them: the pair's own fields (`geometric`: a ContactTable section or a
+// ContactPairGeomParams; `physical`: a ContactPairPhysicalParams, which gives DQNEAR), else the ContactParams of the
+// model for ERROR and, for a pair without glue, EulerMeshBias (format reference ContactParams: with a nonzero IGLUE,
+// EulerMeshBias comes only from ContactTable or ContactPairGeomParams), else the format reference default:
+// EulerMeshBias 0.0 with the glue, 0.9 without it; ERROR blank is computed by the solver (the the solver rule of
+// ContactSearch).
 PairParameters readParameters(const ParameterSource& geometric, const ParameterSource* physical,
                               const ParameterSource* bcpara)
 {
@@ -107,13 +108,14 @@ PairParameters readParameters(const ParameterSource& geometric, const ParameterS
         result.kind = glueSeparation == 1.0 || glueSeparation == 2.0 ? ContactKind::Breakable : ContactKind::Glued;
     for (const auto* parameter : {&resolved.errorTolerance, &resolved.nearDistance})
     {
-        // the pair's own ERROR and DQNEAR: the BCPARA ERROR is a default of the solver, not the pair's distance
+        // the pair's own ERROR and DQNEAR: the ContactParams ERROR is a default of the solver, not the pair's distance
         if (parameter->source != "ContactParams" && parameter->value.value_or(0.0) > 0.0)
             result.tolerance = std::max(result.tolerance, *parameter->value);
     }
     if (physical != nullptr)
     {
-        // DQNEAR may come from both the BCONPRG and the BCONPRP: the larger is the distance of the pair
+        // DQNEAR may come from both the ContactPairGeomParams and the ContactPairPhysicalParams: the larger is the
+        // distance of the pair
         if (const auto value = numberOf(physical->params, "NearContactDistance"); value && *value > 0.0)
             result.tolerance = std::max(result.tolerance, *value);
     }
@@ -145,8 +147,8 @@ public:
         for (auto existing = m_pairs.rbegin();
              existing != m_pairs.rend() && existing->table && existing->table == table; ++existing)
         {
-            // A table that names the same pair twice (a BCONECT with a repeated body) makes it once. The pairs of one
-            // table are added one after the other, so only the last ones are looked at.
+            // A table that names the same pair twice (a ContactPair with a repeated body) makes it once. The pairs of
+            // one table are added one after the other, so only the last ones are looked at.
             if (existing->secondary == secondary && existing->primary == primary)
                 return;
         }
@@ -278,7 +280,7 @@ ContactPairs ContactPairs::read(const model::Model& model, const ContactBodies& 
                                            "ContactPairPhysicalParams " + std::to_string(card.physicalParamsId)};
             }
             const PairParameters parameters = readParameters(geometric, &physical, &bcpara);
-            // format reference BCONECT: the SECNDRY and PRIMARY lists are ignored when the short field
+            // format reference ContactPair: the SECNDRY and PRIMARY lists are ignored when the short field
             // is given.
             const std::vector<base::EntityId> secondaries =
                 card.secondaryBodyId != 0 ? std::vector<base::EntityId>{card.secondaryBodyId} : card.secondaryBodies;
@@ -319,7 +321,7 @@ ContactPairs ContactPairs::read(const model::Model& model, const ContactBodies& 
     result.m_fromTables = anyTable;
     if (!anyTable)
     {
-        // format reference BCTABLE: with no table every body may touch every other one, with the default
+        // format reference ContactTable: with no table every body may touch every other one, with the default
         // parameters.
         const std::vector<ContactBody>& all = bodies.bodies();
         for (std::size_t first = 0; first < all.size(); ++first)

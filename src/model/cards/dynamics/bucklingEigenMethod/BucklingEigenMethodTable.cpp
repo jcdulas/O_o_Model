@@ -135,7 +135,7 @@ void BucklingEigenMethodFormat::write(const BucklingEigenMethodCard& card, Field
 
 void BucklingEigenMethodTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // G is a grid or a scalar point, which may be named without an SPOINT.
+    // G is a grid or a scalar point, which may be named without a ScalarPoint.
     if (m_normNode.get(row) != 0)
         m_normNode.set(row, visitor.visit("normNode", ReferenceTarget::ScalarOrGridPoint, m_normNode.get(row)));
 }

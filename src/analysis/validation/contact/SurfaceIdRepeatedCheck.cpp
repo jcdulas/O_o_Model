@@ -9,10 +9,11 @@ namespace oor::analysis
 namespace
 {
 
-// A surface ID that two kinds of card have: the BSID of a body names a BSURF, BCPROP, BCMATL or BCBOX (and, in SOL 700,
-// a BCELIPS), or a rigid surface (BCPATCH, BCBZIER, BCNURB2, BCNURBS or the BCRGSRF that lists them), and the IDs of
-// these cards must be different (the format reference). A BCSEG is a segment of a surface, numbered on its own, so it
-// is left out.
+// A surface ID that two kinds of card have: the BSID of a body names a ContactElemSurface, ContactPropertyRegion,
+// ContactMaterialRegion or ContactBoxRegion (and, in SOL 700, a ContactEllipsoidList), or a rigid surface
+// (ContactPatchSurface, ContactBezierSurface, ContactNurbsCurve, ContactNurbsSurface or the ContactRigidSurfaceList
+// that lists them), and the IDs of these cards must be different (the format reference). A ContactSegment is a segment
+// of a surface, numbered on its own, so it is left out.
 class SurfaceIdRepeatedCheck final : public ValidationCheck
 {
 public:

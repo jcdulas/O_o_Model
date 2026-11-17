@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One CBEND card: a curved beam, curved pipe or elbow element between two grid points.
+// One CurvedBeam2 card: a curved beam, curved pipe or elbow element between two grid points.
 //
 // Card layout (orientation by vector, or by a grid point in field 5 with fields 6 and 7 blank):
-//   CBEND  EID  PID  GA  GB  X1  X2  X3  GEOM
-//   CBEND  EID  PID  GA  GB  GO          GEOM
+//   CurvedBeam2  EID  PID  GA  GB  X1  X2  X3  GEOM
+//   CurvedBeam2  EID  PID  GA  GB  GO    GEOM
 //
 // Field 5 is an integer (GO) or a real (X1): `orientationNode` and `orientation` are the two forms. The orientation is
 // required: a vector of length 0 means none, so exactly one of `orientationNode` and a non-zero `orientation` is given.

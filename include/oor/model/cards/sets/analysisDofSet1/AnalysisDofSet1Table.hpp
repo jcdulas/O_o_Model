@@ -21,7 +21,8 @@ struct AnalysisDofSet1Format
     static void write(const AnalysisDofSet1Card& card, FieldWriter& writer);
 };
 
-// All the ASET1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first, last) runs.
+// All the AnalysisDofSet1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first,
+// last) runs.
 class AnalysisDofSet1Table final : public TypedTable<AnalysisDofSet1Table, AnalysisDofSet1Card>
 {
 public:

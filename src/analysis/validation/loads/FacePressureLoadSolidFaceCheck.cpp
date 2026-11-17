@@ -9,8 +9,9 @@ namespace oor::analysis
 namespace
 {
 
-// format reference, PLOAD4: G1 (with G3 or G4) names the face of a solid element the pressure is on, so a PLOAD4 on one
-// solid element needs it. (A THRU range on solids is the form that loads the faces of a shell mesh and has no G1.)
+// format reference, FacePressureLoad: G1 (with G3 or G4) names the face of a solid element the pressure is on, so a
+// FacePressureLoad on one solid element needs it. (A THRU range on solids is the form that loads the faces of a shell
+// mesh and has no G1.)
 class FacePressureLoadSolidFaceCheck final : public ValidationCheck
 {
 public:

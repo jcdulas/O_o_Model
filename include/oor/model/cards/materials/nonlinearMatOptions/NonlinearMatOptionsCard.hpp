@@ -75,23 +75,23 @@ struct NonlinearMatOptionsInterlaminar
     int strainOutput = 0;
 };
 
-// One NLMOPTS card: the nonlinear material, composite and control options of SOL 400.
+// One NonlinearMatOptions card: the nonlinear material, composite and control options of SOL 400.
 //
 // Card layout: every option is a line of the card that starts with its keyword in the first field of the line, followed
 // by its values; the options may come in any order, each at most once, and a missing option has its defaults:
-//   NLMOPTS  "CREEP"    VALC1  VALC2  VALC3  VALC4                               fields 1 to 5 (the first line)
-//            "ASSM"     VALA                                                     ASSUMED, OFF or blank
-//            "TSHEAR"   VALS                                                     TSHEAR or blank
-//            "LRGSTRN"  VALLE                                                    -1, 0, 1 or 2
-//            "HEMICUBE" VALUE  NPIXEL  (blank)  CUTOFF  FRACTION  FACCNT  FACTOL
-//            "TEMPP"    VALTD                                                    CONS, LINE or QUAD
-//            "TEMGO"    VMAPTG                                                   NO or YES
-//            "SPROPMAP" PROPMAP  PROPBEH  DIRECT  THICKOP  IPRINT
-//            "SPCRMPT"  VRAMP                                                    0 or 1
-//            "DEACTEL"  VALD1  VALD2
-//            "ENTHALP"  VALCLU  VALEN1
-//            "MAPTOL"   VMPTOL                                                   greater than 0.0, 0.2 when blank
-//            "INLAM"    VCOORD  CPROJ  ISTRAIN
+//   NonlinearMatOptions  "CREEP"    VALC1  VALC2  VALC3  VALC4                   fields 1 to 5 (the first line)
+//                        "ASSM"     VALA                                                     ASSUMED, OFF or blank
+//                        "TSHEAR"   VALS                                                     TSHEAR or blank
+//                        "LRGSTRN"  VALLE                                                    -1, 0, 1 or 2
+//                        "HEMICUBE" VALUE  NPIXEL  (blank)  CUTOFF  FRACTION  FACCNT  FACTOL
+//                        "TEMPP"    VALTD                                                    CONS, LINE or QUAD
+//                        "TEMGO"    VMAPTG                                                   NO or YES
+//                        "SPROPMAP" PROPMAP  PROPBEH  DIRECT  THICKOP  IPRINT
+//                        "SPCRMPT"  VRAMP                                                    0 or 1
+//                        "DEACTEL"  VALD1  VALD2
+//                        "ENTHALP"  VALCLU  VALEN1
+//                        "MAPTOL"   VMPTOL                                             greater than 0.0, 0.2 when blank
+//                        "INLAM"    VCOORD  CPROJ  ISTRAIN
 // An option that has only a word keeps it in a string (blank when the field is); a missing option is absent. The card
 // has no ID. It is written with the options in the order above.
 struct NonlinearMatOptionsCard

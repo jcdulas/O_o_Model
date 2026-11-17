@@ -40,8 +40,8 @@ bool constrainsTemperature(std::int32_t components)
     return std::to_string(components).find('1') != std::string::npos;
 }
 
-// The sets the call asks for: the `setIds`, and the sets the commands of the `subcases` select (SPC, LOAD, DLOAD, and
-// the four forms of TEMPERATURE). Nothing when the caller gave neither.
+// The sets the call asks for: the `setIds`, and the sets the commands of the `subcases` select (SinglePointConstr,
+// LoadCombination, DynamicLoadCombination, and the four forms of TEMPERATURE). Nothing when the caller gave neither.
 std::optional<std::set<base::EntityId>> askedSets(const model::Model& model, const QueryArguments& arguments)
 {
     if (!arguments.has("setIds") && !arguments.has("subcases"))
@@ -81,8 +81,8 @@ std::optional<std::set<base::EntityId>> askedSets(const model::Model& model, con
     return sets;
 }
 
-// The sets some subcase (or the global section) selects with TEMPERATURE(INITIAL): their TEMP cards are the starting
-// temperatures.
+// The sets some subcase (or the global section) selects with TEMPERATURE(INITIAL): their NodeTemperatureLoad cards are
+// the starting temperatures.
 std::set<base::EntityId> initialTemperatureSets(const model::Model& model)
 {
     std::set<base::EntityId> sets;
@@ -113,7 +113,7 @@ public:
         const auto selected = [&](base::EntityId sid) { return !sets || sets->contains(sid); };
         std::vector<Row> rows;
 
-        // The grid points that exist, for the THRU lists of a TEMPBC.
+        // The grid points that exist, for the THRU lists of a TemperatureBoundary.
         std::vector<base::EntityId> gridIds;
         if (const model::NodeTable* grids = model.findTable<model::NodeTable>())
         {
@@ -139,14 +139,15 @@ public:
                         row.sid = card.id;
                         row.card = "TemperatureBoundary";
                         row.node = node;
-                        // A transient TEMPBC names a function of time (an excitation), not a temperature.
+                        // A transient TemperatureBoundary names a function of time (an excitation), not a temperature.
                         row.temperature = card.kind == "Static" ? group.temperature : NOT_A_NUMBER;
                         rows.push_back(row);
                     }
                 }
             }
         }
-        // SPC and SPC1 constrain the temperature (the component 1) in a heat transfer analysis only.
+        // SinglePointConstr and SinglePointConstrList constrain the temperature (the component 1) in a heat transfer
+        // analysis only.
         if (analysis::isHeatTransfer(model))
         {
             if (const auto* table = model.findTable<model::SinglePointConstrTable>())
@@ -187,7 +188,7 @@ public:
                             row.sid = card.id;
                             row.card = "SinglePointConstrList";
                             row.node = *node;
-                            row.temperature = 0.0; // SPC1 holds the temperature at zero
+                            row.temperature = 0.0; // SinglePointConstrList holds the temperature at zero
                             rows.push_back(row);
                         }
                     }

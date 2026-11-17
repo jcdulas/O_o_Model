@@ -19,10 +19,10 @@ struct CyclicAxisNodesFormat
     static void write(const CyclicAxisNodesCard& card, FieldWriter& writer);
 };
 
-// All the CYAX cards (category Other). A card has no ID of its own (IdSpace::None). The grid points are references: a
-// single point is a ReferenceTarget::Node, the two ends of a THRU range are ReferenceTarget::NodeInRange (a point of
-// the range may not exist; the ends are renumbered with the nodes). The cards are kept whole next to a column of the
-// number of their items, which is what the query engine reads.
+// All the CyclicAxisNodes cards (category Other). A card has no ID of its own (IdSpace::None). The grid points are
+// references: a single point is a ReferenceTarget::Node, the two ends of a THRU range are ReferenceTarget::NodeInRange
+// (a point of the range may not exist; the ends are renumbered with the nodes). The cards are kept whole next to a
+// column of the number of their items, which is what the query engine reads.
 class CyclicAxisNodesTable final : public TypedTable<CyclicAxisNodesTable, CyclicAxisNodesCard>
 {
 public:

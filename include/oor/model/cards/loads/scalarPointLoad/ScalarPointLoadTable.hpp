@@ -19,8 +19,8 @@ struct ScalarPointLoadFormat
     static void write(const ScalarPointLoadCard& card, FieldWriter& writer);
 };
 
-// All the SLOAD cards. The ID is a load set ID shared by many cards (IdSpace::Group). The points and their loads are
-// two lists in CSR form.
+// All the ScalarPointLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group). The points and their
+// loads are two lists in CSR form.
 class ScalarPointLoadTable final : public TypedTable<ScalarPointLoadTable, ScalarPointLoadCard>
 {
 public:

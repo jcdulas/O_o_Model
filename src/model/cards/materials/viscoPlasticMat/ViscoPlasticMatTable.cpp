@@ -126,8 +126,8 @@ void ViscoPlasticMatTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void ViscoPlasticMatTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the material that the card extends; IT3D names a TABL3D0, TABL3D1 or TABL3D2 (0 when blank,
-    // and not in use by the Anand model, whose card leaves it at 0).
+    // The ID is the one of the material that the card extends; IT3D names a TableMultiVariable0, TableMultiVariable1 or
+    // TableMultiVariable2 (0 when blank, and not in use by the Anand model, whose card leaves it at 0).
     ViscoPlasticMatCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);

@@ -19,8 +19,8 @@ struct SuperelementFixedDofSetFormat
     static void write(const SuperelementFixedDofSetCard& card, FieldWriter& writer);
 };
 
-// All the SEBSET cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a column
-// of their SEIDs.
+// All the SuperelementFixedDofSet cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole
+// next to a column of their SEIDs.
 class SuperelementFixedDofSetTable final : public TypedTable<SuperelementFixedDofSetTable, SuperelementFixedDofSetCard>
 {
 public:

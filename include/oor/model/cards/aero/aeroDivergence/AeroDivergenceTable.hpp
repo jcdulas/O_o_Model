@@ -19,9 +19,9 @@ struct AeroDivergenceFormat
     static void write(const AeroDivergenceCard& card, FieldWriter& writer);
 };
 
-// All the DIVERG cards, in the category DivergenceSet. The SID is unique among the DIVERG cards (IdSpace::PerCardType)
-// and is what the Case Control DIVERG names (ReferenceTarget::DivergenceSet). The card is kept whole next to a column
-// of its ID.
+// All the AeroDivergence cards, in the category DivergenceSet. The SID is unique among the AeroDivergence cards
+// (IdSpace::PerCardType) and is what the Case Control AeroDivergence names (ReferenceTarget::DivergenceSet). The card
+// is kept whole next to a column of its ID.
 class AeroDivergenceTable final : public TypedTable<AeroDivergenceTable, AeroDivergenceCard>
 {
 public:

@@ -76,7 +76,7 @@ void SpringOffsetExplicitTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void SpringOffsetExplicitTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // A PSPRMAT is a property card: the reference resolves to it.
+    // A SpringOffsetProp is a property card: the reference resolves to it.
     if (const base::EntityId propId = m_propId.get(row); propId > 0)
         m_propId.set(row, visitor.visit("propId", ReferenceTarget::Property, propId));
     std::array<base::EntityId, 2> nodes = m_nodes.get(row);

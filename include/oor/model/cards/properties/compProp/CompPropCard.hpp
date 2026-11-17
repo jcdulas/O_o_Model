@@ -39,12 +39,12 @@ struct PlyCard
     bool stressOutput = false; // SOUT = YES
 };
 
-// One PCOMP card: the property of a layered composite shell.
+// One CompProp card: the property of a layered composite shell.
 //
 // Card layout:
-//   PCOMP  PID   Z0     NSM    SB      FT     TREF   GE     LAM
-//          MID1  T1     THETA1 SOUT1   MID2   T2     THETA2 SOUT2
-//          MID3  T3 ...
+//   CompProp  PID   Z0     NSM    SB   FT     TREF   GE     LAM
+//             MID1  T1     THETA1 SOUT1   MID2   T2  THETA2 SOUT2
+//             MID3  T3 ...
 //
 // Z0 is stored resolved (blank gives minus half the laminate thickness). With LAM = SYM only half of the plies are
 // given: `plies` holds exactly what the card holds, the mirrored half is not stored.

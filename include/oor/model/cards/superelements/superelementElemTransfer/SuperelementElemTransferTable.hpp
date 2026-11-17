@@ -19,9 +19,9 @@ struct SuperelementElemTransferFormat
     static void write(const SuperelementElemTransferCard& card, FieldWriter& writer);
 };
 
-// All the SEELT cards. The cards of a superelement share its number, their ID (IdSpace::Group, category Superelement),
-// and the number 0 of the residual structure is not renumbered. The cards are kept whole next to a column of their
-// SEIDs.
+// All the SuperelementElemTransfer cards. The cards of a superelement share its number, their ID (IdSpace::Group,
+// category Superelement), and the number 0 of the residual structure is not renumbered. The cards are kept whole next
+// to a column of their SEIDs.
 class SuperelementElemTransferTable final
     : public TypedTable<SuperelementElemTransferTable, SuperelementElemTransferCard>
 {

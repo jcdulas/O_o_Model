@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// format reference, PSHELL MID4: it must be blank unless MID1 and MID2 are both given, and it may not equal either of
-// them.
+// format reference, ShellProp MID4: it must be blank unless MID1 and MID2 are both given, and it may not equal either
+// of them.
 class ShellPropCouplingCheck final : public ValidationCheck
 {
 public:

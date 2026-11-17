@@ -10,7 +10,7 @@ namespace oor::model
 namespace
 {
 
-// The last PARAM card of the name for which `accept` is true.
+// The last Parameter card of the name for which `accept` is true.
 template <typename Accept>
 std::optional<ParameterCard> lastCard(const Model& model, std::string_view name, Accept accept)
 {

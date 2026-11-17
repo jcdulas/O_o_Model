@@ -19,8 +19,8 @@ struct CouplingInteractionFormat
     static void write(const CouplingInteractionCard& card, FieldWriter& writer);
 };
 
-// All the COUPINT cards: the CID is unique among them (IdSpace::PerCardType, CardCategory::Other: no card names a
-// COUPINT). CID1 and CID2 are COUPLE cards.
+// All the CouplingInteraction cards: the CID is unique among them (IdSpace::PerCardType, CardCategory::Other: no card
+// names a CouplingInteraction). CID1 and CID2 are EulerLagrangeCoupling cards.
 class CouplingInteractionTable final : public TypedTable<CouplingInteractionTable, CouplingInteractionCard>
 {
 public:

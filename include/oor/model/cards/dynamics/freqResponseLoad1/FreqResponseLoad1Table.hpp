@@ -18,7 +18,8 @@ struct FreqResponseLoad1Format
     static void write(const FreqResponseLoad1Card& card, FieldWriter& writer);
 };
 
-// All the RLOAD1 cards. The ID is a dynamic load set ID shared by the RLOAD, TLOAD and DAREA cards (IdSpace::Group).
+// All the FreqResponseLoad1 cards. The ID is a dynamic load set ID shared by the RLOAD, TLOAD and DynamicLoadScale
+// cards (IdSpace::Group).
 class FreqResponseLoad1Table final : public TypedTable<FreqResponseLoad1Table, FreqResponseLoad1Card>
 {
 public:

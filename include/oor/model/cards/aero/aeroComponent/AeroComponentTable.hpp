@@ -22,14 +22,15 @@ struct AeroComponentFormat
     static void write(const AeroComponentCard& card, FieldWriter& writer);
 };
 
-// The kind of card the IDs of an AECOMP of this LISTTYPE name: a SET1 or SET3 (Set), an AELIST (AeroList), an
-// aerodynamic element (AeroElement). Nothing for CMPID: the component number of an AEQUAD4 or AETRIA3 is no card's ID.
+// The kind of card the IDs of an AeroComponent of this LISTTYPE name: an IdListSet1 or TypedListSet3 (Set), an
+// AeroBoxList (AeroList), an aerodynamic element (AeroElement). Nothing for CMPID: the component number of an AeroQuad4
+// or AeroTria3 is no card's ID.
 [[nodiscard]] std::optional<ReferenceTarget> aeroComponentTarget(AeroComponentListType type) noexcept;
 
-// All the AECOMP cards, in the category AeroComponent that AECOMPL shares. A component has no number
+// All the AeroComponent cards, in the category AeroComponent that AeroComponentUnion shares. A component has no number
 // (IdSpace::None): it is found by its NAME (`model.aecomp["WING"]`, matched without regard to the case), which is
-// unique among the AECOMP and AECOMPL cards (a check between cards). The cards are kept whole next to a column of their
-// names.
+// unique among the AeroComponent and AeroComponentUnion cards (a check between cards). The cards are kept whole next to
+// a column of their names.
 class AeroComponentTable final : public TypedTable<AeroComponentTable, AeroComponentCard>
 {
 public:

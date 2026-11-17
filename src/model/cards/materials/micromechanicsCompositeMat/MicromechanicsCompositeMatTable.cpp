@@ -88,7 +88,7 @@ void MicromechanicsCompositeMatTable::keepRows(const std::vector<std::uint32_t>&
 
 void MicromechanicsCompositeMatTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The UDID names the UDNAME card of the file.
+    // The UDID names the UserFileName card of the file.
     if (const base::EntityId userDefinedName = m_userDefinedNameId.get(row); userDefinedName > 0)
         m_userDefinedNameId.set(row,
                                 visitor.visit("userDefinedNameId", ReferenceTarget::UserDefinedName, userDefinedName));

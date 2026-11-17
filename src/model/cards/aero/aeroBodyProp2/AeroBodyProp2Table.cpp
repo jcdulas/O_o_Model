@@ -157,7 +157,8 @@ void AeroBodyProp2Table::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AeroBodyProp2Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The four lists of numbers are AEFACT cards; the ranges THIi and THNi are element numbers of a body, not IDs.
+    // The four lists of numbers are AeroFactorList cards; the ranges THIi and THNi are element numbers of a body, not
+    // IDs.
     if (const base::EntityId slenderHalfWidthListId = m_slenderHalfWidthListId.get(row); slenderHalfWidthListId > 0)
         m_slenderHalfWidthListId.set(
             row, visitor.visit("slenderHalfWidthListId", ReferenceTarget::AeroFactor, slenderHalfWidthListId));

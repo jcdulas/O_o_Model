@@ -19,10 +19,10 @@ struct AeroQuad4Format
     static void write(const AeroQuad4Card& card, FieldWriter& writer);
 };
 
-// All the AEQUAD4 cards (category Aero: no card names an element of the aerodynamic mesh). The EID is unique among the
-// AEQUAD4 cards (IdSpace::PerCardType); the model shares the element numbers of the mesh between this card and the
-// AETRIA3, which a check of the model verifies. The four points are AEGRID cards (ReferenceTarget::AeroNode). The card
-// is kept whole next to its ID.
+// All the AeroQuad4 cards (category Aero: no card names an element of the aerodynamic mesh). The EID is unique among
+// the AeroQuad4 cards (IdSpace::PerCardType); the model shares the element numbers of the mesh between this card and
+// the AeroTria3, which a check of the model verifies. The four points are AeroNode cards (ReferenceTarget::AeroNode).
+// The card is kept whole next to its ID.
 class AeroQuad4Table final : public TypedTable<AeroQuad4Table, AeroQuad4Card>
 {
 public:

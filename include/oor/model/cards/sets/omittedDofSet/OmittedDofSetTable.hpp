@@ -19,8 +19,8 @@ struct OmittedDofSetFormat
     static void write(const OmittedDofSetCard& card, FieldWriter& writer);
 };
 
-// All the OMIT cards. A card has no ID (IdSpace::None). The points and the components of every card are two lists in
-// CSR form.
+// All the OmittedDofSet cards. A card has no ID (IdSpace::None). The points and the components of every card are two
+// lists in CSR form.
 class OmittedDofSetTable final : public TypedTable<OmittedDofSetTable, OmittedDofSetCard>
 {
 public:

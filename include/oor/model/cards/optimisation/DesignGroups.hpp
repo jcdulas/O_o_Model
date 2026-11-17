@@ -15,16 +15,17 @@
 namespace oor::model
 {
 
-// The continuation lines of DVPREL2, DVMREL2, DVCREL2, DRESP2 and DRESP3 are groups: a keyword in the first field of a
-// line ("DESVAR", "DTABLE", "DRESP1", ...) and the values it introduces in the seven fields after it and on the lines
-// after it that have a blank keyword. Each card has its own list of the keywords it allows (a GroupKeyword for each, in
-// the order the format reference requires them), and this reads, writes and checks the groups by it. It describes no
-// card: what a keyword means, and which card the numbers of a group name, stays in the card.
+// The continuation lines of DesignPropRelation2, DesignMatRelation2, DesignElemRelation2, DesignResp2 and DesignResp3
+// are groups: a keyword in the first field of a line ("DesignVar", "DesignConstants", "DesignResp1", ...) and the
+// values it introduces in the seven fields after it and on the lines after it that have a blank keyword. Each card has
+// its own list of the keywords it allows (a GroupKeyword for each, in the order the format reference requires them),
+// and this reads, writes and checks the groups by it. It describes no card: what a keyword means, and which card the
+// numbers of a group name, stays in the card.
 
 enum class GroupContent : std::uint8_t
 {
-    Integers,   // positive integers, seven to a line (DESVAR, DRESP1, DVPREL1, ...)
-    Words,      // names, seven to a line (the labels of a DTABLE)
+    Integers,   // positive integers, seven to a line (DesignVar, DesignResp1, DesignPropRelation1, ...)
+    Words,      // names, seven to a line (the labels of a DesignConstants)
     Components, // a grid point and a component, three pairs to a line (DNODE)
     Text,       // text with blanks, one line of text to a line of the card (USRDATA)
 };

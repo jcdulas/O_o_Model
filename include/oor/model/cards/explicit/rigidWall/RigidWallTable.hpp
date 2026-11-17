@@ -19,9 +19,10 @@ struct RigidWallFormat
     static void write(const RigidWallCard& card, FieldWriter& writer);
 };
 
-// All the WALL cards. The ID is unique among them (IdSpace::PerCardType) and no other card names it, so the category is
-// Other. The BCGRID is a card of the contact body category (a SOL 700 BCGRID, ContactBody): the reference is visited
-// with that target, so that renumbering the BCGRID cards follows into the wall. The cards are kept whole (CardRows).
+// All the RigidWall cards. The ID is unique among them (IdSpace::PerCardType) and no other card names it, so the
+// category is Other. The BCGRID is a card of the contact body category (a SOL 700 ContactNodeRegion, ContactBody): the
+// reference is visited with that target, so that renumbering the BCGRID cards follows into the wall. The cards are kept
+// whole (CardRows).
 class RigidWallTable final : public TypedTable<RigidWallTable, RigidWallCard>
 {
 public:

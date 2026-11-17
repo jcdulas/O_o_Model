@@ -9,8 +9,8 @@ namespace oor::analysis
 namespace
 {
 
-// A TSTEP interval (or a TSTEPNL) that outputs every NO-th step with NO above the number of steps: nothing of it is
-// output.
+// A TransientTimeSteps interval (or a NonlinearTimeSteps) that outputs every NO-th step with NO above the number of
+// steps: nothing of it is output.
 class TransientTimeStepsOutputIntervalCheck final : public ValidationCheck
 {
 public:

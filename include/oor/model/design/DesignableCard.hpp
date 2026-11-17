@@ -10,33 +10,35 @@
 #include <string_view>
 #include <vector>
 
-// What a design relation (DVPREL1/2, DVMREL1/2, DVCREL1/2) needs to know about the card it drives: which member of the
-// card an exact neutral field descriptor identifies, how to read it, and how to write it. The knowledge is written by
-// hand for each card type, next to the card (`<Card>DesignFields.cpp`), and the cards are listed in one place
-// (`DesignableCards.cpp`). There is no table of the fields of several cards: a card type that has no function is a card
-// the library cannot design, and a relation on it is refused with an error that names the card and the field.
+// What a design relation (DesignPropRelation1/2, DesignMatRelation1/2, DesignElemRelation1/2) needs to know about the
+// card it drives: which member of the card an exact neutral field descriptor identifies, how to read it, and how to
+// write it. The knowledge is written by hand for each card type, next to the card (`<Card>DesignFields.cpp`), and the
+// cards are listed in one place (`DesignableCards.cpp`). There is no table of the fields of several cards: a card type
+// that has no function is a card the library cannot design, and a relation on it is refused with an error that names
+// the card and the field.
 
 namespace oor::model
 {
 
-// What the format reference says about the lowest value a relation may give a field when PMIN is blank: a DVPREL1,
-// DVMREL1 or DVCREL1 gives 1.0E-15 for a field that can only be positive and -1.0E35 otherwise; a DVPREL2 gives 1.0E-15
-// for every field but a stress recovery location, which is -1.0E35 (DVMREL2 and DVCREL2 follow the DVPREL1 rule).
-// The solver prints these limits in the comparison of the analysis and design properties: the Z0 of a PCOMP, the Z1 and
-// Z2 of a PSHELL and the F2 of a PBAR driven by a DVPREL2 have -1.0E35, the S1 of a PELAS (a stress coefficient, not a
-// location) and every thickness, area and inertia 1.0E-15.
+// What the format reference says about the lowest value a relation may give a field when PMIN is blank: a
+// DesignPropRelation1, DesignMatRelation1 or DesignElemRelation1 gives 1.0E-15 for a field that can only be positive
+// and -1.0E35 otherwise; a DesignPropRelation2 gives 1.0E-15 for every field but a stress recovery location, which is
+// -1.0E35 (DesignMatRelation2 and DesignElemRelation2 follow the DesignPropRelation1 rule). The solver prints these
+// limits in the comparison of the analysis and design properties: the Z0 of a CompProp, the Z1 and Z2 of a ShellProp
+// and the F2 of a BarProp driven by a DesignPropRelation2 have -1.0E35, the S1 of a SpringProp (a stress coefficient,
+// not a location) and every thickness, area and inertia 1.0E-15.
 enum class DesignLowerLimit : std::uint8_t
 {
     Positive,       // a thickness, an area, a modulus, a density: it can only be positive
     Signed,         // an offset, a ply angle, a product of inertia, a stress coefficient: it may be zero or negative
-    StressRecovery, // a place where stress is recovered or the reference plane of a laminate: PSHELL Z1, Z2, PCOMP Z0,
-                    // C1 to F2
+    // a place where stress is recovered or the reference plane of a laminate: ShellProp Z1, Z2, CompProp Z0, C1 to F2
+    StressRecovery,
 };
 
 // How much the mass of the elements depends on a field. The mass of the elements a variable drives is linear in the
 // field for a thickness, an area, a density and a non-structural mass, so the sensitivity of the mass to a variable
-// that drives them linearly is exact; a dimension of a section (PBARL, PBEAML, PTUBE) gives an area that is not linear
-// in it.
+// that drives them linearly is exact; a dimension of a section (BarShapeProp, BeamShapeProp, TubeProp) gives an area
+// that is not linear in it.
 enum class DesignMassEffect : std::uint8_t
 {
     None,      // the field does not enter the mass (a stiffness, a stress location, a ply angle)
@@ -93,9 +95,9 @@ struct DesignFieldLookup
 
 // Where a field is in the data contract (the `field` and `field_item` of `design_relations_table`): the name
 // of the column of the card table that holds it, and, for a column that holds several values per card (a vector such as
-// the C of a PBAR, or a list such as the ply thicknesses of a PCOMP or the station values of a PBEAM), the position of
-// the field among the values of the card, flattened in row-major order (station * width + component); -1 for a column
-// of one value per card.
+// the C of a BarProp, or a list such as the ply thicknesses of a CompProp or the station values of a BeamProp), the
+// position of the field among the values of the card, flattened in row-major order (station * width + component); -1
+// for a column of one value per card.
 struct DesignColumn
 {
     std::string name;
@@ -133,7 +135,7 @@ public:
                                               const DesignFieldFacts& facts) const = 0;
 
     // Gives the fields of the card in `row` their values, all of them at once: a field that holds a default which
-    // depends on a field that was designed (the Z1 and Z2 of a PSHELL after T) follows it unless it is designed too.
+    // depends on a field that was designed (the Z1 and Z2 of a ShellProp after T) follows it unless it is designed too.
     // The card is written only when a value differs.
     virtual void write(Model& model, std::uint32_t row, std::span<const DesignFieldValue> values) const = 0;
 };

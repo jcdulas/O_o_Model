@@ -76,7 +76,7 @@ const char* const MATERIAL = "IsoMat;1;2.1E+5;;0.3;0.001\n";
 
 TEST_CASE("a shell weighs its area times density times thickness plus the non-structural mass", "[analysis][mass]")
 {
-    // A 10 x 5 plate 2 thick with an NSM of 0.01 per unit area, and a triangle of a second property.
+    // A 10 x 5 plate 2 thick with a NonStructMass of 0.01 per unit area, and a triangle of a second property.
     const model::Model model = readModelText(std::string(MATERIAL) + "ShellProp;1;1;2.;;;;;0.01\nShellProp;2;1;1.\n" +
                                              grid(1, 0, 0, 0) + grid(2, 10, 0, 0) + grid(3, 10, 5, 0) +
                                              grid(4, 0, 5, 0) + "ShellQuad4;10;1;1;2;3;4\nShellTria3;11;2;1;2;3\n");
@@ -186,7 +186,7 @@ TEST_CASE("rods, tubes and bars weigh density times area plus NSM, times length"
     REQUIRE(mass(model, 11) == Approx((RHO * std::numbers::pi / 4.0 * 7.0 + 0.25) * 4.0));
     REQUIRE(mass(model, 12) == Approx((RHO * 0.5 + 0.25) * 3.0));
     REQUIRE(mass(model, 13) == Approx((RHO * 3.0 + 0.2) * 3.0));
-    // A PBARL ROD of radius 1: the area from the section formula.
+    // A BarShapeProp ROD of radius 1: the area from the section formula.
     REQUIRE(mass(model, 14) == Approx((RHO * std::numbers::pi + 0.3) * 4.0));
     requireVec(massOf(model, 11).center.front(), 0.0, 2.0, 0.0);
 }
@@ -214,7 +214,7 @@ TEST_CASE("a tapered beam weighs the trapezoid of its stations and sits at their
 TEST_CASE("the non-structural mass of a beam sits at the offset the property gives", "[analysis][mass]")
 {
     // M1A = M1B = 1 puts the NSM 1 away along the element y axis, which for the orientation vector z is the basic z.
-    // The beam is 4 long along x with a uniform area 1 and an NSM of 0.5 per unit length.
+    // The beam is 4 long along x with a uniform area 1 and a NonStructMass of 0.5 per unit length.
     const model::Model model = readModelText(
         std::string(MATERIAL) + "BeamProp;1;1;1.;1.;1.;0.;1.;0.5;No;1.;1.;1.;1.;0.;1.;0.5;;1.;1.;;;;;;;1.;0.;1.;0.\n" +
         grid(1, 0, 0, 0) + grid(2, 4, 0, 0) + "Beam2;10;1;1;2;0.;;0.;1.\n");
@@ -240,7 +240,8 @@ TEST_CASE("the mass of an offset beam is between its grid points under MDLPRM OF
     // The tapered beam of the test above, from (0, 0, 0) to (6, 0, 0), offset at end B by (0, 0, 1): the length between
     // the offset ends is the square root of 37, and its mass is that length's whatever OFFDEF. A point at a fraction of
     // that length (the structural mass at 5/9, the NSM at 2/3) is at the same fraction between the grid points under
-    // ELMOFF (no MDLPRM, the solver's default), between the offset ends under ELMZ and LROFF.
+    // ElemOffsetsOnly (no ModelParams, the solver's default), between the offset ends under ElemOffsetZ and
+    // LoadRecoveryOffsets.
     const std::string beam = std::string(MATERIAL) + "BeamProp;1;1;2.;1.;1.;0.;1.;0.;No;1.;4.;1.;1.;0.;1.;0.5\n" +
                              grid(1, 0, 0, 0) + grid(2, 6, 0, 0) + "Beam2;10;1;1;2;0.;;1.;0.;;;;;;;;;1.\n";
     const double length = std::sqrt(37.0);
@@ -273,7 +274,7 @@ TEST_CASE("the mass of an offset beam is between its grid points under MDLPRM OF
 
 TEST_CASE("the mass of a CBAR and of a CBEAM3 with offsets follows MDLPRM OFFDEF", "[analysis][mass]")
 {
-    // A CBAR from (0, 0, 0) to (2, 0, 0) offset by (0, 0.03, 0.05) at both ends, and a CBEAM3 from (0, 0, 0) to
+    // A Bar2 from (0, 0, 0) to (2, 0, 0) offset by (0, 0.03, 0.05) at both ends, and a Beam3 from (0, 0, 0) to
     // (4, 0, 0) through (2, 0, 0) offset by (0, 0, 0.5) at its three points.
     const std::string deck = std::string(MATERIAL) + "BarProp;1;1;2.;1.;1.;1.\n" +
                              "BeamProp3;6;1;0.1;0.01;0.02;0.;0.03;0.05;0.5;0.;0.;0.5;-0.5;0.;0.;-0.5\n" +
@@ -294,7 +295,8 @@ TEST_CASE("the mass of a CBAR and of a CBEAM3 with offsets follows MDLPRM OFFDEF
 TEST_CASE("the mass of a shell with a ZOFFS is on its grid point plane under ELMOFF, on its reference plane else",
           "[analysis][mass]")
 {
-    // ELMOFF: the mass properties are not modified by the offset; LROFF and its variants keep the mass effects (ELMZ).
+    // ElemOffsetsOnly: the mass properties are not modified by the offset; LoadRecoveryOffsets and its variants keep
+    // the mass effects (ElemOffsetZ).
     const std::string plate = std::string(MATERIAL) + "ShellProp;1;1;0.5\n" + grid(1, 0, 0, 0) + grid(2, 1, 0, 0) +
                               grid(3, 1, 1, 0) + grid(4, 0, 1, 0) + "ShellQuad4;1;1;1;2;3;4;;;2.\n";
     for (const auto& [offdef, height] :
@@ -418,7 +420,7 @@ TEST_CASE("scalar masses count on translations, are inertias on rotations and no
     requireVec(massOf(model, 12).center.front(), 1.0, 0.0, 0.0);
     REQUIRE(mass(model, 13) == 0.0); // scalar points only: the grid point weight generator ignores them
     REQUIRE(mass(model, 14) == 0.0);
-    // CMASS2 15: 2 on the rotation about x at grid 1: an inertia 2 about x, no mass.
+    // MassDofInline 15: 2 on the rotation about x at grid 1: an inertia 2 about x, no mass.
     const ElementMasses rotational = massOf(model, 15);
     REQUIRE(rotational.mass.front() == 0.0);
     REQUIRE(rotational.inertia.size() == 1);
@@ -489,7 +491,7 @@ TEST_CASE("the masses are grouped by property, material, element type and total"
     REQUIRE(byProperty.byId.at(1).mass() == Approx(RHO * 2.0));
     REQUIRE(byProperty.byId.at(2).mass() == Approx(0.004));
     REQUIRE(byProperty.byId.at(3).mass() == Approx(0.004 * std::sqrt(2.0)));
-    REQUIRE(byProperty.byId.at(0).mass() == Approx(5.0)); // the CONM2 has no property
+    REQUIRE(byProperty.byId.at(0).mass() == Approx(5.0)); // the PointMassInertia has no property
     const MassGroups byMaterial = MassCalculator::group(model, everything, MassGrouping::Material);
     REQUIRE(byMaterial.byId.at(1).mass() == Approx(RHO * 2.0));
     REQUIRE(byMaterial.byId.at(2).mass() == Approx(0.004 + 0.004 * std::sqrt(2.0)));
@@ -508,8 +510,8 @@ namespace
 {
 
 // The deck of the non-structural mass cases: shells of property 1 (elements 10, 20 of area 2 and 15 of area 8) and 2
-// (element 30, area 2), a PCOMP shell (35, area 2), bars 41 and 42 (PBAR 5, length 2) and a CONROD 51 (length 2), plus
-// every kind of NSM card.
+// (element 30, area 2), a CompProp shell (35, area 2), bars 41 and 42 (BarProp 5, length 2) and a Rod2InlineSection 51
+// (length 2), plus every kind of NonStructMass card.
 std::string nsmDeck()
 {
     return std::string(MATERIAL) +
@@ -521,7 +523,7 @@ std::string nsmDeck()
            "ShellQuad4;10;1;1;2;6;5\nShellQuad4;20;1;2;3;7;6\nShellQuad4;30;2;3;4;8;7\nShellQuad4;15;1;9;10;11;12\n"
            "ShellQuad4;35;3;13;14;16;15\nBar2;41;5;1;2;0.;;0.;1.\nBar2;42;5;3;4;0.;;0.;1.\n"
            "Rod2InlineSection;51;5;6;1;0.5\n"
-           // set 1: a property, a second property; set 2: PCOMP counts as PSHELL, all of them
+           // set 1: a property, a second property; set 2: CompProp counts as ShellProp, all of them
            "NonStructMass;1;ShellProp;1;0.1\nNonStructMass;1;ShellProp;2;0.2\nNonStructMass1;2;CompProp;0.05;All\n"
            // set 3: elements by ID; set 4: lumped on a property; set 5: one lumped mass on two properties
            "NonStructMass;3;Element;10;0.3;30;0.7\nNonStructMassLumped;4;ShellProp;1;12.\n"
@@ -546,14 +548,14 @@ TEST_CASE("NSM and NSM1 put a mass per unit area or length on the elements of a 
 {
     const model::Model model = readModelText(nsmDeck());
     const double base10 = mass(model, 10);
-    // Set 1: 0.1 per unit area on the elements of PSHELL 1 (area 2), 0.2 on PSHELL 2; the PCOMP and the bars are
-    // untouched.
+    // Set 1: 0.1 per unit area on the elements of ShellProp 1 (area 2), 0.2 on ShellProp 2; the CompProp and the bars
+    // are untouched.
     REQUIRE(mass(model, 10, 1) == Approx(base10 + 0.1 * 2.0));
     REQUIRE(mass(model, 15, 1) == Approx(mass(model, 15) + 0.1 * 8.0));
     REQUIRE(mass(model, 30, 1) == Approx(mass(model, 30) + 0.2 * 2.0));
     REQUIRE(mass(model, 35, 1) == Approx(mass(model, 35)));
     REQUIRE(mass(model, 41, 1) == Approx(mass(model, 41)));
-    // Set 2: PCOMP ALL is every shell property: the PCOMP element and the PSHELL
+    // Set 2: CompProp ALL is every shell property: the CompProp element and the ShellProp
     // ones.
     REQUIRE(mass(model, 35, 2) == Approx(mass(model, 35) + 0.05 * 2.0));
     REQUIRE(mass(model, 10, 2) == Approx(base10 + 0.05 * 2.0));
@@ -562,12 +564,12 @@ TEST_CASE("NSM and NSM1 put a mass per unit area or length on the elements of a 
     REQUIRE(mass(model, 10, 3) == Approx(base10 + 0.3 * 2.0));
     REQUIRE(mass(model, 30, 3) == Approx(mass(model, 30) + 0.7 * 2.0));
     REQUIRE(mass(model, 20, 3) == Approx(mass(model, 20)));
-    // Set 8 on the PBAR (per unit length), set 12 on an element.
+    // Set 8 on the BarProp (per unit length), set 12 on an element.
     REQUIRE(mass(model, 41, 8) == Approx(mass(model, 41) + 0.2 * 2.0));
     REQUIRE(mass(model, 42, 8) == Approx(mass(model, 42) + 0.2 * 2.0));
     REQUIRE(mass(model, 42, 12) == Approx(mass(model, 42)));
     REQUIRE(mass(model, 41, 12) == Approx(mass(model, 41) + 0.1 * 2.0));
-    // CONROD as a type: the connection rods of the model.
+    // Rod2InlineSection as a type: the connection rods of the model.
     REQUIRE(mass(model, 51, 11) == Approx(mass(model, 51) + 0.3 * 2.0));
     // The non-structural mass of the set is separate from the one of the property in the arrays.
     REQUIRE(massOf(model, 10, 1).nonStructural.front() == Approx(0.1 * 2.0));
@@ -594,7 +596,7 @@ TEST_CASE("a THRU to the end of the ID range is matched through the elements of 
     // set 17: every element from 10 on, as set 7 does up to 30
     REQUIRE(mass(model, 15, 17) == Approx(mass(model, 15) + 0.1 * 8.0));
     REQUIRE(mass(model, 35, 17) == Approx(mass(model, 35) + 0.1 * 2.0));
-    // set 18: the shells of the properties 2 and 3 (a PCOMP counts as a PSHELL, as in set 2), not of PSHELL 1
+    // set 18: the shells of the properties 2 and 3 (a CompProp counts as a ShellProp, as in set 2), not of ShellProp 1
     REQUIRE(mass(model, 30, 18) == Approx(mass(model, 30) + 0.1 * 2.0));
     REQUIRE(mass(model, 35, 18) == Approx(mass(model, 35) + 0.1 * 2.0));
     REQUIRE(mass(model, 15, 18) == Approx(mass(model, 15)));
@@ -608,12 +610,12 @@ TEST_CASE("a THRU to the end of the ID range is matched through the elements of 
 TEST_CASE("NSML and NSML1 spread a mass over the elements in proportion to their area or length", "[analysis][mass]")
 {
     const model::Model model = readModelText(nsmDeck());
-    // Set 4: 12 over the elements of PSHELL 1: the areas are 2, 2 and 8, so 2, 2 and 8 of the mass.
+    // Set 4: 12 over the elements of ShellProp 1: the areas are 2, 2 and 8, so 2, 2 and 8 of the mass.
     REQUIRE(mass(model, 10, 4) == Approx(mass(model, 10) + 2.0));
     REQUIRE(mass(model, 20, 4) == Approx(mass(model, 20) + 2.0));
     REQUIRE(mass(model, 15, 4) == Approx(mass(model, 15) + 8.0));
     REQUIRE(mass(model, 30, 4) == Approx(mass(model, 30)));
-    // Set 5: 14 over the elements of PSHELL 1 and 2 together: the areas total 14, so each element gets its area.
+    // Set 5: 14 over the elements of ShellProp 1 and 2 together: the areas total 14, so each element gets its area.
     REQUIRE(mass(model, 10, 5) == Approx(mass(model, 10) + 2.0));
     REQUIRE(mass(model, 30, 5) == Approx(mass(model, 30) + 2.0));
     REQUIRE(mass(model, 15, 5) == Approx(mass(model, 15) + 8.0));
@@ -631,7 +633,7 @@ TEST_CASE("NSMADD adds sets, cards of one set ID all apply, an ID that names not
     // Set 9 is set 1 plus set 3.
     REQUIRE(mass(model, 10, 9) == Approx(mass(model, 10) + 0.1 * 2.0 + 0.3 * 2.0));
     REQUIRE(mass(model, 30, 9) == Approx(mass(model, 30) + 0.2 * 2.0 + 0.7 * 2.0));
-    // Set 14: an NSM card and an NSM1 card with the same set ID.
+    // Set 14: a NonStructMass card and a NonStructMass1 card with the same set ID.
     REQUIRE(mass(model, 10, 14) == Approx(mass(model, 10) + 0.1 * 2.0));
     REQUIRE(mass(model, 30, 14) == Approx(mass(model, 30) + 0.1 * 2.0));
     // Set 13 names a property that does not exist.

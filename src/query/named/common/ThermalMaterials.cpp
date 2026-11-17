@@ -18,7 +18,8 @@ std::optional<model::CardLocation> thermalMaterialOfElement(CardFacts& facts, co
     }
     else
     {
-        material = facts.firstReference(element, model::ReferenceTarget::Material); // a CONROD holds its material
+        // a Rod2InlineSection holds its material
+        material = facts.firstReference(element, model::ReferenceTarget::Material);
     }
     if (material == 0)
         return std::nullopt;

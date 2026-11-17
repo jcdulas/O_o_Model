@@ -21,8 +21,8 @@ struct AutoConstrExclusionListFormat
     static void write(const AutoConstrExclusionListCard& card, FieldWriter& writer);
 };
 
-// All the SPCOFF1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first, last)
-// runs.
+// All the AutoConstrExclusionList cards. A card has no ID (IdSpace::None). The points of every card are one column of
+// (first, last) runs.
 class AutoConstrExclusionListTable final : public TypedTable<AutoConstrExclusionListTable, AutoConstrExclusionListCard>
 {
 public:

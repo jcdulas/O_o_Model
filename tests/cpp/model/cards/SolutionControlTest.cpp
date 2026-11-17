@@ -1,8 +1,11 @@
-// Checks of the cards of solution control, dynamics, damping, random analysis and tables (FREQ3 to
-// FREQ5, EIGB, EIGC, EIGP, TSTEP, TSTEPNL, NLPARM, NLPCI, TIC, TF, DELAY, DPHASE, TABDMP1, TABRND1, TABRNDG, TABLED5,
-// RANDPS, RANDT1, MODTRAK, MDLPRM, RGYRO, ROTORG, RCROSS, RVDOF, RVDOF1, UNBALNC, DTI): the positions of the fields on
-// the continuation lines, the defaults (stored resolved or left blank), the errors by field, the references and the way
-// the ID spaces and the Case Control commands resolve and renumber.
+// Checks of the cards of solution control, dynamics, damping, random analysis and tables (FreqBetweenModes3 to
+// FreqModeFractions5, BucklingEigenMethod, ComplexEigenMethod, ComplexEigenPoles, TransientTimeSteps,
+// NonlinearTimeSteps, NonlinearStaticParams, ArcLengthParams, TransientInitialCondition, TF, DynamicLoadDelay,
+// DynamicLoadPhase, TableModalDamping1, TableRandomSpectrum1, TableGustSpectrum, TableDynamic5, RandomSpectralDensity,
+// RandomTimeLags, ModeTracking, ModelParams, RotordynamicParams, RotorLineNodes, CrossSpectrumPair, ResidualVectorDofs,
+// ResidualVectorDofs1, RotorUnbalanceLoad, DirectTable): the positions of the fields on the continuation lines, the
+// defaults (stored resolved or left blank), the errors by field, the references and the way the ID spaces and the Case
+// Control commands resolve and renumber.
 
 #include "oor/model/cards/dynamics/bucklingEigenMethod/BucklingEigenMethodTable.hpp"
 #include "oor/model/cards/dynamics/complexEigenMethod/ComplexEigenMethodTable.hpp"
@@ -160,7 +163,8 @@ TEST_CASE("FREQ3, FREQ4 and FREQ5 have their defaults, their fields and join the
     freq5 = cardAt<FreqModeFractions5Table>(model, 1);
     REQUIRE((freq5.frequency1 == 1.0 && freq5.frequency2 == 9.0));
     REQUIRE(freq5.fractions == std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0});
-    // The set ID is shared with FREQ and FREQ1: the cards of the set 3 are one FREQ3-less set of three kinds.
+    // The set ID is shared with FreqList and FreqLinearSteps1: the cards of the set 3 are one FreqBetweenModes3-less
+    // set of three kinds.
     REQUIRE(cardsOfSet(model, CardCategory::Frequency, 3).size() == 3);
     REQUIRE(model.findTable<FreqSpreadAroundModes4Table>()->INFO.idSpace == base::IdSpace::Group);
     requireRoundTrip(model);
@@ -210,7 +214,7 @@ TEST_CASE("EIGB resolves NDP and NDN from NEP, and its point is a node reference
     REQUIRE(unresolvedIn(model) == 0);
     Renumbering::apply(model, RenumberSpace::Node, Renumbering::offset(100));
     REQUIRE(cardAt<BucklingEigenMethodTable>(model, 1).normNode == 105);
-    // The ID is in the method space with EIGR and EIGRL.
+    // The ID is in the method space with RealEigenMethod and LanczosEigenMethod.
     Renumbering::apply(model, RenumberSpace::Method, Renumbering::offset(10));
     REQUIRE(cardAt<BucklingEigenMethodTable>(model, 0).id == 11);
     requireRoundTrip(model);
@@ -285,11 +289,12 @@ TEST_CASE("EIGP has one or two poles and goes with the EIGC of its ID; EIGC and 
     const ComplexEigenPolesCard two = cardAt<ComplexEigenPolesTable>(model, 1);
     REQUIRE((two.second.has_value() && two.second->realPart == 1.0 && two.second->multiplicity == 1));
     // The real methods and the complex ones are selected by different commands: one ID can be both.
-    REQUIRE(cardsOfSet(model, CardCategory::ComplexMethod, 1).size() == 3); // the EIGC and the two EIGP
+    // the ComplexEigenMethod and the two ComplexEigenPoles
+    REQUIRE(cardsOfSet(model, CardCategory::ComplexMethod, 1).size() == 3);
     REQUIRE(cardsOfSet(model, CardCategory::ComplexMethod, 2).size() == 1);
     REQUIRE(resolveReference(model, ReferenceTarget::ComplexMethod, 1).has_value());
     REQUIRE(unresolvedIn(model) == 0);
-    // One renumbering moves the EIGC and its poles together; the real methods stay.
+    // One renumbering moves the ComplexEigenMethod and its poles together; the real methods stay.
     Renumbering::apply(model, RenumberSpace::ComplexMethod, Renumbering::offset(100));
     REQUIRE(cardAt<ComplexEigenMethodTable>(model, 0).id == 101);
     REQUIRE(cardAt<ComplexEigenPolesTable>(model, 0).id == 101);
@@ -395,7 +400,7 @@ TEST_CASE("NLPARM has its fields on three lines, blank tolerances, defaults from
              card.stiffnessMethod == StiffnessMethod::NotGiven));
     REQUIRE((!card.stiffnessUpdateStep.has_value() && card.maxIterations == 25 && card.convergenceFlags.empty() &&
              card.intermediateOutput == "No"));
-    // blank tolerances stay blank: PARAM,NLTOL applies, which a given 1.0E-2 would override
+    // blank tolerances stay blank: PARAM,NonlinearTolerance applies, which a given 1.0E-2 would override
     REQUIRE((!card.epsilonU.has_value() && !card.epsilonP.has_value() && !card.epsilonW.has_value() &&
              card.maxDivergences == 3));
     REQUIRE((card.maxQuasiNewtonVectors == 25 && card.maxLineSearches == 4 && card.stressSubincrementFraction == 0.2 &&
@@ -427,7 +432,7 @@ TEST_CASE("NLPARM has its fields on three lines, blank tolerances, defaults from
     REQUIRE((riks.type == ArcLengthType::Riks && riks.minArcLengthRatio == 0.5 && riks.maxArcLengthRatio == 3.0 &&
              riks.scaleFactor == 2.0));
     REQUIRE((riks.designIteration == 10 && riks.maxIncrements == 15));
-    // The NLPARM and the NLPCI of an ID are one selection: they renumber together.
+    // The NonlinearStaticParams and the ArcLengthParams of an ID are one selection: they renumber together.
     Model renumbered = model.copy();
     Renumbering::apply(renumbered, RenumberSpace::Nonlinear, Renumbering::offset(100));
     REQUIRE(cardAt<NonlinearStaticParamsTable>(renumbered, 3).id == 104);
@@ -453,8 +458,8 @@ TEST_CASE("NLPARM has its fields on three lines, blank tolerances, defaults from
     expectInvalid("ArcLengthParams;1;;;;;;0", "maxIncrements");
 }
 
-// ------------------------------------------------------------------------------------------------ TIC, TF, DELAY,
-// DPHASE
+// ------------------------------------------------------------------------------------------------
+// TransientInitialCondition, TF, DynamicLoadDelay, DynamicLoadPhase
 
 TEST_CASE("TIC and TF refer to points, a modal coordinate is no point", "[model][cards]")
 {
@@ -483,7 +488,7 @@ TEST_CASE("TIC and TF refer to points, a modal coordinate is no point", "[model]
     REQUIRE(cardAt<TransferFunctionTable>(model, 1).terms.empty());
     REQUIRE(cardsOfSet(model, CardCategory::TransferFunction, 1).size() == 2);
     REQUIRE(cardsOfSet(model, CardCategory::InitialCondition, 1).size() == 2);
-    REQUIRE(unresolvedIn(model) == 0); // the modal coordinate 5 is no GRID, and is not looked for
+    REQUIRE(unresolvedIn(model) == 0); // the modal coordinate 5 is no Node, and is not looked for
     RecordingVisitor visitor;
     model.table<TransientInitialConditionTable>().visitReferences(2, visitor);
     REQUIRE(visitor.fields.empty());
@@ -547,7 +552,8 @@ TEST_CASE("DELAY and DPHASE are sets that the dynamic loads name", "[model][card
              cardAt<DynamicLoadDelayTable>(model, 1).points[1] == 11));
     model.remove(*cardsOfSet(model, CardCategory::Delay, 105).begin());
     model.remove(*cardsOfSet(model, CardCategory::Delay, 105).begin());
-    REQUIRE(unresolvedIn(model) == 2); // the RLOAD1 and the TLOAD1 name a DELAY set that is gone
+    // the FreqResponseLoad1 and the TransientTableLoad1 name a DynamicLoadDelay set that is gone
+    REQUIRE(unresolvedIn(model) == 2);
     requireRoundTrip(
         readBulk("DynamicLoadDelay;5;1;1;0.5\nDynamicLoadDelay;6;2;;-1.5;1;3;0.25\nDynamicLoadPhase;7;1;1;30.;2;;4."));
 
@@ -564,7 +570,8 @@ TEST_CASE("DELAY and DPHASE are sets that the dynamic loads name", "[model][card
 
 TEST_CASE("TABDMP1, TABRND1 and TABRNDG have ID spaces of their own and TABDMP1 and TABRND1 evaluate", "[model][cards]")
 {
-    // A TABLED1, a TABDMP1 and a TABRND1 of the same ID (and a TABLEM1: decks do), but one random table space.
+    // A TableDynamic1, a TableModalDamping1 and a TableRandomSpectrum1 of the same ID (and a TableMaterial1: decks do),
+    // but one random table space.
     const Model model = readBulk(
         "TableDynamic1;1;;;0.;0.;1.;1.;EndTable\n"
         "TableModalDamping1;1;;0.;0.01;100.;0.02;EndTable\n"
@@ -730,7 +737,7 @@ TEST_CASE("MODTRAK, MDLPRM and RGYRO have their fields, defaults and rules", "[m
     REQUIRE((statics.synchronous == RotorSynchronisation::NotGiven && statics.speedUnit == RotorSpeedUnit::Freq));
     REQUIRE((statics.speedLow == 0.0 && statics.speedHigh == 99999.0 && statics.speed == 40.0 &&
              statics.rotorSuperelementId == 0));
-    REQUIRE(cardsOfSet(model, CardCategory::Other, 1).size() >= 2); // several RGYRO cards share a RID
+    REQUIRE(cardsOfSet(model, CardCategory::Other, 1).size() >= 2); // several RotordynamicParams cards share a RID
     requireRoundTrip(model);
 
     expectInvalid("ModeTracking;1;5;3", "lowRange");
@@ -800,7 +807,8 @@ TEST_CASE("RCROSS takes elements or points by the kind of response, RVDOF and RV
     const CrossSpectrumPairCard second = cardAt<CrossSpectrumPairTable>(model, 1);
     REQUIRE((second.responseKinds[0] == "Displacement" &&
              second.responseKinds[1] == "Displacement")); // a blank RTYPE is the other one
-    REQUIRE(unresolvedIn(model) == 1); // the CROD 200 has no property: only RCROSS 3 names a point that need not exist
+    // the Rod2 200 has no property: only CrossSpectrumPair 3 names a point that need not exist
+    REQUIRE(unresolvedIn(model) == 1);
     RecordingVisitor visitor;
     model.table<CrossSpectrumPairTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"targetId1", "targetId2"});
@@ -854,8 +862,8 @@ TEST_CASE("UNBALNC has its lines of EPOINTs, tables for its constants and joins 
     const RotorUnbalanceLoadCard tables = cardAt<RotorUnbalanceLoadTable>(model, 2);
     REQUIRE((tables.massTableId == 5 && tables.radialOffsetTableId == 5 && tables.axialOffsetTableId == 5 &&
              tables.startTimeOrFrequency == 1.0 && tables.stopTimeOrFrequency == 2.0));
-    // The set is one of the dynamic loads (the DLOAD command selects it); the grid, the EPOINTs and the tables are
-    // references.
+    // The set is one of the dynamic loads (the DynamicLoadCombination command selects it); the grid, the ExtraPoints
+    // and the tables are references.
     REQUIRE(cardsOfSet(model, CardCategory::DynamicLoad, 4880).size() == 1);
     RecordingVisitor visitor;
     model.table<RotorUnbalanceLoadTable>().visitReferences(2, visitor);
@@ -985,8 +993,8 @@ TEST_CASE("the Case Control commands of the solution control resolve to their ca
     REQUIRE(cardAt<NonlinearTimeStepsTable>(model).id == 105);
     REQUIRE(cardAt<ArcLengthParamsTable>(model).id == 106);
 
-    // An ID that a TABLEDi and a TABDMP1 both have is ambiguous for SDAMPING: only the table the renumbering moves is
-    // not enough to tell, so the command is left alone; the same for IC with a temperature set.
+    // An ID that a TABLEDi and a TableModalDamping1 both have is ambiguous for SDAMPING: only the table the renumbering
+    // moves is not enough to tell, so the command is left alone; the same for IC with a temperature set.
     Model both = readModelText(
         "[executive]\n"
         "SolutionSequence;108\n"

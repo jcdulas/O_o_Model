@@ -26,7 +26,7 @@ struct Constant
     const char* stored;
 };
 
-// The constants of the materials, by column: IsoMat (MAT1) fills the isotropic ones, OrthoMat2D (MAT8) the
+// The constants of the materials, by column: IsoMat (IsoMat) fills the isotropic ones, OrthoMat2D (OrthoMat2D) the
 // orthotropic ones.
 constexpr Constant CONSTANTS[] = {{"e", "youngsModulus"},
                                   {"g", "shearModulus"},

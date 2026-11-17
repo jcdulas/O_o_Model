@@ -19,8 +19,8 @@ struct SuperelementDesignResp3Format
     static void write(const SuperelementDesignResp3Card& card, FieldWriter& writer);
 };
 
-// All the SEDRSP3 cards, filed under their ID (IdSpace::PerCardType, category DesignResponse like DRESP3). The cards
-// are kept whole next to a column of their IDs.
+// All the SuperelementDesignResp3 cards, filed under their ID (IdSpace::PerCardType, category DesignResponse like
+// DesignResp3). The cards are kept whole next to a column of their IDs.
 class SuperelementDesignResp3Table final : public TypedTable<SuperelementDesignResp3Table, SuperelementDesignResp3Card>
 {
 public:

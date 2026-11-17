@@ -19,10 +19,10 @@ struct TableMultiVariable2Format
     static void write(const TableMultiVariable2Card& card, FieldWriter& writer);
 };
 
-// All the TABL3D2 cards, in the category MultiDimensionalTable: the ITID is unique per card type
-// (IdSpace::PerCardType) and is what the SOL 400 materials, the contact cards and a CORD3G name. The cards are kept
-// whole (CardRows) next to a column of their ITIDs. A TABL3D2 names no other card: the ITIDS and ITIDB of its variables
-// are not used by the program, so they are not visited.
+// All the TableMultiVariable2 cards, in the category MultiDimensionalTable: the ITID is unique per card type
+// (IdSpace::PerCardType) and is what the SOL 400 materials, the contact cards and a GeneralFrame3 name. The cards are
+// kept whole (CardRows) next to a column of their ITIDs. A TableMultiVariable2 names no other card: the ITIDS and ITIDB
+// of its variables are not used by the program, so they are not visited.
 class TableMultiVariable2Table final : public TypedTable<TableMultiVariable2Table, TableMultiVariable2Card>
 {
 public:
@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TABL3D2 refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a TableMultiVariable2 refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

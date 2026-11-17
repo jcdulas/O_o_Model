@@ -19,8 +19,8 @@ struct SuperelementBoundarySearchFormat
     static void write(const SuperelementBoundarySearchCard& card, FieldWriter& writer);
 };
 
-// All the SEBNDRY cards, category Superelement. A card has no ID of its own (IdSpace::None): it describes a
-// superelement that other cards define. They are kept whole next to a column of their SEIDAs.
+// All the SuperelementBoundarySearch cards, category Superelement. A card has no ID of its own (IdSpace::None): it
+// describes a superelement that other cards define. They are kept whole next to a column of their SEIDAs.
 class SuperelementBoundarySearchTable final
     : public TypedTable<SuperelementBoundarySearchTable, SuperelementBoundarySearchCard>
 {

@@ -19,8 +19,8 @@ struct AutoConstrExclusionFormat
     static void write(const AutoConstrExclusionCard& card, FieldWriter& writer);
 };
 
-// All the SPCOFF cards. A card has no ID (IdSpace::None). The points and the components of every card are two lists in
-// CSR form.
+// All the AutoConstrExclusion cards. A card has no ID (IdSpace::None). The points and the components of every card are
+// two lists in CSR form.
 class AutoConstrExclusionTable final : public TypedTable<AutoConstrExclusionTable, AutoConstrExclusionCard>
 {
 public:

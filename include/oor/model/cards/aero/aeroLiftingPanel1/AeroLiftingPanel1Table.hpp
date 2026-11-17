@@ -20,11 +20,11 @@ struct AeroLiftingPanel1Format
     static void write(const AeroLiftingPanel1Card& card, FieldWriter& writer);
 };
 
-// All the CAERO1 cards. The EID is in the space of the aerodynamic elements (IdSpace::AeroElement, category
-// AeroElement), which CAERO1 shares with CAERO2 to CAERO5 and not with the structural elements: a SPLINE names it
-// (ReferenceTarget::AeroElement) and the boxes it takes from the EID on are ReferenceTarget::AeroBox. The PID is a
-// PAERO1 (ReferenceTarget::AeroProperty), CP a coordinate system, LSPAN and LCHORD AEFACT cards
-// (ReferenceTarget::AeroFactor).
+// All the AeroLiftingPanel1 cards. The EID is in the space of the aerodynamic elements (IdSpace::AeroElement, category
+// AeroElement), which AeroLiftingPanel1 shares with AeroBody2 to AeroPistonPanel5 and not with the structural elements:
+// a SPLINE names it (ReferenceTarget::AeroElement) and the boxes it takes from the EID on are ReferenceTarget::AeroBox.
+// The PID is a AeroLiftingPanelProp1 (ReferenceTarget::AeroProperty), CP a coordinate system, LSPAN and LCHORD
+// AeroFactorList cards (ReferenceTarget::AeroFactor).
 class AeroLiftingPanel1Table final : public TypedTable<AeroLiftingPanel1Table, AeroLiftingPanel1Card>
 {
 public:

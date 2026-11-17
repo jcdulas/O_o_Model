@@ -8,9 +8,9 @@ namespace oor::analysis
 namespace
 {
 
-// An event number that an FTGEVNT and an FTGSEQ both have: the two cards are the loading events of a fatigue analysis
-// and the sequences of them, a FATIGUE command of the Case Control and an FIDi of an FTGSEQ name either by one number,
-// and the format reference asks for it to be unique among the two. Two cards
+// An event number that a FatigueEvent and a FatigueSequence both have: the two cards are the loading events of a
+// fatigue analysis and the sequences of them, a FATIGUE command of the Case Control and an FIDi of a FatigueSequence
+// name either by one number, and the format reference asks for it to be unique among the two. Two cards
 // of one type are the reader's business (`ref.duplicate-id`).
 class FatigueEventIdRepeatedCheck final : public ValidationCheck
 {

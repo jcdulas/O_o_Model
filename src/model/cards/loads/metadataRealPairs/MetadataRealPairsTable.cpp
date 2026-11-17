@@ -109,7 +109,7 @@ void MetadataRealPairsTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void MetadataRealPairsTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the group the pairs belong to: one of the ID of the ABSTRCT cards. The column follows the card.
+    // The ID is the group the pairs belong to: one of the ID of the MetadataGroup cards. The column follows the card.
     MetadataRealPairsCard& card = m_cards.edit(row);
     visitMetadataGroup(visitor, card.metadataGroupId);
     m_metadataGroupId.set(row, card.metadataGroupId);

@@ -15,21 +15,22 @@ namespace oor::model
 // The kind of value the format reference gives a parameter.
 enum class ParamType : std::uint8_t
 {
-    Integer, // PARAM,POST,-1 (PostprocessingFile)
-    Real,    // PARAM,WTMASS,0.00259 (WeightToMass; an integer is accepted where a real is expected, as the card reader
-             // does)
+    Integer, // PARAM,PostprocessingFile,-1 (PostprocessingFile)
+    // PARAM,WeightToMass,0.00259 (WeightToMass; an integer is accepted where a real is expected, as the card reader
+    // does)
+    Real,
     Number,  // an integer or a real: the format reference does not say which (a percentage whose default is written as
              // an integer)
-    Text,    // PARAM,AUTOSPC,YES: a word
-    Complex, // PARAM,CK1,1.0,0.0: a real and an imaginary part (a lone real is its real part)
+    Text,    // PARAM,AutoSingularityConstr,YES: a word
+    Complex, // PARAM,StiffnessScale1,1.0,0.0: a real and an imaginary part (a lone real is its real part)
     Any // the kind depends on the use, or the format reference says nothing (a parameter replaced by a Case Control
         // command)
 };
 
 [[nodiscard]] std::string_view paramTypeName(ParamType type) noexcept;
 
-// The value a parameter has when no PARAM card gives it. `kind` Blank means the format reference gives no default (the
-// program computes it, or it is another parameter's value).
+// The value a parameter has when no Parameter card gives it. `kind` Blank means the format reference gives no default
+// (the program computes it, or it is another parameter's value).
 struct ParamDefault
 {
     ParameterKind kind = ParameterKind::Blank;
@@ -69,7 +70,7 @@ struct ParamInfo
     [[nodiscard]] std::vector<std::string_view> allowedValues() const;
 };
 
-// How a PARAM card's value stands against the catalogue.
+// How a Parameter card's value stands against the catalogue.
 enum class ParameterFit : std::uint8_t
 {
     Fits,
@@ -77,7 +78,7 @@ enum class ParameterFit : std::uint8_t
     NotAllowed // the kind is right but the value is not one of the options the format reference lists
 };
 
-// What is wrong with the value of a PARAM card, in a sentence.
+// What is wrong with the value of a Parameter card, in a sentence.
 struct ParamProblem
 {
     ParameterFit fit = ParameterFit::Fits;

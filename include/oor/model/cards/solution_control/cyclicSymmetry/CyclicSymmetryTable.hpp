@@ -19,8 +19,8 @@ struct CyclicSymmetryFormat
     static void write(const CyclicSymmetryCard& card, FieldWriter& writer);
 };
 
-// All the CYSYM cards (no ID: IdSpace::None, category Other). The card names no other card. It is kept whole next to a
-// column of its segment counts.
+// All the CyclicSymmetry cards (no ID: IdSpace::None, category Other). The card names no other card. It is kept whole
+// next to a column of its segment counts.
 class CyclicSymmetryTable final : public TypedTable<CyclicSymmetryTable, CyclicSymmetryCard>
 {
 public:

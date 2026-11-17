@@ -142,7 +142,7 @@ TEST_CASE("the six coordinate system cards share one ID space", "[model][cards]"
 TEST_CASE("coordinate systems refer to a system and to grid points", "[model][cards]")
 {
     Model model = readBulk("RectFrame2;1\nRectFrame2;2;1\nRectFrame2;3;9\nRectFrame1;4;1;2;3");
-    // CORD2R 3 refers to system 9 (absent), CORD1R 4 to grid points 1, 2, 3 (absent).
+    // RectFrame2 3 refers to system 9 (absent), RectFrame1 4 to grid points 1, 2, 3 (absent).
     REQUIRE(unresolvedIn(model) == 4);
     RecordingVisitor visitor;
     model.table<RectFrame2Table>().visitReferences(1, visitor);
@@ -210,7 +210,7 @@ TEST_CASE("CBAR OFFT is an offset kind word and the pin flags are kept in ascend
 
 TEST_CASE("CBAR with no orientation is written with blank orientation fields", "[model][cards]")
 {
-    // A CBAR that relies on a BAROR card has blank fields 5 to 7: they must stay blank, not become 0.0.
+    // A Bar2 that relies on a Bar2Defaults card has blank fields 5 to 7: they must stay blank, not become 0.0.
     const Model model = readBulk("Bar2;1;1;1;2");
 
     oor::testing::requireModelFileRoundTrip(model);
@@ -366,7 +366,7 @@ TEST_CASE("scalar points need no card: a spring on them has no unresolved refere
     model.table<SpringScalarInlineTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"scalarPoint1", "scalarPoint2"});
     REQUIRE(visitor.targets[0] == ReferenceTarget::ScalarOrGridPoint);
-    // The property of a CELAS1 or CELAS3 is still checked.
+    // The property of a SpringDofProperty or SpringScalarProperty is still checked.
     Model withProperty = readBulk("SpringDofProperty;1;9;5;1\nSpringScalarProperty;2;9;14;15");
     REQUIRE(unresolvedIn(withProperty) == 2);
 }

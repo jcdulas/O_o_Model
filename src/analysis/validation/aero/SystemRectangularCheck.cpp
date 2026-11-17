@@ -13,8 +13,8 @@ namespace oor::analysis
 namespace
 {
 
-// The aerodynamic coordinate system ACSID of an AERO or AEROS card, whose x axis is the direction of the flow, is a
-// rectangular system, and so is the RCSID of an AEROS, in which the rigid body
+// The aerodynamic coordinate system ACSID of an AeroUnsteadyParams or AeroStaticParams card, whose x axis is the
+// direction of the flow, is a rectangular system, and so is the RCSID of an AeroStaticParams, in which the rigid body
 // motions of the trim variables are given. A system that does not exist is `ref.unresolved`; the basic system (0) is
 // rectangular.
 class SystemRectangularCheck final : public ValidationCheck

@@ -19,10 +19,10 @@ struct AeroTria3Format
     static void write(const AeroTria3Card& card, FieldWriter& writer);
 };
 
-// All the AETRIA3 cards (category Aero: no card names an element of the aerodynamic mesh). The EID is unique among the
-// AETRIA3 cards (IdSpace::PerCardType); the model shares the element numbers of the mesh between this card and the
-// AEQUAD4, which a check of the model verifies. The three points are AEGRID cards (ReferenceTarget::AeroNode). The card
-// is kept whole next to its ID.
+// All the AeroTria3 cards (category Aero: no card names an element of the aerodynamic mesh). The EID is unique among
+// the AeroTria3 cards (IdSpace::PerCardType); the model shares the element numbers of the mesh between this card and
+// the AeroQuad4, which a check of the model verifies. The three points are AeroNode cards (ReferenceTarget::AeroNode).
+// The card is kept whole next to its ID.
 class AeroTria3Table final : public TypedTable<AeroTria3Table, AeroTria3Card>
 {
 public:

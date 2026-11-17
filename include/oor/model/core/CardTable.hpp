@@ -48,7 +48,7 @@ public:
     [[nodiscard]] virtual base::EntityId idAt(std::uint32_t row) const = 0;
     virtual void setIdAt(std::uint32_t row, base::EntityId id) = 0;
 
-    // Reads a card from its fields. Most cards give one row; a card that defines several things (CORD1R: two
+    // Reads a card from its fields. Most cards give one row; a card that defines several things (RectFrame1: two
     // coordinate systems) gives one row for each, so that every row is one object with one ID. Each row gets a key
     // from `keys`; their rows are put in `rows`. Returns false when the card cannot be read (the reader then holds
     // the error diagnostics and no row was added).
@@ -57,12 +57,12 @@ public:
     // Writes the card in `row` as fields (the card name is the table's).
     virtual void writeCard(std::uint32_t row, FieldWriter& writer) const = 0;
 
-    // A card type that gives one row per object of a list (SPOINT 1 THRU 1000) can write consecutive rows as one card.
-    // It says so with writesRuns(); continuesRun(previous, row) tells whether `row` goes on from the row before it
-    // (the IDs follow each other). When the model is written with `compress_thru`, the writer finds the runs of three
-    // rows or more once (rows that are alive, have consecutive card keys, and carry no comment and no placement of
-    // their own), writes each of them with writeRun(first row, number of rows) in place of the cards of the rows, and
-    // writes the other rows with writeCard. Nothing by default.
+    // A card type that gives one row per object of a list (ScalarPoint 1 THRU 1000) can write consecutive rows as one
+    // card. It says so with writesRuns(); continuesRun(previous, row) tells whether `row` goes on from the row before
+    // it (the IDs follow each other). When the model is written with `compress_thru`, the writer finds the runs of
+    // three rows or more once (rows that are alive, have consecutive card keys, and carry no comment and no placement
+    // of their own), writes each of them with writeRun(first row, number of rows) in place of the cards of the rows,
+    // and writes the other rows with writeCard. Nothing by default.
     [[nodiscard]] virtual bool writesRuns() const noexcept { return false; }
     [[nodiscard]] virtual bool continuesRun(std::uint32_t /*previous*/, std::uint32_t /*row*/) const { return false; }
     virtual void writeRun(std::uint32_t row, std::uint32_t /*count*/, FieldWriter& writer) const
@@ -73,22 +73,23 @@ public:
     // Calls the visitor for each reference field of the card in `row`, and stores the ID it returns.
     virtual void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) = 0;
 
-    // True for a card type whose cards define excitation set IDs (LSEQ: its EXCITEID): an EXCITEID of a dynamic load
-    // that names one of them resolves (format reference: with a LOADSET command the load of an EXCITEID is the one its
-    // LSEQ picks). definedExcitationId() gives the ID the card in `row` defines (0 for none). False and 0 by default.
+    // True for a card type whose cards define excitation set IDs (StaticLoadSequence: its EXCITEID): an EXCITEID of a
+    // dynamic load that names one of them resolves (format reference: with a LOADSET command the load of an EXCITEID is
+    // the one its StaticLoadSequence picks). definedExcitationId() gives the ID the card in `row` defines (0 for none).
+    // False and 0 by default.
     [[nodiscard]] virtual bool definesExcitationIds() const noexcept { return false; }
     [[nodiscard]] virtual base::EntityId definedExcitationId(std::uint32_t /*row*/) const { return 0; }
 
     // Called once for every table of a model (and of each of its parts), after the whole Bulk Data of that model is
     // read, in registry order. A card type whose cards take defaults from another card that may come later in the deck
-    // (GRID from GRDSET, CBAR from BAROR) applies them here to the fields that were blank. Not called for a model made
-    // in memory: a card added afterwards does not get the defaults. Nothing by default.
+    // (GRID from NodeDefaults, Bar2 from Bar2Defaults) applies them here to the fields that were blank. Not called for
+    // a model made in memory: a card added afterwards does not get the defaults. Nothing by default.
     virtual void finishRead(Model& /*model*/, const ReadContext& /*context*/) {}
 
     // True when another card of `model` gives defaults to blank fields of the cards of this type when a deck is read
-    // (the GRDSET of the GRIDs, the BAROR of the CBARs, the BEAMOR of the CBEAMs). The writer then writes the fields
-    // those defaults govern even when they hold the default or zero (FieldWriter::governedFieldsExplicit), so that
-    // reading what was written gives the same cards. False by default.
+    // (the NodeDefaults of the GRIDs, the Bar2Defaults of the Bar2s, the Beam2Defaults of the Beam2s). The writer then
+    // writes the fields those defaults govern even when they hold the default or zero
+    // (FieldWriter::governedFieldsExplicit), so that reading what was written gives the same cards. False by default.
     [[nodiscard]] virtual bool fieldsGovernedByDefaults(const Model& /*model*/) const { return false; }
 
     // Drops the dead rows from every column.

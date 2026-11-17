@@ -16,7 +16,7 @@ namespace
 
 constexpr int FIRST_PAIR_FIELD = 9; // the pairs of (EID, V) begin on the second line
 
-// The lowest value of the coordinate system of a PSOLID (an integer of at least -2).
+// The lowest value of the coordinate system of a SolidProp (an integer of at least -2).
 constexpr double LOWEST_MATERIAL_COORD_SYSTEM = -2.0;
 
 // The names of the supported items for each kind of property. A
@@ -81,7 +81,7 @@ std::string namesAsPhrase(std::span<const std::string_view> names)
     return phrase;
 }
 
-// A value of the entries of a PSOLID: a whole number from -2 up that fits an integer field.
+// A value of the entries of a SolidProp: a whole number from -2 up that fits an integer field.
 bool isCoordinateSystemValue(double value)
 {
     return std::isfinite(value) && value == std::floor(value) && value >= LOWEST_MATERIAL_COORD_SYSTEM &&

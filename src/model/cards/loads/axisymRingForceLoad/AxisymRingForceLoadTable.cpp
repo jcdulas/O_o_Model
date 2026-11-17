@@ -140,7 +140,7 @@ void AxisymRingForceLoadTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AxisymRingForceLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ring is a RINGAX, a point of the node ID space.
+    // The ring is an AxisymConeRing, a point of the node ID space.
     m_ringId.set(row, visitor.visit("ringId", ReferenceTarget::Node, m_ringId.get(row)));
 }
 

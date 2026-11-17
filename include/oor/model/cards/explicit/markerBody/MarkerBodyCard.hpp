@@ -7,18 +7,18 @@
 namespace oor::model
 {
 
-// One CMARKB2 card (SOL 700): a marker element with two grid points, a line along which the Euler domain records its
+// One MarkerBody card (SOL 700): a marker element with two grid points, a line along which the Euler domain records its
 // variables (time histories). Not a structural element: it has no stiffness and no mass.
 //
-// Card layout: CMARKB2  ID  PID  G1  G2            fields 1 to 4
-// PID names a PMARKER. The grid points are either structural ones (the marker then follows the structure and the
-// PMARKER is ignored) or free points in space that carry no mass and move as the PMARKER says. The format reference
-// says the ID must be unique in the model and must not be the ID of a structural element, so the card lives in the
-// element ID space (IdSpace::Element) and the duplicate check of that space enforces it.
+// Card layout: MarkerBody  ID  PID  G1  G2         fields 1 to 4
+// PID names a MarkerProp. The grid points are either structural ones (the marker then follows the structure and the
+// MarkerProp is ignored) or free points in space that carry no mass and move as the MarkerProp says. The format
+// reference says the ID must be unique in the model and must not be the ID of a structural element, so the card lives
+// in the element ID space (IdSpace::Element) and the duplicate check of that space enforces it.
 struct MarkerBodyCard
 {
     base::EntityId id = 0;     // the element number
-    base::EntityId propId = 0; // a PMARKER
+    base::EntityId propId = 0; // a MarkerProp
     base::EntityId node1 = 0;  // the two grid points
     base::EntityId node2 = 0;
 

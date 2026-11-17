@@ -108,7 +108,7 @@ void CrackTipProp2DTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void CrackTipProp2DTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // A MAT1, a MAT2 or a MAT8.
+    // An IsoMat, an AnisoMat2D or an OrthoMat2D.
     if (const base::EntityId matId = m_matId.get(row); matId > 0)
         m_matId.set(row, visitor.visit("matId", ReferenceTarget::Material, matId));
 }

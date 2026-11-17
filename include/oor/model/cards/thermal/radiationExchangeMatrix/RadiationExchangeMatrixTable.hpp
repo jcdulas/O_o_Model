@@ -19,8 +19,8 @@ struct RadiationExchangeMatrixFormat
     static void write(const RadiationExchangeMatrixCard& card, FieldWriter& writer);
 };
 
-// All the RADMTX cards. The ID is the ICAVITY, shared by the columns of the matrix (category RadiationCavity,
-// IdSpace::Group); the values of a column are one list in CSR form.
+// All the RadiationExchangeMatrix cards. The ID is the ICAVITY, shared by the columns of the matrix (category
+// RadiationCavity, IdSpace::Group); the values of a column are one list in CSR form.
 class RadiationExchangeMatrixTable final : public TypedTable<RadiationExchangeMatrixTable, RadiationExchangeMatrixCard>
 {
 public:

@@ -1,6 +1,9 @@
-// Checks of the remaining loads and temperatures: FORCE1, FORCE2, MOMENT1, MOMENT2, PLOAD, PLOAD1, PLOAD2, PLOADX1,
-// SLOAD, RFORCE, LSEQ, LOADCYN, LOADCYH, LOADCYT, TEMPD, TEMPP1, TEMPRB, TEMPAX, DEFORM, FORCEAX, ACSRCE, NOLIN1 to
-// NOLIN4, and the forms of PLOAD4 and GRAV: field positions, defaults, variants, references, renumbering and rules.
+// Checks of the remaining loads and temperatures: PointForceLoad1, PointForceLoad2, PointMomentLoad1, PointMomentLoad2,
+// PointsPressureLoad, BeamDistributedLoad, ShellPressureLoad, AxisymTractionLoad, ScalarPointLoad, RotationalForceLoad,
+// StaticLoadSequence, CyclicSegmentLoad, CyclicHarmonicLoad, CyclicAzimuthTableLoad, DefaultTemperatureLoad,
+// PlateTemperatureLoad, LineElemTemperatureLoad, AxisymConeTemperatureLoad, AxialDeformationLoad, AxisymRingForceLoad,
+// AcousticSourceLoad, NonlinearTableLoad1 to NonlinearNegativePowerLoad4, and the forms of FacePressureLoad and
+// GravityLoad: field positions, defaults, variants, references, renumbering and rules.
 
 #include "oor/model/cards/dynamics/acousticSourceLoad/AcousticSourceLoadTable.hpp"
 #include "oor/model/cards/dynamics/nonlinearNegativePowerLoad4/NonlinearNegativePowerLoad4Table.hpp"
@@ -235,7 +238,7 @@ TEST_CASE(
     // X2 depends on X1: always written; a blank P2 is written blank.
     REQUIRE(writeModelText(readBulk("BeamDistributedLoad;26;10;ForceX;ActualLength;1.;5."))
                 .find("BeamDistributedLoad;26;10;ForceX;ActualLength;1.;5.;1.\n") != std::string::npos);
-    REQUIRE(unresolvedIn(model) == 1); // the CROD 1072 does not exist
+    REQUIRE(unresolvedIn(model) == 1); // the Rod2 1072 does not exist
     Renumbering::apply(model, RenumberSpace::Element, Renumbering::offset(100));
     REQUIRE(cardAt<BeamDistributedLoadTable>(model, 1).elemId == 110);
     requireRoundTrip(model);
@@ -298,7 +301,7 @@ TEST_CASE("PLOADX1 has a PB that defaults to PA and an angle", "[model][cards]")
     REQUIRE((cardAt<AxisymTractionLoadTable>(model, 0).nodeA == 112 &&
              cardAt<AxisymTractionLoadTable>(model, 0).nodeB == 128));
     requireRoundTrip(model);
-    // The test of an element by number: PLOADX1 names it as an element.
+    // The test of an element by number: AxisymTractionLoad names it as an element.
     RecordingVisitor visitor;
     model.table<AxisymTractionLoadTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"elemId", "nodeA", "nodeB"});
@@ -317,7 +320,7 @@ TEST_CASE("SLOAD has one to three loads on scalar or grid points", "[model][card
     const ScalarPointLoadCard card = cardAt<ScalarPointLoadTable>(model, 0);
     REQUIRE(card.loads == std::vector<PointLoad>{{3, 4.2}, {19, -5.1}, {100, -1.75}});
     REQUIRE(cardAt<ScalarPointLoadTable>(model, 1).loads.size() == 1);
-    // A scalar point that no SPOINT defines may still be named (a scalar element defines its points that way).
+    // A scalar point that no ScalarPoint defines may still be named (a scalar element defines its points that way).
     REQUIRE(unresolvedIn(model) == 0);
     Renumbering::apply(model, RenumberSpace::Node, Renumbering::offset(1000));
     REQUIRE(cardAt<ScalarPointLoadTable>(model, 0).loads[2].node == 1100);
@@ -384,8 +387,8 @@ TEST_CASE("LSEQ names a set of loads and a set of temperatures, and its EXCITEID
     REQUIRE((card.id == 100 && card.excitationId == 240 && card.loadId == 1300 && card.tableId == 1301));
     REQUIRE(cardAt<StaticLoadSequenceTable>(model, 1).tableId == 0);
     REQUIRE(cardAt<StaticLoadSequenceTable>(model, 2).loadId == 0);
-    // The EXCITEID 240 and 241 are the ones the LSEQ cards define (there is no DAREA or load set of that number); the
-    // load and temperature sets resolve as load sets.
+    // The EXCITEID 240 and 241 are the ones the StaticLoadSequence cards define (there is no DynamicLoadScale or load
+    // set of that number); the load and temperature sets resolve as load sets.
     REQUIRE(unresolvedIn(model) == 0);
     Model lacking = readBulk(grids() +
                              "StaticLoadSequence;100;240;1300;1301\nTransientTableLoad1;7;340;;;0;9\nTableDynamic1;9;;;"
@@ -478,7 +481,8 @@ TEST_CASE("LOADCYN, LOADCYH and LOADCYT have their fields and rules", "[model][c
     // Their load sets are loads or dynamic loads; the sets 5 and 24 and 22 do not exist.
     REQUIRE(unresolvedIn(model) == 3);
     requireRoundTrip(model);
-    // The tables of a LOADCYT are dynamic tables, its load sets are load sets: both are renumbered with them.
+    // The tables of a CyclicAzimuthTableLoad are dynamic tables, its load sets are load sets: both are renumbered with
+    // them.
     Renumbering::apply(model, RenumberSpace::DynamicTable, Renumbering::offset(100));
     REQUIRE((cardAt<CyclicAzimuthTableLoadTable>(model, 0).tableId1 == 131 &&
              cardAt<CyclicAzimuthTableLoadTable>(model, 0).tableId2 == 133));
@@ -493,7 +497,7 @@ TEST_CASE("LOADCYN, LOADCYH and LOADCYT have their fields and rules", "[model][c
     expectInvalid("CyclicSegmentLoad;1;1.;1;Right;1.", "loadSetId1");
     expectInvalid("CyclicHarmonicLoad;1;1.;1;XX;1.;5", "harmonicType");
     expectInvalid("CyclicHarmonicLoad;1;1.;;GravityLoad;1.;5;1.;6",
-                  "scaleFactor2"); // GRAV and RFORCE have no second load set
+                  "scaleFactor2"); // GravityLoad and RotationalForceLoad have no second load set
     expectInvalid("CyclicHarmonicLoad;1;0.;1;Cosine;1.;5", "scaleFactor");
     expectInvalid("CyclicAzimuthTableLoad;1;31", "loadSetId1");
     expectInvalid("CyclicAzimuthTableLoad;1;31;36;2", "methodName1");
@@ -513,10 +517,10 @@ TEST_CASE("TEMPD gives one default temperature per pair, each for the set of its
              cardAt<DefaultTemperatureLoadTable>(model, 0).temperature == 208.4));
     REQUIRE((cardAt<DefaultTemperatureLoadTable>(model, 3).id == 4 &&
              cardAt<DefaultTemperatureLoadTable>(model, 3).temperature == 500.0));
-    // Written as cards of their own; the set 1 is shared with a TEMP card (a set ID is a group).
+    // Written as cards of their own; the set 1 is shared with a NodeTemperatureLoad card (a set ID is a group).
     requireRoundTrip(model);
 
-    // A temperature set of Case Control resolves to the TEMPD that has it.
+    // A temperature set of Case Control resolves to the DefaultTemperatureLoad that has it.
     Model selected = readModelText(
         "[case]\n"
         "SubcaseStart;1\n"
@@ -608,8 +612,9 @@ TEST_CASE("TEMPAX, DEFORM and FORCEAX have their fields and rules", "[model][car
     forceax = cardAt<AxisymRingForceLoadTable>(model, 1);
     REQUIRE((forceax.isSequence() && forceax.harmonicId == 0 && forceax.harmonicEnd == 10));
     REQUIRE(cardAt<AxisymRingForceLoadTable>(model, 2).harmonicId == 0); // a harmonic 0 written as such
-    // The DEFORM elements are element references; the rings of the TEMPAX and the FORCEAX are RINGAX points of the node
-    // ID space (the grid points of this deck stand for them), and the ring 1013 of the last FORCEAX is none of them.
+    // The DEFORM elements are element references; the rings of the AxisymConeTemperatureLoad and the
+    // AxisymRingForceLoad are AxisymConeRing points of the node ID space (the grid points of this deck stand for them),
+    // and the ring 1013 of the last AxisymRingForceLoad is none of them.
     REQUIRE(unresolvedIn(model) == 1);
     Renumbering::apply(model, RenumberSpace::Element, Renumbering::offset(100));
     REQUIRE(cardAt<AxialDeformationLoadTable>(model, 0).deformations[1].element == 106);
@@ -647,17 +652,18 @@ TEST_CASE("ACSRCE has IDs or constants in three fields and names its excitation 
     REQUIRE((card.delayId == 0 && card.phaseId == 0 && card.powerTableId == 1001));
     card = cardAt<AcousticSourceLoadTable>(model, 2);
     REQUIRE((card.delay == 0.1 && card.phase == 30.0 && card.powerTableId == 0 && card.power == 2.5));
-    REQUIRE(unresolvedIn(model) == 0); // the DELAY set 20 is there
+    REQUIRE(unresolvedIn(model) == 0); // the DynamicLoadDelay set 20 is there
     RecordingVisitor visitor;
     model.table<AcousticSourceLoadTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"excitationId", "delayId", "powerTableId"});
     REQUIRE(visitor.targets[0] == ReferenceTarget::ExcitationSet);
     REQUIRE(visitor.targets[1] == ReferenceTarget::DelaySet);
     REQUIRE(visitor.targets[2] == ReferenceTarget::DynamicTable);
-    // The set is a dynamic load set: the DLOAD command selects it, and renumbering the dynamic loads renumbers it.
+    // The set is a dynamic load set: the DynamicLoadCombination command selects it, and renumbering the dynamic loads
+    // renumbers it.
     Renumbering::apply(model, RenumberSpace::DynamicLoadSet, Renumbering::offset(1000));
     REQUIRE(cardAt<AcousticSourceLoadTable>(model, 0).id == 1103);
-    REQUIRE(cardAt<AcousticSourceLoadTable>(model, 0).excitationId == 1011); // it follows the DAREA it names
+    REQUIRE(cardAt<AcousticSourceLoadTable>(model, 0).excitationId == 1011); // it follows the DynamicLoadScale it names
     Renumbering::apply(model, RenumberSpace::DynamicTable, Renumbering::offset(50));
     REQUIRE(cardAt<AcousticSourceLoadTable>(model, 1).powerTableId == 1051);
     requireRoundTrip(model);
@@ -685,7 +691,7 @@ TEST_CASE("NOLIN1 to NOLIN4 have their points, components and last field", "[mod
     REQUIRE((nolin2.nodeK == 60 && nolin2.componentsK == 3));
     REQUIRE(cardAt<NonlinearPositivePowerLoad3Table>(model).exponent == Approx(-2.5));
     REQUIRE(cardAt<NonlinearNegativePowerLoad4Table>(model).exponent == Approx(2.0));
-    // The point 101 is not defined: a scalar point may be named without an SPOINT (a velocity of component 10).
+    // The point 101 is not defined: a scalar point may be named without a ScalarPoint (a velocity of component 10).
     REQUIRE(unresolvedIn(model) == 0);
     Renumbering::apply(model, RenumberSpace::DynamicTable, Renumbering::offset(10));
     REQUIRE(cardAt<NonlinearTableLoad1Table>(model).tableId == 16);
@@ -708,7 +714,8 @@ TEST_CASE("NOLIN1 to NOLIN4 have their points, components and last field", "[mod
     expectInvalid("NonlinearNegativePowerLoad4;1;3;;1.;0;;2.", "nodeJ");
 }
 
-// ------------------------------------------------------------------------------------------------ PLOAD4 and GRAV
+// ------------------------------------------------------------------------------------------------ FacePressureLoad and
+// GravityLoad
 
 TEST_CASE("every form of PLOAD4 is read with the fields the format reference gives it", "[model][cards]")
 {

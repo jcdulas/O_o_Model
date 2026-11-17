@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One viscous damper property of a PVISC card.
+// One viscous damper property of a ViscousDamperProp card.
 //
 // Card layout (a card defines one or two properties, each of three fields, the second one after a blank field):
-//   PVISC  PID1  CE1  CR1  (blank)  PID2  CE2  CR2
+//   ViscousDamperProp  PID1  CE1  CR1  (blank)  PID2  CE2  CR2
 //
 // A card with two properties gives two ViscousDamperPropCard values, each written as a card of its own. A blank CR is
 // 0.0 (it is a real, and decks often leave it out).

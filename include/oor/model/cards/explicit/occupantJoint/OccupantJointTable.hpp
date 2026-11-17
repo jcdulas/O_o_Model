@@ -20,9 +20,9 @@ struct OccupantJointFormat
     static void write(const OccupantJointCard& card, FieldWriter& writer);
 };
 
-// All the ATBJNT cards. The ID is unique among them (IdSpace::PerCardType, category Other: no other card names it). The
-// grid points G0 to G7 are references to GRID cards; the element numbers and the name are not. The cards are kept whole
-// next to their ID.
+// All the OccupantJoint cards. The ID is unique among them (IdSpace::PerCardType, category Other: no other card names
+// it). The grid points G0 to G7 are references to Node cards; the element numbers and the name are not. The cards are
+// kept whole next to their ID.
 class OccupantJointTable final : public TypedTable<OccupantJointTable, OccupantJointCard>
 {
 public:

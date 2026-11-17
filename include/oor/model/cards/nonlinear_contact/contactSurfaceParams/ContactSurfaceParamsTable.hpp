@@ -24,9 +24,9 @@ struct ContactSurfaceParamsFormat
     [[nodiscard]] static std::span<const LegacyParameterRule> rules();
 };
 
-// All the BCTPARA cards. The CSID is unique among them (IdSpace::PerCardType, category Other: it is the number of the
-// BCTSET it belongs to, so it must not be a contact table of its own) and is a reference to the contact table of that
-// number (ReferenceTarget::ContactTable). The cards are kept whole next to their ID.
+// All the ContactSurfaceParams cards. The CSID is unique among them (IdSpace::PerCardType, category Other: it is the
+// number of the ContactSet it belongs to, so it must not be a contact table of its own) and is a reference to the
+// contact table of that number (ReferenceTarget::ContactTable). The cards are kept whole next to their ID.
 class ContactSurfaceParamsTable final : public TypedTable<ContactSurfaceParamsTable, ContactSurfaceParamsCard>
 {
 public:

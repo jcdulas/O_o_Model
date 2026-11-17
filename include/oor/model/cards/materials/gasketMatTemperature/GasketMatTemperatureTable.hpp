@@ -18,9 +18,9 @@ struct GasketMatTemperatureFormat
     static void write(const GasketMatTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATTG cards. The ID space is the card type's own: the ID is the one of the MATG that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEMi cards (ReferenceTarget::MaterialTable).
+// All the GasketMatTemperature cards. The ID space is the card type's own: the ID is the one of the GasketMat that the
+// card extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables are
+// references to TABLEMi cards (ReferenceTarget::MaterialTable).
 class GasketMatTemperatureTable final : public TypedTable<GasketMatTemperatureTable, GasketMatTemperatureCard>
 {
 public:

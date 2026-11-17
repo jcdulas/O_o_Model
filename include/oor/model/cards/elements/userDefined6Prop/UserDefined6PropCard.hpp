@@ -6,17 +6,18 @@
 namespace oor::model
 {
 
-// One PDUM6 card: the property of the user dummy elements of number 6 (the CDUM6 cards name it in their PID). The
-// element routines that use it are written by the user; the ADUM6 card says how many additional fields it has.
+// One UserDefined6Prop card: the property of the user dummy elements of number 6 (the UserDefined6 cards name it in
+// their PID). The element routines that use it are written by the user; the UserDefined6Attributes card says how many
+// additional fields it has.
 //
-// Card layout: PDUM6  PID  MID  A1  A2  A3  A4  A5  A6          fields 1 to 8, then the continuation lines
-//                    A7   -etc.-
+// Card layout: UserDefined6Prop  PID  MID  A1  A2  A3  A4  A5  A6  fields 1 to 8, then the continuation lines
+//                               A7  -etc.-
 //
 //   PID  the property ID: a positive integer, in the space of all the properties
 //   MID  the material ID: a positive integer, a material of the model
-//   Aj   the additional fields, up to 24 (the NP of the ADUM6 card, which is at most 24): integers or reals, which the
-//        user's routines define and check. The list keeps them in the positions of the card, a blank included (a blank
-//        Aj keeps its place, so the fields after it keep their numbers).
+//   Aj   the additional fields, up to 24 (the NP of the UserDefined6Attributes card, which is at most 24): integers or
+//        reals, which the user's routines define and check. The list keeps them in the positions of the card, a blank
+//        included (a blank Aj keeps its place, so the fields after it keep their numbers).
 //
 // The format reference of PDUMi says the number i runs from 3 to 7; the library reads 1 to 9 (see
 // UserDefined6AttributesCard).

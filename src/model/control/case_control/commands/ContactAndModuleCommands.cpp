@@ -9,9 +9,9 @@ namespace oor::model
 void defineContactAndModuleCommands(CommandCatalogue& commands)
 {
     // Contact.
-    // BCONTACT = n (a BCTABL1, BCTABLE or BCONECT), ALLBODY, NONE, ALLELE, or AUTO with the type of the contact it
-    // generates (format reference BCONTACT: TOUCH by default, PGLUE, GGLUE, SGLUE); a record writes the neutral names
-    // (AutoContact,PermanentGlue).
+    // BCONTACT = n (a ContactTable1, ContactTable or ContactPair), ALLBODY, NONE, ALLELE, or AUTO with the type of the
+    // contact it generates (format reference BCONTACT: TOUCH by default, PGLUE, GGLUE, SGLUE); a record writes the
+    // neutral names (AutoContact,PermanentGlue).
     commands.integerOrKeyword("ContactSelection")
         .refersTo(ReferenceTarget::ContactSelection)
         .qualifiedWord("AutoContact", {"TouchOnly", "PermanentGlue", "GeneralGlue", "StandardGlue"});
@@ -44,7 +44,7 @@ void defineContactAndModuleCommands(CommandCatalogue& commands)
 
     // Miscellaneous: rigid body handling, imperfections, rotor dynamics, tires, trim of the stochastic analysis.
     commands.keyword("RigidElemMethod");
-    commands.integer("ImperfectionSelection").refersTo(ReferenceTarget::ImperfectionCase); // an IMPCASE entry
+    commands.integer("ImperfectionSelection").refersTo(ReferenceTarget::ImperfectionCase); // an ImperfectionCase entry
     commands.output("ImperfectionOutput");
     commands.integer("InertiaReliefLoadSelection");
     commands.text("RotorBendSelection");
@@ -54,7 +54,8 @@ void defineContactAndModuleCommands(CommandCatalogue& commands)
     commands.integer("TransferPathSelection").refersTo(ReferenceTarget::TransferPathSet);
     commands.text("WettedSensitivity");
     commands.integer("SplineOutputRequest");
-    commands.integer("MassCombinationSelection").refersTo(ReferenceTarget::MassCombination); // a MASSSET card
+    // a MassCaseCombination card
+    commands.integer("MassCombinationSelection").refersTo(ReferenceTarget::MassCombination);
 }
 
 } // namespace oor::model

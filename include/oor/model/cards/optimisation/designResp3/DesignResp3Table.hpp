@@ -19,7 +19,7 @@ struct DesignResp3Format
     static void write(const DesignResp3Card& card, FieldWriter& writer);
 };
 
-// All the DRESP3 cards. The ID is in the number space the three response cards share (category DesignResponse,
+// All the DesignResp3 cards. The ID is in the number space the three response cards share (category DesignResponse,
 // IdSpace::PerCardType); the groups name design variables, responses, relations and grid points.
 class DesignResp3Table final : public TypedTable<DesignResp3Table, DesignResp3Card>
 {

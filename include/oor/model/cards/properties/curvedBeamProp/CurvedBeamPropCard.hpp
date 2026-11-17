@@ -9,26 +9,26 @@
 namespace oor::model
 {
 
-// The two layouts of a PBEND.
+// The two layouts of a CurvedBeamProp.
 enum class CurvedBeamPropForm : std::uint8_t
 {
     Section, // the cross-section is given by its area, moments of inertia and torsional stiffness
     Pipe     // the alternate format for elbows and curved pipes: mean radius and wall thickness
 };
 
-// One PBEND card: the property of a curved beam, curved pipe or elbow (CBEND).
+// One CurvedBeamProp card: the property of a curved beam, curved pipe or elbow (CurvedBeam2).
 //
 // Card layout, general section (the form is Section when field 3 is a real):
-//   PBEND  PID  MID  A   I1  I2  J   RB     THETAB
-//          C1   C2   D1  D2  E1  E2  F1     F2
-//          K1   K2   NSM RC  ZC  DELTAN
+//   CurvedBeamProp  PID  MID  A   I1  I2  J   RB  THETAB
+//                   C1   C2   D1  D2  E1  E2  F1  F2
+//                   K1   K2  NSM RC  ZC  DELTAN
 // Card layout, elbow or curved pipe (the form is Pipe when field 3 is an integer):
-//   PBEND  PID  MID  FSI RM  T   P   RB     THETAB
-//                    NSM RC  ZC
+//   CurvedBeamProp  PID  MID  FSI RM  T   P   RB  THETAB
+//                             NSM RC  ZC
 //
 // Only the members of the form of the card are used; the others stay at their values below (zero, NaN for a blank
 // field) and `check` refuses anything else. RB, THETAB, P and DELTAN can be blank: RB and THETAB are then given by the
-// CBEND (they are NaN here), a blank DELTAN is the neutral axis offset the format reference formula gives,
+// CurvedBeam2 (they are NaN here), a blank DELTAN is the neutral axis offset the format reference formula gives,
 // a blank P is no internal pressure. K1 and K2 are 0.0 when blank.
 struct CurvedBeamPropCard
 {

@@ -20,8 +20,8 @@ struct BeamLumpedAreaPropFormat
     static void write(const BeamLumpedAreaPropCard& card, FieldWriter& writer);
 };
 
-// All the PBCOMP cards. The lumped areas of every card are four lists (y, z, c, material) in CSR form: the row of a
-// card gives where its areas begin and how many there are.
+// All the BeamLumpedAreaProp cards. The lumped areas of every card are four lists (y, z, c, material) in CSR form: the
+// row of a card gives where its areas begin and how many there are.
 class BeamLumpedAreaPropTable final : public TypedTable<BeamLumpedAreaPropTable, BeamLumpedAreaPropCard>
 {
 public:

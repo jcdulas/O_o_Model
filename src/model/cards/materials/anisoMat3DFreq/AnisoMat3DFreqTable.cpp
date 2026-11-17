@@ -103,7 +103,7 @@ void AnisoMat3DFreqTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 
 void AnisoMat3DFreqTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT9 that the card extends; the tables are TABLEDi cards.
+    // The ID is the one of the AnisoMat3D that the card extends; the tables are TABLEDi cards.
     AnisoMat3DFreqCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Material, card.id);
     m_id.set(row, card.id);

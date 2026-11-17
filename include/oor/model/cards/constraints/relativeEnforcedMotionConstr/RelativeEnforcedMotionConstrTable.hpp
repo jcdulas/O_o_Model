@@ -19,9 +19,10 @@ struct RelativeEnforcedMotionConstrFormat
     static void write(const RelativeEnforcedMotionConstrCard& card, FieldWriter& writer);
 };
 
-// All the SPCR cards. The ID is a load set ID shared by many cards (IdSpace::Group), as for the SPCD: an SPCR is
-// selected the way a load is, not by the SPC command. The two groups of a card are kept as three columns of two values.
-// The points are references to grid or scalar points (a scalar point that no SPOINT defines is allowed).
+// All the RelativeEnforcedMotionConstr cards. The ID is a load set ID shared by many cards (IdSpace::Group), as for the
+// EnforcedMotionConstr: a RelativeEnforcedMotionConstr is selected the way a load is, not by the SPC command. The two
+// groups of a card are kept as three columns of two values. The points are references to grid or scalar points (a
+// scalar point that no ScalarPoint defines is allowed).
 class RelativeEnforcedMotionConstrTable final
     : public TypedTable<RelativeEnforcedMotionConstrTable, RelativeEnforcedMotionConstrCard>
 {

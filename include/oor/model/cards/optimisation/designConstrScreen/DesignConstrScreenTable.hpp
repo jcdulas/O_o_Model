@@ -20,8 +20,8 @@ struct DesignConstrScreenFormat
     static void write(const DesignConstrScreenCard& card, FieldWriter& writer);
 };
 
-// All the DSCREEN cards. A card has no number: it is found by its response type (`model.dscreen["DISP"]`), which a deck
-// gives once (the check `design.dscreen-repeated`).
+// All the DesignConstrScreen cards. A card has no number: it is found by its response type (`model.dscreen["DISP"]`),
+// which a deck gives once (the check `design.dscreen-repeated`).
 class DesignConstrScreenTable final : public TypedTable<DesignConstrScreenTable, DesignConstrScreenCard>
 {
 public:

@@ -20,8 +20,9 @@ struct RadiationCavityListFormat
     static void write(const RadiationCavityListCard& card, FieldWriter& writer);
 };
 
-// All the RADLST cards. The ID is the ICAVITY of the cavity (category RadiationCavity, IdSpace::PerCardType: one RADLST
-// per cavity). The element list is one CSR column of (first, last, by) runs; a blank MTXTYP is 0 in the column.
+// All the RadiationCavityList cards. The ID is the ICAVITY of the cavity (category RadiationCavity,
+// IdSpace::PerCardType: one RadiationCavityList per cavity). The element list is one CSR column of (first, last, by)
+// runs; a blank MTXTYP is 0 in the column.
 class RadiationCavityListTable final : public TypedTable<RadiationCavityListTable, RadiationCavityListCard>
 {
 public:

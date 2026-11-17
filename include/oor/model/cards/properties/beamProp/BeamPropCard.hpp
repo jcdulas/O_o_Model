@@ -17,7 +17,7 @@ enum class BeamStressOutput : std::uint8_t
     YesA // "YESA": at the points of end A
 };
 
-// One cross-section of a PBEAM: end A, an intermediate station or end B.
+// One cross-section of a BeamProp: end A, an intermediate station or end B.
 struct BeamPropStation
 {
     BeamStressOutput stressOutput = BeamStressOutput::Yes;
@@ -37,11 +37,11 @@ struct BeamPropStation
     std::array<double, 2> stressPointF = {};
 };
 
-// One PBEAM card: the property of a beam element (CBEAM) that may taper.
+// One BeamProp card: the property of a beam element (Beam2) that may taper.
 //
 // Card layout (fields are numbered across the continuation lines, 8 to a line):
-//   PBEAM  PID    MID    A(A)   I1(A)  I2(A)  I12(A) J(A)   NSM(A)
-//          C1(A)  C2(A)  D1(A)  D2(A)  E1(A)  E2(A)  F1(A)  F2(A)          only if stress is recovered at A
+//   BeamProp  PID    MID  A(A)   I1(A)  I2(A)  I12(A) J(A)   NSM(A)
+//             C1(A)  C2(A)  D1(A)  D2(A)  E1(A)  E2(A)  F1(A)  F2(A)       only if stress is recovered at A
 // then, for each further station (up to ten, one of them at X/XB = 1.0, in any order):
 //          SO     X/XB   A      I1     I2     I12    J      NSM
 //          C1     C2     D1     D2     E1     E2     F1     F2             only if SO = YES

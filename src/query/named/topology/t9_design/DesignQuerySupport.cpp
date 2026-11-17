@@ -20,7 +20,8 @@ namespace oor::query
 namespace
 {
 
-// The DCONSTR sets a DESSUB or DESGLB value names: the set itself, and the sets a DCONADD of that number adds.
+// The DesignConstr sets a DESSUB or DESGLB value names: the set itself, and the sets a DesignConstrUnion of that number
+// adds.
 std::vector<base::EntityId> constraintSetsOf(const model::Model& model, base::EntityId selected)
 {
     std::vector<base::EntityId> sets{selected};
@@ -114,7 +115,7 @@ std::vector<std::vector<std::size_t>> relationsMovedBy(const model::DesignModel&
 {
     const std::vector<model::DesignVariable>& variables = design.variables();
     std::vector<std::vector<std::size_t>> moved(variables.size());
-    // The variables a variable feeds: the independent variables of the DLINK that gives it.
+    // The variables a variable feeds: the independent variables of the DesignVarLink that gives it.
     const auto feeders = [&](std::size_t variable)
     {
         std::vector<std::size_t> result{variable};

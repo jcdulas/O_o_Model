@@ -20,8 +20,8 @@ struct TableDynamic1Format
     static void write(const TableDynamic1Card& card, FieldWriter& writer);
 };
 
-// All the TABLED1 cards. The ID is a dynamic table ID, in the ID space the TABLED2 to TABLED4 cards share
-// (IdSpace::DynamicTable). The points of every table are two lists (x, y) in CSR form.
+// All the TableDynamic1 cards. The ID is a dynamic table ID, in the ID space the TableDynamic2 to TableDynamic4 cards
+// share (IdSpace::DynamicTable). The points of every table are two lists (x, y) in CSR form.
 class TableDynamic1Table final : public TypedTable<TableDynamic1Table, TableDynamic1Card>
 {
 public:

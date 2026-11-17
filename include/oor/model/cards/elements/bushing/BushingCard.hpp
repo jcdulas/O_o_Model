@@ -7,12 +7,12 @@
 namespace oor::model
 {
 
-// One CBUSH card: a generalized spring-and-damper element.
+// One Bushing card: a generalized spring-and-damper element.
 //
 // Card layout (orientation by vector, or by a grid point in field 5 with fields 6 and 7 blank):
-//   CBUSH  EID  PID  GA   GB   X1   X2   X3   CID
-//          S    OCID S1   S2   S3
-//   CBUSH  EID  PID  GA   GB   GO             CID
+//   Bushing  EID  PID  GA   GB   X1   X2   X3  CID
+//            S  OCID S1   S2   S3
+//   Bushing  EID  PID  GA   GB   GO           CID
 //
 // Field 5 is an integer (GO) or a real (X1): `orientationNode` and `orientation` are the two forms. Both can be blank,
 // then the element axis is the line from GA to GB; a zero vector is how `orientation` says "no vector" (an orientation

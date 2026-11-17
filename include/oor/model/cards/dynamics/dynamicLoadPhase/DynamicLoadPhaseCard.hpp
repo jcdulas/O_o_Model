@@ -8,12 +8,13 @@
 namespace oor::model
 {
 
-// One DPHASE card: phase leads of a dynamic load on one or two degrees of freedom.
+// One DynamicLoadPhase card: phase leads of a dynamic load on one or two degrees of freedom.
 //
-// Card layout: DPHASE  SID  P1  C1  TH1  P2  C2  TH2
+// Card layout: DynamicLoadPhase  SID  P1  C1  TH1  P2  C2  TH2
 // A card holds one or two phase leads: the second group is optional, P2 is 0 when it is absent (then C2 and
 // TH2 are 0 too). Ci is one component, 1 to 6 for a grid point and 0 for an extra or scalar point; THi is the phase
-// lead in degrees. The SID is the set ID that the DPHASE field of RLOAD1, RLOAD2 and ACSRCE cards refers to.
+// lead in degrees. The SID is the set ID that the DPHASE field of FreqResponseLoad1, FreqResponseLoad2 and
+// AcousticSourceLoad cards refers to.
 struct DynamicLoadPhaseCard
 {
     base::EntityId id = 0;

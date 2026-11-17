@@ -19,10 +19,10 @@ struct AnisoMat3DFreqFormat
     static void write(const AnisoMat3DFreqCard& card, FieldWriter& writer);
 };
 
-// All the MAT9F cards. The ID space is the card type's own: the ID is the one of the MAT9 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEDi cards (ReferenceTarget::DynamicTable). The cards are kept whole (CardRows); the query engine reads the ID
-// only.
+// All the AnisoMat3DFreq cards. The ID space is the card type's own: the ID is the one of the AnisoMat3D that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it), and the tables are
+// references to TABLEDi cards (ReferenceTarget::DynamicTable). The cards are kept whole (CardRows); the query engine
+// reads the ID only.
 class AnisoMat3DFreqTable final : public TypedTable<AnisoMat3DFreqTable, AnisoMat3DFreqCard>
 {
 public:

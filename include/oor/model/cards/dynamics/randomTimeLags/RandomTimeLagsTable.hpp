@@ -18,8 +18,8 @@ struct RandomTimeLagsFormat
     static void write(const RandomTimeLagsCard& card, FieldWriter& writer);
 };
 
-// All the RANDT1 cards. The ID is a set ID shared by the RANDPS and RANDT1 cards (IdSpace::Group, category Random: the
-// RANDOM command selects the set).
+// All the RandomTimeLags cards. The ID is a set ID shared by the RandomSpectralDensity and RandomTimeLags cards
+// (IdSpace::Group, category Random: the RANDOM command selects the set).
 class RandomTimeLagsTable final : public TypedTable<RandomTimeLagsTable, RandomTimeLagsCard>
 {
 public:
@@ -35,7 +35,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a RANDT1 refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a RandomTimeLags refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<std::int32_t>& countColumn() noexcept { return m_count; }

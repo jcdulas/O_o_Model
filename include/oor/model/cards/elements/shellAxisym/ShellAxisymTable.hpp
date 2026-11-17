@@ -20,9 +20,9 @@ struct ShellAxisymFormat
     static void write(const ShellAxisymCard& card, FieldWriter& writer);
 };
 
-// All the CAXISYM elements: an element ID, in the space every element shares (IdSpace::Element). PID names a PAXISYM
-// (a property) and the points are grid points. The nodes are one column of three IDs per element (0 for a blank G3);
-// the column of NOFF holds a NaN where the field is blank.
+// All the ShellAxisym elements: an element ID, in the space every element shares (IdSpace::Element). PID names an
+// AxisymShellProp (a property) and the points are grid points. The nodes are one column of three IDs per element (0 for
+// a blank G3); the column of NOFF holds a NaN where the field is blank.
 class ShellAxisymTable final : public TypedTable<ShellAxisymTable, ShellAxisymCard>
 {
 public:

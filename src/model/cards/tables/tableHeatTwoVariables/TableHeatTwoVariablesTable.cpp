@@ -117,7 +117,7 @@ void TableHeatTwoVariablesTable::keepRows(const std::vector<std::uint32_t>& rows
 
 void TableHeatTwoVariablesTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The table IDs of the pairs are TABLEH1 cards (or other TABLEHT: the heat table space has both).
+    // The table IDs of the pairs are TableHeat1 cards (or other TableHeatTwoVariables: the heat table space has both).
     const auto current = m_tables.get(row);
     std::vector<base::EntityId> tables(current.begin(), current.end());
     bool changed = false;

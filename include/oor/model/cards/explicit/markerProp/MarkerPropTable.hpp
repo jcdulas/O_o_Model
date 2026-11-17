@@ -19,8 +19,8 @@ struct MarkerPropFormat
     static void write(const MarkerPropCard& card, FieldWriter& writer);
 };
 
-// All the PMARKER cards: properties (IdSpace::Property), so the PID of a marker element finds them. A PMARKER names no
-// other card.
+// All the MarkerProp cards: properties (IdSpace::Property), so the PID of a marker element finds them. A MarkerProp
+// names no other card.
 class MarkerPropTable final : public TypedTable<MarkerPropTable, MarkerPropCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a PMARKER refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MarkerProp refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

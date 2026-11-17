@@ -19,11 +19,11 @@ struct PropertyListSet4Format
     static void write(const PropertyListSet4Card& card, FieldWriter& writer);
 };
 
-// All the SET4 cards, in the category Set. The ID is a set ID shared by the cards that have it (IdSpace::Group), so the
-// ReferenceTarget::Set of an FTGDEF finds it as it finds a SET1 or a SET3. The properties of the list are references: a
-// single ID is a ReferenceTarget::Property, the two ends of a THRU range are ReferenceTarget::PropertyInRange (a
-// property of the range may not exist; the ends are renumbered with the properties). The cards are kept whole next to a
-// column of their IDs.
+// All the PropertyListSet4 cards, in the category Set. The ID is a set ID shared by the cards that have it
+// (IdSpace::Group), so the ReferenceTarget::Set of a FatigueDefinition finds it as it finds an IdListSet1 or a
+// TypedListSet3. The properties of the list are references: a single ID is a ReferenceTarget::Property, the two ends of
+// a THRU range are ReferenceTarget::PropertyInRange (a property of the range may not exist; the ends are renumbered
+// with the properties). The cards are kept whole next to a column of their IDs.
 class PropertyListSet4Table final : public TypedTable<PropertyListSet4Table, PropertyListSet4Card>
 {
 public:

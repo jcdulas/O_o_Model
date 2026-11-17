@@ -81,7 +81,8 @@ std::optional<Shell> shellOf(const model::Model& model, const NodePositions& pos
     if (!(base::norm(area) > 0.0))
         return std::nullopt;
     shell.normal = base::normalized(area);
-    // a PLOAD4 on a warped four-noded quadrilateral acts on its mean plane (not a CQUAD8, whose surface is its own)
+    // a FacePressureLoad on a warped four-noded quadrilateral acts on its mean plane (not a ShellQuad8, whose surface
+    // is its own)
     if (count == 4 && slots.size() == 4)
         shell.plane = warpedMeanPlane(shell.corners);
     return shell;
@@ -128,8 +129,8 @@ struct Loaded
     double mean = 0.0;               // the normal component, mean over the surface
     base::Vec3 tangential;           // the tangential component of the mean, basic system
     std::int32_t cards = 0;
-    bool directed = false; // a PLOAD4 along a direction (CID, N1 to N3)
-    bool edges = false;    // a PLOAD4 along an edge (SORL = LINE), left out
+    bool directed = false; // a FacePressureLoad along a direction (CID, N1 to N3)
+    bool edges = false;    // a FacePressureLoad along an edge (SORL = LINE), left out
     void add(const Loaded& other, double factor)
     {
         for (std::size_t corner = 0; corner < 4; ++corner)
@@ -243,7 +244,8 @@ public:
             }
             return shells[at];
         };
-        // the shells by their sorted corner grid points, for a PLOAD (the lowest element ID of a stack), made once
+        // the shells by their sorted corner grid points, for a PointsPressureLoad (the lowest element ID of a stack),
+        // made once
         std::optional<std::map<std::array<base::EntityId, 4>, std::int32_t>> byCorners;
         const auto shellOnPoints = [&](const std::array<base::EntityId, 4>& points) -> std::optional<std::int32_t>
         {
@@ -309,7 +311,7 @@ public:
                 if (!eid || !wanted(*eid))
                     return true;
                 const Shell& shell = *shellAt(*eid);
-                // the pressure acts along the normal of the order of the PLOAD's grid points
+                // the pressure acts along the normal of the order of the PointsPressureLoad's grid points
                 const std::size_t count = points[3] == 0 ? 3 : 4;
                 const base::Vec3 a = positions.position(points[0]);
                 const base::Vec3 normal =

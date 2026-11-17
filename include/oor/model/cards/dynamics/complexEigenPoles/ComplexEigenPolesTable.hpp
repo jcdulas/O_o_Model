@@ -18,10 +18,11 @@ struct ComplexEigenPolesFormat
     static void write(const ComplexEigenPolesCard& card, FieldWriter& writer);
 };
 
-// All the EIGP cards. The ID is the ID of the EIGC the poles go with: it is shared by the EIGP cards of the set
-// (IdSpace::Group, category ComplexMethod, which CMETHOD selects with the EIGC) and is renumbered with the EIGC, as the
-// category is one space (RenumberSpace::ComplexMethod). An EIGP whose EIGC is missing is not reported (it would find
-// itself in the category). A second pole that is not there has multiplicity 0 in its column.
+// All the ComplexEigenPoles cards. The ID is the ID of the ComplexEigenMethod the poles go with: it is shared by the
+// ComplexEigenPoles cards of the set (IdSpace::Group, category ComplexMethod, which CMETHOD selects with the
+// ComplexEigenMethod) and is renumbered with the ComplexEigenMethod, as the category is one space
+// (RenumberSpace::ComplexMethod). A ComplexEigenPoles whose ComplexEigenMethod is missing is not reported (it would
+// find itself in the category). A second pole that is not there has multiplicity 0 in its column.
 class ComplexEigenPolesTable final : public TypedTable<ComplexEigenPolesTable, ComplexEigenPolesCard>
 {
 public:

@@ -1,8 +1,9 @@
 // Checks of the property extensions and the composite and section properties: the nonlinear
-// extensions PBARN1, PBEMN1, PRODN1, PSHEARN and PSLDN1, the composite cards PCOMPFQ, PCOMPF, PCOMPLS and PLCOMP, and
-// the arbitrary cross-sections PBMSECT and PBRSECT. Per card: the fields in their format reference positions, the
-// keyword lines and their defaults, the references the card lists, the renumbering of the space it owns, the refused
-// values and the round trip through a model file.
+// extensions BarPropNonlinear, BeamPropNonlinear, RodPropNonlinear, ShearPanelPropNonlinear and SolidPropNonlinear, the
+// composite cards CompPropFreqDamping, CompPropIntegration, CompSolidPropNonlinear and PlaneCompProp, and the arbitrary
+// cross-sections BeamArbitrarySectionProp and BarArbitrarySectionProp. Per card: the fields in their format reference
+// positions, the keyword lines and their defaults, the references the card lists, the renumbering of the space it owns,
+// the refused values and the round trip through a model file.
 
 #include "oor/model/cards/elements/barArbitrarySectionProp/BarArbitrarySectionPropTable.hpp"
 #include "oor/model/cards/elements/beamArbitrarySectionProp/BeamArbitrarySectionPropTable.hpp"
@@ -93,7 +94,7 @@ TEST_CASE("a PBARN1 and a PBEMN1 extend the PBAR or PBEAM with the same PID: C2 
     REQUIRE(visitor.fields == std::vector<std::string>{"id", "matId"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::Property, ReferenceTarget::Material});
     visitor = RecordingVisitor{};
-    model.table<BarPropNonlinearTable>().visitReferences(1, visitor); // a blank MID keeps the material of the PBAR
+    model.table<BarPropNonlinearTable>().visitReferences(1, visitor); // a blank MID keeps the material of the BarProp
     REQUIRE(visitor.fields == std::vector<std::string>{"id"});
     visitor = RecordingVisitor{};
     model.table<BeamPropNonlinearTable>().visitReferences(0, visitor);
@@ -110,7 +111,7 @@ TEST_CASE("a PBARN1 and a PBEMN1 extend the PBAR or PBEAM with the same PID: C2 
     REQUIRE(contains(writeModelText(model, false), "BarPropNonlinear;36;64;Smeared;TwoNodeElems;Bar;LinearCubic\n"));
     requireRoundTrip(model);
 
-    // The ID is in the space of its own card type, and is the one of the PBAR: renumbering the properties follows.
+    // The ID is in the space of its own card type, and is the one of the BarProp: renumbering the properties follows.
     REQUIRE_THROWS_AS(readBulk("BarPropNonlinear;36;64\nBarPropNonlinear;36;74"), base::DeckError);
     REQUIRE_NOTHROW(readBulk("BarPropNonlinear;36\nBeamPropNonlinear;36\nBarProp;36;64;0.01;1.E-8;2.E-8;1.E-8"));
     Renumbering::apply(model, RenumberSpace::Property, Renumbering::offset(1000));
@@ -467,7 +468,8 @@ TEST_CASE("a PCOMPLS has plies with global IDs, the C8 and C20 lines and a mater
 
     requireRoundTrip(model);
 
-    // A PCOMPLS is a property: it shares the number space with the PSOLID, the PLCOMP and the others.
+    // A CompSolidPropNonlinear is a property: it shares the number space with the SolidProp, the PlaneCompProp and the
+    // others.
     REQUIRE_THROWS_AS(readBulk("CompSolidPropNonlinear;6601;;;;;;1;1420;0.5\nSolidProp;6601;1420"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("CompSolidPropNonlinear;6601;;;;;;1;1420;0.5\nPlaneCompProp;6601;;;;;;1;1420;0.5"),
                       base::DeckError);

@@ -123,9 +123,10 @@ void AcousticSourceLoadTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AcousticSourceLoadTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // the EXCITEID names a DAREA set, or an SLOAD set (directly, or through the LSEQ that picks it).
+    // the EXCITEID names a DynamicLoadScale set, or a ScalarPointLoad set (directly, or through the StaticLoadSequence
+    // that picks it).
     m_excitationId.set(row, visitor.visit("excitationId", ReferenceTarget::ExcitationSet, m_excitationId.get(row)));
-    // The DELAY and DPHASE cards are not typed cards yet: their IDs are kept as plain IDs.
+    // The DynamicLoadDelay and DynamicLoadPhase cards are not typed cards yet: their IDs are kept as plain IDs.
     m_delayId.set(row, visitIfSet(visitor, "delayId", ReferenceTarget::DelaySet, m_delayId.get(row)));
     m_phaseId.set(row, visitIfSet(visitor, "phaseId", ReferenceTarget::PhaseSet, m_phaseId.get(row)));
     m_powerTableId.set(row,

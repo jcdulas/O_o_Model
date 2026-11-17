@@ -10,7 +10,7 @@
 namespace oor::model
 {
 
-// The words the keyword lines of a PLCOMP allow: a plane composite is plane strain (COMPS, the
+// The words the keyword lines of a PlaneCompProp allow: a plane composite is plane strain (COMPS, the
 // default) or axisymmetric (AXCOMP), for the structure and for the heat; the integration code goes with the number of
 // grids (L for the 4-node quadrilateral, Q for the 8-node one). The first word of each list is the one the format
 // reference underlines, the default of a line that is not in the card.
@@ -44,8 +44,8 @@ inline constexpr std::array<BehaviorRules, 2> PLANE_COMP_PROP_GROUPS{
                   .heatBehaviors = PLANE_COMP_PROP_BEHAVIORS,
                   .heatIntegrations = PLANE_COMP_PROP_QUADRATIC}};
 
-// One ply of a PLCOMP: the global ply ID, the material, the thickness (a fraction of the element thickness when DIRECT
-// is positive, the actual thickness when it is negative) and the orientation angle.
+// One ply of a PlaneCompProp: the global ply ID, the material, the thickness (a fraction of the element thickness when
+// DIRECT is positive, the actual thickness when it is negative) and the orientation angle.
 struct PlaneCompPropPly
 {
     base::EntityId globalId = 0; // IDi, unique in the card
@@ -56,15 +56,16 @@ struct PlaneCompPropPly
     [[nodiscard]] bool operator==(const PlaneCompPropPly&) const noexcept = default;
 };
 
-// One PLCOMP card (SOL 400): the property of a plane strain or axisymmetric composite, which a CQUAD, CQUAD4, CQUAD8 or
-// CQUADX names. Its plies have global ply IDs, shared with the PCOMPG and PCOMPLS plies.
+// One PlaneCompProp card (SOL 400): the property of a plane strain or axisymmetric composite, which a PlaneStrainQuad,
+// ShellQuad4, ShellQuad8 or AxisymQuad names. Its plies have global ply IDs, shared with the CompPropGlobal and
+// CompSolidPropNonlinear plies.
 //
 // Card layout (the lines after the first may come as shown or, for the two keyword lines, in any order):
-//   PLCOMP   PID    DIRECT  THICKOP SB       ANAL
-//            "C4"   BEH4    INT4    BEH4H    INT4H
-//            "C8"   BEH8    INT8    BEH8H    INT8H
-//            ID1    MID1    T1      THETA1                one line for each ply, bottom ply first
-//            ID2    MID2    T2      THETA2
+//   PlaneCompProp   PID    DIRECT  THICKOP SB  ANAL
+//                   "C4"   BEH4    INT4    BEH4H  INT4H
+//                   "C8"   BEH8    INT8    BEH8H  INT8H
+//                   ID1    MID1    T1      THETA1         one line for each ply, bottom ply first
+//                   ID2    MID2    T2  THETA2
 //
 // DIRECT is 1 or 2 (default 1) for the direction of the layers, negative when the thicknesses are actual lengths and
 // not fractions. THICKOP is the out-of-plane thickness (default 1.0). SB, the allowable interlaminar shear stress of
@@ -72,9 +73,9 @@ struct PlaneCompPropPly
 //
 // A keyword line that is not in the card gets the defaults of its keyword, so `groups` always holds both lines resolved
 // and a line is written only when a word of it is not the default. A card has at least one ply, with distinct IDs. The
-// format reference asks that fractions add up to 1.0 and that a PLCOMP has an ID no other property has: rules between
-// values and between cards, left to the checks of the model. This is a primary property: the card has the ID of the
-// property space.
+// format reference asks that fractions add up to 1.0 and that a PlaneCompProp has an ID no other property has: rules
+// between values and between cards, left to the checks of the model. This is a primary property: the card has the ID of
+// the property space.
 struct PlaneCompPropCard
 {
     base::EntityId id = 0;

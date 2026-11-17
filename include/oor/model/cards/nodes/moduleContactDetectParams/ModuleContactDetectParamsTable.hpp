@@ -18,13 +18,14 @@ struct ModuleContactDetectParamsFormat
     [[nodiscard]] static std::optional<ModuleContactDetectParamsCard> read(FieldReader& reader);
     static void write(const ModuleContactDetectParamsCard& card, FieldWriter& writer);
 
-    // The parameters the card allows: its own and those of BCPARA, BCONPRP and BCONPRG, each with what it holds.
+    // The parameters the card allows: its own and those of ContactParams, ContactPairPhysicalParams and
+    // ContactPairGeomParams, each with what it holds.
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 };
 
-// All the MDBCATP cards. The card has no ID (IdSpace::None, category Other) and refers to no card: a table ID in FRIC
-// may be a TABLEM1 or a TABL3D, so it is left alone. The format reference allows one card in a deck, which finishRead
-// reports. The cards are kept whole.
+// All the ModuleContactDetectParams cards. The card has no ID (IdSpace::None, category Other) and refers to no card: a
+// table ID in FRIC may be a TableMaterial1 or a TABL3D, so it is left alone. The format reference allows one card in a
+// deck, which finishRead reports. The cards are kept whole.
 class ModuleContactDetectParamsTable final
     : public TypedTable<ModuleContactDetectParamsTable, ModuleContactDetectParamsCard>
 {
@@ -42,7 +43,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // no reference
-    // A second MDBCATP is reported.
+    // A second ModuleContactDetectParams is reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
 private:

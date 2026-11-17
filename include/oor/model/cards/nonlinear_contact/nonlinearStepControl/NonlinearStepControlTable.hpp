@@ -22,14 +22,15 @@ struct NonlinearStepControlFormat
     // The names of the fields, with what each holds.
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 
-    // The CRITTID of the ADAPT line, the TABSCTL that holds the user criteria of the load stepping: 0 when the card
-    // has no ADAPT line, or no CRITTID on it, or a CRITTID of 0.
+    // The CRITTID of the ADAPT line, the StepControlCriteria that holds the user criteria of the load stepping: 0 when
+    // the card has no ADAPT line, or no CRITTID on it, or a CRITTID of 0.
     [[nodiscard]] static base::EntityId criteriaTable(const NonlinearStepControlCard& card);
 };
 
-// All the NLSTEP cards. The ID is unique among them (IdSpace::PerCardType, category NonlinearStep): the NLSTEP command
-// of Case Control selects it. The cards are kept whole (CardRows); the query engine reads the ID only. The CRITTID of
-// the ADAPT line names a TABSCTL (`LoadStepControl`) and is the one reference of the card.
+// All the NonlinearStepControl cards. The ID is unique among them (IdSpace::PerCardType, category NonlinearStep): the
+// NonlinearStepControl command of Case Control selects it. The cards are kept whole (CardRows); the query engine reads
+// the ID only. The CRITTID of the ADAPT line names a StepControlCriteria (`LoadStepControl`) and is the one reference
+// of the card.
 class NonlinearStepControlTable final : public TypedTable<NonlinearStepControlTable, NonlinearStepControlCard>
 {
 public:

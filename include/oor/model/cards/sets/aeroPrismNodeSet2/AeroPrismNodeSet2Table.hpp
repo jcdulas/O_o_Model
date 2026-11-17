@@ -18,8 +18,9 @@ struct AeroPrismNodeSet2Format
     static void write(const AeroPrismNodeSet2Card& card, FieldWriter& writer);
 };
 
-// All the SET2 cards, in the category Set. The ID is a set ID shared by the cards that have it (IdSpace::Group), so the
-// ReferenceTarget::Set of a SPLINEi finds it as it finds a SET1 or a SET3. The MACRO is a reference to a CAERO.
+// All the AeroPrismNodeSet2 cards, in the category Set. The ID is a set ID shared by the cards that have it
+// (IdSpace::Group), so the ReferenceTarget::Set of a SPLINEi finds it as it finds an IdListSet1 or a TypedListSet3. The
+// MACRO is a reference to a CAERO.
 class AeroPrismNodeSet2Table final : public TypedTable<AeroPrismNodeSet2Table, AeroPrismNodeSet2Card>
 {
 public:

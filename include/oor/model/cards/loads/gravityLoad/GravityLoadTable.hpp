@@ -19,7 +19,7 @@ struct GravityLoadFormat
     static void write(const GravityLoadCard& card, FieldWriter& writer);
 };
 
-// All the GRAV cards. The ID is a load set ID shared by many cards (IdSpace::Group).
+// All the GravityLoad cards. The ID is a load set ID shared by many cards (IdSpace::Group).
 class GravityLoadTable final : public TypedTable<GravityLoadTable, GravityLoadCard>
 {
 public:

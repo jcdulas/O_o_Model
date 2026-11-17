@@ -550,7 +550,7 @@ DisplayMesh buildDisplayMesh(const model::Model& model, const DisplayMeshOptions
             }
         }
     }
-    // the segments, connections and masses in the order of the element IDs (stable: a CBEAM3's halves stay in order)
+    // the segments, connections and masses in the order of the element IDs (stable: a Beam3's halves stay in order)
     sortRows(mesh.segmentEid, std::pair{&mesh.segmentEnds, std::size_t{6}}, std::pair{&mesh.segmentPid, std::size_t{1}},
              std::pair{&mesh.segmentGridRows, std::size_t{2}});
     sortRows(mesh.connectionEid, std::pair{&mesh.connectionEnds, std::size_t{6}},
@@ -592,7 +592,7 @@ DisplayMesh buildDisplayMesh(const model::Model& model, const DisplayMeshOptions
                 const SectionOutline outline = SectionFormulas::outline(type, dims);
                 if (outline.rings.empty())
                     continue;
-                // a PBARL has its neutral axis on the element axis, a PBEAML its
+                // a BarShapeProp has its neutral axis on the element axis, a BeamShapeProp its
                 // shear centre (the finite element formulation)
                 const SectionProperties properties =
                     SectionFormulas::standard(type, dims, beam ? rule : ShearFactorRule::None);

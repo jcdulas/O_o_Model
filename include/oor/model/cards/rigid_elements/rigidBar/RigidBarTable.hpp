@@ -23,7 +23,7 @@ struct RigidBarFormat
     static void resolveDefaults(RigidBarCard& card) noexcept;
 };
 
-// All the RBAR cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
+// All the RigidBar cards. A rigid element is an element: its ID is in the ID space shared by all the elements.
 class RigidBarTable final : public TypedTable<RigidBarTable, RigidBarCard>
 {
 public:

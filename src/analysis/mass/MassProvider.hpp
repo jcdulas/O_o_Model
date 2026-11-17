@@ -22,7 +22,7 @@ namespace oor::analysis::detail
 {
 
 // The card an error message names: its card type ("ShellQuad4") or "property", and its ID. The message shows the card
-// type by its deck keyword: "CQUAD4 10", "property 5".
+// type by its deck keyword: "ShellQuad4 10", "property 5".
 struct Owner
 {
     const char* card = "";
@@ -32,8 +32,9 @@ struct Owner
 };
 
 // The mass of one element in the basic system. `structural` is the mass of the material, `nonStructural` what the NSM
-// fields of the property and the element add (the NSM cards are added by the caller). The mass is at `center`; a
-// concentrated mass or a beam with non-structural mass off its axis also has `inertia`, the tensor about `center`.
+// fields of the property and the element add (the NonStructMass cards are added by the caller). The mass is at
+// `center`; a concentrated mass or a beam with non-structural mass off its axis also has `inertia`, the tensor about
+// `center`.
 struct MassValue
 {
     double structural = 0.0;
@@ -51,9 +52,10 @@ struct ShellData
 {
     enum class Kind : std::uint8_t
     {
-        Plate,    // PSHELL, PSHEAR: density times the thickness of the element
-        Laminate, // PCOMP, PCOMPG: the plies' density times thickness, summed
-        Volume,   // PLPLANE: density times the volume of the element (the thickness is the one of the element)
+        Plate,    // ShellProp, ShearPanelProp: density times the thickness of the element
+        Laminate, // CompProp, CompPropGlobal: the plies' density times thickness, summed
+        // PlanePropNonlinear: density times the volume of the element (the thickness is the one of the element)
+        Volume,
         None      // not a property of a shell
     };
     Kind kind = Kind::None;
@@ -102,8 +104,9 @@ public:
         double density = 0.0;
     };
     [[nodiscard]] const LineData& line(base::EntityId pid, const Owner& owner);
-    // The mass of a PMASS, a PBUSH (M) or a PFAST. A property that does not exist is an error when `required` (the
-    // PMASS of a CMASS1), else it has no mass (the PBUSH of a CBUSH, which is not a mass element).
+    // The mass of a MassProp, a BushProp (M) or a FastenerProp. A property that does not exist is an error when
+    // `required` (the MassProp of a MassDofProperty), else it has no mass (the BushProp of a Bushing, which is not a
+    // mass element).
     [[nodiscard]] double lumpedMass(base::EntityId pid, const Owner& owner, bool required);
 
 private:

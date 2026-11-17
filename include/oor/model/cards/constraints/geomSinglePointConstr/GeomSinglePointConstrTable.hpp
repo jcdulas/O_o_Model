@@ -20,8 +20,8 @@ struct GeomSinglePointConstrFormat
     static void write(const GeomSinglePointConstrCard& card, FieldWriter& writer);
 };
 
-// All the GMSPC cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The entity ID names a
-// geometric entity (FEFACE, GMCURV, ...), which is not a card of the model: it is a ReferenceTarget::Other.
+// All the GeomSinglePointConstr cards. The ID is a constraint set ID shared by many cards (IdSpace::Group). The entity
+// ID names a geometric entity (FEFACE, GMCURV, ...), which is not a card of the model: it is a ReferenceTarget::Other.
 class GeomSinglePointConstrTable final : public TypedTable<GeomSinglePointConstrTable, GeomSinglePointConstrCard>
 {
 public:

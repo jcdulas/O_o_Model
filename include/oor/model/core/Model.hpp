@@ -181,9 +181,9 @@ public:
     // Rebuilds the ID indexes from the tables (after the IDs of many cards were changed by a renumbering).
     void reindex() { rebuildIndexes(); }
 
-    // Gives the cards that still note blank fields the defaults of the card that governs them (GRDSET for GRID, BAROR
-    // for CBAR, BEAMOR for CBEAM), in this model and in each of its parts: it runs the post-read hook
-    // (CardTable::finishRead) again, so that a model built or edited in memory gets the defaults of a default card
+    // Gives the cards that still note blank fields the defaults of the card that governs them (NodeDefaults for Node,
+    // Bar2Defaults for Bar2, Beam2Defaults for Beam2), in this model and in each of its parts: it runs the post-read
+    // hook (CardTable::finishRead) again, so that a model built or edited in memory gets the defaults of a default card
     // added after its cards. The cards that note blank fields are those read from a deck while no default card existed
     // and those added with an omitted field (`add_grid` without `cp`); a field that holds a value, zero included, is
     // never changed, and a card that was given its defaults notes nothing any more. A second default card of a kind is
@@ -317,10 +317,10 @@ public:
     [[nodiscard]] const Model* findPart(std::string_view kind, std::int64_t id, std::int64_t massId = 0) const noexcept;
 
     // The model where the IDs of superelement `seid` live: the part BEGIN SUPER=seid when the deck has one; for a
-    // superelement that is a REPEAT or MIRROR image of another (its SEBULK) the part of the one it copies, which has
-    // no part of its own, a few steps at most; else the residual structure of the deck (0 is the residual structure
-    // itself; the list superelements that SESET and SEELT define in it number their grid points and elements in the
-    // one ID space of the main Bulk Data).
+    // superelement that is a REPEAT or MIRROR image of another (its SuperelementBulkOptions) the part of the one it
+    // copies, which has no part of its own, a few steps at most; else the residual structure of the deck (0 is the
+    // residual structure itself; the list superelements that SuperelementInteriorNodes and SuperelementElemTransfer
+    // define in it number their grid points and elements in the one ID space of the main Bulk Data).
     [[nodiscard]] Model& superelementModel(base::EntityId seid) noexcept;
     [[nodiscard]] const Model& superelementModel(base::EntityId seid) const noexcept;
 

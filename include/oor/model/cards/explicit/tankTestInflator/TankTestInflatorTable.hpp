@@ -19,9 +19,9 @@ struct TankTestInflatorFormat
     static void write(const TankTestInflatorCard& card, FieldWriter& writer);
 };
 
-// All the INFLTNK cards. The INFLID is unique among the INFLTNK cards (IdSpace::PerCardType, category Inflator: INFLCG,
-// INFLHB and INFLTR share the category, because an ABINFL names one of the four by number). TPTABLE and IPTABLE are
-// TABLED1 cards.
+// All the TankTestInflator cards. The INFLID is unique among the TankTestInflator cards (IdSpace::PerCardType, category
+// Inflator: ColdGasInflator, HybridInflator and StandardInflator share the category, because an InflatorInlet names one
+// of the four by number). TPTABLE and IPTABLE are TableDynamic1 cards.
 class TankTestInflatorTable final : public TypedTable<TankTestInflatorTable, TankTestInflatorCard>
 {
 public:

@@ -42,7 +42,7 @@ GroupSet GroupSet::resolve(const ModelEntities& entities, const NodeEntityIndex&
                            const std::vector<GroupDefinition>& definitions)
 {
     GroupSet result(entities, index);
-    // Which entities are connections of the component model, and the entity of each MPC card.
+    // Which entities are connections of the component model, and the entity of each MultiPointConstr card.
     result.m_isConnection.assign(entities.size(), 0);
     std::map<std::pair<std::uint16_t, std::uint32_t>, std::uint32_t> equationEntity;
     for (std::size_t position = 0; position < entities.size(); ++position)

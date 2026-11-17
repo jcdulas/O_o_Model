@@ -182,10 +182,10 @@ public:
     }
 };
 
-// The heat load cards (QBDY1, QBDY2, QBDY3, QHBDY, QVOL, QVECT) the LOAD command of a subcase selects: the power they
-// put into their targets, added (`heatLoadsTable`). It is the way of a steady-state analysis whose result file has no
-// table of the applied heat: the load of a transient analysis is a function of time (TLOADi) that the cards do not give
-// as a number.
+// The heat load cards (HeatFluxSurfaceLoad1, HeatFluxNodalLoad2, HeatFluxBoundaryLoad3, HeatFluxNodeSetLoad,
+// HeatVolumeSourceLoad, HeatFluxVectorLoad) the LOAD command of a subcase selects: the power they put into their
+// targets, added (`heatLoadsTable`). It is the way of a steady-state analysis whose result file has no table of the
+// applied heat: the load of a transient analysis is a function of time (TLOADi) that the cards do not give as a number.
 class HeatLoadCardsProvider final : public HeatProvider
 {
 public:

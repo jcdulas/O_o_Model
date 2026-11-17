@@ -26,7 +26,8 @@ std::optional<CardProblem> CyclicSupportFormat::check(const CyclicSupportCard& c
 {
     if (card.nodeId <= 0)
         return CardProblem{"card.bad-id", "the grid point ID must be a positive integer", "nodeId"};
-    // Unlike the C of an SPC1, zero is no component here: a support needs at least one degree of freedom.
+    // Unlike the C of a SinglePointConstrList, zero is no component here: a support needs at least one degree of
+    // freedom.
     if (card.components == 0 || !base::isComponentSet(card.components))
         return CardProblem{"card.bad-value", "C must be a combination of the digits 1 to 6, each at most once",
                            "components"};

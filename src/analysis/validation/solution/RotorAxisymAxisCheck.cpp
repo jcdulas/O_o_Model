@@ -10,9 +10,9 @@ namespace oor::analysis
 namespace
 {
 
-// An axisymmetric rotor that has no ROTORAX list of grid points: the format reference asks every rotor defined by
-// ROTORAX cards to have at least one with LTYPE GRID, which gives the axis of symmetry. The RSPINR,
-// RSPINT and UNBALNC cards may only name those grid points.
+// An axisymmetric rotor that has no RotorAxisym list of grid points: the format reference asks every rotor defined by
+// RotorAxisym cards to have at least one with LTYPE GRID, which gives the axis of symmetry. The RotorRelativeSpin,
+// RotorTransientSpin and RotorUnbalanceLoad cards may only name those grid points.
 class RotorAxisymAxisCheck final : public ValidationCheck
 {
 public:

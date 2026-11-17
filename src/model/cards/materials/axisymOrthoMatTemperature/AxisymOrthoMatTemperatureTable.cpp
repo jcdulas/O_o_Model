@@ -147,7 +147,7 @@ void AxisymOrthoMatTemperatureTable::keepRows(const std::vector<std::uint32_t>& 
 
 void AxisymOrthoMatTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MAT3 that the card extends; the tables are TABLEMi cards.
+    // The ID is the one of the AxisymOrthoMat that the card extends; the tables are TABLEMi cards.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     if (const base::EntityId id = m_youngsModulusXTableId.get(row); id != 0)
         m_youngsModulusXTableId.set(row, visitor.visit("youngsModulusXTableId", ReferenceTarget::MaterialTable, id));

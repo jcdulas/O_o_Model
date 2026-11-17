@@ -21,11 +21,11 @@ struct AeroBeamSpline5Format
     static void write(const AeroBeamSpline5Card& card, FieldWriter& writer);
 };
 
-// All the SPLINE5 cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7
-// and SPLINEX; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the others).
-// The CAERO is an aerodynamic element (ReferenceTarget::AeroElement), the AELIST an AELIST card
-// (ReferenceTarget::AeroList), SETG a SET1 or SET3 (ReferenceTarget::Set) and CID a coordinate system. A blank RCORE is
-// a NaN in its column.
+// All the AeroBeamSpline5 cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline; IdSpace::PerCardType refuses a repeat inside this
+// type and a check across the types reports the others). The CAERO is an aerodynamic element
+// (ReferenceTarget::AeroElement), the AELIST an AELIST card (ReferenceTarget::AeroList), SETG an IdListSet1 or
+// TypedListSet3 (ReferenceTarget::Set) and CID a coordinate system. A blank RCORE is a NaN in its column.
 class AeroBeamSpline5Table final : public TypedTable<AeroBeamSpline5Table, AeroBeamSpline5Card>
 {
 public:

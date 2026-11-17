@@ -14,26 +14,32 @@
 namespace oor::analysis
 {
 
-// What a superelement is (the `superelement_type` column of `parts_table`). The SEBULK TYPE when the deck has one
-// (PRIMARY is then a part, or a list superelement when it has no BEGIN SUPER section), else a part for BEGIN SUPER, a
-// secondary superelement for CSUPER, a list superelement for SESET, SEELT, CSUPEXT and the SEID of GRID.
+// What a superelement is (the `superelement_type` column of `parts_table`). The SuperelementBulkOptions TYPE when the
+// deck has one (PRIMARY is then a part, or a list superelement when it has no BEGIN SUPER section), else a part for
+// BEGIN SUPER, a secondary superelement for SuperelementCopyPoints, a list superelement for SuperelementInteriorNodes,
+// SuperelementElemTransfer, SuperelementExteriorPoints and the SEID of GRID.
 enum class SuperelementType : std::uint8_t
 {
     Primary,               // a part superelement: BEGIN SUPER = n
-    List,                  // a main Bulk Data superelement: SESET, the SEID of GRID, SEELT, CSUPEXT
-    Repeat,                // SEBULK REPEAT: an identical copy of the part RSEID
-    Mirror,                // SEBULK MIRROR: a mirror image of the part RSEID (it needs an SEMPLN)
-    External,              // SEBULK EXTERNAL: from a database of an earlier run
-    ExternalBinaryResults, // SEBULK TYPE, the external binary results word: from the result file on unit UNITNO
-    ExternalMatrixFile,    // SEBULK TYPE, the external matrix file word: from the matrix file on unit UNITNO
-    ExternalPunch,         // SEBULK EXTPCH: from the DMIG entries of a punch file
-    ExternalReducedModel,  // SEBULK EXTROM: a reduced order model on unit UNITNO
-    Collector,             // SEBULK COLLCTR: holds no point
-    Secondary              // CSUPER: an image of a primary, or matrices from an external source
+    // a main Bulk Data superelement: SuperelementInteriorNodes, the SEID of Node, SuperelementElemTransfer,
+    // SuperelementExteriorPoints
+    List,
+    Repeat,                // SuperelementBulkOptions REPEAT: an identical copy of the part RSEID
+    // SuperelementBulkOptions MIRROR: a mirror image of the part RSEID (it needs a SuperelementMirrorPlane)
+    Mirror,
+    External,              // SuperelementBulkOptions EXTERNAL: from a database of an earlier run
+    // SuperelementBulkOptions TYPE, the external binary results word: from the result file on unit UNITNO
+    ExternalBinaryResults,
+    // SuperelementBulkOptions TYPE, the external matrix file word: from the matrix file on unit UNITNO
+    ExternalMatrixFile,
+    ExternalPunch,         // SuperelementBulkOptions EXTPCH: from the DirectMatrixNodal entries of a punch file
+    ExternalReducedModel,  // SuperelementBulkOptions EXTROM: a reduced order model on unit UNITNO
+    Collector,             // SuperelementBulkOptions COLLCTR: holds no point
+    Secondary              // SuperelementCopyPoints: an image of a primary, or matrices from an external source
 };
 
 // Primary, List, Repeat, ..., as `partsTable` writes them: the neutral word of the SuperelementBulkOptions kind (List
-// and Secondary, which no such card gives, name a list superelement and a CSUPER secondary).
+// and Secondary, which no such card gives, name a list superelement and a SuperelementCopyPoints secondary).
 [[nodiscard]] std::string superelementTypeName(SuperelementType type);
 
 // One superelement of a deck, with what decides its boundary.
@@ -46,21 +52,23 @@ struct SuperelementEntry
     // The model its point IDs are named in: its part, the part of its primary for an image, the main Bulk Data for a
     // list superelement.
     const model::Model* idModel = nullptr;
-    // The primary of an image: the RSEID of an SEBULK REPEAT or MIRROR, the PSID of a CSUPER (0 for none, or for a
-    // CSUPER whose matrices come from an external source).
+    // The primary of an image: the RSEID of a SuperelementBulkOptions REPEAT or MIRROR, the PSID of a
+    // SuperelementCopyPoints (0 for none, or for a SuperelementCopyPoints whose matrices come from an external source).
     base::EntityId imageOf = 0;
     model::SuperelementBulkOptionsMethod method = model::SuperelementBulkOptionsMethod::Auto;
-    // a TOL of 0.0 is the default, the user parameter CONFAC (1.0E-5 unless the deck
+    // a TOL of 0.0 is the default, the user parameter ConnectionTolerance (1.0E-5 unless the deck
     // sets it).
     double tolerance = 0.0;
-    bool hasOwnTolerance = false; // the SEBULK gives a TOL
-    bool checksLocation = true;   // SEBULK LOC = YES
-    // The superelement downstream of it: the SEID of the SETREE that lists it as upstream, else the residual structure.
+    bool hasOwnTolerance = false; // the SuperelementBulkOptions gives a TOL
+    bool checksLocation = true;   // SuperelementBulkOptions LOC = YES
+    // The superelement downstream of it: the SEID of the SuperelementTree that lists it as upstream, else the residual
+    // structure.
     base::EntityId downstream = 0;
-    base::EntityId unitNumber = 0; // SEBULK UNITNO (external binary results, external matrix file, EXTROM)
+    // SuperelementBulkOptions UNITNO (external binary results, external matrix file, EXTROM)
+    base::EntityId unitNumber = 0;
 
     [[nodiscard]] bool isExternal() const noexcept;
-    // A copy of another superelement (REPEAT, MIRROR, CSUPER): it has no points of its own.
+    // A copy of another superelement (REPEAT, MIRROR, SuperelementCopyPoints): it has no points of its own.
     [[nodiscard]] bool isImage() const noexcept;
     // A superelement whose points are those of a BEGIN SUPER section, its own or its primary's.
     [[nodiscard]] bool hasPartPoints() const noexcept;
@@ -80,18 +88,18 @@ public:
     // The entry of a number, or null (0, the residual structure, has none).
     [[nodiscard]] const SuperelementEntry* find(base::EntityId seid) const noexcept;
     [[nodiscard]] const model::Model& residual() const noexcept { return *m_residual; }
-    // PARAM CONFAC, else its format reference default 1.0E-5.
+    // PARAM ConnectionTolerance, else its format reference default 1.0E-5.
     [[nodiscard]] double parameterTolerance() const noexcept { return m_parameterTolerance; }
 
     // The tolerance of the location search between two superelements (0 is the residual structure). The rule of the
-    // format reference: the TOL of an SECONCT between them, else the TOL of their SEBULK (SEBULK 0 for the residual
-    // structure), else CONFAC. The format reference does not say which SEBULK wins when both give one: the larger is
-    // taken (an assumption).
+    // format reference: the TOL of a SuperelementConnection between them, else the TOL of their SuperelementBulkOptions
+    // (SuperelementBulkOptions 0 for the residual structure), else CONFAC. The format reference does not say which
+    // SuperelementBulkOptions wins when both give one: the larger is taken (an assumption).
     [[nodiscard]] double searchTolerance(base::EntityId first, base::EntityId second) const noexcept;
     // The largest tolerance of any pair (the size of the cells of the search).
     [[nodiscard]] double largestTolerance() const noexcept;
-    // The tolerance of the pairs of an SECONCT between SEIDA and SEIDB: its TOL, else the SEBULK TOL of SEIDA, else
-    // CONFAC.
+    // The tolerance of the pairs of a SuperelementConnection between SEIDA and SEIDB: its TOL, else the
+    // SuperelementBulkOptions TOL of SEIDA, else CONFAC.
     [[nodiscard]] double connectionTolerance(base::EntityId seida, double pairTolerance) const noexcept;
 
 private:
@@ -100,8 +108,8 @@ private:
     const model::Model* m_residual = nullptr;
     std::vector<SuperelementEntry> m_entries;
     double m_parameterTolerance = 1.0e-5;
-    double m_residualTolerance = 0.0; // SEBULK 0 TOL; 0 when not given
-    // The SECONCT TOLs (non-zero) by pair of superelements, the smaller number first.
+    double m_residualTolerance = 0.0; // SuperelementBulkOptions 0 TOL; 0 when not given
+    // The SuperelementConnection TOLs (non-zero) by pair of superelements, the smaller number first.
     std::map<std::pair<base::EntityId, base::EntityId>, double> m_connectionTolerances;
 };
 

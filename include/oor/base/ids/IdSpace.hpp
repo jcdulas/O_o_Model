@@ -19,21 +19,32 @@ enum class IdSpace
     Method,
     DynamicTable,
     MaterialTable,
-    StressTable, // TABLES1 and TABLEST: the tables of stress dependent properties (MATS1, CREEP, MATHP, ...)
-    HeatTable,   // TABLEH1 and TABLEHT: the tables of convection coefficients
-    HybridDampingRotorOptionsTable, // TABDMP1: the modal damping tables (Case Control SDAMPING)
-    RandomTable,                    // TABRND1 and TABRNDG: the power spectral density tables (RANDPS)
-    ThermalMaterial, // MAT4 and MAT5: the heat transfer materials. Apart from the structural MID space: the format
-                     // reference lets a MAT4 or MAT5 have the ID of a MAT1, MAT2 or MAT3 (a coupled model has both),
-                     // and they must be unique with respect to each other
-    SurfaceElement, // CHBDYE, CHBDYG and CHBDYP: the heat transfer surface elements. Apart from the conduction
-                    // elements: a CHEXA 1 may have the CHBDYE 1 to 6 on its sides
-    AeroElement,    // CAERO1 to CAERO5: the aerodynamic macro elements. Apart from the structural elements (the format
-                 // reference lets the boxes of a CAERO1 overlap the IDs of the structure) and unique with respect to
-                 // each other; the boxes of a CAERO take the IDs from its EID on (the AeroBox reference target)
-    AeroProperty, // PAERO1 to PAERO5: the properties a CAERO names, one number space for the five cards
+    // TableStress1 and TableStressTemperature: the tables of stress dependent properties (IsoMatStressDependent,
+    // CreepMat, HyperelasticPolynomialMat, ...)
+    StressTable,
+    HeatTable,   // TableHeat1 and TableHeatTwoVariables: the tables of convection coefficients
+    HybridDampingRotorOptionsTable, // TableModalDamping1: the modal damping tables (Case Control SDAMPING)
+    // TableRandomSpectrum1 and TableGustSpectrum: the power spectral density tables (RandomSpectralDensity)
+    RandomTable,
+    // HeatIsoMat and HeatAnisoMat: the heat transfer materials. Apart from the structural MID space: the format
+    // reference lets a HeatIsoMat or HeatAnisoMat have the ID of an IsoMat, AnisoMat2D or AxisymOrthoMat (a coupled
+    // model has both), and they must be unique with respect to each other
+    ThermalMaterial,
+    // HeatSurfaceSide, HeatSurfaceNodes and HeatSurfaceProperty: the heat transfer surface elements. Apart from the
+    // conduction elements: a SolidHexa 1 may have the HeatSurfaceSide 1 to 6 on its sides
+    SurfaceElement,
+    // AeroLiftingPanel1 to AeroPistonPanel5: the aerodynamic macro elements. Apart from the structural elements (the
+    // format
+    AeroElement,
+                 // reference lets the boxes of an AeroLiftingPanel1 overlap the IDs of the structure) and unique with
+                 // respect to each other; the boxes of a CAERO take the IDs from its EID on (the AeroBox reference
+                 // target)
+    // AeroLiftingPanelProp1 to AeroPistonProp5: the properties a CAERO names, one number space for the five cards
+    AeroProperty,
     PerCardType,
-    Group, // the ID is a set ID shared by several cards (FORCE, SPC1, ...): not unique, cards are grouped by it
+    // the ID is a set ID shared by several cards (PointForceLoad, SinglePointConstrList, ...): not unique, cards are
+    // grouped by it
+    Group,
     None   // the card has no ID
 };
 

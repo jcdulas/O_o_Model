@@ -1,7 +1,7 @@
-// Checks of what the cards of the explicit solver share, on the three cards that show it: EOSGAM (fixed
-// fields with optional reals), PEULER (a property: a keyword with a default and a reference) and COUOPT (a set ID, a
-// reference and quantities that are a number or a table). The keywords, the quantity of a number or a table, the new ID
-// spaces and the references to them are tested here once; the cards of the groups have their own test files.
+// Checks of what the cards of the explicit solver share, on the three cards that show it: GammaLawStateEquation (fixed
+// fields with optional reals), EulerProp (a property: a keyword with a default and a reference) and CouplingOptions (a
+// set ID, a reference and quantities that are a number or a table). The keywords, the quantity of a number or a table,
+// the new ID spaces and the references to them are tested here once; the cards of the groups have their own test files.
 
 #include "oor/model/cards/explicit/couplingOptions/CouplingOptionsTable.hpp"
 #include "oor/model/cards/explicit/eulerProp/EulerPropTable.hpp"
@@ -163,7 +163,7 @@ TEST_CASE("the cards between TODYNA and ENDDYNA are for an external explicit sol
     // The two opaque records retain their positions inside the explicit solver block.
     REQUIRE(model.cardCount() == 6);
     REQUIRE(rowCount<UnknownCardTable>(model) == 2);
-    REQUIRE(rowCount<IsoMatTable>(model) == 2); // the MAT1 before and the one after the block
+    REQUIRE(rowCount<IsoMatTable>(model) == 2); // the IsoMat before and the one after the block
 
     requireRoundTrip(model);
 

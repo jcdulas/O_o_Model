@@ -18,7 +18,7 @@ struct AxisymFluidRingNodeFormat
     static void write(const AxisymFluidRingNodeCard& card, FieldWriter& writer);
 };
 
-// All the GRIDB cards of a model.
+// All the AxisymFluidRingNode cards of a model.
 class AxisymFluidRingNodeTable final : public TypedTable<AxisymFluidRingNodeTable, AxisymFluidRingNodeCard>
 {
 public:

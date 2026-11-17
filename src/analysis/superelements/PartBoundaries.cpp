@@ -81,8 +81,8 @@ PartBoundaries::PartBoundaries(const model::Model& model) : m_catalogue(model), 
     const ManualConnections manual(m_catalogue, placed);
     m_problems.insert(m_problems.end(), manual.problems().begin(), manual.problems().end());
 
-    // format reference SEBULK METHOD = AUTO: the parts searched; an external superelement by the grid points of its
-    // SuperelementExternalBoundary.
+    // format reference SuperelementBulkOptions METHOD = AUTO: the parts searched; an external superelement by the grid
+    // points of its SuperelementExternalBoundary.
     std::map<base::EntityId, PlacedPoints> searched;
     for (const auto& [seid, points] : placed)
     {

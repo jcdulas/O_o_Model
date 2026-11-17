@@ -9,12 +9,12 @@
 namespace oor::model
 {
 
-// One CQUAD8 card: a curved quadrilateral shell element with four corners and up to four edge points.
+// One ShellQuad8 card: a curved quadrilateral shell element with four corners and up to four edge points.
 //
 // Card layout:
-//   CQUAD8  EID  PID  G1  G2  G3  G4  G5  G6
-//           G7   G8   T1  T2  T3  T4  THETA/MCID  ZOFFS
-//           TFLAG
+//   ShellQuad8  EID  PID  G1  G2  G3  G4  G5  G6
+//               G7   G8  T1  T2  T3  T4  THETA/MCID  ZOFFS
+//               TFLAG
 //
 // G1 to G4 are the corners and G5 to G8 the optional points on the edges G1-G2, G2-G3, G3-G4 and G4-G1: `nodes` always
 // has room for all eight, and an edge point that is blank on the card is 0, so that the edge a point belongs to is its
@@ -37,7 +37,7 @@ struct ShellQuad8Card
 
     double offset = 0.0;
     std::int32_t thicknessFlag = 0;
-    // T1..T4: thicknesses at the corners; NO_THICKNESS where blank (the PSHELL thickness is used).
+    // T1..T4: thicknesses at the corners; NO_THICKNESS where blank (the ShellProp thickness is used).
     std::array<double, CORNER_COUNT> cornerThickness = {NO_THICKNESS, NO_THICKNESS, NO_THICKNESS, NO_THICKNESS};
 
     [[nodiscard]] bool usesMaterialSystem() const noexcept { return matFrameId != NO_MAT_FRAME_ID; }

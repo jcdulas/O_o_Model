@@ -9,9 +9,9 @@ namespace oor::model
 {
 
 // The cards of one type kept as whole values, one per row, for the card types whose cards are long records of many
-// optional fields and sections (BCBODY, BCTABLE, NLSTEP): a column for each of their fields would be hundreds of lines
-// that nobody reads as a column. A table that uses it keeps a Column for the ID (or whatever the query engine reads)
-// next to it and keeps the two in step.
+// optional fields and sections (ContactBody, ContactTable, NonlinearStepControl): a column for each of their fields
+// would be hundreds of lines that nobody reads as a column. A table that uses it keeps a Column for the ID (or whatever
+// the query engine reads) next to it and keeps the two in step.
 //
 // A table copy copies the cards (the columns share their buffers, the rows of this one do not): these cards are few.
 template <typename CardT>

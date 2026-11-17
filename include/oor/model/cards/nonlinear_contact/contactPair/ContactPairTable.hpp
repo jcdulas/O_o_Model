@@ -19,9 +19,9 @@ struct ContactPairFormat
     static void write(const ContactPairCard& card, FieldWriter& writer);
 };
 
-// All the BCONECT cards. The ID is unique among them (IdSpace::PerCardType, category ContactPair); a BCTABL1 and the
-// BCONTACT command name it. The bodies are references to BCBODY1, BCSURF and BCGRID cards, the parameter sets to
-// BCONPRG and BCONPRP cards.
+// All the ContactPair cards. The ID is unique among them (IdSpace::PerCardType, category ContactPair); a ContactTable1
+// and the BCONTACT command name it. The bodies are references to ContactBody1, ContactFaceRegion and ContactNodeRegion
+// cards, the parameter sets to ContactPairGeomParams and ContactPairPhysicalParams cards.
 class ContactPairTable final : public TypedTable<ContactPairTable, ContactPairCard>
 {
 public:

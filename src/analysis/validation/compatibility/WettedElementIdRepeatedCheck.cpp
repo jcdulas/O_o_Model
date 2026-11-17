@@ -8,9 +8,10 @@ namespace oor::analysis
 namespace
 {
 
-// A wetted element number that two kinds of card have: a WETELME and a WETELMG each define a wetted element that a
-// WETSURF names by its WEID, so the number must be unique among the two (the format reference: "wetted element
-// identification number" on both). Two cards of one type are the reader's business (`ref.duplicate-id`).
+// A wetted element number that two kinds of card have: a WettedElemSide and a WettedElemNodes each define a wetted
+// element that a WettedSurface names by its WEID, so the number must be unique among the two (the format reference:
+// "wetted element identification number" on both). Two cards of one type are the reader's business
+// (`ref.duplicate-id`).
 class WettedElementIdRepeatedCheck final : public ValidationCheck
 {
 public:

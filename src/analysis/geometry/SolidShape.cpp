@@ -13,7 +13,7 @@ using base::Vec3;
 namespace
 {
 
-// The corners and mid-side points of the hexahedron in its natural coordinates (the order of the CHEXA card).
+// The corners and mid-side points of the hexahedron in its natural coordinates (the order of the SolidHexa card).
 constexpr double HEXAHEDRON[20][3] = {{-1, -1, -1}, {1, -1, -1}, {1, 1, -1},  {-1, 1, -1}, {-1, -1, 1},
                                       {1, -1, 1},   {1, 1, 1},   {-1, 1, 1},  {0, -1, -1}, {1, 0, -1},
                                       {0, 1, -1},   {-1, 0, -1}, {-1, -1, 0}, {1, -1, 0},  {1, 1, 0},

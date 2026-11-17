@@ -19,9 +19,9 @@ struct FreeConvectionFormat
     static void write(const FreeConvectionCard& card, FieldWriter& writer);
 };
 
-// All the CONV cards. The ID is the element ID of the surface element the card applies to (one CONV per element: its
-// own ID per card type, IdSpace::PerCardType); it is also a reference to that element, so renumbering the elements
-// follows into it. The category is Other: a CONV is a boundary condition, not a load set.
+// All the FreeConvection cards. The ID is the element ID of the surface element the card applies to (one FreeConvection
+// per element: its own ID per card type, IdSpace::PerCardType); it is also a reference to that element, so renumbering
+// the elements follows into it. The category is Other: a FreeConvection is a boundary condition, not a load set.
 class FreeConvectionTable final : public TypedTable<FreeConvectionTable, FreeConvectionCard>
 {
 public:

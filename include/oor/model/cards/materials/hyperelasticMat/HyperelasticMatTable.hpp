@@ -24,8 +24,9 @@ struct HyperelasticMatFormat
     [[nodiscard]] static std::optional<HyperelasticMatModel> parseModel(std::string_view text) noexcept;
 };
 
-// All the MATHE cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). The five
-// experiment tables are references to TABLES1 cards (ReferenceTarget::StressTable). K is NaN for a card that has none.
+// All the HyperelasticMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material).
+// The five experiment tables are references to TableStress1 cards (ReferenceTarget::StressTable). K is NaN for a card
+// that has none.
 class HyperelasticMatTable final : public TypedTable<HyperelasticMatTable, HyperelasticMatCard>
 {
 public:

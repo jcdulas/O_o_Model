@@ -18,8 +18,8 @@ struct RadiationCavitySetFormat
     static void write(const RadiationCavitySetCard& card, FieldWriter& writer);
 };
 
-// All the RADSET cards. A RADSET has no ID (IdSpace::None: the cards are one list of cavities between them); its
-// cavities are references to the cards of the radiation cavities.
+// All the RadiationCavitySet cards. A RadiationCavitySet has no ID (IdSpace::None: the cards are one list of cavities
+// between them); its cavities are references to the cards of the radiation cavities.
 class RadiationCavitySetTable final : public TypedTable<RadiationCavitySetTable, RadiationCavitySetCard>
 {
 public:

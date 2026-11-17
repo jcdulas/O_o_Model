@@ -19,7 +19,7 @@ struct ContactBezierSurfaceFormat
     static void write(const ContactBezierSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the BCBZIER cards (category ContactSurface, unique among them). The grid points are references.
+// All the ContactBezierSurface cards (category ContactSurface, unique among them). The grid points are references.
 class ContactBezierSurfaceTable final : public TypedTable<ContactBezierSurfaceTable, ContactBezierSurfaceCard>
 {
 public:

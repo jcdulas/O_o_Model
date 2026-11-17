@@ -19,9 +19,9 @@ struct MetadataBooleanPairsFormat
     static void write(const MetadataBooleanPairsCard& card, FieldWriter& writer);
 };
 
-// All the ABSNMVB cards. The ID is the ID of the meta data group, shared by the cards that belong to it
-// (IdSpace::Group, category Other: the group itself is the ABSTRCT cards, category MetadataGroup), and a reference to
-// them. The cards are kept whole next to a column of their IDs.
+// All the MetadataBooleanPairs cards. The ID is the ID of the meta data group, shared by the cards that belong to it
+// (IdSpace::Group, category Other: the group itself is the MetadataGroup cards, category MetadataGroup), and a
+// reference to them. The cards are kept whole next to a column of their IDs.
 class MetadataBooleanPairsTable final : public TypedTable<MetadataBooleanPairsTable, MetadataBooleanPairsCard>
 {
 public:

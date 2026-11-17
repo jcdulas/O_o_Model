@@ -23,8 +23,8 @@ struct AcousticAbsorberHexaFormat
     [[nodiscard]] static int fieldOfNode(std::size_t index) noexcept;
 };
 
-// All the CHACAB cards. The ID is an element ID, in the space every element shares (IdSpace::Element); PID names a
-// PACABS.
+// All the AcousticAbsorberHexa cards. The ID is an element ID, in the space every element shares (IdSpace::Element);
+// PID names a AcousticAbsorberBrickProp.
 class AcousticAbsorberHexaTable final
     : public TypedTable<AcousticAbsorberHexaTable, AcousticAbsorberHexaCard>
 {

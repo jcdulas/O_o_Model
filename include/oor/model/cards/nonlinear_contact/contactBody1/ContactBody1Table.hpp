@@ -19,9 +19,9 @@ struct ContactBody1Format
     static void write(const ContactBody1Card& card, FieldWriter& writer);
 };
 
-// All the BCBODY1 cards. The BID is unique among them (IdSpace::PerCardType, category ContactBody, shared with BCSURF
-// and BCGRID, which a BCONECT also names). The parameter set, the surface and the rigid body description are
-// references.
+// All the ContactBody1 cards. The BID is unique among them (IdSpace::PerCardType, category ContactBody, shared with
+// ContactFaceRegion and ContactNodeRegion, which a ContactPair also names). The parameter set, the surface and the
+// rigid body description are references.
 class ContactBody1Table final : public TypedTable<ContactBody1Table, ContactBody1Card>
 {
 public:

@@ -1,9 +1,9 @@
-// The cards that are not in the format reference list: PLOTEL3 and PLOTEL4 (plot-only triangles and quadrilaterals),
-// PPLANE (the plane strain and stress property of another implementation of the format), PCOMPS (its layered solid
-// property) and CGEN (the generation of elements in a field of GRIDG points). Per card: the fields of the deck, the
-// defaults, the refused values with their field, the references the card lists and the renumbering of the spaces it
-// takes part in. The generic tests of CardRoundTripTest.cpp cover reading, writing and copying every sample in every
-// format.
+// The cards that are not in the format reference list: PlotTria3 and PlotQuad4 (plot-only triangles and
+// quadrilaterals), PlaneProp (the plane strain and stress property of another implementation of the format),
+// CompSolidProp (its layered solid property) and ElemGeneration (the generation of elements in a field of GRIDG
+// points). Per card: the fields of the deck, the defaults, the refused values with their field, the references the card
+// lists and the renumbering of the spaces it takes part in. The generic tests of CardRoundTripTest.cpp cover reading,
+// writing and copying every sample in every format.
 
 #include "oor/model/cards/elements/elemGeneration/ElemGenerationTable.hpp"
 #include "oor/model/cards/elements/plotQuad4/PlotQuad4Table.hpp"
@@ -29,19 +29,19 @@ namespace
 // The grid points 1 to 4, which the plot elements of these tests name.
 const std::string GRIDS = "Node;1;;0.;0.;0.\nNode;2;;1.;0.;0.\nNode;3;;1.;1.;0.\nNode;4;;0.;1.;0.\n";
 
-// A PCOMPS with SB and NB blank, TREF 20., GE 0., a ply with a failure theory PFA, YES for the stress output and the
-// word ABS in the last field of the ply.
+// A CompSolidProp with SB and NB blank, TREF 20., GE 0., a ply with a failure theory PFA, YES for the stress output and
+// the word ABS in the last field of the ply.
 const std::string FIXED_COMP_SOLID_PROP = "CompSolidProp;2;0;23;;;20.;0.;1;1;0.5;0.;ProgressiveFailure;;Yes;Absolute\n";
 
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PLOTEL3 and PLOTEL4
+// PlotTria3 and PlotQuad4
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PLOTEL3 is a triangle between three grid points and has an ID space of its own", "[model][cards][outside]")
 {
-    // A plot triangle, then an ID that a CTRIA3 has too: a plot element never replaces a structural one.
+    // A plot triangle, then an ID that a ShellTria3 has too: a plot element never replaces a structural one.
     Model model = readBulk("PlotTria3;10;1847;6253;18041\nShellTria3;10;1;1;2;3\nPlotTria3;11;1;2;3");
     REQUIRE(rowCount<PlotTria3Table>(model) == 2);
     REQUIRE(rowCount<ShellTria3Table>(model) == 1);
@@ -51,7 +51,7 @@ TEST_CASE("a PLOTEL3 is a triangle between three grid points and has an ID space
              PlotTria3Table::INFO.idSpace == base::IdSpace::PerCardType));
     requireRoundTrip(model);
 
-    // Two PLOTEL3 cards cannot have the same ID.
+    // Two PlotTria3 cards cannot have the same ID.
     REQUIRE_THROWS_AS(readBulk("PlotTria3;1;1;2;3\nPlotTria3;1;2;3;4"), base::DeckError);
 }
 
@@ -106,7 +106,7 @@ TEST_CASE("a PLOTEL4 refuses repeated points, missing fields and a second elemen
     expectInvalid("PlotQuad4;1;1;1;3;4", "node2");
     expectInvalid("PlotQuad4;1;1;2;1;4", "node3");
     expectInvalid("PlotQuad4;1;1;2;3;2", "node4");
-    // A triangle written on a PLOTEL4 is a PLOTEL3.
+    // A triangle written on a PlotQuad4 is a PlotTria3.
     expectInvalid("PlotQuad4;1;1;2;3;3", "node4");
     expectInvalid("PlotQuad4;1;1;2;3", "node4");
 }
@@ -126,14 +126,14 @@ TEST_CASE("a PLOTEL4 names four grid points, which a renumbering of the nodes fo
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PPLANE
+// PlaneProp
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PPLANE has the fields of another implementation of the format and keeps a blank thickness blank",
           "[model][cards][outside]")
 {
     Model model = readBulk("PlaneProp;3;1;1.\nPlaneProp;4;1;0.25;0.01;2\nPlaneProp;5;1");
-    // A thickness given: PPLANE 3 1 1.
+    // A thickness given: PlaneProp 3 1 1.
     const PlanePropCard deck = cardAt<PlanePropTable>(model, 0);
     REQUIRE((deck.id == 3 && deck.matId == 1 && deck.thickness && *deck.thickness == 1.0));
     REQUIRE((deck.nonStructMass == 0.0 && deck.formulationOption == 0));
@@ -178,7 +178,7 @@ TEST_CASE("a PPLANE names a material, which a renumbering of the materials and o
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// PCOMPS
+// CompSolidProp
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a PCOMPS reads its plies, the last field of a ply included", "[model][cards][outside]")
@@ -286,7 +286,7 @@ TEST_CASE("a PCOMPS names the materials of its plies and a coordinate system, wh
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// CGEN
+// ElemGeneration
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CGEN keeps its four leading fields and the fields it does not know as written", "[model][cards][outside]")

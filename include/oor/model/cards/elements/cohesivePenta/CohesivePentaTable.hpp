@@ -19,9 +19,9 @@ struct CohesivePentaFormat
     static void write(const CohesivePentaCard& card, FieldWriter& writer);
 };
 
-// All the CIFPENT elements: an element ID, in the space every element shares (IdSpace::Element). PID names a PCOHE and
-// the points are grid points. The nodes are one column of fifteen IDs per element, 0 for an absent optional point (an
-// (N, 15) NumPy view without copy).
+// All the CohesivePenta elements: an element ID, in the space every element shares (IdSpace::Element). PID names a
+// CohesiveProp and the points are grid points. The nodes are one column of fifteen IDs per element, 0 for an absent
+// optional point (an (N, 15) NumPy view without copy).
 class CohesivePentaTable final : public TypedTable<CohesivePentaTable, CohesivePentaCard>
 {
 public:

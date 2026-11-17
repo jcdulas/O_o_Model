@@ -19,8 +19,9 @@ struct DeactivatedElemsFormat
     static void write(const DeactivatedElemsCard& card, FieldWriter& writer);
 };
 
-// All the DEACTEL cards. The ID is unique among them (IdSpace::PerCardType, category DeactivatedElementSet): the Case
-// Control DEACTEL command selects it. ISET names a SET3 (`Set`). The cards are kept whole next to their ID.
+// All the DeactivatedElems cards. The ID is unique among them (IdSpace::PerCardType, category DeactivatedElementSet):
+// the Case Control DeactivatedElems command selects it. ISET names a TypedListSet3 (`Set`). The cards are kept whole
+// next to their ID.
 class DeactivatedElemsTable final : public TypedTable<DeactivatedElemsTable, DeactivatedElemsCard>
 {
 public:

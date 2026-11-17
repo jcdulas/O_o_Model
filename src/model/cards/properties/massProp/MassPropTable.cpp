@@ -74,7 +74,7 @@ void MassPropTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void MassPropTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // A PMASS refers to no other card.
+    // A MassProp refers to no other card.
 }
 
 } // namespace oor::model

@@ -19,10 +19,10 @@ namespace
 {
 
 // A spline fits a surface or a beam through the structural grid points of its SETG, and a fit needs points: a beam
-// spline (SPLINE2, SPLINE5) at least two, a surface spline (SPLINE1, SPLINE4) at least three. Only the grid points of
-// the model count (a number of the set that is no grid point is not a point of the spline). A warning: with the
-// attachment flexibilities the solver may still run, but the spline cannot say what the surface does between so few
-// points. A set that does not exist is `ref.unresolved`.
+// spline (AeroBeamSpline2, AeroBeamSpline5) at least two, a surface spline (AeroSurfaceSpline1, AeroSurfaceSpline4) at
+// least three. Only the grid points of the model count (a number of the set that is no grid point is not a point of the
+// spline). A warning: with the attachment flexibilities the solver may still run, but the spline cannot say what the
+// surface does between so few points. A set that does not exist is `ref.unresolved`.
 class SplineSetSizeCheck final : public ValidationCheck
 {
 public:
@@ -57,7 +57,7 @@ private:
     static constexpr std::size_t MAX_EXAMINED = 2'000'000;
 
     // The grid points each set has, counted once (up to SURFACE_POINTS, which is all a check needs); nothing when the
-    // set has no SET1 or SET3 of grid points, or when it was too long to examine.
+    // set has no IdListSet1 or TypedListSet3 of grid points, or when it was too long to examine.
     using Counts = std::map<base::EntityId, std::optional<std::size_t>>;
 
     static std::optional<std::size_t> gridPointsOf(const model::Model& model, base::EntityId sid)

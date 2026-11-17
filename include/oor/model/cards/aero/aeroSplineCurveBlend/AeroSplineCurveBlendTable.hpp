@@ -19,10 +19,11 @@ struct AeroSplineCurveBlendFormat
     static void write(const AeroSplineCurveBlendCard& card, FieldWriter& writer);
 };
 
-// All the SPBLND2 cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7,
-// SPLINEX, SPBLND1, SPBLND2 and SPLINRB; IdSpace::PerCardType refuses a repeat inside this type and a check across the
-// types reports the others). SID1 and SID2 name splines of any of those types (ReferenceTarget::AeroSpline), AELIST an
-// AELIST card (ReferenceTarget::AeroList). The cards are kept whole (CardRows) next to the column of their SID.
+// All the AeroSplineCurveBlend cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7, AeroUserSpline, AeroSplineStripBlend, AeroSplineCurveBlend and
+// AeroRigidSpline; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the
+// others). SID1 and SID2 name splines of any of those types (ReferenceTarget::AeroSpline), AELIST an AELIST card
+// (ReferenceTarget::AeroList). The cards are kept whole (CardRows) next to the column of their SID.
 class AeroSplineCurveBlendTable final : public TypedTable<AeroSplineCurveBlendTable, AeroSplineCurveBlendCard>
 {
 public:

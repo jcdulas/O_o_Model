@@ -19,7 +19,7 @@ struct AxisymTriaFormat
     static void write(const AxisymTriaCard& card, FieldWriter& writer);
 };
 
-// All the CTRIAX elements: the nodes are one column of six IDs per element, 0 for an absent edge point (an (N, 6)
+// All the AxisymTria elements: the nodes are one column of six IDs per element, 0 for an absent edge point (an (N, 6)
 // NumPy view without copy).
 class AxisymTriaTable final : public TypedTable<AxisymTriaTable, AxisymTriaCard>
 {

@@ -308,7 +308,7 @@ std::string theoryName(int failureTheory)
     case model::FailureTheory::MaxStrain:
         return "maxStrain";
     case model::FailureTheory::HashinFailure:
-        return "hashin"; // HFAIL: the Hashin criteria of a unidirectional ply (MAT8 HFAIL)
+        return "hashin"; // HFAIL: the Hashin criteria of a unidirectional ply (OrthoMat2D HFAIL)
     default:
         return {};
     }
@@ -550,7 +550,8 @@ public:
                 const int index = values.component("failureIndex");
                 if (index < 0 || values.isComplex())
                     continue;
-                const int bondColumn = values.component("bondFailureIndex"); // the solver writes it with the PCOMP SB
+                // the solver writes it with the CompProp SB
+                const int bondColumn = values.component("bondFailureIndex");
                 const results::ResultText* theories = nullptr;
                 for (const results::ResultText& text : decoded->texts)
                     if (text.name == "failureTheory")

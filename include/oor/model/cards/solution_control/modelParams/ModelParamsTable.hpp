@@ -20,8 +20,8 @@ struct ModelParamsFormat
     static void write(const ModelParamsCard& card, FieldWriter& writer);
 };
 
-// All the MDLPRM cards. A card has no ID (IdSpace::None). The names, kinds and values of every card are lists in CSR
-// form, one per member of a parameter.
+// All the ModelParams cards. A card has no ID (IdSpace::None). The names, kinds and values of every card are lists in
+// CSR form, one per member of a parameter.
 class ModelParamsTable final : public TypedTable<ModelParamsTable, ModelParamsCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an MDLPRM refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a ModelParams refers to no card
 
     [[nodiscard]] VariableLengthColumn<std::string>& nameColumn() noexcept { return m_name; }
     [[nodiscard]] VariableLengthColumn<std::uint8_t>& kindColumn() noexcept { return m_kind; }

@@ -10,9 +10,9 @@ namespace oor::analysis
 namespace
 {
 
-// a design variable that depends on a DLINK cannot be independent in another one. The check reads it
-// for the card of the independent variable, and so also finds a DLINK that lists its own dependent variable among the
-// independent ones (the variable would depend on itself).
+// a design variable that depends on a DesignVarLink cannot be independent in another one. The check reads it
+// for the card of the independent variable, and so also finds a DesignVarLink that lists its own dependent variable
+// among the independent ones (the variable would depend on itself).
 class LinkDependentCheck final : public ValidationCheck
 {
 public:

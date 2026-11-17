@@ -18,8 +18,8 @@ struct ForcedConvectionPropFormat
     static void write(const ForcedConvectionPropCard& card, FieldWriter& writer);
 };
 
-// All the PCONVM cards. The ID is the PCONID a CONVM names, in a space of its own (category ForcedConvectionProperty,
-// IdSpace::PerCardType).
+// All the ForcedConvectionProp cards. The ID is the PCONID a ForcedConvection names, in a space of its own (category
+// ForcedConvectionProperty, IdSpace::PerCardType).
 class ForcedConvectionPropTable final : public TypedTable<ForcedConvectionPropTable, ForcedConvectionPropCard>
 {
 public:

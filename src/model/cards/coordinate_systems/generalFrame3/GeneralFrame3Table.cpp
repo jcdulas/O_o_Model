@@ -125,9 +125,9 @@ void GeneralFrame3Table::visitReferences(std::uint32_t row, ReferenceVisitor& vi
 {
     if (const base::EntityId referenceFrameId = m_referenceFrameId.get(row); referenceFrameId > 0)
         m_referenceFrameId.set(row, visitor.visit("referenceFrameId", ReferenceTarget::Coordinate, referenceFrameId));
-    // THETAIDi name a DEQATN (FORM EQN) or a TABLE3D (FORM TABLE). A TABLE3D is one of the cards of the category
-    // MultiDimensionalTable, which holds the TABL3Di cards too: the target does not tell the two apart, and a THETAID
-    // that names a TABL3Di is a check of the model, not of the card.
+    // THETAIDi name a DesignEquation (FORM EQN) or a TableScattered3D (FORM TABLE). A TableScattered3D is one of the
+    // cards of the category MultiDimensionalTable, which holds the TABL3Di cards too: the target does not tell the two
+    // apart, and a THETAID that names a TABL3Di is a check of the model, not of the card.
     const ReferenceTarget target = m_matrixForm.get(row) == GeneralFrame3Card::DEFAULT_MATRIX_FORM
                                        ? ReferenceTarget::DesignEquation
                                        : ReferenceTarget::MultiDimensionalTable;

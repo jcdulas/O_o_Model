@@ -9,8 +9,8 @@
 namespace oor::model
 {
 
-// One SECNDRY / PRIMARY set of a BCTABLE: a touching (secondary) body, the parameters of the pair, and the bodies it
-// touches (primary).
+// One SECNDRY / PRIMARY set of a ContactTable: a touching (secondary) body, the parameters of the pair, and the bodies
+// it touches (primary).
 struct ContactTableGroup
 {
     base::EntityId secondaryBodyId = 0; // IDSEC1: the touching body; 0 when blank (SOL 700: every element of the model)
@@ -20,12 +20,12 @@ struct ContactTableGroup
     [[nodiscard]] bool operator==(const ContactTableGroup&) const = default;
 };
 
-// One BCTABLE card: the contact table of a load case, for general contact in SOLs 101 and 400 and in SOL 700, and (with
-// the options of the glued contact) for the permanently glued contact of the other solutions. The three format
+// One ContactTable card: the contact table of a load case, for general contact in SOLs 101 and 400 and in SOL 700, and
+// (with the options of the glued contact) for the permanently glued contact of the other solutions. The three format
 // reference entries (the general table, its SOL 700 form and the glued option) have the same first line and the same
 // lines for the fields they share, so one layout reads them all.
 //
-// Card layout: BCTABLE  ID  IDSCND  IDPRIM  NGROUP  COPTS  COPTM
+// Card layout: ContactTable  ID  IDSCND  IDPRIM  NGROUP  COPTS  COPTM
 //   then for each set of touching and touched bodies, on continuation lines (keywords in field 1 or, for the options,
 //   field 2):
 //     SECNDRY  IDSEC1  ERROR  FNTOL  FRIC  CINTERF  IGLUE

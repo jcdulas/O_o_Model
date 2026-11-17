@@ -20,8 +20,8 @@ struct ContactEllipsoidListFormat
     static void write(const ContactEllipsoidListCard& card, FieldWriter& writer);
 };
 
-// All the BCELIPS cards (category ContactSurface, unique among them). The names have no column for the query engine
-// (text lists).
+// All the ContactEllipsoidList cards (category ContactSurface, unique among them). The names have no column for the
+// query engine (text lists).
 class ContactEllipsoidListTable final : public TypedTable<ContactEllipsoidListTable, ContactEllipsoidListCard>
 {
 public:

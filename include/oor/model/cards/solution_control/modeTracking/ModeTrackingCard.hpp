@@ -7,9 +7,10 @@
 namespace oor::model
 {
 
-// One MODTRAK card: the mode tracking of a design optimization (SOL 200; selected by MODTRAK in Case Control).
+// One ModeTracking card: the mode tracking of a design optimization (SOL 200; selected by ModeTracking in Case
+// Control).
 //
-// Card layout: MODTRAK  SID  LOWRNG  HIGHRNG  MTFILTER
+// Card layout: ModeTracking  SID  LOWRNG  HIGHRNG  MTFILTER
 // The designed modes are looked for among the modes LOWRNG to HIGHRNG; two modes are the same mode when their mass
 // normalised cross orthogonality is greater than MTFILTER. A blank LOWRNG is 0, a blank HIGHRNG is the number of
 // eigenvalues extracted (which the card does not know: 0 here, written blank), a blank MTFILTER is 0.9.

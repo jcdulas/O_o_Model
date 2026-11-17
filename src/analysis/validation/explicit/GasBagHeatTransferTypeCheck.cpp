@@ -13,10 +13,10 @@ namespace oor::analysis
 namespace
 {
 
-// A HEATLOS whose HTRTYPE word does not match the heat transfer card that has the number HTRTYPID. The HTRCONV and the
-// HTRRAD cards share one category (each has a number space of its own), so the model resolves the number to whichever
-// has it; the word is what says which one was meant. The words are the names of the cards. An HTRCONV 2 and an HTRRAD 2
-// may both exist: it is enough that one of them is the type named.
+// A GasBagHeatTransfer whose HTRTYPE word does not match the heat transfer card that has the number HTRTYPID. The
+// GasBagConvection and the GasBagRadiation cards share one category (each has a number space of its own), so the model
+// resolves the number to whichever has it; the word is what says which one was meant. The words are the names of the
+// cards. A GasBagConvection 2 and a GasBagRadiation 2 may both exist: it is enough that one of them is the type named.
 class GasBagHeatTransferTypeCheck final : public ValidationCheck
 {
 public:

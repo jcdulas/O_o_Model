@@ -9,7 +9,8 @@
 namespace oor::model
 {
 
-// One keyword line of a MATCB card: the keyword and its values, a blank value being absent. The values are, by keyword:
+// One keyword line of a ProgressiveFailureMat card: the keyword and its values, a blank value being absent. The values
+// are, by keyword:
 //   TEMP     AF AC AT TREF                     the thermal expansion coefficients and the reference temperature
 //   UNIDIR   M MU-FC MU-TF MU-CT               the exponent of the fracture mode and the friction coefficients
 //   WOVEN    M MU-WF MU-WT MU-FT               (the same for a woven material)
@@ -25,11 +26,11 @@ struct ProgressiveFailureMatEntry
     std::vector<std::optional<double>> values;
 };
 
-// One MATCB card: the progressive failure properties of an orthotropic material by the Cuntze-Bold material model (2D
-// and 3D).
+// One ProgressiveFailureMat card: the progressive failure properties of an orthotropic material by the Cuntze-Bold
+// material model (2D and 3D).
 //
 // Card layout (the fields are numbered across the lines, eight to a line):
-//   MATCB  MID  FAIL  RHO                                                          fields 1 to 3
+//   ProgressiveFailureMat  MID  FAIL  RHO                                          fields 1 to 3
 // then lines that each start with a keyword in the first field of the line:
 //   "TEMP"   AF  AC  AT  TREF
 //   "UNIDIR" M   MU-FC  MU-TF  MU-CT          then the directions of a unidirectional material and its shear planes

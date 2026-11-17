@@ -85,7 +85,7 @@ std::optional<CardProblem> HeatSurfacePropertyFormat::check(const HeatSurfacePro
                            "node1"};
     if (card.kind == "Point")
     {
-        // A POINT has one primary grid point.
+        // A GeomPoint has one primary grid point.
         if (card.node2 != 0)
             return CardProblem{"card.bad-value",
                                std::string("a POINT surface has ") + CardProblem::fieldNamed("node1") +
@@ -254,8 +254,8 @@ void HeatSurfacePropertyTable::finishRead(Model& model, const ReadContext&)
         if (m_backRadiationPropId.get(row) == 0)
             m_backRadiationPropId.set(row, defaults->backRadiationPropId);
         // The orientation: a card that names a grid point or a vector of its own keeps it; else the grid point of the
-        // BDYOR if it names one, else its vector (the vector is not used when a grid point is). The system CE of a
-        // vector that is in use defaults to the one of the BDYOR.
+        // HeatSurfaceDefaults if it names one, else its vector (the vector is not used when a grid point is). The
+        // system CE of a vector that is in use defaults to the one of the HeatSurfaceDefaults.
         const bool ownVector = !std::isnan(m_direction1.get(row)) || !std::isnan(m_direction2.get(row)) ||
                                !std::isnan(m_direction3.get(row));
         if (m_orientationNode.get(row) == 0 && !ownVector)

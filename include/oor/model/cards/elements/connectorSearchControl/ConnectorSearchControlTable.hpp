@@ -18,8 +18,8 @@ struct ConnectorSearchControlFormat
     static void write(const ConnectorSearchControlCard& card, FieldWriter& writer);
 };
 
-// All the CONCTL cards. A card has no ID (IdSpace::None, category Other) and any number of them may be in a deck; its
-// SET3ID names a SET3 (`Set`). The cards are kept whole.
+// All the ConnectorSearchControl cards. A card has no ID (IdSpace::None, category Other) and any number of them may be
+// in a deck; its SET3ID names a TypedListSet3 (`Set`). The cards are kept whole.
 class ConnectorSearchControlTable final : public TypedTable<ConnectorSearchControlTable, ConnectorSearchControlCard>
 {
 public:

@@ -19,9 +19,9 @@ struct AeroMachBoxProp3Format
     static void write(const AeroMachBoxProp3Card& card, FieldWriter& writer);
 };
 
-// All the PAERO3 cards, kept whole next to a column of their PIDs. The PID is in the space the five PAERO cards share
-// (IdSpace::AeroProperty, category AeroProperty): a CAERO3 names it (ReferenceTarget::AeroProperty). The card names no
-// other card.
+// All the AeroMachBoxProp3 cards, kept whole next to a column of their PIDs. The PID is in the space the five PAERO
+// cards share (IdSpace::AeroProperty, category AeroProperty): an AeroMachBoxPanel3 names it
+// (ReferenceTarget::AeroProperty). The card names no other card.
 class AeroMachBoxProp3Table final : public TypedTable<AeroMachBoxProp3Table, AeroMachBoxProp3Card>
 {
 public:

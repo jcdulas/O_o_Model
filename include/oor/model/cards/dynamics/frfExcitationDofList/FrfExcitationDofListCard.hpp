@@ -8,11 +8,11 @@
 namespace oor::model
 {
 
-// One FRFXIT1 card: degrees of freedom where unit loads are applied to generate frequency response functions, for a
-// list of points that share their components.
+// One FrfExcitationDofList card: degrees of freedom where unit loads are applied to generate frequency response
+// functions, for a list of points that share their components.
 //
-// Card layout: FRFXIT1  C  PNTID1  PNTID2  PNTID3  PNTID4  PNTID5  PNTID6  PNTID7
-// or:         FRFXIT1  C  PNTID1  "THRU"  PNTID2
+// Card layout: FrfExcitationDofList  C  PNTID1  PNTID2  PNTID3  PNTID4  PNTID5  PNTID6  PNTID7
+// or:         FrfExcitationDofList  C  PNTID1  "THRU"  PNTID2
 // C holds the digits 1 to 6 of the components as one number in ascending order (123 for "321"), 0 or blank for scalar
 // points. The points are grid or scalar points of this model, listed as written: single points and THRU ranges, in
 // order (the points of a range need not all exist). The format draws one line of at most seven entries; the

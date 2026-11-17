@@ -51,12 +51,13 @@ private:
 };
 
 // The main material of each element of a list (`propIds` its properties, 0 for none): the one the card gives (a
-// CONROD), else the first one of its property (MID1 of a PSHELL, else MID2; the first ply of a laminate); 0 for none.
+// Rod2InlineSection), else the first one of its property (MID1 of a ShellProp, else MID2; the first ply of a laminate);
+// 0 for none.
 [[nodiscard]] std::vector<std::int32_t> mainMaterials(model::Model& model, CardFacts& facts, const CardList& list,
                                                       const std::vector<std::int32_t>& pids);
 
-// The card types of the fasteners: CBUSH, CFAST, CWELD, the scalar springs CELAS1 to CELAS4 and CBUSH1D (the elements
-// of `fastenersTable`, `fastenerForces` and the fastener margins).
+// The card types of the fasteners: Bushing, Fastener, Weld, the scalar springs SpringDofProperty to SpringScalarInline
+// and Bushing1D (the elements of `fastenersTable`, `fastenerForces` and the fastener margins).
 [[nodiscard]] std::vector<std::uint16_t> fastenerElementTypes();
 
 // The numbers about the elements of a list that several queries share, each made the first time it is asked for. The

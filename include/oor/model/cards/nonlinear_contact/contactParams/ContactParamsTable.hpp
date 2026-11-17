@@ -23,9 +23,9 @@ struct ContactParamsFormat
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 };
 
-// All the BCPARA cards. The ID (the subcase, 0 for all) is unique among them (IdSpace::PerCardType, category Other): a
-// second BCPARA with ID 0 is a fatal error in the format reference. The cards are kept whole (CardRows): the parameters
-// are a list of names and values, and the query engine reads the ID only.
+// All the ContactParams cards. The ID (the subcase, 0 for all) is unique among them (IdSpace::PerCardType, category
+// Other): a second ContactParams with ID 0 is a fatal error in the format reference. The cards are kept whole
+// (CardRows): the parameters are a list of names and values, and the query engine reads the ID only.
 class ContactParamsTable final : public TypedTable<ContactParamsTable, ContactParamsCard>
 {
 public:

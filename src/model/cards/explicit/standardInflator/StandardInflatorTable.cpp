@@ -6,9 +6,9 @@ namespace oor::model
 namespace
 {
 
-// An INFLGAS defines the gas by itself, so the gas constants of the card stay blank. Without one the card gives the
+// An InflatorGas defines the gas by itself, so the gas constants of the card stay blank. Without one the card gives the
 // constants; the format reference asks for two of the four and the solver derives the others, so the card does not
-// count them (as the EOSGAM does not).
+// count them (as the GammaLawStateEquation does not).
 std::optional<CardProblem> checkGas(const StandardInflatorCard& card)
 {
     if (card.gasName.gas == 0)

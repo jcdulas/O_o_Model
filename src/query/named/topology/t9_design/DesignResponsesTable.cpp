@@ -14,7 +14,7 @@ namespace oor::query
 namespace
 {
 
-// Collects the numbers a DRESP1 names.
+// Collects the numbers a DesignResp1 names.
 class TargetCollector final : public model::ReferenceVisitor
 {
 public:
@@ -28,7 +28,7 @@ public:
 };
 
 // The response types whose ATTi name no card but are what the response measures, given as integers: the component 1
-// to 6 of a STABDER (its ATT1, format reference DRESP1). Their targets are their integer ATTi as written.
+// to 6 of a STABDER (its ATT1, format reference DesignResp1). Their targets are their integer ATTi as written.
 bool attributesAreTargets(const std::string& rtype)
 {
     return rtype == "StabilityDerivative";
@@ -45,11 +45,11 @@ struct ResponseRow
     std::string attributeA; // empty: null
     std::string attributeB;
     std::vector<std::int32_t> targets;
-    std::string card;          // DRESP1, DRESP2, DRESP3
-    std::int32_t equation = 0; // the DEQATN of a DRESP2; 0: null
-    std::string function;      // the FUNC of a DRESP2
-    std::string group;         // the GROUP of a DRESP3
-    std::string userType;      // the TYPE of a DRESP3
+    std::string card;          // DesignResp1, DesignResp2, DesignResp3
+    std::int32_t equation = 0; // the DesignEquation of a DesignResp2; 0: null
+    std::string function;      // the FUNC of a DesignResp2
+    std::string group;         // the GROUP of a DesignResp3
+    std::string userType;      // the TYPE of a DesignResp3
 };
 
 std::string textOf(const model::DesignValue& value)
@@ -71,8 +71,8 @@ void forEachCard(const model::Model& model, Body&& body)
     }
 }
 
-// What a DRESP2 or DRESP3 combines: the responses of its DRESP1 and DRESP2 groups and the grid points of its DNODE
-// group.
+// What a DesignResp2 or DesignResp3 combines: the responses of its DesignResp1 and DesignResp2 groups and the grid
+// points of its DNODE group.
 std::vector<std::int32_t> argumentsOf(const std::vector<model::DesignGroup>& groups)
 {
     std::vector<std::int32_t> ids;
@@ -89,7 +89,7 @@ std::vector<std::int32_t> argumentsOf(const std::vector<model::DesignGroup>& gro
     return ids;
 }
 
-// designResponsesTable: DRESP1, DRESP2 and DRESP3, with the objective the Case Control picks.
+// designResponsesTable: DesignResp1, DesignResp2 and DesignResp3, with the objective the Case Control picks.
 class DesignResponsesTableQuery final : public QueryBase
 {
 public:

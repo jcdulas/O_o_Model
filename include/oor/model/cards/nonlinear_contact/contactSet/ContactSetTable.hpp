@@ -19,11 +19,11 @@ struct ContactSetFormat
     static void write(const ContactSetCard& card, FieldWriter& writer);
 };
 
-// All the BCTSET cards. The CSID is a contact set number, unique among the BCTSET cards (IdSpace::PerCardType, category
-// ContactTable: the BCSET and BCONTACT commands select a set or a BCTADD, a BCTABL1, a BCTABLE or an MDBCTB1 by the
-// same kind of number, which the contact table check of the validation compares across the types). A BCTADD names the
-// sets and a BCTPARM or BCTPARA gives one parameters. The regions are not looked up (see ContactSetCard). The cards are
-// kept whole next to their ID.
+// All the ContactSet cards. The CSID is a contact set number, unique among the ContactSet cards (IdSpace::PerCardType,
+// category ContactTable: the BCSET and BCONTACT commands select a set or a ContactSetUnion, a ContactTable1, a
+// ContactTable or a ModuleContactTable by the same kind of number, which the contact table check of the validation
+// compares across the types). A ContactSetUnion names the sets and a ContactControlParams or ContactSurfaceParams gives
+// one parameters. The regions are not looked up (see ContactSetCard). The cards are kept whole next to their ID.
 class ContactSetTable final : public TypedTable<ContactSetTable, ContactSetCard>
 {
 public:

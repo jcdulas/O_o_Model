@@ -18,8 +18,8 @@ struct DamperPropFreqFormat
     static void write(const DamperPropFreqCard& card, FieldWriter& writer);
 };
 
-// All the PDAMPT cards. The ID space is the card type's own: the ID is the one of the PDAMP that the card extends, so
-// it is also a reference to a property.
+// All the DamperPropFreq cards. The ID space is the card type's own: the ID is the one of the DamperProp that the card
+// extends, so it is also a reference to a property.
 class DamperPropFreqTable final : public TypedTable<DamperPropFreqTable, DamperPropFreqCard>
 {
 public:

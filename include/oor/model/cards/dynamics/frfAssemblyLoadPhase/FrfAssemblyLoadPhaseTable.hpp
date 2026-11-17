@@ -19,10 +19,11 @@ struct FrfAssemblyLoadPhaseFormat
     static void write(const FrfAssemblyLoadPhaseCard& card, FieldWriter& writer);
 };
 
-// All the FBAPHAS cards. The SID is a set ID shared by many cards, in the category of the DPHASE cards (IdSpace::Group,
-// category PhaseLead), so the DPHASE field of a dynamic load finds it (ReferenceTarget::PhaseSet). A component given by
-// its ID is a reference to an FRFCOMP (ReferenceTarget::FrfComponent); one given by its name is kept as written; the
-// point is a plain number of the component's own model.
+// All the FrfAssemblyLoadPhase cards. The SID is a set ID shared by many cards, in the category of the DynamicLoadPhase
+// cards (IdSpace::Group, category PhaseLead), so the DPHASE field of a dynamic load finds it
+// (ReferenceTarget::PhaseSet). A component given by its ID is a reference to a FrfComponent
+// (ReferenceTarget::FrfComponent); one given by its name is kept as written; the point is a plain number of the
+// component's own model.
 class FrfAssemblyLoadPhaseTable final : public TypedTable<FrfAssemblyLoadPhaseTable, FrfAssemblyLoadPhaseCard>
 {
 public:

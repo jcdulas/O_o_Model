@@ -9,7 +9,7 @@
 namespace oor::model
 {
 
-// FORM of a MOTION: the kind of motion of a body of a brake system. The enumerators are numbered in the order of
+// FORM of a BrakeMotion: the kind of motion of a body of a brake system. The enumerators are numbered in the order of
 // MOTION_FORM_WORDS.
 enum class BrakeMotionForm : std::uint8_t
 {
@@ -19,10 +19,11 @@ enum class BrakeMotionForm : std::uint8_t
 
 inline constexpr std::array<std::string_view, 2> MOTION_FORM_WORDS{"RotationMotion", "TranslationMotion"};
 
-// One MOTION card (SOL 400): the motion direction of a body of a brake system, which a BRKSYS names (MT1_ID, MT2_ID).
+// One BrakeMotion card (SOL 400): the motion direction of a body of a brake system, which a BrakeSystem names (MT1_ID,
+// MT2_ID).
 //
-// Card layout: MOTION  ID  (blank)  VELOCITY                                          fields 1 to 3 of the first line
-//                     FORM  COSX  COSY  COSZ  X  Y  Z                                fields 9 to 15 of the second line
+// Card layout: BrakeMotion  ID  (blank)  VELOCITY                                     fields 1 to 3 of the first line
+//                          FORM  COSX  COSY  COSZ  X  Y  Z                           fields 9 to 15 of the second line
 // ID is the number of the motion. VELOCITY is the angular velocity of a rotation or the velocity of a translation; the
 // format says it is not used now (it is designed for velocity-related brake analysis), so it is a real that defaults to
 // 0.0. FORM is ROTAT or TRANS (required: the two forms cannot be given together on one card). COSX, COSY and

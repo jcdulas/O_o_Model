@@ -1,10 +1,11 @@
-// Checks of the brake, contact and state cards: the brake squeal cards of SOL 400 (BRKPROP, BRKSYS, BSQUEAL, MOTION),
-// the glue release UNGLUE, the load stepping control table TABSCTL with the CRITTID of an NLSTEP that names it, the
-// cards of the SOL 400 initial and deactivated states (DEACTEL, IPSTRAIN, ISTRESS), the tire selection TIRE, the
-// connector override CONCTL and the RBE3 perturbation override GMOVR3. Per card: the fields in their format reference
-// positions, the defaults, the references it lists and what each one points to, the renumbering of the spaces the card
-// owns or names, the refused values and the round trip through a model file. The generic tests of
-// CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
+// Checks of the brake, contact and state cards: the brake squeal cards of SOL 400 (BrakeProp, BrakeSystem, BrakeSqueal,
+// BrakeMotion), the glue release ContactUnglueNodes, the load stepping control table StepControlCriteria with the
+// CRITTID of a NonlinearStepControl that names it, the cards of the SOL 400 initial and deactivated states
+// (DeactivatedElems, InitialPlasticStrain, InitialStress), the tire selection TireSelection, the connector override
+// ConnectorSearchControl and the RigidInterpolation perturbation override RigidInterpolationOverride. Per card: the
+// fields in their format reference positions, the defaults, the references it lists and what each one points to, the
+// renumbering of the spaces the card owns or names, the refused values and the round trip through a model file. The
+// generic tests of CardRoundTripTest.cpp read, write and copy every sample; this file covers what each card means.
 
 #include "oor/model/cards/elements/connectorSearchControl/ConnectorSearchControlTable.hpp"
 #include "oor/model/cards/nonlinear_contact/brakeMotion/BrakeMotionTable.hpp"
@@ -50,8 +51,8 @@ std::size_t unresolvedOf(const std::string& cards)
     return unresolvedIn(model);
 }
 
-// A brake system: two bodies (BCBODY1 on one BSURF), two motions, a property, a BRKSYS of two disks and a BSQUEAL. The
-// second disk leaves its MT2_ID blank, so it uses the first motion for both bodies.
+// A brake system: two bodies (ContactBody1 on one ContactElemSurface), two motions, a property, a BrakeSystem of two
+// disks and a BrakeSqueal. The second disk leaves its MT2_ID blank, so it uses the first motion for both bodies.
 const std::string BRAKE_TEXT =
     "ContactElemSurface;200;1;Through;4\n"
     "ContactBody1;110;;ThreeDimensional;Deformable;200\n"
@@ -65,7 +66,7 @@ const std::string BRAKE_TEXT =
 } // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
-// BRKPROP
+// BrakeProp
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a BRKPROP is a list of AVSTIF, TAVSTIF and FRICT pairs and names a TABL3Di", "[model][cards][brake]")
@@ -124,7 +125,7 @@ TEST_CASE("a BRKPROP is a list of AVSTIF, TAVSTIF and FRICT pairs and names a TA
     edited.friction = -1.0;
     REQUIRE(BrakePropFormat::check(edited)->field == std::string("friction"));
 
-    // Renumbering: the TABL3Di the card names, and the numbers of the BRKPROP cards.
+    // Renumbering: the TABL3Di the card names, and the numbers of the BrakeProp cards.
     Renumbering::apply(model, RenumberSpace::MultiDimensionalTable, Renumbering::offset(1000));
     REQUIRE((cardAt<BrakePropTable>(model, 1).areaStiffnessTableId == 1201 &&
              cardAt<BrakePropTable>(model, 3).areaStiffnessTableId == 1203));
@@ -159,7 +160,7 @@ TEST_CASE("a BRKPROP is a list of AVSTIF, TAVSTIF and FRICT pairs and names a TA
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// BRKSYS
+// BrakeSystem
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a BRKSYS has the flags of its first line and a disk on each line, with a blank MT2_ID resolved to MT1_ID",
@@ -232,7 +233,7 @@ TEST_CASE("a BRKSYS follows the renumbering of the bodies, the motions, the prop
     Renumbering::apply(model, RenumberSpace::ContactBody, Renumbering::offset(5000));
     card = cardAt<BrakeSystemTable>(model);
     REQUIRE((card.disks[0].firstBodyId == 5110 && card.disks[0].secondBodyId == 5111));
-    // The BSQUEAL and the BRKSYS are one number space: both move.
+    // The BrakeSqueal and the BrakeSystem are one number space: both move.
     Renumbering::apply(model, RenumberSpace::BrakeSqueal, Renumbering::offset(100));
     REQUIRE((cardAt<BrakeSystemTable>(model).id == 1000 && cardAt<BrakeSquealTable>(model).id == 1001));
     REQUIRE(unresolvedIn(model) == 0);
@@ -246,7 +247,8 @@ TEST_CASE("a BRKSYS follows the renumbering of the bodies, the motions, the prop
     model.remove(*model.locateInType(typeIndexOf<BrakeSystemTable>(), 1000));
     REQUIRE(model.cardCount() == before - 1);
     REQUIRE(unresolvedIn(model) == 0);
-    // A deck cannot give two BRKSYS the same number (the check `contact.brake-squeal-id-repeated` is for a BSQUEAL).
+    // A deck cannot give two BrakeSystem the same number (the check `contact.brake-squeal-id-repeated` is for a
+    // BrakeSqueal).
     REQUIRE_THROWS_AS(readBulk("BrakeSystem;5\nBrakeSystem;5"), base::DeckError);
 }
 
@@ -292,7 +294,7 @@ TEST_CASE("a BRKSYS refuses the values that its format refuses", "[model][cards]
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// BSQUEAL
+// BrakeSqueal
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a BSQUEAL has the stiffness, the flag and an axis on a second line", "[model][cards][brake]")
@@ -331,8 +333,8 @@ TEST_CASE("a BSQUEAL has the stiffness, the flag and an axis on a second line", 
     REQUIRE(visitor.fields.empty());
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The BSQUEAL and the BRKSYS are one number space of the analysis (the check `contact.brake-squeal-id-repeated`
-    // reports a number that both have); the reader accepts both.
+    // The BrakeSqueal and the BrakeSystem are one number space of the analysis (the check
+    // `contact.brake-squeal-id-repeated` reports a number that both have); the reader accepts both.
     REQUIRE_NOTHROW(readBulk("BrakeSqueal;900;;1.E+7\nBrakeSystem;900"));
     REQUIRE_THROWS_AS(readBulk("BrakeSqueal;900;;1.E+7\nBrakeSqueal;900;;2.E+7"), base::DeckError);
     Renumbering::apply(model, RenumberSpace::BrakeSqueal, Renumbering::offset(500));
@@ -440,7 +442,7 @@ TEST_CASE("a MOTION is a rotation about an axis through a center, or a translati
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// UNGLUE
+// ContactUnglueNodes
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an UNGLUE lists the grid points of a body with THRU and BY, and its ID is shared and may be zero",
@@ -490,7 +492,8 @@ TEST_CASE("an UNGLUE lists the grid points of a body with THRU and BY, and its I
     // The grid 5 and the grid 7 to 9 do not exist; the first card finds everything.
     REQUIRE(unresolvedIn(model) == 4);
     REQUIRE(unresolvedOf("ContactElemSurface;200;1\nContactBody1;101;;ThreeDimensional;Deformable;"
-                         "200\nContactUnglueNodes;10;102;5;Through;9;40") == 3); // and the element 1 of the BSURF
+                         // and the element 1 of the ContactElemSurface
+                         "200\nContactUnglueNodes;10;102;5;Through;9;40") == 3);
 
     ContactUnglueNodesCard edited = example;
     edited.grids = {ContactRun{5, 3, -1}};
@@ -531,7 +534,7 @@ TEST_CASE("an UNGLUE lists the grid points of a body with THRU and BY, and its I
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TABSCTL and the CRITTID of an NLSTEP
+// StepControlCriteria and the CRITTID of a NonlinearStepControl
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TABSCTL has criteria with a SET3, up to four ranges and the format's own compact layout",
@@ -551,7 +554,7 @@ TEST_CASE("a TABSCTL has criteria with a SET3, up to four ranges and the format'
             std::vector<StepControlCriteriaRange>{{0.05, 12.5}, {0.25, 40.0}, {0.75, std::nullopt}});
     REQUIRE((example.criteria[1].kind == LoadStepCriterion::Esri && example.criteria[1].setId == 1800));
     REQUIRE(example.criteria[1].ranges == std::vector<StepControlCriteriaRange>{{0.05, 12.5}});
-    // ALL and a blank SET3 are the same: every element or grid point.
+    // ALL and a blank TypedListSet3 are the same: every element or grid point.
     REQUIRE((example.criteria[2].kind == LoadStepCriterion::Epsi && example.criteria[2].setId == 0));
     REQUIRE(example.criteria[2].ranges == std::vector<StepControlCriteriaRange>{{1.25, std::nullopt}});
 
@@ -588,7 +591,7 @@ TEST_CASE("a TABSCTL has criteria with a SET3, up to four ranges and the format'
         REQUIRE(static_cast<std::size_t>(all.criteria[index].kind) == index);
     requireRoundTrip(kinds);
 
-    // The SET3 of a criterion is a set; ALL names nothing.
+    // The TypedListSet3 of a criterion is a set; ALL names nothing.
     RecordingVisitor visitor;
     model.table<StepControlCriteriaTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"setId", "setId"});
@@ -601,7 +604,7 @@ TEST_CASE("a TABSCTL has criteria with a SET3, up to four ranges and the format'
     REQUIRE(unresolvedOf("TypedListSet3;8400;Elements;1;2\nTypedListSet3;1800;Elements;3\nStepControlCriteria;17;"
                          "StrainIncrement;8400;0.05;"
                          ";;;;;;;StrainEnergyIncrement;1800;0.05;;;;;;;;PlasticStrainIncrement;All;1.25") ==
-            3); // the elements 1, 2 and 3 of the two SET3 cards are not in the deck
+            3); // the elements 1, 2 and 3 of the two TypedListSet3 cards are not in the deck
 
     // A criterion has four ranges at most: the first criterion has three, so one more is allowed and two more are not.
     StepControlCriteriaCard edited = example;
@@ -631,7 +634,8 @@ TEST_CASE("a TABSCTL is named by the CRITTID of an NLSTEP and its SET3 by the cr
         "NonlinearStepControl;5;1.;;AdaptiveStepping;0.02;1.E-5;;5;;20;;4;2.E-4;17\n"
         "NonlinearStepControl;6;1.;;FixedStepping;10\n"
         "NonlinearStepControl;7;1.;;AdaptiveStepping;0.02\n");
-    // The CRITTID is a field of the second line of ADAPT; an NLSTEP with no ADAPT, or none on it, names no table.
+    // The CRITTID is a field of the second line of ADAPT; a NonlinearStepControl with no ADAPT, or none on it, names no
+    // table.
     REQUIRE(NonlinearStepControlFormat::criteriaTable(cardAt<NonlinearStepControlTable>(model, 0)) == 17);
     REQUIRE(NonlinearStepControlFormat::criteriaTable(cardAt<NonlinearStepControlTable>(model, 1)) == 0);
     REQUIRE(NonlinearStepControlFormat::criteriaTable(cardAt<NonlinearStepControlTable>(model, 2)) == 0);
@@ -643,26 +647,27 @@ TEST_CASE("a TABSCTL is named by the CRITTID of an NLSTEP and its SET3 by the cr
     model.table<NonlinearStepControlTable>().visitReferences(1, none);
     model.table<NonlinearStepControlTable>().visitReferences(2, none);
     REQUIRE(none.fields.empty());
-    REQUIRE(unresolvedIn(model) == 4); // the elements the SET3 cards list are not in the deck
-    // A CRITTID that no TABSCTL has is unresolved.
+    REQUIRE(unresolvedIn(model) == 4); // the elements the TypedListSet3 cards list are not in the deck
+    // A CRITTID that no StepControlCriteria has is unresolved.
     REQUIRE(unresolvedOf("NonlinearStepControl;5;1.;;AdaptiveStepping;0.02;1.E-5;;5;;20;;4;2.E-4;99") == 1);
 
-    // The TABSCTL and the CRITTID follow one another through the renumbering of the space.
+    // The StepControlCriteria and the CRITTID follow one another through the renumbering of the space.
     Renumbering::apply(model, RenumberSpace::LoadStepControl, Renumbering::offset(100));
     REQUIRE(cardAt<StepControlCriteriaTable>(model).id == 117);
     REQUIRE(NonlinearStepControlFormat::criteriaTable(cardAt<NonlinearStepControlTable>(model, 0)) == 117);
-    REQUIRE(unresolvedIn(model) == 4); // the SET3 cards list elements and grid points that are not in the deck
+    REQUIRE(unresolvedIn(model) == 4); // the TypedListSet3 cards list elements and grid points that are not in the deck
     // The sets the criteria name follow the renumbering of the sets, ALL stays.
     Renumbering::apply(model, RenumberSpace::Set, Renumbering::offset(1000));
     const StepControlCriteriaCard card = cardAt<StepControlCriteriaTable>(model);
     REQUIRE((card.criteria[0].setId == 9400 && card.criteria[1].setId == 2800 && card.criteria[2].setId == 0));
-    REQUIRE(unresolvedIn(model) == 4); // the SET3 cards list elements and grid points that are not in the deck
+    REQUIRE(unresolvedIn(model) == 4); // the TypedListSet3 cards list elements and grid points that are not in the deck
     requireRoundTrip(model);
 
     const std::size_t before = model.cardCount();
     model.remove(*model.locateInType(typeIndexOf<StepControlCriteriaTable>(), 117));
     REQUIRE(model.cardCount() == before - 1);
-    REQUIRE(unresolvedIn(model) == 5); // the NLSTEP names a table that is gone, and the four of the SET3 cards
+    // the NonlinearStepControl names a table that is gone, and the four of the TypedListSet3 cards
+    REQUIRE(unresolvedIn(model) == 5);
     REQUIRE_THROWS_AS(
         readBulk("StepControlCriteria;1;StrainIncrement;;0.03\nStepControlCriteria;1;StrainIncrement;;0.03"),
         base::DeckError);
@@ -685,7 +690,7 @@ TEST_CASE("a TABSCTL refuses the values that its format refuses", "[model][cards
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// DEACTEL
+// DeactivatedElems
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a DEACTEL names a SET3 of elements and is selected by its number", "[model][cards][deactel]")
@@ -704,7 +709,7 @@ TEST_CASE("a DEACTEL names a SET3 of elements and is selected by its number", "[
     model.table<DeactivatedElemsTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"elemSetId"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::Set});
-    REQUIRE(unresolvedIn(model) == 3); // the elements 1, 2 and 3 of the SET3 cards are not in the deck
+    REQUIRE(unresolvedIn(model) == 3); // the elements 1, 2 and 3 of the TypedListSet3 cards are not in the deck
     REQUIRE(unresolvedOf("DeactivatedElems;2;200") == 1);
 
     DeactivatedElemsCard edited = card;
@@ -715,13 +720,13 @@ TEST_CASE("a DEACTEL names a SET3 of elements and is selected by its number", "[
     edited.elemSetId = 0;
     REQUIRE(DeactivatedElemsFormat::check(edited)->field == std::string("elemSetId"));
 
-    // The number is the space of the Case Control command; the SET3 follows the renumbering of the sets.
+    // The number is the space of the Case Control command; the TypedListSet3 follows the renumbering of the sets.
     Renumbering::apply(model, RenumberSpace::DeactivatedElementSet, Renumbering::offset(10));
     REQUIRE((cardAt<DeactivatedElemsTable>(model, 0).id == 12 && cardAt<DeactivatedElemsTable>(model, 1).id == 13));
     Renumbering::apply(model, RenumberSpace::Set, Renumbering::offset(1000));
     REQUIRE((cardAt<DeactivatedElemsTable>(model, 0).elemSetId == 1201 &&
              cardAt<DeactivatedElemsTable>(model, 1).elemSetId == 1201));
-    REQUIRE(unresolvedIn(model) == 3); // the elements of the SET3 cards are not in the deck
+    REQUIRE(unresolvedIn(model) == 3); // the elements of the TypedListSet3 cards are not in the deck
 
     const std::size_t before = model.cardCount();
     model.remove(*model.locateInType(typeIndexOf<DeactivatedElemsTable>(), 13));
@@ -736,7 +741,7 @@ TEST_CASE("a DEACTEL names a SET3 of elements and is selected by its number", "[
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// IPSTRAIN
+// InitialPlasticStrain
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an IPSTRAIN is a strain for a range of elements, integration points and layers", "[model][cards][initial]")
@@ -822,7 +827,7 @@ TEST_CASE("an IPSTRAIN is a strain for a range of elements, integration points a
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ISTRESS
+// InitialStress
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("an ISTRESS is a stress of up to seven components for a range, in the element or the basic system",
@@ -846,7 +851,7 @@ TEST_CASE("an ISTRESS is a stress of up to seven components for a range, in the 
              example.range.lastLayer == 6));
     REQUIRE(example.stress ==
             std::array<double, INITIAL_STRESS_COMPONENTS>{42000.0, -1800.0, 0.0, 3150.0, 0.0, 950.0, 0.0});
-    REQUIRE_FALSE(example.frameId.has_value()); // the element system, for a CQUAD4 and a CTRIA3
+    REQUIRE_FALSE(example.frameId.has_value()); // the element system, for a ShellQuad4 and a ShellTria3
     // The defaults: EID2 is EID1, the points are 1 to 4 and every component is 0.0.
     const InitialStressCard bare = cardAt<InitialStressTable>(model, 1);
     REQUIRE((bare.range.lastElemId == 3102 && bare.range.firstPoint == 1 && bare.range.lastPoint == 4 &&
@@ -912,7 +917,7 @@ TEST_CASE("an ISTRESS is a stress of up to seven components for a range, in the 
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// TIRE
+// TireSelection
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a TIRE is the tire-model word and the names of the tires over as many lines as needed",
@@ -933,7 +938,8 @@ TEST_CASE("a TIRE is the tire-model word and the names of the tires over as many
     REQUIRE(cardAt<TireSelectionTable>(model, 2).names == std::vector<std::string>{"ONLY"});
     requireRoundTrip(model);
 
-    // The names are those of DTI entries that no card types: nothing is looked up. The Case Control TIRE is text.
+    // The names are those of DirectTable entries that no card types: nothing is looked up. The Case Control
+    // TireSelection is text.
     RecordingVisitor visitor;
     model.table<TireSelectionTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields.empty());
@@ -964,7 +970,7 @@ TEST_CASE("a TIRE is the tire-model word and the names of the tires over as many
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// CONCTL
+// ConnectorSearchControl
 // ---------------------------------------------------------------------------------------------------------------------
 
 TEST_CASE("a CONCTL is a SET3 and the SWLDPRM parameters that override the global ones for its connectors",
@@ -989,11 +995,12 @@ TEST_CASE("a CONCTL is a SET3 and the SWLDPRM parameters that override the globa
              example.parameters[3].name == "MaxDiameterHalvings")); // across the line
     REQUIRE((cardAt<ConnectorSearchControlTable>(model, 1).elementSetId == 87 &&
              cardAt<ConnectorSearchControlTable>(model, 1).parameters.size() == 1));
-    // A name that SWLDPRM does not list is kept as written, in upper case; a listed one has its neutral
+    // A name that ConnectorSearchParams does not list is kept as written, in upper case; a listed one has its neutral
     // name.
     const ConnectorSearchControlCard other = cardAt<ConnectorSearchControlTable>(model, 2);
     REQUIRE((other.parameters[0].name == "MYPARAM" && other.parameters[1].name == "MaxProjectionDistance"));
-    // Several cards may name the same SET3: the format reference allows many CONCTL and uses all of them.
+    // Several cards may name the same TypedListSet3: the format reference allows many ConnectorSearchControl and uses
+    // all of them.
     REQUIRE(cardAt<ConnectorSearchControlTable>(model, 0).elementSetId ==
             cardAt<ConnectorSearchControlTable>(model, 2).elementSetId);
     requireRoundTrip(model);
@@ -1002,13 +1009,13 @@ TEST_CASE("a CONCTL is a SET3 and the SWLDPRM parameters that override the globa
     model.table<ConnectorSearchControlTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"elementSetId"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::Set});
-    REQUIRE(unresolvedIn(model) == 3); // the elements 1, 2 and 3 of the SET3 cards are not in the deck
+    REQUIRE(unresolvedIn(model) == 3); // the elements 1, 2 and 3 of the TypedListSet3 cards are not in the deck
     REQUIRE(unresolvedOf("ConnectorSearchControl;64;MoveEndPointsToProjection;1") == 1);
 
     Renumbering::apply(model, RenumberSpace::Set, Renumbering::offset(1000));
     REQUIRE((cardAt<ConnectorSearchControlTable>(model, 0).elementSetId == 1064 &&
              cardAt<ConnectorSearchControlTable>(model, 1).elementSetId == 1087));
-    REQUIRE(unresolvedIn(model) == 3); // the elements of the SET3 cards are not in the deck
+    REQUIRE(unresolvedIn(model) == 3); // the elements of the TypedListSet3 cards are not in the deck
 
     ConnectorSearchControlCard edited = cardAt<ConnectorSearchControlTable>(model, 1);
     edited.parameters.push_back(
@@ -1045,5 +1052,5 @@ TEST_CASE("a CONCTL is a SET3 and the SWLDPRM parameters that override the globa
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// GMOVR3
+// RigidInterpolationOverride
 // ---------------------------------------------------------------------------------------------------------------------

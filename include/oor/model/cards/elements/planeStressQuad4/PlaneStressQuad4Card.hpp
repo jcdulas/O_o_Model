@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One CPLSTS4 card: a four-node plane stress element (a card of another implementation: it is not in the format
-// reference).
+// One PlaneStressQuad4 card: a four-node plane stress element (a card of another implementation: it is not in the
+// format reference).
 //
 // Layout:
-//   CPLSTS4  EID  PID  G1  G2  G3  G4  THETA
-//                        TFLAG  T1  T2  T3  T4  (fields 12 to 16)
+//   PlaneStressQuad4  EID  PID  G1  G2  G3  G4  THETA
+//                                 TFLAG  T1  T2  T3  T4  (fields 12 to 16)
 struct PlaneStressQuad4Card
 {
     static constexpr double NO_THICKNESS = -1.0;

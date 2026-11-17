@@ -14,13 +14,14 @@ struct AxisymFluidRingFormat
 {
     // The first thing wrong with the values of a fluid point, if anything (used by read and by editing).
     [[nodiscard]] static std::optional<CardProblem> check(const AxisymFluidRingCard& card);
-    // One RINGFL card gives its one or two fluid points.
+    // One AxisymFluidRing card gives its one or two fluid points.
     [[nodiscard]] static std::vector<AxisymFluidRingCard> readAll(FieldReader& reader);
     static void write(const AxisymFluidRingCard& card, FieldWriter& writer);
 };
 
-// All the fluid points defined by RINGFL cards: one row per point, in the node ID space (IdSpace::Node, category
-// Point), kept in columns. A fluid point names no other card; the FREEPT, PRESPT, GRIDB and GRIDS cards name it.
+// All the fluid points defined by AxisymFluidRing cards: one row per point, in the node ID space (IdSpace::Node,
+// category Point), kept in columns. A fluid point names no other card; the AxisymFluidFreePoint,
+// AxisymFluidPressurePoint, AxisymFluidRingNode and AcousticSlotSurfacePoint cards name it.
 class AxisymFluidRingTable final : public TypedTable<AxisymFluidRingTable, AxisymFluidRingCard>
 {
 public:
@@ -36,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a RINGFL refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an AxisymFluidRing refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
     [[nodiscard]] Column<double>& position1Column() noexcept { return m_position1; }

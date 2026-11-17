@@ -19,8 +19,8 @@ struct SuperelementReleasedDofsFormat
     static void write(const SuperelementReleasedDofsCard& card, FieldWriter& writer);
 };
 
-// All the RELEASE cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a
-// column of their SEIDs.
+// All the SuperelementReleasedDofs cards, category Superelement, no ID of their own (IdSpace::None). They are kept
+// whole next to a column of their SEIDs.
 class SuperelementReleasedDofsTable final
     : public TypedTable<SuperelementReleasedDofsTable, SuperelementReleasedDofsCard>
 {

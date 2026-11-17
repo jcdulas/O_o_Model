@@ -13,20 +13,21 @@
 #include <cmath>
 
 // The mass of the rods, tubes, bars and beams: (density times the area + NSM) times the length, the length between the
-// offset ends of a bar or beam. A bar or beam whose section varies (PBEAM, PBEAML, PBEAM3 with stations) has the
-// integral of that along the beam, the section varying linearly between the stations (the trapezoid over X/XB). The
-// mass of a CBEND needs the length of the arc, which the geometry does not compute: it is NaN.
+// offset ends of a bar or beam. A bar or beam whose section varies (BeamProp, BeamShapeProp, BeamProp3 with stations)
+// has the integral of that along the beam, the section varying linearly between the stations (the trapezoid over X/XB).
+// The mass of a CurvedBeam2 needs the length of the arc, which the geometry does not compute: it is NaN.
 //
 // The structural mass is at the centroid of its distribution along the beam (the middle of the beam for a uniform one).
-// The non-structural mass of a PBEAM, PBEAM3 or PBCOMP is at its own centre of gravity, which the property gives as
-// (y, z) in the element system at the two ends: the element has then the two masses as one body at their common centre
-// with the inertia that comes from their distance.
+// The non-structural mass of a BeamProp, BeamProp3 or BeamLumpedAreaProp is at its own centre of gravity, which the
+// property gives as (y, z) in the element system at the two ends: the element has then the two masses as one body at
+// their common centre with the inertia that comes from their distance.
 //
-// The offsets (WA, WB; WC of a CBEAM3) place that mass by MDLPRM OFFDEF (MassCalculator::offsetMassOf): between the
-// offset ends under LROFF and ELMZ; under ELMOFF, the solver's default, at the grid points (format reference CBAR
-// the masses are transformed for the offsets under LROFF), the point at a fraction of the length between the
-// offset ends at the same fraction between the grid points, the non-structural mass off the axis kept in the element
-// axes. The amount is the same: the mass of the length between the offset ends.
+// The offsets (WA, WB; WC of a Beam3) place that mass by ModelParams OffsetDefinition (MassCalculator::offsetMassOf):
+// between the offset ends under LoadRecoveryOffsets and ElemOffsetZ; under ElemOffsetsOnly, the solver's default, at
+// the grid points (format reference Bar2 the masses are transformed for the offsets under LoadRecoveryOffsets), the
+// point at a fraction of the length between the offset ends at the same fraction between the grid points, the
+// non-structural mass off the axis kept in the element axes. The amount is the same: the mass of the length between the
+// offset ends.
 
 namespace oor::analysis::detail
 {
@@ -144,7 +145,7 @@ struct Rod2InlineSectionShape
     }
 };
 
-// Bar2: PBAR or PBARL, one station.
+// Bar2: BarProp or BarShapeProp, one station.
 struct BarShape
 {
     static constexpr std::uint8_t QUANTITIES = BEAM_QUANTITIES;
@@ -164,7 +165,7 @@ struct BarShape
     }
 };
 
-// Beam2 and Beam3: PBEAM, PBEAML, PBCOMP, PBEAM3.
+// Beam2 and Beam3: BeamProp, BeamShapeProp, BeamLumpedAreaProp, BeamProp3.
 template <typename TableT>
 struct BeamShape
 {
@@ -187,7 +188,7 @@ struct BeamShape
         }
         else
         {
-            // The arc of a CBEAM3 is not straight: its mass stays at the middle node, GC offset by WC (or the middle
+            // The arc of a Beam3 is not straight: its mass stays at the middle node, GC offset by WC (or the middle
             // of the offset ends), or GC itself (the middle of GA and GB) when the mass is at the grid points.
             beamMass(data.section, data.density, geometry, false, nullptr, value);
             if constexpr (std::is_same_v<TableT, model::Beam3Table>)

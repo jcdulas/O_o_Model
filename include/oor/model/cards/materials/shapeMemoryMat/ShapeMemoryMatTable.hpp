@@ -19,8 +19,8 @@ struct ShapeMemoryMatFormat
     static void write(const ShapeMemoryMatCard& card, FieldWriter& writer);
 };
 
-// All the MATSMA cards. The ID is a material ID, in the space every material type shares (IdSpace::Material): the
-// properties of the elements name it. The cards are kept whole (CardRows: the values are many and positional); the
+// All the ShapeMemoryMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material):
+// the properties of the elements name it. The cards are kept whole (CardRows: the values are many and positional); the
 // query engine reads the ID only.
 class ShapeMemoryMatTable final : public TypedTable<ShapeMemoryMatTable, ShapeMemoryMatCard>
 {
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MATSMA refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a ShapeMemoryMat refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

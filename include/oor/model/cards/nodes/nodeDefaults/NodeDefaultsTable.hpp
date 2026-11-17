@@ -18,7 +18,7 @@ struct NodeDefaultsFormat
     static void write(const NodeDefaultsCard& card, FieldWriter& writer);
 };
 
-// The GRDSET cards of a model (at most one is allowed). The card has no ID.
+// The NodeDefaults cards of a model (at most one is allowed). The card has no ID.
 class NodeDefaultsTable final : public TypedTable<NodeDefaultsTable, NodeDefaultsCard>
 {
 public:
@@ -35,7 +35,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Reports a second GRDSET: the solver allows one.
+    // Reports a second NodeDefaults: the solver allows one.
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<base::EntityId>& positionFrameIdColumn() noexcept { return m_positionFrameId; }

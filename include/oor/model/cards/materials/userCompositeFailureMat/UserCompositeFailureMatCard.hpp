@@ -43,28 +43,28 @@ enum class UserCompositeFailureMatDegradationStart : std::uint8_t
 inline constexpr std::array<std::string_view, 2> USER_COMPOSITE_FAILURE_DEGRADATION_START_WORDS{"IndividualDegradation",
                                                                                                 "All"};
 
-// One COMPUDS card (SOL 700 only): an orthotropic material of shell composites with its failure model and property
-// degradation, whose failure is computed by a user subroutine. The FMS statement CONNECT SERVICE names the group of the
-// subroutines: it is a File Management statement and not part of the card.
+// One UserCompositeFailureMat card (SOL 700 only): an orthotropic material of shell composites with its failure model
+// and property degradation, whose failure is computed by a user subroutine. The FMS statement CONNECT SERVICE names the
+// group of the subroutines: it is a File Management statement and not part of the card.
 //
 // Card layout (the fields are numbered across the lines, eight to a line; the format draws one blank cell after the
 // ninth field of the first line and after the last field of each line):
-//   COMPUDS  MID    GROUP   UNAME                                                    fields 1 to 3
-//            E1     E2      N12    G12    G1Z    G2Z    RHO                          9 to 15
-//            NV     S       ALPHA  TRSFAIL F12                                        17 to 21
-//            XT     XC      YT     YC     PFD    VALUE  PFDST                        25 to 31
-//            FBTEN  FBCOM   MXTEN  MXCOM  MXSHR                                      33 to 37
-//            PRDFT  PRDFC   PRDMT  PRDMC  PRDSH                                      41 to 45
+//   UserCompositeFailureMat  MID    GROUP   UNAME                                    fields 1 to 3
+//                            E1     E2      N12    G12    G1Z    G2Z    RHO                          9 to 15
+//                            NV     S       ALPHA  TRSFAIL F12                                        17 to 21
+//                            XT     XC      YT     YC     PFD    VALUE  PFDST                        25 to 31
+//                            FBTEN  FBCOM   MXTEN  MXCOM  MXSHR                                      33 to 37
+//                            PRDFT  PRDFC   PRDMT  PRDMC  PRDSH                                      41 to 45
 // The four failure stresses are XT, XC, YT and YC (the layout of the format misprints XC as XT).
 // MID, E1, E2, N12, G12 and RHO are required, and so are the four failure stresses XT, XC, YT and YC (all greater than
 // zero). G1Z and G2Z (the transverse shear moduli) are G12 when blank: the format says so for G1Z and gives no
-// description of G2Z, which follows the MAT8 (the fields are those of the MAT8 and MAT8A); both are stored
-// resolved. GROUP is required and UNAME blank when not given (the default routine is EXCOMP), each a name of at
-// most eight characters. NV, the number of additional history variables, is 0 to 9 (0 by
-// default). VALUE (100.0) is a real here as in the MAT8A: a number of steps, a time interval or a
-// velocity according to PFD, greater than zero as the MAT8A says. FBTEN to MXSHR name the failure modes: the format
-// gives no list of words for the user model, so each is a word of at most eight characters, or blank. The five
-// degradation words are four characters of 0 and 1 each (1 denotes property degradation), kept as text so that the
+// description of G2Z, which follows the OrthoMat2D (the fields are those of the OrthoMat2D and OrthoMat2DFailure); both
+// are stored resolved. GROUP is required and UNAME blank when not given (the default routine is EXCOMP), each a name of
+// at most eight characters. NV, the number of additional history variables, is 0 to 9 (0 by
+// default). VALUE (100.0) is a real here as in the OrthoMat2DFailure: a number of steps, a time interval or a
+// velocity according to PFD, greater than zero as the OrthoMat2DFailure says. FBTEN to MXSHR name the failure modes:
+// the format gives no list of words for the user model, so each is a word of at most eight characters, or blank. The
+// five degradation words are four characters of 0 and 1 each (1 denotes property degradation), kept as text so that the
 // leading zeros stay: 1111, 1010, 0110, 0110 and 0001 when blank.
 struct UserCompositeFailureMatCard
 {

@@ -1,7 +1,9 @@
-// Checks of the yield models (YLDHY, YLDJC, YLDMC, YLDMSS, YLDPOL, YLDRPL, YLDSG, YLDTM, YLDUDS, YLDVM, YLDZA), the
-// failure models (FAILJC, FAILMPS, FAILUDS), the spall model PMINC and the cohesive zone material MCOHE of the
-// explicit solver: the fields in the places of the format reference, the defaults, the values a card refuses, the
-// references, and the ID spaces that a MATDEUL names. The generic round trip tests read the samples of these cards.
+// Checks of the yield models (HydrodynamicYield, JohnsonCookYield, MohrCoulombYield, SnowMultiSurfaceYield,
+// PolynomialYield, RatePowerLawYield, SteinbergGuinanYield, TanimuraMimuraYield, UserYield, VonMisesYield,
+// ZerilliArmstrongYield), the failure models (JohnsonCookFailure, MaxPlasticStrainFailure, UserFailureModel), the spall
+// model ConstantSpallation and the cohesive zone material CohesiveMat of the explicit solver: the fields in the places
+// of the format reference, the defaults, the values a card refuses, the references, and the ID spaces that an EulerMat
+// names. The generic round trip tests read the samples of these cards.
 
 #include "oor/model/cards/elements/cohesiveMat/CohesiveMatTable.hpp"
 #include "oor/model/cards/explicit/constantSpallation/ConstantSpallationTable.hpp"
@@ -283,7 +285,7 @@ TEST_CASE("a YLDVM is a bilinear curve or a table, with the rate effect of a tab
     REQUIRE((rate.rateCoefficientD == 38.2 && rate.rateExponentP == 4.0 && rate.rateScaleTableId == 0));
     REQUIRE(unresolvedIn(model) == 0);
 
-    // The two tables are TABLED1 cards; a card without a table visits none.
+    // The two tables are TableDynamic1 cards; a card without a table visits none.
     RecordingVisitor visitor;
     model.table<VonMisesYieldTable>().visitReferences(1, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"tableId", "rateScaleTableId"});

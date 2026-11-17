@@ -18,9 +18,10 @@ struct StaticLoadSequenceFormat
     static void write(const StaticLoadSequenceCard& card, FieldWriter& writer);
 };
 
-// All the LSEQ cards. The ID is the set ID that LOADSET picks (IdSpace::Group, category Load: it is a set of load cards
-// like the others, and LID and TID refer to load sets). The EXCITEID is what the dynamic loads name as their EXCITEID:
-// the table says so (definedExcitationId), and the reference check lets an EXCITEID that names one resolve.
+// All the StaticLoadSequence cards. The ID is the set ID that LOADSET picks (IdSpace::Group, category Load: it is a set
+// of load cards like the others, and LID and TID refer to load sets). The EXCITEID is what the dynamic loads name as
+// their EXCITEID: the table says so (definedExcitationId), and the reference check lets an EXCITEID that names one
+// resolve.
 class StaticLoadSequenceTable final : public TypedTable<StaticLoadSequenceTable, StaticLoadSequenceCard>
 {
 public:

@@ -19,7 +19,7 @@ struct ShellTria6Format
     static void write(const ShellTria6Card& card, FieldWriter& writer);
 };
 
-// All the CTRIA6 elements: the nodes are one column of six IDs per element, 0 for an absent edge point (an (N, 6)
+// All the ShellTria6 elements: the nodes are one column of six IDs per element, 0 for an absent edge point (an (N, 6)
 // NumPy view without copy).
 class ShellTria6Table final : public TypedTable<ShellTria6Table, ShellTria6Card>
 {

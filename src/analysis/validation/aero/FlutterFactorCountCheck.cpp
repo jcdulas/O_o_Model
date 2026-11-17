@@ -14,7 +14,7 @@ namespace
 {
 
 // The no-looping PK methods (PKNL and PKNLS) analyse ordered triples (density, Mach number, velocity) instead of every
-// combination, so the three FLFACT lists must be equally long. The other methods
+// combination, so the three AeroFlutterFactors lists must be equally long. The other methods
 // take all combinations of lists of any length. A list that does not exist is `ref.unresolved`.
 class FlutterFactorCountCheck final : public ValidationCheck
 {

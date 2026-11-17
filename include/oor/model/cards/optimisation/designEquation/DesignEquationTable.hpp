@@ -21,8 +21,9 @@ struct DesignEquationFormat
     static void write(const DesignEquationCard& card, FieldWriter& writer);
 };
 
-// All the DEQATN cards. The ID is unique among them (IdSpace::PerCardType); a DVPREL2, DVMREL2, DVCREL2 or DRESP2, a
-// PBUSH1D of type EQUAT and a CORD3G of form EQN name an equation by it.
+// All the DesignEquation cards. The ID is unique among them (IdSpace::PerCardType); a DesignPropRelation2,
+// DesignMatRelation2, DesignElemRelation2 or DesignResp2, a BushProp1D of type EQUAT and a GeneralFrame3 of form EQN
+// name an equation by it.
 class DesignEquationTable final : public TypedTable<DesignEquationTable, DesignEquationCard>
 {
 public:

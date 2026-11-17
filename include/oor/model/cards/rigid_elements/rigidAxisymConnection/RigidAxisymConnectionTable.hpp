@@ -18,8 +18,8 @@ struct RigidAxisymConnectionFormat
     static void write(const RigidAxisymConnectionCard& card, FieldWriter& writer);
 };
 
-// All the RBAX3D cards. A rigid element is an element: its ID is in the space shared by all the elements. G3D and GAX
-// are grid points (ReferenceTarget::Node).
+// All the RigidAxisymConnection cards. A rigid element is an element: its ID is in the space shared by all the
+// elements. G3D and GAX are grid points (ReferenceTarget::Node).
 class RigidAxisymConnectionTable final : public TypedTable<RigidAxisymConnectionTable, RigidAxisymConnectionCard>
 {
 public:

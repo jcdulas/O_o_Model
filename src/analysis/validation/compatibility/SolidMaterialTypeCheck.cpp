@@ -7,8 +7,9 @@ namespace oor::analysis
 namespace
 {
 
-// A PSOLID or PLSOLID with a material of the shell class (MAT2, MAT3, MAT8): the format reference gives MAT1, MAT4,
-// MAT5, MAT9, MAT10, MATHP, MATHE for a solid.
+// A SolidProp or SolidPropHyperelastic with a material of the shell class (AnisoMat2D, AxisymOrthoMat, OrthoMat2D): the
+// format reference gives IsoMat, HeatIsoMat, HeatAnisoMat, AnisoMat3D, FluidMat, HyperelasticPolynomialMat,
+// HyperelasticMat for a solid.
 class SolidMaterialTypeCheck final : public ValidationCheck
 {
 public:

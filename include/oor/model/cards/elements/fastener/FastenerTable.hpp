@@ -20,7 +20,7 @@ struct FastenerFormat
     static void write(const FastenerCard& card, FieldWriter& writer);
 };
 
-// All the CFAST elements. The location is an (N, 3) NumPy view, NaN where blank.
+// All the Fastener elements. The location is an (N, 3) NumPy view, NaN where blank.
 class FastenerTable final : public TypedTable<FastenerTable, FastenerCard>
 {
 public:

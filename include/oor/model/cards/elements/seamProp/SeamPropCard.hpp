@@ -10,10 +10,10 @@
 namespace oor::model
 {
 
-// One PSEAM card: the property of a CSEAM seam connection.
+// One SeamProp card: the property of a Seam seam connection.
 //
 // Card layout:
-//   PSEAM  PID  MID  TYPE  W  T  IN
+//   SeamProp  PID  MID  TYPE  W  T  IN
 //
 // MID names a material (the seam is a block of solid elements of that material). TYPE is a keyword for the kind of seam
 // weld that is generated: the format reference gives the default LINE and no other word, so the card keeps the word as

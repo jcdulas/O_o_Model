@@ -18,9 +18,9 @@ struct AxisymOrthoMatTemperatureFormat
     static void write(const AxisymOrthoMatTemperatureCard& card, FieldWriter& writer);
 };
 
-// All the MATT3 cards. The ID space is the card type's own: the ID is the one of the MAT3 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it), and the tables are references to
-// TABLEMi cards (ReferenceTarget::MaterialTable).
+// All the AxisymOrthoMatTemperature cards. The ID space is the card type's own: the ID is the one of the AxisymOrthoMat
+// that the card extends, so it is also a reference to a material (renumbering the materials follows into it), and the
+// tables are references to TABLEMi cards (ReferenceTarget::MaterialTable).
 class AxisymOrthoMatTemperatureTable final
     : public TypedTable<AxisymOrthoMatTemperatureTable, AxisymOrthoMatTemperatureCard>
 {

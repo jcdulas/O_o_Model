@@ -16,8 +16,8 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// fastenerPiercings: where each side of each CFAST and CWELD pierces the shells, with the element pierced, its natural
-// coordinates and the values of its shape functions there (analysis::FastenerPiercings).
+// fastenerPiercings: where each side of each Fastener and Weld pierces the shells, with the element pierced, its
+// natural coordinates and the values of its shape functions there (analysis::FastenerPiercings).
 class FastenerPiercingsQuery final : public QueryBase
 {
 public:

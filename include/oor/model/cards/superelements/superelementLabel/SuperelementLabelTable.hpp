@@ -19,7 +19,8 @@ struct SuperelementLabelFormat
     static void write(const SuperelementLabelCard& card, FieldWriter& writer);
 };
 
-// All the SELABEL cards, category Superelement, no ID of their own (IdSpace::None). One column for each field.
+// All the SuperelementLabel cards, category Superelement, no ID of their own (IdSpace::None). One column for each
+// field.
 class SuperelementLabelTable final : public TypedTable<SuperelementLabelTable, SuperelementLabelCard>
 {
 public:

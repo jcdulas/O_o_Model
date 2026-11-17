@@ -15,10 +15,10 @@ struct ClosestPoint
     double distance = 0.0;
 };
 
-// The closest point of a face given by its corners: 2 corners a straight segment (a BLSEG line), 3 a flat triangle, 4 a
-// quadrilateral taken as the four triangles from its centre to each side (a warped quadrilateral is followed to the
-// second order of its warp, and the result does not depend on the corner it starts from). The mid-side grid points of
-// a quadratic element are not used: its faces are taken between their corners.
+// The closest point of a face given by its corners: 2 corners a straight segment (a SlidelineSegments line), 3 a flat
+// triangle, 4 a quadrilateral taken as the four triangles from its centre to each side (a warped quadrilateral is
+// followed to the second order of its warp, and the result does not depend on the corner it starts from). The mid-side
+// grid points of a quadratic element are not used: its faces are taken between their corners.
 [[nodiscard]] ClosestPoint closestPointOnFace(const std::array<base::Vec3, 4>& corners, std::size_t count,
                                               const base::Vec3& point) noexcept;
 

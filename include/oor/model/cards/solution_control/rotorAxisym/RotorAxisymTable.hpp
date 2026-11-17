@@ -19,10 +19,10 @@ struct RotorAxisymFormat
     static void write(const RotorAxisymCard& card, FieldWriter& writer);
 };
 
-// All the ROTORAX cards. The ID is the rotor ID (category Rotor, IdSpace::Group: several cards make one rotor). What
-// the IDs name depends on LTYPE: elements (Element, and ElementInRange for the ends of a range), properties (Property
-// and PropertyInRange) or grid points (Node and NodeInRange). The cards are kept whole next to the columns the query
-// engine reads: the rotor ID and the kind of list.
+// All the RotorAxisym cards. The ID is the rotor ID (category Rotor, IdSpace::Group: several cards make one rotor).
+// What the IDs name depends on LTYPE: elements (Element, and ElementInRange for the ends of a range), properties
+// (Property and PropertyInRange) or grid points (Node and NodeInRange). The cards are kept whole next to the columns
+// the query engine reads: the rotor ID and the kind of list.
 class RotorAxisymTable final : public TypedTable<RotorAxisymTable, RotorAxisymCard>
 {
 public:

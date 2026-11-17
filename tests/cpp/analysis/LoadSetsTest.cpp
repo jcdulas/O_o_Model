@@ -20,8 +20,9 @@ using oor::testing::readModelText;
 namespace
 {
 
-// Sets 1 (two FORCE), 2 (a PLOAD2 range) and 3 (a GRAV); LOAD 10 of sets 1 and 2, LOAD 20 of LOAD 10 and set 3
-// (nested), LOAD 30 that reaches set 1 twice, LOAD 40 whose set holds a FORCE of its own, LOAD 50 and 51 a cycle.
+// Sets 1 (two FORCE), 2 (a ShellPressureLoad range) and 3 (a GravityLoad); LOAD 10 of sets 1 and 2, LOAD 20 of LOAD 10
+// and set 3 (nested), LOAD 30 that reaches set 1 twice, LOAD 40 whose set holds a PointForceLoad of its own, LOAD 50
+// and 51 a cycle.
 const char* const DECK =
     "[model]\n"
     "IsoMat;1;2.E+5;;0.3\n"

@@ -160,8 +160,8 @@ void OrthoMat3DNonlinearStressDependentTable::keepRows(const std::vector<std::ui
 
 void OrthoMat3DNonlinearStressDependentTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MATORT that the card extends; every other field names a TABL3D0, TABL3D1 or TABL3D2 (0
-    // when blank: the property is not a table).
+    // The ID is the one of the OrthoMat3DNonlinear that the card extends; every other field names a
+    // TableMultiVariable0, TableMultiVariable1 or TableMultiVariable2 (0 when blank: the property is not a table).
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     const auto visitTable = [&](Column<base::EntityId>& column, const char* field)
     {

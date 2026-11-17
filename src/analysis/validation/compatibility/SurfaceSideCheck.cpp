@@ -9,7 +9,7 @@ namespace oor::analysis
 namespace
 {
 
-// A CHBDYE on a side the conduction element does not have (a tetrahedron has
+// A HeatSurfaceSide on a side the conduction element does not have (a tetrahedron has
 // four sides, a prism or a pyramid five, a hexahedron six, a line element three, a triangle shell five and a
 // quadrilateral shell six). A conduction element that does not exist is the business of ref.unresolved, and one with no
 // side numbering in this library is not judged.

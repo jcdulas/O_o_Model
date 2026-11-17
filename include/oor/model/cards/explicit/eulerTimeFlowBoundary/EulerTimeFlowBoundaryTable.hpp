@@ -19,10 +19,11 @@ struct EulerTimeFlowBoundaryFormat
     static void write(const EulerTimeFlowBoundaryCard& card, FieldWriter& writer);
 };
 
-// All the FLOWT cards. The FID is unique among them (IdSpace::PerCardType, category Other: no typed card names it). The
-// format says a TLOAD1 must name the number, so the table says it defines excitation IDs
-// (CardTable::definesExcitationIds). The BCID names a set of BCSEG cards (ContactSurface), the MESH an Euler mesh, the
-// MID a MATDEUL and the quantities that are tables a TABLED1. The cards are kept whole (CardRows) next to their ID.
+// All the EulerTimeFlowBoundary cards. The FID is unique among them (IdSpace::PerCardType, category Other: no typed
+// card names it). The format says a TransientTableLoad1 must name the number, so the table says it defines excitation
+// IDs (CardTable::definesExcitationIds). The BCID names a set of ContactSegment cards (ContactSurface), the MESH an
+// Euler mesh, the MID an EulerMat and the quantities that are tables a TableDynamic1. The cards are kept whole
+// (CardRows) next to their ID.
 class EulerTimeFlowBoundaryTable final : public TypedTable<EulerTimeFlowBoundaryTable, EulerTimeFlowBoundaryCard>
 {
 public:

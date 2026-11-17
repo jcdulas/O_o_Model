@@ -1,6 +1,6 @@
-// Checks of the non-structural mass cards: NSM, NSM1, NSML, NSML1 and NSMADD: field positions, the lists
-// with THRU, BY and ALL, the writing, the references to properties and elements (an ID that names nothing is let be)
-// and their renumbering, and the rules by field.
+// Checks of the non-structural mass cards: NonStructMass, NonStructMass1, NonStructMassLumped, NonStructMassLumped1 and
+// NonStructMassUnion: field positions, the lists with THRU, BY and ALL, the writing, the references to properties and
+// elements (an ID that names nothing is let be) and their renumbering, and the rules by field.
 
 #include "oor/model/cards/properties/nonStructMass/NonStructMassTable.hpp"
 #include "oor/model/cards/properties/nonStructMass1/NonStructMass1Table.hpp"
@@ -83,7 +83,7 @@ TEST_CASE("NSM and NSML read their (ID, VALUE) pairs over the continuation lines
     REQUIRE(second.pairs.back() == NonStructMassPair{5, 0.5});
     REQUIRE(cardAt<NonStructMassLumpedTable>(model, 0).pairs == std::vector<NonStructMassPair>{{17, 0.73}});
     REQUIRE(cardAt<NonStructMassLumpedTable>(model, 1).pairs == std::vector<NonStructMassPair>{{2, 1.5}, {3, 2.5}});
-    // A set ID is shared by many cards: the same set in NSM and in NSML.
+    // A set ID is shared by many cards: the same set in NSM and in NonStructMassLumped.
     const Model shared = readBulk(
         "NonStructMass;7;ShellProp;10;0.1\nNonStructMass;7;ShellProp;11;0.2\nNonStructMassLumped;7;BarProp;20;3.");
     REQUIRE(shared.findTable<NonStructMassTable>()->rows().rowCount() == 2);
@@ -163,7 +163,7 @@ TEST_CASE("the IDs of the cards are references that renumber with properties and
     REQUIRE(cardAt<NonStructMassLumped1Table>(model, 0).ids.runs == std::vector<NonStructMassRun>{{1010, 1011, 1}});
     // The elements of an ELEMENT card do not move with the properties.
     REQUIRE(cardAt<NonStructMassTable>(model, 1).pairs == std::vector<NonStructMassPair>{{100, 0.1}});
-    // PRAC2D is a card the library does not have: its IDs stay.
+    // CrackTipProp2D is a card the library does not have: its IDs stay.
     REQUIRE(cardAt<NonStructMassTable>(model, 2).pairs == std::vector<NonStructMassPair>{{5, 0.1}});
     Renumbering::apply(model, RenumberSpace::Element, Renumbering::offset(500));
     REQUIRE(cardAt<NonStructMassTable>(model, 1).pairs == std::vector<NonStructMassPair>{{600, 0.1}});

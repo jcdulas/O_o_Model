@@ -19,9 +19,9 @@ struct StandardInflatorFormat
     static void write(const StandardInflatorCard& card, FieldWriter& writer);
 };
 
-// All the INFLTR cards. The INFLID is unique among the INFLTR cards (IdSpace::PerCardType, category Inflator: INFLCG,
-// INFLHB and INFLTNK share the category, because an ABINFL names one of the four by number). The tables are TABLED1
-// cards, GASNAM may name an INFLGAS and MID a MATDEUL.
+// All the StandardInflator cards. The INFLID is unique among the StandardInflator cards (IdSpace::PerCardType, category
+// Inflator: ColdGasInflator, HybridInflator and TankTestInflator share the category, because an InflatorInlet names one
+// of the four by number). The tables are TableDynamic1 cards, GASNAM may name an InflatorGas and MID an EulerMat.
 class StandardInflatorTable final : public TypedTable<StandardInflatorTable, StandardInflatorCard>
 {
 public:

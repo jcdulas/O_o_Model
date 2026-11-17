@@ -9,8 +9,8 @@ namespace oor::analysis
 namespace
 {
 
-// A superelement that two SETREE entries put upstream: it is reduced into one superelement only, so it appears once in
-// the SEUPi of all the SETREE cards. The finding is on the second entry.
+// A superelement that two SuperelementTree entries put upstream: it is reduced into one superelement only, so it
+// appears once in the SEUPi of all the SuperelementTree cards. The finding is on the second entry.
 class TreeUpstreamTwiceCheck final : public ValidationCheck
 {
 public:

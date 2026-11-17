@@ -19,8 +19,8 @@ struct PlaneStrainQuadFormat
     static void write(const PlaneStrainQuadCard& card, FieldWriter& writer);
 };
 
-// All the CQUAD elements: the nodes are one column of nine IDs per element, 0 for an absent edge point (an (N, 9)
-// NumPy view without copy).
+// All the PlaneStrainQuad elements: the nodes are one column of nine IDs per element, 0 for an absent edge point (an
+// (N, 9) NumPy view without copy).
 class PlaneStrainQuadTable final : public TypedTable<PlaneStrainQuadTable, PlaneStrainQuadCard>
 {
 public:

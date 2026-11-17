@@ -19,9 +19,9 @@ struct ModuleMirror2Format
     static void write(const ModuleMirror2Card& card, FieldWriter& writer);
 };
 
-// All the MDMIR2 cards, in the category ModuleMove with the other four moves: the MVID is unique per card type
-// (IdSpace::PerCardType) and an MDMOVE names it. CID is a reference to a coordinate system and RID to a point (GRID or
-// POINT) of the main Bulk Data. The cards are kept whole next to a column of their MVIDs.
+// All the ModuleMirror2 cards, in the category ModuleMove with the other four moves: the MVID is unique per card type
+// (IdSpace::PerCardType) and a ModuleMoveSequence names it. CID is a reference to a coordinate system and RID to a
+// point (GRID or POINT) of the main Bulk Data. The cards are kept whole next to a column of their MVIDs.
 class ModuleMirror2Table final : public TypedTable<ModuleMirror2Table, ModuleMirror2Card>
 {
 public:

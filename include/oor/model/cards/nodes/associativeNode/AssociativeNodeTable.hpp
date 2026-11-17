@@ -19,8 +19,8 @@ struct AssociativeNodeFormat
     static void write(const AssociativeNodeCard& card, FieldWriter& writer);
 };
 
-// All the GRIDA cards of a model: points of the node ID space (IdSpace::Node, category Point), kept in columns. The
-// point of the Part is another run's, so a GRIDA names no card of the model.
+// All the AssociativeNode cards of a model: points of the node ID space (IdSpace::Node, category Point), kept in
+// columns. The point of the Part is another run's, so an AssociativeNode names no card of the model.
 class AssociativeNodeTable final : public TypedTable<AssociativeNodeTable, AssociativeNodeCard>
 {
 public:

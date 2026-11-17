@@ -18,7 +18,7 @@ struct SpringDofInlineFormat
     static void write(const SpringDofInlineCard& card, FieldWriter& writer);
 };
 
-// All the CELAS2 elements.
+// All the SpringDofInline elements.
 class SpringDofInlineTable final : public TypedTable<SpringDofInlineTable, SpringDofInlineCard>
 {
 public:

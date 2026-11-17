@@ -19,7 +19,7 @@ struct CurvedBeam2Format
     static void write(const CurvedBeam2Card& card, FieldWriter& writer);
 };
 
-// All the CBEND elements. The orientation vector is an (N, 3) NumPy view without copy.
+// All the CurvedBeam2 elements. The orientation vector is an (N, 3) NumPy view without copy.
 class CurvedBeam2Table final : public TypedTable<CurvedBeam2Table, CurvedBeam2Card>
 {
 public:

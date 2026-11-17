@@ -21,8 +21,8 @@ struct FrfExcitationDofListFormat
     static void write(const FrfExcitationDofListCard& card, FieldWriter& writer);
 };
 
-// All the FRFXIT1 cards. A card has no ID (IdSpace::None, category Other). The points of every card are one column of
-// (first, last) runs: a single point is a run of one, a THRU range keeps its two ends.
+// All the FrfExcitationDofList cards. A card has no ID (IdSpace::None, category Other). The points of every card are
+// one column of (first, last) runs: a single point is a run of one, a THRU range keeps its two ends.
 class FrfExcitationDofListTable final : public TypedTable<FrfExcitationDofListTable, FrfExcitationDofListCard>
 {
 public:

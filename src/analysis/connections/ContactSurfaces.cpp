@@ -153,8 +153,8 @@ base::Vec3 areaNormalOf(const ContactFace& face) noexcept
     return base::Vec3{};
 }
 
-// The offset ZOFFS of a shell card (format reference CQUAD4 and the other shells: the distance from the grid points to
-// the reference plane of the element along its normal); 0 for a shell that has none.
+// The offset ZOFFS of a shell card (format reference ShellQuad4 and the other shells: the distance from the grid points
+// to the reference plane of the element along its normal); 0 for a shell that has none.
 double offsetOf(const model::Model& model, model::CardLocation location)
 {
     if (isType<model::ShellQuad4Table>(location))
@@ -173,11 +173,11 @@ double offsetOf(const model::Model& model, model::CardLocation location)
 }
 
 // Where the plies of a laminate stand across its thickness: the distance from the reference plane of the element (the
-// plane its offset ZOFFS gives) to the middle of the stack. format reference PCOMP and PCOMPG: Z0 is the distance from
-// the reference plane to the bottom surface, -T/2 by default (the laminate centred on its plane); a laminate maintained
-// at the outer mould line has Z0 = 0 and stands entirely on the side of the normal. 0 for any other property. The
-// library's assumption, which the model glued_contact/glued_pcomp_z0.oos exercises: contact places the skins
-// of a laminate on its plies, as its stiffness does. One value per property.
+// plane its offset ZOFFS gives) to the middle of the stack. format reference CompProp and CompPropGlobal: Z0 is the
+// distance from the reference plane to the bottom surface, -T/2 by default (the laminate centred on its plane); a
+// laminate maintained at the outer mould line has Z0 = 0 and stands entirely on the side of the normal. 0 for any other
+// property. The library's assumption, which the model glued_contact/glued_pcomp_z0.oos exercises: contact places the
+// skins of a laminate on its plies, as its stiffness does. One value per property.
 class LaminateCentres
 {
 public:
@@ -446,7 +446,7 @@ ContactSurface::ContactSurface(const model::Model& model, const ContactBody& bod
         }
         first = last;
     }
-    // A BLSEG line: a segment between every two consecutive points.
+    // A SlidelineSegments line: a segment between every two consecutive points.
     if (body.source == ContactBodySource::SlidelineSegments)
     {
         for (std::size_t point = 1; point < body.grids.size(); ++point)

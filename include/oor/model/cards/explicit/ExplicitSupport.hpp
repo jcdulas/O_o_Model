@@ -15,9 +15,9 @@
 #include <string_view>
 
 // What the cards of the explicit solver (SOL 700) have in common. Each helper moves one kind of value: the rule of an
-// ID or a real, a field that holds a keyword of the format reference, a quantity that is either a number or a TABLED1,
-// and the visit of a reference. No helper describes the fields of a card: every card still lays out, reads, writes and
-// checks its own fields by hand.
+// ID or a real, a field that holds a keyword of the format reference, a quantity that is either a number or a
+// TableDynamic1, and the visit of a reference. No helper describes the fields of a card: every card still lays out,
+// reads, writes and checks its own fields by hand.
 namespace oor::model
 {
 
@@ -64,8 +64,9 @@ enum class RealRule : std::uint8_t
 [[nodiscard]] std::optional<CardProblem> checkRoutineName(std::string_view name, std::string_view defaultName,
                                                           const char* field);
 
-// A field that names a type of card in free text (the TYPE of a DVLREL1, the PTYPE of a TOPVAR): the card keeps the
-// neutral name of a card type ("PointForceLoad"), and the word in upper case for any other.
+// A field that names a type of card in free text (the TYPE of a DesignLoadRelation1, the PTYPE of a
+// DesignTopologyRegion): the card keeps the neutral name of a card type ("PointForceLoad"), and the word in upper case
+// for any other.
 [[nodiscard]] std::string readCardTypeWord(FieldReader& reader, int field);
 
 // The problem with such a field, if there is one: a neutral name (it has lower-case letters) is taken as it is, a word
@@ -175,12 +176,13 @@ void writeOptionalKeyword(FieldWriter& writer, int field, const std::array<std::
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// A quantity that is a number, a TABLED1 or the value of the element
+// A quantity that is a number, a TableDynamic1 or the value of the element
 // ---------------------------------------------------------------------------------------------------------------------
 //
 // Many entries of the airbag and coupling cards give a quantity with a keyword in one field and its value in the next
-// one: CONSTANT and a number, TABLE and the ID of a TABLED1 (the quantity varies with time), or ELEMENT (the value of
-// the Euler element: no value at all). The card says which of the three it accepts and which one a blank keyword means.
+// one: CONSTANT and a number, TABLE and the ID of a TableDynamic1 (the quantity varies with time), or ELEMENT (the
+// value of the Euler element: no value at all). The card says which of the three it accepts and which one a blank
+// keyword means.
 
 enum class ValueSource : std::uint8_t
 {
@@ -201,7 +203,7 @@ struct SourcedValue
 {
     ValueSource source = ValueSource::Constant;
     double constant = 0.0;    // the number, when the source is Constant
-    base::EntityId table = 0; // the TABLED1, when the source is Table
+    base::EntityId table = 0; // the TableDynamic1, when the source is Table
 
     [[nodiscard]] bool operator==(const SourcedValue&) const noexcept = default;
 };
@@ -242,7 +244,7 @@ inline void visitId(ReferenceVisitor& visitor, std::string_view field, Reference
         id = visitor.visit(field, target, id);
 }
 
-// Visits the TABLED1 of a quantity whose source is Table.
+// Visits the TableDynamic1 of a quantity whose source is Table.
 inline void visitSourcedTable(ReferenceVisitor& visitor, std::string_view field, SourcedValue& value)
 {
     if (value.source == ValueSource::Table)

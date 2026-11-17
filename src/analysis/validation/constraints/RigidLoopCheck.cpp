@@ -12,10 +12,10 @@ namespace oor::analysis
 namespace
 {
 
-// Rigid elements that make a degree of freedom depend on itself through a chain of other degrees of freedom (an RBE2
-// makes the translation of A depend on B, another makes B depend on A). The degrees of freedom are the vertices of a
-// graph, each link of a rigid element an edge from the dependent degree of freedom to an independent one; a link inside
-// a strongly connected set of more than one vertex (or from a vertex to itself) closes a loop.
+// Rigid elements that make a degree of freedom depend on itself through a chain of other degrees of freedom (a
+// RigidBodyStar makes the translation of A depend on B, another makes B depend on A). The degrees of freedom are the
+// vertices of a graph, each link of a rigid element an edge from the dependent degree of freedom to an independent one;
+// a link inside a strongly connected set of more than one vertex (or from a vertex to itself) closes a loop.
 class RigidLoopCheck final : public ValidationCheck
 {
 public:

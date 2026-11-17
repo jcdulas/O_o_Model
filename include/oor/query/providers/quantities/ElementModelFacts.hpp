@@ -56,11 +56,11 @@ public:
 
     // True when the result set has a model at all.
     [[nodiscard]] bool hasModel() const noexcept { return m_model != nullptr; }
-    // Plain shells whose property is a PSHELL with one isotropic MAT1 for membrane and bending (and no coupling).
+    // Plain shells whose property is a ShellProp with one isotropic IsoMat for membrane and bending (and no coupling).
     [[nodiscard]] const ShellFacts& shell(std::int32_t resultEid);
-    // Rods (CROD, CONROD) with a PROD and a MAT1.
+    // Rods (Rod2, Rod2InlineSection) with a RodProp and an IsoMat.
     [[nodiscard]] const RodFacts& rod(std::int32_t resultEid);
-    // Solids with a PSOLID and a MAT1.
+    // Solids with a SolidProp and an IsoMat.
     [[nodiscard]] const SolidFacts& solid(std::int32_t resultEid);
 
 private:

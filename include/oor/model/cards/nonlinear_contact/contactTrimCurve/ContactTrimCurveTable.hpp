@@ -19,8 +19,8 @@ struct ContactTrimCurveFormat
     static void write(const ContactTrimCurveCard& card, FieldWriter& writer);
 };
 
-// All the BCTRIM cards. The IDtrim is unique among them (IdSpace::PerCardType, category TrimmingCurve); a BCNURBS names
-// it. The cards are kept whole (CardRows); the query engine reads the ID only.
+// All the ContactTrimCurve cards. The IDtrim is unique among them (IdSpace::PerCardType, category TrimmingCurve); a
+// ContactNurbsSurface names it. The cards are kept whole (CardRows); the query engine reads the ID only.
 class ContactTrimCurveTable final : public TypedTable<ContactTrimCurveTable, ContactTrimCurveCard>
 {
 public:

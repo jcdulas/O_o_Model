@@ -8,8 +8,8 @@
 namespace oor::model
 {
 
-// TYPE: the direction of a PLOAD1 load. F is a force and M a moment; X, Y, Z is the axis in the basic coordinate
-// system, and an E at the end puts the axis in the element coordinate system.
+// TYPE: the direction of a BeamDistributedLoad load. F is a force and M a moment; X, Y, Z is the axis in the basic
+// coordinate system, and an E at the end puts the axis in the element coordinate system.
 enum class BarLoadType : std::uint8_t
 {
     FX,
@@ -36,9 +36,9 @@ enum class BarLoadScale : std::uint8_t
     FRPR
 };
 
-// One PLOAD1 card: a concentrated or distributed load on a CBAR, CBEAM or CBEND element.
+// One BeamDistributedLoad card: a concentrated or distributed load on a Bar2, Beam2 or CurvedBeam2 element.
 //
-// Card layout: PLOAD1  SID  EID  TYPE  SCALE  X1  P1  X2  P2
+// Card layout: BeamDistributedLoad  SID  EID  TYPE  SCALE  X1  P1  X2  P2
 // A blank X2 is X1 (blank X2 or X2 = X1 is a concentrated load P1 at X1): X2 is stored resolved and
 // always written. A blank P2 stays blank on the card (written back blank): the solver reads it as 0 when X2 differs
 // from X1, a load that falls linearly from P1 to 0; effectiveP2() is the value the solver uses.

@@ -19,9 +19,9 @@ struct FatigueDefinitionFormat
     static void write(const FatigueDefinitionCard& card, FieldWriter& writer);
 };
 
-// All the FTGDEF cards (IdSpace::PerCardType, category Other: the Case Control FATIGUE command selects one). The PFTGID
-// and PFTGIDi are FatigueProperty references, the ELSIDi, NDSIDi and XELSIDi Set references. The cards are kept whole
-// (CardRows) next to their ID: they have sections of any length, and the query engine reads the ID.
+// All the FatigueDefinition cards (IdSpace::PerCardType, category Other: the Case Control FATIGUE command selects one).
+// The PFTGID and PFTGIDi are FatigueProperty references, the ELSIDi, NDSIDi and XELSIDi Set references. The cards are
+// kept whole (CardRows) next to their ID: they have sections of any length, and the query engine reads the ID.
 class FatigueDefinitionTable final : public TypedTable<FatigueDefinitionTable, FatigueDefinitionCard>
 {
 public:

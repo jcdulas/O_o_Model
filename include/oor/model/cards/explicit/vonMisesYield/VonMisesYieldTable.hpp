@@ -19,10 +19,10 @@ struct VonMisesYieldFormat
     static void write(const VonMisesYieldCard& card, FieldWriter& writer);
 };
 
-// All the YLDVM cards. The ID is the number of a yield model, unique among the cards of its category
+// All the VonMisesYield cards. The ID is the number of a yield model, unique among the cards of its category
 // (IdSpace::PerCardType: the other YLDxxx cards share the category YieldModel, and a check reports an ID two of them
-// have). TABLE and TABY are TABLED1 cards (ReferenceTarget::DynamicTable). The cards are kept whole (CardRows) next to
-// their ID: they are few, and the query engine reads the ID.
+// have). TABLE and TABY are TableDynamic1 cards (ReferenceTarget::DynamicTable). The cards are kept whole (CardRows)
+// next to their ID: they are few, and the query engine reads the ID.
 class VonMisesYieldTable final : public TypedTable<VonMisesYieldTable, VonMisesYieldCard>
 {
 public:

@@ -19,8 +19,8 @@ struct PoroElasticMatFormat
     static void write(const PoroElasticMatCard& card, FieldWriter& writer);
 };
 
-// All the MATPE1 cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). MAT1 and
-// MAT10 refer to materials (ReferenceTarget::Material).
+// All the PoroElasticMat cards. The ID is a material ID, in the space every material type shares (IdSpace::Material).
+// MAT1 and MAT10 refer to materials (ReferenceTarget::Material).
 class PoroElasticMatTable final : public TypedTable<PoroElasticMatTable, PoroElasticMatCard>
 {
 public:

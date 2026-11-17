@@ -18,9 +18,9 @@ struct AxisymConeSectorFormat
     static void write(const AxisymConeSectorCard& card, FieldWriter& writer);
 };
 
-// All the SECTAX cards, one column for each field. The ID is unique per card type (IdSpace::PerCardType); the format
-// reference family of the card is the superelements, but it is a card of the conical shell analysis, so its category is
-// Other.
+// All the AxisymConeSector cards, one column for each field. The ID is unique per card type (IdSpace::PerCardType); the
+// format reference family of the card is the superelements, but it is a card of the conical shell analysis, so its
+// category is Other.
 class AxisymConeSectorTable final : public TypedTable<AxisymConeSectorTable, AxisymConeSectorCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id) { m_id.set(row, id); }
-    // The ring is a RINGAX, a point of the node ID space.
+    // The ring is an AxisymConeRing, a point of the node ID space.
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }

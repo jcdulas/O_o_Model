@@ -7,10 +7,10 @@
 namespace oor::model
 {
 
-// One PAXSYMH card: the properties of the linear axisymmetric harmonic elements CQUADX and CTRIAX.
+// One AxisymHarmonicProp card: the properties of the linear axisymmetric harmonic elements AxisymQuad and AxisymTria.
 //
-// Card layout:  PAXSYMH  PID  MID  CID  NHARM  INT        fields 1 to 5
-// PID is a property ID (the elements name it). MID is a MAT1 or a MAT9 and is required. CID is the element
+// Card layout:  AxisymHarmonicProp  PID  MID  CID  NHARM  INT  fields 1 to 5
+// PID is a property ID (the elements name it). MID is an IsoMat or an AnisoMat3D and is required. CID is the element
 // coordinate system, 0 (the basic system) when blank: the Y axis of the system is the axis of symmetry and its X axis
 // the radial direction. NHARM is the harmonic index, an integer of 0 or more that is 1 when blank (the
 // gyroscopic matrix exists for the element only with NHARM = 1). The format is not consistent about CID and
@@ -18,7 +18,8 @@ namespace oor::model
 // 2 or 3: 0 means 2 (no mid-side nodes) or 3 (mid-side nodes), and 1 gives a singular stiffness and is meant
 // for experiments only, which the card accepts.
 //
-// The property is a primary one: its ID is in the property space, so the PID of a CQUADX or a CTRIAX finds it.
+// The property is a primary one: its ID is in the property space, so the PID of an AxisymQuad or an AxisymTria finds
+// it.
 struct AxisymHarmonicPropCard
 {
     static constexpr std::int32_t DEFAULT_HARMONIC_INDEX = 1;

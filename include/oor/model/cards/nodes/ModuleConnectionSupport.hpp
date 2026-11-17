@@ -8,11 +8,12 @@
 #include <string>
 #include <string_view>
 
-// What the cards that connect modules (MDFAST, MDMPC, MDRBE2, MDRBE3, MDRJNT, MDRROD, MDSEAM, MDWELD) share, for one
-// kind of value: an ID that lives in the module that another field of the same card names (the IDA of an MDFAST in
-// MODA, the GA of an MDRJNT in MODA). ModuleIds.hpp holds the pair for the cards whose module field and ID field sit
-// side by side; these cards put the module in a field of its own, often far from the ID, so the two are separate
-// members of the card.
+// What the cards that connect modules (ModuleFastener, ModuleMultiPointConstr, ModuleRigidBodyStar,
+// ModuleRigidInterpolation, ModuleRigidJoint, ModuleRigidRod, ModuleSeam, ModuleWeld) share, for one kind of value: an
+// ID that lives in the module that another field of the same card names (the IDA of a ModuleFastener in MODA, the GA of
+// a ModuleRigidJoint in MODA). ModuleIds.hpp holds the pair for the cards whose module field and ID field sit side by
+// side; these cards put the module in a field of its own, often far from the ID, so the two are separate members of the
+// card.
 //
 // A module is a BEGIN MODULE section of the deck, a part of the deck (a model of its own); module 0 (a blank module
 // field) is the main Bulk Data. An ID that a card places in module n is looked up in the part of module n

@@ -9,18 +9,19 @@
 #include <string>
 #include <vector>
 
-// What the material cards and their companions (MATT1 to MATT11, MATS1, CREEP, MATEP, MATVE) have in common: the rule
-// of a material ID, of a table ID and the check of the fields a fixed layout leaves blank. Each card still lays out its
-// own fields by hand.
+// What the material cards and their companions (IsoMatTemperature to OrthoMat3DTemperature, IsoMatStressDependent,
+// CreepMat, ElastoPlasticMat, ViscoElasticMat) have in common: the rule of a material ID, of a table ID and the check
+// of the fields a fixed layout leaves blank. Each card still lays out its own fields by hand.
 namespace oor::model
 {
 
-// The problem with the ID of a material (MAT3, MAT9, ... and the MID of a companion that extends one), if there is one.
+// The problem with the ID of a material (AxisymOrthoMat, AnisoMat3D, ... and the MID of a companion that extends one),
+// if there is one.
 [[nodiscard]] std::optional<CardProblem> checkMaterialId(base::EntityId id);
 
-// The problem with a table ID field of a companion (T(E) of a MATT1, TID of a MATS1, ...), if there is one: 0 is a
-// blank field, a negative ID is allowed only where `allowNegative` says so (the T(A) fields: a negative TABLEMi ID is a
-// table of thermal strains).
+// The problem with a table ID field of a companion (T(E) of an IsoMatTemperature, TID of an IsoMatStressDependent,
+// ...), if there is one: 0 is a blank field, a negative ID is allowed only where `allowNegative` says so (the T(A)
+// fields: a negative TABLEMi ID is a table of thermal strains).
 [[nodiscard]] std::optional<CardProblem> checkTableReference(base::EntityId id, const char* field,
                                                              bool allowNegative = false);
 

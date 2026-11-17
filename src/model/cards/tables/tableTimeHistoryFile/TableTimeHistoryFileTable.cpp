@@ -214,7 +214,7 @@ void TableTimeHistoryFileTable::visitReferences(std::uint32_t row, ReferenceVisi
     TableTimeHistoryFileCard& card = m_cards.edit(row);
     if (card.externalFileId == 0)
         return;
-    // A negative UID inverts the pairs: the sign stays on the card, the UDNAME has the absolute value.
+    // A negative UID inverts the pairs: the sign stays on the card, the UserFileName has the absolute value.
     const base::EntityId updated =
         visitor.visit("externalFileId", ReferenceTarget::UserDefinedName, std::abs(card.externalFileId));
     card.externalFileId = card.externalFileId < 0 ? -updated : updated;

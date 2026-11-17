@@ -21,7 +21,8 @@ struct FreeBoundaryDofSet1Format
     static void write(const FreeBoundaryDofSet1Card& card, FieldWriter& writer);
 };
 
-// All the CSET1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first, last) runs.
+// All the FreeBoundaryDofSet1 cards. A card has no ID (IdSpace::None). The points of every card are one column of
+// (first, last) runs.
 class FreeBoundaryDofSet1Table final : public TypedTable<FreeBoundaryDofSet1Table, FreeBoundaryDofSet1Card>
 {
 public:

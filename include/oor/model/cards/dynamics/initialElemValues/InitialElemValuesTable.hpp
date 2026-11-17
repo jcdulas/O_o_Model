@@ -19,9 +19,10 @@ struct InitialElemValuesFormat
     static void write(const InitialElemValuesCard& card, FieldWriter& writer);
 };
 
-// All the TICEL cards. The SID is a set ID shared by the cards of the set (IdSpace::Group, category InitialCondition:
-// the IC command selects the set, as for the TIC). SETID names a SET1 of the elements. The cards are kept whole
-// (CardRows) next to their ID, because the list of variables has a length of its own.
+// All the InitialElemValues cards. The SID is a set ID shared by the cards of the set (IdSpace::Group, category
+// InitialCondition: the IC command selects the set, as for the TransientInitialCondition). SETID names an IdListSet1 of
+// the elements. The cards are kept whole (CardRows) next to their ID, because the list of variables has a length of its
+// own.
 class InitialElemValuesTable final : public TypedTable<InitialElemValuesTable, InitialElemValuesCard>
 {
 public:

@@ -19,7 +19,8 @@ struct SuperelementLocationFormat
     static void write(const SuperelementLocationCard& card, FieldWriter& writer);
 };
 
-// All the SELOC cards, category Superelement, no ID of their own (IdSpace::None). One column for each field.
+// All the SuperelementLocation cards, category Superelement, no ID of their own (IdSpace::None). One column for each
+// field.
 class SuperelementLocationTable final : public TypedTable<SuperelementLocationTable, SuperelementLocationCard>
 {
 public:

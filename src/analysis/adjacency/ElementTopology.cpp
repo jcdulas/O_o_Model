@@ -86,8 +86,8 @@ const std::vector<TypeShape>& shapes()
         for (std::size_t type = 1; type < registry.size(); ++type)
         {
             const model::CardTypeInfo& info = registry.entry(static_cast<std::uint16_t>(type)).info;
-            // The surface elements of the heat transfer cards (CHBDYE, CHBDYG, CHBDYP) are elements of an ID space of
-            // their own; they are attached at their nodes like a point element.
+            // The surface elements of the heat transfer cards (HeatSurfaceSide, HeatSurfaceNodes, HeatSurfaceProperty)
+            // are elements of an ID space of their own; they are attached at their nodes like a point element.
             if ((info.idSpace != base::IdSpace::Element && info.idSpace != base::IdSpace::SurfaceElement) ||
                 detail::ProviderRegistry::instance().find(static_cast<std::uint16_t>(type)) == nullptr)
                 continue;
@@ -160,7 +160,8 @@ std::vector<base::EntityId>& scratchIds()
     return ids;
 }
 
-// The IDs of the corners of an element from the list its reader gave: the first slots, or every other one for CTRIAX6.
+// The IDs of the corners of an element from the list its reader gave: the first slots, or every other one for
+// AxisymTria6.
 base::EntityId cornerId(const TypeShape& type, std::span<const base::EntityId> ids, std::size_t corner)
 {
     const std::size_t slot = type.alternating ? 2 * corner : corner;
@@ -291,7 +292,7 @@ void ElementTopology::nodesOf(const model::CardTable& table, std::uint16_t typeI
     provider->nodes(table, row, ids);
     if (type.shape == ElementShape::Line)
     {
-        // The end nodes only: the orientation node of a bar, a bush or a bend does not connect. A CBEAM3 has a third
+        // The end nodes only: the orientation node of a bar, a bush or a bend does not connect. A Beam3 has a third
         // node, the middle one, in the fourth slot.
         const std::size_t slots[3] = {0, 1, 3};
         const std::size_t count = type.threeNode ? 3 : 2;
@@ -411,7 +412,7 @@ void ElementTopology::orientedFaceMidSidesOf(const model::CardTable& table, std:
             const bool reversed = edges[edge][0] == second && edges[edge][1] == first;
             if (!same && !reversed)
                 continue;
-            // CTRIAX6 alternates corners and mid-side nodes: G2 between G1 and G3, and so on.
+            // AxisymTria6 alternates corners and mid-side nodes: G2 between G1 and G3, and so on.
             const std::size_t slot = type.alternating ? 2 * edge + 1 : corners + edge;
             return slot < ids.size() ? ids[slot] : 0;
         }

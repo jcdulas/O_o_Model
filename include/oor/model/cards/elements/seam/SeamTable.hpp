@@ -21,9 +21,9 @@ struct SeamFormat
     static void write(const SeamCard& card, FieldWriter& writer);
 };
 
-// All the CSEAM elements: an element in the space every element shares (IdSpace::Element). The grid points GS and GE
+// All the Seam elements: an element in the space every element shares (IdSpace::Element). The grid points GS and GE
 // are one column of two IDs, `nodes` (0 in the coordinate form), and the coordinates are two columns of three reals,
-// `start` and `end` (NaN for a blank one); the form is the column `ends`. PID names a PSEAM; the four patch numbers
+// `start` and `end` (NaN for a blank one); the form is the column `ends`. PID names a SeamProp; the four patch numbers
 // name properties or elements as CTYPE says.
 class SeamTable final : public TypedTable<SeamTable, SeamCard>
 {

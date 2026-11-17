@@ -7,11 +7,11 @@
 namespace oor::model
 {
 
-// One CORD2R card: a rectangular coordinate system defined by three points.
+// One RectFrame2 card: a rectangular coordinate system defined by three points.
 //
 // Card layout:
-//   CORD2R  CID  RID  A1  A2  A3  B1  B2  B3
-//           C1   C2   C3
+//   RectFrame2  CID  RID  A1  A2  A3  B1  B2  B3
+//               C1   C2  C3
 //
 // The points are given in the system RID (0 or blank: the basic system). A is the origin, B a point on the z-axis and
 // C a point in the x-z plane. The card holds what was written: the axes are not computed here, and the three points

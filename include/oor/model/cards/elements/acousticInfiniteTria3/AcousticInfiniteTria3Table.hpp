@@ -19,8 +19,8 @@ struct AcousticInfiniteTria3Format
     static void write(const AcousticInfiniteTria3Card& card, FieldWriter& writer);
 };
 
-// All the CACINF3 elements: an element ID, in the space every element shares (IdSpace::Element); PID names a PACINF
-// and the three points are grid points.
+// All the AcousticInfiniteTria3 elements: an element ID, in the space every element shares (IdSpace::Element); PID
+// names an AcousticInfiniteProp and the three points are grid points.
 class AcousticInfiniteTria3Table final : public TypedTable<AcousticInfiniteTria3Table, AcousticInfiniteTria3Card>
 {
 public:

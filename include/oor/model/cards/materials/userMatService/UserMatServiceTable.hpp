@@ -19,9 +19,9 @@ struct UserMatServiceFormat
     static void write(const UserMatServiceCard& card, FieldWriter& writer);
 };
 
-// All the MATUDS cards. The ID space is the card type's own: the ID is the one of the material that the card serves, so
-// it is also a reference to a material (renumbering the materials follows into it). The cards are kept whole (CardRows:
-// the data blocks have a length of their own); the query engine reads the ID only.
+// All the UserMatService cards. The ID space is the card type's own: the ID is the one of the material that the card
+// serves, so it is also a reference to a material (renumbering the materials follows into it). The cards are kept whole
+// (CardRows: the data blocks have a length of their own); the query engine reads the ID only.
 class UserMatServiceTable final : public TypedTable<UserMatServiceTable, UserMatServiceCard>
 {
 public:

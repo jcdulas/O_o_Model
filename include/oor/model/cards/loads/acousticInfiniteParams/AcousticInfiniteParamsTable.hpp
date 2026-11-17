@@ -18,9 +18,9 @@ struct AcousticInfiniteParamsFormat
     static void write(const AcousticInfiniteParamsCard& card, FieldWriter& writer);
 };
 
-// All the ACIFPRM cards (no ID: IdSpace::None, category Other). The format reference allows one in a deck: a
-// second one is kept like the first and reported when the deck is read, the first being the one in force. The card
-// names no other card. It is kept whole: its pairs of name and value are a list that nobody reads as columns.
+// All the AcousticInfiniteParams cards (no ID: IdSpace::None, category Other). The format reference allows one in a
+// deck: a second one is kept like the first and reported when the deck is read, the first being the one in force. The
+// card names no other card. It is kept whole: its pairs of name and value are a list that nobody reads as columns.
 class AcousticInfiniteParamsTable final : public TypedTable<AcousticInfiniteParamsTable, AcousticInfiniteParamsCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
-    // Only one ACIFPRM entry is allowed: a second one is reported.
+    // Only one AcousticInfiniteParams entry is allowed: a second one is reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
 private:

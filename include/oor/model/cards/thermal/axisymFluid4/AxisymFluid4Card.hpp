@@ -9,13 +9,13 @@
 namespace oor::model
 {
 
-// One CFLUID4 card: a fluid element of an axisymmetric fluid model, a body of revolution whose outer corners are the
-// rings IDF1 to IDF4.
+// One AxisymFluid4 card: a fluid element of an axisymmetric fluid model, a body of revolution whose outer corners are
+// the rings IDF1 to IDF4.
 //
-// Card layout: CFLUID4  EID  IDF1  IDF2  IDF3  IDF4  RHO  B
-// IDF1 to IDF4 are RINGFL IDs below 500000 (the RINGFL card is not typed, so they are not references). RHO, the mass
-// density, and B, the bulk modulus (0.0 is an incompressible fluid), are blank when the AXIF card gives the values:
-// `std::nullopt`.
+// Card layout: AxisymFluid4  EID  IDF1  IDF2  IDF3  IDF4  RHO  B
+// IDF1 to IDF4 are AxisymFluidRing IDs below 500000 (the AxisymFluidRing card is not typed, so they are not
+// references). RHO, the mass density, and B, the bulk modulus (0.0 is an incompressible fluid), are blank when the
+// AxisymFluidControl card gives the values: `std::nullopt`.
 struct AxisymFluid4Card
 {
     static constexpr std::size_t RING_COUNT = 4;

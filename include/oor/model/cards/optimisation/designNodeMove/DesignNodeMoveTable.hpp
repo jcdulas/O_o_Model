@@ -19,8 +19,8 @@ struct DesignNodeMoveFormat
     static void write(const DesignNodeMoveCard& card, FieldWriter& writer);
 };
 
-// All the DVGRID cards (no ID: IdSpace::None). The DVID is a design variable, the GID a grid point (or a POINT) and the
-// CID a coordinate system.
+// All the DesignNodeMove cards (no ID: IdSpace::None). The DVID is a design variable, the GID a grid point (or a
+// GeomPoint) and the CID a coordinate system.
 class DesignNodeMoveTable final : public TypedTable<DesignNodeMoveTable, DesignNodeMoveCard>
 {
 public:

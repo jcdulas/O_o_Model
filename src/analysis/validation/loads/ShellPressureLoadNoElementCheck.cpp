@@ -8,9 +8,9 @@ namespace oor::analysis
 namespace
 {
 
-// A PLOAD2 whose element list matches no element: the elements of a THRU range that do not exist are skipped, so a list
-// of which none exists loads nothing (and nothing says so). The elements of a part that is the image of another (a
-// REPEAT or MIRROR superelement) are those of the part it copies.
+// A ShellPressureLoad whose element list matches no element: the elements of a THRU range that do not exist are
+// skipped, so a list of which none exists loads nothing (and nothing says so). The elements of a part that is the image
+// of another (a REPEAT or MIRROR superelement) are those of the part it copies.
 class ShellPressureLoadNoElementCheck final : public ValidationCheck
 {
 public:

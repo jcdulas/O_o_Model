@@ -13,15 +13,15 @@
 namespace oor::model
 {
 
-// What kind of load an FTGLOAD defines (its TYPE field). A blank TYPE (no value here) is the table of SOL 101 and 103:
-// the TID names a TABLFTG or a TABLED1.
+// What kind of load a FatigueLoad defines (its TYPE field). A blank TYPE (no value here) is the table of SOL 101 and
+// 103: the TID names a TableFatigueHistory or a TableDynamic1.
 enum class FatigueLoadType : std::uint8_t
 {
-    Db,                  // SOL 101, 103: the load history is in a data acquisition file, TID names a UDNAME
+    Db,                  // SOL 101, 103: the load history is in a data acquisition file, TID names an UserFileName
     DataAcquisitionFile, // the same
-    LoadHistoryFile,     // the load history is a channel of a load history file, TID names a UDNAME
+    LoadHistoryFile,     // the load history is a channel of a load history file, TID names an UserFileName
     Const,               // a constant amplitude cycle between two peaks (SCALE is the first, OFFSET the second)
-    Psd,                 // SOL 108, 111: random loading, LCID names RANDPS cards
+    Psd,                 // SOL 108, 111: random loading, LCID names RandomSpectralDensity cards
     Sine,                // SOL 108, 111: sine waves or a sine sweep, from the DETLOAD and SWEEP lines
     Narrow,              // SOL 108, 111: narrow band blocks, from the DETLOAD line
     Static               // a static offset, from a subcase (SOL 101, 103) or an binary result file (SOL 108, 111)
@@ -89,13 +89,13 @@ struct FatigueLoadSweep
     [[nodiscard]] bool operator==(const FatigueLoadSweep&) const noexcept = default;
 };
 
-// One FTGLOAD card: a cyclic loading variation of a fatigue analysis (a load history of a pseudo-static analysis, SOL
-// 101, of a modal one, SOL 103, or a random, sine, narrow band or static load of a random vibration analysis, SOL 108
-// and 111). An FTGEVNT groups the FTGLOADs of an event.
+// One FatigueLoad card: a cyclic loading variation of a fatigue analysis (a load history of a pseudo-static analysis,
+// SOL 101, of a modal one, SOL 103, or a random, sine, narrow band or static load of a random vibration analysis, SOL
+// 108 and 111). A FatigueEvent groups the FatigueLoads of an event.
 //
-// Card layout, SOL 101 and 103:  FTGLOAD  ID  TID  LCID  LDM  SCALE/MAX  OFFSET/MIN  TYPE  CHNL         fields 1 to 8
+// Card layout, SOL 101 and 103:  FatigueLoad  ID  TID  LCID  LDM  SCALE/MAX  OFFSET/MIN  TYPE  CHNL     fields 1 to 8
 //                                        UNITS  EQUIV  EQNAME                                      a line, optional
-// Card layout, SOL 108 and 111:  FTGLOAD  ID  TID  LCID  (blank)  SCALE  OFFSET  TYPE                  fields 1 to 7
+// Card layout, SOL 108 and 111:  FatigueLoad  ID  TID  LCID  (blank)  SCALE  OFFSET  TYPE              fields 1 to 7
 //                                        DETLOAD  F1  G1/H1  B1  F2  G2/H2  B2                       lines, two bands
 //                                        each SWEEP  F1  G1/H1  (blank)  Fn  Gn/Hn                         a line,
 //                                               (blank)  SWTYPE  SWNUM  SWRATE  NSWEEP  FRFUNIT  LDUNIT   and the line
@@ -112,13 +112,14 @@ struct FatigueLoadSweep
 // acquisition file or the load history file word. LCID is any integer: a subcase or a mode number, 0 (a constant
 // offset), -1 or -2 (the correlation of several PSD inputs).
 //
-// What TID names depends on TYPE (the reference follows it): a blank TYPE names a TABLFTG (a TABLED1 is allowed by the
-// format too, which the FatigueTable target does not find: the card reads and writes it all the same), DB, a data
-// acquisition file, the load history file word, STATIC and PSD a UDNAME; for the other types the field is blank or
-// ignored and is not a reference. LCID names the RANDPS cards (the RandomSet target) when TYPE is PSD and it is
-// positive.
+// What TID names depends on TYPE (the reference follows it): a blank TYPE names a TableFatigueHistory (a TableDynamic1
+// is allowed by the format too, which the FatigueTable target does not find: the card reads and writes it all the
+// same), DB, a data acquisition file, the load history file word, STATIC and PSD an UserFileName; for the other types
+// the field is blank or ignored and is not a reference. LCID names the RandomSpectralDensity cards (the RandomSet
+// target) when TYPE is PSD and it is positive.
 //
-// The ID is unique among the FTGLOAD cards (IdSpace::PerCardType, the category FatigueLoad that an FTGEVNT names).
+// The ID is unique among the FatigueLoad cards (IdSpace::PerCardType, the category FatigueLoad that a FatigueEvent
+// names).
 struct FatigueLoadCard
 {
     base::EntityId id = 0;

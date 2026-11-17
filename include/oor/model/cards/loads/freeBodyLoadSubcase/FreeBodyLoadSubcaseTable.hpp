@@ -19,9 +19,9 @@ struct FreeBodyLoadSubcaseFormat
     static void write(const FreeBodyLoadSubcaseCard& card, FieldWriter& writer);
 };
 
-// All the FBODYSB cards. A subsystem has no number (IdSpace::None): it is found by its name, which identifies it for
-// the FBODYLD that names it (a repeated name is reported as a warning when the deck is read). The two sets are
-// references (ReferenceTarget::Set); a blank ELEMSET is not visited.
+// All the FreeBodyLoadSubcase cards. A subsystem has no number (IdSpace::None): it is found by its name, which
+// identifies it for the FreeBodyLoad that names it (a repeated name is reported as a warning when the deck is read).
+// The two sets are references (ReferenceTarget::Set); a blank ELEMSET is not visited.
 class FreeBodyLoadSubcaseTable final : public TypedTable<FreeBodyLoadSubcaseTable, FreeBodyLoadSubcaseCard>
 {
 public:
@@ -38,7 +38,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // Two FBODYSB cards of one name are reported.
+    // Two FreeBodyLoadSubcase cards of one name are reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
     // The name of a row, as written, without copying the card.

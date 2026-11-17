@@ -20,7 +20,7 @@ struct GeneralFrame3Format
     static void write(const GeneralFrame3Card& card, FieldWriter& writer);
 };
 
-// All the CORD3G coordinate systems of a model (in the coordinate system ID space).
+// All the GeneralFrame3 coordinate systems of a model (in the coordinate system ID space).
 class GeneralFrame3Table final : public TypedTable<GeneralFrame3Table, GeneralFrame3Card>
 {
 public:

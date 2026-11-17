@@ -8,8 +8,8 @@
 namespace oor::model
 {
 
-// METHOD of an EIGR card: the way the eigenvalues are extracted. LAN and AHOU are the modern ones, the others are
-// obsolete but still read.
+// METHOD of a RealEigenMethod card: the way the eigenvalues are extracted. LAN and AHOU are the modern ones, the others
+// are obsolete but still read.
 enum class RealEigenMethodMethod : std::uint8_t
 {
     Lanczos,              // LAN (the default)
@@ -23,7 +23,7 @@ enum class RealEigenMethodMethod : std::uint8_t
     AutoGivens            // AGIV: GIV or MGIV, chosen by the program
 };
 
-// NORM of an EIGR card: how the eigenvectors are scaled.
+// NORM of a RealEigenMethod card: how the eigenvectors are scaled.
 enum class RealEigenMethodNorm : std::uint8_t
 {
     Mass, // MASS: unit generalised mass (the default)
@@ -31,11 +31,11 @@ enum class RealEigenMethodNorm : std::uint8_t
     Point // POINT: unit value of the component G, C
 };
 
-// One EIGR card: real eigenvalue extraction, with the method named on the card.
+// One RealEigenMethod card: real eigenvalue extraction, with the method named on the card.
 //
 // Card layout:
-//   EIGR  SID  METHOD  F1  F2  NE  ND
-//         NORM G       C
+//   RealEigenMethod  SID  METHOD  F1  F2  NE  ND
+//                    NORM G  C
 // Fields 7 and 8 of the first line are not used. The second line is optional: without it the vectors are mass
 // normalised.
 //

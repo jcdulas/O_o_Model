@@ -20,10 +20,10 @@ struct MultiPointConstrWithValueFormat
     static void write(const MultiPointConstrWithValueCard& card, FieldWriter& writer);
 };
 
-// All the MPCY cards. The ID is a constraint set ID shared by many cards (IdSpace::Group): the MPC Case Control command
-// selects the set, together with the MPC cards that have the same ID. The dependent term is five columns; the
-// independent terms of every card are three lists (points, components, coefficients) in CSR form. The points are
-// references to grid or scalar points (a scalar point that no SPOINT defines is allowed).
+// All the MultiPointConstrWithValue cards. The ID is a constraint set ID shared by many cards (IdSpace::Group): the MPC
+// Case Control command selects the set, together with the MultiPointConstr cards that have the same ID. The dependent
+// term is five columns; the independent terms of every card are three lists (points, components, coefficients) in CSR
+// form. The points are references to grid or scalar points (a scalar point that no ScalarPoint defines is allowed).
 class MultiPointConstrWithValueTable final
     : public TypedTable<MultiPointConstrWithValueTable, MultiPointConstrWithValueCard>
 {

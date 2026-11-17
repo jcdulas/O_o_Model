@@ -1,6 +1,6 @@
-// The geometry of the scalar springs and dampers of SOL 700 (CELAS1D, CELAS2D, CDAMP1D, CDAMP2D): the length and the
-// centre of the segment between their two points, and nothing else (the format reference documents no area, volume or
-// frame for them).
+// The geometry of the scalar springs and dampers of SOL 700 (SpringDofPropertyExplicit, SpringDofInlineExplicit,
+// DamperDofPropertyExplicit, DamperDofInlineExplicit): the length and the centre of the segment between their two
+// points, and nothing else (the format reference documents no area, volume or frame for them).
 
 #include "oor/analysis/geometry/ElementGeometry.hpp"
 #include "support/ModelTestSupport.hpp"

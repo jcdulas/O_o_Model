@@ -5,18 +5,18 @@
 namespace oor::model
 {
 
-// One MATT3 card: the temperature dependent properties of a MAT3. Each field holds the ID of a TABLEMi (0 when blank:
-// the property does not depend on the temperature) that modifies the property of the same name on the MAT3 with the
-// same MID.
+// One AxisymOrthoMatTemperature card: the temperature dependent properties of an AxisymOrthoMat. Each field holds the
+// ID of a TABLEMi (0 when blank: the property does not depend on the temperature) that modifies the property of the
+// same name on the AxisymOrthoMat with the same MID.
 //
 // Card layout:
-//   MATT3  MID      T(EX)   T(ETH)   T(EZ)   T(NUXTH)   T(NUTHZ)   T(NUZX)   T(RHO)
-//          (blank)  (blank) T(GZX)   T(AX)   T(ATH)     T(AZ)      (blank)   T(GE)
-// The fields follow the MAT3 card (EZ is field 4, GZX field 11); the cells of fields 9, 10 and 15 are blank, and
-// T(EZ) is field 4.
+//   AxisymOrthoMatTemperature  MID  T(EX)   T(ETH)   T(EZ)   T(NUXTH)   T(NUTHZ)   T(NUZX)   T(RHO)
+//                              (blank)  (blank) T(GZX)   T(AX)   T(ATH)     T(AZ)  (blank)   T(GE)
+// The fields follow the AxisymOrthoMat card (EZ is field 4, GZX field 11); the cells of fields 9, 10 and 15 are blank,
+// and T(EZ) is field 4.
 struct AxisymOrthoMatTemperatureCard
 {
-    base::EntityId id = 0; // the MAT3 that the card extends
+    base::EntityId id = 0; // the AxisymOrthoMat that the card extends
     base::EntityId youngsModulusXTableId = 0;
     base::EntityId youngsModulusThetaTableId = 0;
     base::EntityId youngsModulusZTableId = 0;

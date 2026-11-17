@@ -19,9 +19,9 @@ struct BoltPretensionFormat
     static void write(const BoltPretensionCard& card, FieldWriter& writer);
 };
 
-// All the BOLT1 cards. The ID is unique among them (IdSpace::PerCardType, category Other). The cards are kept whole
-// (CardRows); the query engine reads the ID only. The control grid point is a reference; the elements and grid points
-// are too, or a SET3 with IDTYPE SET.
+// All the BoltPretension cards. The ID is unique among them (IdSpace::PerCardType, category Other). The cards are kept
+// whole (CardRows); the query engine reads the ID only. The control grid point is a reference; the elements and grid
+// points are too, or a TypedListSet3 with IDTYPE SET.
 class BoltPretensionTable final : public TypedTable<BoltPretensionTable, BoltPretensionCard>
 {
 public:

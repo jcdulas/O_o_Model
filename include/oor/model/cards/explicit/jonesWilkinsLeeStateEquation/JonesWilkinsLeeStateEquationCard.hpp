@@ -5,11 +5,12 @@
 namespace oor::model
 {
 
-// One EOSJWL card (SOL 700): the Jones-Wilkins-Lee equation of state of the detonation products of a high explosive,
-// with an optional afterburning term. A MATDEUL names it in its EID field, and a DETSPH gives the detonation model.
+// One JonesWilkinsLeeStateEquation card (SOL 700): the Jones-Wilkins-Lee equation of state of the detonation products
+// of a high explosive, with an optional afterburning term. An EulerMat names it in its EID field, and a
+// SphericalDetonation gives the detonation model.
 //
-// Card layout: EOSJWL  EID  A  B  R1  R2  OMEGA  P0  Q            fields 1 to 8
-//                     a  m  N                                     fields 9 to 11
+// Card layout: JonesWilkinsLeeStateEquation  EID  A  B  R1  R2  OMEGA  P0  Q  fields 1 to 8
+//                                           a  m  N               fields 9 to 11
 // The grid of the format calls the first field MID and its list of fields calls it EID: it is the number of the
 // equation of state. The format gives every constant as a real with the default 0.0, and Q as zero or more; the format
 // says the constants Q, a, m and n are zero by default. The card reads them all as reals that are zero when blank and

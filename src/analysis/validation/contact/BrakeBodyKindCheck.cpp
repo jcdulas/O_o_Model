@@ -11,9 +11,10 @@ namespace oor::analysis
 namespace
 {
 
-// A body of a brake system that is not a BCBODY1. The format reference takes BD1_ID and BD2_ID as the BCBODY1 IDs
-// of the two bodies of the system. The reference resolves to any contact body (BCBODY, BCBODY1, BCSURF, BCGRID), so the
-// kind of the card it finds is looked at here; a body that no card defines is `ref.unresolved`.
+// A body of a brake system that is not a ContactBody1. The format reference takes BD1_ID and BD2_ID as the ContactBody1
+// IDs of the two bodies of the system. The reference resolves to any contact body (ContactBody, ContactBody1,
+// ContactFaceRegion, ContactNodeRegion), so the kind of the card it finds is looked at here; a body that no card
+// defines is `ref.unresolved`.
 class BrakeBodyKindCheck final : public ValidationCheck
 {
 public:

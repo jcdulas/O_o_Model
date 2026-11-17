@@ -20,11 +20,11 @@ enum class BushProp2DSolution : std::uint8_t
 
 inline constexpr std::array<std::string_view, 2> BUSH_PROP_2D_SOLUTION_WORDS{"Long", "Short"};
 
-// The words that open the second line of a PBUSH2D, in field 9.
+// The words that open the second line of a BushProp2D, in field 9.
 inline constexpr std::string_view BUSH_PROP_2D_SQUEEZE_WORD = "SqueezeFilm";
 inline constexpr std::string_view BUSH_PROP_2D_CROSS_WORD = "Cross";
 
-// The squeeze film damper form of a PBUSH2D: the second and third lines of the card.
+// The squeeze film damper form of a BushProp2D: the second and third lines of the card.
 //
 // Card layout (fields over the lines, eight to a line):
 //   SQUEEZE  BDIA   BLEN   BCLR   SOLN    VISCO   PVAPCO             fields 9 to 15
@@ -56,7 +56,7 @@ struct BushProp2DSqueeze
     [[nodiscard]] bool operator==(const BushProp2DSqueeze&) const noexcept = default;
 };
 
-// The cross coupling form of a PBUSH2D: the second line of the card.
+// The cross coupling form of a BushProp2D: the second line of the card.
 //
 // Card layout: CROSS  K12  K21  B12  B21  M12  M21                       fields 9 to 15
 // The terms of the stiffness, damping and mass matrices outside the diagonal, [I] = ((I11, I12), (I21, I22)) with
@@ -73,12 +73,12 @@ struct BushProp2DCross
     [[nodiscard]] bool operator==(const BushProp2DCross&) const noexcept = default;
 };
 
-// One PBUSH2D card (SOL 400 and the rotor dynamics): the linear and nonlinear properties of the two-dimensional bush
-// CBUSH2D.
+// One BushProp2D card (SOL 400 and the rotor dynamics): the linear and nonlinear properties of the two-dimensional bush
+// Bushing2D.
 //
-// Card layout of the first line: PBUSH2D  PID  K11  K22  B11  B22  M11  M22        fields 1 to 7
-// PID is a property ID, unique among the properties (the format reference asks for it and for one PBUSH2D per ID: it is
-// a primary property). K11 and K22, the nominal stiffnesses in the directions 1 and 2, are required; B11 and B22
+// Card layout of the first line: BushProp2D  PID  K11  K22  B11  B22  M11  M22     fields 1 to 7
+// PID is a property ID, unique among the properties (the format reference asks for it and for one BushProp2D per ID: it
+// is a primary property). K11 and K22, the nominal stiffnesses in the directions 1 and 2, are required; B11 and B22
 // (damping) and M11 and M22 (acceleration-dependent force) are 0.0 when blank.
 //
 // The second line may be the squeeze film damper data (SQUEEZE) or the cross coupling terms (CROSS), never

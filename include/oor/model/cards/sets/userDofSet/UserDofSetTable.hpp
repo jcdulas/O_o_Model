@@ -21,8 +21,8 @@ struct UserDofSetFormat
     static void write(const UserDofSetCard& card, FieldWriter& writer);
 };
 
-// All the USET cards. A card has no ID (IdSpace::None): its set name is not an ID. The points and the components of
-// every card are two lists in CSR form.
+// All the UserDofSet cards. A card has no ID (IdSpace::None): its set name is not an ID. The points and the components
+// of every card are two lists in CSR form.
 class UserDofSetTable final : public TypedTable<UserDofSetTable, UserDofSetCard>
 {
 public:

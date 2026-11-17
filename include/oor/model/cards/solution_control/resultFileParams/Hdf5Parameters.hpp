@@ -19,9 +19,10 @@
 #include <variant>
 #include <vector>
 
-// What the two cards of the HDF5 output parameters (HDF5OUT and H5OUT) share: the list of NAME and value pairs, the
-// value as the deck wrote it, and the table of the parameters that the format
-// lists for HDF5OUT. Each card still says where its first pair is, and has its own fields apart from the pairs.
+// What the two cards of the HDF5 output parameters (ResultFileParams and ModuleResultFileParams) share: the list of
+// NAME and value pairs, the value as the deck wrote it, and the table of the parameters that the format
+// lists for ResultFileParams. Each card still says where its first pair is, and has its own fields apart from the
+// pairs.
 namespace oor::model
 {
 

@@ -18,8 +18,9 @@ struct ViewFactorIntegrationFormat
     static void write(const ViewFactorIntegrationCard& card, FieldWriter& writer);
 };
 
-// All the VIEW3D cards. The ID is the ICAVITY, the one the RADCAV, RADLST and RADMTX of the cavity share (category
-// RadiationCavity, IdSpace::PerCardType: one VIEW3D per cavity).
+// All the ViewFactorIntegration cards. The ID is the ICAVITY, the one the RadiationCavity, RadiationCavityList and
+// RadiationExchangeMatrix of the cavity share (category RadiationCavity, IdSpace::PerCardType: one
+// ViewFactorIntegration per cavity).
 class ViewFactorIntegrationTable final : public TypedTable<ViewFactorIntegrationTable, ViewFactorIntegrationCard>
 {
 public:

@@ -20,8 +20,9 @@ struct AeroControllerFormat
     static void write(const AeroControllerCard& card, FieldWriter& writer);
 };
 
-// All the AEPARM cards, in the category AeroTrimVariable that AESTAT shares. The ID is ignored by the solver, so the
-// space is IdSpace::Group (several cards may carry the same number). The card names no other card by number.
+// All the AeroController cards, in the category AeroTrimVariable that AeroRigidTrimVariable shares. The ID is ignored
+// by the solver, so the space is IdSpace::Group (several cards may carry the same number). The card names no other card
+// by number.
 class AeroControllerTable final : public TypedTable<AeroControllerTable, AeroControllerCard>
 {
 public:

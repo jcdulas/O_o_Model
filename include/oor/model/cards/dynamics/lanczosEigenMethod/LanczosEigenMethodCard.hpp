@@ -18,11 +18,11 @@ enum class EigenvectorNorm : std::uint8_t
     Max      // MAX
 };
 
-// One EIGRL card: real eigenvalue extraction by the Lanczos method.
+// One LanczosEigenMethod card: real eigenvalue extraction by the Lanczos method.
 //
 // Card layout:
-//   EIGRL  SID  V1  V2  ND  MSGLVL  MAXSET  SHFSCL  NORM
-//          option_1 = value_1  option_2 = value_2  etc.
+//   LanczosEigenMethod  SID  V1  V2  ND  MSGLVL  MAXSET  SHFSCL  NORM
+//                       option_1 = value_1  option_2 = value_2  etc.
 // The options are one field each, written NAME=value. ALPH, NUMS and F1 to F15 can only be given that way; V1, V2, ND,
 // MSGLVL, MAXSET, SHFSCL and NORM can be given either way as long as the field on the first line is blank. A card keeps
 // them in the fields of the first line whichever way they were given.

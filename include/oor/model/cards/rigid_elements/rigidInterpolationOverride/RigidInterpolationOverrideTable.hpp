@@ -18,8 +18,9 @@ struct RigidInterpolationOverrideFormat
     static void write(const RigidInterpolationOverrideCard& card, FieldWriter& writer);
 };
 
-// All the GMOVR3 cards. A card has no ID (IdSpace::None, category Other: it is not an element, though it names RBE3
-// elements) and any number of them may be in a deck. The ELEMi are `Element` references. The cards are kept whole.
+// All the RigidInterpolationOverride cards. A card has no ID (IdSpace::None, category Other: it is not an element,
+// though it names RigidInterpolation elements) and any number of them may be in a deck. The ELEMi are `Element`
+// references. The cards are kept whole.
 class RigidInterpolationOverrideTable final
     : public TypedTable<RigidInterpolationOverrideTable, RigidInterpolationOverrideCard>
 {

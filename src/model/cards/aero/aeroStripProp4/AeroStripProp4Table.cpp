@@ -79,7 +79,7 @@ std::optional<CardProblem> AeroStripProp4Format::check(const AeroStripProp4Card&
         return CardProblem{"card.bad-value", "{field} must be -1, 0 or 1", "liftSlopeOption"};
     if (const auto problem = checkOptionalId(card.liftSlopeListId, "liftSlopeListId"))
         return problem;
-    // The lift curve slope data are in the AEFACT whenever the selector asks for them.
+    // The lift curve slope data are in the AeroFactorList whenever the selector asks for them.
     if (card.liftSlopeOption != 0 && card.liftSlopeListId == 0)
         return CardProblem{"card.missing-field", "{field} is required when {field:liftSlopeOption} is not 0",
                            "liftSlopeListId"};

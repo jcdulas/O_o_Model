@@ -19,10 +19,10 @@ struct ModuleLocationFormat
     static void write(const ModuleLocationCard& card, FieldWriter& writer);
 };
 
-// All the MDLOC cards, in the category Other: the MODID is unique per card type (IdSpace::PerCardType). PB1, PB2 and
-// PB3 are references to points (GRID or POINT) of the main Bulk Data; the PAi are points of the module (a BEGIN MODULE
-// section, a part of the deck) and the MODID is a module number: none of them is looked up. The cards are kept whole
-// next to a column of their MODIDs.
+// All the ModuleLocation cards, in the category Other: the MODID is unique per card type (IdSpace::PerCardType). PB1,
+// PB2 and PB3 are references to points (GRID or POINT) of the main Bulk Data; the PAi are points of the module (a BEGIN
+// MODULE section, a part of the deck) and the MODID is a module number: none of them is looked up. The cards are kept
+// whole next to a column of their MODIDs.
 class ModuleLocationTable final : public TypedTable<ModuleLocationTable, ModuleLocationCard>
 {
 public:

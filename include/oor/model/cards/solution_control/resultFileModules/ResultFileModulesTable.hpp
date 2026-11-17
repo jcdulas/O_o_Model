@@ -19,9 +19,9 @@ struct ResultFileModulesFormat
     static void write(const ResultFileModulesCard& card, FieldWriter& writer);
 };
 
-// All the HDF5DA cards (IdSpace::PerCardType, category Other: the Case Control HDF5DA command names one). The CONFIG
-// and the UDIDi are UserDefinedName references. The cards are kept whole (CardRows) next to their ID: the list of
-// modules has any length, and the query engine reads the ID.
+// All the ResultFileModules cards (IdSpace::PerCardType, category Other: the Case Control ResultFileModules command
+// names one). The CONFIG and the UDIDi are UserDefinedName references. The cards are kept whole (CardRows) next to
+// their ID: the list of modules has any length, and the query engine reads the ID.
 class ResultFileModulesTable final : public TypedTable<ResultFileModulesTable, ResultFileModulesCard>
 {
 public:

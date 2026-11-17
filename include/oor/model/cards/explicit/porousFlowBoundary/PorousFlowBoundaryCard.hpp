@@ -12,11 +12,11 @@
 namespace oor::model
 {
 
-// The TYPEi of a PORFLOW: the property of the flow boundary that the VALUEi next to it gives. The words are those of
-// the format reference, in its order.
+// The TYPEi of a PorousFlowBoundary: the property of the flow boundary that the VALUEi next to it gives. The words are
+// those of the format reference, in its order.
 enum class PorousFlowProperty : std::uint8_t
 {
-    Material,       // MATERIAL: the MATDEUL of the material that flows in (an integer)
+    Material,       // MATERIAL: the EulerMat of the material that flows in (an integer)
     XVelocity,      // XVEL
     YVelocity,      // YVEL
     ZVelocity,      // ZVEL
@@ -51,8 +51,8 @@ inline constexpr std::array<const char*, POROUS_FLOW_MAX_ENTRIES> POROUS_FLOW_VA
     "propertyValue1", "propertyValue2", "propertyValue3", "propertyValue4", "propertyValue5",
     "propertyValue6", "propertyValue7", "propertyValue8", "propertyValue9"};
 
-// One TYPEi and VALUEi of a PORFLOW. Only the member that the property uses means anything; the others keep their
-// defaults, so that two entries with the same meaning compare the same.
+// One TYPEi and VALUEi of a PorousFlowBoundary. Only the member that the property uses means anything; the others keep
+// their defaults, so that two entries with the same meaning compare the same.
 struct PorousFlowBoundaryEntry
 {
     PorousFlowProperty property = PorousFlowProperty::XVelocity;
@@ -64,13 +64,14 @@ struct PorousFlowBoundaryEntry
     [[nodiscard]] bool operator==(const PorousFlowBoundaryEntry&) const noexcept = default;
 };
 
-// One PORFLOW card (SOL 700): the properties of a flow of material through a porous part of a coupling surface (a
-// constant flow boundary): the velocity, pressure, density and energy of what flows, the material and the kind of
-// boundary. A LEAKAGE of PORTYPE PORFLOW names it, and the open area is the area of the surface times the LEAKAGE
-// coefficient. Properties that the card does not give are those of the Euler element that the surface cuts.
+// One PorousFlowBoundary card (SOL 700): the properties of a flow of material through a porous part of a coupling
+// surface (a constant flow boundary): the velocity, pressure, density and energy of what flows, the material and the
+// kind of boundary. A GasBagLeakage of PORTYPE PorousFlowBoundary names it, and the open area is the area of the
+// surface times the GasBagLeakage coefficient. Properties that the card does not give are those of the Euler element
+// that the surface cuts.
 //
-// Card layout: PORFLOW  FID  (blank)  TYPE1  VALUE1  TYPE2  VALUE2  TYPE3  VALUE3        fields 1 and 3 to 8
-//                      TYPE4  VALUE4  -etc.-                                            fields 9 on
+// Card layout: PorousFlowBoundary  FID  (blank)  TYPE1  VALUE1  TYPE2  VALUE2  TYPE3  VALUE3  fields 1 and 3 to 8
+//                                 TYPE4  VALUE4  -etc.-                                 fields 9 on
 // The pairs go on without a gap over the continuation lines, TYPEi in field 2i+1 and VALUEi in field 2i+2; field 2 is
 // an empty cell. The VALUE is read by the TYPE: an integer for MATERIAL, a real for the six physical quantities, and a
 // word for FLOW (IN, OUT or BOTH, BOTH when blank) and for METHOD (VELOCITY or PRESSURE, VELOCITY when blank). The
@@ -80,7 +81,7 @@ struct PorousFlowBoundaryEntry
 // were given and without gaps.
 struct PorousFlowBoundaryCard
 {
-    base::EntityId id = 0; // unique among the PORFLOW cards
+    base::EntityId id = 0; // unique among the PorousFlowBoundary cards
     std::vector<PorousFlowBoundaryEntry> entries;
 };
 

@@ -19,7 +19,8 @@ struct PlaneStrainQuad4Format
     static void write(const PlaneStrainQuad4Card& card, FieldWriter& writer);
 };
 
-// All the CPLSTN4 elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without copy).
+// All the PlaneStrainQuad4 elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without
+// copy).
 class PlaneStrainQuad4Table final : public TypedTable<PlaneStrainQuad4Table, PlaneStrainQuad4Card>
 {
 public:

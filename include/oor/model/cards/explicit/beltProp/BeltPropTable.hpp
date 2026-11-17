@@ -19,8 +19,8 @@ struct BeltPropFormat
     static void write(const BeltPropCard& card, FieldWriter& writer);
 };
 
-// All the PBELT cards. A PBELT is a property: its ID is in the space every property type shares (IdSpace::Property), so
-// the CROD that names a PID finds it. Its four tables are TABLED1 cards.
+// All the BeltProp cards. A BeltProp is a property: its ID is in the space every property type shares
+// (IdSpace::Property), so the Rod2 that names a PID finds it. Its four tables are TableDynamic1 cards.
 class BeltPropTable final : public TypedTable<BeltPropTable, BeltPropCard>
 {
 public:

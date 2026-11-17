@@ -6,9 +6,10 @@
 namespace oor::model
 {
 
-// One RLOAD1 card: a frequency response excitation P(f) = A * (C(f) + i * D(f)) * exp(i * (phi - 2 * pi * f * tau)).
+// One FreqResponseLoad1 card: a frequency response excitation P(f) = A * (C(f) + i * D(f)) * exp(i * (phi - 2 * pi * f
+// * tau)).
 //
-// Card layout: RLOAD1  SID  EXCITEID  DELAYI/DELAYR  DPHASEI/DPHASER  TC/RC  TD/RD  TYPE
+// Card layout: FreqResponseLoad1  SID  EXCITEID  DELAYI/DELAYR  DPHASEI/DPHASER  TC/RC  TD/RD  TYPE
 // Four fields hold an ID or a real, and each is two members here (the ID is 0 and the real 0.0 when the field is blank,
 // and at most one of them is set):
 //  - DELAYI/DELAYR: the ID of a DELAY card (delayId) or a fixed time delay (delay);
@@ -20,7 +21,8 @@ struct FreqResponseLoad1Card
 {
     base::EntityId id = 0;
     base::EntityId excitationId =
-        0; // the set ID of a DAREA or static load set (the set of an SPCD for enforced motion)
+        // the set ID of a DynamicLoadScale or static load set (the set of an EnforcedMotionConstr for enforced motion)
+        0;
     base::EntityId delayId = 0;
     double delay = 0.0;
     base::EntityId phaseId = 0;

@@ -19,8 +19,8 @@ struct SolidPentaFormat
     static void write(const SolidPentaCard& card, FieldWriter& writer);
 };
 
-// All the CPENTA elements: the nodes are one column of fifteen IDs per element, 0 for an absent edge point (an (N, 15)
-// NumPy view without copy).
+// All the SolidPenta elements: the nodes are one column of fifteen IDs per element, 0 for an absent edge point (an (N,
+// 15) NumPy view without copy).
 class SolidPentaTable final : public TypedTable<SolidPentaTable, SolidPentaCard>
 {
 public:

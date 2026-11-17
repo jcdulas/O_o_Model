@@ -19,11 +19,11 @@ struct ModuleRigidBodyStarFormat
     static void write(const ModuleRigidBodyStarCard& card, FieldWriter& writer);
 };
 
-// All the MDRBE2 cards. The EID is an element number, which the rules of the RBE2 want unique among all the elements;
-// the table only keeps it unique among the MDRBE2 cards (IdSpace::PerCardType, category Other) and a validation check
-// looks for a number that another kind of element shares. The independent point and the dependent points are references
-// to grid points in their module: the main Bulk Data, or the part of another module. The cards are kept
-// whole next to their ID.
+// All the ModuleRigidBodyStar cards. The EID is an element number, which the rules of the RigidBodyStar want unique
+// among all the elements; the table only keeps it unique among the ModuleRigidBodyStar cards (IdSpace::PerCardType,
+// category Other) and a validation check looks for a number that another kind of element shares. The independent point
+// and the dependent points are references to grid points in their module: the main Bulk Data, or the part of another
+// module. The cards are kept whole next to their ID.
 class ModuleRigidBodyStarTable final : public TypedTable<ModuleRigidBodyStarTable, ModuleRigidBodyStarCard>
 {
 public:

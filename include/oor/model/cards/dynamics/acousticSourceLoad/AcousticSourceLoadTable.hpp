@@ -18,8 +18,8 @@ struct AcousticSourceLoadFormat
     static void write(const AcousticSourceLoadCard& card, FieldWriter& writer);
 };
 
-// All the ACSRCE cards. The ID is a dynamic load set ID shared by many cards (IdSpace::Group, category DynamicLoad):
-// the DLOAD Case Control command selects it.
+// All the AcousticSourceLoad cards. The ID is a dynamic load set ID shared by many cards (IdSpace::Group, category
+// DynamicLoad): the DynamicLoadCombination Case Control command selects it.
 class AcousticSourceLoadTable final : public TypedTable<AcousticSourceLoadTable, AcousticSourceLoadCard>
 {
 public:

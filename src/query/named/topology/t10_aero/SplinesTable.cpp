@@ -16,8 +16,8 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// The boxes a spline moves: the range its card gives, or the items of its AELIST. Nothing known when the AELIST is
-// missing.
+// The boxes a spline moves: the range its card gives, or the items of its AeroBoxList. Nothing known when the
+// AeroBoxList is missing.
 struct SplineBoxes
 {
     std::optional<base::EntityId> first;
@@ -67,7 +67,7 @@ void put(const std::optional<T>& value, std::vector<T>& values, std::vector<std:
     valid.push_back(value ? 1 : 0);
 }
 
-// splinesTable: SPLINE1 to SPLINE7 and SPLINEX, one row for each.
+// splinesTable: AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline, one row for each.
 class SplinesTableQuery final : public QueryBase
 {
 public:

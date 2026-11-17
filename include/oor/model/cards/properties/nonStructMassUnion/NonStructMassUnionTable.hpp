@@ -19,7 +19,7 @@ struct NonStructMassUnionFormat
     static void write(const NonStructMassUnionCard& card, FieldWriter& writer);
 };
 
-// All the NSMADD cards. The ID is a set ID (IdSpace::Group), the sets of every card are one CSR column.
+// All the NonStructMassUnion cards. The ID is a set ID (IdSpace::Group), the sets of every card are one CSR column.
 class NonStructMassUnionTable final : public TypedTable<NonStructMassUnionTable, NonStructMassUnionCard>
 {
 public:

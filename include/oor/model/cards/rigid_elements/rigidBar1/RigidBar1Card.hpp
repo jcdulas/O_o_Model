@@ -7,9 +7,9 @@
 namespace oor::model
 {
 
-// One RBAR1 card: a rigid bar (alternative format): GB moves with GA in the components CB.
+// One RigidBar1 card: a rigid bar (alternative format): GB moves with GA in the components CB.
 //
-// Card layout: RBAR1  EID  GA  GB  CB  ALPHA  TREF
+// Card layout: RigidBar1  EID  GA  GB  CB  ALPHA  TREF
 // CB are the components at GB that move with GA, the digits 1 to 6 as one number; a blank CB is 123456.
 // ALPHA is the thermal expansion coefficient (0.0 when blank), TREF the reference temperature (0.0 when blank). The
 // rigid elements share the ID space of the elements.

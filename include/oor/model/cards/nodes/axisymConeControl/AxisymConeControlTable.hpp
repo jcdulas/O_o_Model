@@ -18,7 +18,7 @@ struct AxisymConeControlFormat
     static void write(const AxisymConeControlCard& card, FieldWriter& writer);
 };
 
-// All the AXIC cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category Other).
+// All the AxisymConeControl cards. Only one is allowed in a deck; the card has no ID (IdSpace::None, category Other).
 class AxisymConeControlTable final : public TypedTable<AxisymConeControlTable, AxisymConeControlCard>
 {
 public:
@@ -34,7 +34,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an AXIC refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an AxisymConeControl refers to no card
     void finishRead(Model& model, const ReadContext& context) override;
 
     [[nodiscard]] Column<std::int32_t>& highestHarmonicColumn() noexcept { return m_highestHarmonic; }

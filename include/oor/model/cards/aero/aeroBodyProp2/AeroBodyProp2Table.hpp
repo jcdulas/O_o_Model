@@ -19,9 +19,9 @@ struct AeroBodyProp2Format
     static void write(const AeroBodyProp2Card& card, FieldWriter& writer);
 };
 
-// All the PAERO2 cards. The PID is in the space the five PAERO cards share (IdSpace::AeroProperty, category
-// AeroProperty): a CAERO2 names it (ReferenceTarget::AeroProperty). LRSB, LRIB, LTH1 and LTH2 are AEFACT cards
-// (ReferenceTarget::AeroFactor).
+// All the AeroBodyProp2 cards. The PID is in the space the five PAERO cards share (IdSpace::AeroProperty, category
+// AeroProperty): an AeroBody2 names it (ReferenceTarget::AeroProperty). LRSB, LRIB, LTH1 and LTH2 are AeroFactorList
+// cards (ReferenceTarget::AeroFactor).
 class AeroBodyProp2Table final : public TypedTable<AeroBodyProp2Table, AeroBodyProp2Card>
 {
 public:

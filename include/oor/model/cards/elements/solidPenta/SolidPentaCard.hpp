@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One CPENTA card: a five-sided solid element with six to fifteen grid points.
+// One SolidPenta card: a five-sided solid element with six to fifteen grid points.
 //
 // Card layout:
-//   CPENTA  EID  PID  G1  G2  G3  G4  G5  G6
-//           G7   G8   G9  G10 G11 G12 G13 G14
-//           G15
+//   SolidPenta  EID  PID  G1  G2  G3  G4  G5  G6
+//               G7   G8  G9  G10 G11 G12 G13 G14
+//               G15
 //
 // G1 to G6 are the corners; G7 to G15 are the optional points on the edges. `nodes` always has room for all fifteen: an
 // edge point that is blank on the card (or zero) is 0, so that the edge a point belongs to is its position.

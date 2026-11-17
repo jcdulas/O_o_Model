@@ -11,7 +11,8 @@
 namespace oor::model
 {
 
-// The groups of an SEDRSP3: those of an SEDRSP2 and USRDATA, the text of the constants passed to the routine.
+// The groups of a SuperelementDesignResp3: those of a SuperelementDesignResp2 and USRDATA, the text of the constants
+// passed to the routine.
 inline constexpr std::array<SuperelementGroupKeyword, 11> SUPERELEMENT_DESIGN_RESP3_GROUPS{{
     {"DesignVar", SuperelementGroupContent::Pairs, ReferenceTarget::DesignVariable, "designVarIds"},
     {"DesignConstants", SuperelementGroupContent::Labels, ReferenceTarget::Other, "constantLabels"},
@@ -26,19 +27,21 @@ inline constexpr std::array<SuperelementGroupKeyword, 11> SUPERELEMENT_DESIGN_RE
     {"UserData", SuperelementGroupContent::Text, ReferenceTarget::Other, "userData"},
 }};
 
-// One SEDRSP3 card: an external response, computed by a routine of the user from design variables, constants and
-// responses of several part superelements, as a DRESP3 does for one model.
+// One SuperelementDesignResp3 card: an external response, computed by a routine of the user from design variables,
+// constants and responses of several part superelements, as a DesignResp3 does for one model.
 //
-// Card layout: SEDRSP3  ID  LABEL  GROUP  TYPE  REGION                                 fields 1 to 5
-//                      DESVAR  DVSEID1  DVID1 ...                                      the lines after, from field 9:
-//                      the DTABLE ...  DRESP1 ...  DNODE ...  DVPREL1 ...  ...  USRDATA text   groups of SEDRSP2 and
-//                      USRDATA
-// Apart from the part superelement that leads each item, the card follows the rules of the DRESP3, so the
+// Card layout: SuperelementDesignResp3  ID  LABEL  GROUP  TYPE  REGION                 fields 1 to 5
+//                                      DesignVar  DVSEID1  DVID1 ...                   the lines after, from field 9:
+//                                      the DesignConstants ...  DesignResp1 ...  DNODE ...  DesignPropRelation1 ...
+//                                                               ...  USRDATA text  groups of SuperelementDesignResp2
+//                                                                    and
+//                                      USRDATA
+// Apart from the part superelement that leads each item, the card follows the rules of the DesignResp3, so the
 // fields of the first line are those of DesignResp3Card: GROUP names the group of external responses and TYPE the
 // response in it. An item may name superelement 0, the residual structure. The card belongs in the main Bulk Data and
-// is ignored after a BEGIN SUPER=n with n above 0; the DRESP2 flag is not supported. Its ID is a
-// response number, one of the numbers of DRESP1, DRESP2 and DRESP3 (category DesignResponse, one ID space per card
-// type).
+// is ignored after a BEGIN SUPER=n with n above 0; the DesignResp2 flag is not supported. Its ID is a
+// response number, one of the numbers of DesignResp1, DesignResp2 and DesignResp3 (category DesignResponse, one ID
+// space per card type).
 struct SuperelementDesignResp3Card
 {
     base::EntityId id = 0;

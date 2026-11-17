@@ -19,9 +19,9 @@ struct BarPropNonlinearFormat
     static void write(const BarPropNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the PBARN1 cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the ID is the
-// one of the PBAR or PBARL that the card extends, so it is also a reference to a property (a renumbering of the
-// properties follows into it).
+// All the BarPropNonlinear cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the
+// ID is the one of the BarProp or BarShapeProp that the card extends, so it is also a reference to a property (a
+// renumbering of the properties follows into it).
 class BarPropNonlinearTable final : public TypedTable<BarPropNonlinearTable, BarPropNonlinearCard>
 {
 public:

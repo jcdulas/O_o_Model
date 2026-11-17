@@ -19,8 +19,9 @@ struct CompSolidPropNonlinearFormat
     static void write(const CompSolidPropNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the PCOMPLS cards, kept whole next to a column of their PIDs. A PCOMPLS is a property (IdSpace::Property): the
-// PID of a CHEXA finds it, and it shares its number with the PSOLID, PCOMPG, PLCOMP and every other property.
+// All the CompSolidPropNonlinear cards, kept whole next to a column of their PIDs. A CompSolidPropNonlinear is a
+// property (IdSpace::Property): the PID of a SolidHexa finds it, and it shares its number with the SolidProp,
+// CompPropGlobal, PlaneCompProp and every other property.
 class CompSolidPropNonlinearTable final : public TypedTable<CompSolidPropNonlinearTable, CompSolidPropNonlinearCard>
 {
 public:

@@ -119,7 +119,7 @@ const ShellData& MassContext::shell(base::EntityId pid, const Owner& owner)
         nsm = type == model::typeIndexOf<model::CompPropTable>()
                   ? cardAt<model::CompPropTable>(model(), *location).nonStructMass
                   : cardAt<model::CompPropGlobalTable>(model(), *location).nonStructMass;
-        // Z0 places the plies, not the mass (the solver: format reference MDLPRM OFFDEF note;
+        // Z0 places the plies, not the mass (the solver: format reference ModelParams OffsetDefinition note;
         // ShellMass.cpp)
         for (const LaminatePly& ply : Laminate::stack(model(), *location))
             data.massPerArea += propertyDensity(ply.materialId, pid, owner) * ply.thickness;

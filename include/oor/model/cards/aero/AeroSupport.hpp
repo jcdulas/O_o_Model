@@ -20,8 +20,8 @@ namespace oor::model
 {
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The USAGE of a spline: which transformation the interpolation is part of (SPLINE1 to SPLINE5 and
-// SPLINE7). BOTH is the default, so a blank field is BOTH.
+// The USAGE of a spline: which transformation the interpolation is part of (AeroSurfaceSpline1 to AeroBeamSpline5 and
+// AeroFiniteBeamSpline7). BOTH is the default, so a blank field is BOTH.
 // ---------------------------------------------------------------------------------------------------------------------
 
 enum class SplineUsage : std::uint8_t
@@ -35,7 +35,7 @@ enum class SplineUsage : std::uint8_t
 inline constexpr std::array<std::string_view, 3> SPLINE_USAGE_WORDS{"Force", "Displacement", "Both"};
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The symmetry word of a parametric force (SYMXZ and SYMXY of AEDW, AEFORCE and AEPRESS).
+// The symmetry word of a parametric force (SYMXZ and SYMXY of AeroDownwash, AeroForceVector and AeroPressureVector).
 // ---------------------------------------------------------------------------------------------------------------------
 
 enum class ForceSymmetry : std::uint8_t
@@ -48,9 +48,10 @@ enum class ForceSymmetry : std::uint8_t
 inline constexpr std::array<std::string_view, 3> FORCE_SYMMETRY_WORDS{"Symmetric", "Asymmetric", "Antisymmetric"};
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The reserved labels of a trim (AESTAT, TRIM, TRIM2, AELINK, UXVEC): the rigid body motions (the angle of attack,
-// the side slip, the roll, pitch and yaw rates and the six rigid body accelerations) and the constant term of a control
-// vector. Any other label is a name of the user (an AESURF, an AEPARM, an AESTAT of its own).
+// The reserved labels of a trim (AeroRigidTrimVariable, AeroTrim, AeroTrim2, AeroTrimLink, AeroControlVector): the
+// rigid body motions (the angle of attack, the side slip, the roll, pitch and yaw rates and the six rigid body
+// accelerations) and the constant term of a control vector. Any other label is a name of the user (an
+// AeroControlSurface, an AeroController, an AeroRigidTrimVariable of its own).
 // ---------------------------------------------------------------------------------------------------------------------
 
 inline constexpr std::array<std::string_view, 12> TRIM_RESERVED_LABELS{
@@ -63,14 +64,15 @@ inline constexpr std::array<std::string_view, 12> TRIM_RESERVED_LABELS{
 [[nodiscard]] std::optional<CardProblem> checkTrimLabel(std::string_view label, const char* field);
 
 // ---------------------------------------------------------------------------------------------------------------------
-// A list of reals in consecutive fields (AEFACT, FLFACT, DIVERG, the two lists of MKAERO1)
+// A list of reals in consecutive fields (AeroFactorList, AeroFlutterFactors, AeroDivergence, the two lists of
+// AeroMachFreqTable1)
 // ---------------------------------------------------------------------------------------------------------------------
 
 // Reads the reals of fields `first` to `last`, in order, up to the last used field of that range. A field that is not a
-// real is an error, and so is a blank field between two values (AEFACT and FLFACT refuse a blank between
-// values; on MKAERO1 and DIVERG a blank closes the list: a value after it would be lost by a reader that stops
-// there, so it is refused here too). Pass `reader.slotCount()` as `last` for a list that runs to the end of the card.
-// `name` is the field name of the list (`values` for D1, D2, ...): the diagnostics show its keyword.
+// real is an error, and so is a blank field between two values (AeroFactorList and AeroFlutterFactors refuse a blank
+// between values; on AeroMachFreqTable1 and AeroDivergence a blank closes the list: a value after it would be lost by a
+// reader that stops there, so it is refused here too). Pass `reader.slotCount()` as `last` for a list that runs to the
+// end of the card. `name` is the field name of the list (`values` for D1, D2, ...): the diagnostics show its keyword.
 [[nodiscard]] std::vector<double> readRealList(FieldReader& reader, int first, int last, const char* name);
 
 // Writes the values from field `first` on, one to a field, and returns the next free field.

@@ -19,8 +19,9 @@ struct MonteCarloParamsFormat
     static void write(const MonteCarloParamsCard& card, FieldWriter& writer);
 };
 
-// All the MONCARL cards, in the category MonteCarloSet: the Case Control MONCARL names one by its SID, which is unique
-// (IdSpace::PerCardType). The card names no other card. It is kept whole next to a column of its IDs.
+// All the MonteCarloParams cards, in the category MonteCarloSet: the Case Control MonteCarloParams names one by its
+// SID, which is unique (IdSpace::PerCardType). The card names no other card. It is kept whole next to a column of its
+// IDs.
 class MonteCarloParamsTable final : public TypedTable<MonteCarloParamsTable, MonteCarloParamsCard>
 {
 public:

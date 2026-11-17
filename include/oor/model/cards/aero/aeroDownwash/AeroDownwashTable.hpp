@@ -19,10 +19,11 @@ struct AeroDownwashFormat
     static void write(const AeroDownwashCard& card, FieldWriter& writer);
 };
 
-// All the AEDW cards. An AEDW has no numeric ID of its own (IdSpace::None, category Aero): there is one for each Mach
-// number, symmetry and control vector, so a deck has many. The UXID names a UXVEC (ReferenceTarget::ControlVector); the
-// DMIJ and DMIJI are matrix names, not references. The cards are kept whole next to a column of their UXIDs, which is
-// what the query engine and the Arrow export see.
+// All the AeroDownwash cards. An AeroDownwash has no numeric ID of its own (IdSpace::None, category Aero): there is one
+// for each Mach number, symmetry and control vector, so a deck has many. The UXID names an AeroControlVector
+// (ReferenceTarget::ControlVector); the DirectMatrixAeroJ and DirectMatrixAeroJInterference are matrix names, not
+// references. The cards are kept whole next to a column of their UXIDs, which is what the query engine and the Arrow
+// export see.
 class AeroDownwashTable final : public TypedTable<AeroDownwashTable, AeroDownwashCard>
 {
 public:

@@ -19,11 +19,11 @@ struct FatigueMatFormat
     static void write(const FatigueMatCard& card, FieldWriter& writer);
 };
 
-// All the MATFTG cards. The ID space is the card type's own: the ID is the one of the MAT1 that the card serves, so it
-// is a reference to a material (renumbering the materials follows into it), except for a card with a MATID line, whose
-// ID is its own and whose single MIDi are the references (the ranges of a THRU are left as written). The tables of the
-// TABLE line may be TABLEM1 or TABRND1 cards, so they are plain IDs. The cards are kept whole (CardRows); the query
-// engine reads the ID only.
+// All the FatigueMat cards. The ID space is the card type's own: the ID is the one of the IsoMat that the card serves,
+// so it is a reference to a material (renumbering the materials follows into it), except for a card with a MATID line,
+// whose ID is its own and whose single MIDi are the references (the ranges of a THRU are left as written). The tables
+// of the TABLE line may be TableMaterial1 or TableRandomSpectrum1 cards, so they are plain IDs. The cards are kept
+// whole (CardRows); the query engine reads the ID only.
 class FatigueMatTable final : public TypedTable<FatigueMatTable, FatigueMatCard>
 {
 public:

@@ -8,14 +8,14 @@
 namespace oor::model
 {
 
-// One MATFAB card: a bi-directional woven fabric material for shell elements (SOL 700), a fabric with an optional
+// One FabricMat card: a bi-directional woven fabric material for shell elements (SOL 700), a fabric with an optional
 // coating.
 //
 // Card layout (the fields are numbered across the lines, eight to a line):
-//   MATFAB  MID    RHO    ECOAT  NUCOAT GCOAT  DAMPCOAT COMPCOAT PERC            fields 1 to 8
-//           E1L    E1Q    (blank) THETA1 XWARP  YWARP  ZWARP                     9 to 15   the warp ends
-//           E2L    E2Q    (blank) THETA2 XWEFT  YWEFT  ZWEFT                     17 to 23  the weft picks
-//           SCOF   G12    DAMPFIB COMPFIB LOCKANG1 LOCKANG2                      25 to 30
+//   FabricMat  MID    RHO    ECOAT  NUCOAT GCOAT  DAMPCOAT COMPCOAT PERC         fields 1 to 8
+//              E1L    E1Q    (blank) THETA1 XWARP  YWARP  ZWARP                     9 to 15   the warp ends
+//              E2L    E2Q    (blank) THETA2 XWEFT  YWEFT  ZWEFT                     17 to 23  the weft picks
+//              SCOF   G12    DAMPFIB COMPFIB LOCKANG1 LOCKANG2                      25 to 30
 // RHO, E1L and E2L are greater than zero. ECOAT, NUCOAT and GCOAT (the coating, absent when blank) are needed two out
 // of three when PERC, the thickness percentage of the coating (0.0 to 100.0, 0.0 for no coating), is greater than zero.
 // DAMPCOAT and DAMPFIB (0.1) are the damping of the coating and of the fibres, COMPCOAT and COMPFIB (1.0, from 0.0

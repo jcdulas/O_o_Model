@@ -8,8 +8,8 @@ namespace oor::analysis
 namespace
 {
 
-// A failure model number that two kinds of card have: FAILJC, FAILMPS and FAILUDS are named by the FID of a MATDEUL, so
-// the FIDs must be unique among them.
+// A failure model number that two kinds of card have: JohnsonCookFailure, MaxPlasticStrainFailure and UserFailureModel
+// are named by the FID of an EulerMat, so the FIDs must be unique among them.
 class FailureModelIdRepeatedCheck final : public ValidationCheck
 {
 public:

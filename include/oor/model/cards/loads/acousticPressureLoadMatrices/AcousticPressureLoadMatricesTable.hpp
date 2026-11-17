@@ -18,9 +18,10 @@ struct AcousticPressureLoadMatricesFormat
     static void write(const AcousticPressureLoadMatricesCard& card, FieldWriter& writer);
 };
 
-// All the ACLOAD cards. The ID is a dynamic load set ID shared by RLOAD1, RLOAD2, ACSRCE and ACLOAD (the
-// IdSpace::Group of the category DynamicLoad), so a DLOAD and the Case Control DLOAD find it. An ACLOAD names no other
-// card: its units are Fortran units.
+// All the AcousticPressureLoadMatrices cards. The ID is a dynamic load set ID shared by FreqResponseLoad1,
+// FreqResponseLoad2, AcousticSourceLoad and AcousticPressureLoadMatrices (the IdSpace::Group of the category
+// DynamicLoad), so a DynamicLoadCombination and the Case Control DynamicLoadCombination find it. An
+// AcousticPressureLoadMatrices names no other card: its units are Fortran units.
 class AcousticPressureLoadMatricesTable final
     : public TypedTable<AcousticPressureLoadMatricesTable, AcousticPressureLoadMatricesCard>
 {

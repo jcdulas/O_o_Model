@@ -19,8 +19,8 @@ struct GeneralizedDofSetFormat
     static void write(const GeneralizedDofSetCard& card, FieldWriter& writer);
 };
 
-// All the QSET cards. A card has no ID (IdSpace::None). The points and the components of every card are two lists in
-// CSR form.
+// All the GeneralizedDofSet cards. A card has no ID (IdSpace::None). The points and the components of every card are
+// two lists in CSR form.
 class GeneralizedDofSetTable final : public TypedTable<GeneralizedDofSetTable, GeneralizedDofSetCard>
 {
 public:

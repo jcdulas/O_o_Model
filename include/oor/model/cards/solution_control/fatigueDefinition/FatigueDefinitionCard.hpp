@@ -14,8 +14,8 @@ namespace oor::model
 // A set of elements of an ELSET or SPOTW line and the fatigue properties they have (ELSIDi and PFTGIDi).
 struct FatigueDefinitionPair
 {
-    base::EntityId elemSetId = 0;     // a SET1, SET3 or SET4 of elements
-    base::EntityId fatiguePropId = 0; // a PFTG, 0 when blank (default properties)
+    base::EntityId elemSetId = 0;     // an IdListSet1, TypedListSet3 or PropertyListSet4 of elements
+    base::EntityId fatiguePropId = 0; // a FatigueProp, 0 when blank (default properties)
 
     [[nodiscard]] bool operator==(const FatigueDefinitionPair&) const noexcept = default;
 };
@@ -53,7 +53,7 @@ inline constexpr std::array<std::string_view, 3> FATIGUE_DEFINITION_LOCATION_WOR
 struct FatigueDefinitionSeam
 {
     base::EntityId elemSetId = 0;     // the elements of the toe, the root or the throat
-    base::EntityId fatiguePropId = 0; // a PFTG, 0 when blank
+    base::EntityId fatiguePropId = 0; // a FatigueProp, 0 when blank
     base::EntityId nodeSetId = 0;     // the grids that make the seam line, 0 when blank (all the grids of the elements)
     FatigueDefinitionWeld weld = FatigueDefinitionWeld::Generic;
     FatigueDefinitionWeldLocation location =
@@ -62,20 +62,19 @@ struct FatigueDefinitionSeam
     [[nodiscard]] bool operator==(const FatigueDefinitionSeam&) const noexcept = default;
 };
 
-// One FTGDEF card: the elements of a fatigue analysis and the fatigue properties each has, and how much of the result
-// is kept (the top percentage of the entities, the number of hot spots).
+// One FatigueDefinition card: the elements of a fatigue analysis and the fatigue properties each has, and how much of
+// the result is kept (the top percentage of the entities, the number of hot spots).
 //
 // Card layout, SOL 101, 103, 112:
-//   FTGDEF  ID  TOPSTR  PFTGID  TOPDMG  NENTS  maxENTS  NHS  HSGATE                       fields 1 to 8
-//           ELSET   ELSID1 PFTGID1  ELSID2 PFTGID2  ELSID3 PFTGID3                        a line of three pairs, then
-//           more lines SPOTW   the same pairs                                                         the elements of
-//           the spot welds SEAMW   ELSID1 PFTGID1 NDSID1 WELD1 TYPE1                                      a group on
-//           each line XELSET  XELSID1 ... XELSID7                                                    seven sets on each
-//           line
+//   FatigueDefinition  ID  TOPSTR  PFTGID  TOPDMG  NENTS  maxENTS  NHS  HSGATE            fields 1 to 8
+//                      ELSET   ELSID1 PFTGID1  ELSID2 PFTGID2  ELSID3 PFTGID3               a line of three pairs, then
+//                      more lines SPOTW   the same pairs                                                the elements of
+//                      the spot welds SEAMW   ELSID1 PFTGID1 NDSID1 WELD1 TYPE1                              a group on
+//                      each line XELSET  XELSID1 ... XELSID7 seven sets on each line
 // Card layout, SOL 108, 111:
-//   FTGDEF  ID  TOPRMS                                                                     fields 1 and 2
-//           ELSET   ELSID1 (blank) ELSID2 (blank) ELSID3                                   the same lines with no
-//           property XELSET  XELSID1 ... XELSID7
+//   FatigueDefinition  ID  TOPRMS                                                          fields 1 and 2
+//                      ELSET   ELSID1 (blank) ELSID2 (blank) ELSID3                              the same lines with no
+//                      property XELSET  XELSID1 ... XELSID7
 // The sections start with their keyword in field 2 of a line, their data from field 3, and a section goes on over the
 // lines below it that have a blank field 2. The format of SOL 108 and 111 is the other one with fewer fields in the
 // same places: TOPRMS is TOPSTR (the same field, in another range: a percentage up to 100 against one between -100 and
@@ -88,9 +87,9 @@ struct FatigueDefinitionSeam
 // appears once and has at least one entry; the card writes the sections in the order of the format (ELSET, SPOTW,
 // SEAMW, XELSET).
 //
-// References. PFTGID and PFTGIDi are PFTG cards (FatigueProperty), ELSIDi, NDSIDi and XELSIDi are sets (SET1, SET3 or
-// SET4: the Set target). The ID is unique among the FTGDEF cards (IdSpace::PerCardType, category Other: a FATIGUE
-// command of the Case Control selects it).
+// References. PFTGID and PFTGIDi are FatigueProp cards (FatigueProperty), ELSIDi, NDSIDi and XELSIDi are sets
+// (IdListSet1, TypedListSet3 or PropertyListSet4: the Set target). The ID is unique among the FatigueDefinition cards
+// (IdSpace::PerCardType, category Other: a FATIGUE command of the Case Control selects it).
 struct FatigueDefinitionCard
 {
     base::EntityId id = 0;

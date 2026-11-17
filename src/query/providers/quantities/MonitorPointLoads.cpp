@@ -67,8 +67,8 @@ std::vector<std::size_t> digitsOf(std::int64_t components)
     return digits;
 }
 
-// The card type of a card the stored table names: the table names it by its keyword ("MONPNT1"), the query by its
-// card type ("MonitorIntegratedLoad1"), like the other queries.
+// The card type of a card the stored table names: the table names it by its keyword ("MonitorIntegratedLoad1"), the
+// query by its card type ("MonitorIntegratedLoad1"), like the other queries.
 std::string cardTypeOf(const std::string& keyword)
 {
     return keyword;
@@ -92,15 +92,16 @@ std::map<std::string, std::string> monitorCardsOf(const model::Model& model)
     return cards;
 }
 
-// A row of a MONPNT3 load matrix that has no directory: the card and the component.
+// A row of a MonitorNodeForceSum3 load matrix that has no directory: the card and the component.
 struct MonitorNodeForceSum3Row
 {
     const model::MonitorNodeForceSum3Card* card = nullptr;
     std::size_t component = 0; // 0 to 5
 };
 
-// The rows of a MONPNT3 matrix: the MONPNT3 cards in the order of the deck, as many rows per card as its AXES has
-// digits (the order the solver lists them in, an assumption that no result with several MONPNT3 has confirmed yet).
+// The rows of a MonitorNodeForceSum3 matrix: the MonitorNodeForceSum3 cards in the order of the deck, as many rows per
+// card as its AXES has digits (the order the solver lists them in, an assumption that no result with several
+// MonitorNodeForceSum3 has confirmed yet).
 std::vector<MonitorNodeForceSum3Row> monitorNodeForceSum3Rows(const std::vector<model::MonitorNodeForceSum3Card>& cards)
 {
     std::vector<MonitorNodeForceSum3Row> rows;
@@ -243,7 +244,7 @@ private:
         const model::Model* model = context.modelOf(ref.set);
         const std::map<std::string, std::string> modelCards =
             model != nullptr ? monitorCardsOf(*model) : std::map<std::string, std::string>();
-        // the names of the rows of a MONPNT3 matrix whose directory the file does not hold, from the deck
+        // the names of the rows of a MonitorNodeForceSum3 matrix whose directory the file does not hold, from the deck
         const std::vector<model::MonitorNodeForceSum3Card> deckCards =
             model != nullptr ? monitorNodeForceSum3Cards(*model) : std::vector<model::MonitorNodeForceSum3Card>();
         const std::vector<MonitorNodeForceSum3Row> unnamedRows = monitorNodeForceSum3Rows(deckCards);
@@ -270,7 +271,8 @@ private:
             const model::MonitorNodeForceSum3Card* deckCard = nullptr;
             if (name.empty() && matrixRow != nullptr)
             {
-                // a MONPNT3 row of the matrix, named by the deck when its MONPNT3 cards give as many rows
+                // a MonitorNodeForceSum3 row of the matrix, named by the deck when its MonitorNodeForceSum3 cards give
+                // as many rows
                 const auto position = static_cast<std::size_t>(integer(matrixRow, row));
                 if (position < unnamedRows.size() && unnamedRows.size() == rowsOfUnnamed(*matrixRow, *names))
                 {
@@ -410,11 +412,11 @@ private:
     }
 };
 
-// ---- a MONPNT3 computed from the grid point forces
+// ---- a MonitorNodeForceSum3 computed from the grid point forces
 // -----------------------------------------------------------------------
 
-// A MONPNT3 as the format reference computes it (MONPNT3): at the grid points of GRIDSET, the grid point forces of the
-// elements of ELEMSET (none when it is blank) and the loads XFLAG does not exclude (S the
+// A MonitorNodeForceSum3 as the format reference computes it (MonitorNodeForceSum3): at the grid points of GRIDSET, the
+// grid point forces of the elements of ELEMSET (none when it is blank) and the loads XFLAG does not exclude (S the
 // singlePointConstrForce rows, M the multiPointConstrForce rows, A, L or P the appliedLoad rows, D every other type),
 // summed about (X, Y, Z) of CP and given along the axes of CD at that point. With ELEMSET the elements of one side and
 // XFLAG blank, the sum is the internal load A + B (the other side's elements reversed, at equilibrium).

@@ -7,9 +7,9 @@
 namespace oor::model
 {
 
-// One SPCOFF card: degrees of freedom that the AUTOSPC operation must not constrain.
+// One AutoConstrExclusion card: degrees of freedom that the AUTOSPC operation must not constrain.
 //
-// Card layout: SPCOFF  G1  C1  G2  C2  G3  C3  G4  C4
+// Card layout: AutoConstrExclusion  G1  C1  G2  C2  G3  C3  G4  C4
 // and, for more than four points, the same pairs on the continuation lines. Gi is a grid or scalar point, Ci the digits
 // of its components as one number (0 for a scalar point). The card has no ID: it applies to the whole model.
 struct AutoConstrExclusionCard

@@ -9,21 +9,24 @@
 namespace oor::analysis
 {
 
-// The non-structural mass that a set of the cards NSM, NSM1, NSML, NSML1 and NSMADD puts on the elements of a model.
+// The non-structural mass that a set of the cards NonStructMass, NonStructMass1, NonStructMassLumped,
+// NonStructMassLumped1 and NonStructMassUnion puts on the elements of a model.
 //
 // The set is selected by the Case Control command NSM = SID. The mass is on top of the NSM field of the property and of
 // the element:
-//   NSM, NSM1     VALUE is a mass per unit area (shells, shear panels) or per unit length (rods, tubes, bars, beams)
-//   put on
+//   NonStructMass, NonStructMass1  VALUE is a mass per unit area (shells, shear panels) or per unit length (rods,
+//                                  tubes, bars, beams) put on
 //                 every element of the property (or on the element): the mass of an element is VALUE times its area or
 //                 length;
-//   NSML, NSML1   VALUE is a mass, distributed over the elements of the property (NSML: of each ID; NSML1: of all the
-//                 IDs of the card together) in proportion to their area or length, so that the mass added is VALUE;
-//   NSMADD        the set is the sum of the sets it lists; it takes precedence over cards of the same set ID.
-// PCOMP and PCOMPG count as PSHELL, PBARL as PBAR, PBEAML and PBCOMP as PBEAM, ALL is every
-// property of the family (or every element for ELEMENT), and an ID that names nothing is ignored (format reference:
-// undefined property and element IDs are ignored). Elements without a length or an area (an arc of a CBEND, the
-// elements between scalar points) get nothing.
+//   NonStructMassLumped, NonStructMassLumped1  VALUE is a mass, distributed over the elements of the property
+//                                              (NonStructMassLumped: of each ID; NonStructMassLumped1: of all the IDs
+//                                              of the card together) in proportion to their area or length, so that the
+//                                              mass added is VALUE;
+//   NonStructMassUnion  the set is the sum of the sets it lists; it takes precedence over cards of the same set ID.
+// CompProp and CompPropGlobal count as ShellProp, BarShapeProp as BarProp, BeamShapeProp and BeamLumpedAreaProp as
+// BeamProp, ALL is every property of the family (or every element for ELEMENT), and an ID that names nothing is ignored
+// (format reference: undefined property and element IDs are ignored). Elements without a length or an area (an arc of a
+// CurvedBeam2, the elements between scalar points) get nothing.
 class NonStructuralMass
 {
 public:

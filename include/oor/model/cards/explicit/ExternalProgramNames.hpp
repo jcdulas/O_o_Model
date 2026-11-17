@@ -7,9 +7,9 @@
 #include <string_view>
 
 // The names the cards that couple SOL 700 to an external program give to the things of that program: a segment of the
-// external occupant model (ATBSEG, ATBACC), a joint of it (ATBJNT) and the external ellipsoid of RELEX. One kind of
-// value: the name is a word of the Bulk Data that the other program knows, so it is not a reference to any card of the
-// model.
+// external occupant model (OccupantSegment, OccupantAccelField), a joint of it (OccupantJoint) and the external
+// ellipsoid of RigidEllipsoidExternal. One kind of value: the name is a word of the Bulk Data that the other program
+// knows, so it is not a reference to any card of the model.
 namespace oor::model
 {
 

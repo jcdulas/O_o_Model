@@ -19,7 +19,8 @@ struct ContactMaterialRegionFormat
     static void write(const ContactMaterialRegionCard& card, FieldWriter& writer);
 };
 
-// All the BCMATL cards (category ContactSurface, unique among them). The materials are references to material cards.
+// All the ContactMaterialRegion cards (category ContactSurface, unique among them). The materials are references to
+// material cards.
 class ContactMaterialRegionTable final : public TypedTable<ContactMaterialRegionTable, ContactMaterialRegionCard>
 {
 public:

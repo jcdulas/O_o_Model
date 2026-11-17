@@ -91,7 +91,7 @@ void setBlock(AbdMatrix& matrix, std::size_t row, std::size_t column, const std:
             matrix[(row * 3 + i) * 6 + column * 3 + j] = block[i * 3 + j];
 }
 
-// The plane stress law of a material of the PSHELL, scaled; zeros for a blank material.
+// The plane stress law of a material of the ShellProp, scaled; zeros for a blank material.
 std::array<double, 9> lawOf(const model::Model& model, base::EntityId pid, base::EntityId mid, double scale)
 {
     std::array<double, 9> law{};

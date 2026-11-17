@@ -19,8 +19,8 @@ struct FluidStructureSwitchFormat
     static void write(const FluidStructureSwitchCard& card, FieldWriter& writer);
 };
 
-// All the DYFSISW cards. The SWID is unique among them (IdSpace::PerCardType) and no other card names it, so the
-// category is Other. The TID is a TABLED1. The cards are kept whole (CardRows) next to their ID.
+// All the FluidStructureSwitch cards. The SWID is unique among them (IdSpace::PerCardType) and no other card names it,
+// so the category is Other. The TID is a TableDynamic1. The cards are kept whole (CardRows) next to their ID.
 class FluidStructureSwitchTable final : public TypedTable<FluidStructureSwitchTable, FluidStructureSwitchCard>
 {
 public:

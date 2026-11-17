@@ -21,9 +21,9 @@ struct MonitorSumLocatedFormat
     static void write(const MonitorSumLocatedCard& card, FieldWriter& writer);
 };
 
-// All the MONSUM1 cards, in the category MonitorPoint. A monitor result has no numeric ID (IdSpace::None): it is found
-// by its NAME. CP and CD are references to coordinate systems; the names of the monitor results it sums are not IDs.
-// The cards are kept whole next to a column of their names.
+// All the MonitorSumLocated cards, in the category MonitorPoint. A monitor result has no numeric ID (IdSpace::None): it
+// is found by its NAME. CP and CD are references to coordinate systems; the names of the monitor results it sums are
+// not IDs. The cards are kept whole next to a column of their names.
 class MonitorSumLocatedTable final : public TypedTable<MonitorSumLocatedTable, MonitorSumLocatedCard>
 {
 public:

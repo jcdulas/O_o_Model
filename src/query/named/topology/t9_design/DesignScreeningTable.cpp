@@ -10,7 +10,7 @@ namespace oor::query
 namespace
 {
 
-// designScreeningTable: the DSCREEN cards.
+// designScreeningTable: the DesignConstrScreen cards.
 class DesignScreeningTableQuery final : public QueryBase
 {
 public:

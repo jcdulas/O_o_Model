@@ -21,10 +21,11 @@ struct AeroSurfaceSpline4Format
     static void write(const AeroSurfaceSpline4Card& card, FieldWriter& writer);
 };
 
-// All the SPLINE4 cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7
-// and SPLINEX; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the others).
-// The CAERO is a panel or a mesh component (ReferenceTarget::AeroPanelOrComponent), the AELIST an AELIST card
-// (ReferenceTarget::AeroList) and SETG a SET1 or SET3 (ReferenceTarget::Set). A blank RCORE is a NaN in its column.
+// All the AeroSurfaceSpline4 cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline; IdSpace::PerCardType refuses a repeat inside this
+// type and a check across the types reports the others). The CAERO is a panel or a mesh component
+// (ReferenceTarget::AeroPanelOrComponent), the AELIST an AELIST card (ReferenceTarget::AeroList) and SETG an IdListSet1
+// or TypedListSet3 (ReferenceTarget::Set). A blank RCORE is a NaN in its column.
 class AeroSurfaceSpline4Table final : public TypedTable<AeroSurfaceSpline4Table, AeroSurfaceSpline4Card>
 {
 public:

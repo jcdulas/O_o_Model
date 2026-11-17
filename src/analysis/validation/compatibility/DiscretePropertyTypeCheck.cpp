@@ -22,7 +22,8 @@ public:
         reportWrongPropertyType(context, sink, {"Bushing"}, {"BushProp"});
         reportWrongPropertyType(context, sink, {"SpringDofProperty", "SpringScalarProperty"}, {"SpringProp"});
         reportWrongPropertyType(context, sink, {"DamperDofProperty", "DamperScalarProperty"}, {"DamperProp"});
-        // format reference PVISC1: the nonlinear damper of SOL 700, the counterpart of the linear PVISC of a CVISC.
+        // format reference ViscousDamperPropNonlinear: the nonlinear damper of SOL 700, the counterpart of the linear
+        // ViscousDamperProp of a ViscousDamper2.
         reportWrongPropertyType(context, sink, {"ViscousDamper2"},
                                 {"ViscousDamperProp", "ViscousDamperPropNonlinear"});
         reportWrongPropertyType(context, sink, {"ShearPanel4"}, {"ShearPanelProp"});

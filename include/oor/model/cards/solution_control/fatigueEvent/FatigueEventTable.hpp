@@ -19,9 +19,10 @@ struct FatigueEventFormat
     static void write(const FatigueEventCard& card, FieldWriter& writer);
 };
 
-// All the FTGEVNT cards, in the category FatigueEvent that an FTGSEQ names (IdSpace::PerCardType: the number is shared
-// with the FTGSEQ cards and a check reports a clash). Each FLOADi is a FatigueLoad reference. The cards are kept whole
-// (CardRows) next to their ID: the list of loads has any length, and the query engine reads the ID.
+// All the FatigueEvent cards, in the category FatigueEvent that a FatigueSequence names (IdSpace::PerCardType: the
+// number is shared with the FatigueSequence cards and a check reports a clash). Each FLOADi is a FatigueLoad reference.
+// The cards are kept whole (CardRows) next to their ID: the list of loads has any length, and the query engine reads
+// the ID.
 class FatigueEventTable final : public TypedTable<FatigueEventTable, FatigueEventCard>
 {
 public:

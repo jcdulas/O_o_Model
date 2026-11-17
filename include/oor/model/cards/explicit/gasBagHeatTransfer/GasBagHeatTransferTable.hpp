@@ -19,10 +19,10 @@ struct GasBagHeatTransferFormat
     static void write(const GasBagHeatTransferCard& card, FieldWriter& writer);
 };
 
-// All the HEATLOS cards. The cards of a set share their HTRID, which is the ID of the table (IdSpace::Group, category
-// HeatLossSet): a GBAG or a COUPLE names the set, not a card. The HID is a number of the card only. SUBID names a
-// surface, HTRTYPID a heat transfer card (any of the category HeatTransferModel), the coefficient may be a table of
-// time.
+// All the GasBagHeatTransfer cards. The cards of a set share their HTRID, which is the ID of the table (IdSpace::Group,
+// category HeatLossSet): a GasBag or an EulerLagrangeCoupling names the set, not a card. The HID is a number of the
+// card only. SUBID names a surface, HTRTYPID a heat transfer card (any of the category HeatTransferModel), the
+// coefficient may be a table of time.
 class GasBagHeatTransferTable final : public TypedTable<GasBagHeatTransferTable, GasBagHeatTransferCard>
 {
 public:

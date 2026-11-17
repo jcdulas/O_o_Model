@@ -46,8 +46,9 @@ const char* lineDirectionWord(model::LineLoadDirection direction) noexcept
 }
 
 // What every row of one pressure card shares in a set: the set, the card, its pressures at the corners (as the card
-// gives them; a row holds them times `factor`), its system and vector (a PLOAD4; NaN: none), the factor of the
-// expansion and the SORL and LDIR words (a PLOAD4; null for the other cards). The names outlive the table.
+// gives them; a row holds them times `factor`), its system and vector (a FacePressureLoad; NaN: none), the factor of
+// the expansion and the SORL and LDIR words (a FacePressureLoad; null for the other cards). The names outlive the
+// table.
 struct PressureCard
 {
     base::EntityId set = 0;
@@ -62,9 +63,9 @@ struct PressureCard
 };
 
 // The rows of the pressure cards of the sets listed, in the order of the table: for each set, its cards in their
-// order, for each card its elements in increasing IDs (a PLOAD one row for the face of its grid points). `sink` gets
-// begin(card), then row(element, elementKnown, face) for each row (face: the corners of the face of a solid, the grid
-// points of a PLOAD; empty for a shell), then end().
+// order, for each card its elements in increasing IDs (a PointsPressureLoad one row for the face of its grid points).
+// `sink` gets begin(card), then row(element, elementKnown, face) for each row (face: the corners of the face of a
+// solid, the grid points of a PointsPressureLoad; empty for a shell), then end().
 template <typename Sink>
 void walkPressures(const model::Model& model, const LoadSetListing& listing, std::span<const std::uint16_t> types,
                    const std::optional<std::vector<std::int64_t>>& onlyElements, const CardList& elementList,
@@ -171,7 +172,7 @@ public:
     {
         if (rows == 0)
             return;
-        // unexpanded: a row a card at least (millions of PLOAD2 of one element)
+        // unexpanded: a row a card at least (millions of ShellPressureLoad of one element)
         for (auto* column : {&m_sid, &m_eid})
             column->reserve(rows);
         for (auto* column : {&m_eidValid, &m_faceValid, &m_cidValid, &m_wordsValid})
@@ -270,8 +271,9 @@ bool sameBits(const std::array<double, 4>& left, const std::array<double, 4>& ri
 // all but their element and their pressures, a field each. The elements of a field are runs of consecutive IDs (first,
 // last), given once for every field that loads the same elements in the same order (`elementList`); its pressures
 // once for the field when every row has the same (`isUniform`), else one a row, and one a row and corner when the
-// four corners differ (`cornerCount` 4, else 1). A row on the face of a solid, or a PLOAD (a face of grid points), is
-// a field of its own with its face. Expanded in order, the fields are the rows of the default form to the bit.
+// four corners differ (`cornerCount` 4, else 1). A row on the face of a solid, or a PointsPressureLoad (a face of grid
+// points), is a field of its own with its face. Expanded in order, the fields are the rows of the default form to the
+// bit.
 class PressureFields
 {
 public:
@@ -338,7 +340,7 @@ private:
         std::vector<std::int32_t> elements{};        // its rows' elements, in order
         std::vector<std::int32_t> face{};            // a face row: its face
         bool faceRow = false;                        // a row on a face of its own
-        bool elementKnown = true;                    // a face row with an element (not a PLOAD)
+        bool elementKnown = true;                    // a face row with an element (not a PointsPressureLoad)
     };
 
     [[nodiscard]] static bool shareAll(const PressureCard& left, const PressureCard& right) noexcept

@@ -20,8 +20,8 @@ struct MarkerBodyFormat
     static void write(const MarkerBodyCard& card, FieldWriter& writer);
 };
 
-// All the CMARKB2 cards. A marker element is an element (IdSpace::Element, CardCategory::Element): its ID is unique
-// among all the elements. Its PID names a PMARKER and its grid points are nodes.
+// All the MarkerBody cards. A marker element is an element (IdSpace::Element, CardCategory::Element): its ID is unique
+// among all the elements. Its PID names a MarkerProp and its grid points are nodes.
 class MarkerBodyTable final : public TypedTable<MarkerBodyTable, MarkerBodyCard>
 {
 public:

@@ -21,7 +21,7 @@ public:
     explicit ResultModelIndex(const ResultQueryContext& context) : m_context(context) {}
 
     [[nodiscard]] std::int32_t property(std::size_t set, std::int32_t resultEid);
-    // The main material: the one a CONROD gives, else the first one of the property (MID1 of a PSHELL).
+    // The main material: the one a Rod2InlineSection gives, else the first one of the property (MID1 of a ShellProp).
     [[nodiscard]] std::int32_t material(std::size_t set, std::int32_t resultEid);
     [[nodiscard]] std::int32_t component(std::size_t set, std::int32_t resultEid);
     [[nodiscard]] std::optional<model::CardLocation> element(std::size_t set, std::int32_t resultEid) const;

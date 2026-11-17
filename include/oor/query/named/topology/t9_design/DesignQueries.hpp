@@ -6,10 +6,10 @@ namespace oor::query
 {
 
 // Family T9, the design model: the design variables and what they drive, the responses and
-// the constraints, the DLINK cards, the elements and the mass a variable drives, what the design model leaves out, and
-// what a solver needs to replay the optimisation of a deck: the shape variables, the constants, the arguments of the
-// responses, the unions of constraint sets, the design selections of each subcase, the screening, and each DEQATN as an
-// expression program.
+// the constraints, the DesignVarLink cards, the elements and the mass a variable drives, what the design model leaves
+// out, and what a solver needs to replay the optimisation of a deck: the shape variables, the constants, the arguments
+// of the responses, the unions of constraint sets, the design selections of each subcase, the screening, and each
+// DesignEquation as an expression program.
 // They read the optimisation cards of the model (`model.design`) and need no result file.
 void addDesignVariablesTableQuery(NamedQueryRegistry& registry);
 void addDesignRelationsTableQuery(NamedQueryRegistry& registry);

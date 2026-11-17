@@ -19,10 +19,10 @@ struct AeroFlutterFormat
     static void write(const AeroFlutterCard& card, FieldWriter& writer);
 };
 
-// All the FLUTTER cards, in the category AeroFlutterSet. The SID is unique among the FLUTTER cards
+// All the AeroFlutter cards, in the category AeroFlutterSet. The SID is unique among the AeroFlutter cards
 // (IdSpace::PerCardType) and is what the Case Control FMETHOD names (ReferenceTarget::AeroFlutterSet). DENS, MACH and
-// RFREQ are FLFACT cards (ReferenceTarget::AeroFlutterFactor). The method and the interpolation are kept as the number
-// of their word; a blank OMAX is a NaN in its column.
+// RFREQ are AeroFlutterFactors cards (ReferenceTarget::AeroFlutterFactor). The method and the interpolation are kept as
+// the number of their word; a blank OMAX is a NaN in its column.
 class AeroFlutterTable final : public TypedTable<AeroFlutterTable, AeroFlutterCard>
 {
 public:

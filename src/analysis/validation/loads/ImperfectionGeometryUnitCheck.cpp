@@ -10,8 +10,8 @@ namespace oor::analysis
 namespace
 {
 
-// A group of an IMPGEOM reads its imperfection from a file, and the file is named by a unit that an ASSIGN statement
-// gives (a zero or blank UNIT needs the UNITi). The card keeps
+// A group of an ImperfectionGeometry reads its imperfection from a file, and the file is named by a unit that an ASSIGN
+// statement gives (a zero or blank UNIT needs the UNITi). The card keeps
 // the groups resolved, so a group whose unit is 0 has neither a UNITi nor a UNIT to read its file from.
 class ImperfectionGeometryUnitCheck final : public ValidationCheck
 {

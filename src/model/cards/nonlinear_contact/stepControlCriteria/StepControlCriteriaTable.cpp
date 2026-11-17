@@ -14,9 +14,9 @@ namespace oor::model
 namespace
 {
 
-// The fields of a criterion, counted from the field of its word (`start`, the first field of its line): the SET3 is
-// next, then the pairs (YT1, MT1), (YT2, MT2) and (YT3, MT3) on the same line, and the fourth pair is the first two
-// fields of the next line.
+// The fields of a criterion, counted from the field of its word (`start`, the first field of its line): the
+// TypedListSet3 is next, then the pairs (YT1, MT1), (YT2, MT2) and (YT3, MT3) on the same line, and the fourth pair is
+// the first two fields of the next line.
 constexpr int SET_OFFSET = 1;
 constexpr int FIRST_RANGE_OFFSET = 2;
 constexpr std::size_t RANGES_ON_FIRST_LINE = 3;
@@ -47,7 +47,7 @@ StepControlCriteriaCriterion readCriterion(FieldReader& reader, const ContactSec
     if (const auto kind = parseKeyword<LoadStepCriterion>(LOAD_STEP_CRITERION_WORDS, reader.text(start)))
         criterion.kind = *kind;
 
-    // SET3_IDi: a SET3, or ALL, or blank (every element or grid point).
+    // SET3_IDi: a TypedListSet3, or ALL, or blank (every element or grid point).
     const std::string_view setText = reader.text(start + SET_OFFSET);
     if (!setText.empty() && !(setText == "All"))
         criterion.setId = reader.requiredInteger(start + SET_OFFSET, "setId");

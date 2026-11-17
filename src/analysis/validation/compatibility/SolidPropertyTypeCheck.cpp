@@ -21,14 +21,15 @@ public:
 
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
-        // format reference PEULER and PEULER1 (SOL 700): "the elements that reference this property use the Eulerian
-        // formulation". The formats do not list the element types; the library takes the solid elements of an Euler
-        // mesh, CHEXA (the elements a MESH generates), CPENTA and CTETRA.
+        // format reference EulerProp and EulerRegionProp (SOL 700): "the elements that reference this property use the
+        // Eulerian formulation". The formats do not list the element types; the library takes the solid elements of an
+        // Euler mesh, SolidHexa (the elements an EulerMeshGenerator generates), SolidPenta and SolidTetra.
         reportWrongPropertyType(context, sink, {"SolidTetra"},
                                 {"SolidProp", "SolidPropHyperelastic", "EulerProp", "EulerRegionProp"});
         reportWrongPropertyType(context, sink, {"SolidPyramid"}, {"SolidProp", "SolidPropHyperelastic"});
-        // The layered solid composite property can only be named by a CHEXA. The
-        // PCOMPS of another implementation of the format (not in the format reference) is named by a CHEXA or a CPENTA.
+        // The layered solid composite property can only be named by a SolidHexa. The
+        // CompSolidProp of another implementation of the format (not in the format reference) is named by a SolidHexa
+        // or a SolidPenta.
         reportWrongPropertyType(
             context, sink, {"SolidPenta"},
             {"SolidProp", "SolidPropHyperelastic", "CompSolidProp", "EulerProp", "EulerRegionProp"});

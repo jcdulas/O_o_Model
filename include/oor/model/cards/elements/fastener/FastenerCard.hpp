@@ -10,15 +10,15 @@
 namespace oor::model
 {
 
-// One CFAST card: a fastener between two surface patches.
+// One Fastener card: a fastener between two surface patches.
 //
 // Card layout:
-//   CFAST  EID  PID  TYPE  IDA  IDB  GS  GA  GB
-//          XS   YS   ZS
+//   Fastener  EID  PID  TYPE  IDA  IDB  GS  GA  GB
+//             XS   YS  ZS
 //
-// TYPE is "PROP" (IDA and IDB are the IDs of two PSHELL or PCOMP properties that define the patches) or "ELEM" (they
-// are the IDs of two shell elements). GS is the grid point that locates the fastener, GA and GB the piercing points
-// on the two patches; all three may be blank (0). XS, YS and ZS locate the fastener in the basic system and are
+// TYPE is "PROP" (IDA and IDB are the IDs of two ShellProp or CompProp properties that define the patches) or "ELEM"
+// (they are the IDs of two shell elements). GS is the grid point that locates the fastener, GA and GB the piercing
+// points on the two patches; all three may be blank (0). XS, YS and ZS locate the fastener in the basic system and are
 // required when neither GS nor GA is given: they are all given or all blank (`location` is NaN, NaN, NaN then).
 struct FastenerCard
 {

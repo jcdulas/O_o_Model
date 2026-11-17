@@ -73,8 +73,8 @@ public:
         // section once, then kept in the model's cache (ComponentCache::sections) for its later queries and its copies:
         // a section is a function of its type, dimensions and rule, so the table has the same bits on any number of
         // threads and whether its sections are computed or taken from the cache.
-        // Measured: a companion package's demo barrel, its 135 PBARL sized apart: 0.39 s a query before; now 0.13 s the
-        // first on 4 threads (0.07 s on the default pool of 12), 0.4 ms a query again and on an edited copy.
+        // Measured: a companion package's demo barrel, its 135 BarShapeProp sized apart: 0.39 s a query before; now
+        // 0.13 s the first on 4 threads (0.07 s on the default pool of 12), 0.4 ms a query again and on an edited copy.
         analysis::SectionCache& cache = analysis::ComponentCache::of(model).sections();
         cache.nextBatch();
         std::vector<std::optional<analysis::BeamSection>> sections(list.size());
@@ -109,7 +109,7 @@ public:
                 sectionType.push_back(section->sectionType);
                 sectionTypeValid.push_back(section->sectionType.empty() ? 0 : 1);
                 station.push_back(static_cast<std::int32_t>(at));
-                // A rod (PROD, PTUBE) carries no shear: no shear factor.
+                // A rod (RodProp, TubeProp) carries no shear: no shear factor.
                 const std::array<double, VALUES> row{properties.xxb,
                                                      properties.area,
                                                      properties.i1,

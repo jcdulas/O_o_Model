@@ -37,7 +37,7 @@ std::optional<CardProblem> ContactBody1Format::check(const ContactBody1Card& car
         return problem;
     if (card.surfaceId < 0)
         return CardProblem{"card.bad-id", std::string(CardProblem::FIELD) + " must be a positive integer", "surfaceId"};
-    // A rigid body may be described by its BCRIGID alone; any other body needs the surface it is made of.
+    // A rigid body may be described by its ContactRigidMotion alone; any other body needs the surface it is made of.
     const bool rigid = card.behavior == "Rigid" || card.behavior == "Symmetric";
     if (card.surfaceId == 0 && !(rigid && card.rigidMotionId > 0))
         return CardProblem{"card.missing-field", "a contact body needs its " + std::string(CardProblem::FIELD),

@@ -19,8 +19,9 @@ struct AcousticSlotSurfacePointFormat
     static void write(const AcousticSlotSurfacePointCard& card, FieldWriter& writer);
 };
 
-// All the GRIDS cards of a model: points of the node ID space (IdSpace::Node, category Point), kept in columns. A blank
-// W is a NaN in its column. The IDF names the GRIDF fluid point of an interface (a node reference).
+// All the AcousticSlotSurfacePoint cards of a model: points of the node ID space (IdSpace::Node, category Point), kept
+// in columns. A blank W is a NaN in its column. The IDF names the AcousticSlotFluidPoint fluid point of an interface (a
+// node reference).
 class AcousticSlotSurfacePointTable final
     : public TypedTable<AcousticSlotSurfacePointTable, AcousticSlotSurfacePointCard>
 {

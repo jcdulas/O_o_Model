@@ -31,7 +31,7 @@ struct CardLocation
 // Copy on write: the array and the hash table are shared by the copies of a model until one of them changes its
 // index, which clones them first (as the buffers of a Column are): a copy of a model does no work per ID.
 //
-// PERFORMANCE: reading the plate of 8 M CQUAD4 and 8 M GRID spent 40 % of the thread that builds the cards in the
+// PERFORMANCE: reading the plate of 8 M ShellQuad4 and 8 M GRID spent 40 % of the thread that builds the cards in the
 // inserts of the hash table (a cache miss each: the IDs are spread over 256 MB per index). Measured: 16 M inserts of
 // IDs that follow each other 51 ns each, now 7 ns; a lookup 20 ns, now 0.6 ns; the read of the plate 5.7 to 5.9 s, now
 // 3.6 to 3.7 s, and its model 1.02 GB, now 0.64 GB.

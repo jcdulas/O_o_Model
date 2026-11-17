@@ -67,7 +67,7 @@ std::optional<CrackClosureCrackCard> CrackClosureCrackFormat::read(FieldReader& 
     }
     else if (looksNegative(reader.text(FIRST_GRID_FIELD)))
     {
-        // A negative G1 is the ID of a SET3, and then it is the only thing in the list.
+        // A negative G1 is the ID of a TypedListSet3, and then it is the only thing in the list.
         card.nodeSetId = -reader.requiredInteger(FIRST_GRID_FIELD, "node1");
         for (int field = FIRST_GRID_FIELD + 1; field <= last; ++field)
         {

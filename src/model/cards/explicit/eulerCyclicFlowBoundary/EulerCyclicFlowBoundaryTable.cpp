@@ -95,7 +95,7 @@ void EulerCyclicFlowBoundaryTable::visitReferences(std::uint32_t row, ReferenceV
     visitId(visitor, "contactBodyId", ReferenceTarget::ContactSurface, card.contactBodyId);
     visitId(visitor, "meshId", ReferenceTarget::EulerMesh, card.meshId);
     visitId(visitor, "tableId", ReferenceTarget::DynamicTable,
-            card.tableId); // fid2 is a plain ID: no category names a FLOWC
+            card.tableId); // fid2 is a plain ID: no category names an EulerCyclicFlowBoundary
 }
 
 } // namespace oor::model

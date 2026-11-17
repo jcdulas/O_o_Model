@@ -7,16 +7,17 @@
 namespace oor::model::sections
 {
 
-// One cross-section type of the standard beam library (STANDARD_SECTION_LIBRARY), as PBARL and PBEAML list them.
+// One cross-section type of the standard beam library (STANDARD_SECTION_LIBRARY), as BarShapeProp and BeamShapeProp
+// list them.
 struct SectionType
 {
     std::string_view name;
     std::size_t dimensions; // DIM1 .. DIMn of the section at one station
 };
 
-// The standard library, in the order of the format reference list (the format reference names "L" for PBEAML only;
-// both cards accept it). The number of dimensions is the one of the section at a station: a PBARL has one set of them,
-// a PBEAML one per station.
+// The standard library, in the order of the format reference list (the format reference names "L" for BeamShapeProp
+// only; both cards accept it). The number of dimensions is the one of the section at a station: a BarShapeProp has one
+// set of them, a BeamShapeProp one per station.
 inline constexpr SectionType STANDARD_SECTIONS[] = {
     {"Rod", 1},       {"Tube", 2},
     {"Tube2", 2},     {"LSection", 4},
@@ -31,8 +32,8 @@ inline constexpr SectionType STANDARD_SECTIONS[] = {
     {"Hat1", 5},      {"DoubleBoxSection", 10},
 };
 
-// The name of the standard library, the only library PBARL and PBEAML accept (a blank GROUP is this one); messages
-// and comments say "the standard section library".
+// The name of the standard library, the only library BarShapeProp and BeamShapeProp accept (a blank GROUP is this one);
+// messages and comments say "the standard section library".
 inline constexpr std::string_view STANDARD_SECTION_LIBRARY = "StandardSectionLibrary";
 
 [[nodiscard]] constexpr std::span<const SectionType> standardSections() noexcept

@@ -19,10 +19,10 @@ struct UserMatTableFormat
     static void write(const UserMatTableCard& card, FieldWriter& writer);
 };
 
-// All the MATTUSR cards. The ID space is the card type's own: the ID is the one of the MATUSR that the card extends, so
-// it is also a reference to a material (renumbering the materials follows into it). T(GE), T(ST), T(SC) and T(SS) are
-// references to TABLEMi cards (ReferenceTarget::MaterialTable); T(RHO) and T(Ai) may name a TABL3Di, which no card
-// types yet, so they are plain IDs that the reference checks leave alone. The cards are kept whole (CardRows).
+// All the UserMatTable cards. The ID space is the card type's own: the ID is the one of the UserMat that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it). T(GE), T(ST), T(SC) and
+// T(SS) are references to TABLEMi cards (ReferenceTarget::MaterialTable); T(RHO) and T(Ai) may name a TABL3Di, which no
+// card types yet, so they are plain IDs that the reference checks leave alone. The cards are kept whole (CardRows).
 class UserMatTableTable final : public TypedTable<UserMatTableTable, UserMatTableCard>
 {
 public:

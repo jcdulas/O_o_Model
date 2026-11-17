@@ -71,7 +71,7 @@ void ShellConical2Table::visitReferences(std::uint32_t row, ReferenceVisitor& vi
 {
     if (const base::EntityId propId = m_propId.get(row); propId > 0)
         m_propId.set(row, visitor.visit("propId", ReferenceTarget::Property, propId));
-    // RA and RB are RINGAX IDs, which are in the node ID space.
+    // RA and RB are AxisymConeRing IDs, which are in the node ID space.
     m_ringIdA.set(row, visitor.visit("ringIdA", ReferenceTarget::Node, m_ringIdA.get(row)));
     m_ringIdB.set(row, visitor.visit("ringIdB", ReferenceTarget::Node, m_ringIdB.get(row)));
 }

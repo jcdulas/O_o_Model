@@ -94,23 +94,24 @@ inline constexpr std::array<ShellLineRules, 4> PLANE_PROP_NONLINEAR_EXT_LINES{
                    .structural = PLANE_PROP_NONLINEAR_EXT_C8_STRUCTURAL,
                    .heat = PLANE_PROP_NONLINEAR_EXT_C8_HEAT}};
 
-// One PSHLN2 card (SOL 400): the nonlinear extension of the PLPLANE with the same PID, for the plane stress, plane
-// strain and axisymmetric elements (CQUAD4, CQUAD, CQUAD8, CTRIA3, CTRIA6, CQUADX, CTRIAX) that name it. It also gives
-// the implicit heat transfer elements their formulation (ANAL = IH or ISH). It is honoured in SOL 400 only, and the
-// PLPLANE it extends still needs its MATHP.
+// One PlanePropNonlinearExt card (SOL 400): the nonlinear extension of the PlanePropNonlinear with the same PID, for
+// the plane stress, plane strain and axisymmetric elements (ShellQuad4, PlaneStrainQuad, ShellQuad8, ShellTria3,
+// ShellTria6, AxisymQuad, AxisymTria) that name it. It also gives the implicit heat transfer elements their formulation
+// (ANAL = IH or ISH). It is honoured in SOL 400 only, and the PlanePropNonlinear it extends still needs its
+// HyperelasticPolynomialMat.
 //
 // Card layout:
-//   PSHLN2  PID    MID     DIRECT   T        ANAL
-//           "C3"   BEH3    INT3     BEH3H    INT3H          one line for each keyword,
-//           "C4"   BEH4    INT4     BEH4H    INT4H          fields 9 to 13 of its line
-//           "C6"   BEH6    INT6     BEH6H    INT6H
-//           "C8"   BEH8    INT8     BEH8H    INT8H
+//   PlanePropNonlinearExt  PID    MID     DIRECT   T  ANAL
+//                          "C3"   BEH3    INT3     BEH3H    INT3H  one line for each keyword,
+//                          "C4"   BEH4    INT4     BEH4H    INT4H  fields 9 to 13 of its line
+//                          "C6"   BEH6    INT6  BEH6H    INT6H
+//                          "C8"   BEH8    INT8  BEH8H    INT8H
 //
-// The ID is the one of the PLPLANE it extends, so it is in the space of its own card type (one PSHLN2 for each PLPLANE)
-// and is a reference to a property. MID is required (it replaces the MID of the PLPLANE) and names a
-// structural material, or a MAT4 or MAT5 for the heat analysis (the Material target falls back to those). DIRECT is the
-// direction of the layers of a COMPS or AXCOMP element, 1 or 2 (default 1); T is a thickness (default 1.0; the format
-// states no limit). ANAL is IS, IH or ISH, the default.
+// The ID is the one of the PlanePropNonlinear it extends, so it is in the space of its own card type (one
+// PlanePropNonlinearExt for each PlanePropNonlinear) and is a reference to a property. MID is required (it replaces the
+// MID of the PlanePropNonlinear) and names a structural material, or a HeatIsoMat or HeatAnisoMat for the heat analysis
+// (the Material target falls back to those). DIRECT is the direction of the layers of a COMPS or AXCOMP element, 1 or 2
+// (default 1); T is a thickness (default 1.0; the format states no limit). ANAL is IS, IH or ISH, the default.
 //
 // The keyword lines may come in any order or not at all; a line that is not in the card gets the
 // defaults of its keyword, so `lines` always holds the four lines resolved and a line is written only when a word of it

@@ -21,7 +21,7 @@ struct SurfaceProjection
     // Finds the closest point of the surface X(xi, eta) = sum N_i(xi, eta) x_i, extended past the edges of the
     // element, by Newton's method on F = |X - p|^2 / 2: the plane of a
     // triangle (one step), the bilinear surface of a quadrilateral (the twist term X_xi_eta), the quadratic surface of
-    // a CQUAD8 or a CTRIA6. A step whose Hessian is not positive definite falls back to Gauss-Newton.
+    // a ShellQuad8 or a ShellTria6. A step whose Hessian is not positive definite falls back to Gauss-Newton.
     [[nodiscard]] static SurfaceProjection onto(const ShellElement& element, const base::Vec3& point) noexcept;
 
     [[nodiscard]] bool isInside(double tolerance) const noexcept { return outside <= tolerance; }

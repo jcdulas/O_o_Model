@@ -7,9 +7,9 @@
 namespace oor::model
 {
 
-// FTYPE of a SPLINE4 or a SPLINE5: the radial function of the Radial Interpolation Spline (METH = RIS), a Wendland
-// function of the distance to a point divided by the radius of support RCORE. The two cards share the words and the
-// default (WF2); the other methods do not use the field.
+// FTYPE of an AeroSurfaceSpline4 or an AeroBeamSpline5: the radial function of the Radial Interpolation Spline (METH =
+// RIS), a Wendland function of the distance to a point divided by the radius of support RCORE. The two cards share the
+// words and the default (WF2); the other methods do not use the field.
 enum class SplineRadialFunction : std::uint8_t
 {
     Wendland0, // WF0: continuous, with no continuous derivative

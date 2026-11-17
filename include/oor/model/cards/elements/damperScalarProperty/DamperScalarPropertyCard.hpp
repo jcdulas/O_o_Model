@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One CDAMP3 card: a scalar damper between two scalar points, with a PDAMP property.
+// One DamperScalarProperty card: a scalar damper between two scalar points, with a DamperProp property.
 //
 // Card layout:
-//   CDAMP3  EID  PID  S1  S2
+//   DamperScalarProperty  EID  PID  S1  S2
 //
 // S1 and S2 are scalar points; 0 (or blank) is a grounded end.
 struct DamperScalarPropertyCard

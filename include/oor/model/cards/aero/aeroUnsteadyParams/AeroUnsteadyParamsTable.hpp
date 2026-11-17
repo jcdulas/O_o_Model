@@ -19,9 +19,9 @@ struct AeroUnsteadyParamsFormat
     static void write(const AeroUnsteadyParamsCard& card, FieldWriter& writer);
 };
 
-// All the AERO cards. The card has no ID (IdSpace::None, category Aero) and a deck may hold one: `finishRead` reports a
-// second one, as it does for the ACMODL and FLSYM cards. Its ACSID is a coordinate system
-// (ReferenceTarget::Coordinate). A blank VELOCITY is a NaN in its column.
+// All the AeroUnsteadyParams cards. The card has no ID (IdSpace::None, category Aero) and a deck may hold one:
+// `finishRead` reports a second one, as it does for the FluidStructureInterface and AxisymFluidSymmetry cards. Its
+// ACSID is a coordinate system (ReferenceTarget::Coordinate). A blank VELOCITY is a NaN in its column.
 class AeroUnsteadyParamsTable final : public TypedTable<AeroUnsteadyParamsTable, AeroUnsteadyParamsCard>
 {
 public:

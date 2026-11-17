@@ -19,7 +19,7 @@ struct MassPropFormat
     static void write(const MassPropCard& card, FieldWriter& writer);
 };
 
-// All the PMASS properties, one row each.
+// All the MassProp properties, one row each.
 class MassPropTable final : public TypedTable<MassPropTable, MassPropCard>
 {
 public:

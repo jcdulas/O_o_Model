@@ -19,7 +19,7 @@ struct ShellQuad8Format
     static void write(const ShellQuad8Card& card, FieldWriter& writer);
 };
 
-// All the CQUAD8 elements: the nodes are one column of six IDs per element, 0 for an absent edge point (an (N, 6)
+// All the ShellQuad8 elements: the nodes are one column of six IDs per element, 0 for an absent edge point (an (N, 6)
 // NumPy view without copy).
 class ShellQuad8Table final : public TypedTable<ShellQuad8Table, ShellQuad8Card>
 {

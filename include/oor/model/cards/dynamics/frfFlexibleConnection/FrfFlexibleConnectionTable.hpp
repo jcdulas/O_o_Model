@@ -19,10 +19,10 @@ struct FrfFlexibleConnectionFormat
     static void write(const FrfFlexibleConnectionCard& card, FieldWriter& writer);
 };
 
-// All the FRFFLEX cards. The FLEXID is unique among them (IdSpace::PerCardType, category Other). A component given by
-// its ID is a reference to an FRFCOMP (ReferenceTarget::FrfComponent), one given by its name is kept as written; the
-// KTABID, BTABID and GETABID are references to TABLEDi cards (ReferenceTarget::DynamicTable); the points are plain
-// numbers. The cards are kept whole next to columns of their IDs and component numbers.
+// All the FrfFlexibleConnection cards. The FLEXID is unique among them (IdSpace::PerCardType, category Other). A
+// component given by its ID is a reference to a FrfComponent (ReferenceTarget::FrfComponent), one given by its name is
+// kept as written; the KTABID, BTABID and GETABID are references to TABLEDi cards (ReferenceTarget::DynamicTable); the
+// points are plain numbers. The cards are kept whole next to columns of their IDs and component numbers.
 class FrfFlexibleConnectionTable final : public TypedTable<FrfFlexibleConnectionTable, FrfFlexibleConnectionCard>
 {
 public:

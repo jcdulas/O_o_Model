@@ -18,9 +18,9 @@ struct AxisymShellPropFormat
     static void write(const AxisymShellPropCard& card, FieldWriter& writer);
 };
 
-// All the PAXISYM properties, kept in columns. The ID is in the space every property type shares (IdSpace::Property),
-// so the PID of a CAXISYM finds it; the MID is a material (a MAT4 or a MAT5 for heat transfer:
-// ReferenceTarget::Material falls back to the thermal materials).
+// All the AxisymShellProp properties, kept in columns. The ID is in the space every property type shares
+// (IdSpace::Property), so the PID of a ShellAxisym finds it; the MID is a material (a HeatIsoMat or a HeatAnisoMat for
+// heat transfer: ReferenceTarget::Material falls back to the thermal materials).
 class AxisymShellPropTable final : public TypedTable<AxisymShellPropTable, AxisymShellPropCard>
 {
 public:

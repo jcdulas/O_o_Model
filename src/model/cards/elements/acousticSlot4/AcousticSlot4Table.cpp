@@ -106,7 +106,8 @@ void AcousticSlot4Table::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AcousticSlot4Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The slot points are GRIDS cards, which a later step types: they share the node ID space, so they are nodes.
+    // The slot points are AcousticSlotSurfacePoint cards, which a later step types: they share the node ID space, so
+    // they are nodes.
     std::array<base::EntityId, AcousticSlot4Card::NODE_COUNT> nodes = m_nodes.get(row);
     bool changed = false;
     for (base::EntityId& node : nodes)

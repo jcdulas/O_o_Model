@@ -33,8 +33,9 @@ std::optional<CardProblem> TransientTableLoad1Format::check(const TransientTable
     if (const auto problem = checkIdOrReal(card.tableId, card.value, "tableId"))
         return problem;
     // The function of time is a table (TID) or a constant that is not zero (F), except for the excitations of SOL 700
-    // that name a flow boundary or a user-defined load (FLOW, FLOWT, FLOWUDS, FORCUDS): their TLOAD1 has neither, and a
-    // card cannot tell them apart. The check `load.transient-table-load1-no-function` looks at what EXCITEID names.
+    // that name a flow boundary or a user-defined load (EulerFlowBoundary, EulerTimeFlowBoundary,
+    // EulerUserFlowBoundary, UserEnforcedVelocity): their TransientTableLoad1 has neither, and a card cannot tell them
+    // apart. The check `load.transient-table-load1-no-function` looks at what EXCITEID names.
     return std::nullopt;
 }
 

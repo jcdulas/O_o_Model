@@ -18,8 +18,9 @@ struct AxisymHarmonicPropFormat
     static void write(const AxisymHarmonicPropCard& card, FieldWriter& writer);
 };
 
-// All the PAXSYMH properties, kept in columns. The ID is in the space every property type shares (IdSpace::Property),
-// so the PID of a CQUADX or a CTRIAX finds it; the MID is a material and the CID a coordinate system.
+// All the AxisymHarmonicProp properties, kept in columns. The ID is in the space every property type shares
+// (IdSpace::Property), so the PID of an AxisymQuad or an AxisymTria finds it; the MID is a material and the CID a
+// coordinate system.
 class AxisymHarmonicPropTable final : public TypedTable<AxisymHarmonicPropTable, AxisymHarmonicPropCard>
 {
 public:

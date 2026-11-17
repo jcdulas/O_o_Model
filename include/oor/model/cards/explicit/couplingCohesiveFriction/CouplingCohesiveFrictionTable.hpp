@@ -19,8 +19,9 @@ struct CouplingCohesiveFrictionFormat
     static void write(const CouplingCohesiveFrictionCard& card, FieldWriter& writer);
 };
 
-// All the COUCOHF cards. The cards of a set share their COHFRID, which is the ID of the table (IdSpace::Group, category
-// CohesiveFrictionSet): a COUPLE names the set, not a card. The CID is a number of the card only.
+// All the CouplingCohesiveFriction cards. The cards of a set share their COHFRID, which is the ID of the table
+// (IdSpace::Group, category CohesiveFrictionSet): an EulerLagrangeCoupling names the set, not a card. The CID is a
+// number of the card only.
 class CouplingCohesiveFrictionTable final
     : public TypedTable<CouplingCohesiveFrictionTable, CouplingCohesiveFrictionCard>
 {

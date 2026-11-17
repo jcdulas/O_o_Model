@@ -18,9 +18,9 @@ struct TimeTemperatureLoadFormat
     static void write(const TimeTemperatureLoadCard& card, FieldWriter& writer);
 };
 
-// All the TTEMP cards. The ID is a temperature set ID shared with the TEMP cards (IdSpace::Group, category Load), so
-// that `TEMPERATURE(LOAD) = n` finds it. GROUP_ID is a TemperatureGroup reference (not visited when it is -1, the
-// word for every grid point) and TID a DynamicTable reference.
+// All the TimeTemperatureLoad cards. The ID is a temperature set ID shared with the NodeTemperatureLoad cards
+// (IdSpace::Group, category Load), so that `TEMPERATURE(LOAD) = n` finds it. GROUP_ID is a TemperatureGroup reference
+// (not visited when it is -1, the word for every grid point) and TID a DynamicTable reference.
 class TimeTemperatureLoadTable final : public TypedTable<TimeTemperatureLoadTable, TimeTemperatureLoadCard>
 {
 public:

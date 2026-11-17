@@ -25,8 +25,8 @@ struct HyperelasticPolynomialMatFormat
     }
 };
 
-// All the MATHP cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). The
-// experiment tables are references to TABLES1 cards (ReferenceTarget::StressTable).
+// All the HyperelasticPolynomialMat cards. The ID is a material ID, in the space every material type shares
+// (IdSpace::Material). The experiment tables are references to TableStress1 cards (ReferenceTarget::StressTable).
 class HyperelasticPolynomialMatTable final
     : public TypedTable<HyperelasticPolynomialMatTable, HyperelasticPolynomialMatCard>
 {

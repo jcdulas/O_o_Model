@@ -19,9 +19,9 @@ struct FrfExcitationDofFormat
     static void write(const FrfExcitationDofCard& card, FieldWriter& writer);
 };
 
-// All the FRFXIT cards. A card has no ID of its own (IdSpace::None, category Other), so there may be many. The PNTID is
-// a grid point or a scalar point of the model (ReferenceTarget::ScalarOrGridPoint: a scalar point that no SPOINT
-// defines is not reported).
+// All the FrfExcitationDof cards. A card has no ID of its own (IdSpace::None, category Other), so there may be many.
+// The PNTID is a grid point or a scalar point of the model (ReferenceTarget::ScalarOrGridPoint: a scalar point that no
+// ScalarPoint defines is not reported).
 class FrfExcitationDofTable final : public TypedTable<FrfExcitationDofTable, FrfExcitationDofCard>
 {
 public:

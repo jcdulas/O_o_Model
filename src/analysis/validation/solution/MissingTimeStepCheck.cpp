@@ -7,7 +7,7 @@ namespace oor::analysis
 namespace
 {
 
-// A transient solution (SOL 109, 112, 129) with no TSTEP or TSTEPNL command: no time steps.
+// A transient solution (SOL 109, 112, 129) with no TransientTimeSteps or NonlinearTimeSteps command: no time steps.
 class MissingTimeStepCheck final : public ValidationCheck
 {
 public:

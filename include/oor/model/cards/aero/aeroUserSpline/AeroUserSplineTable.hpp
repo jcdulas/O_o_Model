@@ -20,11 +20,12 @@ struct AeroUserSplineFormat
     static void write(const AeroUserSplineCard& card, FieldWriter& writer);
 };
 
-// All the SPLINEX cards, in the category AeroSpline (the number space of the splines is shared by SPLINE1 to SPLINE7
-// and SPLINEX; IdSpace::PerCardType refuses a repeat inside this type and a check across the types reports the others).
-// The AELIST is an AELIST card (ReferenceTarget::AeroList) and the AEFACT an AEFACT card (ReferenceTarget::AeroFactor);
-// the AELISTC is a plain ID and the four component fields are names, so none of the three is visited. The cards are
-// kept whole (CardRows) next to their EID, which is the column the query engine reads.
+// All the AeroUserSpline cards, in the category AeroSpline (the number space of the splines is shared by
+// AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline; IdSpace::PerCardType refuses a repeat inside this
+// type and a check across the types reports the others). The AELIST is an AELIST card (ReferenceTarget::AeroList) and
+// the AEFACT an AEFACT card (ReferenceTarget::AeroFactor); the AELISTC is a plain ID and the four component fields are
+// names, so none of the three is visited. The cards are kept whole (CardRows) next to their EID, which is the column
+// the query engine reads.
 class AeroUserSplineTable final : public TypedTable<AeroUserSplineTable, AeroUserSplineCard>
 {
 public:

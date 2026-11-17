@@ -9,7 +9,7 @@
 namespace oor::model
 {
 
-// The form of the stress-plastic strain function of a MATEP.
+// The form of the stress-plastic strain function of an ElastoPlasticMat.
 enum class ElastoPlasticMatForm : std::uint8_t
 {
     Slope,  // SLOPE (the default): the yield stress Y0 and one work hardening slope H
@@ -56,7 +56,7 @@ enum class ElastoPlasticMatPressureOption : std::uint8_t
 struct ElastoPlasticMatRateGroup
 {
     ElastoPlasticMatRateOption option = ElastoPlasticMatRateOption::Table;
-    base::EntityId strainRateTableId = 0; // TABLES1 of the yield stress against strain rate (TABLE)
+    base::EntityId strainRateTableId = 0; // TableStress1 of the yield stress against strain rate (TABLE)
     double cowperCoefficient = 1.0;       // Cowper and Symonds constants (COWPER)
     double cowperExponent = 1.0;
 };
@@ -69,11 +69,11 @@ struct ElastoPlasticMatPressureGroup
     std::optional<double> mohrCoulombBeta;  // the parameter beta of the parabolic model
 };
 
-// One MATEP card: the elasto-plastic properties of a material of SOL 400 (it extends a MAT1, MAT2, MATORT, MAT8 or
-// MAT9).
+// One ElastoPlasticMat card: the elasto-plastic properties of a material of SOL 400 (it extends an IsoMat, AnisoMat2D,
+// OrthoMat3DNonlinear, OrthoMat2D or AnisoMat3D).
 //
 // Card layout (the fields are numbered across the lines, eight to a line):
-//   MATEP  MID  FORM  Y0  FID  RYIELD  WKHARD  (blank)  H                         fields 1 to 8
+//   ElastoPlasticMat  MID  FORM  Y0  FID  RYIELD  WKHARD  (blank)  H              fields 1 to 8
 // then the groups the card needs, each starting a line with its keyword in the first field of the line:
 //   "REFFECT"   OPTION  RTID  C  P                                                  rate dependence
 //   "ANISO"     (blank) R11/M R22/C1 R33/C2 R12/C3 R23/C6 R31                       Hill or Barlat anisotropy
@@ -87,9 +87,9 @@ struct ElastoPlasticMatPressureGroup
 // is for (format reference: ANISO with RYIELD = HILL or BARLAT, PRESS with LINMOHR or PBLMOHR, CHABOCHE with WKHARD =
 // CHABOCHE, JHCOOK with WKHARD = JHCOOK, IMPCREEP with RYIELD = IMPCREEP).
 //
-// Y0 is absent when blank, H is 0.0, FORM is SLOPE, RYIELD is VMISES and WKHARD is ISOTROP. FID is the TABLES1 (or the
-// TABL3Di) of FORM = TABLE (it is blank otherwise). The anisotropy ratios are 1.0 when blank; a blank constant of the
-// other groups is 0.0; a blank ALPHS, BETA or VMISES is absent.
+// Y0 is absent when blank, H is 0.0, FORM is SLOPE, RYIELD is VMISES and WKHARD is ISOTROP. FID is the TableStress1 (or
+// the TABL3Di) of FORM = TABLE (it is blank otherwise). The anisotropy ratios are 1.0 when blank; a blank constant of
+// the other groups is 0.0; a blank ALPHS, BETA or VMISES is absent.
 struct ElastoPlasticMatCard
 {
     base::EntityId id = 0; // the material that the card extends

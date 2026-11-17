@@ -19,9 +19,9 @@ struct CohesiveAxisymQuadFormat
     static void write(const CohesiveAxisymQuadCard& card, FieldWriter& writer);
 };
 
-// All the CIFQDX elements: an element ID, in the space every element shares (IdSpace::Element). PID names a PCOHE and
-// the points are grid points. The nodes are one column of eight IDs per element, 0 for an absent optional point (an
-// (N, 8) NumPy view without copy).
+// All the CohesiveAxisymQuad elements: an element ID, in the space every element shares (IdSpace::Element). PID names a
+// CohesiveProp and the points are grid points. The nodes are one column of eight IDs per element, 0 for an absent
+// optional point (an (N, 8) NumPy view without copy).
 class CohesiveAxisymQuadTable final : public TypedTable<CohesiveAxisymQuadTable, CohesiveAxisymQuadCard>
 {
 public:

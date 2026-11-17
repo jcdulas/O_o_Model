@@ -20,7 +20,7 @@ struct CylindricalFrame1Format
     static void write(const CylindricalFrame1Card& card, FieldWriter& writer);
 };
 
-// All the CORD1C systems, one row each (a card with two systems gives two rows).
+// All the CylindricalFrame1 systems, one row each (a card with two systems gives two rows).
 class CylindricalFrame1Table final : public TypedTable<CylindricalFrame1Table, CylindricalFrame1Card>
 {
 public:

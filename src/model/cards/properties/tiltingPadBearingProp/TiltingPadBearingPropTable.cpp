@@ -473,7 +473,7 @@ void TiltingPadBearingPropTable::setIdAtRow(std::uint32_t row, base::EntityId id
 
 void TiltingPadBearingPropTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the PBUSH2D (and of the ELEMUDS) of the bearing. The ID column follows the card.
+    // The ID is the one of the BushProp2D (and of the UserElemService) of the bearing. The ID column follows the card.
     TiltingPadBearingPropCard& card = m_cards.edit(row);
     card.id = visitor.visit("id", ReferenceTarget::Property, card.id);
     m_id.set(row, card.id);

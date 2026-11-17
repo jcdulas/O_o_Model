@@ -21,9 +21,9 @@ struct AeroFactorListFormat
     static void write(const AeroFactorListCard& card, FieldWriter& writer);
 };
 
-// All the AEFACT cards, in the category AeroFactor. The SID is unique among the AEFACT cards (IdSpace::PerCardType: an
-// FLFACT may have the same number); a CAERO, a PAERO, a CSSCHD names a list by it (ReferenceTarget::AeroFactor). The
-// numbers of all the cards are one column of lists.
+// All the AeroFactorList cards, in the category AeroFactor. The SID is unique among the AeroFactorList cards
+// (IdSpace::PerCardType: an AeroFlutterFactors may have the same number); a CAERO, a PAERO, an AeroControlSchedule
+// names a list by it (ReferenceTarget::AeroFactor). The numbers of all the cards are one column of lists.
 class AeroFactorListTable final : public TypedTable<AeroFactorListTable, AeroFactorListCard>
 {
 public:

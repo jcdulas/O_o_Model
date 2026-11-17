@@ -18,8 +18,8 @@ struct BucklingEigenMethodFormat
     static void write(const BucklingEigenMethodCard& card, FieldWriter& writer);
 };
 
-// All the EIGB cards. The ID is a method ID, in the ID space that EIGR, EIGRL and EIGC share (IdSpace::Method). The
-// point G of NORM = POINT is a grid or scalar point.
+// All the BucklingEigenMethod cards. The ID is a method ID, in the ID space that RealEigenMethod, LanczosEigenMethod
+// and ComplexEigenMethod share (IdSpace::Method). The point G of NORM = POINT is a grid or scalar point.
 class BucklingEigenMethodTable final : public TypedTable<BucklingEigenMethodTable, BucklingEigenMethodCard>
 {
 public:

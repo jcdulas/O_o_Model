@@ -19,9 +19,10 @@ struct EulerForceRegionFormat
     static void write(const EulerForceRegionCard& card, FieldWriter& writer);
 };
 
-// All the EULFREG cards. The cards of a set share their ESID, which is the ID of the table (IdSpace::Group, category
-// EulerRegionSet): an EULFOR1 names the set, not a card. The ERID is a number of the card only. The VID is visited with
-// the target its TYPE selects (a shape, a BCBOX, a SET1), the MID is a material and the three ACC fields are tables.
+// All the EulerForceRegion cards. The cards of a set share their ESID, which is the ID of the table (IdSpace::Group,
+// category EulerRegionSet): an EulerBodyForceSet names the set, not a card. The ERID is a number of the card only. The
+// VID is visited with the target its TYPE selects (a shape, a ContactBoxRegion, an IdListSet1), the MID is a material
+// and the three ACC fields are tables.
 class EulerForceRegionTable final : public TypedTable<EulerForceRegionTable, EulerForceRegionCard>
 {
 public:

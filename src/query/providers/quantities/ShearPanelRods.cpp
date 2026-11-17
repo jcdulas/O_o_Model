@@ -33,7 +33,7 @@ double rodAreaOf(double effectiveness, double thickness, double area, double one
     return 0.5 * effectiveness * thickness * thickness;
 }
 
-// The Young's modulus of a MAT1 (from G and NU when E is blank); NaN when it has none.
+// The Young's modulus of an IsoMat (from G and NU when E is blank); NaN when it has none.
 double youngModulus(const model::IsoMatCard& card)
 {
     if (card.youngsModulus > 0.0)

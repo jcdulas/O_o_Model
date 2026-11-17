@@ -18,8 +18,8 @@ struct NonlinearMatOptionsFormat
     static void write(const NonlinearMatOptionsCard& card, FieldWriter& writer);
 };
 
-// All the NLMOPTS cards (the options of a job: a deck has one in practice). The card has no ID and refers to no card.
-// The cards are kept whole (CardRows).
+// All the NonlinearMatOptions cards (the options of a job: a deck has one in practice). The card has no ID and refers
+// to no card. The cards are kept whole (CardRows).
 class NonlinearMatOptionsTable final : public TypedTable<NonlinearMatOptionsTable, NonlinearMatOptionsCard>
 {
 public:

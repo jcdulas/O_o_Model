@@ -19,9 +19,9 @@ struct OccupantSegmentFormat
     static void write(const OccupantSegmentCard& card, FieldWriter& writer);
 };
 
-// All the ATBSEG cards. The ID is unique among them (IdSpace::PerCardType, category Other: no other card names it). The
-// grid points G0 to G3 are references to GRID cards; the other numbers are given to cards that SOL 700 generates and
-// are not references. The cards are kept whole next to their ID.
+// All the OccupantSegment cards. The ID is unique among them (IdSpace::PerCardType, category Other: no other card names
+// it). The grid points G0 to G3 are references to Node cards; the other numbers are given to cards that SOL 700
+// generates and are not references. The cards are kept whole next to their ID.
 class OccupantSegmentTable final : public TypedTable<OccupantSegmentTable, OccupantSegmentCard>
 {
 public:

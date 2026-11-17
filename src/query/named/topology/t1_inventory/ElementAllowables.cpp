@@ -83,8 +83,8 @@ double given(double value)
 // elementAllowables: the allowables the margins use for each element (and ply), resolved without results (the
 // building blocks for the plugin packages; a companion package). The rules are those of `margins` and come
 // from the same functions (MaterialAllowables.hpp): the caller's allowables by element, property, material or for all,
-// else the MAT1 field (ST in tension, SC in compression), the MAT8 of each ply (the failure index is limited to 1), the
-// caller's pair (Ta, Sa) for a fastener.
+// else the MAT1 field (ST in tension, SC in compression), the OrthoMat2D of each ply (the failure index is limited to
+// 1), the caller's pair (Ta, Sa) for a fastener.
 class ElementAllowablesQuery final : public QueryBase
 {
 public:
@@ -186,7 +186,7 @@ public:
     }
 
 private:
-    // ST, SC, SS of an IsoMat (MAT1) into the first three columns (NaN for a blank field or another material card).
+    // ST, SC, SS of an IsoMat (IsoMat) into the first three columns (NaN for a blank field or another material card).
     static void readIsoMat(const model::Model& model, std::int32_t mid, std::array<double, 12>& raw)
     {
         if (const auto fields = isoMatStressLimits(model, mid))
@@ -197,7 +197,7 @@ private:
         }
     }
 
-    // The plies of the laminate of an element, one row each, with the allowables of their MAT8 and the SB of the
+    // The plies of the laminate of an element, one row each, with the allowables of their OrthoMat2D and the SB of the
     // laminate; `bond`: the bonding index is judged (against 1, when the laminate has an SB).
     static void addPlies(const model::Model& model, AllowableRows& rows, const CallerAllowables& caller,
                          std::int32_t eid, const std::string& card, std::int32_t pid, bool bond)

@@ -21,7 +21,8 @@ struct GeneralizedDofSet1Format
     static void write(const GeneralizedDofSet1Card& card, FieldWriter& writer);
 };
 
-// All the QSET1 cards. A card has no ID (IdSpace::None). The points of every card are one column of (first, last) runs.
+// All the GeneralizedDofSet1 cards. A card has no ID (IdSpace::None). The points of every card are one column of
+// (first, last) runs.
 class GeneralizedDofSet1Table final : public TypedTable<GeneralizedDofSet1Table, GeneralizedDofSet1Card>
 {
 public:

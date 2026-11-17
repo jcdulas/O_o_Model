@@ -21,8 +21,8 @@ struct ContactBeamRadiusFormat
     static void write(const ContactBeamRadiusCard& card, FieldWriter& writer);
 };
 
-// All the BCBMRAD cards. A card has no ID (IdSpace::None, category Other); several may be in a deck. The IDs are
-// references to beam elements (TYPE EID) or contact bodies (TYPE BODY).
+// All the ContactBeamRadius cards. A card has no ID (IdSpace::None, category Other); several may be in a deck. The IDs
+// are references to beam elements (TYPE EID) or contact bodies (TYPE BODY).
 class ContactBeamRadiusTable final : public TypedTable<ContactBeamRadiusTable, ContactBeamRadiusCard>
 {
 public:

@@ -8,12 +8,12 @@
 namespace oor::model
 {
 
-// One CPLSTS8 card: a plane stress quadrilateral with four corners and up to four edge points (a card of another
-// implementation: it is not in the format reference).
+// One PlaneStressQuad8 card: a plane stress quadrilateral with four corners and up to four edge points (a card of
+// another implementation: it is not in the format reference).
 //
 // Layout:
-//   CPLSTS8  EID    PID  G1  G2  G3  G4  G5  G6
-//            G7   G8   (fields 11 to 14 blank)  THETA
+//   PlaneStressQuad8  EID  PID  G1  G2  G3  G4  G5  G6
+//                     G7   G8  (fields 11 to 14 blank)  THETA
 //
 // G1 to G4 are the corners and G5 to G8 the optional points on the edges: `nodes` always has room for all eight, and an
 // edge point that is blank on the card is 0.

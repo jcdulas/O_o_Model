@@ -6,16 +6,17 @@
 namespace oor::model
 {
 
-// One SNORM card: the surface normal vector at a grid point, for the CQUAD4, CQUADR, CTRIA3 and CTRIAR shell elements.
-// It overrides any grid point normal that the SNORM parameter generates; for every other element the normal
-// is ignored.
+// One ShellNormal card: the surface normal vector at a grid point, for the ShellQuad4, ShellQuad4Drilling, ShellTria3
+// and ShellTria3Drilling shell elements. It overrides any grid point normal that the ShellNormal parameter generates;
+// for every other element the normal is ignored.
 //
 // Card layout:
-//   SNORM  GID  CID  N1  N2  N3
+//   ShellNormal  GID  CID  N1  N2  N3
 //
-// GID is the grid point (unique among the SNORM cards: one normal per grid point), CID the coordinate system of the
-// components (0, the default, is the basic system) and N1, N2 and N3 the components, which need not make a unit vector;
-// a blank one is 0.0. In a cylindrical or spherical system the components are in the tangent system at the grid point.
+// GID is the grid point (unique among the ShellNormal cards: one normal per grid point), CID the coordinate system of
+// the components (0, the default, is the basic system) and N1, N2 and N3 the components, which need not make a unit
+// vector; a blank one is 0.0. In a cylindrical or spherical system the components are in the tangent system at the grid
+// point.
 struct ShellNormalCard
 {
     base::EntityId nodeId = 0;

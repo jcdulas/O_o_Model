@@ -19,8 +19,8 @@ struct ResidualVectorDofsFormat
     static void write(const ResidualVectorDofsCard& card, FieldWriter& writer);
 };
 
-// All the RVDOF cards. A card has no ID (IdSpace::None). The points and the components of every card are two lists in
-// CSR form.
+// All the ResidualVectorDofs cards. A card has no ID (IdSpace::None). The points and the components of every card are
+// two lists in CSR form.
 class ResidualVectorDofsTable final : public TypedTable<ResidualVectorDofsTable, ResidualVectorDofsCard>
 {
 public:

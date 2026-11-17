@@ -86,7 +86,7 @@ void ShellAxisymTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void ShellAxisymTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The PAXISYM is a property card: the reference is a property reference.
+    // The AxisymShellProp is a property card: the reference is a property reference.
     if (const base::EntityId propId = m_propId.get(row); propId > 0)
         m_propId.set(row, visitor.visit("propId", ReferenceTarget::Property, propId));
     visitInterfaceNodes(visitor, m_nodes, row);

@@ -17,7 +17,7 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// The free convection coefficient H of the MAT4 with this ID, NaN when there is none or it is blank.
+// The free convection coefficient H of the HeatIsoMat with this ID, NaN when there is none or it is blank.
 double materialCoefficient(const model::Model& model, base::EntityId mid)
 {
     const auto location = model.locate(base::IdSpace::ThermalMaterial, mid);
@@ -28,8 +28,8 @@ double materialCoefficient(const model::Model& model, base::EntityId mid)
     return card.convectionCoefficient.value_or(NOT_A_NUMBER);
 }
 
-// convectionTable: the convection boundary conditions of the surface elements, free (CONV) and forced (CONVM), with
-// the property that says how the heat transfer coefficient is found.
+// convectionTable: the convection boundary conditions of the surface elements, free (FreeConvection) and forced
+// (ForcedConvection), with the property that says how the heat transfer coefficient is found.
 class ConvectionTableQuery final : public QueryBase
 {
 public:
@@ -80,7 +80,8 @@ public:
                 form[index] = values.matrixForm;
                 formValid[index] = 1;
                 exponent[index] = values.convectionExponent;
-                // The alternate layout (FTYPE 3) gives the coefficients on the card; the others take H of the MAT4.
+                // The alternate layout (FTYPE 3) gives the coefficients on the card; the others take H of the
+                // HeatIsoMat.
                 coefficient[index] = values.formulaKind == 3 ? values.convectionCoefficient[0]
                                                              : materialCoefficient(model, values.matId);
             }

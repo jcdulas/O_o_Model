@@ -20,8 +20,8 @@ struct AcousticSlot3Format
     static void write(const AcousticSlot3Card& card, FieldWriter& writer);
 };
 
-// All the CSLOT3 elements: an element in the space every element shares (IdSpace::Element). The nodes are one column of
-// three IDs (an (N, 3) NumPy view); a blank RHO or B is a NaN and a blank M is NO_SLOT_COUNT in its column.
+// All the AcousticSlot3 elements: an element in the space every element shares (IdSpace::Element). The nodes are one
+// column of three IDs (an (N, 3) NumPy view); a blank RHO or B is a NaN and a blank M is NO_SLOT_COUNT in its column.
 class AcousticSlot3Table final : public TypedTable<AcousticSlot3Table, AcousticSlot3Card>
 {
 public:

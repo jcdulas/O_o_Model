@@ -14,7 +14,7 @@ namespace oor::query
 namespace
 {
 
-// multiPointConstrTable: the terms of the MPC equations of the sets asked for, MPCADD expanded.
+// multiPointConstrTable: the terms of the MPC equations of the sets asked for, MultiPointConstrUnion expanded.
 class MultiPointConstrTableQuery final : public QueryBase
 {
 public:

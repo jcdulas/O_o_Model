@@ -19,8 +19,8 @@ struct ShellPropNodalFormat
     static void write(const ShellPropNodalCard& card, FieldWriter& writer);
 };
 
-// All the PSHELL1 cards: properties (IdSpace::Property, shared with every other property), kept whole (CardRows) next
-// to the column of their IDs; the query engine reads the PID. A PSHELL1 names a material.
+// All the ShellPropNodal cards: properties (IdSpace::Property, shared with every other property), kept whole (CardRows)
+// next to the column of their IDs; the query engine reads the PID. A ShellPropNodal names a material.
 class ShellPropNodalTable final : public TypedTable<ShellPropNodalTable, ShellPropNodalCard>
 {
 public:

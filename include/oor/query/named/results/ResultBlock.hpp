@@ -30,7 +30,8 @@ struct ResultBlockKind
     bool nodes = false;          // the grid point of a row is a place of its own (the corners of a shell or a solid)
     std::string positionField{}; // the position of a place: a value field ("fiberDistance"), "station" (x/L along a
                                  // beam, which also tells the places apart), "" none
-    std::string layerIdField{};  // the value field of the global ID of a layer ("plyId" of a PCOMPG ply), "" none
+    // the value field of the global ID of a layer ("plyId" of a CompPropGlobal ply), "" none
+    std::string layerIdField{};
 };
 
 // The kinds, in the order above.

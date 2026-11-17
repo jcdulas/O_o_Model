@@ -19,7 +19,7 @@ struct UserDefined8AttributesFormat
     static void write(const UserDefined8AttributesCard& card, FieldWriter& writer);
 };
 
-// All the ADUM8 cards. A card has no ID (IdSpace::None, category Other) and names no other card.
+// All the UserDefined8Attributes cards. A card has no ID (IdSpace::None, category Other) and names no other card.
 class UserDefined8AttributesTable final : public TypedTable<UserDefined8AttributesTable, UserDefined8AttributesCard>
 {
 public:

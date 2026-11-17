@@ -18,8 +18,8 @@ struct DesignConstrFormat
     static void write(const DesignConstrCard& card, FieldWriter& writer);
 };
 
-// All the DCONSTR cards. The DCID is a set ID (IdSpace::Group) shared with the DCONADD cards, which a DESSUB or DESGLB
-// selects; the RID is a response, and LID and UID are TABLEDi tables.
+// All the DesignConstr cards. The DCID is a set ID (IdSpace::Group) shared with the DesignConstrUnion cards, which a
+// DESSUB or DESGLB selects; the RID is a response, and LID and UID are TABLEDi tables.
 class DesignConstrTable final : public TypedTable<DesignConstrTable, DesignConstrCard>
 {
 public:

@@ -19,8 +19,8 @@ struct CohesiveFrictionFormat
     static void write(const CohesiveFrictionCard& card, FieldWriter& writer);
 };
 
-// All the COHFRIC cards: the CID is unique among them (IdSpace::PerCardType, category CohesiveFriction), and a COUCOHF
-// names it in its COHFRICID.
+// All the CohesiveFriction cards: the CID is unique among them (IdSpace::PerCardType, category CohesiveFriction), and a
+// CouplingCohesiveFriction names it in its COHFRICID.
 class CohesiveFrictionTable final : public TypedTable<CohesiveFrictionTable, CohesiveFrictionCard>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a COHFRIC refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a CohesiveFriction refers to no other card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

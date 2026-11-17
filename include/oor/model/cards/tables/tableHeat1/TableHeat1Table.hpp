@@ -21,8 +21,8 @@ struct TableHeat1Format
     static void write(const TableHeat1Card& card, FieldWriter& writer);
 };
 
-// All the TABLEH1 cards. The ID is in the heat table space it shares with TABLEHT (IdSpace::HeatTable). The points of
-// every table are two lists (x, y) in CSR form.
+// All the TableHeat1 cards. The ID is in the heat table space it shares with TableHeatTwoVariables
+// (IdSpace::HeatTable). The points of every table are two lists (x, y) in CSR form.
 class TableHeat1Table final : public TypedTable<TableHeat1Table, TableHeat1Card>
 {
 public:

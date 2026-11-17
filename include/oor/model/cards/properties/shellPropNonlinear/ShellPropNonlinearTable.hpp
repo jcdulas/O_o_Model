@@ -19,9 +19,9 @@ struct ShellPropNonlinearFormat
     static void write(const ShellPropNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the PSHLN1 cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the ID is the
-// one of the PSHELL, PCOMP or PCOMPG that the card extends, so it is also a reference to a property (a renumbering of
-// the properties follows into it). The two materials are references too.
+// All the ShellPropNonlinear cards, kept whole next to a column of their PIDs. The ID space is the card type's own: the
+// ID is the one of the ShellProp, CompProp or CompPropGlobal that the card extends, so it is also a reference to a
+// property (a renumbering of the properties follows into it). The two materials are references too.
 class ShellPropNonlinearTable final : public TypedTable<ShellPropNonlinearTable, ShellPropNonlinearCard>
 {
 public:

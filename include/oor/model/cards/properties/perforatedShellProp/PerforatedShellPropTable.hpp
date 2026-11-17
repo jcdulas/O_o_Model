@@ -19,9 +19,9 @@ struct PerforatedShellPropFormat
     static void write(const PerforatedShellPropCard& card, FieldWriter& writer);
 };
 
-// All the PSHLPF properties. A PSHLPF is a primary property (IdSpace::Property: the PID of a shell element finds it)
-// and names a material, which a renumbering of the materials follows into. The cards are kept whole next to a column of
-// their PIDs: they are few, and the query engine reads the ID.
+// All the PerforatedShellProp properties. A PerforatedShellProp is a primary property (IdSpace::Property: the PID of a
+// shell element finds it) and names a material, which a renumbering of the materials follows into. The cards are kept
+// whole next to a column of their PIDs: they are few, and the query engine reads the ID.
 class PerforatedShellPropTable final : public TypedTable<PerforatedShellPropTable, PerforatedShellPropCard>
 {
 public:

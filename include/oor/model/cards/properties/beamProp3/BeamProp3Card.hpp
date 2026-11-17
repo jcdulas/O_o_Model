@@ -7,7 +7,7 @@
 namespace oor::model
 {
 
-// One cross-section of a PBEAM3: end A, end B or the middle node C.
+// One cross-section of a BeamProp3: end A, end B or the middle node C.
 struct BeamProp3Station
 {
     double area = 0.0;
@@ -29,7 +29,7 @@ struct BeamProp3Station
     bool stressOutput = false;
 };
 
-// One PBEAM3 card: the property of a three-node beam element (CBEAM3).
+// One BeamProp3 card: the property of a three-node beam element (Beam3).
 //
 // Card layout (fixed positions: a line is eight fields, the numbers are the format reference fields):
 //    1 PID    2 MID    3 A(A)   4 IZ(A)  5 IY(A)  6 IYZ(A) 7 J(A)   8 NSM(A)

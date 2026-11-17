@@ -11,9 +11,9 @@ namespace oor::analysis
 namespace
 {
 
-// A PEULER whose MID names a material that is not a MATDEUL. The format of PEULER says the MID is the number of a
-// MATDEUL, the constitutive model of an Eulerian material; the material space is shared by every material card, so a
-// MAT1 with that number resolves as a reference and only the kind of card tells the mistake.
+// An EulerProp whose MID names a material that is not an EulerMat. The format of EulerProp says the MID is the number
+// of a EulerMat, the constitutive model of an Eulerian material; the material space is shared by every material card,
+// so a IsoMat with that number resolves as a reference and only the kind of card tells the mistake.
 class EulerMaterialKindCheck final : public ValidationCheck
 {
 public:

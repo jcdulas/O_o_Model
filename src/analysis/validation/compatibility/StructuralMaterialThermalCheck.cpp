@@ -14,9 +14,9 @@ bool isStructuralSolution(std::int64_t solution) noexcept
     return isStaticSolution(solution) || isDynamicSolution(solution);
 }
 
-// A structural analysis whose property names a material that only exists as a heat transfer one: a MAT4 or MAT5 with
-// that ID and no MAT1, MAT2, ... The element has no stiffness (format reference: the material of a structural property
-// is a MAT1, MAT2, MAT8, ...).
+// A structural analysis whose property names a material that only exists as a heat transfer one: a HeatIsoMat or
+// HeatAnisoMat with that ID and no IsoMat, AnisoMat2D, ... The element has no stiffness (format reference: the material
+// of a structural property is an IsoMat, AnisoMat2D, OrthoMat2D, ...).
 class StructuralMaterialThermalCheck final : public ValidationCheck
 {
 public:

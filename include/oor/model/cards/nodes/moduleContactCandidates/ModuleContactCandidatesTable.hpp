@@ -18,9 +18,9 @@ struct ModuleContactCandidatesFormat
     static void write(const ModuleContactCandidatesCard& card, FieldWriter& writer);
 };
 
-// All the MDBCPAR cards. The card has no ID (IdSpace::None, category Other); its SET3ID, when it is above zero, is a
-// reference to a SET3 (the modules of its list). The format reference allows one card in a deck, which finishRead
-// reports. The cards are kept whole.
+// All the ModuleContactCandidates cards. The card has no ID (IdSpace::None, category Other); its SET3ID, when it is
+// above zero, is a reference to a TypedListSet3 (the modules of its list). The format reference allows one card in a
+// deck, which finishRead reports. The cards are kept whole.
 class ModuleContactCandidatesTable final : public TypedTable<ModuleContactCandidatesTable, ModuleContactCandidatesCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
     void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
-    // A second MDBCPAR is reported.
+    // A second ModuleContactCandidates is reported.
     void finishRead(Model& model, const ReadContext& context) override;
 
 private:

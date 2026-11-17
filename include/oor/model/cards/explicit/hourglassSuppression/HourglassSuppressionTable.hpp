@@ -19,10 +19,10 @@ struct HourglassSuppressionFormat
     static void write(const HourglassSuppressionCard& card, FieldWriter& writer);
 };
 
-// All the HGSUPPR cards. The HID is unique among them (IdSpace::PerCardType) and no other card names it, so the
-// category is Other. The PID is a property: it is visited as a property, whatever the class named by PROP (the property
-// space is shared by every property type, so the class is not matched against the card type). The cards are kept whole
-// (CardRows) next to their ID.
+// All the HourglassSuppression cards. The HID is unique among them (IdSpace::PerCardType) and no other card names it,
+// so the category is Other. The PID is a property: it is visited as a property, whatever the class named by PROP (the
+// property space is shared by every property type, so the class is not matched against the card type). The cards are
+// kept whole (CardRows) next to their ID.
 class HourglassSuppressionTable final : public TypedTable<HourglassSuppressionTable, HourglassSuppressionCard>
 {
 public:

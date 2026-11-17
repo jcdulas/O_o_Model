@@ -263,7 +263,7 @@ void BushPropTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void BushPropTable::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // A PBUSH refers to no other card (the tables of a PBUSHT are not modelled).
+    // A BushProp refers to no other card (the tables of a BushPropFreq are not modelled).
 }
 
 } // namespace oor::model

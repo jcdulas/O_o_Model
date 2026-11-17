@@ -18,7 +18,7 @@ struct Bushing1DFormat
     static void write(const Bushing1DCard& card, FieldWriter& writer);
 };
 
-// All the CBUSH1D elements.
+// All the Bushing1D elements.
 class Bushing1DTable final : public TypedTable<Bushing1DTable, Bushing1DCard>
 {
 public:

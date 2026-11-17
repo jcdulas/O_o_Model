@@ -1,7 +1,8 @@
-// Checks of the RBE2GS, RCONN and the spline blending, rigid body and relaxation cards: SPBLND1, SPBLND2,
-// SPLINRB and SPRELAX. Each card is read with its fields in the places of the format reference, written back in the
-// small format with its defaults left blank, and shown to list the references it has and to follow their renumbering.
-// The values the cards refuse are listed with the field that reports them.
+// Checks of the RigidBodySearched, RigidMeshConnection and the spline blending, rigid body and relaxation cards:
+// AeroSplineStripBlend, AeroSplineCurveBlend, AeroRigidSpline and AeroSplineRelaxation. Each card is read with its
+// fields in the places of the format reference, written back in the small format with its defaults left blank, and
+// shown to list the references it has and to follow their renumbering. The values the cards refuse are listed with the
+// field that reports them.
 
 #include "oor/base/text/NumberParser.hpp"
 #include "oor/model/cards/aero/aeroRigidSpline/AeroRigidSplineTable.hpp"
@@ -244,7 +245,7 @@ TEST_CASE(
 
     // A card with the default third line is written on its first line alone; otherwise the blank line is written.
 
-    // Two RCONN with one number are refused; the number is not shared with any other card.
+    // Two RigidMeshConnection with one number are refused; the number is not shared with any other card.
     REQUIRE_THROWS_AS(readBulk("RigidMeshConnection;7;;;4;9\nRigidMeshConnection;7;;;5;9"), base::DeckError);
 
     expectInvalid("RigidMeshConnection;0;;;4;9", "id");
@@ -267,7 +268,8 @@ TEST_CASE("an RCONN names a BSURF as its secondary side only when STYPE says so,
         "Surface;3;"
         "7\nRigidMeshConnection;2;Node;Surface;3;7");
 
-    // With STYPE GRID the SID is the ID of a SET1 or a BCGRID: the card cannot tell which, so it names nothing.
+    // With STYPE GRID the SID is the ID of an IdListSet1 or a ContactNodeRegion: the card cannot tell which, so it
+    // names nothing.
     RecordingVisitor visitor;
     model.table<RigidMeshConnectionTable>().visitReferences(0, visitor);
     REQUIRE(visitor.fields == std::vector<std::string>{"secondaryId", "primaryId"});
@@ -282,7 +284,7 @@ TEST_CASE("an RCONN names a BSURF as its secondary side only when STYPE says so,
     REQUIRE((cardAt<RigidMeshConnectionTable>(model, 0).secondaryId == 103 &&
              cardAt<RigidMeshConnectionTable>(model, 0).primaryId == 107));
     REQUIRE((cardAt<RigidMeshConnectionTable>(model, 1).secondaryId == 3 &&
-             cardAt<RigidMeshConnectionTable>(model, 1).primaryId == 107)); // a SET1 is not moved
+             cardAt<RigidMeshConnectionTable>(model, 1).primaryId == 107)); // an IdListSet1 is not moved
     REQUIRE(cardAt<ContactElemSurfaceTable>(model, 0).id == 103);
 }
 
@@ -367,7 +369,7 @@ TEST_CASE("a SPBLND2 has its fields in the places of the format reference and a 
     expectInvalid("AeroSplineCurveBlend;140;0;125;;4;1.;1.", "splineId1");
     expectInvalid("AeroSplineCurveBlend;140;105;0;;4;1.;1.", "splineId2");
     expectInvalid("AeroSplineCurveBlend;140;105;125;WAVG;4;1.;1.",
-                  "option"); // the weighted average is the SPBLND1 option
+                  "option"); // the weighted average is the AeroSplineStripBlend option
     expectInvalid("AeroSplineCurveBlend;140;105;125", "aeroBoxListId");
     expectInvalid("AeroSplineCurveBlend;140;105;125;;0;1.;1.", "aeroBoxListId");
     expectInvalid("AeroSplineCurveBlend;140;105;125;;4", "depth1");
@@ -458,7 +460,8 @@ TEST_CASE(
     "the splines that blend, relax and move as a rigid body name splines of any type and follow their renumbering",
     "[model][cards][aero]")
 {
-    // A SPBLND1 blends a SPLINE1 and a SPBLND2, which blends the SPLINE1 and a SPLINRB; a SPRELAX relaxes the blend.
+    // An AeroSplineStripBlend blends an AeroSurfaceSpline1 and an AeroSplineCurveBlend, which blends the
+    // AeroSurfaceSpline1 and an AeroRigidSpline; an AeroSplineRelaxation relaxes the blend.
     const std::string text =
         "AeroSurfaceSpline1;105;106;117;124;14;0.\n"
         "AeroRigidSpline;106;;2;;1084;123456\n"
@@ -525,7 +528,7 @@ TEST_CASE(
     REQUIRE(model.table<AeroSplineRelaxationTable>().splineId1Column().get(0) == 1140); // the column follows the card
     REQUIRE((blend1.nodeId == 236 && blend1.frameId == 105 && blend2.aeroBoxListId == 4)); // what is not a spline stays
 
-    // A SPLINE1 and a SPLINRB with one ID are one selection: both get the same new ID.
+    // An AeroSurfaceSpline1 and an AeroRigidSpline with one ID are one selection: both get the same new ID.
     Model shared = readBulk("AeroSurfaceSpline1;55;106;117;124;14;0.\nAeroRigidSpline;55;;2;;1;123456");
     Renumbering::apply(shared, RenumberSpace::AeroSpline, Renumbering::offset(1000));
     REQUIRE(

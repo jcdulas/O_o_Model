@@ -23,10 +23,10 @@ struct ContactBodyParamsFormat
     [[nodiscard]] static std::span<const ContactParameterRule> rules();
 };
 
-// All the BCBDPRP cards. The PID is unique among them (IdSpace::PerCardType, category ContactBodyParameters); a
-// BCBODY1, BCSURF or BCGRID names it. The cards are kept whole (CardRows); the query engine reads the ID only. The
-// table IDs among the values (FRIC, HCT, TBODY, ...) are not visited as references: a table may be a TABL3D, which no
-// card types yet.
+// All the ContactBodyParams cards. The PID is unique among them (IdSpace::PerCardType, category ContactBodyParameters);
+// a ContactBody1, ContactFaceRegion or ContactNodeRegion names it. The cards are kept whole (CardRows); the query
+// engine reads the ID only. The table IDs among the values (FRIC, HCT, TBODY, ...) are not visited as references: a
+// table may be a TABL3D, which no card types yet.
 class ContactBodyParamsTable final : public TypedTable<ContactBodyParamsTable, ContactBodyParamsCard>
 {
 public:

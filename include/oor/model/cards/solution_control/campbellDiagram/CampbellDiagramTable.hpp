@@ -19,9 +19,9 @@ struct CampbellDiagramFormat
     static void write(const CampbellDiagramCard& card, FieldWriter& writer);
 };
 
-// All the CAMPBLL cards. The ID is unique among them (IdSpace::PerCardType, category Other: the Case Control command
-// CAMPBELL is text and no card names a CAMPBLL). The DDVALID is a DiscreteValueSet reference. The cards are kept whole
-// next to the columns the query engine reads: the ID and the DDVAL.
+// All the CampbellDiagram cards. The ID is unique among them (IdSpace::PerCardType, category Other: the Case Control
+// command CAMPBELL is text and no card names a CampbellDiagram). The DDVALID is a DiscreteValueSet reference. The cards
+// are kept whole next to the columns the query engine reads: the ID and the DesignDiscreteValues.
 class CampbellDiagramTable final : public TypedTable<CampbellDiagramTable, CampbellDiagramCard>
 {
 public:

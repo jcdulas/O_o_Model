@@ -5,10 +5,10 @@
 namespace oor::model
 {
 
-// One EOSMG card (SOL 700): the Mie-Gruneisen equation of state, used for the pressure of solids under high strain
-// rates (shock Hugoniot form). A MATDEUL names it in its EID field.
+// One MieGruneisenStateEquation card (SOL 700): the Mie-Gruneisen equation of state, used for the pressure of solids
+// under high strain rates (shock Hugoniot form). An EulerMat names it in its EID field.
 //
-// Card layout: EOSMG  EID  C  S  R1  RM            fields 1 to 5
+// Card layout: MieGruneisenStateEquation  EID  C  S  R1  RM  fields 1 to 5
 // C is the sound speed at the reference density, S the slope of the linear shock velocity against particle velocity,
 // R1 the Gruneisen parameter at the reference density (the format reference grid prints it R1 and its list prints the
 // Greek letter), and RM the cut-off value of the density, which only limits the pressure. All four are required reals;

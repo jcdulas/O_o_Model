@@ -12,14 +12,14 @@
 namespace oor::model
 {
 
-// The arguments of the equation of a DVPREL2, a DVMREL2 or a DVCREL2: the design variables ("DESVAR" line) and then the
-// constants of the DTABLE and DTABLE2 cards ("DTABLE" line), which the equation receives in that order as its first,
-// second,
-// ... arguments. DESVAR must come before DTABLE.
+// The arguments of the equation of a DesignPropRelation2, a DesignMatRelation2 or a DesignElemRelation2: the design
+// variables ("DesignVar" line) and then the constants of the DesignConstants and DesignFieldConstants cards
+// ("DesignConstants" line), which the equation receives in that order as its first, second,
+// ... arguments. DesignVar must come before DesignConstants.
 //
-//   DVPREL2  ID  TYPE  PID  PNAME/FID  PMIN  PMAX  EQID                  fields 1 to 7
-//            DESVAR  DVID1  DVID2  ...                                    fields 9 to 16 and the lines after
-//            DTABLE  LABL1  LABL2  ...
+//   DesignPropRelation2  ID  TYPE  PID  PNAME/FID  PMIN  PMAX  EQID      fields 1 to 7
+//                        DesignVar  DVID1  DVID2  ...                                fields 9 to 16 and the lines after
+//                        DTABLE  LABL1  LABL2  ...
 
 // Reads the lines from `firstField` to the end of the card.
 void readRelationVariables(FieldReader& reader, int firstField, std::vector<base::EntityId>& designVarIds,

@@ -8,13 +8,13 @@
 namespace oor::model
 {
 
-// One DELAY card: time delays of a dynamic load on one or two degrees of freedom.
+// One DynamicLoadDelay card: time delays of a dynamic load on one or two degrees of freedom.
 //
-// Card layout: DELAY  SID  P1  C1  T1  P2  C2  T2
+// Card layout: DynamicLoadDelay  SID  P1  C1  T1  P2  C2  T2
 // A card holds one or two delays: the second group is optional,
 // P2 is 0 when it is absent (then C2 and T2 are 0 too). Ci is one component, 1 to 6 for a grid point and 0 for an
-// extra or scalar point; Ti is the time delay, a real. The SID is the set ID that the DELAY field of RLOAD1, RLOAD2,
-// TLOAD1, TLOAD2 and ACSRCE cards refers to.
+// extra or scalar point; Ti is the time delay, a real. The SID is the set ID that the DELAY field of FreqResponseLoad1,
+// FreqResponseLoad2, TransientTableLoad1, TransientFormulaLoad2 and AcousticSourceLoad cards refers to.
 struct DynamicLoadDelayCard
 {
     base::EntityId id = 0;

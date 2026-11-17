@@ -15,7 +15,7 @@ namespace oor::model
 namespace
 {
 
-// The number of values of the AEFACT `list` (0 when it does not exist).
+// The number of values of the AeroFactorList `list` (0 when it does not exist).
 std::size_t valueCount(const Model& model, base::EntityId list)
 {
     if (list <= 0)
@@ -63,7 +63,7 @@ base::EntityId divisionCount(const Model& model, std::int32_t count, base::Entit
 
 AeroBoxRanges::AeroBoxRanges(const Model& model)
 {
-    // CAERO1: the boxes of the lattice, span by span.
+    // AeroLiftingPanel1: the boxes of the lattice, span by span.
     addRanges<AeroLiftingPanel1Table>(
         model, m_ranges,
         [&](const AeroLiftingPanel1Card& card)
@@ -71,7 +71,7 @@ AeroBoxRanges::AeroBoxRanges(const Model& model)
             return static_cast<std::int64_t>(divisionCount(model, card.spanBoxCount, card.spanDivisionListId)) *
                    divisionCount(model, card.chordBoxCount, card.chordDivisionListId);
         });
-    // CAERO2: the slender body elements, then the interference elements.
+    // AeroBody2: the slender body elements, then the interference elements.
     addRanges<AeroBody2Table>(
         model, m_ranges,
         [&](const AeroBody2Card& card)
@@ -79,7 +79,7 @@ AeroBoxRanges::AeroBoxRanges(const Model& model)
             return static_cast<std::int64_t>(divisionCount(model, card.slenderElemCount, card.slenderListId)) +
                    divisionCount(model, card.interferenceElemCount, card.interferenceListId);
         });
-    // CAERO3: the (x, y) pairs of LISTW, then LISTC1 and LISTC2: two numbers a pair.
+    // AeroMachBoxPanel3: the (x, y) pairs of LISTW, then LISTC1 and LISTC2: two numbers a pair.
     addRanges<AeroMachBoxPanel3Table>(
         model, m_ranges,
         [&](const AeroMachBoxPanel3Card& card)
@@ -89,7 +89,7 @@ AeroBoxRanges::AeroBoxRanges(const Model& model)
                                               valueCount(model, card.controlPointListId2)) /
                                              2);
         });
-    // CAERO4 and CAERO5: one strip a division of the span.
+    // AeroStripPanel4 and AeroPistonPanel5: one strip a division of the span.
     addRanges<AeroStripPanel4Table>(model, m_ranges, [&](const AeroStripPanel4Card& card)
                                     { return divisionCount(model, card.spanBoxCount, card.spanDivisionListId); });
     addRanges<AeroPistonPanel5Table>(model, m_ranges, [&](const AeroPistonPanel5Card& card)

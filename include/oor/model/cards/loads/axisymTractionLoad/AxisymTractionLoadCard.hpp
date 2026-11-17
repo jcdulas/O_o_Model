@@ -5,9 +5,10 @@
 namespace oor::model
 {
 
-// One PLOADX1 card: a surface traction on the side of an axisymmetric element (CAXISYM, CQUADX, CTRIAX, CTRIAX6).
+// One AxisymTractionLoad card: a surface traction on the side of an axisymmetric element (ShellAxisym, AxisymQuad,
+// AxisymTria, AxisymTria6).
 //
-// Card layout: PLOADX1  SID  EID  PA  PB  GA  GB  THETA
+// Card layout: AxisymTractionLoad  SID  EID  PA  PB  GA  GB  THETA
 // The traction varies linearly from PA at GA to PB at GB. PB defaults to PA, so it is stored resolved and always
 // written. THETA is the angle in degrees between the traction and the inward normal of the side (0.0 when blank).
 struct AxisymTractionLoadCard

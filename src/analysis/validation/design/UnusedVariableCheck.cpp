@@ -9,9 +9,10 @@ namespace oor::analysis
 namespace
 {
 
-// A design variable that no relation, DLINK, DVGRID, DVSHAP, DVBSHAP, DRESP2 or DRESP3 uses changes nothing in the
-// model and costs the optimiser a column of the sensitivity matrix. A deck sometimes keeps such variables on purpose,
-// so this is information, and a variable that a DLINK makes dependent on others and that nothing uses counts as unused.
+// A design variable that no relation, DesignVarLink, DesignNodeMove, DesignShapeBasis, DesignBoundaryShape, DesignResp2
+// or DesignResp3 uses changes nothing in the model and costs the optimiser a column of the sensitivity matrix. A deck
+// sometimes keeps such variables on purpose, so this is information, and a variable that a DesignVarLink makes
+// dependent on others and that nothing uses counts as unused.
 class UnusedVariableCheck final : public ValidationCheck
 {
 public:

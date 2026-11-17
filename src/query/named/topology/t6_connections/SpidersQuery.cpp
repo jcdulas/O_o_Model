@@ -31,7 +31,7 @@ std::string componentsText(std::int32_t digits)
     return digits != 0 ? std::to_string(digits) : std::string();
 }
 
-// spiders: the RBE2 and RBE3 whose legs are all on one component or group.
+// spiders: the RigidBodyStar and RigidInterpolation whose legs are all on one component or group.
 class SpidersQuery final : public QueryBase
 {
 public:

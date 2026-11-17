@@ -11,7 +11,7 @@ namespace oor::query
 namespace
 {
 
-// lineLoadsTable: the distributed loads on bars and beams (PLOAD1).
+// lineLoadsTable: the distributed loads on bars and beams (BeamDistributedLoad).
 class LineLoadsTableQuery final : public QueryBase
 {
 public:
@@ -22,7 +22,7 @@ public:
         const model::Model& model = *run.model;
         // the cards of every load set, read once for all the sets
         const analysis::LoadSetIndex loadSets(model);
-        // a model with no PLOAD1 has no line load: nothing to expand
+        // a model with no BeamDistributedLoad has no line load: nothing to expand
         if (!loadSets.hasType(model::typeIndexOf<model::BeamDistributedLoadTable>()))
             return emptyTable(info().defaultColumns());
         const LoadSetListing listing(model, loadSets, run.arguments,

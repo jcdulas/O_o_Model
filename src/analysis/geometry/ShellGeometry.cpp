@@ -113,7 +113,7 @@ void evaluateQuadrilateral(const Evaluation& evaluation, const ShellInput& input
         return;
     // The area vector is half of the cross product of the diagonals (the planar quadrilateral's area, and for a warped
     // one the area of its projection on the mean plane); the element x axis bisects the angle between the diagonals
-    // (format reference, the figure of the CQUAD4 element coordinate system).
+    // (format reference, the figure of the ShellQuad4 element coordinate system).
     const base::Vec3 diagonal13 = third - first;
     const base::Vec3 diagonal24 = fourth - second;
     const base::Vec3 areaVector = cross(diagonal13, diagonal24);

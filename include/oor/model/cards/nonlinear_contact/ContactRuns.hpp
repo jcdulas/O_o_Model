@@ -15,11 +15,12 @@
 namespace oor::model
 {
 
-// The ID lists of the contact cards (BSURF, BLSEG, BOUTPUT, BCPROP, BCGRID, BCTABL1, BCBMRAD): IDs, with "a THRU b"
-// and, on the cards that have it, "a THRU b BY n". Unlike the lists of the heat transfer cards, a range may go down:
-// the format reference gives BSURF, BLSEG and BOUTPUT the increment 1 for ascending numbers and -1 for descending ones
-// when BY is left out. One kind of value used inside one family: each card still reads and writes its own fields and
-// says what its IDs refer to.
+// The ID lists of the contact cards (ContactElemSurface, SlidelineSegments, SlidelineOutput, ContactPropertyRegion,
+// ContactNodeRegion, ContactTable1, ContactBeamRadius): IDs, with "a THRU b" and, on the cards that have it, "a THRU b
+// BY n". Unlike the lists of the heat transfer cards, a range may go down: the format reference gives
+// ContactElemSurface, SlidelineSegments and SlidelineOutput the increment 1 for ascending numbers and -1 for descending
+// ones when BY is left out. One kind of value used inside one family: each card still reads and writes its own fields
+// and says what its IDs refer to.
 
 // One entry of the list: a single ID (first == last), "first THRU last" or "first THRU last BY by". `by` is stored
 // resolved (1 or -1 when BY is blank) and written only when it is not that default.

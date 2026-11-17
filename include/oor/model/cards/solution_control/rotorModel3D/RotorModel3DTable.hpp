@@ -19,10 +19,10 @@ struct RotorModel3DFormat
     static void write(const RotorModel3DCard& card, FieldWriter& writer);
 };
 
-// All the ROTOR cards. The ID is the rotor ID (category Rotor, IdSpace::Group, like ROTORG and ROTORAX). The elements
-// are Element references (ElementInRange for the ends of a THRU range), the properties Property (PropertyInRange) and
-// the AXIS grid points Node. The cards are kept whole next to the columns the query engine reads: the rotor ID and the
-// frame.
+// All the RotorModel3D cards. The ID is the rotor ID (category Rotor, IdSpace::Group, like RotorLineNodes and
+// RotorAxisym). The elements are Element references (ElementInRange for the ends of a THRU range), the properties
+// Property (PropertyInRange) and the AXIS grid points Node. The cards are kept whole next to the columns the query
+// engine reads: the rotor ID and the frame.
 class RotorModel3DTable final : public TypedTable<RotorModel3DTable, RotorModel3DCard>
 {
 public:

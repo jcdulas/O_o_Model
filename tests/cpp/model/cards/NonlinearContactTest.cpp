@@ -1,8 +1,14 @@
 // Checks of the non-linear and contact cards: field positions of every layout, defaults, references, ID
-// spaces, renumbering and refused values of BFRIC, BSURF, BLSEG, BOUTPUT, BWIDTH, BCONP, BCPROP, BCMATL, BCRGSRF,
-// BCELIPS, BCSEG, BCBOX, BCPATCH, BCBZIER, BCNURB2, BCNURBS, BCTRIM, BCRIGID, BCBODY, BCBODY1, BCSURF, BCGRID, BCONECT,
-// BCTABL1, BCTABLE, BCMOVE, BCHANGE, BCPARA, BCONPRG, BCONPRP, BCBDPRP, BCAUTOP, BCSCAP, BCPFLG, BCBMRAD, BOLT, BOLT1,
-// BCONUDS and the NLSTEP, NLADAPT, NLHARM, NLFREQ, NLFREQ1, NLFREQC, NLOUT, NLOUTUD, NLRGAP, NLRSFD cards.
+// spaces, renumbering and refused values of SlidelineFriction, ContactElemSurface, SlidelineSegments, SlidelineOutput,
+// SlidelineWidth, ContactSlideline, ContactPropertyRegion, ContactMaterialRegion, ContactRigidSurfaceList,
+// ContactEllipsoidList, ContactSegment, ContactBoxRegion, ContactPatchSurface, ContactBezierSurface, ContactNurbsCurve,
+// ContactNurbsSurface, ContactTrimCurve, ContactRigidMotion, ContactBody, ContactBody1, ContactFaceRegion,
+// ContactNodeRegion, ContactPair, ContactTable1, ContactTable, ContactBodyMove, ContactBodyChange, ContactParams,
+// ContactPairGeomParams, ContactPairPhysicalParams, ContactBodyParams, ContactAutoParams, ContactBeamCap,
+// ContactBeamSectionFlags, ContactBeamRadius, BoltConnection, BoltPretension, ContactUserService and the
+// NonlinearStepControl, NonlinearAdaptiveStepping, NonlinearHarmonicParams, NonlinearHarmonicFreqList,
+// NonlinearHarmonicFreqSteps, NonlinearHarmonicFreqContinuation, NonlinearOutputItems, NonlinearUserOutput,
+// NonlinearRadialGap, NonlinearSqueezeFilmDamper cards.
 
 #include "oor/model/cards/nonlinear_contact/boltConnection/BoltConnectionTable.hpp"
 #include "oor/model/cards/nonlinear_contact/boltPretension/BoltPretensionTable.hpp"
@@ -169,7 +175,7 @@ std::string wordOf(const std::vector<ContactParameter>& parameters, std::string_
     return word == nullptr ? std::string("?") : *word;
 }
 
-// The section of an NLSTEP or NLADAPT with that keyword, or an empty one.
+// The section of a NonlinearStepControl or NonlinearAdaptiveStepping with that keyword, or an empty one.
 std::vector<ContactParameter> sectionOf(const std::vector<ContactNamedSection>& sections, std::string_view keyword)
 {
     for (const ContactNamedSection& section : sections)
@@ -278,16 +284,17 @@ TEST_CASE("the slideline entries refer to each other and to the grid points, and
     RecordingVisitor widthVisitor;
     model.table<SlidelineWidthTable>().visitReferences(0, widthVisitor);
     REQUIRE(widthVisitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::SlidelineSegments});
-    // The IDs of a THRU range of grid points may have gaps, a single missing one is reported; BSURF too.
+    // The IDs of a THRU range of grid points may have gaps, a single missing one is reported; ContactElemSurface too.
     Model lacking =
         readBulk(solidBlock() +
                  "SlidelineSegments;400;1;2;99\nSlidelineSegments;401;1;Through;50\nContactElemSurface;200;1;"
                  "Through;5;50\nContactSlideline;420;400;401;1.;77");
-    REQUIRE(unresolvedIn(lacking) == 3); // the grid 99, the element 50 and the BFRIC 77
+    REQUIRE(unresolvedIn(lacking) == 3); // the grid 99, the element 50 and the SlidelineFriction 77
 
     Renumbering::apply(model, RenumberSpace::SlidelineSegments, Renumbering::offset(1000));
     REQUIRE(cardAt<SlidelineSegmentsTable>(model, 0).id == 1400);
-    REQUIRE(cardAt<SlidelineWidthTable>(model).segmentsId == 1400); // a BWIDTH has the ID of the BLSEG it widens
+    // a SlidelineWidth has the ID of the SlidelineSegments it widens
+    REQUIRE(cardAt<SlidelineWidthTable>(model).segmentsId == 1400);
     REQUIRE((cardAt<ContactSlidelineTable>(model).secondaryLineId == 1400 &&
              cardAt<ContactSlidelineTable>(model).primaryLineId == 1401));
     Renumbering::apply(model, RenumberSpace::SlidelineFriction, Renumbering::offset(10));
@@ -582,20 +589,23 @@ TEST_CASE("the contact bodies, regions and rigid surfaces refer to each other, t
     REQUIRE(surface.fields == std::vector<std::string>{"bodyParamsId", "faceElemId"});
     REQUIRE(surface.targets ==
             std::vector<ReferenceTarget>{ReferenceTarget::ContactBodyParameters, ReferenceTarget::Element});
-    // The SOL 700 cloud of grid points is a surface a BCBODY may be made of (a BSID).
+    // The SOL 700 cloud of grid points is a surface a ContactBody may be made of (a BSID).
     Model cloud = readBulk(solidBlock() + "ContactNodeRegion;6;7;8\nContactBody;3;ThreeDimensional;Deformable;6");
     REQUIRE(unresolvedIn(cloud) == 0);
     Model lacking = readBulk(solidBlock() +
                              "ContactBody1;1;50;ThreeDimensional;Deformable;10\nContactBody1;2;;ThreeDimensional;Rigid;"
                              "24;40\nContactFaceRegion;4;;ThreeDimensional;Face;;;9;S1");
-    REQUIRE(unresolvedIn(lacking) == 5); // BCBDPRP 50, BSURF 10, BCRGSRF 24, BCRIGID 40 and the element 9
+    // ContactBodyParams 50, ContactElemSurface 10, ContactRigidSurfaceList 24, ContactRigidMotion 40 and the element 9
+    REQUIRE(unresolvedIn(lacking) == 5);
 
-    // A body is of the category of the bodies: BCBODY, BCBODY1, BCSURF and BCGRID number the same set.
+    // A body is of the category of the bodies: ContactBody, ContactBody1, ContactFaceRegion and ContactNodeRegion
+    // number the same set.
     Renumbering::apply(model, RenumberSpace::ContactBody, Renumbering::offset(100));
     REQUIRE((cardAt<ContactBody1Table>(model, 0).id == 101 && cardAt<ContactBody1Table>(model, 1).id == 102));
     REQUIRE((cardAt<ContactBodyTable>(model).id == 103 && cardAt<ContactFaceRegionTable>(model).id == 104));
     REQUIRE((cardAt<ContactNodeRegionTable>(model, 0).id == 105 && cardAt<ContactNodeRegionTable>(model, 1).id == 106));
-    // The surfaces: BSURF, BCPROP, BCMATL, BCBOX and the rigid surfaces; a BSID, a BCRGSRF list and BCBODY follow.
+    // The surfaces: ContactElemSurface, ContactPropertyRegion, ContactMaterialRegion, ContactBoxRegion and the rigid
+    // surfaces; a BSID, a ContactRigidSurfaceList list and ContactBody follow.
     Renumbering::apply(model, RenumberSpace::ContactSurface, Renumbering::offset(1000));
     REQUIRE(cardAt<ContactElemSurfaceTable>(model).id == 1010);
     REQUIRE(cardAt<ContactBoxRegionTable>(model).id == 1013);
@@ -855,7 +865,8 @@ TEST_CASE("the contact pairs and tables refer to bodies, parameters and each oth
         readBulk(solidBlock() +
                  "ContactElemSurface;10;1\nContactBody1;1;;ThreeDimensional;Deformable;10\nContactPair;5;31;32;1;"
                  "2\nContactTable1;7;5;6\nContactTable;9;1;2\nContactBodyMove;11;Release;2");
-    // the BCONPRG 31, the BCONPRP 32, the body 2 of the pair, the BCONECT 6, the body 2 of the table and of the move
+    // the ContactPairGeomParams 31, the ContactPairPhysicalParams 32, the body 2 of the pair, the ContactPair 6, the
+    // body 2 of the table and of the move
     REQUIRE(unresolvedIn(lacking) == 6);
 
     // The IDs of the bodies, in every card that names one.
@@ -873,12 +884,12 @@ TEST_CASE("the contact pairs and tables refer to bodies, parameters and each oth
     REQUIRE(cardAt<ContactBodyChangeTable>(model, 1).ranges[0].firstNode ==
             -1); // the minus sign marks the first range of a patch
     REQUIRE(cardAt<ContactBodyChangeTable>(model, 1).ranges[0].bodyId == 102);
-    // The nodes of a BCHANGE are renumbered with their sign.
+    // The nodes of a ContactBodyChange are renumbered with their sign.
     Renumbering::apply(model, RenumberSpace::Node, Renumbering::offset(10));
     REQUIRE(cardAt<ContactBodyChangeTable>(model, 1).ranges[0].firstNode == -11);
     REQUIRE(cardAt<ContactBodyChangeTable>(model, 1).ranges[0].lastNode == 12);
     REQUIRE(cardAt<ContactBodyChangeTable>(model, 0).ranges[0].lastNode == 14);
-    // The pairs: the BCONECT ID and the lists of the tables.
+    // The pairs: the ContactPair ID and the lists of the tables.
     Renumbering::apply(model, RenumberSpace::ContactPair, Renumbering::offset(50));
     REQUIRE((cardAt<ContactPairTable>(model, 0).id == 55 && cardAt<ContactPairTable>(model, 1).id == 56));
     REQUIRE(cardAt<ContactTable1Table>(model, 0).pairs == std::vector<ContactRun>{{55, 55, 1}, {56, 56, 1}});
@@ -980,7 +991,7 @@ TEST_CASE("the parameter cards keep their pairs in order and read each value as 
     REQUIRE(cardAt<ContactParamsTable>(model, 1).id == 1);
     REQUIRE(cardAt<ContactParamsTable>(readBulk("ContactParams;;ContactToleranceBias;0.")).id ==
             0); // a blank ID is 0, all the subcases
-    // BIAS is a real: an integer is read as the real of the same value.
+    // EulerMeshBias is a real: an integer is read as the real of the same value.
     const Model integerBias = readBulk("ContactParams;0;ContactToleranceBias;2");
     REQUIRE(realOf(cardAt<ContactParamsTable>(integerBias).params, "ContactToleranceBias") == 2.0);
     const ContactPairGeomParamsCard geometric = cardAt<ContactPairGeomParamsTable>(model, 0);
@@ -1124,7 +1135,7 @@ TEST_CASE("BOLT, BOLT1 and BCONUDS have their layouts and refer to grid points, 
     REQUIRE(service.reals == std::vector<double>{0.5, 1.5});
     REQUIRE(service.characters == std::vector<std::string>{"AAA", "BBB"});
     REQUIRE(unresolvedIn(model) == 0);
-    // With IDTYPE SET the lists name SET3 cards.
+    // With IDTYPE SET the lists name TypedListSet3 cards.
     RecordingVisitor sets;
     model.table<BoltPretensionTable>().visitReferences(1, sets);
     REQUIRE(sets.targets ==
@@ -1246,7 +1257,7 @@ TEST_CASE("NLADAPT has its STEP and CREEP lines in any order", "[model][cards][n
     const auto creep = sectionOf(full.sections, "Creep");
     REQUIRE((integerOf(creep, "CreepStepCheck") == 0 && realOf(creep, "TensionCutoffStrain") == 0.5 &&
              realOf(creep, "TensionCutoffStress") == 0.1 && realOf(creep, "CutoffTime") == 0.05));
-    // The ID is that of the NLPARM it extends: a renumbering of the NLPARM moves both.
+    // The ID is that of the NonlinearStaticParams it extends: a renumbering of the NonlinearStaticParams moves both.
     Renumbering::apply(model, RenumberSpace::Nonlinear, Renumbering::offset(1000));
     REQUIRE((cardAt<NonlinearStaticParamsTable>(model).id == 1700 &&
              cardAt<NonlinearAdaptiveSteppingTable>(model, 0).id == 1700));
@@ -1292,8 +1303,8 @@ TEST_CASE("NLHARM, NLFREQ, NLFREQ1 and NLFREQC have their layouts and NLHARM nam
     REQUIRE((minimal.initialStep == 0.5 && !minimal.minimumStepSize && !minimal.maximumStepSize &&
              !minimal.maximumFreq && minimal.maximumSteps == 3 && minimal.derivativeStep == 1.E-3 &&
              minimal.printOnFailure == "No" && !minimal.outputRequest && !minimal.outputStartFreq));
-    // The three kinds of frequency list are one set of IDs (the NLFREQ field of an NLHARM names any); NLHARM 43 is
-    // dangling.
+    // The three kinds of frequency list are one set of IDs (the NLFREQ field of a NonlinearHarmonicParams names any);
+    // NonlinearHarmonicParams 43 is dangling.
     RecordingVisitor visitor;
     model.table<NonlinearHarmonicParamsTable>().visitReferences(0, visitor);
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::NonlinearFrequency});
@@ -1553,7 +1564,7 @@ TEST_CASE("a BCTADD joins contact sets under an ID of its own and refuses a set 
     REQUIRE(cardAt<ContactSetUnionTable>(model, 0).sets == std::vector<base::EntityId>{101});
     REQUIRE(cardAt<ContactSetUnionTable>(model, 1).sets ==
             std::vector<base::EntityId>{101, 102, 103, 104, 105, 106, 107, 108, 109});
-    // The sets are BCTSET cards: each is looked up as a contact table, and none exists here.
+    // The sets are ContactSet cards: each is looked up as a contact table, and none exists here.
     REQUIRE(unresolvedIn(model) == 10);
     RecordingVisitor visitor;
     model.table<ContactSetUnionTable>().visitReferences(0, visitor);

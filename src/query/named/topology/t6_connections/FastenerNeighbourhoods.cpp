@@ -115,8 +115,8 @@ public:
         { return !wanted || std::binary_search(wanted->begin(), wanted->end(), id); };
         const model::CardRegistry& registry = model::CardRegistry::instance();
 
-        // the sides of the fasteners: the grid points of the shell each side of a CFAST or CWELD pierces (GA and GB
-        // of an ALIGN CWELD), the grid point of a CBUSH
+        // the sides of the fasteners: the grid points of the shell each side of a Fastener or Weld pierces (GA and GB
+        // of an ALIGN Weld), the grid point of a Bushing
         std::vector<FastenerSide> sides;
         const auto piercings = analysis::FastenerPiercings::of(model, run.context.pool());
         for (const analysis::PiercedFastener& fastener : piercings->fasteners())
@@ -167,7 +167,7 @@ public:
         for (const FastenerSide& entry : sides)
         {
             // ring 1: the shells whose grid points are all grid points of the side (the shell pierced, or the shell on
-            // the face of grid points of a GRIDID side), else (a grid point of a CBUSH or an ALIGN CWELD) the shells
+            // the face of grid points of a GRIDID side), else (a grid point of a Bushing or an ALIGN Weld) the shells
             // at the grid points of the side; each ring after adds the shells that share a grid point with the ring
             // before
             const std::set<base::EntityId> tied(entry.nodes.begin(), entry.nodes.end());

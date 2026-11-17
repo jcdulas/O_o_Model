@@ -19,9 +19,9 @@ struct OrthoMat3DNonlinearFormat
     static void write(const OrthoMat3DNonlinearCard& card, FieldWriter& writer);
 };
 
-// All the MATORT cards. The ID is a material ID, in the space every material type shares (IdSpace::Material). The cards
-// are kept whole (CardRows: a long record of mostly optional fields); the query engine reads the ID only. A MATORT
-// refers to no card.
+// All the OrthoMat3DNonlinear cards. The ID is a material ID, in the space every material type shares
+// (IdSpace::Material). The cards are kept whole (CardRows: a long record of mostly optional fields); the query engine
+// reads the ID only. An OrthoMat3DNonlinear refers to no card.
 class OrthoMat3DNonlinearTable final : public TypedTable<OrthoMat3DNonlinearTable, OrthoMat3DNonlinearCard>
 {
 public:
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a MATORT refers to no card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an OrthoMat3DNonlinear refers to no card
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }
 

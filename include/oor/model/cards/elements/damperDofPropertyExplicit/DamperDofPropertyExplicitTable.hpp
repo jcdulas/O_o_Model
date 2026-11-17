@@ -18,7 +18,8 @@ struct DamperDofPropertyExplicitFormat
     static void write(const DamperDofPropertyExplicitCard& card, FieldWriter& writer);
 };
 
-// All the CDAMP1D elements. They are elements (IdSpace::Element, shared with every other element), kept in columns.
+// All the DamperDofPropertyExplicit elements. They are elements (IdSpace::Element, shared with every other element),
+// kept in columns.
 class DamperDofPropertyExplicitTable final : public TypedTable<DamperDofPropertyExplicitTable, DamperDofPropertyExplicitCard>
 {
 public:

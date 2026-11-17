@@ -18,9 +18,9 @@ struct SuperelementAccessPointsFormat
     static void write(const SuperelementAccessPointsCard& card, FieldWriter& writer);
 };
 
-// All the ACCSSPT cards (no ID: IdSpace::None, category Other, so a deck may repeat the card as often as it likes). The
-// points of the cards are one column in CSR form; each is a grid point (ReferenceTarget::Node), so a renumbering of the
-// nodes follows into the list.
+// All the SuperelementAccessPoints cards (no ID: IdSpace::None, category Other, so a deck may repeat the card as often
+// as it likes). The points of the cards are one column in CSR form; each is a grid point (ReferenceTarget::Node), so a
+// renumbering of the nodes follows into the list.
 class SuperelementAccessPointsTable final
     : public TypedTable<SuperelementAccessPointsTable, SuperelementAccessPointsCard>
 {

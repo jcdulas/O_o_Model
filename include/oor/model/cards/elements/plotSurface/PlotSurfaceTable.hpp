@@ -19,10 +19,10 @@ struct PlotSurfaceFormat
     static void write(const PlotSurfaceCard& card, FieldWriter& writer);
 };
 
-// All the PLTSURF elements. Like the PLOTEL, a PLTSURF is only drawn: decks reuse the ID of a structural element for
-// such an element, so the cards have an ID space of their own (unique among themselves), a structural element is never
-// replaced by one, and the ElementTopology does not see them. The grid points are one column of eight IDs per element
-// (0 after the last point); each is a node.
+// All the PlotSurface elements. Like the PlotLine2, a PlotSurface is only drawn: decks reuse the ID of a structural
+// element for such an element, so the cards have an ID space of their own (unique among themselves), a structural
+// element is never replaced by one, and the ElementTopology does not see them. The grid points are one column of eight
+// IDs per element (0 after the last point); each is a node.
 class PlotSurfaceTable final : public TypedTable<PlotSurfaceTable, PlotSurfaceCard>
 {
 public:

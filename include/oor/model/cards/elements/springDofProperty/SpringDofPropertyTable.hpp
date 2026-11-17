@@ -18,7 +18,7 @@ struct SpringDofPropertyFormat
     static void write(const SpringDofPropertyCard& card, FieldWriter& writer);
 };
 
-// All the CELAS1 elements.
+// All the SpringDofProperty elements.
 class SpringDofPropertyTable final : public TypedTable<SpringDofPropertyTable, SpringDofPropertyCard>
 {
 public:

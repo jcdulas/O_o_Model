@@ -14,15 +14,16 @@ namespace oor::analysis
 
 // The grid points that rigid elements of zero length weld together: two coincident grid points are one point of the
 // structure when rigid elements between them tie all six components, 123456, whether one element ties them all or
-// several share them (an RBE2 with CM 123 and another with CM 456). Meshes are joined that way along a seam, and
-// stacked elements are put on their own grid points that way: the topology (the panels, the chains of 1D elements, the
-// components) follows the welds instead of the grid point IDs.
+// several share them (a RigidBodyStar with CM 123 and another with CM 456). Meshes are joined that way along a seam,
+// and stacked elements are put on their own grid points that way: the topology (the panels, the chains of 1D elements,
+// the components) follows the welds instead of the grid point IDs.
 //
 // What a rigid element ties: each dependent component of a grid point is tied to the grid point that holds that
 // independent component (format reference: the independent components of a rigid element are held once, by one grid point). The
-// elements that tie this way: RBE2, RBE1, RBAR, RBAR1, RJOINT, RTRPLT, RTRPLT1; an RBE3 or an RSPLINE interpolates, and
-// an RROD ties a translation along an axis that zero length does not define. A tie counts only between grid points no
-// farther apart than WELD_TOLERANCE in the basic system (the default distance of the check geometry.coincident).
+// elements that tie this way: RigidBodyStar, RigidBodyMulti, RigidBar, RigidBar1, RigidJoint, RigidTriaPlate,
+// RigidTriaPlate1; a RigidInterpolation or a RigidSpline interpolates, and a RigidRod ties a translation along an axis
+// that zero length does not define. A tie counts only between grid points no farther apart than WELD_TOLERANCE in the
+// basic system (the default distance of the check geometry.coincident).
 class WeldedNodes
 {
 public:

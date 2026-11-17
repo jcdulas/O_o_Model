@@ -9,15 +9,15 @@ namespace oor::model
 enum class ParameterKind : std::uint8_t
 {
     Blank,   // PARAM,NAME with no value
-    Integer, // PARAM,POST,-1
-    Real,    // PARAM,WTMASS,0.00259
-    Text,    // PARAM,AUTOSPC,YES
+    Integer, // PARAM,PostprocessingFile,-1
+    Real,    // PARAM,WeightToMass,0.00259
+    Text,    // PARAM,AutoSingularityConstr,YES
     Complex  // PARAM,name,real,imaginary (V1 and V2)
 };
 
-// One PARAM card: a named parameter of the analysis.
+// One Parameter card: a named parameter of the analysis.
 //
-// Card layout: PARAM  N  V1  V2
+// Card layout: Parameter  N  V1  V2
 // The value is an integer, a real, a word, or (for the few complex parameters) a pair of reals.
 struct ParameterCard
 {

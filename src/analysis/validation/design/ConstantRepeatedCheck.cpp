@@ -13,8 +13,8 @@ namespace oor::analysis
 namespace
 {
 
-// A constant is found by its label, and the label must be unique over all the DTABLE and DTABLE2 entries (format
-// reference). The reader cannot see it: the labels of the entries are not an ID,
+// A constant is found by its label, and the label must be unique over all the DesignConstants and DesignFieldConstants
+// entries (format reference). The reader cannot see it: the labels of the entries are not an ID,
 // and each card type has its own list. The first definition stands; each later one is reported, at its card, whatever
 // the case of the letters (a label is matched without regard to case).
 class ConstantRepeatedCheck final : public ValidationCheck

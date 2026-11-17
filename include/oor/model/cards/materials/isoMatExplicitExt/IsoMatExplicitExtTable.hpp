@@ -18,9 +18,9 @@ struct IsoMatExplicitExtFormat
     static void write(const IsoMatExplicitExtCard& card, FieldWriter& writer);
 };
 
-// All the MAT1A cards. The ID space is the card type's own: the ID is the one of the MAT1 that the card extends, so it
-// is also a reference to a material (renumbering the materials follows into it). EID names an equation of state card,
-// which no card types yet, so it is a plain ID that the reference checks leave alone.
+// All the IsoMatExplicitExt cards. The ID space is the card type's own: the ID is the one of the IsoMat that the card
+// extends, so it is also a reference to a material (renumbering the materials follows into it). EID names an equation
+// of state card, which no card types yet, so it is a plain ID that the reference checks leave alone.
 class IsoMatExplicitExtTable final : public TypedTable<IsoMatExplicitExtTable, IsoMatExplicitExtCard>
 {
 public:

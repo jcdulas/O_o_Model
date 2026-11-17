@@ -37,14 +37,15 @@ struct DofUse
 // freedom (0) when the number is 0.
 void appendDofs(base::EntityId node, std::int32_t components, model::CardLocation where, std::vector<DofUse>& out);
 
-// The degrees of freedom that the rigid elements make dependent: RBE2 (the GM at the components CM), RBE3 (the
-// reference grid, or the UM list when there is one), RBAR and RROD (the CMA and CMB ends), RBE1 (the dependent list).
+// The degrees of freedom that the rigid elements make dependent: RigidBodyStar (the GM at the components CM),
+// RigidInterpolation (the reference grid, or the UM list when there is one), RigidBar and RigidRod (the CMA and CMB
+// ends), RigidBodyMulti (the dependent list).
 [[nodiscard]] std::vector<DofUse> rigidDependentDofs(const model::Model& model);
 
 // A rigid element that makes a degree of freedom depend on another: every dependent degree of freedom of the element on
-// every independent one (RBE2: the GM at CM on the six of GN; RBE3: the reference degrees of freedom, or the UM list,
-// on the degrees of freedom of the weighted groups; RBE1 and RBAR: the dependent set on the independent set; RROD: the
-// dependent translation on the other translations of both ends).
+// every independent one (RigidBodyStar: the GM at CM on the six of GN; RigidInterpolation: the reference degrees of
+// freedom, or the UM list, on the degrees of freedom of the weighted groups; RigidBodyMulti and RigidBar: the dependent
+// set on the independent set; RigidRod: the dependent translation on the other translations of both ends).
 struct DofLink
 {
     std::uint64_t dependent = 0;
@@ -53,11 +54,12 @@ struct DofLink
 };
 [[nodiscard]] std::vector<DofLink> rigidDofLinks(const model::Model& model);
 
-// The dependent degree of freedom (the first term) of every MPC card of the sets.
+// The dependent degree of freedom (the first term) of every MultiPointConstr card of the sets.
 [[nodiscard]] std::vector<DofUse> mpcDependentDofs(const model::Model& model, const std::vector<base::EntityId>& sets);
 
-// The degrees of freedom fixed by the SPC and SPC1 cards of the sets, and by the PS field of the grid points. The
-// nodes of an SPC1 range are the grid points that exist in it (`nodes` is the sorted list of the node IDs).
+// The degrees of freedom fixed by the SinglePointConstr and SinglePointConstrList cards of the sets, and by the PS
+// field of the grid points. The nodes of a SinglePointConstrList range are the grid points that exist in it (`nodes` is
+// the sorted list of the node IDs).
 [[nodiscard]] std::vector<DofUse> spcDofs(const model::Model& model, const std::vector<base::EntityId>& sets,
                                           const std::vector<base::EntityId>& nodes);
 

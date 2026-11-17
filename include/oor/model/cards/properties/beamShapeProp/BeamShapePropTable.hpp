@@ -26,9 +26,9 @@ struct BeamShapePropFormat
     [[nodiscard]] static bool resolveBlankValues(std::vector<BeamShapePropStation>& stations);
 };
 
-// All the PBEAML cards. The stations of every card are four lists in CSR form (X/XB, output flag, NSM, dimensions): the
-// row of a card gives where its stations begin and how many there are; the dimensions of all its stations follow each
-// other (station after station, as many per station as the section has).
+// All the BeamShapeProp cards. The stations of every card are four lists in CSR form (X/XB, output flag, NSM,
+// dimensions): the row of a card gives where its stations begin and how many there are; the dimensions of all its
+// stations follow each other (station after station, as many per station as the section has).
 class BeamShapePropTable final : public TypedTable<BeamShapePropTable, BeamShapePropCard>
 {
 public:

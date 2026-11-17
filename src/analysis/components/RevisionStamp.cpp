@@ -30,8 +30,9 @@ bool isCompanionCategory(model::CardCategory category) noexcept
            category == model::CardCategory::Property;
 }
 
-// The cards that complete another card, or add mass to it, without being referred to by anything: MATT1 and MATS1 (the
-// same ID as their MAT1), PBUSHT and PELAST (the same ID as their property), the NSM cards. Found once per model.
+// The cards that complete another card, or add mass to it, without being referred to by anything: IsoMatTemperature and
+// IsoMatStressDependent (the same ID as their IsoMat), BushPropFreq and SpringPropFreq (the same ID as their property),
+// the NonStructMass cards. Found once per model.
 std::vector<model::CardLocation> companionCandidates(const model::Model& model, const ReferenceIndex& references)
 {
     std::vector<model::CardLocation> candidates;
@@ -52,7 +53,7 @@ std::vector<model::CardLocation> companionCandidates(const model::Model& model, 
             const model::CardLocation location{type, row};
             if (references.from(location).empty())
                 continue;
-            // A card that something refers to is a card of the model, not a companion (a PSHELL, a MAT1).
+            // A card that something refers to is a card of the model, not a companion (a ShellProp, an IsoMat).
             if (!nsm && references.isReferenced(location))
                 continue;
             candidates.push_back(location);

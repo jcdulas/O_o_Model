@@ -1,4 +1,4 @@
-// The geometry of the user dummy elements CDUM1 to CDUM9: their grid points are known, nothing
+// The geometry of the user dummy elements UserDefined1 to UserDefined9: their grid points are known, nothing
 // else is, because the user's own routines define the element. Each number has a provider of its own, so each test runs
 // over the nine tables.
 

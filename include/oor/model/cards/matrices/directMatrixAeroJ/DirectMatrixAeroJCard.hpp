@@ -10,14 +10,15 @@
 namespace oor::model
 {
 
-// One DMIJ card: either the header of a matrix at the js-set of the aerodynamic mesh (the second field is the integer
-// 0) or one column of it. Same layout as DMIG, and a term is the same value (`DirectMatrixNodalTerm`); what differs is
-// what the matrix is: W2GJ, FA2J and the downwashes and pressures of AEDW and AEPRESS, on the collation degrees of
-// freedom of the aerodynamic mesh of CAERO1, CAERO3, CAERO4, CAERO5 and the slender bodies of CAERO2. Its points are
-// aerodynamic mesh points, not structural grid points.
+// One DirectMatrixAeroJ card: either the header of a matrix at the js-set of the aerodynamic mesh (the second field is
+// the integer 0) or one column of it. Same layout as DirectMatrixNodal, and a term is the same value
+// (`DirectMatrixNodalTerm`); what differs is what the matrix is: W2GJ, FA2J and the downwashes and pressures of
+// AeroDownwash and AeroPressureVector, on the collation degrees of freedom of the aerodynamic mesh of
+// AeroLiftingPanel1, AeroMachBoxPanel3, AeroStripPanel4, AeroPistonPanel5 and the slender bodies of AeroBody2. Its
+// points are aerodynamic mesh points, not structural grid points.
 //
-// Card layout, header:  DMIJ  NAME  "0"  IFO  TIN  TOUT  POLAR  .  NCOL
-//         column:      DMIJ  NAME  GJ   CJ   .    G1    C1     A1  B1
+// Card layout, header:  DirectMatrixAeroJ  NAME  "0"  IFO  TIN  TOUT  POLAR  .  NCOL
+//         column:      DirectMatrixAeroJ  NAME  GJ   CJ   .    G1    C1  A1  B1
 //                      .     G2    C2   A2   B2   G3    C3     A3  B3   -etc.-
 // Fields 1 to 3 of a column are the name and the column; field 4 is blank and the terms (G, C, A, B) follow four fields
 // at a time, wherever they fall on the continuation lines. B is blank for a real matrix (TIN 1 or 2).

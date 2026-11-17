@@ -13,8 +13,8 @@ namespace oor::analysis
 namespace
 {
 
-// All the CAERO1 and CAERO2 cards of one group (IGID) interact, and elements of different groups are uncoupled (format
-// reference): a body whose group no panel has interacts with nothing. Information, not a fault (a
+// All the AeroLiftingPanel1 and AeroBody2 cards of one group (IGID) interact, and elements of different groups are
+// uncoupled (format reference): a body whose group no panel has interacts with nothing. Information, not a fault (a
 // model of a body alone is legal); a model with no panel is not judged.
 class BodyGroupCheck final : public ValidationCheck
 {

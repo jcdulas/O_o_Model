@@ -32,7 +32,7 @@ constexpr double EPS = 1.0e-12;
 
 ElementValues geometryOf(const Model& model, base::EntityId eid)
 {
-    // The surface elements (CHBDYE, CHBDYG, CHBDYP) are an ID space of their own.
+    // The surface elements (HeatSurfaceSide, HeatSurfaceNodes, HeatSurfaceProperty) are an ID space of their own.
     auto location = model.locate(base::IdSpace::Element, eid);
     if (!location)
         location = model.locate(base::IdSpace::SurfaceElement, eid);
@@ -591,11 +591,11 @@ TEST_CASE("a CHBDYE on a rod has a linear side and two end points with the cross
     values = geometryOf(model, 552);
     requireVec(values.center, 0, 0, 0);
     requireVec(values.normal, 0, 0, -1);
-    REQUIRE(values.area == Approx(0.5)); // the A of PROD 3
+    REQUIRE(values.area == Approx(0.5)); // the A of RodProp 3
     values = geometryOf(model, 553);
     requireVec(values.center, 0, 0, 3);
     requireVec(values.normal, 0, 0, 1);
-    REQUIRE(geometryOf(model, 562).area == Approx(0.75)); // the area of the CONROD itself
+    REQUIRE(geometryOf(model, 562).area == Approx(0.75)); // the area of the Rod2InlineSection itself
     REQUIRE(std::isnan(geometryOf(model, 563).area));     // a rod has three sides
 }
 
@@ -668,7 +668,7 @@ TEST_CASE("a CHBDYP has the area its PHBDY gives: AF for a point, AF by length f
     values = geometryOf(model, 705);
     REQUIRE(values.area == Approx(1.0));
     requireVec(values.normal, 0, 0, 1);
-    values = geometryOf(model, 706); // no PHBDY 9: the length and the centre only
+    values = geometryOf(model, 706); // no HeatSurfaceProp 9: the length and the centre only
     REQUIRE(values.length == Approx(2.0));
     REQUIRE(std::isnan(values.area));
 }

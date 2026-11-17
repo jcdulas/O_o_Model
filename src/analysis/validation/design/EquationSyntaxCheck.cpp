@@ -12,17 +12,17 @@ namespace oor::analysis
 namespace
 {
 
-// The lexer gives every line of a DEQATN as eight fields: the ID (blank after the first line), then the text of the
-// line, then six blanks (the same layout the card reads, `DesignEquationFormat::read`).
+// The lexer gives every line of a DesignEquation as eight fields: the ID (blank after the first line), then the text of
+// the line, then six blanks (the same layout the card reads, `DesignEquationFormat::read`).
 constexpr std::size_t FIELDS_PER_LINE = 8;
 constexpr std::size_t FIRST_TEXT_INDEX = 1;
 constexpr std::string_view EQUATION_TYPE = "DesignEquation";
 
-// A DEQATN whose equations do not parse is not a card of the model: in tolerant mode the reader reports it, keeps the
-// lines as text and writes them back as they were. What the reader said is not part of the model, so this check says it
-// again, with the place the parser stopped; and it says why the DVPREL2 or DRESP2 that names the equation has none
-// (`ref.unresolved`). An equation whose text is good but whose ID is not (the card is kept as text for that) is the
-// reader's business.
+// A DesignEquation whose equations do not parse is not a card of the model: in tolerant mode the reader reports it,
+// keeps the lines as text and writes them back as they were. What the reader said is not part of the model, so this
+// check says it again, with the place the parser stopped; and it says why the DesignPropRelation2 or DesignResp2 that
+// names the equation has none (`ref.unresolved`). An equation whose text is good but whose ID is not (the card is kept
+// as text for that) is the reader's business.
 class EquationSyntaxCheck final : public ValidationCheck
 {
 public:

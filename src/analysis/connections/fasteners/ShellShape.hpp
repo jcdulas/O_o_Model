@@ -7,8 +7,8 @@
 namespace oor::analysis::detail
 {
 
-// The shapes of the elements a fastener can pierce: the shells (CTRIA3, CTRIAR; CQUAD4, CQUADR; CTRIA6; CQUAD8)
-// and the virtual element of a CWELD GRIDID (SPTYP T3 to T6, Q4 to Q8).
+// The shapes of the elements a fastener can pierce: the shells (ShellTria3, ShellTria3Drilling; ShellQuad4,
+// ShellQuad4Drilling; ShellTria6; ShellQuad8) and the virtual element of a Weld GRIDID (SPTYP T3 to T6, Q4 to Q8).
 enum class ShellShapeKind : std::uint8_t
 {
     Tria3,
@@ -35,8 +35,8 @@ struct ShapeValues
 // in the order of the element; the mid-side nodes follow the edges 1-2, 2-3, ... A triangle is written in the area
 // coordinates (xi, eta) = (L2, L3), L1 = 1 - xi - eta; a quadrilateral in (xi, eta) from -1 to 1.
 //
-// A missing mid-side node (a blank field of a CQUAD8 or CTRIA6, the GRIDID shapes Q5 to Q7 and T4 to T5) leaves its
-// edge straight: its function is dropped and half of it goes to each corner of the edge.
+// A missing mid-side node (a blank field of a ShellQuad8 or ShellTria6, the GRIDID shapes Q5 to Q7 and T4 to T5) leaves
+// its edge straight: its function is dropped and half of it goes to each corner of the edge.
 class ShellShape
 {
 public:

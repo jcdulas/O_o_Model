@@ -15,8 +15,8 @@ namespace oor::analysis
 namespace
 {
 
-// The AEFACT that cuts a panel, a strip row or a body into boxes lists the division points, one more than there are
-// boxes: at least two, and rising, or the boxes would be empty or folded back. Only
+// The AeroFactorList that cuts a panel, a strip row or a body into boxes lists the division points, one more than there
+// are boxes: at least two, and rising, or the boxes would be empty or folded back. Only
 // a list the card uses is judged: the number of equal divisions comes first (format reference, NSPAN).
 class DivisionListCheck final : public ValidationCheck
 {
@@ -54,7 +54,7 @@ public:
     }
 
 private:
-    // An AEFACT that does not exist is `ref.unresolved`.
+    // An AeroFactorList that does not exist is `ref.unresolved`.
     static void look(const model::Model& model, FindingSink& sink, model::CardLocation where, const char* field,
                      std::int32_t count, base::EntityId list)
     {

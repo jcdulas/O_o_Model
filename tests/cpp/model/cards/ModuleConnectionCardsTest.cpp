@@ -1,9 +1,9 @@
-// Checks of the cards that connect modules (MDFAST, MDMPC, MDRBE2, MDRBE3, MDRJNT,
-// MDRROD, MDSEAM and MDWELD). A module is a BEGIN MODULE section of the deck, which the library keeps as text: module 0
-// (a blank field) is the main Bulk Data, and only an ID that a card places there is a reference to look up. Per card:
-// the fields in their format reference positions, the defaults, the references the card lists (and which of them depend
-// on a module), the renumbering of the spaces the references name, the refused values and the round trip through the
-// three formats.
+// Checks of the cards that connect modules (ModuleFastener, ModuleMultiPointConstr, ModuleRigidBodyStar,
+// ModuleRigidInterpolation, ModuleRigidJoint, ModuleRigidRod, ModuleSeam and ModuleWeld). A module is a BEGIN MODULE
+// section of the deck, which the library keeps as text: module 0 (a blank field) is the main Bulk Data, and only an ID
+// that a card places there is a reference to look up. Per card: the fields in their format reference positions, the
+// defaults, the references the card lists (and which of them depend on a module), the renumbering of the spaces the
+// references name, the refused values and the round trip through the three formats.
 
 #include "oor/model/cards/constraints/multiPointConstr/MultiPointConstrTable.hpp"
 #include "oor/model/cards/nodes/moduleFastener/ModuleFastenerTable.hpp"
@@ -64,7 +64,8 @@ using Xyz = std::array<std::optional<double>, 3>;
 
 } // namespace
 
-// ------------------------------------------------------------------------------------------------------------ MDFAST
+// ------------------------------------------------------------------------------------------------------------
+// ModuleFastener
 
 TEST_CASE("an MDFAST puts its two patches in modules, takes its element number for a blank property and locates itself",
           "[model][cards][modules]")
@@ -91,8 +92,8 @@ TEST_CASE("an MDFAST puts its two patches in modules, takes its element number f
     requireRoundTrip(model);
     // The property is resolved: it is always written.
 
-    // PID names a PFAST; IDA and IDB are looked up only in the module that is the main Bulk Data, and name properties
-    // or elements as TYPE says; the three grid points are in the main Bulk Data.
+    // PID names a FastenerProp; IDA and IDB are looked up only in the module that is the main Bulk Data, and name
+    // properties or elements as TYPE says; the three grid points are in the main Bulk Data.
     const RecordingVisitor modules = referencesOf<ModuleFastenerTable>(model, 0);
     REQUIRE(modules.fields == std::vector<std::string>{"propId", "spotNode"});
     REQUIRE(modules.targets == std::vector<ReferenceTarget>{ReferenceTarget::Property, ReferenceTarget::Node});
@@ -179,13 +180,14 @@ TEST_CASE("an MDFAST needs its location, refuses what its layout does not use an
     expectInvalid("ModuleFastener;8;;Property;1;1;5;;;;;;3;3", "patchIdB");
     expectInvalid("ModuleFastener;8;;Property;1;1;5", "patchIdB");
 
-    // The element number is unique among the MDFAST cards; another kind of card may have it.
+    // The element number is unique among the ModuleFastener cards; another kind of card may have it.
     REQUIRE_THROWS_AS(readBulk("ModuleFastener;8;;Property;1;2;5\nModuleFastener;8;;Property;3;4;5"),
                       base::DeckError);
     REQUIRE_NOTHROW(readBulk("ModuleFastener;8;;Property;1;2;5\nModuleRigidJoint;8;1;1;2;1"));
 }
 
-// -------------------------------------------------------------------------------------------------------------- MDMPC
+// --------------------------------------------------------------------------------------------------------------
+// ModuleMultiPointConstr
 
 TEST_CASE("an MDMPC has a point of a module in each term and is a constraint set that the Case Control names",
           "[model][cards][modules]")
@@ -220,8 +222,8 @@ TEST_CASE("an MDMPC has a point of a module in each term and is a constraint set
     REQUIRE(visitor.fields == std::vector<std::string>{"node", "node"});
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>(2, ReferenceTarget::Node));
 
-    // The MDMPC is a set of the constraints that the Case Control MPC command selects, with the MPC cards of its
-    // number.
+    // The ModuleMultiPointConstr is a set of the constraints that the Case Control MPC command selects, with the
+    // MultiPointConstr cards of its number.
     REQUIRE(unresolvedIn(model) == 0);
     Renumbering::apply(model, RenumberSpace::ConstraintSet, Renumbering::offset(1000));
     REQUIRE((cardAt<ModuleMultiPointConstrTable>(model, 0).id == 53201 &&
@@ -266,7 +268,8 @@ TEST_CASE("the terms of an MDMPC follow each other from field 9 and its first li
     expectInvalid("ModuleMultiPointConstr;3;;5;1;1.;;6;1;x", "coefficient");
 }
 
-// ------------------------------------------------------------------------------------------------------------- MDRBE2
+// -------------------------------------------------------------------------------------------------------------
+// ModuleRigidBodyStar
 
 TEST_CASE("an MDRBE2 pairs each dependent grid point with its module and ends with ALPHA and TREF",
           "[model][cards][modules]")
@@ -330,7 +333,8 @@ TEST_CASE("an MDRBE2 refuses an unpaired module, a bad component set and a missi
     REQUIRE_THROWS_AS(readBulk("ModuleRigidBodyStar;12;;5;1;;6\nModuleRigidBodyStar;12;;5;1;;7"), base::DeckError);
 }
 
-// ------------------------------------------------------------------------------------------------------------- MDRBE3
+// -------------------------------------------------------------------------------------------------------------
+// ModuleRigidInterpolation
 
 TEST_CASE("an MDRBE3 has weighted groups of pairs, a UM part of triples and ALPHA, each on a line of its own",
           "[model][cards][modules]")
@@ -433,7 +437,8 @@ TEST_CASE("an MDRBE3 refuses a group without a point, a UM that does not start a
                   "dependentList"); // UM comes before ALPHA
 }
 
-// ------------------------------------------------------------------------------------------------------------- MDRJNT
+// -------------------------------------------------------------------------------------------------------------
+// ModuleRigidJoint
 
 TEST_CASE("an MDRJNT joins a point of each of two modules, with the components of the second that move with the first",
           "[model][cards][modules]")
@@ -467,7 +472,8 @@ TEST_CASE("an MDRJNT joins a point of each of two modules, with the components o
              cardAt<ModuleRigidJointTable>(grids, 1).nodeB == 2)); // in modules 13 and 24
 }
 
-// ------------------------------------------------------------------------------------------------------------- MDRROD
+// -------------------------------------------------------------------------------------------------------------
+// ModuleRigidRod
 
 TEST_CASE("an MDRROD has ALPHA after its components and TREF on the continuation line", "[model][cards][modules]")
 {
@@ -512,7 +518,8 @@ TEST_CASE("an MDRROD refuses two dependent components, a translation above 3 and
     REQUIRE_NOTHROW(readBulk("ModuleRigidRod;14;11;1;12;1;1"));
 }
 
-// ------------------------------------------------------------------------------------------------------------- MDSEAM
+// -------------------------------------------------------------------------------------------------------------
+// ModuleSeam
 
 TEST_CASE("an MDSEAM has the grid points of its ends or their coordinates, and a module for each patch",
           "[model][cards][modules]")
@@ -542,7 +549,7 @@ TEST_CASE("an MDSEAM has the grid points of its ends or their coordinates, and a
     REQUIRE(some.hasCoordinates());
     REQUIRE(some.startXyz == Xyz{1.5, std::nullopt, std::nullopt});
     REQUIRE(some.endXyz == Xyz{2.5, std::nullopt, std::nullopt});
-    // An IDBS that is blank is a two-sided patch of PSHELL properties.
+    // An IDBS that is blank is a two-sided patch of ShellProp properties.
     REQUIRE((cardAt<ModuleSeamTable>(model, 3).startPatchIdB == 0 &&
              cardAt<ModuleSeamTable>(model, 3).moduleIdA == 0));
     requireRoundTrip(model);
@@ -588,7 +595,7 @@ TEST_CASE("an MDSEAM looks a patch up in the main Bulk Data only, as a property 
     Renumbering::apply(resolved, RenumberSpace::Property, Renumbering::offset(100));
     REQUIRE((cardAt<ModuleSeamTable>(resolved).startPatchIdA == 101 &&
              cardAt<ModuleSeamTable>(resolved).startPatchIdB == 102));
-    REQUIRE(cardAt<ModuleSeamTable>(resolved).propId == 400); // the PSEAM is a property
+    REQUIRE(cardAt<ModuleSeamTable>(resolved).propId == 400); // the SeamProp is a property
     Renumbering::apply(resolved, RenumberSpace::Node, Renumbering::offset(1000));
     REQUIRE((cardAt<ModuleSeamTable>(resolved).startNode == 1003 &&
              cardAt<ModuleSeamTable>(resolved).endNode == 1004));
@@ -613,7 +620,8 @@ TEST_CASE("an MDSEAM refuses what neither of its two formats has", "[model][card
     expectInvalid("ModuleSeam;452;5;;Elements;1;1;;;3;;4;;;;;;7;7", "startPatchIdB");
 }
 
-// ------------------------------------------------------------------------------------------------------------- MDWELD
+// -------------------------------------------------------------------------------------------------------------
+// ModuleWeld
 
 TEST_CASE("an MDWELD has the layout of its type: patches, elements, grid point lists or vertex points",
           "[model][cards][modules]")
@@ -675,7 +683,8 @@ TEST_CASE("an MDWELD looks up the points and patches of the main Bulk Data and t
         "ModuleWeld;104;5;407;ElemIdPatch;;;;;314;;3;13\n"
         "ModuleWeld;105;26;241;NodeIdPatch;;;QuadTriaPatch;;;;;13;23;12;;24;;33;;37;42;53;57;64;4;6;9\n"
         "ModuleWeld;106;26;;AlignedNodes;113;262;;;;;;13;23");
-    // The PWELD is always looked up. GS is in the main Bulk Data, except for an ELEMID, where it is in the module MODS.
+    // The WeldProp is always looked up. GS is in the main Bulk Data, except for an ELEMID, where it is in the module
+    // MODS.
     REQUIRE(referencesOf<ModuleWeldTable>(modules, 0).fields == std::vector<std::string>{"propId", "spotNode"});
     REQUIRE(referencesOf<ModuleWeldTable>(modules, 1).fields == std::vector<std::string>{"propId", "spotNode"});
     REQUIRE(referencesOf<ModuleWeldTable>(modules, 2).fields == std::vector<std::string>{"propId"});
@@ -723,7 +732,7 @@ TEST_CASE("an MDWELD looks up the points and patches of the main Bulk Data and t
     Renumbering::apply(resolved, RenumberSpace::Property, Renumbering::offset(1000));
     REQUIRE((cardAt<ModuleWeldTable>(resolved).patchIdA == 1024 &&
              cardAt<ModuleWeldTable>(resolved).patchIdB == 1036));
-    REQUIRE(cardAt<ModuleWeldTable>(resolved).propId == 1008); // the PWELD is a property
+    REQUIRE(cardAt<ModuleWeldTable>(resolved).propId == 1008); // the WeldProp is a property
     Renumbering::apply(resolved, RenumberSpace::Node, Renumbering::offset(1));
     REQUIRE((cardAt<ModuleWeldTable>(resolved).spotNode == 208 &&
              cardAt<ModuleWeldTable>(resolved).nodeA == 502 && cardAt<ModuleWeldTable>(resolved).nodeB == 503));

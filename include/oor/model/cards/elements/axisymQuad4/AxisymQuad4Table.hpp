@@ -19,7 +19,7 @@ struct AxisymQuad4Format
     static void write(const AxisymQuad4Card& card, FieldWriter& writer);
 };
 
-// All the CQUADX4 elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without copy).
+// All the AxisymQuad4 elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without copy).
 class AxisymQuad4Table final : public TypedTable<AxisymQuad4Table, AxisymQuad4Card>
 {
 public:

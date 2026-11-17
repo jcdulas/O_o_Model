@@ -68,7 +68,8 @@ void ContactTable1Table::keepRows(const std::vector<std::uint32_t>& rows)
 
 void ContactTable1Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ends of a THRU range must exist like the single IDs: the format reference wants every BCONECT between them.
+    // The ends of a THRU range must exist like the single IDs: the format reference wants every ContactPair between
+    // them.
     visitContactTriples(m_runs, row, visitor, "pairIds", ReferenceTarget::ContactPair, ReferenceTarget::ContactPair);
 }
 

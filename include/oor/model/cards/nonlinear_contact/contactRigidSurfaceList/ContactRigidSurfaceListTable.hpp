@@ -19,7 +19,8 @@ struct ContactRigidSurfaceListFormat
     static void write(const ContactRigidSurfaceListCard& card, FieldWriter& writer);
 };
 
-// All the BCRGSRF cards (category ContactSurface, unique among them). The RBIDs are references to contact surfaces.
+// All the ContactRigidSurfaceList cards (category ContactSurface, unique among them). The RBIDs are references to
+// contact surfaces.
 class ContactRigidSurfaceListTable final : public TypedTable<ContactRigidSurfaceListTable, ContactRigidSurfaceListCard>
 {
 public:

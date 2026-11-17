@@ -19,11 +19,11 @@ struct CrackClosureCrackFormat
     static void write(const CrackClosureCrackCard& card, FieldWriter& writer);
 };
 
-// All the VCCT cards (category Other). The ID is the crack set that a Case Control VCCT names, so the cards of a set
-// share it (IdSpace::Group); IDCR numbers the crack inside the set. The four tables are TABLEMi
-// (ReferenceTarget::MaterialTable), the grid points of the crack front are ReferenceTarget::Node (the two ends of a
-// THRU range are NodeInRange) and a negative G1 is the ID of a SET3 (ReferenceTarget::Set). The cards are kept whole
-// next to a column of their IDs.
+// All the CrackClosureCrack cards (category Other). The ID is the crack set that a Case Control CrackClosureCrack
+// names, so the cards of a set share it (IdSpace::Group); IDCR numbers the crack inside the set. The four tables are
+// TABLEMi (ReferenceTarget::MaterialTable), the grid points of the crack front are ReferenceTarget::Node (the two ends
+// of a THRU range are NodeInRange) and a negative G1 is the ID of a TypedListSet3 (ReferenceTarget::Set). The cards are
+// kept whole next to a column of their IDs.
 class CrackClosureCrackTable final : public TypedTable<CrackClosureCrackTable, CrackClosureCrackCard>
 {
 public:

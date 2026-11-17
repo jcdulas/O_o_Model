@@ -94,8 +94,8 @@ void PlanePropTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void PlanePropTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The material is a MAT1 and the like; a plane element may also have a heat material, so the Material target (which
-    // falls back to the heat materials) is the right one.
+    // The material is an IsoMat and the like; a plane element may also have a heat material, so the Material target
+    // (which falls back to the heat materials) is the right one.
     m_matId.set(row, visitor.visit("matId", ReferenceTarget::Material, m_matId.get(row)));
 }
 

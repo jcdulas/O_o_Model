@@ -9,11 +9,11 @@
 namespace oor::model
 {
 
-// One TEMPP1 card: the temperature field of plate, membrane and composite elements, as an average temperature and a
-// gradient through the thickness.
+// One PlateTemperatureLoad card: the temperature field of plate, membrane and composite elements, as an average
+// temperature and a gradient through the thickness.
 //
-// Card layout: TEMPP1  SID  EID1  TBAR  TPRIME  T1  T2
-//                     EID2  EID3  EID4  EID5  EID6  EID7  -etc.-
+// Card layout: PlateTemperatureLoad  SID  EID1  TBAR  TPRIME  T1  T2
+//                                   EID2  EID3  EID4  EID5  EID6  EID7  -etc.-
 // or, on the continuation lines, ranges: EID2  "THRU"  EIDi  EIDj  "THRU"  EIDk
 // The elements are EID1, then the continuation lines, kept as written: single elements and THRU ranges, in order. TBAR
 // and TPRIME are 0.0 when blank. T1 and T2 (the temperatures at the stress points of the property) are

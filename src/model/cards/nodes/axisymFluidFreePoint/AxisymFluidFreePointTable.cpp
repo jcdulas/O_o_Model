@@ -101,7 +101,7 @@ void AxisymFluidFreePointTable::keepRows(const std::vector<std::uint32_t>& rows)
 
 void AxisymFluidFreePointTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The IDF names a RINGFL fluid point, which is a point of the node ID space.
+    // The IDF names an AxisymFluidRing fluid point, which is a point of the node ID space.
     if (const base::EntityId fluidPoint = m_fluidPointId.get(row); fluidPoint > 0)
         m_fluidPointId.set(row, visitor.visit("fluidPointId", ReferenceTarget::Node, fluidPoint));
 }

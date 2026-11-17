@@ -62,15 +62,16 @@ TEST_CASE("numbered user elements resolve attributes through their canonical nam
 TEST_CASE("a rigid loop is a loop of degrees of freedom, not of grid points", "[validation][constraints]")
 {
     const std::string grids = gridsOf(8);
-    // Two RBE2 that make each other's translations depend on one another: a loop.
+    // Two RigidBodyStar that make each other's translations depend on one another: a loop.
     REQUIRE(findingsOf(grids + "RigidBodyStar;60;1;123456;2\nRigidBodyStar;61;2;123456;1\n",
                        {"constraint.rigid-loop"}) == std::set<std::string>{"constraint.rigid-loop"});
-    // An RBE1 whose independent and dependent degrees of freedom are at the same two grid points but are not the same
-    // degrees of freedom: no loop.
+    // A RigidBodyMulti whose independent and dependent degrees of freedom are at the same two grid points but are not
+    // the same degrees of freedom: no loop.
     REQUIRE(
         findingsOf(grids + "RigidBodyMulti;70;2;1;234;2;123;DependentDofs;2;1;156;2;456\n", {"constraint.rigid-loop"})
             .empty());
-    // An RBE3 with UM: the dependent degrees of freedom are chosen among the ones of the weighted grid points.
+    // A RigidInterpolation with UM: the dependent degrees of freedom are chosen among the ones of the weighted grid
+    // points.
     REQUIRE(findingsOf(grids + "RigidInterpolation;80;4;123;1;1.;123;6;1;2;3;DependentDofs;1;123\n",
                        {"constraint.rigid-loop"})
                 .empty());
@@ -105,7 +106,7 @@ TEST_CASE("the constraints are judged on the sets the Case Control selects", "[v
     const model::Model fine =
         readModelText(base + "SinglePointConstrList;10;123456;3\nSinglePointConstrList;20;123456;4\n");
     REQUIRE(ValidationEngine::run(fine, options).findings.empty());
-    // SPCADD combines sets: SPC = 20 selects set 21 through it.
+    // SinglePointConstrUnion combines sets: SPC = 20 selects set 21 through it.
     const model::Model added = readModelText(
         base + "SinglePointConstrList;10;123456;3\nSinglePointConstrUnion;20;21\nSinglePointConstrList;21;123456;2\n");
     REQUIRE(ValidationEngine::run(added, options).findings.size() == 1);

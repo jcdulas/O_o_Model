@@ -14,7 +14,7 @@
 namespace oor::analysis::detail
 {
 
-// The shell elements of one property (the surface of a CFAST PROP or a CWELD PARTPAT), with a uniform grid of cells
+// The shell elements of one property (the surface of a Fastener PROP or a Weld PARTPAT), with a uniform grid of cells
 // over their boxes, so that the element nearest to a point is found by projecting the point on the elements of the
 // cells around it rather than on every element of the property. Immutable once built: read by several threads.
 class PropertyShellIndex

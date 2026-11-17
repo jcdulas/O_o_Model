@@ -25,7 +25,7 @@ struct BeamPropFormat
     [[nodiscard]] static bool resolveBlankSections(std::vector<BeamPropStation>& stations);
 };
 
-// All the PBEAM cards. The stations of every card are four lists in CSR form (output flag, X/XB, section properties,
+// All the BeamProp cards. The stations of every card are four lists in CSR form (output flag, X/XB, section properties,
 // stress points): the row of a card gives where its stations begin and how many there are. The pairs and quadruples
 // of the footer are (N, 2) and (N, 4) NumPy views.
 class BeamPropTable final : public TypedTable<BeamPropTable, BeamPropCard>

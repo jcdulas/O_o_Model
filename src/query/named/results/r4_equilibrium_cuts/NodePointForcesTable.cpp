@@ -73,8 +73,8 @@ protected:
                     nid.push_back(decoded->ids[row]);
                     const std::int32_t element = row < decoded->elementIds.size() ? decoded->elementIds[row] : 0;
                     eid.push_back(element);
-                    // a multiPointConstrForce row split by relation gives its relation (minus the set ID of an MPC
-                    // equation)
+                    // a multiPointConstrForce row split by relation gives its relation (minus the set ID of a
+                    // MultiPointConstr equation)
                     eidValid.push_back(element != 0 ? 1 : 0);
                     contribution.push_back(names != nullptr ? names->at(row) : std::string());
                     stepOf.push_back(step);

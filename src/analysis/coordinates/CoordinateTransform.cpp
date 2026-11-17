@@ -71,7 +71,7 @@ base::Vec3 asVec3(const std::array<double, 3>& values) noexcept
     return base::Vec3{values[0], values[1], values[2]};
 }
 
-// The card of a system as a message names it: its deck keyword ("CORD2R 5"), from the dictionary of the model.
+// The card of a system as a message names it: its deck keyword ("RectFrame2 5"), from the dictionary of the model.
 std::string cardText(const model::Model*, const SystemDefinition& definition)
 {
     return std::string(definition.cardName) + " " + std::to_string(definition.id);
@@ -88,8 +88,8 @@ SystemDefinitions readSystemDefinitions(const model::Model& model)
     addThreeGridSystems<model::RectFrame1Table>(model, CoordinateKind::Rectangular, definitions);
     addThreeGridSystems<model::CylindricalFrame1Table>(model, CoordinateKind::Cylindrical, definitions);
     addThreeGridSystems<model::SphericalFrame1Table>(model, CoordinateKind::Spherical, definitions);
-    // A CORD3R is a CORD1R whose points move with the grid points in SOL 700: the system of the model as it is read is
-    // the one the three grid points give where they are.
+    // A RectFrame3 is a RectFrame1 whose points move with the grid points in SOL 700: the system of the model as it is
+    // read is the one the three grid points give where they are.
     addThreeGridSystems<model::RectFrame3Table>(model, CoordinateKind::Rectangular, definitions);
     return definitions;
 }

@@ -20,10 +20,10 @@ struct ImperfectionCaseFormat
     static void write(const ImperfectionCaseCard& card, FieldWriter& writer);
 };
 
-// All the IMPCASE cards, in the category ImperfectionCase: the ID is unique per card type (IdSpace::PerCardType) and is
-// what the Case Control IMPERFECT names. The imperfections are one column of (first, last) runs; every single ID and
-// each end of a THRU range is visited as ReferenceTarget::ImperfectionGeometry, the target of the IMPGEOM cards, so a
-// renumbering of the IMPGEOM follows into the list.
+// All the ImperfectionCase cards, in the category ImperfectionCase: the ID is unique per card type
+// (IdSpace::PerCardType) and is what the Case Control IMPERFECT names. The imperfections are one column of (first,
+// last) runs; every single ID and each end of a THRU range is visited as ReferenceTarget::ImperfectionGeometry, the
+// target of the ImperfectionGeometry cards, so a renumbering of the ImperfectionGeometry follows into the list.
 class ImperfectionCaseTable final : public TypedTable<ImperfectionCaseTable, ImperfectionCaseCard>
 {
 public:

@@ -19,7 +19,8 @@ struct ShellQuad4DrillingFormat
     static void write(const ShellQuad4DrillingCard& card, FieldWriter& writer);
 };
 
-// All the CQUADR elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without copy).
+// All the ShellQuad4Drilling elements: the nodes are one column of four IDs per element (an (N, 4) NumPy view without
+// copy).
 class ShellQuad4DrillingTable final : public TypedTable<ShellQuad4DrillingTable, ShellQuad4DrillingCard>
 {
 public:

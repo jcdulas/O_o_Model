@@ -10,8 +10,9 @@
 #include <optional>
 #include <string_view>
 
-// The two kinds of field that RLOAD1, RLOAD2, TLOAD1 and TLOAD2 have in common. Each card still lays out its own fields
-// by hand; these functions only read, write and check a TYPE field and an "ID or real" field the same way everywhere.
+// The two kinds of field that FreqResponseLoad1, FreqResponseLoad2, TransientTableLoad1 and TransientFormulaLoad2 have
+// in common. Each card still lays out its own fields by hand; these functions only read, write and check a TYPE field
+// and an "ID or real" field the same way everywhere.
 namespace oor::model
 {
 
@@ -37,8 +38,8 @@ enum class ExcitationType : std::uint8_t
 // Writes the word of the type, or its code when it has no word; Load is the default and is left blank.
 void writeExcitationType(FieldWriter& writer, int field, ExcitationType type);
 
-// What the EXCITEID of a dynamic load refers to: a DAREA or static load set for an applied load; for an enforced
-// motion it is the set of an SPCD card, which is not a typed card yet, so nothing is resolved.
+// What the EXCITEID of a dynamic load refers to: a DynamicLoadScale or static load set for an applied load; for an
+// enforced motion it is the set of an EnforcedMotionConstr card, which is not a typed card yet, so nothing is resolved.
 [[nodiscard]] ReferenceTarget excitationTarget(ExcitationType type) noexcept;
 // Visits a reference field unless it is blank (0), and gives the ID the visitor returns.
 [[nodiscard]] base::EntityId visitIfSet(ReferenceVisitor& visitor, const char* field, ReferenceTarget target,

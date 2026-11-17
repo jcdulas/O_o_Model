@@ -20,8 +20,8 @@ struct ContactBodyMoveFormat
     static void write(const ContactBodyMoveCard& card, FieldWriter& writer);
 };
 
-// All the BCMOVE cards. The ID is unique among them (only one BCMOVE per load case): IdSpace::PerCardType, category
-// Other. The bodies are references to BCBODY and BCBODY1 cards.
+// All the ContactBodyMove cards. The ID is unique among them (only one ContactBodyMove per load case):
+// IdSpace::PerCardType, category Other. The bodies are references to ContactBody and ContactBody1 cards.
 class ContactBodyMoveTable final : public TypedTable<ContactBodyMoveTable, ContactBodyMoveCard>
 {
 public:

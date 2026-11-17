@@ -21,9 +21,9 @@ struct ContactNodeRegionFormat
     static void write(const ContactNodeRegionCard& card, FieldWriter& writer);
 };
 
-// All the BCGRID cards. The ID is unique among them (IdSpace::PerCardType); the category is ContactBody, which is what
-// a BCONECT names (the SOL 700 form is named by the BSID of a BCBODY, which resolves among the contact bodies too). The
-// grid lists are one CSR column of (first, last, by) runs.
+// All the ContactNodeRegion cards. The ID is unique among them (IdSpace::PerCardType); the category is ContactBody,
+// which is what a ContactPair names (the SOL 700 form is named by the BSID of a ContactBody, which resolves among the
+// contact bodies too). The grid lists are one CSR column of (first, last, by) runs.
 class ContactNodeRegionTable final : public TypedTable<ContactNodeRegionTable, ContactNodeRegionCard>
 {
 public:

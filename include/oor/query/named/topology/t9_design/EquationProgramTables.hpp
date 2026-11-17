@@ -13,7 +13,8 @@
 namespace oor::query
 {
 
-// An expression program with the number of its equation (the EQID of the DEQATN; 0 for `compileEquationProgram`).
+// An expression program with the number of its equation (the EQID of the DesignEquation; 0 for
+// `compileEquationProgram`).
 struct NumberedProgram
 {
     std::int32_t equationId = 0;
@@ -25,8 +26,9 @@ struct NumberedProgram
 class EquationProgramTables
 {
 public:
-    // The programs of the DEQATN cards of a model, by increasing EQID; with `equationIds`, those only. An equation that
-    // does not parse (the card is then kept as text) or cannot be a program (EquationProgram.hpp) is left out.
+    // The programs of the DesignEquation cards of a model, by increasing EQID; with `equationIds`, those only. An
+    // equation that does not parse (the card is then kept as text) or cannot be a program (EquationProgram.hpp) is left
+    // out.
     [[nodiscard]] static std::vector<NumberedProgram> ofModel(
         const model::Model& model, const std::optional<std::vector<std::int64_t>>& equationIds);
 

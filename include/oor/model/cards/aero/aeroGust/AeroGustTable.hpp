@@ -19,9 +19,9 @@ struct AeroGustFormat
     static void write(const AeroGustCard& card, FieldWriter& writer);
 };
 
-// All the GUST cards, in the category AeroGustSet. The SID is unique among the GUST cards (IdSpace::PerCardType) and is
-// what the Case Control GUST names (ReferenceTarget::AeroGustSet). DLOAD is the set ID of a TLOADi or RLOADi
-// (ReferenceTarget::DynamicLoadSet).
+// All the AeroGust cards, in the category AeroGustSet. The SID is unique among the AeroGust cards
+// (IdSpace::PerCardType) and is what the Case Control AeroGust names (ReferenceTarget::AeroGustSet). DLOAD is the set
+// ID of a TLOADi or RLOADi (ReferenceTarget::DynamicLoadSet).
 class AeroGustTable final : public TypedTable<AeroGustTable, AeroGustCard>
 {
 public:

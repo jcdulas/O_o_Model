@@ -19,9 +19,10 @@ struct DesignElemRelation1Format
     static void write(const DesignElemRelation1Card& card, FieldWriter& writer);
 };
 
-// All the DVCREL1 cards. The ID is unique among the DVCREL1 cards (IdSpace::PerCardType); the category
-// ConnectivityRelation is shared with the DVCREL2 cards, so that a renumbering and the DRESP2 lists treat the two kinds
-// as one set of numbers. The EID is an element of the type TYPE names, and the DVIDs are design variables.
+// All the DesignElemRelation1 cards. The ID is unique among the DesignElemRelation1 cards (IdSpace::PerCardType); the
+// category ConnectivityRelation is shared with the DesignElemRelation2 cards, so that a renumbering and the DesignResp2
+// lists treat the two kinds as one set of numbers. The EID is an element of the type TYPE names, and the DVIDs are
+// design variables.
 class DesignElemRelation1Table final : public TypedTable<DesignElemRelation1Table, DesignElemRelation1Card>
 {
 public:

@@ -22,9 +22,9 @@ struct NodeSequenceFormat
     static void write(const NodeSequenceCard& card, FieldWriter& writer);
 };
 
-// All the SEQGP cards. A card has no ID (IdSpace::None, category Other: it is not a node). The points and the sequence
-// numbers of every card are two lists in CSR form. The points are ReferenceTarget::Node references: renumbering the
-// nodes renumbers them (the sequence numbers are not IDs of anything and stay as they are).
+// All the NodeSequence cards. A card has no ID (IdSpace::None, category Other: it is not a node). The points and the
+// sequence numbers of every card are two lists in CSR form. The points are ReferenceTarget::Node references:
+// renumbering the nodes renumbers them (the sequence numbers are not IDs of anything and stay as they are).
 class NodeSequenceTable final : public TypedTable<NodeSequenceTable, NodeSequenceCard>
 {
 public:

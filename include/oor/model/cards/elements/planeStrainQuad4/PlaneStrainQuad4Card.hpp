@@ -7,11 +7,11 @@
 namespace oor::model
 {
 
-// One CPLSTN4 card: a four-node plane strain element (a card of another implementation: it is not in the format
-// reference).
+// One PlaneStrainQuad4 card: a four-node plane strain element (a card of another implementation: it is not in the
+// format reference).
 //
 // Layout:
-//   CPLSTN4  EID  PID  G1  G2  G3  G4  THETA
+//   PlaneStrainQuad4  EID  PID  G1  G2  G3  G4  THETA
 struct PlaneStrainQuad4Card
 {
     base::EntityId id = 0;

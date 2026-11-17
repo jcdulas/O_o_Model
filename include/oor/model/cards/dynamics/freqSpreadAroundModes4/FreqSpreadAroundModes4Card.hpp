@@ -7,9 +7,10 @@
 namespace oor::model
 {
 
-// One FREQ4 card: a spread of frequencies around each modal frequency of a range (modal frequency response).
+// One FreqSpreadAroundModes4 card: a spread of frequencies around each modal frequency of a range (modal frequency
+// response).
 //
-// Card layout: FREQ4  SID  F1  F2  FSPD  NFM
+// Card layout: FreqSpreadAroundModes4  SID  F1  F2  FSPD  NFM
 // Every modal frequency fN in [F1, F2] gets NFM evenly spaced excitation frequencies between (1 - FSPD) fN and
 // (1 + FSPD) fN.
 struct FreqSpreadAroundModes4Card

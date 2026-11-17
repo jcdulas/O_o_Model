@@ -12,9 +12,9 @@ namespace oor::analysis
 namespace
 {
 
-// Coordinate systems that are defined in terms of one another: a CORD2R with RID of a system that has the first as its
-// RID, or a CORD1R whose grid points are in a system that is defined by those grid points. The positions that depend on
-// them cannot be computed.
+// Coordinate systems that are defined in terms of one another: a RectFrame2 with RID of a system that has the first as
+// its RID, or a RectFrame1 whose grid points are in a system that is defined by those grid points. The positions that
+// depend on them cannot be computed.
 class CoordinateCycleCheck final : public ValidationCheck
 {
 public:

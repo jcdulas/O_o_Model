@@ -26,7 +26,7 @@ std::optional<CardProblem> InitialSurfaceVolumeFormat::check(const InitialSurfac
         return problem;
     if (const auto problem = checkRequiredId(card.surfaceId, "surfaceId"))
         return problem;
-    // NONE is a word of the COVER keyword of a COUPLE, not of a SURFINI.
+    // NONE is a word of the COVER keyword of an EulerLagrangeCoupling, not of an InitialSurfaceVolume.
     if (card.cover == CoverSide::None)
         return CardProblem{"card.bad-value", std::string(CardProblem::FIELD) + " must be INSIDE or OUTSIDE", "cover"};
     return std::nullopt;

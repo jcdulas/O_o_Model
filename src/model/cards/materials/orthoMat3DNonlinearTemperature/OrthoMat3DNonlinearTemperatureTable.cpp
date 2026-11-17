@@ -148,7 +148,7 @@ void OrthoMat3DNonlinearTemperatureTable::keepRows(const std::vector<std::uint32
 
 void OrthoMat3DNonlinearTemperatureTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // The ID is the one of the MATORT that the card extends; the tables are TABLEMi cards.
+    // The ID is the one of the OrthoMat3DNonlinear that the card extends; the tables are TABLEMi cards.
     m_id.set(row, visitor.visit("id", ReferenceTarget::Material, m_id.get(row)));
     const auto visitTable = [&](Column<base::EntityId>& column, const char* field)
     {

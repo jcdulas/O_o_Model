@@ -19,8 +19,8 @@ struct SuperelementTreeFormat
     static void write(const SuperelementTreeCard& card, FieldWriter& writer);
 };
 
-// All the SETREE cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next to a column
-// of their SEIDs.
+// All the SuperelementTree cards, category Superelement, no ID of their own (IdSpace::None). They are kept whole next
+// to a column of their SEIDs.
 class SuperelementTreeTable final : public TypedTable<SuperelementTreeTable, SuperelementTreeCard>
 {
 public:

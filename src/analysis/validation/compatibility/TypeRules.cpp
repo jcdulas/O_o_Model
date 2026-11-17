@@ -34,7 +34,7 @@ void reportWrongPropertyType(const ValidationContext& context, FindingSink& sink
     for (const CardReference& use : context.references().elementProperties)
     {
         const std::string_view element = cardNameAt(model, use.location);
-        // Only the property of the element: a CFAST names the shell properties it joins in IDA and IDB.
+        // Only the property of the element: a Fastener names the shell properties it joins in IDA and IDB.
         if (use.field != "propId" || !isOneOf(element, elements))
             continue;
         const std::optional<model::CardLocation> property = model.locate(base::IdSpace::Property, use.id);

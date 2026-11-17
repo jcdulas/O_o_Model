@@ -19,7 +19,7 @@ struct DamperScalarInlineFormat
     static void write(const DamperScalarInlineCard& card, FieldWriter& writer);
 };
 
-// All the CDAMP4 elements.
+// All the DamperScalarInline elements.
 class DamperScalarInlineTable final : public TypedTable<DamperScalarInlineTable, DamperScalarInlineCard>
 {
 public:

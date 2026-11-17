@@ -1,7 +1,9 @@
-// Checks of the constraints, rigid elements and sets: SPCD, SPCOFF, SPCOFF1, SPCAX, MPCADD, MPCAX, SUPORT,
-// SUPORT1, GMSPC, RBAR, RBAR1, RBE1, RJOINT, RROD, RSPLINE, RSSCON, RTRPLT, RTRPLT1, SEQGP, ASET, BSET, CSET, OMIT,
-// QSET, USET and their "1" forms, BNDGRID, SET1 and SET3: field positions, defaults, THRU lists, variants, references,
-// renumbering and rules.
+// Checks of the constraints, rigid elements and sets: EnforcedMotionConstr, AutoConstrExclusion,
+// AutoConstrExclusionList, SinglePointConstrAxisym, MultiPointConstrUnion, MultiPointConstrAxisym, FreeBodySupport,
+// FreeBodySupportSet, GeomSinglePointConstr, RigidBar, RigidBar1, RigidBodyMulti, RigidJoint, RigidRod, RigidSpline,
+// RigidShellSolidConnection, RigidTriaPlate, RigidTriaPlate1, NodeSequence, AnalysisDofSet, FixedBoundaryDofSet,
+// FreeBoundaryDofSet, OmittedDofSet, QSET, USET and their "1" forms, ShapeBoundaryNodeSet, IdListSet1 and
+// TypedListSet3: field positions, defaults, THRU lists, variants, references, renumbering and rules.
 
 #include "oor/model/cards/constraints/autoConstrExclusion/AutoConstrExclusionTable.hpp"
 #include "oor/model/cards/constraints/autoConstrExclusionList/AutoConstrExclusionListTable.hpp"
@@ -198,7 +200,7 @@ TEST_CASE("SPCAX and MPCAX name rings, harmonics and components", "[model][cards
     requireRoundTrip(model);
     // The first term is in field 5, the second in field 9: the first field of the continuation line.
 
-    // The rings are RINGAX points of the node ID space: they are checked references.
+    // The rings are AxisymConeRing points of the node ID space: they are checked references.
     REQUIRE(unresolvedIn(model) == 0);
     RecordingVisitor visitor;
     model.table<MultiPointConstrAxisymTable>().visitReferences(0, visitor);
@@ -277,7 +279,8 @@ TEST_CASE("SUPORT and SUPORT1 list points and components, four pairs a line, wit
     REQUIRE(cardAt<FreeBodySupportSetTable>(model, 0).dofs == Pairs{{18, 135}});
     REQUIRE(cardAt<FreeBodySupportSetTable>(model, 1).dofs == Pairs{{1, 123}, {2, 456}, {3, 0}, {4, 1}});
     requireRoundTrip(model);
-    // The fourth pair of a SUPORT1 is the first of its continuation line (field 9), the fifth pair of a SUPORT is too.
+    // The fourth pair of a FreeBodySupportSet is the first of its continuation line (field 9), the fifth pair of a
+    // FreeBodySupport is too.
 
     REQUIRE(unresolvedIn(model) == 0);
     Model lacking = readBulk("FreeBodySupport;18;135\nFreeBodySupportSet;8;18;135");
@@ -393,7 +396,7 @@ TEST_CASE("RBAR1, RJOINT, RROD, RTRPLT and RTRPLT1 have their fields, defaults a
     REQUIRE(cardAt<RigidRodTable>(model, 1).componentsAtB == 3);
     REQUIRE((cardAt<RigidRodTable>(model, 2).componentsAtA == 0 &&
              cardAt<RigidRodTable>(model, 2).componentsAtB == 0)); // Lagrange: both blank
-    // RTRPLT: CMA is the first field of the continuation line; with CNA, CNB and CNC blank CNA is 123456.
+    // RigidTriaPlate: CMA is the first field of the continuation line; with CNA, CNB and CNC blank CNA is 123456.
     RigidTriaPlateCard plate = cardAt<RigidTriaPlateTable>(model, 0);
     REQUIRE(plate.independent == std::array<std::int32_t, 3>{123456, 0, 0});
     plate = cardAt<RigidTriaPlateTable>(model, 1);
@@ -408,7 +411,7 @@ TEST_CASE("RBAR1, RJOINT, RROD, RTRPLT and RTRPLT1 have their fields, defaults a
     REQUIRE((plate1.components == std::array<std::int32_t, 2>{1236, 3} && plate1.alphaCoefficient == Approx(6e-6)));
     REQUIRE(cardAt<RigidTriaPlate1Table>(model, 2).referenceTemperature == 20.0);
     requireRoundTrip(model);
-    // The defaults are left blank when written, the CMA of an RTRPLT is on the continuation line.
+    // The defaults are left blank when written, the CMA of a RigidTriaPlate is on the continuation line.
 
     expectInvalid("RigidBar1;1;1;2;0", "componentsB");
     expectInvalid("RigidBar1;1;1;1", "nodeB");
@@ -693,7 +696,8 @@ TEST_CASE("SET1 is a set of IDs, with THRU ranges, SKIN or negative IDs, found b
     REQUIRE(cardAt<IdListSet1Table>(model, 4).ids == std::vector<IdRun>{{-8, -8}, {-12, -12}, {-15, -15}});
     REQUIRE(IdListSet1Table::INFO.category == CardCategory::Set);
     REQUIRE(IdListSet1Table::INFO.idSpace == base::IdSpace::Group);
-    // A reference to a Bulk Data set resolves to the SET1 (or SET3) that has the ID; several cards may share it.
+    // A reference to a Bulk Data set resolves to the IdListSet1 (or TypedListSet3) that has the ID; several cards may
+    // share it.
     const std::span<const CardCategory> categories = categoriesOfSet(ReferenceTarget::Set);
     REQUIRE((categories.size() == 1 && categories.front() == CardCategory::Set));
     REQUIRE(resolveReference(model, ReferenceTarget::Set, 6).has_value());

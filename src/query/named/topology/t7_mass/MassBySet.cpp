@@ -18,7 +18,7 @@ namespace oor::query
 namespace
 {
 
-// The element IDs a named set stands for: the IDs given, or the members of the SET1 cards with this ID.
+// The element IDs a named set stands for: the IDs given, or the members of the IdListSet1 cards with this ID.
 std::vector<std::int32_t> membersOf(const model::Model& model, const NamedIdSet& set)
 {
     std::vector<std::int32_t> ids;
@@ -130,9 +130,9 @@ public:
         const std::vector<NamedIdSet> sets = run.arguments.idSets("sets");
         if (sets.empty())
             throw QueryError("massBySet: give the sets: a dict {name: element IDs} or a list of SET1 IDs");
-        // The members of each set (a SET1 that does not exist is an error whatever the model holds), then the masses of
-        // the elements of the sets alone: an element's mass does not depend on the other elements (the NSM of the
-        // Case Control is resolved over the model by MassSetting), so each set's sum, over its members in the order
+        // The members of each set (an IdListSet1 that does not exist is an error whatever the model holds), then the
+        // masses of the elements of the sets alone: an element's mass does not depend on the other elements (the NSM of
+        // the Case Control is resolved over the model by MassSetting), so each set's sum, over its members in the order
         // of their IDs, is the one the masses of every element gave.
         std::vector<std::vector<std::int32_t>> members;
         members.reserve(sets.size());

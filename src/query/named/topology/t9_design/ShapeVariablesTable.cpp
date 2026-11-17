@@ -20,9 +20,9 @@ namespace
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
 
-// The vector of a DVGRID in the basic system: N of the card along the directions of its system CID at the grid point
-// (the axes of a rectangular system, R, theta, Z of a cylindrical one at the point). Null when the grid point or the
-// system cannot be found.
+// The vector of a DesignNodeMove in the basic system: N of the card along the directions of its system CID at the grid
+// point (the axes of a rectangular system, R, theta, Z of a cylindrical one at the point). Null when the grid point or
+// the system cannot be found.
 std::optional<base::Vec3> basicDirection(const model::Model& model, analysis::CoordinateTransform& transform,
                                          const analysis::BasicPositionCache* positions,
                                          const model::DesignShapeTerm& term)
@@ -42,7 +42,7 @@ std::optional<base::Vec3> basicDirection(const model::Model& model, analysis::Co
     }
 }
 
-// shapeVariablesTable: the DVGRID cards, the vector of each in the basic system.
+// shapeVariablesTable: the DesignNodeMove cards, the vector of each in the basic system.
 class ShapeVariablesTableQuery final : public QueryBase
 {
 public:

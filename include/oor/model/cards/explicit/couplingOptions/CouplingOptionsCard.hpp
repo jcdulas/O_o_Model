@@ -6,13 +6,13 @@
 namespace oor::model
 {
 
-// FACTOR and FACTORV of a COUOPT (fields 4 and 5): the format reference lists the constant interaction factor only; a
-// blank FACTORV is 1.0.
+// FACTOR and FACTORV of a CouplingOptions (fields 4 and 5): the format reference lists the constant interaction factor
+// only; a blank FACTORV is 1.0.
 inline constexpr SourcedValueLayout COUPLING_OPTIONS_FACTOR_LAYOUT{
     4, 5, "factorSource", "factor", sourceBit(ValueSource::Constant), ValueSource::Constant, 1.0};
 
 // PLCOVER and PLCOVERV (fields 9 and 10, the first two cells of the continuation line): the pressure from the covered
-// side is a constant or a table of time (a TABLED1); a blank PLCOVERV is 0.0, no pressure.
+// side is a constant or a table of time (a TableDynamic1); a blank PLCOVERV is 0.0, no pressure.
 inline constexpr SourcedValueLayout COUPLING_OPTIONS_COVER_PRESSURE_LAYOUT{
     9,
     10,
@@ -22,19 +22,20 @@ inline constexpr SourcedValueLayout COUPLING_OPTIONS_COVER_PRESSURE_LAYOUT{
     ValueSource::Constant,
     0.0};
 
-// One COUOPT card (SOL 700): special options of one part of the coupling surface of a COUPLE: the factor that scales
-// the Eulerian pressure acting on it and a pressure load from the covered side.
+// One CouplingOptions card (SOL 700): special options of one part of the coupling surface of an EulerLagrangeCoupling:
+// the factor that scales the Eulerian pressure acting on it and a pressure load from the covered side.
 //
-// Card layout: COUOPT  CID      OPTID     SUBID  FACTOR  FACTORV                         fields 1 to 5
-//                     PLCOVER  PLCOVERV                                                fields 9 and 10
-// CID numbers the card, OPTID is the number of the set of COUOPT cards that a COUPLE names in its OPTID field (the
-// cards of a set share it, so it is the ID the model files the card under, a set ID: IdSpace::Group). SUBID names the
-// BSURF, BCBOX, BCPROP, BCMATL or BCSEG, a part of the surface of the COUPLE, that the options apply to; 0 or blank
-// means the whole surface.
+// Card layout: CouplingOptions  CID      OPTID     SUBID  FACTOR  FACTORV                fields 1 to 5
+//                              PLCOVER  PLCOVERV                                       fields 9 and 10
+// CID numbers the card, OPTID is the number of the set of CouplingOptions cards that an EulerLagrangeCoupling names in
+// its OPTID field (the cards of a set share it, so it is the ID the model files the card under, a set ID:
+// IdSpace::Group). SUBID names the ContactElemSurface, ContactBoxRegion, ContactPropertyRegion, ContactMaterialRegion
+// or ContactSegment, a part of the surface of the EulerLagrangeCoupling, that the options apply to; 0 or blank means
+// the whole surface.
 struct CouplingOptionsCard
 {
     base::EntityId id = 0;           // the number of the card
-    base::EntityId setId = 0;        // the number of the set, which a COUPLE names
+    base::EntityId setId = 0;        // the number of the set, which an EulerLagrangeCoupling names
     base::EntityId subsurfaceId = 0; // a part of the coupling surface, 0 for the whole of it
     SourcedValue factor{ValueSource::Constant, 1.0, 0};
     SourcedValue coverPressure{ValueSource::Constant, 0.0, 0};

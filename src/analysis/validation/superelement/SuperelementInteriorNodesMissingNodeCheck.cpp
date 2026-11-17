@@ -15,7 +15,7 @@ constexpr std::size_t MAX_NAMED = 5;
 // A grid point or scalar point named by a SuperelementInteriorNodes that no card of the main Bulk Data defines. The
 // format reference does not make it an error: the point is simply not in the superelement, which is
 // rarely what the list meant. The points inside a THRU range are not looked at, a range may skip IDs. A deck that holds
-// grid cards the library does not read (GRIDG, a GRID with an ID that does not fit 32 bits) may define the point there,
+// grid cards the library does not read (GRIDG, a Node with an ID that does not fit 32 bits) may define the point there,
 // so it is left alone: the names of the unread cards are deck keywords.
 class SuperelementInteriorNodesMissingNodeCheck final : public ValidationCheck
 {
