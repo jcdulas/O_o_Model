@@ -3,9 +3,12 @@
 #include "oor/query/named/common/CardList.hpp"
 #include "oor/query/named/common/ElementData.hpp"
 #include "oor/query/named/topology/t1_inventory/InventoryQueries.hpp"
+#include "oor/query/providers/StoredColumnCatalogue.hpp"
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <map>
 #include <set>
@@ -44,6 +47,35 @@ constexpr Constant CONSTANTS[] = {{"e", "youngsModulus"},
                                   {"yt", "tensionStrength2"},
                                   {"yc", "compressionStrength2"},
                                   {"s", "shearStrength"}};
+
+// A constant of the table for the cards of the list, from the card types that store it as one number: NaN for the
+// cards of the other types and for a blank field.
+//
+// The card types disagree about some stored names: an IsoMat keeps one expansion coefficient in `thermalExpansion`, an
+// AnisoMat2D three and an AnisoMat3D six. The column the query engine makes of the cards takes the layout of the first
+// card type that has the name, so its type follows the materials the model happens to hold (a list for a model whose
+// only material is an AnisoMat3D). A column of this table has one type whatever the model: these numbers are used
+// when the engine's column is not one of numbers.
+std::vector<double> numbersOf(model::Model& model, const CardList& list, const char* stored)
+{
+    const StoredColumnCatalogue& catalogue = StoredColumnCatalogue::instance();
+    std::vector<double> values(list.size(), std::numeric_limits<double>::quiet_NaN());
+    std::map<std::uint16_t, QueryColumn> columnOfType; // the stored column of each card type that has a number
+    for (std::size_t index = 0; index < list.size(); ++index)
+    {
+        const std::uint16_t type = list.types[index];
+        if (!catalogue.contains(type, stored) || catalogue.layoutOf(type, stored).type != ColumnType::Float64)
+            continue;
+        auto found = columnOfType.find(type);
+        if (found == columnOfType.end())
+            found = columnOfType.emplace(type, catalogue.fetch(model, type, stored)).first;
+        const QueryColumn& column = found->second;
+        const std::size_t row = list.rows[index];
+        if (!column.isNull(row))
+            values[index] = column.as<double>()[row];
+    }
+    return values;
+}
 
 // materialsTable: each material with its constants, the properties and elements that use it, and the mass it carries.
 class MaterialsTableQuery final : public QueryBase
@@ -137,10 +169,12 @@ public:
         builder.dictionary("type", typeOfRow);
         for (const Constant& constant : CONSTANTS)
         {
-            if (columns.has(constant.stored))
+            // The column of the cards when it is one of numbers (it stays linked to the stored field); else the numbers
+            // of the card types that have one, NaN for the others (numbersOf).
+            if (columns.has(constant.stored) && columns.get(constant.stored).type() == ColumnType::Float64)
                 builder.column(constant.column, columns.get(constant.stored), ColumnOrigin::Stored, constant.stored);
             else
-                builder.real(constant.column, std::vector<double>(count, std::numeric_limits<double>::quiet_NaN()));
+                builder.real(constant.column, numbersOf(model, list, constant.stored));
         }
         builder.int64("propertyCount", std::move(properties));
         builder.int64("elementCount", std::move(counts));

@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstddef>
+#include <cstdlib>
+#include <optional>
+#include <vector>
 
 namespace oor::query
 {
@@ -167,6 +171,45 @@ bool orientedFaceOf(const model::Model& model, const analysis::ElementRef& owner
     return orientedFaceIndex(model, owner, key, corners) != 0;
 }
 
+namespace
+{
+
+using FaceCornerIds = std::array<base::EntityId, 4>; // the corners of a face, a triangle with 0 last
+
+bool hasCorner(const FaceCornerIds& face, base::EntityId node)
+{
+    return node != 0 && std::find(face.begin(), face.end(), node) != face.end();
+}
+
+// The face of a pyramid that two of its corners name. Every edge of a pyramid belongs to two faces (an edge of the
+// quadrilateral face to that face and to a triangle, an edge to the apex to two triangles), so "the face that holds
+// both corners" names none. The rule of the card: two opposite corners of the quadrilateral face name that face, two
+// neighbouring corners of it name the triangular face on their edge. A pair with the apex names no face: its edge
+// belongs to two triangles, and choosing one would load the wrong face without a word.
+std::optional<FaceCornerIds> pyramidPressureFace(const std::vector<FaceCornerIds>& faces, base::EntityId node1,
+                                                 base::EntityId node3)
+{
+    constexpr std::ptrdiff_t OPPOSITE = 2; // positions apart round the four corners of the quadrilateral face
+    const auto quadrilateral =
+        std::find_if(faces.begin(), faces.end(), [](const FaceCornerIds& face) { return face[3] != 0; });
+    if (quadrilateral == faces.end())
+        return std::nullopt;
+    const auto first = std::find(quadrilateral->begin(), quadrilateral->end(), node1);
+    const auto second = std::find(quadrilateral->begin(), quadrilateral->end(), node3);
+    if (first == quadrilateral->end() || second == quadrilateral->end() || first == second)
+        return std::nullopt;
+    if (std::abs(first - second) == OPPOSITE)
+        return *quadrilateral;
+    for (const FaceCornerIds& face : faces)
+    {
+        if (face[3] == 0 && hasCorner(face, node1) && hasCorner(face, node3))
+            return face;
+    }
+    return std::nullopt;
+}
+
+} // namespace
+
 std::optional<std::array<base::EntityId, 4>> pressureFace(const model::Model& model, model::CardLocation element,
                                                           base::EntityId node1, base::EntityId node3Or4)
 {
@@ -175,7 +218,10 @@ std::optional<std::array<base::EntityId, 4>> pressureFace(const model::Model& mo
         return std::nullopt;
     std::vector<std::array<base::EntityId, 4>> faces;
     analysis::ElementTopology::orientedFacesOf(*table, element.table, element.row, faces);
-    const bool tetrahedron = analysis::ElementTopology::shapeOf(element.table) == analysis::ElementShape::Tetrahedron;
+    const analysis::ElementShape shape = analysis::ElementTopology::shapeOf(element.table);
+    if (shape == analysis::ElementShape::Pyramid && node3Or4 != 0)
+        return pyramidPressureFace(faces, node1, node3Or4);
+    const bool tetrahedron = shape == analysis::ElementShape::Tetrahedron;
     const auto has = [](const std::array<base::EntityId, 4>& face, base::EntityId node)
     { return std::find(face.begin(), face.end(), node) != face.end() && node != 0; };
     for (const auto& face : faces)

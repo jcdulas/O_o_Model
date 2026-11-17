@@ -5602,6 +5602,8 @@ Accepted words: `Through`.
 | 13 | `surfaceOrLine` | `text` |  |  |
 | 14 | `lineLoadDirection` | `text` |  |  |
 
+*Note*: node1 and node3Or4OrElemId2 name the loaded face of a solid element: two diagonally opposite corners of a quadrilateral face (SolidHexa, SolidPenta, the base of a SolidPyramid); the two corners of the edge that a triangular face of a SolidPyramid has on the base; node1 alone for a triangular face of a SolidPenta; for a SolidTetra, node1 a corner of the face and the other the corner that is not on it.
+
 Accepted words: `Line`, `Norm`, `Surface`, `Tangent`, `Through`, `XDirection`, `YDirection`, `ZDirection`.
 
 ### FailureMat

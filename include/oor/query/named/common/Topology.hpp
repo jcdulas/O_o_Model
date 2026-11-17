@@ -36,10 +36,14 @@ namespace oor::query
 [[nodiscard]] std::int32_t orientedFaceIndex(const model::Model& model, const analysis::ElementRef& owner,
                                              const analysis::FaceKey& key, std::array<base::EntityId, 4>& corners);
 
-// The face a PLOAD4 loads on a solid element, with its corners in the order of the outward normal: the face of the
-// element that has the corner G1 and, when given, G3 or G4 (format reference: the corner diagonally opposite to G1 on a
-// rectangular face, an adjacent one on a CPYRAM for a triangular face; for a CTETRA the vertex that is not on the
-// face). Nothing when no face matches. `count` is 3 or 4.
+// The face a FacePressureLoad loads on a solid element, with its corners in the order of the outward normal (a
+// triangle with 0 last), from the two grid points of the card, `node1` and `node3Or4`:
+// - a quadrilateral face (SolidHexa, SolidPenta, the base of a SolidPyramid): two diagonally opposite corners of it;
+// - a triangular face of a SolidPyramid: the two corners of its edge on the quadrilateral face (two neighbouring
+//   corners of the base). A corner with the apex names no face: their edge belongs to two triangles;
+// - a triangular face of a SolidPenta: `node1` alone, `node3Or4` blank (0);
+// - a face of a SolidTetra: `node1` a corner of it, `node3Or4` the corner that is not on it.
+// With `node3Or4` blank the first face of the element that has `node1` is taken. Nothing when no face matches.
 [[nodiscard]] std::optional<std::array<base::EntityId, 4>> pressureFace(const model::Model& model,
                                                                         model::CardLocation element,
                                                                         base::EntityId node1, base::EntityId node3Or4);
