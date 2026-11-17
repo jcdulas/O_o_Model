@@ -129,15 +129,21 @@ private:
         info.name = "splinesTable";
         info.family = "T10";
         info.description =
-            "The splines (SPLINE1 to SPLINE7 and SPLINEX), one row for each. `firstBox` and `lastBox` are BOX1 and "
-            "BOX2 of a SPLINE1, ID1 and ID2 of a SPLINE2, the BOXID of a SPLINE3 (both), and the lowest and highest "
+            "The splines (AeroSurfaceSpline1 to AeroFiniteBeamSpline7 and AeroUserSpline), one row for each. "
+            "`firstBox` and `lastBox` are BOX1 and "
+            "BOX2 of an AeroSurfaceSpline1, ID1 and ID2 of an AeroBeamSpline2, the BOXID of an AeroSplineEquation3 "
+            "(both), and the lowest and highest "
             "item of the AELIST of the other kinds; `boxCount` is the number of boxes the spline moves (null when its "
             "AELIST is missing). `structuralNodeCount` is the number of distinct IDs of its SETG (the points G of a "
-            "SPLINE3); null when the card names no set or the set does not exist. `aeroPanelId` is null for a SPLINEX "
+            "AeroSplineEquation3); null when the card names no set or the set does not exist. `aeroPanelId` is null "
+            "for an AeroUserSpline "
             "and "
-            "for a SPLINE6 or SPLINE7 that names none; `dz` is null for a SPLINE3 and a SPLINEX; `method` is the METH "
-            "(IPS, TPS, FPS, RIS, BEAM) of a SPLINE1, SPLINE4 and SPLINE5, the METHOD (FPS3, FPS6, FBS3, FBS6) of a "
-            "SPLINE6 and SPLINE7, and null for the others; `usage` is FORCE, DISP or BOTH.";
+            "for an AeroFiniteSurfaceSpline6 or AeroFiniteBeamSpline7 that names none; `dz` is null for an "
+            "AeroSplineEquation3 and a SPLINEX; `method` is the METH "
+            "(IPS, TPS, FPS, RIS, BEAM) of an AeroSurfaceSpline1, AeroSurfaceSpline4 and AeroBeamSpline5, the METHOD "
+            "(FPS3, FPS6, FBS3, FBS6) of a "
+            "AeroFiniteSurfaceSpline6 and AeroFiniteBeamSpline7, and null for the others; `usage` is FORCE, DISP or "
+            "BOTH.";
         info.defaultSort = "elementId";
         ColumnListBuilder columns;
         columns.int32("elementId")

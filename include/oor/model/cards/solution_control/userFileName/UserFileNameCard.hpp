@@ -8,7 +8,7 @@
 namespace oor::model
 {
 
-// The longest name an UserFileName may hold. The format reference gives 255 characters (four lines of data in fields 2
+// The longest name a UserFileName may hold. The format reference gives 255 characters (four lines of data in fields 2
 // to 9) for a file of a fatigue analysis or of a material model (MicromechanicsCompositeMat) and no limit for the file
 // name of a ResultFileModules, whose The format computes at most 64 lines and 4095 characters for a path (the limit of
 // a Linux path); it asks 128 for a .rsp file and 64 for the CONFIG of a ResultFileModules. The card cannot know what

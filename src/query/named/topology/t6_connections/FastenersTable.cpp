@@ -324,12 +324,14 @@ private:
         info.name = "fastenersTable";
         info.family = "T6";
         info.description =
-            "The CBUSH, CFAST, CWELD, CELAS1 to CELAS4 and CBUSH1D elements: the two ends (n1, n2), the component a "
+            "The Bushing, Fastener, Weld, SpringDofProperty to SpringScalarInline and Bushing1D elements: the two ends "
+            "(n1, n2), the component a "
             "scalar "
             "spring acts on at each end (dof1, dof2), the length, the stiffnesses of the property (k1 to k6 of a bush, "
             "kt1 to kt3 and kr1 to kr3 of a fastener as k1 to k6; only k1 for a scalar spring or a bush of one "
             "stiffness, taken "
-            "from the property or from the card for CELAS2 and CELAS4), the diameter (CFAST, CWELD), the coordinate "
+            "from the property or from the card for SpringDofInline and SpringScalarInline), the diameter (Fastener, "
+            "Weld), the coordinate "
             "system "
             "of the element, the fastener axis in the basic system (the line from n1 to n2 when the ends are apart, "
             "else the "

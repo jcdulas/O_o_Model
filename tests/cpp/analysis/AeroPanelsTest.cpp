@@ -43,7 +43,8 @@ const char* const SWEPT_WING = "AeroLiftingPanel1;1000;1;;2;4;;;1;0.;0.;0.;2.;1.
 
 } // namespace
 
-TEST_CASE("a CAERO1 is cut into boxes numbered along the chord first, then span by span", "[analysis][aero]")
+TEST_CASE("an AeroLiftingPanel1 is cut into boxes numbered along the chord first, then span by span",
+          "[analysis][aero]")
 {
     const Model model = readBulk(SWEPT_WING);
     const AeroPanelBoxes boxes = aeroPanelBoxes(model, 1000);
@@ -88,7 +89,8 @@ TEST_CASE("the corners, the centre, the control point and the load point of a bo
     REQUIRE(boxes.controlPoint[2].x - boxes.loadPoint[2].x == Approx(0.25).margin(TOLERANCE));
 }
 
-TEST_CASE("the divisions of a CAERO1 can be the points of an AEFACT, used as given", "[analysis][aero]")
+TEST_CASE("the divisions of an AeroLiftingPanel1 can be the points of an AeroFactorList, used as given",
+          "[analysis][aero]")
 {
     // The span is cut at 0, a quarter and the whole of it; the chord has one box. The panel is a rectangle 2 deep from
     // y 2 to 6.

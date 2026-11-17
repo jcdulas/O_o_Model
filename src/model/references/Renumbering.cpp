@@ -816,7 +816,7 @@ public:
         }
         if (target == ReferenceTarget::MaterialTable && m_space == RenumberSpace::MultiDimensionalTable)
         {
-            // A field that names a TABLEMi or a TABL3Di (the T(RHO) of an UserMatTable): the multi-dimensional tables
+            // A field that names a TABLEMi or a TABL3Di (the T(RHO) of a UserMatTable): the multi-dimensional tables
             // follow it where no material table has that ID.
             if (m_ownEither.contains(id) && !m_otherEither.contains(id))
                 return m_newIdOf(id).value_or(id);

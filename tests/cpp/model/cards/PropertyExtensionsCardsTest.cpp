@@ -47,7 +47,8 @@ BehaviorGroup group(ElementBehavior behavior, IntegrationScheme integration, Ele
 
 } // namespace
 
-TEST_CASE("a PBARN1 and a PBEMN1 extend the PBAR or PBEAM with the same PID: C2 line, defaults and references",
+TEST_CASE("a BarPropNonlinear and a BeamPropNonlinear extend the BarProp or BeamProp with the same PID: C2 line, "
+          "defaults and references",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -141,7 +142,8 @@ TEST_CASE("a PBARN1 and a PBEMN1 extend the PBAR or PBEAM with the same PID: C2 
     expectInvalid("BeamPropNonlinear;0", "id");
 }
 
-TEST_CASE("a PRODN1 has structural and heat words and a PSHEARN is for the structure only", "[model][cards]")
+TEST_CASE("a RodPropNonlinear has structural and heat words and a ShearPanelPropNonlinear is for the structure only",
+          "[model][cards]")
 {
     Model model = readBulk(
         "RodPropNonlinear;25;87\n"
@@ -213,7 +215,7 @@ TEST_CASE("a PRODN1 has structural and heat words and a PSHEARN is for the struc
     expectInvalid("ShearPanelPropNonlinear;0", "id");
 }
 
-TEST_CASE("a PSLDN1 has a line for each keyword, in any order, and the words of the C8 line go together",
+TEST_CASE("a SolidPropNonlinear has a line for each keyword, in any order, and the words of the C8 line go together",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -303,7 +305,8 @@ TEST_CASE("a PSLDN1 has a line for each keyword, in any order, and the words of 
     REQUIRE_FALSE(SolidPropNonlinearFormat::check(card).has_value());
 }
 
-TEST_CASE("a PCOMPFQ replaces the damping of a composite by a table, in the column of the GE of the PCOMP",
+TEST_CASE("a CompPropFreqDamping replaces the damping of a composite by a table, in the column of the GE of the "
+          "CompProp",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -340,7 +343,7 @@ TEST_CASE("a PCOMPFQ replaces the damping of a composite by a table, in the colu
     expectInvalid("CompPropFreqDamping;44;-1", "structuralDamping");
 }
 
-TEST_CASE("a PCOMPF lists properties and ranges with THRU, TO and BY, or says ALL", "[model][cards]")
+TEST_CASE("a CompPropIntegration lists properties and ranges with THRU, TO and BY, or says ALL", "[model][cards]")
 {
     std::string deck =
         "CompPropIntegration;2;100;Through;200;By;10\n"
@@ -416,7 +419,7 @@ TEST_CASE("a PCOMPF lists properties and ranges with THRU, TO and BY, or says AL
     expectInvalid("CompPropIntegration;1;9;Through;5;By;1", "increment");
 }
 
-TEST_CASE("a PCOMPLS has plies with global IDs, the C8 and C20 lines and a material coordinate system",
+TEST_CASE("a CompSolidPropNonlinear has plies with global IDs, the C8 and C20 lines and a material coordinate system",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -506,7 +509,7 @@ TEST_CASE("a PCOMPLS has plies with global IDs, the C8 and C20 lines and a mater
     expectInvalid("CompSolidPropNonlinear;6601;;;;;;1;1", "thickness1");
 }
 
-TEST_CASE("a PLCOMP has an out-of-plane thickness and the plane words COMPS and AXCOMP", "[model][cards]")
+TEST_CASE("a PlaneCompProp has an out-of-plane thickness and the plane words COMPS and AXCOMP", "[model][cards]")
 {
     Model model = readBulk(
         "PlaneCompProp;6611;1;;;;;3010;1420;0.25;17.5;;3020;1460;0.75;72.5\n"
@@ -592,7 +595,8 @@ const std::string SECTION_PREREQUISITES =
 
 } // namespace
 
-TEST_CASE("a PBRSECT is the section of a bar: the same items, without the core and the layers, and a mass field",
+TEST_CASE("a BarArbitrarySectionProp is the section of a bar: the same items, without the core and the layers, and a "
+          "mass field",
           "[model][cards]")
 {
     Model model =

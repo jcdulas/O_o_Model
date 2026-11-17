@@ -28,7 +28,8 @@ std::optional<model::IsoMatCard> isotropicMaterial(const model::Model& model, ba
     {
         why =
             "the material " + std::to_string(mid) +
-            " is not a MAT1 (only a linear isotropic material gives a stress from a strain, or a strain from a stress)";
+            " is not an IsoMat (only a linear isotropic material gives a stress from a strain, or a strain from a "
+            "stress)";
         return std::nullopt;
     }
     const model::IsoMatCard card =
@@ -70,7 +71,7 @@ const ShellFacts& ElementModelFacts::shell(std::int32_t resultEid)
         const auto property = m_model->locate(base::IdSpace::Property, card.pid);
         if (!property || property->table != model::typeIndexOf<model::ShellPropTable>())
         {
-            facts.why = "the property " + std::to_string(card.pid) + " is not a PSHELL";
+            facts.why = "the property " + std::to_string(card.pid) + " is not a ShellProp";
             break;
         }
         const model::ShellPropCard shell =
@@ -79,7 +80,7 @@ const ShellFacts& ElementModelFacts::shell(std::int32_t resultEid)
             shell.couplingMatId != 0 || std::fabs(shell.bendingStiffnessRatio - 1.0) > 1e-12)
         {
             facts.why =
-                "the PSHELL " + std::to_string(card.pid) +
+                "the ShellProp " + std::to_string(card.pid) +
                 " does not have one material for membrane and bending with the plain bending stiffness (MID1 = MID2, "
                 "12I/T**3 = 1, no MID4)";
             break;
@@ -143,7 +144,7 @@ const RodFacts& ElementModelFacts::rod(std::int32_t resultEid)
         const auto property = m_model->locate(base::IdSpace::Property, card.pid);
         if (!property || property->table != model::typeIndexOf<model::RodPropTable>())
         {
-            facts.why = "the property " + std::to_string(card.pid) + " is not a PROD";
+            facts.why = "the property " + std::to_string(card.pid) + " is not a RodProp";
             break;
         }
         const model::RodPropCard rod =
@@ -157,7 +158,7 @@ const RodFacts& ElementModelFacts::rod(std::int32_t resultEid)
         }
         if (!(rod.area > 0.0))
         {
-            facts.why = "the PROD " + std::to_string(card.pid) + " has no area";
+            facts.why = "the RodProp " + std::to_string(card.pid) + " has no area";
             break;
         }
         facts.ok = true;
@@ -194,7 +195,7 @@ const SolidFacts& ElementModelFacts::solid(std::int32_t resultEid)
         const auto property = m_model->locate(base::IdSpace::Property, card.pid);
         if (!property || property->table != model::typeIndexOf<model::SolidPropTable>())
         {
-            facts.why = "the property " + std::to_string(card.pid) + " is not a PSOLID";
+            facts.why = "the property " + std::to_string(card.pid) + " is not a SolidProp";
             break;
         }
         const model::SolidPropCard solid =

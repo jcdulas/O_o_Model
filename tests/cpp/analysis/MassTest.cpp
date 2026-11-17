@@ -99,7 +99,8 @@ TEST_CASE("the thickness of a shell is the mean of its corner thicknesses", "[an
     REQUIRE(mass(model, 10) == Approx(RHO * 2.5));
 }
 
-TEST_CASE("a PSHELL1 weighs the mean of the thicknesses it states, or the thickness of the element when T1 is blank",
+TEST_CASE("a ShellPropNodal weighs the mean of the thicknesses it states, or the thickness of the element when T1 is "
+          "blank",
           "[analysis][mass]")
 {
     // SOL 700 shells: T1 to T4 at the grid points (1, 2, 3, 4: mean 2.5), a property with none and an element that
@@ -234,7 +235,8 @@ TEST_CASE("the non-structural mass of a beam sits at the offset the property giv
     REQUIRE(properties.inertiaAtReference(1, 1) == Approx(iyy));
 }
 
-TEST_CASE("the mass of an offset beam is between its grid points under MDLPRM OFFDEF ELMOFF, on its offsets else",
+TEST_CASE("the mass of an offset beam is between its grid points under ModelParams OffsetDefinition ELMOFF, on its "
+          "offsets else",
           "[analysis][mass]")
 {
     // The tapered beam of the test above, from (0, 0, 0) to (6, 0, 0), offset at end B by (0, 0, 1): the length between
@@ -272,7 +274,7 @@ TEST_CASE("the mass of an offset beam is between its grid points under MDLPRM OF
     requireVec(MassCalculator::of(model, *location, options).center.front(), x, 0.0, z, 1e-12);
 }
 
-TEST_CASE("the mass of a CBAR and of a CBEAM3 with offsets follows MDLPRM OFFDEF", "[analysis][mass]")
+TEST_CASE("the mass of a Bar2 and of a Beam3 with offsets follows ModelParams OffsetDefinition", "[analysis][mass]")
 {
     // A Bar2 from (0, 0, 0) to (2, 0, 0) offset by (0, 0.03, 0.05) at both ends, and a Beam3 from (0, 0, 0) to
     // (4, 0, 0) through (2, 0, 0) offset by (0, 0, 0.5) at its three points.
@@ -318,7 +320,8 @@ TEST_CASE("the mass of a shell with a ZOFFS is on its grid point plane under ELM
 }
 
 TEST_CASE(
-    "MDLPRM OFFDEF is read from the last card that gives it, and a value the format reference does not list is an "
+    "ModelParams OffsetDefinition is read from the last card that gives it, and a value the format reference does not "
+    "list is an "
     "error",
     "[analysis][mass]")
 {
@@ -337,7 +340,7 @@ TEST_CASE(
     REQUIRE_THROWS_AS(mass(model, 10), MassError);
 }
 
-TEST_CASE("a CONM2 is a mass at its offset with its inertia about its own centre", "[analysis][mass]")
+TEST_CASE("a PointMassInertia is a mass at its offset with its inertia about its own centre", "[analysis][mass]")
 {
     // 2 at the grid point (1, 2, 3) shifted by (0.5, 0, 0); I11 = 1, I22 = 2, I33 = 3, I21 = 0.1.
     const model::Model model = readModelText(grid(1, 1, 2, 3) + "PointMassInertia;10;1;;2.;0.5;0.;0.;1.;0.1;2.;0.;0.;3.\n");
@@ -366,7 +369,7 @@ TEST_CASE("a CONM2 is a mass at its offset with its inertia about its own centre
     REQUIRE(products[3] == Approx(0.1).margin(1e-12));
 }
 
-TEST_CASE("the coordinate system of a CONM2 turns its offset and its inertia", "[analysis][mass]")
+TEST_CASE("the coordinate system of a PointMassInertia turns its offset and its inertia", "[analysis][mass]")
 {
     // System 5: x along the basic y axis and y along the negative basic x axis. The offset (1, 0, 0) is basic (0, 1, 0)
     // and the inertia I11 = 1 (about the local x) is the basic Iyy.
@@ -383,7 +386,8 @@ TEST_CASE("the coordinate system of a CONM2 turns its offset and its inertia", "
     requireVec(massOf(model, 11).center.front(), 7.0, 8.0, 9.0);
 }
 
-TEST_CASE("a CONM1 gives its mass, its centre and the inertia that the offset does not explain", "[analysis][mass]")
+TEST_CASE("a PointMassMatrix gives its mass, its centre and the inertia that the offset does not explain",
+          "[analysis][mass]")
 {
     // A mass 3 at (0, 0, 0.5) from the grid point with an inertia diag(0.1, 0.2, 0.3) of its own: the matrix has the
     // coupling m [[0, z, -y], [-z, 0, x], [y, -x, 0]] and the inertia about the grid point diag(0.85, 0.95, 0.3).
@@ -462,7 +466,7 @@ TEST_CASE("a model's mass properties follow from point masses: centre, parallel 
     REQUIRE(about.inertiaAtReference(2, 2) == Approx(2.0));
 }
 
-TEST_CASE("the weight factor multiplies every mass and inertia, and PARAM,WTMASS is found", "[analysis][mass]")
+TEST_CASE("the weight factor multiplies every mass and inertia, and PARAM,WeightToMass is found", "[analysis][mass]")
 {
     const model::Model model =
         readModelText(std::string(MATERIAL) + "Parameter;WeightToMass;0.00259\nShellProp;1;1;2.\n" + grid(1, 0, 0, 0) +
@@ -543,7 +547,8 @@ std::string nsmDeck()
 
 } // namespace
 
-TEST_CASE("NSM and NSM1 put a mass per unit area or length on the elements of a property or on elements",
+TEST_CASE("NonStructMass and NonStructMass1 put a mass per unit area or length on the elements of a property or on "
+          "elements",
           "[analysis][mass]")
 {
     const model::Model model = readModelText(nsmDeck());
@@ -607,7 +612,8 @@ TEST_CASE("a THRU to the end of the ID range is matched through the elements of 
     REQUIRE(mass(model, 35, 19) == Approx(mass(model, 35)));
 }
 
-TEST_CASE("NSML and NSML1 spread a mass over the elements in proportion to their area or length", "[analysis][mass]")
+TEST_CASE("NonStructMassLumped and NonStructMassLumped1 spread a mass over the elements in proportion to their area or "
+          "length", "[analysis][mass]")
 {
     const model::Model model = readModelText(nsmDeck());
     // Set 4: 12 over the elements of ShellProp 1: the areas are 2, 2 and 8, so 2, 2 and 8 of the mass.
@@ -627,7 +633,8 @@ TEST_CASE("NSML and NSML1 spread a mass over the elements in proportion to their
     REQUIRE(totalOf(model, 5).sums.mass() == Approx(totalOf(model).sums.mass() + 14.0));
 }
 
-TEST_CASE("NSMADD adds sets, cards of one set ID all apply, an ID that names nothing is ignored", "[analysis][mass]")
+TEST_CASE("NonStructMassUnion adds sets, cards of one set ID all apply, an ID that names nothing is ignored",
+          "[analysis][mass]")
 {
     const model::Model model = readModelText(nsmDeck());
     // Set 9 is set 1 plus set 3.

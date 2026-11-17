@@ -193,8 +193,8 @@ public:
     explicit ShearPanelFlowProvider(bool panelForces) : m_panelForces(panelForces) {}
     [[nodiscard]] std::string name() const override
     {
-        return m_panelForces ? "shear flows of the CSHEAR force table, its rods from the displacements"
-                             : "shear flows of the CSHEAR force table";
+        return m_panelForces ? "shear flows of the ShearPanel4 force table, its rods from the displacements"
+                             : "shear flows of the ShearPanel4 force table";
     }
     [[nodiscard]] Outcome provide(const ResultQueryContext& context, const ElementRequest& request,
                                   ElementFlatSet& sink) const override
@@ -210,7 +210,7 @@ public:
         }
         if (tables.empty())
         {
-            outcome.reason = "the result file has no force table of shear panels (CSHEAR)";
+            outcome.reason = "the result file has no force table of shear panels (ShearPanel4)";
             return outcome;
         }
         const std::string& asked = request.tableFrame.empty() ? context.selection().frameName : request.tableFrame;

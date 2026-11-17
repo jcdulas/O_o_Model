@@ -118,8 +118,10 @@ private:
         info.name = "multiPointConstrTable";
         info.family = "T6";
         info.description =
-            "One row for each term of each MPC equation of the sets asked for, MPCADD expanded: setId is the set asked "
-            "for, sourceSetId the set of the MPC card of the equation (the setId of a set reached through an MPCADD), "
+            "One row for each term of each MPC equation of the sets asked for, MultiPointConstrUnion expanded: setId "
+            "is the set asked "
+            "for, sourceSetId the set of the MPC card of the equation (the setId of a set reached through a "
+            "MultiPointConstrUnion), "
             "equation the position (from 1) of the equation among those of the set in the order of the cards, term the "
             "position of the term in the equation, nodeId and dof (the component 1 to 6; 0 for a scalar point) the "
             "degree "

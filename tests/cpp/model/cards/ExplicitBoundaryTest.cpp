@@ -41,7 +41,7 @@ constexpr const char* FACE_NODES = "Node;10;;0.;0.;0.\nNode;11;;1.;0.;0.\nNode;1
 
 } // namespace
 
-TEST_CASE("a BARRIER has its fields in the order of the format reference and a box that is resolved",
+TEST_CASE("an EulerBarrier has its fields in the order of the format reference and a box that is resolved",
           "[model][cards][explicit]")
 {
     Model model = readBulk(std::string(FACE_NODES) +
@@ -96,7 +96,8 @@ TEST_CASE("a BARRIER has its fields in the order of the format reference and a b
 }
 
 TEST_CASE(
-    "a FLOW has its fields in the order of the format reference, up to five properties, and its LID is a set a TLOAD1 "
+    "a FLOW has its fields in the order of the format reference, up to five properties, and its LID is a set a "
+    "TransientTableLoad1 "
     "excites",
     "[model][cards][explicit]")
 {
@@ -183,7 +184,8 @@ TEST_CASE(
     expectInvalid("EulerFlowBoundary;1;;;;;;;;;;Flow;UP", "propertyValue1");
 }
 
-TEST_CASE("a FLOWDEF has its properties in pairs from field 9, as many as it needs", "[model][cards][explicit]")
+TEST_CASE("an EulerDefaultFlowBoundary has its properties in pairs from field 9, as many as it needs",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "EulerDefaultFlowBoundary;25;Hydrodynamic;Density;1.E+3\n"
@@ -224,7 +226,8 @@ TEST_CASE("a FLOWDEF has its properties in pairs from field 9, as many as it nee
     expectInvalid("EulerDefaultFlowBoundary;1;;VelocityX;1.;TEMP;1.", "propertyKind2");
 }
 
-TEST_CASE("a FLOWC is one of a pair, with a TYPE, a FID2 and a method, and its FID is an excitation set",
+TEST_CASE("an EulerCyclicFlowBoundary is one of a pair, with a TYPE, a FID2 and a method, and its FID is an excitation "
+          "set",
           "[model][cards][explicit]")
 {
     Model model = readBulk(std::string(FACE_NODES) +
@@ -274,7 +277,8 @@ TEST_CASE("a FLOWC is one of a pair, with a TYPE, a FID2 and a method, and its F
     expectInvalid("EulerCyclicFlowBoundary;1;30;In;;;20;;;;;;;1;-3", "tableId");
 }
 
-TEST_CASE("a FLOWT has a velocity, a pressure, a material, a density and an energy that are numbers or tables",
+TEST_CASE("an EulerTimeFlowBoundary has a velocity, a pressure, a material, a density and an energy that are numbers "
+          "or tables",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -337,7 +341,8 @@ TEST_CASE("a FLOWT has a velocity, a pressure, a material, a density and an ener
     REQUIRE(cardAt<EulerTimeFlowBoundaryTable>(model, 0).matId == 1091);
 }
 
-TEST_CASE("a FLOWT refuses a quantity that is not a number or a table and the combinations its format forbids",
+TEST_CASE("an EulerTimeFlowBoundary refuses a quantity that is not a number or a table and the combinations its format "
+          "forbids",
           "[model][cards][explicit]")
 {
     expectInvalid("EulerTimeFlowBoundary;0;;In", "id");
@@ -366,7 +371,7 @@ TEST_CASE("a FLOWT refuses a quantity that is not a number or a table and the co
     expectInvalid("EulerTimeFlowBoundary;1;;Both;;;;;;;;;;;;;;;;Constant;1.", "energySource");
 }
 
-TEST_CASE("a FLOWUDS names a group and a user subroutine, which default to EXFLOW, and its LID is a set",
+TEST_CASE("an EulerUserFlowBoundary names a group and a user subroutine, which default to EXFLOW, and its LID is a set",
           "[model][cards][explicit]")
 {
     Model model = readBulk(std::string(FACE_NODES) +
@@ -417,7 +422,7 @@ TEST_CASE("a FLOWUDS names a group and a user subroutine, which default to EXFLO
     expectInvalid("EulerUserFlowBoundary;1;GRP;;;;;2.;1.", "maxX");
 }
 
-TEST_CASE("a WALL has its plane, its BCGRID and its friction, and the BCGRID is a contact body",
+TEST_CASE("a RigidWall has its plane, its BCGRID and its friction, and the BCGRID is a contact body",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -465,7 +470,7 @@ TEST_CASE("a WALL has its plane, its BCGRID and its friction, and the BCGRID is 
     expectInvalid("RigidWall;1;;;;;;;9;;;;-0.1", "frictionDecay");
 }
 
-TEST_CASE("a DETSPH has its point, speed and time, which are zero when blank", "[model][cards][explicit]")
+TEST_CASE("a SphericalDetonation has its point, speed and time, which are zero when blank", "[model][cards][explicit]")
 {
     Model model = readBulk(
         "SphericalDetonation;100;10;48.2;121.9;22.6;3105.;2.4E-6\nSphericalDetonation;101;11\nEulerMat;10;1.E+3;"
@@ -495,7 +500,8 @@ TEST_CASE("a DETSPH has its point, speed and time, which are zero when blank", "
     expectInvalid("SphericalDetonation;1;10;;;;;-1.E-6", "detonationTime");
 }
 
-TEST_CASE("a HGSUPPR resolves the method its class of elements defaults to, and keeps the other classes blank",
+TEST_CASE("a HourglassSuppression resolves the method its class of elements defaults to, and keeps the other classes "
+          "blank",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -556,7 +562,8 @@ TEST_CASE("a HGSUPPR resolves the method its class of elements defaults to, and 
     expectInvalid("HourglassSuppression;1;Shell;1;;;;;;;-5", "stepCount");
 }
 
-TEST_CASE("a BJOIN has its gaps in the layout, a tolerance and failure forces, and its SID is a contact body",
+TEST_CASE("a SpotweldJoinPairs has its gaps in the layout, a tolerance and failure forces, and its SID is a contact "
+          "body",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -602,7 +609,8 @@ TEST_CASE("a BJOIN has its gaps in the layout, a tolerance and failure forces, a
     expectInvalid("SpotweldJoinPairs;1;2;;;;;;x", "failureTime");
 }
 
-TEST_CASE("a FORCUDS lists grid points with THRU and BY, and its LID is a set a TLOAD1 excites",
+TEST_CASE("a UserEnforcedVelocity lists grid points with THRU and BY, and its LID is a set a TransientTableLoad1 "
+          "excites",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -656,7 +664,8 @@ TEST_CASE("a FORCUDS lists grid points with THRU and BY, and its LID is a set a 
     expectInvalid("UserEnforcedVelocity;1;GRP;;1;By;2", "By");
 }
 
-TEST_CASE("a GENUDS has the blocks INT, REAL and CHAR after its service name, and no ID", "[model][cards][explicit]")
+TEST_CASE("a UserServiceData has the blocks INT, REAL and CHAR after its service name, and no ID",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "UserServiceData;PRB_SRV;IntegerBlock;3;4;7;250\n"
@@ -679,7 +688,7 @@ TEST_CASE("a GENUDS has the blocks INT, REAL and CHAR after its service name, an
 
     RecordingVisitor visitor;
     model.table<UserServiceDataTable>().visitReferences(0, visitor);
-    REQUIRE(visitor.fields.empty()); // an UserServiceData refers to no card
+    REQUIRE(visitor.fields.empty()); // a UserServiceData refers to no card
     REQUIRE(model.table<UserServiceDataTable>().idAtRow(0) == 0);
 
     expectInvalid("UserServiceData", "serviceId");
@@ -696,7 +705,8 @@ TEST_CASE("a GENUDS has the blocks INT, REAL and CHAR after its service name, an
     REQUIRE_NOTHROW(readBulk("UserServiceData;S;TextBlock;1;TOOLONGWORD"));
 }
 
-TEST_CASE("a UDSESV gives the number of state variables and names some of them", "[model][cards][explicit]")
+TEST_CASE("a UserStateVariables gives the number of state variables and names some of them",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "UserStateVariables;3;SV2;VAR2;SV3;VAR3\n"
@@ -716,7 +726,7 @@ TEST_CASE("a UDSESV gives the number of state variables and names some of them",
 
     RecordingVisitor visitor;
     model.table<UserStateVariablesTable>().visitReferences(0, visitor);
-    REQUIRE(visitor.fields.empty()); // an UserStateVariables refers to no card
+    REQUIRE(visitor.fields.empty()); // a UserStateVariables refers to no card
 
     expectInvalid("UserStateVariables", "variableCount");
     expectInvalid("UserStateVariables;0", "variableCount");
@@ -730,7 +740,7 @@ TEST_CASE("a UDSESV gives the number of state variables and names some of them",
     REQUIRE_NOTHROW(readBulk("UserStateVariables;3;SV2;TOOLONGNAME"));
 }
 
-TEST_CASE("a DYFSISW switches the fluid-structure interaction with a table", "[model][cards][explicit]")
+TEST_CASE("a FluidStructureSwitch switches the fluid-structure interaction with a table", "[model][cards][explicit]")
 {
     Model model = readBulk(
         "FluidStructureSwitch;14;10\nFluidStructureSwitch;15\nFluidStructureSwitch;16;11;Yes\nTableDynamic1;10;;;0.;1.;"

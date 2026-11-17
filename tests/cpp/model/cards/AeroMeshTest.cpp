@@ -24,7 +24,7 @@ using namespace oor;
 using namespace oor::model;
 using namespace oor::testing;
 
-TEST_CASE("an AESCALE has three factors that default to 1.0 and is named by the ASID of an AEGRID",
+TEST_CASE("an AeroNodeScale has three factors that default to 1.0 and is named by the ASID of an AeroNode",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -68,7 +68,7 @@ TEST_CASE("an AESCALE has three factors that default to 1.0 and is named by the 
     expectInvalid("AeroNodeScale;5;;;UP", "referenceLength3");
 }
 
-TEST_CASE("an AEGRID is a point of the aerodynamic mesh with its own ID space and its three references",
+TEST_CASE("an AeroNode is a point of the aerodynamic mesh with its own ID space and its three references",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -129,7 +129,7 @@ TEST_CASE("an AEGRID is a point of the aerodynamic mesh with its own ID space an
     expectInvalid("AeroNode;1;;1.;1.;1.;;-3", "scaleId");
 }
 
-TEST_CASE("an AEQUAD4 and an AETRIA3 connect AEGRID points and name a component that no card owns",
+TEST_CASE("an AeroQuad4 and an AeroTria3 connect AeroNode points and name a component that no card owns",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -196,7 +196,8 @@ TEST_CASE("an AEQUAD4 and an AETRIA3 connect AEGRID points and name a component 
     expectInvalid("AeroTria3;1;2;1;2;1", "node3"); // a triangle with a repeated point has no area
 }
 
-TEST_CASE("an ACTRIM is found by its name, has a complex factor that defaults to 1 and refers to no card",
+TEST_CASE("a TrimmedMaterialMatrices is found by its name, has a complex factor that defaults to 1 and refers to no "
+          "card",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -237,7 +238,8 @@ TEST_CASE("an ACTRIM is found by its name, has a complex factor that defaults to
     expectInvalid("TrimmedMaterialMatrices;A;31;32;1.;RIGHT", "scaleImaginary");
 }
 
-TEST_CASE("an AEDW has a Mach number, two symmetry words, a control vector and matrix names", "[model][cards][aero]")
+TEST_CASE("an AeroDownwash has a Mach number, two symmetry words, a control vector and matrix names",
+          "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroDownwash;0.85;Symmetric;Asymmetric;105;WSH1\nAeroDownwash;1.5;Antisymmetric;Symmetric;102;alp2;inter");
@@ -282,7 +284,8 @@ TEST_CASE("an AEDW has a Mach number, two symmetry words, a control vector and m
     requireLiteralRoundTrip("AeroDownwash;0.9;Symmetric;Symmetric;1;ALP;Long mixedCase.label", "Long mixedCase.label");
 }
 
-TEST_CASE("an AEPRESS has the layout of an AEDW for a pressure per unit dynamic pressure", "[model][cards][aero]")
+TEST_CASE("an AeroPressureVector has the layout of an AeroDownwash for a pressure per unit dynamic pressure",
+          "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroPressureVector;0.85;Symmetric;Asymmetric;105;PRS1\nAeroPressureVector;0.;Asymmetric;Antisymmetric;103;"
@@ -320,7 +323,8 @@ TEST_CASE("an AEPRESS has the layout of an AEDW for a pressure per unit dynamic 
     requireLiteralRoundTrip("AeroPressureVector;0.9;Symmetric;Symmetric;1;P;1PRESI", "1PRESI");
 }
 
-TEST_CASE("an AEFORCE is given on the aerodynamic mesh by a DMIK name or on the structural mesh by a load set",
+TEST_CASE("an AeroForceVector is given on the aerodynamic mesh by a DirectMatrixAeroK name or on the structural mesh "
+          "by a load set",
           "[model][cards][aero]")
 {
     Model model = readBulk(

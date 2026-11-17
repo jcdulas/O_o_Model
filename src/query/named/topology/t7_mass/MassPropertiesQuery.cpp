@@ -165,7 +165,7 @@ private:
             "group is "
             "what has none). The inertia is (Ixx, Iyy, Izz, Ixy, Ixz, Iyz) with the products of inertia positive (the "
             "signs of "
-            "the CONM2 fields), about the centre of gravity of the group, or about `referencePoint` "
+            "the PointMassInertia fields), about the centre of gravity of the group, or about `referencePoint` "
             "(in "
             "the basic system) when it is given, along the axes of the coordinate system `frameId`. Elements are point "
             "masses at "

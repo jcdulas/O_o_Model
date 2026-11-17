@@ -57,10 +57,13 @@ private:
         info.name = "designScreeningTable";
         info.family = "T9";
         info.description =
-            "The screening of the design constraints (DSCREEN cards), one row per card: the response type it applies "
-            "to (a DRESP1 type, EQUA for the DRESP2 responses, DRESP3, or ALL), the truncation `threshold` TRS (a "
+            "The screening of the design constraints (DesignConstrScreen cards), one row per card: the response type "
+            "it applies "
+            "to (a DesignResp1 type, EQUA for the DesignResp2 responses, DesignResp3, or ALL), the truncation "
+            "`threshold` TRS (a "
             "constraint is kept only above it; -0.5 when blank) and `maxRetained` NSTR, the most constraints kept for "
-            "each region of each subcase (20 when blank). The defaults of the solver for the types without a DSCREEN "
+            "each region of each subcase (20 when blank). The defaults of the solver for the types without a "
+            "DesignConstrScreen "
             "card are not listed.";
         info.defaultSort = "responseType";
         ColumnListBuilder columns;

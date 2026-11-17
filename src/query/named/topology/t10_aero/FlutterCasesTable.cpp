@@ -151,18 +151,23 @@ private:
         info.family = "T10";
         info.description =
             "`detail=\"cases\"` (the default): the FLUTTER cards, one row for each. `subcases` are the subcases whose "
-            "Case Control FMETHOD selects the card. The three lists are the numbers of the FLFACT cards it names (the "
-            "THRU form expanded by the formula of the format reference; empty when the FLFACT is missing): the density "
+            "Case Control FMETHOD selects the card. The three lists are the numbers of the AeroFlutterFactors cards it "
+            "names (the "
+            "THRU form expanded by the formula of the format reference; empty when the AeroFlutterFactors is missing): "
+            "the density "
             "ratios, the "
             "Mach numbers, and the reduced frequencies (K, KE) or the velocities (the PK methods). `rootCount` is "
             "NVALUE, null when blank and for the sweep methods (PKS, PKNLS), whose field 7 is OMAX. "
-            "`detail=\"machFrequency\"`: the pairs of Mach number and reduced frequency of the MKAERO1 cards (every "
+            "`detail=\"machFrequency\"`: the pairs of Mach number and reduced frequency of the AeroMachFreqTable1 "
+            "cards (every "
             "Mach number of a card with every frequency of the same card, the Mach numbers in the outer loop) and then "
-            "of the MKAERO2 cards, in the order of the cards; it is not about one case, and `setIds` does not apply.";
+            "of the AeroMachFreqPairs2 cards, in the order of the cards; it is not about one case, and `setIds` does "
+            "not apply.";
         info.parameters = {parameter("setIds", ParameterKind::IdList, "None", "the FLUTTER sets to list"),
                            parameter("detail", ParameterKind::Text, "\"cases\"", "\"cases\" or \"machFrequency\"")};
         info.detailParameter = "detail";
-        info.defaultSort = "setId; for machFrequency, the order of the cards (MKAERO1, then MKAERO2)";
+        info.defaultSort = "setId; for machFrequency, the order of the cards (AeroMachFreqTable1, then "
+                           "AeroMachFreqPairs2)";
         ColumnListBuilder caseColumns;
         caseColumns.int32("setId").intList("subcases").dictionary("method").realList("densityRatios").realList("machs");
         caseColumns.realList("velocitiesOrFrequencies").dictionary("interpolation").int32("rootCount");

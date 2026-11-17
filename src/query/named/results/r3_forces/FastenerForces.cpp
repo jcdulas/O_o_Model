@@ -145,7 +145,7 @@ private:
         info.resultQuery = true;
         info.detailParameter = "envelope";
         info.description =
-            "The forces of the fasteners (CBUSH, CFAST, CWELD and the scalar springs) along the fastener axis: the "
+            "The forces of the fasteners (Bushing, Fastener, Weld and the scalar springs) along the fastener axis: the "
             "axial force "
             "(signed along the axis), its tension (`max(axial, 0)`), the two shears and their resultant, the torque "
             "and the "
@@ -160,7 +160,7 @@ private:
             "subcase of each.";
         info.parameters = {
             parameter("elementIds", ParameterKind::IdList, "None", "the fasteners to list"),
-            parameter("types", ParameterKind::TextList, "None", "the element types (\"CBUSH\", ...)"),
+            parameter("types", ParameterKind::TextList, "None", "the element types (\"Bushing\", ...)"),
             parameter("envelope", ParameterKind::Bool, "False", "one row for each fastener with the extremes"),
             parameter("axis", ParameterKind::RealsOrText, "None",
                       "the axis the forces are given along: a vector, or \"x\", \"y\", \"z\" of the element system")};

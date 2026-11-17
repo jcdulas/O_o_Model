@@ -232,7 +232,7 @@ private:
             {
                 const bool hasBond = laminate->bondAllowable > 0.0;
                 const std::string source = byCaller  ? "caller"
-                                           : hasBond ? "bonding index (PCOMP SB)"
+                                           : hasBond ? "bonding index (CompProp SB)"
                                                      : "no SB (the laminate gives no allowable interlaminar shear)";
                 rows.add(eid, card, pid, number, ply.globalId, ply.material,
                          byCaller.value_or(hasBond ? 1.0 : NOT_A_NUMBER), source, raw,
@@ -241,8 +241,9 @@ private:
             }
             const std::string source = byCaller
                                            ? "caller"
-                                           : (material ? "failure index (MAT8 " + std::to_string(ply.material) + ")"
-                                                       : "no MAT8 material (the ply allowables are not read)");
+                                           : (material ? "failure index (OrthoMat2D " + std::to_string(ply.material) +
+                                              ")"
+                                                       : "no OrthoMat2D material (the ply allowables are not read)");
             rows.add(eid, card, pid, number, ply.globalId, ply.material, byCaller.value_or(1.0), source, raw,
                      material ? std::optional<bool>(material->strainAllowables) : std::nullopt);
         }
@@ -256,7 +257,8 @@ private:
         info.description =
             "The allowables the margins use for each element (and ply), without results (what margins "
             "divides by, for a caller who forms its own): criterion \"vonMises\" or \"maxPrincipal\" (the MAT1 ST), "
-            "\"minPrincipal\" (the MAT1 SC), \"composite\" (one row per ply: the allowables of its MAT8, the failure "
+            "\"minPrincipal\" (the MAT1 SC), \"composite\" (one row per ply: the allowables of its OrthoMat2D, the "
+            "failure "
             "index limited to 1), \"bond\" (one row per ply: the bonding index limited to 1, when the laminate has an "
             "SB, given in `sb`), \"fastener\" (the pair Ta, Sa the caller gives). allowables: as in margins, by "
             "(\"element\", elementId), (\"property\", propId), (\"material\", mid) or one value for all, and they come "

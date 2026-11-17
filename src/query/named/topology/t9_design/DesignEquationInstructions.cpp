@@ -28,7 +28,8 @@ private:
         info.name = "designEquationInstructions";
         info.family = "T9";
         info.description =
-            "Each DEQATN as the instructions of a stack machine, one row per instruction, the rows of an equation "
+            "Each DesignEquation as the instructions of a stack machine, one row per instruction, the rows of an "
+            "equation "
             "together and in the order they run; each `statement` (from 0) leaves the value of its variable on the "
             "stack, and the value of the equation is that of its last statement. `opcode`: `realConstant` and "
             "`integerConstant` push `value` (an integer constant is written without a point or an exponent: two "
@@ -44,7 +45,7 @@ private:
             "MAX, MIN, "
             "RSS, SSQ and SUM take 1 to 96 arguments) are resolved; the design equation evaluator gives the same "
             "value.";
-        info.parameters = {parameter("equationIds", ParameterKind::IdList, "None", "keep these DEQATN")};
+        info.parameters = {parameter("equationIds", ParameterKind::IdList, "None", "keep these DesignEquation")};
         info.defaultSort = "equationId, execution order";
         info.columnSets.push_back(EquationProgramTables::instructionColumns());
         return info;

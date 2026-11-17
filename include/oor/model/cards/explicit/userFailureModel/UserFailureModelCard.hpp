@@ -8,7 +8,7 @@
 namespace oor::model
 {
 
-// The subroutine an UserFailureModel names when its UNAME is blank: the standard user defined failure.
+// The subroutine a UserFailureModel names when its UNAME is blank: the standard user defined failure.
 inline constexpr std::string_view USER_FAILURE_MODEL_DEFAULT_ROUTINE_NAME = "ExternalFailure";
 
 // One UserFailureModel card (SOL 700): a failure model that a user subroutine computes. The FMS statement CONNECT

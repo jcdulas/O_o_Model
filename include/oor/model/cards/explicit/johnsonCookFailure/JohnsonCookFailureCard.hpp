@@ -12,7 +12,7 @@ namespace oor::model
 // How a JohnsonCookFailure applies the damage to the element, the MTH field: continuously (CONT, the default: the yield
 // stress is reduced by the factor 1 - D and the element fails when D reaches one), discretely (DISC: the element fails
 // when D reaches one) or not at all (NOFAIL: the damage is computed but never fails the element, for a yield model that
-// uses it, such as an UserYield).
+// uses it, such as a UserYield).
 enum class JohnsonCookFailureMethod : std::uint8_t
 {
     Continuous,

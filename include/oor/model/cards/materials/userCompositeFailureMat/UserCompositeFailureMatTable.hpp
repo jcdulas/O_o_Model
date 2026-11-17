@@ -20,7 +20,7 @@ struct UserCompositeFailureMatFormat
 };
 
 // All the UserCompositeFailureMat cards: materials of their own (IdSpace::Material, shared with every other material),
-// kept whole (CardRows) next to the column of their IDs; the query engine reads the MID. An UserCompositeFailureMat
+// kept whole (CardRows) next to the column of their IDs; the query engine reads the MID. A UserCompositeFailureMat
 // names no other card.
 class UserCompositeFailureMatTable final : public TypedTable<UserCompositeFailureMatTable, UserCompositeFailureMatCard>
 {
@@ -37,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t row) const { return m_id.get(row); }
     void setIdAtRow(std::uint32_t row, base::EntityId id);
-    // an UserCompositeFailureMat refers to no other card
+    // a UserCompositeFailureMat refers to no other card
     void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
 
     [[nodiscard]] Column<base::EntityId>& idColumn() noexcept { return m_id; }

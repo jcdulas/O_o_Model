@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // an UserServiceData refers to no other card
+    void visitReferences(std::uint32_t, ReferenceVisitor&) override {} // a UserServiceData refers to no other card
 
     [[nodiscard]] Column<std::string>& serviceIdColumn() noexcept { return m_serviceId; }
 

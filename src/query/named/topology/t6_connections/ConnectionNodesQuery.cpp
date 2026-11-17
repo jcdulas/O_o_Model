@@ -33,8 +33,8 @@ private:
         info.description =
             "The connection system point by point (units): every grid point of the model and "
             "every point an element or an MPC equation uses, with componentId, the component that holds it (null for "
-            "a point no component holds), and isConnectionOnly, true for a point that only connections use (a CFAST "
-            "or a CWELD uses the grid points of the shells it pierces and its GA and GB, never GS; a mass on such a "
+            "a point no component holds), and isConnectionOnly, true for a point that only connections use (a Fastener "
+            "or a Weld uses the grid points of the shells it pierces and its GA and GB, never GS; a mass on such a "
             "point is a connection). The same table as connectedComponents(detail=\"nodes\").";
         info.parameters = contactParameters();
         info.defaultSort = "nodeId";

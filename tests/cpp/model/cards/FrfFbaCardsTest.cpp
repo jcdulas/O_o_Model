@@ -75,7 +75,7 @@ std::string problemField(const std::optional<CardProblem>& problem)
 
 } // namespace
 
-TEST_CASE("an FRFCOMP has a unique ID, a name that may be blank, a medium and the unit of its file",
+TEST_CASE("a FrfComponent has a unique ID, a name that may be blank, a medium and the unit of its file",
           "[model][cards][frf]")
 {
     REQUIRE((FrfComponentTable::INFO.category == CardCategory::FrfComponent &&
@@ -136,7 +136,7 @@ TEST_CASE("an FRFCOMP has a unique ID, a name that may be blank, a medium and th
     expectInvalid("FrfComponent;10;123;Database", "componentName"); // a whole number would be read as an ID
 }
 
-TEST_CASE("an FRFCONN joins a point of one FRF component to a point of another, each given by ID or by name",
+TEST_CASE("a FrfConnection joins a point of one FRF component to a point of another, each given by ID or by name",
           "[model][cards][frf]")
 {
     REQUIRE((FrfConnectionTable::INFO.category == CardCategory::Other &&
@@ -208,7 +208,8 @@ TEST_CASE("an FRFCONN joins a point of one FRF component to a point of another, 
 }
 
 TEST_CASE(
-    "an FRFFLEX gives the stiffness, damping and damping coefficient of a flexible connection as numbers or tables",
+    "a FrfFlexibleConnection gives the stiffness, damping and damping coefficient of a flexible connection as numbers "
+    "or tables",
     "[model][cards][frf]")
 {
     REQUIRE((FrfFlexibleConnectionTable::INFO.category == CardCategory::Other &&
@@ -312,7 +313,7 @@ TEST_CASE(
         base::DeckError);
 }
 
-TEST_CASE("an FRFRELS releases components of up to three points and several cards may share its number",
+TEST_CASE("a FrfReleasedDofs releases components of up to three points and several cards may share its number",
           "[model][cards][frf]")
 {
     REQUIRE((FrfReleasedDofsTable::INFO.category == CardCategory::Other &&
@@ -364,7 +365,7 @@ TEST_CASE("an FRFRELS releases components of up to three points and several card
     expectInvalid("FrfReleasedDofs;10;1;5;6;7;8;9", "node3");
 }
 
-TEST_CASE("an FRFSPC1 is a constraint set that the Case Control SPC selects", "[model][cards][frf]")
+TEST_CASE("a FrfSinglePointConstr is a constraint set that the Case Control SPC selects", "[model][cards][frf]")
 {
     REQUIRE((FrfSinglePointConstrTable::INFO.category == CardCategory::Constraint &&
              FrfSinglePointConstrTable::INFO.idSpace == base::IdSpace::Group));
@@ -433,7 +434,8 @@ TEST_CASE("an FRFSPC1 is a constraint set that the Case Control SPC selects", "[
     expectInvalid("FrfSinglePointConstr;10;1;5;6;7;8;9", "point3");
 }
 
-TEST_CASE("an FRFXIT names a point of the model, a component and a label over six fields", "[model][cards][frf]")
+TEST_CASE("a FrfExcitationDof names a point of the model, a component and a label over six fields",
+          "[model][cards][frf]")
 {
     REQUIRE((FrfExcitationDofTable::INFO.category == CardCategory::Other &&
              FrfExcitationDofTable::INFO.idSpace == base::IdSpace::None));
@@ -492,7 +494,7 @@ TEST_CASE("an FRFXIT names a point of the model, a component and a label over si
         "FrfExcitationDof;10;3;THE SHAKER FORCE ON THE REAR MOUNT OF GEARBOX B72", true)); // 49 characters
 }
 
-TEST_CASE("an FRFXIT1 lists points with THRU ranges and the components they share", "[model][cards][frf]")
+TEST_CASE("a FrfExcitationDofList lists points with THRU ranges and the components they share", "[model][cards][frf]")
 {
     REQUIRE((FrfExcitationDofListTable::INFO.category == CardCategory::Other &&
              FrfExcitationDofListTable::INFO.idSpace == base::IdSpace::None));
@@ -552,7 +554,8 @@ TEST_CASE("an FRFXIT1 lists points with THRU ranges and the components they shar
 }
 
 TEST_CASE(
-    "an FBADLAY, an FBALOAD and an FBAPHAS are the delay, load and phase sets that RLOAD1, RLOAD2 and ACSRCE name",
+    "a FrfAssemblyLoadDelay, a FrfAssemblyLoadScale and a FrfAssemblyLoadPhase are the delay, load and phase sets that "
+    "FreqResponseLoad1, FreqResponseLoad2 and AcousticSourceLoad name",
     "[model][cards][frf]")
 {
     // The categories and ID spaces of the cards they stand for (DynamicLoadDelay, DynamicLoadScale, DynamicLoadPhase),

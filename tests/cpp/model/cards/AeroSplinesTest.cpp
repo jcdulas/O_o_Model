@@ -52,7 +52,8 @@ TEST_CASE("the splines are one category, and each type refuses a repeated ID of 
 }
 
 TEST_CASE(
-    "a SPLINE1 has its fields in the places of the format reference and the defaults of the method, usage and counts",
+    "an AeroSurfaceSpline1 has its fields in the places of the format reference and the defaults of the method, usage "
+    "and counts",
     "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -94,7 +95,8 @@ TEST_CASE(
     expectInvalid("AeroSurfaceSpline1;2;211;214;219;17;;FiniteSurfaceSpline;;10;-2", "elemCountY");
 }
 
-TEST_CASE("a SPLINE1 names a CAERO, two boxes and a set, and follows their renumbering", "[model][cards][aero]")
+TEST_CASE("an AeroSurfaceSpline1 names a CAERO, two boxes and a set, and follows their renumbering",
+          "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + POINTS + "AeroSurfaceSpline1;2;211;214;219;17;0.");
     REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
@@ -112,7 +114,7 @@ TEST_CASE("a SPLINE1 names a CAERO, two boxes and a set, and follows their renum
     REQUIRE(cardAt<AeroSurfaceSpline1Table>(model, 0).nodeSetId == 117);
 }
 
-TEST_CASE("a SPLINE2 keeps the sign of its rotational flexibilities and always writes its continuation line",
+TEST_CASE("an AeroBeamSpline2 keeps the sign of its rotational flexibilities and always writes its continuation line",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -151,7 +153,7 @@ TEST_CASE("a SPLINE2 keeps the sign of its rotational flexibilities and always w
     expectInvalid("AeroBeamSpline2;21;9;13;27;64;;;;;;SOME", "usage");
 }
 
-TEST_CASE("a SPLINE2 names a CAERO, two boxes, a set and a coordinate system", "[model][cards][aero]")
+TEST_CASE("an AeroBeamSpline2 names a CAERO, two boxes, a set and a coordinate system", "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + POINTS +
                            "RectFrame2;3;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"
@@ -177,7 +179,7 @@ TEST_CASE("a SPLINE2 names a CAERO, two boxes, a set and a coordinate system", "
     REQUIRE(cardAt<AeroBeamSpline2Table>(model, 0).nodeSetId == 117);
 }
 
-TEST_CASE("a SPLINE3 is a constraint on one box component with independent points four fields apart",
+TEST_CASE("an AeroSplineEquation3 is a constraint on one box component with independent points four fields apart",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -214,7 +216,7 @@ TEST_CASE("a SPLINE3 is a constraint on one box component with independent point
     expectInvalid("AeroSplineEquation3;7400;105;108;4;6;2;1.;;47;3", "coefficients");
 }
 
-TEST_CASE("a SPLINE3 names a CAERO, a box and its independent points", "[model][cards][aero]")
+TEST_CASE("an AeroSplineEquation3 names a CAERO, a box and its independent points", "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + "Node;6\nNode;47\nAeroSplineEquation3;7400;211;214;4;6;2;1.;;47;3;-1.");
     REQUIRE(unresolvedIn(model) == 1); // the AeroLiftingPanelProp1 of the panel only
@@ -235,7 +237,8 @@ TEST_CASE("a SPLINE3 names a CAERO, a box and its independent points", "[model][
              renumbered.points[1].coefficient == -1.0)); // only the points are renumbered
 }
 
-TEST_CASE("a SPLINE4 lists its boxes in an AELIST and has the radial interpolation spline of the format reference",
+TEST_CASE("an AeroSurfaceSpline4 lists its boxes in an AeroBoxList and has the radial interpolation spline of the "
+          "format reference",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -287,7 +290,8 @@ TEST_CASE("a SPLINE4 lists its boxes in an AELIST and has the radial interpolati
     expectInvalid("AeroSurfaceSpline4;31;211;214;17;;RigidSurfaceSpline;;;;WF1;2.", "functionKind");
 }
 
-TEST_CASE("a SPLINE4 names a CAERO, an AELIST and a set, and follows their renumbering", "[model][cards][aero]")
+TEST_CASE("an AeroSurfaceSpline4 names a CAERO, an AeroBoxList and a set, and follows their renumbering",
+          "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + POINTS +
                            "AeroBoxList;214;214;Through;219\nAeroSurfaceSpline4;31;211;214;17;0.;InfinitePlateSpline");
@@ -308,7 +312,8 @@ TEST_CASE("a SPLINE4 names a CAERO, an AELIST and a set, and follows their renum
     REQUIRE(cardAt<AeroSurfaceSpline4Table>(model, 0).nodeSetId == 117);
 }
 
-TEST_CASE("a SPLINE4 may name the component of the AEQUAD4 of an aerodynamic mesh, which no renumbering moves",
+TEST_CASE("an AeroSurfaceSpline4 may name the component of the AeroQuad4 of an aerodynamic mesh, which no renumbering "
+          "moves",
           "[model][cards][aero]")
 {
     Model model = readBulk(std::string(POINTS) +
@@ -328,7 +333,7 @@ TEST_CASE("a SPLINE4 may name the component of the AEQUAD4 of an aerodynamic mes
     REQUIRE(unresolvedIn(missing) == 1);
 }
 
-TEST_CASE("a SPLINE5 ignores its unused fields, keeps the sign of its flexibilities and has the radial spline",
+TEST_CASE("an AeroBeamSpline5 ignores its unused fields, keeps the sign of its flexibilities and has the radial spline",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -380,7 +385,7 @@ TEST_CASE("a SPLINE5 ignores its unused fields, keeps the sign of its flexibilit
     expectInvalid("AeroBeamSpline5;41;9;13;64;;;;0.;0.;;RigidSurfaceSpline;;-2.", "coreRadius");
 }
 
-TEST_CASE("a SPLINE5 names a CAERO, an AELIST, a set and a coordinate system", "[model][cards][aero]")
+TEST_CASE("an AeroBeamSpline5 names a CAERO, an AeroBoxList, a set and a coordinate system", "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + POINTS +
                            "RectFrame2;3;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"
@@ -399,7 +404,8 @@ TEST_CASE("a SPLINE5 names a CAERO, an AELIST, a set and a coordinate system", "
     REQUIRE(cardAt<AeroBeamSpline5Table>(model, 0).frameId == 13);
 }
 
-TEST_CASE("a SPLINE6 needs a VSLIST unless the surface is the aerodynamic panel", "[model][cards][aero]")
+TEST_CASE("an AeroFiniteSurfaceSpline6 needs a VSLIST unless the surface is the aerodynamic panel",
+          "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroFiniteSurfaceSpline6;51;9;13;64;;FiniteSurfaceSpline6;Displacement;AeroMesh;3;5;5;VibrationSimple6\n"
@@ -458,7 +464,7 @@ TEST_CASE("a SPLINE6 needs a VSLIST unless the surface is the aerodynamic panel"
     expectInvalid("AeroFiniteSurfaceSpline6;51;9;13;64;;;;;;;;;;CircularBias;2;50.;3;-0.5", "augmentationWeight");
 }
 
-TEST_CASE("a SPLINE6 names a CAERO, two AELIST cards and a set", "[model][cards][aero]")
+TEST_CASE("an AeroFiniteSurfaceSpline6 names a CAERO, two AELIST cards and a set", "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + POINTS +
                            "AeroBoxList;12;214;Through;219\n"
@@ -481,7 +487,7 @@ TEST_CASE("a SPLINE6 names a CAERO, two AELIST cards and a set", "[model][cards]
              cardAt<AeroFiniteSurfaceSpline6Table>(model, 0).surfaceElemListId == 102));
 }
 
-TEST_CASE("a SPLINE7 may leave its CAERO blank and has the defaults of its beam", "[model][cards][aero]")
+TEST_CASE("an AeroFiniteBeamSpline7 may leave its CAERO blank and has the defaults of its beam", "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroFiniteBeamSpline7;61;9;13;64;;;3;Both;FiniteBeamSpline6\n"
@@ -519,7 +525,8 @@ TEST_CASE("a SPLINE7 may leave its CAERO blank and has the defaults of its beam"
     expectInvalid("AeroFiniteBeamSpline7;61;9;13;64;;;;;;;;0.", "minBeamLengthRatio");
 }
 
-TEST_CASE("a SPLINE7 names a CAERO, an AELIST, a set and a coordinate system", "[model][cards][aero]")
+TEST_CASE("an AeroFiniteBeamSpline7 names a CAERO, an AeroBoxList, a set and a coordinate system",
+          "[model][cards][aero]")
 {
     Model model = readBulk(std::string(PANEL) + POINTS +
                            "RectFrame2;3;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"
@@ -544,7 +551,8 @@ TEST_CASE("a SPLINE7 names a CAERO, an AELIST, a set and a coordinate system", "
     REQUIRE(cardAt<AeroFiniteBeamSpline7Table>(model, 0).frameId == 13);
 }
 
-TEST_CASE("a SPLINEX names its components, which are labels, and the data of its program", "[model][cards][aero]")
+TEST_CASE("an AeroUserSpline names its components, which are labels, and the data of its program",
+          "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroUserSpline;71;SPGROUPA;SKINDP;SKINIP;;;Both;101;201;301\n"
@@ -582,7 +590,7 @@ TEST_CASE("a SPLINEX names its components, which are labels, and the data of its
     expectInvalid("AeroUserSpline;71;SPGROUPA;SKINDP;SKINIP;;;;-1", "aeroBoxListId");
 }
 
-TEST_CASE("a SPLINEX names an AELIST and an AEFACT; the components and the AELISTC are not references",
+TEST_CASE("an AeroUserSpline names an AeroBoxList and an AEFACT; the components and the AELISTC are not references",
           "[model][cards][aero]")
 {
     Model model = readBulk(

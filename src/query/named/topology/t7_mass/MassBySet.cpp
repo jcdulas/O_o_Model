@@ -40,7 +40,7 @@ std::vector<std::int32_t> membersOf(const model::Model& model, const NamedIdSet&
                 std::uint64_t count = ids.size();
                 for (const model::IdRun& run : card.ids)
                     count += base::idRangeCount(run.first, run.last);
-                base::requireExpandable(count, "massBySet: the SET1 " + std::to_string(*set.setId));
+                base::requireExpandable(count, "massBySet: the IdListSet1 " + std::to_string(*set.setId));
                 for (const model::IdRun& run : card.ids)
                 {
                     for (std::int64_t id = run.first; id <= run.last; ++id)
@@ -48,7 +48,7 @@ std::vector<std::int32_t> membersOf(const model::Model& model, const NamedIdSet&
                 }
             }
             if (!found)
-                throw QueryError("massBySet: there is no SET1 with the ID " + std::to_string(*set.setId));
+                throw QueryError("massBySet: there is no IdListSet1 with the ID " + std::to_string(*set.setId));
         }
     }
     std::sort(ids.begin(), ids.end());
@@ -129,7 +129,7 @@ public:
     {
         const std::vector<NamedIdSet> sets = run.arguments.idSets("sets");
         if (sets.empty())
-            throw QueryError("massBySet: give the sets: a dict {name: element IDs} or a list of SET1 IDs");
+            throw QueryError("massBySet: give the sets: a dict {name: element IDs} or a list of IdListSet1 IDs");
         // The members of each set (an IdListSet1 that does not exist is an error whatever the model holds), then the
         // masses of the elements of the sets alone: an element's mass does not depend on the other elements (the NSM of
         // the Case Control is resolved over the model by MassSetting), so each set's sum, over its members in the order
@@ -179,11 +179,13 @@ private:
         info.name = "massBySet";
         info.family = "T7";
         info.description =
-            "The mass of named sets of elements: `sets` is a dict {name: element IDs} or a list of SET1 IDs (the set "
+            "The mass of named sets of elements: `sets` is a dict {name: element IDs} or a list of IdListSet1 IDs (the "
+            "set "
             "is then "
             "named by its ID). One row for each set, also one that holds no element. IDs that are not elements are "
             "ignored.";
-        info.parameters = {parameter("sets", ParameterKind::IdSets, "(required)", "{name: element IDs}, or SET1 IDs")};
+        info.parameters = {parameter("sets", ParameterKind::IdSets, "(required)",
+                                     "{name: element IDs}, or IdListSet1 IDs")};
         info.defaultSort = "-mass";
         ColumnListBuilder columns;
         columns.text("set").int64("elementCount").reals("structuralMass nonstructuralMass mass cx cy cz");

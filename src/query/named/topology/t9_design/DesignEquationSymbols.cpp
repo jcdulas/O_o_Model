@@ -28,14 +28,16 @@ private:
         info.name = "designEquationSymbols";
         info.family = "T9";
         info.description =
-            "Each DEQATN as an expression program (with `designEquationInstructions`): one row per name, the arguments "
+            "Each DesignEquation as an expression program (with `designEquationInstructions`): one row per name, the "
+            "arguments "
             "first "
             "(`kind` argument, `slot` the position in the argument list of the first equation, from 0), then the "
             "variables (`kind` variable, `slot` the index of the statement, from 0, that gives it: the first equation "
             "gives the name of the function); `name` in upper case. The names of an equation are unique, every slot is "
-            "there once per kind, and there is at least one variable. A DEQATN that does not parse, or one whose "
+            "there once per kind, and there is at least one variable. A DesignEquation that does not parse, or one "
+            "whose "
             "equation gives a name an argument or an earlier equation already has, has no row.";
-        info.parameters = {parameter("equationIds", ParameterKind::IdList, "None", "keep these DEQATN")};
+        info.parameters = {parameter("equationIds", ParameterKind::IdList, "None", "keep these DesignEquation")};
         info.defaultSort = "equationId, kind (arguments first), slot";
         info.columnSets.push_back(EquationProgramTables::symbolColumns());
         return info;

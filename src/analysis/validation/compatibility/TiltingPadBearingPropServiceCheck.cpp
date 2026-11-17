@@ -13,7 +13,7 @@ namespace
 {
 
 // A TiltingPadBearingProp whose bearing has no UserElemService that calls the TiltingPadBearingProp service. The RID of
-// a TiltingPadBearingProp matches the PID of an UserElemService and of a BushProp2D, and the UserElemService needs
+// a TiltingPadBearingProp matches the PID of a UserElemService and of a BushProp2D, and the UserElemService needs
 // UNAME=TiltingPadBearingProp when the external bearing service is used; a TiltingPadBearingProp without it is data
 // that no service reads. The BushProp2D is the business of ref.unresolved.
 class TiltingPadBearingPropServiceCheck final : public ValidationCheck

@@ -20,7 +20,7 @@ struct FatigueLoadFormat
     static void write(const FatigueLoadCard& card, FieldWriter& writer);
 };
 
-// What the TID of a card names, from its TYPE: a TableFatigueHistory when TYPE is blank, an UserFileName for DB, a data
+// What the TID of a card names, from its TYPE: a TableFatigueHistory when TYPE is blank, a UserFileName for DB, a data
 // acquisition file, the load history file word, PSD and STATIC, and nothing for CONST, SINE and NARROW (the field is
 // ignored or blank) or when the field is blank.
 [[nodiscard]] std::optional<ReferenceTarget> fatigueLoadTidTarget(const FatigueLoadCard& card) noexcept;

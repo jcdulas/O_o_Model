@@ -193,13 +193,16 @@ private:
         info.name = "designRelationsTable";
         info.family = "T9";
         info.description =
-            "What each design variable drives (DVPREL1/2, DVMREL1/2, DVCREL1/2; `relationCard` is the card type, "
-            "DesignPropRelation1 for a DVPREL1): one row for each variable of a "
+            "What each design variable drives (DesignPropRelation1/2, DesignMatRelation1/2, DesignElemRelation1/2; "
+            "`relationCard` is the card type, "
+            "DesignPropRelation1 for a DesignPropRelation1): one row for each variable of a "
             "linear relation, one row for each argument of a relation by an equation, in the order of the argument "
-            "list of its DEQATN (its design variables, then its DTABLE constants, which have a null `designVariable` "
+            "list of its DesignEquation (its design variables, then its DesignConstants constants, which have a null "
+            "`designVariable` "
             "and their `constantLabel`; `argumentIndex` from 0). `field` is the column of the data contract that "
-            "holds the field (`thickness` of a PSHELL, `area` of a PROD, `youngsModulus` of a MAT1, `stationSection` "
-            "of a PBEAM) and "
+            "holds the field (`thickness` of a ShellProp, `area` of a RodProp, `youngsModulus` of an IsoMat, "
+            "`stationSection` "
+            "of a BeamProp) and "
             "`fieldItem` the position of the field among the values of that column for the card when it holds several "
             "(a vector or a list, flattened: station * width + component), null for a column of one value; "
             "`fieldName` is the name the format reference gives it (`T`, `A(B)`, `DIM2`). Then the `coefficient` and "

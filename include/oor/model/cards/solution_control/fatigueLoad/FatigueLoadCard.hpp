@@ -17,9 +17,9 @@ namespace oor::model
 // 103: the TID names a TableFatigueHistory or a TableDynamic1.
 enum class FatigueLoadType : std::uint8_t
 {
-    Db,                  // SOL 101, 103: the load history is in a data acquisition file, TID names an UserFileName
+    Db,                  // SOL 101, 103: the load history is in a data acquisition file, TID names a UserFileName
     DataAcquisitionFile, // the same
-    LoadHistoryFile,     // the load history is a channel of a load history file, TID names an UserFileName
+    LoadHistoryFile,     // the load history is a channel of a load history file, TID names a UserFileName
     Const,               // a constant amplitude cycle between two peaks (SCALE is the first, OFFSET the second)
     Psd,                 // SOL 108, 111: random loading, LCID names RandomSpectralDensity cards
     Sine,                // SOL 108, 111: sine waves or a sine sweep, from the DETLOAD and SWEEP lines
@@ -114,7 +114,7 @@ struct FatigueLoadSweep
 //
 // What TID names depends on TYPE (the reference follows it): a blank TYPE names a TableFatigueHistory (a TableDynamic1
 // is allowed by the format too, which the FatigueTable target does not find: the card reads and writes it all the
-// same), DB, a data acquisition file, the load history file word, STATIC and PSD an UserFileName; for the other types
+// same), DB, a data acquisition file, the load history file word, STATIC and PSD a UserFileName; for the other types
 // the field is blank or ignored and is not a reference. LCID names the RandomSpectralDensity cards (the RandomSet
 // target) when TYPE is PSD and it is positive.
 //

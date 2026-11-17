@@ -134,21 +134,28 @@ private:
         info.name = "convectionTable";
         info.family = "T11";
         info.description =
-            "The convection boundary conditions: card is CONV (free convection) or CONVM (forced convection, on a "
-            "CHBDYP), "
-            "elementId the surface element, pconid the PCONV or PCONVM that says how the coefficient is found, "
+            "The convection boundary conditions: card is CONV (free convection) or ForcedConvection (forced "
+            "convection, on a "
+            "HeatSurfaceProperty), "
+            "elementId the surface element, pconid the FreeConvectionProp or ForcedConvectionProp that says how the "
+            "coefficient is found, "
             "filmNode the "
-            "point of the film temperature, controlNode the control point of a CONV, ambientNodes the ambient points "
+            "point of the film temperature, controlNode the control point of a FreeConvection, ambientNodes the "
+            "ambient points "
             "(the "
-            "eight TA of a CONV, resolved: a blank one is TA1; TA1 and TA2 of a CONVM), mid the material of the "
+            "eight TA of a FreeConvection, resolved: a blank one is TA1; TA1 and TA2 of a ForcedConvection), mid the "
+            "material of the "
             "property, "
-            "h the free convection coefficient (the H of the MAT4 of the property, or the first coefficient of a PCONV "
+            "h the free convection coefficient (the H of the HeatIsoMat of the property, or the first coefficient of a "
+            "FreeConvectionProp "
             "of "
             "the alternate layout; null for a forced convection: its coefficient comes out of the film correlation), "
             "form "
-            "the FORM of the property, exponentFree the exponent EXPF of a PCONV, and massFlowNode the point that "
+            "the FORM of the property, exponentFree the exponent EXPF of a FreeConvectionProp, and massFlowNode the "
+            "point that "
             "holds "
-            "the mass flow rate of a CONVM (CNTMDOT). A value the card has not (or a property that does not exist) is "
+            "the mass flow rate of a ForcedConvection (CNTMDOT). A value the card has not (or a property that does not "
+            "exist) is "
             "null.";
         info.parameters = {parameter("elementIds", ParameterKind::IdList, "None", "keep these surface elements")};
         info.defaultSort = "elementId (then the order of the cards)";

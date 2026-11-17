@@ -96,7 +96,8 @@ private:
         info.resultQuery = true;
         info.description =
             "The pressure coefficient and the pressure on each aerodynamic box, for each subcase. `boxId` is the "
-            "number the table gives the box; `elementId`, the aerodynamic panel (CAERO1 to CAERO5) the box belongs to, "
+            "number the table gives the box; `elementId`, the aerodynamic panel (AeroLiftingPanel1 to "
+            "AeroPistonPanel5) the box belongs to, "
             "is "
             "the card of the model whose boxes (numbered from its EID on) hold `boxId`. It is null when the result "
             "set "

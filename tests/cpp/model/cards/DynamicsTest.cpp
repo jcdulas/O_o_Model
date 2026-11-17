@@ -64,7 +64,7 @@ struct RecordingVisitor final : ReferenceVisitor
 
 } // namespace
 
-TEST_CASE("EIGRL has its defaults and takes the options of the second line", "[model][cards]")
+TEST_CASE("LanczosEigenMethod has its defaults and takes the options of the second line", "[model][cards]")
 {
     const Model model = readBulk(
         "LanczosEigenMethod;1;;;5\n"
@@ -105,7 +105,7 @@ TEST_CASE("EIGRL has its defaults and takes the options of the second line", "[m
     REQUIRE(options.norm == EigenvectorNorm::Max);
 }
 
-TEST_CASE("EIGRL options are refused when they repeat, are unknown or have a gap", "[model][cards]")
+TEST_CASE("LanczosEigenMethod options are refused when they repeat, are unknown or have a gap", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("LanczosEigenMethod;1;;;;;;;;Alpha=0.8;Alpha=0.9"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("LanczosEigenMethod;1;;;;;;;;FrequencySegmentCount=0"), base::DeckError);
@@ -118,7 +118,8 @@ TEST_CASE("EIGRL options are refused when they repeat, are unknown or have a gap
     REQUIRE_THROWS_AS(readBulk("LanczosEigenMethod;1;;;;7"), base::DeckError);  // MSGLVL 7
 }
 
-TEST_CASE("EIGRL writes the options that are not defaults, one after the other, from field 9", "[model][cards]")
+TEST_CASE("LanczosEigenMethod writes the options that are not defaults, one after the other, from field 9",
+          "[model][cards]")
 {
     const Model model =
         readBulk("LanczosEigenMethod;1;;;5\nLanczosEigenMethod;2;;;;;;;;FrequencySegmentCount=3;SegmentFrequency1=1.5");
@@ -133,7 +134,8 @@ TEST_CASE("EIGRL writes the options that are not defaults, one after the other, 
     REQUIRE(cardAt<LanczosEigenMethodTable>(again, 1).segmentFrequencies == std::vector<double>{1.5});
 }
 
-TEST_CASE("an EIGRL option keeps all its digits in the small format by going to the large one", "[model][cards]")
+TEST_CASE("a LanczosEigenMethod option keeps all its digits in the small format by going to the large one",
+          "[model][cards]")
 {
     const Model model = readBulk("LanczosEigenMethod;1;;;;;;;;Alpha=0.123456789");
 
@@ -141,7 +143,7 @@ TEST_CASE("an EIGRL option keeps all its digits in the small format by going to 
     REQUIRE(cardAt<LanczosEigenMethodTable>(readModelText(writeModelText(model), true)).alpha == 0.123456789);
 }
 
-TEST_CASE("EIGR keeps a blank ND blank and keeps G and C for the point normalisation", "[model][cards]")
+TEST_CASE("RealEigenMethod keeps a blank ND blank and keeps G and C for the point normalisation", "[model][cards]")
 {
     const Model model = readBulk(
         "RealEigenMethod;1;Lanczos;1.;2.\n"
@@ -183,7 +185,8 @@ TEST_CASE("EIGR keeps a blank ND blank and keeps G and C for the point normalisa
     REQUIRE_THROWS_AS(readBulk("RealEigenMethod;1;Lanczos;;;;;Point;5;7"), base::DeckError);
 }
 
-TEST_CASE("EIGR and EIGRL share the method ID space and EIGR lists the POINT grid as a reference", "[model][cards]")
+TEST_CASE("RealEigenMethod and LanczosEigenMethod share the method ID space and RealEigenMethod lists the POINT grid "
+          "as a reference", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("LanczosEigenMethod;1;;;5\nRealEigenMethod;1;Lanczos"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("RealEigenMethod;1;Lanczos\nLanczosEigenMethod;1;;;5"), base::DeckError);
@@ -218,7 +221,7 @@ TEST_CASE("the frequency sets take their defaults and share one set ID space", "
     REQUIRE_THROWS_AS(readBulk("FreqLogSteps2;1;0.;2."), base::DeckError);
 }
 
-TEST_CASE("DAREA has one or two groups, each with a component from 0 to 6", "[model][cards]")
+TEST_CASE("DynamicLoadScale has one or two groups, each with a component from 0 to 6", "[model][cards]")
 {
     Model model = readBulk("DynamicLoadScale;3;4;3;5.6;12;2;7.3\nDynamicLoadScale;3;7;;1.5");
     const DynamicLoadScaleCard two = cardAt<DynamicLoadScaleTable>(model, 0);
@@ -290,7 +293,7 @@ TEST_CASE("a field that holds an ID or a real keeps them apart", "[model][cards]
     REQUIRE_THROWS_AS(readBulk("TransientTableLoad1;1;9;-4;;;700"), base::DeckError);
 }
 
-TEST_CASE("TLOAD2 resolves a blank T2 to T1 and always writes it", "[model][cards]")
+TEST_CASE("TransientFormulaLoad2 resolves a blank T2 to T1 and always writes it", "[model][cards]")
 {
     const Model model = readBulk(
         "TransientFormulaLoad2;1;9;;;;1.5\nTransientFormulaLoad2;2;9;;;;1.5;4.;10.;30.;0.5;0.25;0.1;0."
@@ -313,7 +316,8 @@ TEST_CASE("TLOAD2 resolves a blank T2 to T1 and always writes it", "[model][card
     REQUIRE_THROWS_AS(readBulk("TransientFormulaLoad2;1;9;;;;3.;2."), base::DeckError);
 }
 
-TEST_CASE("RLOAD1 and RLOAD2 hold IDs or constants and need a function of frequency", "[model][cards]")
+TEST_CASE("FreqResponseLoad1 and FreqResponseLoad2 hold IDs or constants and need a function of frequency",
+          "[model][cards]")
 {
     const Model model = readBulk(
         "FreqResponseLoad1;1;9;15;;16;;;;701;;Acceleration\n"
@@ -453,7 +457,7 @@ TEST_CASE("the dynamic loads list their references with what each points to", "[
             std::vector<ReferenceTarget>{ReferenceTarget::DynamicLoadSet, ReferenceTarget::DynamicLoadSet});
 }
 
-TEST_CASE("the dynamic loads share one set ID space with DAREA and with each other", "[model][cards]")
+TEST_CASE("the dynamic loads share one set ID space with DynamicLoadScale and with each other", "[model][cards]")
 {
     REQUIRE_NOTHROW(
         readBulk("TransientTableLoad1;5;9;;;;;5.\nTransientFormulaLoad2;5;9;;;;0.;1.\nFreqResponseLoad1;5;9;;;;;;5."

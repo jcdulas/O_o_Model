@@ -89,12 +89,14 @@ private:
         info.name = "laminatePliesTable";
         info.family = "T12";
         info.description =
-            "The stack of each laminate (PCOMP and PCOMPG), ply by ply from the bottom: the material, thickness and "
+            "The stack of each laminate (CompProp and CompPropGlobal), ply by ply from the bottom: the material, "
+            "thickness and "
             "fibre angle "
-            "(degrees), whether stresses are output (sout), the global ply ID of a PCOMPG (null for a PCOMP), the z of "
+            "(degrees), whether stresses are output (sout), the global ply ID of a CompPropGlobal (null for a "
+            "CompProp), the z of "
             "the "
             "bottom and top face from the reference plane (from Z0, as the stiffness of the laminate uses them) and "
-            "isMirrored for the plies the SYM option adds. The plies of a PCOMP are not editable columns: the table "
+            "isMirrored for the plies the SYM option adds. The plies of a CompProp are not editable columns: the table "
             "has no "
             "setter for a ply, edit the property.";
         info.parameters = {parameter("propertyIds", ParameterKind::IdList, "None", "keep these laminates")};

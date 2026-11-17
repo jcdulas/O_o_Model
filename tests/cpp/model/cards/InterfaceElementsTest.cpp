@@ -48,7 +48,8 @@ std::string grids(int first, int last)
 
 // --- the acoustic infinite elements --------------------------------------------------------------------------------
 
-TEST_CASE("CACINF3, CACINF4 and PACINF read their formats and resolve their references", "[model][cards][interface]")
+TEST_CASE("AcousticInfiniteTria3, AcousticInfiniteQuad4 and AcousticInfiniteProp read their formats and resolve their "
+          "references", "[model][cards][interface]")
 {
     Model model =
         readBulk("FluidMat;10;1.;0.1\nAcousticInfiniteProp;100;10;5;0.;1.;2.\nAcousticInfiniteProp;101;10;3\n" +
@@ -125,7 +126,7 @@ TEST_CASE("the acoustic infinite element cards refuse what their formats do not 
 // --- ShellAxisym
 // -------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CAXISYM has two or three nodes and an optional offset", "[model][cards][interface]")
+TEST_CASE("a ShellAxisym has two or three nodes and an optional offset", "[model][cards][interface]")
 {
     Model model = readBulk(
         "ShellAxisym;2201;2098;3008;3016\n"
@@ -169,7 +170,7 @@ TEST_CASE("a CAXISYM has two or three nodes and an optional offset", "[model][ca
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CAXISYM refuses what its format does not allow", "[model][cards][interface]")
+TEST_CASE("a ShellAxisym refuses what its format does not allow", "[model][cards][interface]")
 {
     expectInvalid("ShellAxisym;0;2098;3008;3016", "id");
     expectInvalid("ShellAxisym;2201;0;3008;3016", "propId");
@@ -184,7 +185,7 @@ TEST_CASE("a CAXISYM refuses what its format does not allow", "[model][cards][in
 
 // --- Bushing2D -------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CBUSH2D has a plane in a system, an inner and an outer grid", "[model][cards][interface]")
+TEST_CASE("a Bushing2D has a plane in a system, an inner and an outer grid", "[model][cards][interface]")
 {
     Model model = readBulk("BushProp2D;2101;75.;225.\nRectFrame2;5\n" + grids(4001, 4001) + grids(5001, 5001) +
                            "Bushing2D;2100;2101;4001;5001;0;PlaneXy\n"
@@ -224,7 +225,7 @@ TEST_CASE("a CBUSH2D has a plane in a system, an inner and an outer grid", "[mod
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CBUSH2D refuses what its format does not allow", "[model][cards][interface]")
+TEST_CASE("a Bushing2D refuses what its format does not allow", "[model][cards][interface]")
 {
     expectInvalid("Bushing2D;0;2101;1;2", "id");
     expectInvalid("Bushing2D;2100;;1;2", "propId"); // required
@@ -239,7 +240,7 @@ TEST_CASE("a CBUSH2D refuses what its format does not allow", "[model][cards][in
 // --- BushProp2D
 // -------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PBUSH2D is the nominal line alone, with a squeeze film damper or with cross coupling terms",
+TEST_CASE("a BushProp2D is the nominal line alone, with a squeeze film damper or with cross coupling terms",
           "[model][cards][interface]")
 {
     Model model = readBulk(
@@ -287,7 +288,7 @@ TEST_CASE("a PBUSH2D is the nominal line alone, with a squeeze film damper or wi
     requireRoundTrip(model);
 }
 
-TEST_CASE("a PBUSH2D has at most one option, whatever way it is made", "[model][cards][interface]")
+TEST_CASE("a BushProp2D has at most one option, whatever way it is made", "[model][cards][interface]")
 {
     BushProp2DCard card;
     card.id = 1;
@@ -317,7 +318,7 @@ TEST_CASE("a PBUSH2D has at most one option, whatever way it is made", "[model][
     REQUIRE_FALSE(BushProp2DFormat::check(card).has_value());
 }
 
-TEST_CASE("a PBUSH2D refuses what its format does not allow", "[model][cards][interface]")
+TEST_CASE("a BushProp2D refuses what its format does not allow", "[model][cards][interface]")
 {
     const std::string head = "BushProp2D;1;75.;225.;;;;;SqueezeFilm;";
     expectInvalid("BushProp2D;0;75.;225.", "id");
@@ -349,7 +350,8 @@ TEST_CASE("a PBUSH2D refuses what its format does not allow", "[model][cards][in
 
 // --- the cohesive interface elements -------------------------------------------------------------------------------
 
-TEST_CASE("a PCOHE has its defaults, names an MCOHE and a cohesive element names it", "[model][cards][interface]")
+TEST_CASE("a CohesiveProp has its defaults, names a CohesiveMat and a cohesive element names it",
+          "[model][cards][interface]")
 {
     Model model = readBulk("CohesiveMat;7701\nCohesiveProp;7700;7701\nCohesiveProp;7702;7701;1;0.5;GaussPoints;1\n" +
                            grids(1, 8) + "CohesiveHexa;10;7700;1;2;3;4;5;6;7;8\nCohesiveQuad;11;7702;1;2;3;4");
@@ -381,7 +383,7 @@ TEST_CASE("a PCOHE has its defaults, names an MCOHE and a cohesive element names
     requireRoundTrip(model);
 }
 
-TEST_CASE("a PCOHE refuses what its format does not allow", "[model][cards][interface]")
+TEST_CASE("a CohesiveProp refuses what its format does not allow", "[model][cards][interface]")
 {
     expectInvalid("CohesiveProp;0;7701", "id");
     expectInvalid("CohesiveProp;7700", "matId");
@@ -479,7 +481,7 @@ TEST_CASE("the cohesive elements refuse what their formats do not allow", "[mode
 // --- LineInterface
 // ---------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CINTC reads its LIST into boundaries and writes it back", "[model][cards][interface]")
+TEST_CASE("a LineInterface reads its LIST into boundaries and writes it back", "[model][cards][interface]")
 {
     Model model = readBulk(
         "LineInterface;1001;NodeList;boundaries=(421,422(Quadratic),-423(Quadratic),424(Linear))\n"
@@ -537,7 +539,8 @@ TEST_CASE("a CINTC reads its LIST into boundaries and writes it back", "[model][
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>(4, ReferenceTarget::GeometricBoundary));
 }
 
-TEST_CASE("the boundaries of a CINTC list are GMBNDC cards and follow their renumbering, with their sign",
+TEST_CASE("the boundaries of a LineInterface list are GeomBoundaryCurve cards and follow their renumbering, with their "
+          "sign",
           "[model][cards][interface]")
 {
     Model model = readBulk(
@@ -555,7 +558,7 @@ TEST_CASE("the boundaries of a CINTC list are GMBNDC cards and follow their renu
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("a CINTC refuses what its format does not allow", "[model][cards][interface]")
+TEST_CASE("a LineInterface refuses what its format does not allow", "[model][cards][interface]")
 {
     expectInvalid("LineInterface;0;;boundaries=(1,2)", "id");
     expectInvalid("LineInterface;100000000;;boundaries=(1,2)", "id");

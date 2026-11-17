@@ -34,7 +34,7 @@ struct ResultFileModulesModule
 struct ResultFileModulesCard
 {
     base::EntityId id = 0;
-    base::EntityId configuration = 0; // an UserFileName, 0 when blank
+    base::EntityId configuration = 0; // a UserFileName, 0 when blank
     std::vector<ResultFileModulesModule> modules;
 };
 

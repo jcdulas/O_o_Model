@@ -147,7 +147,8 @@ private:
         info.description =
             "The force and the moment on each aerodynamic grid point, for each subcase. `boxId` is the number the "
             "table gives the point (an internal number that follows the order of the pressure table); `elementId`, the "
-            "panel (CAERO1 to CAERO5), is the one that owns the box of the same row of the pressure table of the "
+            "panel (AeroLiftingPanel1 to AeroPistonPanel5), is the one that owns the box of the same row of the "
+            "pressure table of the "
             "subcase, when the two tables list the same elements of the same kinds in the same order. It is null when "
             "the result set has no model, when the tables cannot be paired and for a box no panel of the model owns; "
             "the provenance of the table says which. `frame` is `aerodynamic`, the table not saying more.";

@@ -55,7 +55,8 @@ const std::string GRID_TABLE =
 // TableMultiVariable0
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TABL3D0 has one variable, its flags have the format reference defaults and its pairs run over the lines",
+TEST_CASE("a TableMultiVariable0 has one variable, its flags have the format reference defaults and its pairs run over "
+          "the lines",
           "[model][cards][tables3d]")
 {
     Model model = readBulk(
@@ -101,7 +102,7 @@ TEST_CASE("a TABL3D0 has one variable, its flags have the format reference defau
 // TableMultiVariable1 and TableMultiVariable2
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TABL3D1 has its lists of X on lines of their own, then one Y for each point of the grid",
+TEST_CASE("a TableMultiVariable1 has its lists of X on lines of their own, then one Y for each point of the grid",
           "[model][cards][tables3d]")
 {
     Model model = readBulk(
@@ -155,7 +156,7 @@ TEST_CASE("a TABL3D1 has its lists of X on lines of their own, then one Y for ea
     expectInvalid("TableMultiVariable1;1;2;12;1;;;3;2;;;;;;;;;;;;;;;;;;;0.;0.5;1.;10.;20.", "ordinate");
 }
 
-TEST_CASE("a TABL3D1 refuses the cards whose counts do not match their data", "[model][cards][tables3d]")
+TEST_CASE("a TableMultiVariable1 refuses the cards whose counts do not match their data", "[model][cards][tables3d]")
 {
     REQUIRE_NOTHROW(readBulk("TableMultiVariable1;1;1;12;;;;2;;;;;;;;;;;;;;;;;;;;1.;2.;5.;6."));
     expectInvalid("TableMultiVariable1;0;1;12;;;;2;;;;;;;;;;;;;;;;;;;;1.;2.;5.;6.", "id");
@@ -188,7 +189,8 @@ TEST_CASE("a TABL3D1 refuses the cards whose counts do not match their data", "[
     expectInvalid("TableMultiVariable1;1;1;12;;;;2;;;;;;;;;;;;;;;;;;;;1.;2.;5.", "ordinate");
 }
 
-TEST_CASE("a TABL3D2 reads the layout of the TABL3D1 and has the same rules", "[model][cards][tables3d]")
+TEST_CASE("a TableMultiVariable2 reads the layout of the TableMultiVariable1 and has the same rules",
+          "[model][cards][tables3d]")
 {
     Model model = readBulk("TableMultiVariable2" + GRID_TABLE.substr(std::string("TableMultiVariable1").size()));
     const TableMultiVariable2Card card = cardAt<TableMultiVariable2Table>(model);
@@ -245,7 +247,7 @@ TEST_CASE("the multi-dimensional tables share a category, each type has its own 
 // TableScattered3D
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TABLE3D has offsets, points of four fields and ends with ENDT", "[model][cards][tables3d]")
+TEST_CASE("a TableScattered3D has offsets, points of four fields and ends with ENDT", "[model][cards][tables3d]")
 {
     Model model = readBulk(
         "TableScattered3D;3128;0.;0.;2.5;;1.5;2.5;3.5;40.;4.;6.;5.;85.;10.;12.5;11.;310.;20.;22.;24.;575.;EndTable\n"
@@ -292,7 +294,8 @@ TEST_CASE("a TABLE3D has offsets, points of four fields and ends with ENDT", "[m
 // TableFatigueHistory
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TABLFTG is a list of reals that ends with ENDT and that an FTGLOAD names", "[model][cards][tables3d]")
+TEST_CASE("a TableFatigueHistory is a list of reals that ends with ENDT and that a FatigueLoad names",
+          "[model][cards][tables3d]")
 {
     Model model = readBulk(
         "TableFatigueHistory;1;0.;-0.75;1.25;0.;EndTable\n"
@@ -331,7 +334,8 @@ TEST_CASE("a TABLFTG is a list of reals that ends with ENDT and that an FTGLOAD 
 // TableUserRoutine
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TABLUDS has a group and a routine and is numbered with the dynamic tables", "[model][cards][tables3d]")
+TEST_CASE("a TableUserRoutine has a group and a routine and is numbered with the dynamic tables",
+          "[model][cards][tables3d]")
 {
     Model model = readBulk(
         "TableUserRoutine;5120;gustgrp;ExternalFunction\nTableUserRoutine;13;grp\nTableUserRoutine;14;grp;MYFUNC2");
@@ -370,7 +374,8 @@ TEST_CASE("a TABLUDS has a group and a routine and is numbered with the dynamic 
 // The references to the multi-dimensional tables
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("MATS3, MATS8, MATSORT and MATVP name their tables as multi-dimensional tables", "[model][cards][tables3d]")
+TEST_CASE("AxisymOrthoMatStressDependent, OrthoMat2DStressDependent, OrthoMat3DNonlinearStressDependent and "
+          "ViscoPlasticMat name their tables as multi-dimensional tables", "[model][cards][tables3d]")
 {
     Model model = readBulk(
         "AxisymOrthoMatStressDependent;3301;5601;;;6701;;;;1201\n"
@@ -431,7 +436,7 @@ TEST_CASE("the tables of the SOL 400 materials resolve, are reported when missin
         "UserMat;50;0;1;1.\n"
         "UserMatTable;50;;;;;12\n" +
         tables);
-    REQUIRE(unresolvedIn(model) == 0); // the TGE of an UserMatTable may name a TABL3Di too
+    REQUIRE(unresolvedIn(model) == 0); // the TGE of a UserMatTable may name a TABL3Di too
     REQUIRE(unresolvedIn(readBulk("OrthoMat2D;34;1.;1.;0.3\nOrthoMat2DStressDependent;34;12;;;;;;;1")) == 2);
     REQUIRE(unresolvedIn(readBulk("IsoMat;10;2.1E+11;;0.3\nViscoPlasticMat;10;0.8;20;1.3;1.2;0.9;0.7")) == 1);
 
@@ -453,7 +458,7 @@ TEST_CASE("the tables of the SOL 400 materials resolve, are reported when missin
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CORD3G names equations or tables as its FORM says", "[model][cards][tables3d]")
+TEST_CASE("a GeneralFrame3 names equations or tables as its FORM says", "[model][cards][tables3d]")
 {
     RecordingVisitor equations;
     Model byEquation = readBulk("GeneralFrame3;8;;;40;41;42");

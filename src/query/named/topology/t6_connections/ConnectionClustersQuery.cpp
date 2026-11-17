@@ -189,7 +189,7 @@ private:
             "a null clusterId: kind (rigid, rigidInterpolation, "
             "mpc, fastener, connector, contact, or mass for a mass on a point only connections use, which is a "
             "connection), card, id (the element ID; the set ID of an MPC equation, one row per equation), nodeIds (the "
-            "grid points it acts on, in the order of the card: a CFAST or a CWELD the grid points of the shells it "
+            "grid points it acts on, in the order of the card: a Fastener or a Weld the grid points of the shells it "
             "pierces (fastenerPiercings) and its GA and GB, never GS) and revision (the stamp of its card).";
         info.detailParameter = "detail";
         info.parameters = {parameter("detail", ParameterKind::Text, "\"clusters\"", "\"clusters\" or \"connections\"")};

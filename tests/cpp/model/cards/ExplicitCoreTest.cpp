@@ -21,7 +21,7 @@ using namespace oor;
 using namespace oor::model;
 using namespace oor::testing;
 
-TEST_CASE("an EOSGAM has its fields in the order of the format reference and writes the ones it has",
+TEST_CASE("a GammaLawStateEquation has its fields in the order of the format reference and writes the ones it has",
           "[model][cards][explicit]")
 {
     const Model model = readBulk(
@@ -44,7 +44,7 @@ TEST_CASE("an EOSGAM has its fields in the order of the format reference and wri
     expectInvalid("GammaLawStateEquation;1;GAS", "gammaCoefficient");
 }
 
-TEST_CASE("a PEULER is a property: its ID is shared with the other properties and its MID is a material",
+TEST_CASE("an EulerProp is a property: its ID is shared with the other properties and its MID is a material",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -80,7 +80,7 @@ TEST_CASE("a PEULER is a property: its ID is shared with the other properties an
 }
 
 TEST_CASE(
-    "a COUOPT is filed under the set ID of its OPTID, and its quantities are a number or a table; PLCOVER is "
+    "a CouplingOptions is filed under the set ID of its OPTID, and its quantities are a number or a table; PLCOVER is "
     "on the continuation line",
     "[model][cards][explicit]")
 {
@@ -144,7 +144,8 @@ TEST_CASE(
     expectInvalid("CouplingOptions;1;10;;;;PRESSURE;1.", "coverPressureSource");
 }
 
-TEST_CASE("the cards between TODYNA and ENDDYNA are for an external explicit solver and are kept as text",
+TEST_CASE("the cards between ExplicitTextStart and ExplicitTextEnd are for an external explicit solver and are kept as "
+          "text",
           "[model][cards][explicit]")
 {
     // The external material record has its own schema and is preserved as an opaque record.

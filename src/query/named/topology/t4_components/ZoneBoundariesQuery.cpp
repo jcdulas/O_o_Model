@@ -72,11 +72,13 @@ private:
         info.description =
             "The boundary points of each group used as a zone (a group given as "
             "{name: {\"elements\": IDs}}, connections included): its grid points that something outside it acts on, "
-            "an element next to it, a rigid element or an MPC equation it does not hold, a connector, and for a CFAST "
-            "or CWELD whose other side is outside, the grid points of the shell it pierces (isPiercedPoint). The "
+            "an element next to it, a rigid element or an MPC equation it does not hold, a connector, and for a "
+            "Fastener "
+            "or Weld whose other side is outside, the grid points of the shell it pierces (isPiercedPoint). The "
             "zone holds the rigid elements, MPC equations and elements whose grid points are all in it "
             "(enclosedElements). dof: the components through which the outside acts on the point, as text: the union "
-            "of those of the outside entities there (a shell 123456, a solid 123, a CBUSH the components its PBUSH "
+            "of those of the outside entities there (a shell 123456, a solid 123, a Bushing the components its "
+            "BushProp "
             "gives a stiffness for, a fastener 123 on the grid points of the shell it pierces, a rigid element or an "
             "MPC equation the components it names). causeKinds (element, rigid, mpc, connection), causeCards and "
             "causeIds are aligned: one item per outside entity (an MPC equation by its set ID).";

@@ -54,7 +54,7 @@ struct RecordingVisitor final : ReferenceVisitor
 
 } // namespace
 
-TEST_CASE("PBAR defaults every blank to 0.0 and keeps a blank shear factor apart", "[model][cards]")
+TEST_CASE("BarProp defaults every blank to 0.0 and keeps a blank shear factor apart", "[model][cards]")
 {
     const Model model = readBulk("BarProp;1;5;3.4;2.6;4.81\nBarProp;2;5;3.4;2.6;4.81;;;;;;;;;;;0.5;0.6;0.1");
     const BarPropCard minimal = cardAt<BarPropTable>(model, 0);
@@ -71,7 +71,7 @@ TEST_CASE("PBAR defaults every blank to 0.0 and keeps a blank shear factor apart
     REQUIRE(shear.productInertia12 == 0.1);
 }
 
-TEST_CASE("PBAR keeps K1 and K2 blank for no area, and refuses what the format reference refuses", "[model][cards]")
+TEST_CASE("BarProp keeps K1 and K2 blank for no area, and refuses what the format reference refuses", "[model][cards]")
 {
     REQUIRE_NOTHROW(readBulk("BarProp;1;5;0.;1.;1."));
     REQUIRE_THROWS_AS(readBulk("BarProp;1;5;0.;1.;1.;;;;;;;;;;;0.5"), base::DeckError);  // K1 with A = 0
@@ -104,7 +104,8 @@ TEST_CASE("the beam and solid properties refer to their material, the solid also
     REQUIRE(elementSystem.fields == std::vector<std::string>{"matId"});
 }
 
-TEST_CASE("PBARL takes the number of dimensions of its section type, and NSM comes after the last", "[model][cards]")
+TEST_CASE("BarShapeProp takes the number of dimensions of its section type, and NSM comes after the last",
+          "[model][cards]")
 {
     const std::vector<std::pair<std::string, std::size_t>> sections = {
         {"Rod", 1},       {"Tube", 2},      {"Tube2", 2},
@@ -141,7 +142,8 @@ TEST_CASE("PBARL takes the number of dimensions of its section type, and NSM com
     REQUIRE(BarShapePropFormat::dimensionCount("NOPE") == 0);
 }
 
-TEST_CASE("PBARL reads the section type in any case and refuses other groups and blank dimensions", "[model][cards]")
+TEST_CASE("BarShapeProp reads the section type in any case and refuses other groups and blank dimensions",
+          "[model][cards]")
 {
     const Model model = readBulk("BarShapeProp;1;1;StandardSectionLibrary;Tube;2.;1.");
     REQUIRE(cardAt<BarShapePropTable>(model).kind == "Tube");
@@ -151,7 +153,7 @@ TEST_CASE("PBARL reads the section type in any case and refuses other groups and
     REQUIRE_THROWS_AS(readBulk("BarShapeProp;1;1;;;2.;1."), base::DeckError);      // no TYPE
 }
 
-TEST_CASE("PBARL DBOX gives DIM5 to DIM10 their defaults", "[model][cards]")
+TEST_CASE("BarShapeProp DBOX gives DIM5 to DIM10 their defaults", "[model][cards]")
 {
     // DIM5 to DIM7 blank take DIM4, DIM8 is given, DIM9 blank takes DIM6 (which is DIM4), DIM10 is given.
     const Model model = readBulk("BarShapeProp;1;1;;DoubleBoxSection;10.;6.;0.5;0.4;;;;0.2;;0.3");
@@ -161,7 +163,7 @@ TEST_CASE("PBARL DBOX gives DIM5 to DIM10 their defaults", "[model][cards]")
     REQUIRE_THROWS_AS(readBulk("BarShapeProp;1;1;;Box;10.;6."), base::DeckError);
 }
 
-TEST_CASE("PBEAM resolves the blank values of its stations", "[model][cards]")
+TEST_CASE("BeamProp resolves the blank values of its stations", "[model][cards]")
 {
     // End A: A=2 I1=2 I2=4 J=1 NSM=0.5. Station at 0.5: only I1=3 given. End B: A=4 and J=3 given.
     const Model model = readBulk(
@@ -186,7 +188,7 @@ TEST_CASE("PBEAM resolves the blank values of its stations", "[model][cards]")
     REQUIRE(endB.stressPointF == std::array<double, 2>{0.7, 0.8});
 }
 
-TEST_CASE("PBEAM keeps the stations in the order of the card and interpolates by X/XB", "[model][cards]")
+TEST_CASE("BeamProp keeps the stations in the order of the card and interpolates by X/XB", "[model][cards]")
 {
     const Model model = readBulk("BeamProp;1;6;2.;2.;4.;0.;1.;0.5;;;;;;;;;No;1.;4.;;;;;;No;0.25;;;;;;;No;0.75");
     const BeamPropCard card = cardAt<BeamPropTable>(model);
@@ -198,7 +200,7 @@ TEST_CASE("PBEAM keeps the stations in the order of the card and interpolates by
     REQUIRE(card.stations[3].bendingInertia1 == Approx(2.0));
 }
 
-TEST_CASE("PBEAM tells the line of stress points at end A from the first station", "[model][cards]")
+TEST_CASE("BeamProp tells the line of stress points at end A from the first station", "[model][cards]")
 {
     const Model withLine = readBulk("BeamProp;1;6;1.;1.;1.;;;;2.;-4.");
     REQUIRE(cardAt<BeamPropTable>(withLine).stations.front().stressOutput == BeamStressOutput::Yes);
@@ -218,7 +220,7 @@ TEST_CASE("PBEAM tells the line of stress points at end A from the first station
     REQUIRE(BeamPropFormat::check(alone).has_value());
 }
 
-TEST_CASE("PBEAM footer: K1 and K2 default to 1.0, the B values to those of end A", "[model][cards]")
+TEST_CASE("BeamProp footer: K1 and K2 default to 1.0, the B values to those of end A", "[model][cards]")
 {
     const Model model = readBulk("BeamProp;1;6;1.;1.;1.\nBeamProp;2;6;1.;1.;1.;;;;;;;;;;;;;2.;;0.1;;0.21;;0.5;;1.;2.");
     const BeamPropCard plain = cardAt<BeamPropTable>(model, 0);
@@ -240,7 +242,7 @@ TEST_CASE("PBEAM footer: K1 and K2 default to 1.0, the B values to those of end 
     REQUIRE(footer.neutralAxisYB == 0.0);
 }
 
-TEST_CASE("PBEAM refuses what the format reference refuses", "[model][cards]")
+TEST_CASE("BeamProp refuses what the format reference refuses", "[model][cards]")
 {
     REQUIRE_NOTHROW(readBulk("BeamProp;1;6;1.;1.;1.;;;;;;;;;;;;Yes;1.;2."));
     REQUIRE_THROWS_AS(readBulk("BeamProp;1;6;1.;1.;1.;;;;;;;;;;;;Yes;0.5;2."), base::DeckError);             // no end B
@@ -256,7 +258,8 @@ TEST_CASE("PBEAM refuses what the format reference refuses", "[model][cards]")
     REQUIRE_THROWS_AS(readBulk(stations + ";No;0.95;;;;;;;No;1.;2.\n"), base::DeckError);
 }
 
-TEST_CASE("PBEAM writes every value of its stations, so that they do not depend on the blank fields", "[model][cards]")
+TEST_CASE("BeamProp writes every value of its stations, so that they do not depend on the blank fields",
+          "[model][cards]")
 {
     const Model model = readBulk("BeamProp;1;6;2.;2.;4.;0.;1.;0.5;;;;;;;;;No;0.5;;;;;;;No;1.;4.;;;;3.");
 
@@ -310,7 +313,7 @@ TEST_CASE("PSOLID refuses values its fields do not take", "[model][cards]")
     REQUIRE_THROWS_AS(readBulk("SolidProp;1"), base::DeckError); // MID is required
 }
 
-TEST_CASE("PELAS gives one property per spring, two for a card with two", "[model][cards]")
+TEST_CASE("SpringProp gives one property per spring, two for a card with two", "[model][cards]")
 {
     const Model model = readBulk("SpringProp;7;5.36;0.04;6.15;23;3.08\nSpringProp;8;1.E+5");
     const SpringPropTable& table = *model.findTable<SpringPropTable>();
@@ -325,7 +328,7 @@ TEST_CASE("PELAS gives one property per spring, two for a card with two", "[mode
     REQUIRE(model.locate(base::IdSpace::Property, 23).has_value());
 }
 
-TEST_CASE("PELAS needs the ID and the stiffness of each spring, and shares the property IDs", "[model][cards]")
+TEST_CASE("SpringProp needs the ID and the stiffness of each spring, and shares the property IDs", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("SpringProp;1"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("SpringProp;1;1.;;;2"), base::DeckError);    // the second has no K2
@@ -335,7 +338,7 @@ TEST_CASE("PELAS needs the ID and the stiffness of each spring, and shares the p
     REQUIRE_THROWS_AS(readBulk("SpringProp;1;1.\nBushProp;1;Stiffness;1."), base::DeckError);
 }
 
-TEST_CASE("PBUSH reads its groups in any order and defaults what is not there", "[model][cards]")
+TEST_CASE("BushProp reads its groups in any order and defaults what is not there", "[model][cards]")
 {
     const Model model = readBulk(
         "BushProp;1;Stiffness;720.;3500.;510.;1.E+3;1.E+3;1.E+3;Damping;1.;2.\nBushProp;2;Damping;2.3\nBushProp;3");
@@ -353,7 +356,7 @@ TEST_CASE("PBUSH reads its groups in any order and defaults what is not there", 
     REQUIRE(cardAt<BushPropTable>(reversed).stiffness[2] == 3.0);
 }
 
-TEST_CASE("PBUSH gives GE1 to all six directions when GE2 to GE6 are blank", "[model][cards]")
+TEST_CASE("BushProp gives GE1 to all six directions when GE2 to GE6 are blank", "[model][cards]")
 {
     const Model alone = readBulk("BushProp;1;Stiffness;1.;2.;3.;4.;5.;6.;StructuralDamping;0.05");
     REQUIRE(cardAt<BushPropTable>(alone).structuralDamping ==
@@ -373,7 +376,7 @@ TEST_CASE("PBUSH gives GE1 to all six directions when GE2 to GE6 are blank", "[m
     oor::testing::requireModelFileRoundTrip(alone);
 }
 
-TEST_CASE("PBUSH recovery coefficients default to 1.0 and thermal values to 0.0", "[model][cards]")
+TEST_CASE("BushProp recovery coefficients default to 1.0 and thermal values to 0.0", "[model][cards]")
 {
     const Model model =
         readBulk("BushProp;1;Stiffness;1.;;;;;;Recovery;6.4;;2.\nBushProp;2;Stiffness;1.;;;;;;Thermal;1.E-5;20.");
@@ -388,13 +391,13 @@ TEST_CASE("PBUSH recovery coefficients default to 1.0 and thermal values to 0.0"
     REQUIRE(thermal.coincidentLength == 0.0);
 }
 
-TEST_CASE("PBUSH refuses a repeated group and a negative mass", "[model][cards]")
+TEST_CASE("BushProp refuses a repeated group and a negative mass", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("BushProp;1;Stiffness;1.;;;;;;Stiffness;2."), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("BushProp;1;Stiffness;1.;;;;;;Mass;-1."), base::DeckError); // negative mass
 }
 
-TEST_CASE("MAT2 reads the property matrix, the damping matrix and defaults the rest to 0.0", "[model][cards]")
+TEST_CASE("AnisoMat2D reads the property matrix, the damping matrix and defaults the rest to 0.0", "[model][cards]")
 {
     const Model model = readBulk(
         "AnisoMat2D;1;4700.;1800.;;4700.;;3600.\n"
@@ -419,7 +422,7 @@ TEST_CASE("MAT2 reads the property matrix, the damping matrix and defaults the r
     REQUIRE(full.structuralDampingTerms == std::array<double, 6>{17.0, 18.0, 19.0, 20.0, 21.0, 22.0});
 }
 
-TEST_CASE("MAT8 resolves Xc and Yc and keeps a blank transverse shear blank", "[model][cards]")
+TEST_CASE("OrthoMat2D resolves Xc and Yc and keeps a blank transverse shear blank", "[model][cards]")
 {
     const Model model = readBulk(
         "OrthoMat2D;1;2.4E+7;1.2E+6;0.28;1.6E+6;;;0.061;2.3E-5;1.2E-6;140.;1.2E+4;;300.;;1400.\n"
@@ -441,7 +444,7 @@ TEST_CASE("MAT8 resolves Xc and Yc and keeps a blank transverse shear blank", "[
     REQUIRE(given.compressionStrength2 == 900.0);
 }
 
-TEST_CASE("MAT8 reads the Hashin groups with their blank values resolved", "[model][cards]")
+TEST_CASE("OrthoMat2D reads the Hashin groups with their blank values resolved", "[model][cards]")
 {
     const Model model = readBulk(
         "OrthoMat2D;1;2.4E+7;1.2E+6;0.28;;;;;;;;;;;;;;;;HashinCriterion;1010.;;33.;;1011.;;HashinTape;2001.;;35.;;2003."
@@ -462,7 +465,7 @@ TEST_CASE("MAT8 reads the Hashin groups with their blank values resolved", "[mod
     REQUIRE_FALSE(cardAt<OrthoMat2DTable>(without).hashinFabric.has_value());
 }
 
-TEST_CASE("MAT8 refuses what the format reference refuses", "[model][cards]")
+TEST_CASE("OrthoMat2D refuses what the format reference refuses", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("OrthoMat2D;1;;1.E+6"), base::DeckError);           // E1 is required
     REQUIRE_THROWS_AS(readBulk("OrthoMat2D;1;1.;-1."), base::DeckError);           // E2 positive
@@ -472,7 +475,8 @@ TEST_CASE("MAT8 refuses what the format reference refuses", "[model][cards]")
     REQUIRE_THROWS_AS(readBulk("OrthoMat2D;1;1.;1.;0.3;;;;;;;;;;;;;;;;;;5."), base::DeckError);
 }
 
-TEST_CASE("MAT1, MAT2 and MAT8 share one ID space, and a MAT2 refers to its system", "[model][cards]")
+TEST_CASE("IsoMat, AnisoMat2D and OrthoMat2D share one ID space, and an AnisoMat2D refers to its system",
+          "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("IsoMat;5;2.E+11;;0.3\nAnisoMat2D;5;1."), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("AnisoMat2D;5;1.\nOrthoMat2D;5;1.;1.;0.3"), base::DeckError);

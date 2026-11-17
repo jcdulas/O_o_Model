@@ -240,19 +240,25 @@ private:
         info.name = "radiationTable";
         info.family = "T11";
         info.description =
-            "The radiating surface elements: a row for each element a RADBC (card RadiationToSpace: ambientNode "
-            "NODAMB, viewFactor FAMB, controlNode CNTRLND) or a RADLST (card RadiationCavityList: cavity ICAVITY) "
-            "names, a row for the ambient element of a RADCAV (card RadiationCavity: elementId ELEAMB, cavity), and a "
+            "The radiating surface elements: a row for each element a RadiationToSpace (card RadiationToSpace: "
+            "ambientNode "
+            "NODAMB, viewFactor FAMB, controlNode CNTRLND) or a RadiationCavityList (card RadiationCavityList: cavity "
+            "ICAVITY) "
+            "names, a row for the ambient element of a RadiationCavity (card RadiationCavity: elementId ELEAMB, "
+            "cavity), and a "
             "row "
-            "for each cavity of a RADSET (card RadiationCavitySet: no elementId). "
-            "radiationMatId is the RADM of the front face of the surface element (its back face when the front has "
+            "for each cavity of a RadiationCavitySet (card RadiationCavitySet: no elementId). "
+            "radiationMatId is the RadiationProp of the front face of the surface element (its back face when the "
+            "front has "
             "none), "
             "absorptivity and emissivity the ABSORP and the first EMIS of that RADM; a value that does not apply is "
             "null. "
-            "An element that does not exist is not listed. A negative EID of a RADBC (the back face) is listed by its "
+            "An element that does not exist is not listed. A negative EID of a RadiationToSpace (the back face) is "
+            "listed by its "
             "ID.";
         info.parameters = {parameter("elementIds", ParameterKind::IdList, "None", "keep these surface elements")};
-        info.defaultSort = "elementId (the cards without one last), then RADBC, RADLST, RADCAV";
+        info.defaultSort = "elementId (the cards without one last), then RadiationToSpace, RadiationCavityList, "
+                           "RadiationCavity";
         ColumnListBuilder columns;
         columns.int32("elementId").dictionary("card").int32("ambientNode").real("viewFactor").int32("controlNode");
         columns.int32("radiationMatId").reals("absorptivity emissivity").int32("cavity");

@@ -77,20 +77,24 @@ private:
         info.name = "rigidElementsTable";
         info.family = "T6";
         info.description =
-            "One row for each node of each rigid element (RBE1, RBE2, RBE3, RBAR, RBAR1, RROD, RSPLINE, RJOINT, "
-            "RTRPLT, "
-            "RTRPLT1): its role, independent or dependent, the components (dof, the digits as text) it is that for, "
+            "One row for each node of each rigid element (RigidBodyMulti, RigidBodyStar, RigidInterpolation, RigidBar, "
+            "RigidBar1, RigidRod, RigidSpline, RigidJoint, "
+            "RigidTriaPlate, "
+            "RigidTriaPlate1): its role, independent or dependent, the components (dof, the digits as text) it is that "
+            "for, "
             "and the "
-            "weight (RBE3). RBE2: the independent grid point GN with all its components, the dependent ones with CM. "
-            "RBE3: "
-            "the weighted grid points are independent, the reference grid point and the UM list dependent. RBAR: CNA "
+            "weight (RigidInterpolation). RigidBodyStar: the independent grid point GN with all its components, the "
+            "dependent ones with CM. "
+            "RigidInterpolation: "
+            "the weighted grid points are independent, the reference grid point and the UM list dependent. RigidBar: "
+            "CNA "
             "and "
-            "CNB independent, CMA and CMB dependent (a node can have both rows). RROD: the end with CMA or CMB "
+            "CNB independent, CMA and CMB dependent (a node can have both rows). RigidRod: the end with CMA or CMB "
             "dependent, "
-            "the other independent with no dof. RSPLINE: the two ends independent, the points between dependent. "
+            "the other independent with no dof. RigidSpline: the two ends independent, the points between dependent. "
             "Independent rows come before dependent ones, in the order of the card. alpha and referenceTemperature are "
             "the ALPHA and "
-            "TREF of the element, repeated on each of its rows (null for RJOINT and RSPLINE, which have none).";
+            "TREF of the element, repeated on each of its rows (null for RigidJoint and RigidSpline, which have none).";
         info.parameters = {parameter("elementIds", ParameterKind::IdList, "None", "keep these elements"),
                            parameter("types", ParameterKind::TextList, "None", "keep these card types")};
         info.defaultSort = "elementId (then the order of the card)";

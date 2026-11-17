@@ -96,11 +96,13 @@ private:
         info.name = "designConstraintsTable";
         info.family = "T9";
         info.description =
-            "The design constraints (DCONSTR cards): the set, the response it bounds, the bounds (null for a bound the "
+            "The design constraints (DesignConstr cards): the set, the response it bounds, the bounds (null for a "
+            "bound the "
             "card "
             "does not give, or that is a table of frequencies) and the subcases whose DESSUB or DESGLB selects the "
             "set, "
-            "directly or through a DCONADD. `lowFrequency` and `highFrequency` are LOWFQ and HIGHFQ, the range of "
+            "directly or through a DesignConstrUnion. `lowFrequency` and `highFrequency` are LOWFQ and HIGHFQ, the "
+            "range of "
             "frequencies the bounds apply to (null when the card leaves the range open: 0.0 and 1.0E20); "
             "`lowerTable` and `upperTable` are the TABLEDi that give a bound as a function of frequency (the bound "
             "is then null).";

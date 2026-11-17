@@ -10,7 +10,7 @@ namespace
 {
 
 constexpr int LAST_FIELD = 5;
-// the most additional fields an UserDefined1Prop card has (the format: NP <= 24)
+// the most additional fields a UserDefined1Prop card has (the format: NP <= 24)
 constexpr std::int32_t MOST_PROPERTY_FIELDS = 24;
 
 } // namespace

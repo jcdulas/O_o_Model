@@ -103,7 +103,7 @@ TEST_CASE("the automatic search joins the placed points of the parts and numbers
     REQUIRE((image != nullptr && image->type == SuperelementType::Mirror && image->imageOf == 30));
 }
 
-TEST_CASE("the tolerance of the search is the SEBULK TOL, else CONFAC", "[analysis][superelements]")
+TEST_CASE("the tolerance of the search is the SuperelementBulkOptions TOL, else CONFAC", "[analysis][superelements]")
 {
     // Point 203 of part 20 is 2.0E-5 from residual 2: outside the default CONFAC of 1.0E-5, inside a TOL of 1.0E-4.
     std::string deck = PARTS;

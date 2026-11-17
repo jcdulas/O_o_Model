@@ -49,7 +49,8 @@ private:
         info.name = "massByType";
         info.family = "T7";
         info.description =
-            "The mass of the elements of each card type (CQUAD4, CONM2, ...): the number of elements, the structural "
+            "The mass of the elements of each card type (ShellQuad4, PointMassInertia, ...): the number of elements, "
+            "the structural "
             "and "
             "non-structural mass, their sum, and the centre of gravity. An element whose mass cannot be computed is "
             "left out.";

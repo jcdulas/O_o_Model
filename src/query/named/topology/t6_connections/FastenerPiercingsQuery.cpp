@@ -120,18 +120,19 @@ private:
         info.name = "fastenerPiercings";
         info.family = "T6";
         info.description =
-            "Where each CFAST and CWELD pierces the shells, from the geometry alone: one row per fastener and side "
-            "(A, then B; a point-to-patch CWELD has side A only, an ALIGN CWELD no row: its ends are GA and GB). card "
+            "Where each Fastener and Weld pierces the shells, from the geometry alone: one row per fastener and side "
+            "(A, then B; a point-to-patch Weld has side A only, an ALIGN Weld no row: its ends are GA and GB). card "
             "and form the card and its TYPE (its neutral word: Elements, ElemPatch, ...); pointGrid GA or GB when the "
             "card gives it (the point is then that grid "
             "point); x y z the piercing point in the basic system; element and elementType the shell pierced "
-            "(element null and elementType NodeIdPatch for the face of grid points of a CWELD GRIDID); xi eta the "
+            "(element null and elementType NodeIdPatch for the face of grid points of a Weld GRIDID); xi eta the "
             "natural "
             "coordinates of the point on it (area coordinates L2 L3 on a triangle), within it; nodeIds the grid points "
             "of "
             "the element in its order and shapeValues its shape functions there (they sum to 1). Side A is the "
             "projection of GS (or XS, YS, ZS) on the shells of side A, side B the crossing of the normal to side A at "
-            "A with the shells of side B; a point is accepted within PROJTOL of SWLDPRM (0.02) of an element's edges "
+            "A with the shells of side B; a point is accepted within PROJTOL of ConnectorSearchParams (0.02) of an "
+            "element's edges "
             "in natural coordinates and within 10 element sizes. A side not found has null coordinates, the field "
             "of the card concerned and the problem.";
         info.defaultSort = "elementId, side";

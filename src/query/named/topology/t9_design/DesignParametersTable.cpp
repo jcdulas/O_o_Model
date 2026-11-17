@@ -85,15 +85,16 @@ private:
         info.name = "designParametersTable";
         info.family = "T9";
         info.description =
-            "The parameters of the design optimisation (DOPTPRM): one row per "
-            "parameter of the catalogue, in the order of the format reference, then each name a DOPTPRM gives that the "
+            "The parameters of the design optimisation (DesignOptimParams): one row per "
+            "parameter of the catalogue, in the order of the format reference, then each name a DesignOptimParams "
+            "gives that the "
             "catalogue "
             "does not list. kind is integer, real or text as the catalogue says (null for a name it does not list); "
             "the value is in integerValue, realValue or textValue, as the deck wrote it (an integer for a real "
             "parameter stays an integer) or the default of the catalogue (the one of sizing and shape optimisation "
             "where the format reference gives two); all three are null for a parameter the deck does not give whose "
             "default the "
-            "program computes (DABOBJ, OPTCOD, ...). isDefault is false for a value a DOPTPRM gives.";
+            "program computes (DABOBJ, OPTCOD, ...). isDefault is false for a value a DesignOptimParams gives.";
         info.defaultSort = "the order of the format reference catalogue, then the other names in the order of the deck";
         ColumnListBuilder columns;
         columns.text("name").dictionary("kind").int64("integerValue").real("realValue").text("textValue");

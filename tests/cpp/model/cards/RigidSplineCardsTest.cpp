@@ -40,7 +40,8 @@ using Runs = std::vector<IdRun>;
 } // namespace
 
 TEST_CASE(
-    "an RBE2GS has its fields in the places of the format reference, the defaults of CM, TREF and ALPHA and the TYPE "
+    "a RigidBodySearched has its fields in the places of the format reference, the defaults of CM, TREF and ALPHA and "
+    "the TYPE "
     "words",
     "[model][cards][rigid]")
 {
@@ -82,7 +83,8 @@ TEST_CASE(
     // The defaults are blank, a missing coordinate stays blank, and the ENDL appears only with a list.
 }
 
-TEST_CASE("an RBE2GS reads the exclusion lists of the alternate formats of the format", "[model][cards][rigid]")
+TEST_CASE("a RigidBodySearched reads the exclusion lists of the alternate formats of the format",
+          "[model][cards][rigid]")
 {
     Model model = readBulk(
         "RigidBodySearched;15;35;;;-0.58;;;;;;3;84;Through;103;15;72;84\n"
@@ -129,7 +131,7 @@ TEST_CASE("an RBE2GS reads the exclusion lists of the alternate formats of the f
     REQUIRE(cardAt<RigidBodySearchedTable>(blanks, 0).dependentNodes == Runs{{50, 60}});
 }
 
-TEST_CASE("an RBE2GS names its search point and the grids of its lists, and follows their renumbering",
+TEST_CASE("a RigidBodySearched names its search point and the grids of its lists, and follows their renumbering",
           "[model][cards][rigid]")
 {
     Model model = readBulk(
@@ -169,7 +171,8 @@ TEST_CASE("an RBE2GS names its search point and the grids of its lists, and foll
     REQUIRE_THROWS_AS(readBulk("RigidBodySearched;10;17;;;1.\nRigidBodySearched;10;18;;;1."), base::DeckError);
 }
 
-TEST_CASE("an RBE2GS refuses a value, a search location given twice or not at all and a list that is not closed",
+TEST_CASE("a RigidBodySearched refuses a value, a search location given twice or not at all and a list that is not "
+          "closed",
           "[model][cards][rigid]")
 {
     expectInvalid("RigidBodySearched;0;17;;;1.", "id");
@@ -206,7 +209,8 @@ TEST_CASE("an RBE2GS refuses a value, a search location given twice or not at al
 }
 
 TEST_CASE(
-    "an RCONN has its fields in the places of the format reference, the blank line of the format and static defaults",
+    "a RigidMeshConnection has its fields in the places of the format reference, the blank line of the format and "
+    "static defaults",
     "[model][cards][rigid]")
 {
     Model model = readBulk(
@@ -260,7 +264,8 @@ TEST_CASE(
     expectInvalid("RigidMeshConnection;7;;;4;9;;;;x", "gapValue");
 }
 
-TEST_CASE("an RCONN names a BSURF as its secondary side only when STYPE says so, and follows their renumbering",
+TEST_CASE("a RigidMeshConnection names a ContactElemSurface as its secondary side only when STYPE says so, and follows "
+          "their renumbering",
           "[model][cards][rigid]")
 {
     Model model = readBulk(
@@ -289,7 +294,8 @@ TEST_CASE("an RCONN names a BSURF as its secondary side only when STYPE says so,
 }
 
 TEST_CASE(
-    "a SPBLND1 has its fields in the places of the format reference and needs the reference grid unless it is a "
+    "an AeroSplineStripBlend has its fields in the places of the format reference and needs the reference grid unless "
+    "it is a "
     "weighted average",
     "[model][cards][aero]")
 {
@@ -345,7 +351,7 @@ TEST_CASE(
     expectInvalid("AeroSplineStripBlend;140;105;125;Cubic;;5;1.;2.;0.;0.;0.", "directionX");
 }
 
-TEST_CASE("a SPBLND2 has its fields in the places of the format reference and a linear blend by default",
+TEST_CASE("an AeroSplineCurveBlend has its fields in the places of the format reference and a linear blend by default",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -378,7 +384,7 @@ TEST_CASE("a SPBLND2 has its fields in the places of the format reference and a 
     expectInvalid("AeroSplineCurveBlend;140;105;125;;4;1.;-1.", "depth2");
 }
 
-TEST_CASE("a SPLINRB has up to six pairs of a grid point and components that select six degrees of freedom",
+TEST_CASE("an AeroRigidSpline has up to six pairs of a grid point and components that select six degrees of freedom",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -429,7 +435,8 @@ TEST_CASE("a SPLINRB has up to six pairs of a grid point and components that sel
     expectInvalid("AeroRigidSpline;105;30;2;;1;123456;2;1", "components1");
 }
 
-TEST_CASE("a SPRELAX has no ID of its own, so several cards relax the same spline", "[model][cards][aero]")
+TEST_CASE("an AeroSplineRelaxation has no ID of its own, so several cards relax the same spline",
+          "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroSplineRelaxation;140;125;55;4.\n"

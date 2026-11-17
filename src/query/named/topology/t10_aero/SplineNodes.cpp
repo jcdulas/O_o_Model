@@ -75,8 +75,10 @@ private:
         info.name = "splineNodes";
         info.family = "T10";
         info.description =
-            "One row for each structural point of each spline: the distinct IDs of the SET1 or SET3 cards of its SETG "
-            "in increasing order (the points G of a SPLINE3). `componentId` is the component of the model the node "
+            "One row for each structural point of each spline: the distinct IDs of the IdListSet1 or TypedListSet3 "
+            "cards of its SETG "
+            "in increasing order (the points G of an AeroSplineEquation3). `componentId` is the component of the model "
+            "the node "
             "belongs to (T4); it is null for an ID that is not a grid point (a scalar point, an ID with no card) and "
             "for a node no component uses.";
         info.parameters = {parameter("splineIds", ParameterKind::IdList, "None", "the splines to list")};

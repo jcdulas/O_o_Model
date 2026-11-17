@@ -75,7 +75,7 @@ struct TimeToSpectrumChannel
 // the subcases and the channels of the MAP lines increase.
 //
 // The card names no other card: EVNTIDi is the number of the event, which is the TID of a FatigueLoad (and so the
-// number of an UserFileName), and LCIDi a subcase, so none is a reference. The ID is unique among the TimeToSpectrum
+// number of a UserFileName), and LCIDi a subcase, so none is a reference. The ID is unique among the TimeToSpectrum
 // cards (IdSpace::PerCardType, category Other: a FATIGUE command of the Case Control selects it).
 struct TimeToSpectrumCard
 {

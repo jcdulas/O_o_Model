@@ -146,22 +146,27 @@ private:
         info.name = "thermalBoundaryElementsTable";
         info.family = "T11";
         info.description =
-            "The heat transfer surface elements: type is the card (CHBDYE, CHBDYG, CHBDYP) and surfaceType the type "
+            "The heat transfer surface elements: type is the card (HeatSurfaceSide, HeatSurfaceNodes, "
+            "HeatSurfaceProperty) and surfaceType the type "
             "of "
             "its surface (AREA3 to AREA8, REV, REV1 of a CHBDYG; POINT, LINE, ELCYL, FTUBE, TUBE of a CHBDYP; AREA, "
             "LINE or "
-            "POINT, the kind of the side, for a CHBDYE). propId is the PHBDY of a CHBDYP, underlyingElementId and side "
+            "POINT, the kind of the side, for a HeatSurfaceSide). propId is the HeatSurfaceProp of a "
+            "HeatSurfaceProperty, underlyingElementId and side "
             "the "
-            "conduction element and the side of a CHBDYE (null for the others). nodes are the grid points of the "
+            "conduction element and the side of a HeatSurfaceSide (null for the others). nodes are the grid points of "
+            "the "
             "surface (a "
-            "CHBDYE: the corners of its side, found from the element and the format reference side numbering). area is "
+            "HeatSurfaceSide: the corners of its side, found from the element and the format reference side "
+            "numbering). area is "
             "the area of "
             "the "
-            "surface (the analysis geometry: the face of a CHBDYE or CHBDYG, AF of a POINT, AF times the length of a "
+            "surface (the analysis geometry: the face of a HeatSurfaceSide or HeatSurfaceNodes, AF of a POINT, AF "
+            "times the length of a "
             "LINE; "
             "null where it is not defined, for instance when the conduction element is missing). The radiation "
             "materials "
-            "(RADM) and view factors (VIEW) of the front and back faces are null when blank.";
+            "(RadiationProp) and view factors (VIEW) of the front and back faces are null when blank.";
         info.parameters = {parameter("elementIds", ParameterKind::IdList, "None", "keep these surface elements")};
         info.defaultSort = "elementId";
         ColumnListBuilder columns;

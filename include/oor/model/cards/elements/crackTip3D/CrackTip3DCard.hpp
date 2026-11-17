@@ -9,7 +9,7 @@ namespace oor::model
 {
 
 // One CrackTip3D card: a three-dimensional crack tip element (a dummy element of the format reference: the deck needs
-// an UserDefined9Attributes entry for it, a rule between cards that is not checked here).
+// a UserDefined9Attributes entry for it, a rule between cards that is not checked here).
 //
 // Card layout: CrackTip3D  EID  PID  G1  G2  G3  G4  G5  G6, then eight grid points to each continuation line (G7 to
 //                          G14,

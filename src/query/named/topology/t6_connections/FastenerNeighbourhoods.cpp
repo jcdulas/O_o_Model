@@ -235,15 +235,16 @@ private:
         info.family = "T6";
         info.description =
             "The shells around each side of each fastener, with their area fractions: ring 1 is the shells whose "
-            "grid points are all grid points the side is tied to (for a CFAST or CWELD the grid points of the shell "
+            "grid points are all grid points the side is tied to (for a Fastener or Weld the grid points of the shell "
             "the side pierces, fastenerPiercings: that shell, or the shell on the face of grid points of a GRIDID "
-            "side), or, when none is (the grid point GA or GB of a CBUSH or of an ALIGN CWELD), the shells at those "
+            "side), or, when none is (the grid point GA or GB of a Bushing or of an ALIGN Weld), the shells at those "
             "grid points; each ring after adds the shells that share a grid point with "
             "the ring before, up to `rings`. `weight` is the area fraction of the shell: its area over the area of "
             "all the shells of the side (the weights of a side sum to 1), the weights of an area-weighted "
             "average over the side (one use: with the averages of readBlock, the mean fluxes of each plate "
             "around a fastener). "
-            "`fasteners`: the CFAST, CWELD and CBUSH elements to list (all when None). One row per fastener, side and "
+            "`fasteners`: the Fastener, Weld and Bushing elements to list (all when None). One row per fastener, side "
+            "and "
             "shell, by fastener, side and element ID.";
         info.parameters = {parameter("fasteners", ParameterKind::IdList, "None", "the fasteners (all when None)"),
                            parameter("rings", ParameterKind::Integer, "1", "the rings of shells around each side")};

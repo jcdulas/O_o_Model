@@ -294,7 +294,8 @@ public:
         const model::PointMassInertiaTable* table = model.findTable<model::PointMassInertiaTable>();
         if (table == nullptr)
             return {0,
-                    "the model has no concentrated mass: only a model whose mass is concentrated (CONM2) is handled"};
+                    "the model has no concentrated mass: only a model whose mass is concentrated (PointMassInertia) is "
+                    "handled"};
         std::map<base::EntityId, double> mass;
         double lumped = 0.0;
         for (std::uint32_t row = 0; row < table->rows().rowCount(); ++row)
@@ -307,7 +308,7 @@ public:
                 card.offset[0] == 0.0 && card.offset[1] == 0.0 && card.offset[2] == 0.0 &&
                 std::all_of(card.inertia.begin(), card.inertia.end(), [](double value) { return value == 0.0; });
             if (card.frameId == model::PointMassInertiaCard::BASIC_COORDINATES || !plain)
-                return {0, "the CONM2 " + std::to_string(card.id) +
+                return {0, "the PointMassInertia " + std::to_string(card.id) +
                                " has an offset, an inertia or a coordinate system: the lumped mass matrix is not made"};
             mass[card.node] += card.mass;
             lumped += card.mass;

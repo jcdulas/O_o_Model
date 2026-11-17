@@ -335,7 +335,7 @@ private:
     {
         const std::optional<EquationFunction> function = findEquationFunction(nameToken.text);
         if (!function)
-            fail("\"" + nameToken.text + "\" is not one of the functions of a DEQATN", nameToken.position);
+            fail("\"" + nameToken.text + "\" is not one of the functions of a DesignEquation", nameToken.position);
         advance(); // the parenthesis
         ExpressionNode node;
         node.kind = ExpressionKind::Call;

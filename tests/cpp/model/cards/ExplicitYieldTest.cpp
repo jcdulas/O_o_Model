@@ -66,7 +66,8 @@ Fields with(Fields fields, int number, const std::string& text)
 
 } // namespace
 
-TEST_CASE("a YLDHY has only its number and a YLDMC has three required reals", "[model][cards][explicit]")
+TEST_CASE("a HydrodynamicYield has only its number and a MohrCoulombYield has three required reals",
+          "[model][cards][explicit]")
 {
     const Model model =
         readBulk("HydrodynamicYield;200\nMohrCoulombYield;1;1.E+6;2.E+6;1.E+4\nMohrCoulombYield;2;5.E+5;0.;-1.E+3");
@@ -84,7 +85,7 @@ TEST_CASE("a YLDHY has only its number and a YLDMC has three required reals", "[
     expectInvalid("MohrCoulombYield;1;1.E+6;GOLD;1.E+4", "cohesion");
 }
 
-TEST_CASE("a YLDJC has its constants in the fields of the format reference and the defaults of the format",
+TEST_CASE("a JohnsonCookYield has its constants in the fields of the format reference and the defaults of the format",
           "[model][cards][explicit]")
 {
     const Model model = readBulk(
@@ -112,7 +113,7 @@ TEST_CASE("a YLDJC has its constants in the fields of the format reference and t
     expectInvalid(cardText("JohnsonCookYield", with(base, 8, "0.")), "specificHeat");
 }
 
-TEST_CASE("a YLDMSS keeps the tensile strength resolved and accepts the Drucker-Prager case",
+TEST_CASE("a SnowMultiSurfaceYield keeps the tensile strength resolved and accepts the Drucker-Prager case",
           "[model][cards][explicit]")
 {
     const Model model = readBulk(
@@ -152,7 +153,7 @@ TEST_CASE("a YLDMSS keeps the tensile strength resolved and accepts the Drucker-
     expectInvalid(cardText("SnowMultiSurfaceYield", with(base, 10, "-1.")), "coefficientDs");
 }
 
-TEST_CASE("a YLDPOL and a YLDRPL have their coefficients in the fields of the format reference",
+TEST_CASE("a PolynomialYield and a RatePowerLawYield have their coefficients in the fields of the format reference",
           "[model][cards][explicit]")
 {
     const Model model = readBulk(
@@ -187,7 +188,8 @@ TEST_CASE("a YLDPOL and a YLDRPL have their coefficients in the fields of the fo
     expectInvalid(cardText("RatePowerLawYield", {{1, "7"}, {2, "180.E6"}, {4, "SLOW"}}), "coefficientN");
 }
 
-TEST_CASE("a YLDSG has its second line in fields 9 and 10 and a YLDTM has fourteen fields", "[model][cards][explicit]")
+TEST_CASE("a SteinbergGuinanYield has its second line in fields 9 and 10 and a TanimuraMimuraYield has fourteen fields",
+          "[model][cards][explicit]")
 {
     const Model model = readBulk(
         "SteinbergGuinanYield;7;7.E+6;1.2E+8;95.;0.5;;;;1620.;288.\n"
@@ -263,7 +265,7 @@ TEST_CASE("the user defined yield and failure models have a group, a routine and
     oor::testing::requireModelFileRoundTrip(readModelText("UserFailureModel;200;usrfail;TOOLONGNAME", true));
 }
 
-TEST_CASE("a YLDVM is a bilinear curve or a table, with the rate effect of a table or of Cowper-Symonds",
+TEST_CASE("a VonMisesYield is a bilinear curve or a table, with the rate effect of a table or of Cowper-Symonds",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -317,7 +319,7 @@ TEST_CASE("a YLDVM is a bilinear curve or a table, with the rate effect of a tab
     expectInvalid("VonMisesYield;1;;;30;True;31;;2.", "rateExponentP");
 }
 
-TEST_CASE("a YLDZA is a face centred metal unless it has a D, and has its specific heat in field 8",
+TEST_CASE("a ZerilliArmstrongYield is a face centred metal unless it has a D, and has its specific heat in field 8",
           "[model][cards][explicit]")
 {
     const Model model = readBulk(
@@ -345,7 +347,8 @@ TEST_CASE("a YLDZA is a face centred metal unless it has a D, and has its specif
     expectInvalid(cardText("ZerilliArmstrongYield", with(base, 9, "HARD")), "coefficientD");
 }
 
-TEST_CASE("a FAILJC has its method in field 11 and a FAILMPS only its maximum strain", "[model][cards][explicit]")
+TEST_CASE("a JohnsonCookFailure has its method in field 11 and a MaxPlasticStrainFailure only its maximum strain",
+          "[model][cards][explicit]")
 {
     const Model model = readBulk(
         "JohnsonCookFailure;1;0.07;2.86;-1.75;0.004;0.21;1.;291.;1520.;470.;Continue\n"
@@ -385,7 +388,8 @@ TEST_CASE("a FAILJC has its method in field 11 and a FAILMPS only its maximum st
     expectInvalid("MaxPlasticStrainFailure;1;STRAIN", "maxPlasticStrain");
 }
 
-TEST_CASE("a PMINC has a minimum pressure that is not positive and two volume tolerances", "[model][cards][explicit]")
+TEST_CASE("a ConstantSpallation has a minimum pressure that is not positive and two volume tolerances",
+          "[model][cards][explicit]")
 {
     const Model model =
         readBulk("ConstantSpallation;220;-420\nConstantSpallation;221\nConstantSpallation;222;-420.;1.E-5;2.E-5");
@@ -406,7 +410,7 @@ TEST_CASE("a PMINC has a minimum pressure that is not positive and two volume to
     expectInvalid("ConstantSpallation;220;-420.;1.E-4;-1.E-5", "maxVoidFraction");
 }
 
-TEST_CASE("an MCOHE is a material with its fields over three lines and a stress table", "[model][cards][explicit]")
+TEST_CASE("a CohesiveMat is a material with its fields over three lines and a stress table", "[model][cards][explicit]")
 {
     Model model = readBulk(
         "CohesiveMat;705;2;364;142.5;0.;0.;1.;0.03;0.;;1.\n"
@@ -477,7 +481,7 @@ TEST_CASE("an MCOHE is a material with its fields over three lines and a stress 
     expectInvalid(cardText("CohesiveMat", with(base, 20, "-1.")), "normalStiffness");
 }
 
-TEST_CASE("the yield, failure and spall models are spaces of their own that a MATDEUL names",
+TEST_CASE("the yield, failure and spall models are spaces of their own that an EulerMat names",
           "[model][cards][explicit]")
 {
     Model model = readBulk(

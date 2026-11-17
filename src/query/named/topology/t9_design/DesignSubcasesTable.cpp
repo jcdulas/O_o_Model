@@ -120,7 +120,8 @@ private:
             "The design selections of the Case Control: one row for the global section (`subcase` 0), then one for "
             "each analysis subcase, with the value in force there (a subcase inherits from the global section): "
             "ANALYSIS, DESOBJ with its `objectiveSense` (`max` for DESOBJ(MAX), else `min`), DESSUB and DESGLB, and "
-            "`constraintSets`: the DCONSTR sets that the DESSUB and DESGLB of the row select, a DCONADD replaced by "
+            "`constraintSets`: the DesignConstr sets that the DESSUB and DESGLB of the row select, a DesignConstrUnion "
+            "replaced by "
             "the sets it adds, ascending.";
         info.defaultSort = "subcase 0, then the order of the Case Control";
         ColumnListBuilder columns;

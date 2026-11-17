@@ -7,7 +7,7 @@ namespace oor::model
 {
 
 // One UserDefined3Attributes card: the attributes of the user dummy element number 3, whose connection is an
-// UserDefined3 card and whose property is an UserDefined3Prop card. The element routines that give the dummy element
+// UserDefined3 card and whose property is a UserDefined3Prop card. The element routines that give the dummy element
 // its stiffness and its output are written by the user; the UserDefined3Attributes card tells the solver how many
 // fields the two cards have.
 //

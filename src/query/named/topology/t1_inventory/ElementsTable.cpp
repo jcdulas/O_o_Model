@@ -132,12 +132,13 @@ private:
             "geometric "
             "column that does not apply to the type of the element is null (the volume of a shell). The main material "
             "is the "
-            "one the element card gives (CONROD), else the first one its property names (MID1 of a PSHELL, else MID2; "
+            "one the element card gives (Rod2InlineSection), else the first one its property names (MID1 of a "
+            "ShellProp, else MID2; "
             "the first "
             "ply of a laminate).";
         info.parameters = {
             parameter("elementIds", ParameterKind::IdList, "None", "keep these elements"),
-            parameter("types", ParameterKind::TextList, "None", "keep these card types (\"CQUAD4\", ...)"),
+            parameter("types", ParameterKind::TextList, "None", "keep these card types (\"ShellQuad4\", ...)"),
             parameter("propertyIds", ParameterKind::IdList, "None", "keep the elements of these properties"),
             parameter("materialIds", ParameterKind::IdList, "None",
                       "keep the elements whose main material is one of these")};

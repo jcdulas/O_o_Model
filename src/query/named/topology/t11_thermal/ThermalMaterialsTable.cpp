@@ -127,16 +127,20 @@ private:
         info.name = "thermalMaterialsTable";
         info.family = "T11";
         info.description =
-            "The heat transfer materials: type (MAT4 or MAT5), the conductivity k, the specific heat cp, the density "
+            "The heat transfer materials: type (HeatIsoMat or HeatAnisoMat), the conductivity k, the specific heat cp, "
+            "the density "
             "rho, "
-            "the free convection coefficient h, the viscosity mu and the heat generation multiplier hgen of a MAT4, "
+            "the free convection coefficient h, the viscosity mu and the heat generation multiplier hgen of a "
+            "HeatIsoMat, "
             "the "
-            "conductivity matrix kxx kxy kxz kyy kyz kzz of a MAT5 (cp, rho and hgen are on both), null where the card "
+            "conductivity matrix kxx kxy kxz kyy kyz kzz of a HeatAnisoMat (cp, rho and hgen are on both), null where "
+            "the card "
             "type "
             "has no such field (a blank K, H or MU is null too); referenceTemperature is null: the cards have no "
             "reference "
             "temperature. "
-            "temperatureTables lists the TABLEMi tables the MATT4 or MATT5 of the material gives, which make a value "
+            "temperatureTables lists the TABLEMi tables the HeatIsoMatTemperature or HeatAnisoMatTemperature of the "
+            "material gives, which make a value "
             "depend "
             "on the temperature (empty when there is none).";
         info.parameters = {parameter("materialIds", ParameterKind::IdList, "None", "keep these materials")};

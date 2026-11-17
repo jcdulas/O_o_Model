@@ -190,8 +190,9 @@ private:
         info.name = "materialsTable";
         info.family = "T1";
         info.description =
-            "The materials: type, the isotropic constants of a MAT1 (e g nu density a referenceTemperature "
-            "structuralDamping st sc ss), the orthotropic ones of a MAT8 (e1 e2 nu12 g12 xt xc yt yc s; density, a, "
+            "The materials: type, the isotropic constants of an IsoMat (e g nu density a referenceTemperature "
+            "structuralDamping st sc ss), the orthotropic ones of an OrthoMat2D (e1 e2 nu12 g12 xt xc yt yc s; "
+            "density, a, "
             "referenceTemperature and structuralDamping are those of the card too), null where the card type has no "
             "such field; the number of properties that name the material, the number of elements that use it "
             "(through the material of the element or of the plies of its property) and the structural mass it "

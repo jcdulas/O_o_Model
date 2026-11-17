@@ -152,11 +152,14 @@ private:
         info.name = "spiders";
         info.family = "T6";
         info.description =
-            "The RBE2 and RBE3 as spiders of a unit: a spider has all its legs (the Gi of an "
-            "RBE3, the dependent points of an RBE2) on one component, or on one group with `groups` (rows keyed by "
+            "The RigidBodyStar and RigidInterpolation as spiders of a unit: a spider has all its legs (the Gi of an "
+            "RigidInterpolation, the dependent points of a RigidBodyStar) on one component, or on one group with "
+            "`groups` (rows keyed by "
             "`group`; a card whose legs are in two overlapping groups has a row for each). referenceNodeId is GN of an "
-            "RBE2 (referenceDofs 123456) or REFGRID of an RBE3 (REFC); legNodeIds, legDofs and legWeights (null for "
-            "an RBE2) as the card gives them. A card that is not a spider says why: um (an RBE3 with UM), "
+            "RigidBodyStar (referenceDofs 123456) or REFGRID of a RigidInterpolation (REFC); legNodeIds, legDofs and "
+            "legWeights (null for "
+            "a RigidBodyStar) as the card gives them. A card that is not a spider says why: um (a RigidInterpolation "
+            "with UM), "
             "referenceIsLeg, referenceDependentElsewhere (the reference point is a dependent point of another "
             "rigid element or the first term of an MPC equation), legsOnSeveralUnits (the legs are on several "
             "units, or one on none: the unit is then null). isEligible: a spider no leg of which another connection "

@@ -80,7 +80,7 @@ std::string_view fieldOf(const std::optional<CardProblem>& problem)
 // --- ModuleBulkOptions
 // ---------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDBULK types a module and resolves its defaults", "[model][cards][modules]")
+TEST_CASE("a ModuleBulkOptions types a module and resolves its defaults", "[model][cards][modules]")
 {
     const Model model = readBulk(
         "ModuleBulkOptions;26;;;Automatic;0.003\n"
@@ -116,7 +116,7 @@ TEST_CASE("an MDBULK types a module and resolves its defaults", "[model][cards][
     requireRoundTrip(model);
 }
 
-TEST_CASE("an MDBULK with ALL is one card indexed as 0 and has no type", "[model][cards][modules]")
+TEST_CASE("a ModuleBulkOptions with ALL is one card indexed as 0 and has no type", "[model][cards][modules]")
 {
     const Model model = readBulk("ModuleBulkOptions;All;;;Automatic;2.E-4\nModuleBulkOptions;5");
     // The ID index keeps 0 for ALL, which no module number has: a second ModuleBulkOptions,ALL is a duplicate.
@@ -136,14 +136,14 @@ TEST_CASE("an MDBULK with ALL is one card indexed as 0 and has no type", "[model
     requireRoundTrip(readBulk("ModuleBulkOptions;All;;;Automatic;2.E-4\nModuleBulkOptions;5"));
 }
 
-TEST_CASE("an MDBULK names no card: a module is a BEGIN MODULE section", "[model][cards][modules]")
+TEST_CASE("a ModuleBulkOptions names no card: a module is a BEGIN MODULE section", "[model][cards][modules]")
 {
     Model model = readBulk("ModuleBulkOptions;28;Repeat;26\nModuleBulkOptions;26");
     REQUIRE(referencesOf<ModuleBulkOptionsTable>(model, 0).fields.empty());
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("an MDBULK refuses what its format does not allow", "[model][cards][modules]")
+TEST_CASE("a ModuleBulkOptions refuses what its format does not allow", "[model][cards][modules]")
 {
     expectInvalid("ModuleBulkOptions", "id");
     expectInvalid("ModuleBulkOptions;0", "id"); // module 0 is the main Bulk Data: not a module to type
@@ -162,7 +162,8 @@ TEST_CASE("an MDBULK refuses what its format does not allow", "[model][cards][mo
 // --- ModuleLabel
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDLABEL is one per module and its label has the rules of a text over fields", "[model][cards][modules]")
+TEST_CASE("a ModuleLabel is one per module and its label has the rules of a text over fields",
+          "[model][cards][modules]")
 {
     REQUIRE_THROWS_AS(readBulk("ModuleLabel;5;A\nModuleLabel;5;B"), base::DeckError); // one per module
     expectInvalid("ModuleLabel;-1;Wing", "id");
@@ -188,7 +189,7 @@ TEST_CASE("an MDLABEL is one per module and its label has the rules of a text ov
 // --- ModuleBoundaryNodes and ModuleExcludedNodes
 // --------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDBNDRY lists the boundary points of a module and the module it is searched against",
+TEST_CASE("a ModuleBoundaryNodes lists the boundary points of a module and the module it is searched against",
           "[model][cards][modules]")
 {
     Model model = readBulk(gridCards({10, 20, 30, 31, 32, 33, 34, 35}) +
@@ -230,7 +231,7 @@ TEST_CASE("an MDBNDRY lists the boundary points of a module and the module it is
     REQUIRE(cardAt<ModuleBoundaryNodesTable>(model, 0).nodes.front() == run(10, 10)); // module 350: left alone
 }
 
-TEST_CASE("an MDBNDRY refuses what its format does not allow", "[model][cards][modules]")
+TEST_CASE("a ModuleBoundaryNodes refuses what its format does not allow", "[model][cards][modules]")
 {
     expectInvalid("ModuleBoundaryNodes;-1;All;10", "moduleIdA");
     expectInvalid("ModuleBoundaryNodes;400;-2;10", "otherModule");
@@ -242,7 +243,7 @@ TEST_CASE("an MDBNDRY refuses what its format does not allow", "[model][cards][m
     expectInvalid("ModuleBoundaryNodes;400;All;Through;10", "Through");
 }
 
-TEST_CASE("an MDEXCLD lists the points a module does not connect to another one", "[model][cards][modules]")
+TEST_CASE("a ModuleExcludedNodes lists the points a module does not connect to another one", "[model][cards][modules]")
 {
     Model model = readBulk(gridCards({10, 20, 30, 31, 32, 33, 34, 35}) +
                            "ModuleExcludedNodes;350;6;10;20;30;40\nModuleExcludedNodes;350;All;10;20;30;Through;"
@@ -279,7 +280,8 @@ TEST_CASE("an MDEXCLD lists the points a module does not connect to another one"
 // --- ModuleFluidSet and ModuleStructureSet
 // ----------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDFSET and an MDSSET list the points or elements of a module with THRU ranges", "[model][cards][modules]")
+TEST_CASE("a ModuleFluidSet and a ModuleStructureSet list the points or elements of a module with THRU ranges",
+          "[model][cards][modules]")
 {
     Model model = readBulk(
         "ModuleFluidSet;12;41;52;73;84;26;27;28;29\n"
@@ -311,7 +313,8 @@ TEST_CASE("an MDFSET and an MDSSET list the points or elements of a module with 
     REQUIRE(ModuleStructureSetTable::INFO.idSpace == base::IdSpace::None);
 }
 
-TEST_CASE("an MDFSET and an MDSSET refuse what their format does not allow", "[model][cards][modules]")
+TEST_CASE("a ModuleFluidSet and a ModuleStructureSet refuse what their format does not allow",
+          "[model][cards][modules]")
 {
     for (const std::string name : {"ModuleFluidSet", "ModuleStructureSet"})
     {
@@ -327,7 +330,7 @@ TEST_CASE("an MDFSET and an MDSSET refuse what their format does not allow", "[m
 // --- ModuleEntryExclusion
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an EXCLUDE lists the names of the entries a copied module ignores", "[model][cards][modules]")
+TEST_CASE("a ModuleEntryExclusion lists the names of the entries a copied module ignores", "[model][cards][modules]")
 {
     const Model model = readBulk(
         "ModuleEntryExclusion;SinglePointConstr;PointForceLoad\nModuleEntryExclusion;NodeTemperatureLoad;ShellTria3;"
@@ -345,7 +348,7 @@ TEST_CASE("an EXCLUDE lists the names of the entries a copied module ignores", "
     REQUIRE(referencesOf<ModuleEntryExclusionTable>(copy).fields.empty());
 }
 
-TEST_CASE("an EXCLUDE refuses an empty list, Node and a name that is not a name", "[model][cards][modules]")
+TEST_CASE("a ModuleEntryExclusion refuses an empty list, Node and a name that is not a name", "[model][cards][modules]")
 {
     expectInvalid("ModuleEntryExclusion", "entry1");
     expectInvalid("ModuleEntryExclusion;Node", "entry"); // a fatal error
@@ -364,7 +367,7 @@ TEST_CASE("an EXCLUDE refuses an empty list, Node and a name that is not a name"
 // --- ModuleConnection
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDCONCT has two layouts of the location and pairs of module and point", "[model][cards][modules]")
+TEST_CASE("a ModuleConnection has two layouts of the location and pairs of module and point", "[model][cards][modules]")
 {
     const Model model = readBulk(
         "ModuleConnection;2201;;0.45;1.5;;42.75;13.25;;;10;3300;20;3400\n"
@@ -403,7 +406,7 @@ TEST_CASE("an MDCONCT has two layouts of the location and pairs of module and po
     requireRoundTrip(model);
 }
 
-TEST_CASE("an MDCONCT reads every type and looks up what the main Bulk Data holds", "[model][cards][modules]")
+TEST_CASE("a ModuleConnection reads every type and looks up what the main Bulk Data holds", "[model][cards][modules]")
 {
     const char* const words[] = {"Merge", "Rigid", "RigidStarReleased", "ModuleRigidStar"};
     for (std::size_t index = 0; index < 4; ++index)
@@ -445,7 +448,7 @@ TEST_CASE("an MDCONCT reads every type and looks up what the main Bulk Data hold
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("an MDCONCT refuses what its format does not allow", "[model][cards][modules]")
+TEST_CASE("a ModuleConnection refuses what its format does not allow", "[model][cards][modules]")
 {
     expectInvalid("ModuleConnection;0", "id");
     expectInvalid("ModuleConnection;-4", "id");
@@ -475,7 +478,7 @@ TEST_CASE("an MDCONCT refuses what its format does not allow", "[model][cards][m
 // --- ModuleDirectMatrix
 // ---------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDDMIG has a header and columns whose terms carry a module", "[model][cards][modules]")
+TEST_CASE("a ModuleDirectMatrix has a header and columns whose terms carry a module", "[model][cards][modules]")
 {
     const Model model = readBulk(
         "ModuleDirectMatrix;KJNT;0;1;3;4\n"
@@ -512,7 +515,7 @@ TEST_CASE("an MDDMIG has a header and columns whose terms carry a module", "[mod
     requireRoundTrip(model);
 }
 
-TEST_CASE("an MDDMIG looks up the points of module 0 and no other", "[model][cards][modules]")
+TEST_CASE("a ModuleDirectMatrix looks up the points of module 0 and no other", "[model][cards][modules]")
 {
     Model model = readBulk(
         "ModuleDirectMatrix;KMAT;0;5;1;;;;0;5;1;1.5;;;6;3;-0.5;;9;7;3;2.\n"
@@ -540,7 +543,7 @@ TEST_CASE("an MDDMIG looks up the points of module 0 and no other", "[model][car
     REQUIRE(cardAt<ModuleDirectMatrixTable>(model, 2).terms[0].point == 105);
 }
 
-TEST_CASE("an MDDMIG refuses what its format does not allow", "[model][cards][modules]")
+TEST_CASE("a ModuleDirectMatrix refuses what its format does not allow", "[model][cards][modules]")
 {
     const Model named = readBulk("ModuleDirectMatrix;1BAD;0;1;3\nModuleDirectMatrix;Long.Mixed.MatrixName;0;1;3");
     REQUIRE(cardAt<ModuleDirectMatrixTable>(named, 0).entryName == "1BAD");
@@ -576,7 +579,7 @@ TEST_CASE("an MDDMIG refuses what its format does not allow", "[model][cards][mo
 // --- ModuleBrakeSystem
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDBKSYS has a header and a line for each brake system", "[model][cards][modules]")
+TEST_CASE("a ModuleBrakeSystem has a header and a line for each brake system", "[model][cards][modules]")
 {
     Model model = readBulk(
         "ModuleBrakeSystem;610;0.3;0;Yes;;DISKA;1;3;2;5;1;3;6;DISKB;2;6;3;7;2;5;3\n"
@@ -612,7 +615,7 @@ TEST_CASE("an MDBKSYS has a header and a line for each brake system", "[model][c
     REQUIRE_THROWS_AS(readBulk("ModuleBrakeSystem;900\nModuleBrakeSystem;900"), base::DeckError); // the ID is unique
 }
 
-TEST_CASE("an MDBKSYS refuses what its format does not allow", "[model][cards][modules]")
+TEST_CASE("a ModuleBrakeSystem refuses what its format does not allow", "[model][cards][modules]")
 {
     expectInvalid("ModuleBrakeSystem;0", "id");
     expectInvalid("ModuleBrakeSystem;5;;2", "frictionVectorMethod");
@@ -629,7 +632,7 @@ TEST_CASE("an MDBKSYS refuses what its format does not allow", "[model][cards][m
 // --- ModuleBolt
 // ---------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDBOLT lists the top and bottom grid points of a bolt in their modules", "[model][cards][modules]")
+TEST_CASE("a ModuleBolt lists the top and bottom grid points of a bolt in their modules", "[model][cards][modules]")
 {
     Model model = readBulk(
         "ModuleBolt;70;1250;12;12;34;Top;5;201;202;203;204;205;Bottom;5;6;7;8;9;10\n"
@@ -659,7 +662,7 @@ TEST_CASE("an MDBOLT lists the top and bottom grid points of a bolt in their mod
     REQUIRE(unresolvedIn(model) == 19);
 }
 
-TEST_CASE("an MDBOLT follows a renumbering of the grid points of the main Bulk Data only", "[model][cards][modules]")
+TEST_CASE("a ModuleBolt follows a renumbering of the grid points of the main Bulk Data only", "[model][cards][modules]")
 {
     Model model = readBulk(
         gridCards({1, 2, 3, 11, 12, 13, 100}) +
@@ -676,7 +679,7 @@ TEST_CASE("an MDBOLT follows a renumbering of the grid points of the main Bulk D
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("an MDBOLT refuses what its format and the BOLT do not allow", "[model][cards][modules]")
+TEST_CASE("a ModuleBolt refuses what its format and the BoltConnection do not allow", "[model][cards][modules]")
 {
     expectInvalid("ModuleBolt;0;5;;;;Top;1;1;Bottom;1;2", "id");
     expectInvalid("ModuleBolt;5;0;;;;Top;1;1;Bottom;1;2", "controlNode");
@@ -699,7 +702,7 @@ TEST_CASE("an MDBOLT refuses what its format and the BOLT do not allow", "[model
 // --- ModuleBushing
 // ---------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an MDBUSH is a CBUSH with the modules of its points", "[model][cards][modules]")
+TEST_CASE("a ModuleBushing is a Bushing with the modules of its points", "[model][cards][modules]")
 {
     const Model model = readBulk(
         "ModuleBushing;2701;2706;1;100;;6300;;;;;;;;;15;18\n"
@@ -736,7 +739,8 @@ TEST_CASE("an MDBUSH is a CBUSH with the modules of its points", "[model][cards]
     requireRoundTrip(model);
 }
 
-TEST_CASE("an MDBUSH looks up what the main Bulk Data holds, in the module each field names", "[model][cards][modules]")
+TEST_CASE("a ModuleBushing looks up what the main Bulk Data holds, in the module each field names",
+          "[model][cards][modules]")
 {
     Model model = readBulk(
         "ModuleBushing;2701;2706;1;100;;6300;;;;;;;;;15;18\n"
@@ -772,7 +776,7 @@ TEST_CASE("an MDBUSH looks up what the main Bulk Data holds, in the module each 
     REQUIRE(unresolvedIn(complete) == 0);
 }
 
-TEST_CASE("an MDBUSH refuses what its format does not allow", "[model][cards][modules]")
+TEST_CASE("a ModuleBushing refuses what its format does not allow", "[model][cards][modules]")
 {
     expectInvalid("ModuleBushing;0;1;1;2", "id");
     expectInvalid("ModuleBushing;100000000;;1;2", "id");

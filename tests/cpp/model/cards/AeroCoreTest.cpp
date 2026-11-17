@@ -36,7 +36,7 @@ std::int64_t globalCommand(const Model& model, const char* name)
 
 } // namespace
 
-TEST_CASE("an AEFACT is a list of reals with no blank inside", "[model][cards][aero]")
+TEST_CASE("an AeroFactorList is a list of reals with no blank inside", "[model][cards][aero]")
 {
     const Model model = readBulk(
         "AeroFactorList;93;0.2;0.6;1.\nAeroFactorList;98;0.;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.9;1.\nAeroFactorList;99;"
@@ -55,7 +55,7 @@ TEST_CASE("an AEFACT is a list of reals with no blank inside", "[model][cards][a
     REQUIRE_THROWS_AS(readBulk("AeroFactorList;5;0.3\nAeroFactorList;5;0.4"), base::DeckError);
 }
 
-TEST_CASE("an AELIST keeps its single boxes and its THRU ranges", "[model][cards][aero]")
+TEST_CASE("an AeroBoxList keeps its single boxes and its THRU ranges", "[model][cards][aero]")
 {
     Model model = readBulk("AeroBoxList;72;1001;Through;1064;1121;Through;1128;1301;1302\nAeroBoxList;76;5");
     const AeroBoxListCard card = cardAt<AeroBoxListTable>(model, 0);
@@ -73,7 +73,7 @@ TEST_CASE("an AELIST keeps its single boxes and its THRU ranges", "[model][cards
     expectInvalid("AeroBoxList;10;9;Through;3", "entries"); // a range goes up
 }
 
-TEST_CASE("a CAERO1 is an aerodynamic element: its own ID space, its references and the boxes it owns",
+TEST_CASE("an AeroLiftingPanel1 is an aerodynamic element: its own ID space, its references and the boxes it owns",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -158,7 +158,8 @@ TEST_CASE("a panel whose division list is missing owns its EID only and says it 
     REQUIRE((ranges.ranges()[1].panelId == 2000 && ranges.ranges()[1].boxCount == 2 && ranges.ranges()[1].countKnown));
 }
 
-TEST_CASE("the boxes of an AELIST and a CAERO1 move together when the aerodynamic elements are renumbered",
+TEST_CASE("the boxes of an AeroBoxList and an AeroLiftingPanel1 move together when the aerodynamic elements are "
+          "renumbered",
           "[model][cards][aero]")
 {
     Model model = readBulk(

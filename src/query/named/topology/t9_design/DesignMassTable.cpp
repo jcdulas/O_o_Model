@@ -143,7 +143,7 @@ private:
             "(`isExact`) when every relation the variable moves is linear and drives a field the mass depends on "
             "linearly or not at all (a thickness, an area, a density, a non-structural mass, a stiffness), and an "
             "approximation of the derivative when a relation goes through an equation or drives a dimension of a "
-            "section. A variable a DLINK makes dependent has no sensitivity of its own (null): the independent "
+            "section. A variable a DesignVarLink makes dependent has no sensitivity of its own (null): the independent "
             "variables "
             "carry it. The mass counts the structural and non-structural mass of the cards and of the NSM set the Case "
             "Control selects, with no WTMASS, as `massByProperty` does.";

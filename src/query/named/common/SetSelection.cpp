@@ -135,13 +135,13 @@ std::vector<std::int32_t> idSetMembers(const model::Model& model, const NamedIdS
                 std::uint64_t count = ids.size();
                 for (const model::IdRun& run : card.ids)
                     count += base::idRangeCount(run.first, run.last);
-                base::requireExpandable(count, std::string(query) + ": the SET1 " + std::to_string(*set.setId));
+                base::requireExpandable(count, std::string(query) + ": the IdListSet1 " + std::to_string(*set.setId));
                 for (const model::IdRun& run : card.ids)
                     for (std::int64_t id = run.first; id <= run.last; ++id)
                         ids.push_back(static_cast<std::int32_t>(id));
             }
         if (!found)
-            throw QueryError(std::string(query) + ": there is no SET1 with the ID " + std::to_string(*set.setId));
+            throw QueryError(std::string(query) + ": there is no IdListSet1 with the ID " + std::to_string(*set.setId));
     }
     std::sort(ids.begin(), ids.end());
     ids.erase(std::unique(ids.begin(), ids.end()), ids.end());

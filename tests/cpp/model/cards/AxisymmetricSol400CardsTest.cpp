@@ -112,7 +112,7 @@ std::string triangleTables()
 // --- AxisymShellProp
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PAXISYM is a primary property with a material, two thicknesses and an analysis type",
+TEST_CASE("an AxisymShellProp is a primary property with a material, two thicknesses and an analysis type",
           "[model][cards][paxisym]")
 {
     REQUIRE((AxisymShellPropTable::INFO.category == CardCategory::Property &&
@@ -166,7 +166,8 @@ TEST_CASE("a PAXISYM is a primary property with a material, two thicknesses and 
     expectInvalid("AxisymShellProp;2098;2017;0.125;0.25;XX", "analysisType");
 }
 
-TEST_CASE("a PAXISYM is named by a CAXISYM and follows the renumbering of the materials and of the properties",
+TEST_CASE("an AxisymShellProp is named by a ShellAxisym and follows the renumbering of the materials and of the "
+          "properties",
           "[model][cards][paxisym]")
 {
     Model model = readBulk(
@@ -210,7 +211,8 @@ TEST_CASE("a PAXISYM is named by a CAXISYM and follows the renumbering of the ma
 // --- AxisymHarmonicProp
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PAXSYMH has the format reference defaults and is the property that a CQUADX and a CTRIAX name",
+TEST_CASE("an AxisymHarmonicProp has the format reference defaults and is the property that an AxisymQuad and an "
+          "AxisymTria name",
           "[model][cards][paxsymh]")
 {
     REQUIRE((AxisymHarmonicPropTable::INFO.category == CardCategory::Property &&
@@ -280,7 +282,8 @@ TEST_CASE("a PAXSYMH has the format reference defaults and is the property that 
 // --- BushProp2DFreq
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PBSH2DT has three groups of four tables, each led by a flag, in any order", "[model][cards][pbsh2dt]")
+TEST_CASE("a BushProp2DFreq has three groups of four tables, each led by a flag, in any order",
+          "[model][cards][pbsh2dt]")
 {
     REQUIRE((BushProp2DFreqTable::INFO.category == CardCategory::Property &&
              BushProp2DFreqTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -316,7 +319,8 @@ TEST_CASE("a PBSH2DT has three groups of four tables, each led by a flag, in any
     oor::testing::requireModelFileRoundTrip(order);
 }
 
-TEST_CASE("a PBSH2DT extends the PBUSH2D of its ID and names its tables as TABLED1 entries", "[model][cards][pbsh2dt]")
+TEST_CASE("a BushProp2DFreq extends the BushProp2D of its ID and names its tables as TableDynamic1 entries",
+          "[model][cards][pbsh2dt]")
 {
     Model model = readBulk(
         "BushProp2D;20;1.;1.\nBushProp2DFreq;20;Stiffness;101;102;103;104;Damping;201;202;;;Mass;;;301\n" +
@@ -361,7 +365,7 @@ TEST_CASE("a PBSH2DT extends the PBUSH2D of its ID and names its tables as TABLE
     requireRoundTrip(model);
 }
 
-TEST_CASE("a PBSH2DT refuses a bad flag, a group twice, a negative table and a field outside the grid",
+TEST_CASE("a BushProp2DFreq refuses a bad flag, a group twice, a negative table and a field outside the grid",
           "[model][cards][pbsh2dt]")
 {
     expectInvalid("BushProp2DFreq;0;Stiffness;101", "id");
@@ -378,7 +382,7 @@ TEST_CASE("a PBSH2DT refuses a bad flag, a group twice, a negative table and a f
 // --- SpringOffsetProp
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PSPRMAT is a linear spring (K) or a nonlinear one (LOAD) and has its values on the third line",
+TEST_CASE("a SpringOffsetProp is a linear spring (K) or a nonlinear one (LOAD) and has its values on the third line",
           "[model][cards][psprmat]")
 {
     REQUIRE((SpringOffsetPropTable::INFO.category == CardCategory::Property &&
@@ -415,7 +419,8 @@ TEST_CASE("a PSPRMAT is a linear spring (K) or a nonlinear one (LOAD) and has it
     REQUIRE(visitedBy<SpringOffsetPropTable>(model, 3).fields == std::vector<std::string>{"loadingTableId"});
 }
 
-TEST_CASE("a PSPRMAT is named by a CSPR, names its curves and follows the renumbering", "[model][cards][psprmat]")
+TEST_CASE("a SpringOffsetProp is named by a SpringOffsetExplicit, names its curves and follows the renumbering",
+          "[model][cards][psprmat]")
 {
     Model model = readBulk(
         "Node;1;;0.;0.;0.\n"
@@ -453,7 +458,7 @@ TEST_CASE("a PSPRMAT is named by a CSPR, names its curves and follows the renumb
     REQUIRE_THROWS_AS(readBulk("SpringOffsetProp;1;12500.\nSpringProp;1;1.\n"), base::DeckError); // the property space
 }
 
-TEST_CASE("a PSPRMAT refuses a mix of the two forms, a missing K or LOAD and a K in the wrong field",
+TEST_CASE("a SpringOffsetProp refuses a mix of the two forms, a missing K or LOAD and a K in the wrong field",
           "[model][cards][psprmat]")
 {
     expectInvalid("SpringOffsetProp;0;12500.", "id");
@@ -475,7 +480,8 @@ TEST_CASE("a PSPRMAT refuses a mix of the two forms, a missing K or LOAD and a K
 // --- RigidAxisymConnection
 // ---------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an RBAX3D is a rigid element between a point on the axis and a point of an axisymmetric element",
+TEST_CASE("a RigidAxisymConnection is a rigid element between a point on the axis and a point of an axisymmetric "
+          "element",
           "[model][cards][rbax3d]")
 {
     REQUIRE((RigidAxisymConnectionTable::INFO.category == CardCategory::Element &&
@@ -541,7 +547,7 @@ TEST_CASE("an RBAX3D is a rigid element between a point on the axis and a point 
 // --- NonlinearBushForceTables
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an LBSH3DG of the form SYM has the lower triangle of the matrix, one row to a line",
+TEST_CASE("a NonlinearBushForceTables of the form SYM has the lower triangle of the matrix, one row to a line",
           "[model][cards][lbsh3dg]")
 {
     REQUIRE((NonlinearBushForceTablesTable::INFO.category == CardCategory::BushingForceSet &&
@@ -571,7 +577,8 @@ TEST_CASE("an LBSH3DG of the form SYM has the lower triangle of the matrix, one 
     requireRoundTrip(empty);
 }
 
-TEST_CASE("an LBSH3DG of the form DIAG has the six diagonal terms on one line", "[model][cards][lbsh3dg]")
+TEST_CASE("a NonlinearBushForceTables of the form DIAG has the six diagonal terms on one line",
+          "[model][cards][lbsh3dg]")
 {
     Model model = readBulk("NonlinearBushForceTables;2;DiagonalForm;;5.E+3;511;522;533;544;555;566\n");
     const NonlinearBushForceTablesCard card = cardAt<NonlinearBushForceTablesTable>(model);
@@ -585,7 +592,7 @@ TEST_CASE("an LBSH3DG of the form DIAG has the six diagonal terms on one line", 
     expectInvalid("NonlinearBushForceTables;2;DiagonalForm;;5.E+3;511;522;;;;;521", "");
 }
 
-TEST_CASE("an LBSH3DG of the form ASYM has the 36 terms, six to a line", "[model][cards][lbsh3dg]")
+TEST_CASE("a NonlinearBushForceTables of the form ASYM has the 36 terms, six to a line", "[model][cards][lbsh3dg]")
 {
     Model model = readBulk(asymmetricText(3));
     const NonlinearBushForceTablesCard card = cardAt<NonlinearBushForceTablesTable>(model);
@@ -605,7 +612,8 @@ TEST_CASE("an LBSH3DG of the form ASYM has the 36 terms, six to a line", "[model
     requireRoundTrip(sparse);
 }
 
-TEST_CASE("an LBSH3DG names a TABLED5 for each term and follows the renumbering of the tables and of its own ID",
+TEST_CASE("a NonlinearBushForceTables names a TableDynamic5 for each term and follows the renumbering of the tables "
+          "and of its own ID",
           "[model][cards][lbsh3dg]")
 {
     Model model = readBulk(symmetricText(1) + triangleTables());
@@ -638,7 +646,8 @@ TEST_CASE("an LBSH3DG names a TABLED5 for each term and follows the renumbering 
                       base::DeckError);
 }
 
-TEST_CASE("an LBSH3DG is edited with the tables that have a place in its form", "[model][cards][lbsh3dg]")
+TEST_CASE("a NonlinearBushForceTables is edited with the tables that have a place in its form",
+          "[model][cards][lbsh3dg]")
 {
     Model model = readBulk(symmetricText(1));
     NonlinearBushForceTablesTable& table = model.table<NonlinearBushForceTablesTable>();
@@ -669,7 +678,8 @@ TEST_CASE("an LBSH3DG is edited with the tables that have a place in its form", 
     REQUIRE(bushingTermField(BushingForm::Diagonal, 5, 5) == 14);
 }
 
-TEST_CASE("an LBSH3DG refuses a bad FORM, a rotor speed range that is empty, a negative table and a stray field",
+TEST_CASE("a NonlinearBushForceTables refuses a bad FORM, a rotor speed range that is empty, a negative table and a "
+          "stray field",
           "[model][cards][lbsh3dg]")
 {
     expectInvalid("NonlinearBushForceTables;0;;;5.E+3", "id");
@@ -688,7 +698,8 @@ TEST_CASE("an LBSH3DG refuses a bad FORM, a rotor speed range that is empty, a n
 // --- NonlinearBushLoad3D
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an NLBSH3D is a nonlinear load between two grid points that names two LBSH3DG", "[model][cards][nlbsh3d]")
+TEST_CASE("a NonlinearBushLoad3D is a nonlinear load between two grid points that names two NonlinearBushForceTables",
+          "[model][cards][nlbsh3d]")
 {
     REQUIRE((NonlinearBushLoad3DTable::INFO.category == CardCategory::DynamicLoad &&
              NonlinearBushLoad3DTable::INFO.idSpace == base::IdSpace::Group));
@@ -748,7 +759,7 @@ TEST_CASE("an NLBSH3D is a nonlinear load between two grid points that names two
     REQUIRE(cardAt<NonlinearBushLoad3DTable>(model, 0).nodeB == 1003);
 }
 
-TEST_CASE("an NLBSH3D refuses a missing field, equal grid points and a field outside the layout",
+TEST_CASE("a NonlinearBushLoad3D refuses a missing field, equal grid points and a field outside the layout",
           "[model][cards][nlbsh3d]")
 {
     expectInvalid("NonlinearBushLoad3D;0;1;2;10;11", "setId");
@@ -764,7 +775,7 @@ TEST_CASE("an NLBSH3D refuses a missing field, equal grid points and a field out
 // --- PlotSurface
 // --------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PLTSURF has 3, 4, 6 or 8 grid points in the order of the shells", "[model][cards][pltsurf]")
+TEST_CASE("a PlotSurface has 3, 4, 6 or 8 grid points in the order of the shells", "[model][cards][pltsurf]")
 {
     REQUIRE((PlotSurfaceTable::INFO.category == CardCategory::Element &&
              PlotSurfaceTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -791,7 +802,7 @@ TEST_CASE("a PLTSURF has 3, 4, 6 or 8 grid points in the order of the shells", "
     REQUIRE(cardAt<PlotSurfaceTable>(model, 3).grids[7] == 8);
 }
 
-TEST_CASE("a PLTSURF is a plot element with an ID space of its own that names its grid points",
+TEST_CASE("a PlotSurface is a plot element with an ID space of its own that names its grid points",
           "[model][cards][pltsurf]")
 {
     // A structural element may have the ID of a plot element (a TypedListSet3 names the plot surface by ID: the
@@ -838,7 +849,7 @@ TEST_CASE("a PLTSURF is a plot element with an ID space of its own that names it
     REQUIRE(PlotSurfaceFormat::check(edited).has_value()); // five points
 }
 
-TEST_CASE("a PLTSURF refuses a number of points the format does not give, a hole and a repeated point",
+TEST_CASE("a PlotSurface refuses a number of points the format does not give, a hole and a repeated point",
           "[model][cards][pltsurf]")
 {
     expectInvalid("PlotSurface;0;1;2;3", "id");

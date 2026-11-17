@@ -172,7 +172,8 @@ public:
                             location ? thermalMaterialOfElement(*cardFacts, *model, *location) : std::nullopt;
                         if (!material)
                         {
-                            reason = "element " + std::to_string(card.modelId) + " has no thermal material (MAT4)";
+                            reason = "element " + std::to_string(card.modelId) +
+                                " has no thermal material (HeatIsoMat)";
                             continue;
                         }
                         const std::optional<double> conductivity = isotropicConductivity(*model, *material);
@@ -180,7 +181,7 @@ public:
                         if (!conductivity || conductivityDependsOnTemperature(*model, mid))
                         {
                             reason = "the conductivity of the material of element " + std::to_string(card.modelId) +
-                                     " is not one number (a MAT5, a blank K or a MATT4 table)";
+                                     " is not one number (a HeatAnisoMat, a blank K or a HeatIsoMatTemperature table)";
                             continue;
                         }
                         flat.eid.push_back(element);

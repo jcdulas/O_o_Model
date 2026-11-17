@@ -133,7 +133,8 @@ constexpr double INFINITE_END = 1.0E20;
 
 // ------------------------------------------------------------------------------------------------ frequency sets
 
-TEST_CASE("FREQ3, FREQ4 and FREQ5 have their defaults, their fields and join the frequency sets", "[model][cards]")
+TEST_CASE("FreqBetweenModes3, FreqSpreadAroundModes4 and FreqModeFractions5 have their defaults, their fields and join "
+          "the frequency sets", "[model][cards]")
 {
     Model model = readBulk(
         "FreqBetweenModes3;1;25.\n"
@@ -191,7 +192,7 @@ TEST_CASE("FREQ3, FREQ4 and FREQ5 have their defaults, their fields and join the
 
 // ------------------------------------------------------------------------------------------------ eigenvalue methods
 
-TEST_CASE("EIGB resolves NDP and NDN from NEP, and its point is a node reference", "[model][cards]")
+TEST_CASE("BucklingEigenMethod resolves NDP and NDN from NEP, and its point is a node reference", "[model][cards]")
 {
     Model model = readBulk(
         "Node;5;;0.;0.;0.\nBucklingEigenMethod;1;InverseIteration;0.;80.;15\nBucklingEigenMethod;2;SturmInverse;1.5;"
@@ -227,7 +228,7 @@ TEST_CASE("EIGB resolves NDP and NDN from NEP, and its point is a node reference
                       base::DeckError); // one method space
 }
 
-TEST_CASE("EIGC has the lines of its search regions in the layout of the method", "[model][cards]")
+TEST_CASE("ComplexEigenMethod has the lines of its search regions in the layout of the method", "[model][cards]")
 {
     const Model model = readBulk(
         "ComplexEigenMethod;1;InverseIteration;Point;5;3;2.E-4;;1.5;2.5;3.5;4.5;5.5;7;;12.;24.\n"
@@ -272,7 +273,8 @@ TEST_CASE("EIGC has the lines of its search regions in the layout of the method"
     expectInvalid("ComplexEigenMethod;1;ComplexLanczos;;;;;;0.;0.;;;;5.;4", "shiftModeCount");
 }
 
-TEST_CASE("EIGP has one or two poles and goes with the EIGC of its ID; EIGC and EIGRL have spaces of their own",
+TEST_CASE("ComplexEigenPoles has one or two poles and goes with the ComplexEigenMethod of its ID; ComplexEigenMethod "
+          "and LanczosEigenMethod have spaces of their own",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -384,7 +386,8 @@ TEST_CASE("TSTEP has one interval a line and TSTEPNL its defaults from its metho
     expectInvalid("NonlinearTimeSteps;1;10;0.1;;;;;;;;;;;;;;;;1.5", "stepBounds");
 }
 
-TEST_CASE("NLPARM has its fields on three lines, blank tolerances, defaults from KMETHOD and MAXITER, and NLPCI",
+TEST_CASE("NLPARM has its fields on three lines, blank tolerances, defaults from KMETHOD and MAXITER, and "
+          "ArcLengthParams",
           "[model][cards]")
 {
     const Model model = readBulk(
@@ -461,7 +464,7 @@ TEST_CASE("NLPARM has its fields on three lines, blank tolerances, defaults from
 // ------------------------------------------------------------------------------------------------
 // TransientInitialCondition, TF, DynamicLoadDelay, DynamicLoadPhase
 
-TEST_CASE("TIC and TF refer to points, a modal coordinate is no point", "[model][cards]")
+TEST_CASE("TransientInitialCondition and TF refer to points, a modal coordinate is no point", "[model][cards]")
 {
     Model model = readBulk(
         "Node;10;;0.;0.;0.\n"
@@ -568,7 +571,8 @@ TEST_CASE("DELAY and DPHASE are sets that the dynamic loads name", "[model][card
 
 // ------------------------------------------------------------------------------------------------ tables
 
-TEST_CASE("TABDMP1, TABRND1 and TABRNDG have ID spaces of their own and TABDMP1 and TABRND1 evaluate", "[model][cards]")
+TEST_CASE("TableModalDamping1, TableRandomSpectrum1 and TableGustSpectrum have ID spaces of their own and "
+          "TableModalDamping1 and TableRandomSpectrum1 evaluate", "[model][cards]")
 {
     // A TableDynamic1, a TableModalDamping1 and a TableRandomSpectrum1 of the same ID (and a TableMaterial1: decks do),
     // but one random table space.
@@ -621,7 +625,7 @@ TEST_CASE("TABDMP1, TABRND1 and TABRNDG have ID spaces of their own and TABDMP1 
     expectInvalid("TableGustSpectrum;1;1;0.2", "gustVelocity");
 }
 
-TEST_CASE("TABLED5 is a dynamic table of tables, evaluated by looking them up", "[model][cards]")
+TEST_CASE("TableDynamic5 is a dynamic table of tables, evaluated by looking them up", "[model][cards]")
 {
     Model model = readBulk(
         "TableDynamic1;101;;;0.;0.;1.;1.;EndTable\n"
@@ -661,7 +665,8 @@ TEST_CASE("TABLED5 is a dynamic table of tables, evaluated by looking them up", 
 
 // ------------------------------------------------------------------------------------------------ random analysis
 
-TEST_CASE("RANDPS and RANDT1 share a set that RANDOM selects, and RANDPS names a random table", "[model][cards]")
+TEST_CASE("RandomSpectralDensity and RandomTimeLags share a set that RANDOM selects, and RandomSpectralDensity names a "
+          "random table", "[model][cards]")
 {
     Model model = readBulk(
         "RandomSpectralDensity;1;1;1;4.;;4\n"
@@ -701,7 +706,7 @@ TEST_CASE("RANDPS and RANDT1 share a set that RANDOM selects, and RANDPS names a
 
 // ------------------------------------------------------------------------------------------------ the other cards
 
-TEST_CASE("MODTRAK, MDLPRM and RGYRO have their fields, defaults and rules", "[model][cards]")
+TEST_CASE("ModeTracking, ModelParams and RotordynamicParams have their fields, defaults and rules", "[model][cards]")
 {
     const Model model = readBulk(
         "ModeTracking;1;3;24;0.85\n"
@@ -756,7 +761,7 @@ TEST_CASE("MODTRAK, MDLPRM and RGYRO have their fields, defaults and rules", "[m
     expectInvalid("RotordynamicParams;1;;1;RevolutionsPerMinute;;;;-1", "rotorSuperelementId");
 }
 
-TEST_CASE("ROTORG keeps its runs and never splits one between two lines", "[model][cards]")
+TEST_CASE("RotorLineNodes keeps its runs and never splits one between two lines", "[model][cards]")
 {
     const Model model = readBulk(
         "RotorLineNodes;1;4101;4202;4103;4304\n"
@@ -786,7 +791,8 @@ TEST_CASE("ROTORG keeps its runs and never splits one between two lines", "[mode
     expectInvalid("RotorLineNodes;1;0;2", "nodeIds");
 }
 
-TEST_CASE("RCROSS takes elements or points by the kind of response, RVDOF and RVDOF1 are DOF lists", "[model][cards]")
+TEST_CASE("RCROSS takes elements or points by the kind of response, ResidualVectorDofs and ResidualVectorDofs1 are DOF "
+          "lists", "[model][cards]")
 {
     Model model = readBulk(
         "Node;100;;0.;0.;0.\n"
@@ -834,7 +840,7 @@ TEST_CASE("RCROSS takes elements or points by the kind of response, RVDOF and RV
     expectInvalid("ResidualVectorDofs1;3;100;Through;50", "nodes");
 }
 
-TEST_CASE("UNBALNC has its lines of EPOINTs, tables for its constants and joins the dynamic load sets",
+TEST_CASE("RotorUnbalanceLoad has its lines of EPOINTs, tables for its constants and joins the dynamic load sets",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -888,7 +894,7 @@ TEST_CASE("UNBALNC has its lines of EPOINTs, tables for its constants and joins 
     expectInvalid("RotorUnbalanceLoad;1;;0.1;1001;0.;1.;0.;;;;;;;;;-1", "forcePointT1");
 }
 
-TEST_CASE("DTI keeps the values of a record as they were written", "[model][cards]")
+TEST_CASE("DirectTable keeps the values of a record as they were written", "[model][cards]")
 {
     const Model model = readBulk(
         "DirectTable;BLKA;0;12;48;20000;0;5;0\n"

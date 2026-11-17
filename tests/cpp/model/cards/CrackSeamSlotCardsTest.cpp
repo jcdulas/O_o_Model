@@ -117,7 +117,7 @@ std::int32_t integerValue(const ConnectorSearchParamsParameter& parameter)
 
 } // namespace
 
-TEST_CASE("a CRAC2D is the full crack with G1 to G10, or the symmetric half crack without G8 to G10",
+TEST_CASE("a CrackTip2D is the full crack with G1 to G10, or the symmetric half crack without G8 to G10",
           "[model][cards][crack]")
 {
     // The full crack: G1 to G10 and, among the optional points, G12, G13 and G17 (field 19, on the third line).
@@ -150,7 +150,8 @@ TEST_CASE("a CRAC2D is the full crack with G1 to G10, or the symmetric half crac
     REQUIRE_THROWS_AS(readBulk(crac2d(5, run(1, 10)) + "\nSpringOffsetExplicit;5;22;1;2"), base::DeckError);
 }
 
-TEST_CASE("a CRAC2D names a PRAC2D and its grid points, and follows their renumbering", "[model][cards][crack]")
+TEST_CASE("a CrackTip2D names a CrackTipProp2D and its grid points, and follows their renumbering",
+          "[model][cards][crack]")
 {
     const GridPoints points = joined(run(1, 10), {{12, 12}});
     Model model =
@@ -183,7 +184,7 @@ TEST_CASE("a CRAC2D names a PRAC2D and its grid points, and follows their renumb
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CRAC2D refuses what the full and the half crack forms do not allow", "[model][cards][crack]")
+TEST_CASE("a CrackTip2D refuses what the full and the half crack forms do not allow", "[model][cards][crack]")
 {
     expectInvalid(crac2d(0, run(1, 10)), "id");
     expectInvalid(crac2d(100000000, run(1, 10)), "id"); // the format reference: EID below 100,000,000
@@ -199,7 +200,7 @@ TEST_CASE("a CRAC2D refuses what the full and the half crack forms do not allow"
     expectInvalid(crac2d(1, joined(run(1, 10), {{11, -5}})), "node11");
 }
 
-TEST_CASE("a CRAC3D is the full crack with G1 to G10 and G19 to G28, or the symmetric half crack",
+TEST_CASE("a CrackTip3D is the full crack with G1 to G10 and G19 to G28, or the symmetric half crack",
           "[model][cards][crack]")
 {
     // The full crack: the required points, the mid-plane G37 to G46 (all given) and the surface points up to G64.
@@ -227,7 +228,8 @@ TEST_CASE("a CRAC3D is the full crack with G1 to G10 and G19 to G28, or the symm
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CRAC3D names a PRAC3D and its grid points, and follows their renumbering", "[model][cards][crack]")
+TEST_CASE("a CrackTip3D names a CrackTipProp3D and its grid points, and follows their renumbering",
+          "[model][cards][crack]")
 {
     Model model = readBulk(gridCards(1, 28) + "IsoMat;1;2.1E+11;;0.3\nCrackTipProp3D;96511;1\n" +
                            crac3d(96111, requiredOfFullCrack3d()));
@@ -248,7 +250,7 @@ TEST_CASE("a CRAC3D names a PRAC3D and its grid points, and follows their renumb
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CRAC3D refuses what the full and the half crack forms do not allow", "[model][cards][crack]")
+TEST_CASE("a CrackTip3D refuses what the full and the half crack forms do not allow", "[model][cards][crack]")
 {
     expectInvalid(crac3d(0, requiredOfFullCrack3d()), "id");
     expectInvalid(crackCard("CrackTip3D", 64, 1, 0, requiredOfFullCrack3d()), "propId");
@@ -272,7 +274,7 @@ TEST_CASE("a CRAC3D refuses what the full and the half crack forms do not allow"
     expectInvalid(crac3d(1, joined(run(1, 9), run(19, 28))), "node10");
 }
 
-TEST_CASE("a PRAC2D has the defaults of the format reference and names a material", "[model][cards][crack]")
+TEST_CASE("a CrackTipProp2D has the defaults of the format reference and names a material", "[model][cards][crack]")
 {
     Model model = readBulk(
         "CrackTipProp2D;96501;1;0.1\n"
@@ -318,7 +320,7 @@ TEST_CASE("a PRAC2D has the defaults of the format reference and names a materia
     expectInvalid("CrackTipProp2D;7;1;0.1;0;0.;xx", "gammaCoefficient");
 }
 
-TEST_CASE("a PRAC3D has the defaults of the format reference and names a material", "[model][cards][crack]")
+TEST_CASE("a CrackTipProp3D has the defaults of the format reference and names a material", "[model][cards][crack]")
 {
     Model model = readBulk(
         "CrackTipProp3D;96511;2\n"
@@ -349,7 +351,7 @@ TEST_CASE("a PRAC3D has the defaults of the format reference and names a materia
     expectInvalid("CrackTipProp3D;7;1;xx", "gammaCoefficient");
 }
 
-TEST_CASE("the patch numbers of a CSEAM name properties or elements as its CTYPE says", "[model][cards][seam]")
+TEST_CASE("the patch numbers of a Seam name properties or elements as its CTYPE says", "[model][cards][seam]")
 {
     Model model = readBulk("IsoMat;1;2.1E+11;;0.3\nShellProp;37;1;0.1\nShellProp;52;1;0.1\nSeamProp;96521;1;;2.\n" +
                            gridCards(1, 4) +
@@ -391,7 +393,7 @@ TEST_CASE("the patch numbers of a CSEAM name properties or elements as its CTYPE
     REQUIRE(unresolvedIn(elementsNamedByProperties) == 2);
 }
 
-TEST_CASE("a renumbering of the properties or the elements follows the patches of a CSEAM by its CTYPE",
+TEST_CASE("a renumbering of the properties or the elements follows the patches of a Seam by its CTYPE",
           "[model][cards][seam]")
 {
     Model model = readBulk("IsoMat;1;2.1E+11;;0.3\nShellProp;37;1;0.1\nShellProp;52;1;0.1\nSeamProp;96521;1;;2.\n" +
@@ -422,7 +424,7 @@ TEST_CASE("a renumbering of the properties or the elements follows the patches o
                       base::DeckError);
 }
 
-TEST_CASE("a CSEAM refuses what its two formats and its CTYPE do not allow", "[model][cards][seam]")
+TEST_CASE("a Seam refuses what its two formats and its CTYPE do not allow", "[model][cards][seam]")
 {
     expectInvalid("Seam;0;96521;;;37;52;;;1;;2", "id");
     expectInvalid("Seam;1;0;;;37;52;;;1;;2", "propId");
@@ -442,7 +444,8 @@ TEST_CASE("a CSEAM refuses what its two formats and its CTYPE do not allow", "[m
     expectInvalid("Seam;1;2;;;37;52;;;;1.;;2.;3.;4.;xx;6.", "endY");
 }
 
-TEST_CASE("a SWLDPRM has its global parameters, then the sections of an element type", "[model][cards][swldprm]")
+TEST_CASE("a ConnectorSearchParams has its global parameters, then the sections of an element type",
+          "[model][cards][swldprm]")
 {
     Model model = readModelText(
         std::string(GLOBAL_PARAMETERS) + "\nConnectorSearchParams;;Fastener;4;;;GeometryCheckLevel;3\n", false);
@@ -472,7 +475,7 @@ TEST_CASE("a SWLDPRM has its global parameters, then the sections of an element 
     requireRoundTrip(readBulk(GLOBAL_PARAMETERS));
 }
 
-TEST_CASE("a SWLDPRM keeps a name the table does not list, and checks the values of the names it lists",
+TEST_CASE("a ConnectorSearchParams keeps a name the table does not list, and checks the values of the names it lists",
           "[model][cards][swldprm]")
 {
     const Model model = readBulk(
@@ -520,7 +523,8 @@ TEST_CASE("a SWLDPRM keeps a name the table does not list, and checks the values
 }
 
 TEST_CASE(
-    "the catalogue of the SWLDPRM parameters has the table of the format reference, each default inside its own range",
+    "the catalogue of the ConnectorSearchParams parameters has the table of the format reference, each default inside "
+    "its own range",
     "[model][cards][swldprm]")
 {
     const std::span<const ConnectorSearchParamsInfo> catalogue = connectorSearchParamsCatalogue();

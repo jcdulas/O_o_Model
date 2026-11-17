@@ -74,7 +74,8 @@ void requireNoReferences(Model& model)
 
 } // namespace
 
-TEST_CASE("an EOSDEF has its fields over two lines in the order of the format reference", "[model][cards][explicit]")
+TEST_CASE("a DeflagrationStateEquation has its fields over two lines in the order of the format reference",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "DeflagrationStateEquation;11;1.2;0.001;;;;1.E+6;1550.;0.2;3.E-8;0.8;5400.;0.6;0.\n"
@@ -111,7 +112,8 @@ TEST_CASE("an EOSDEF has its fields over two lines in the order of the format re
     expectInvalid(withField("DeflagrationStateEquation", DEFLAGRATION_FIELDS, 13, "FAST"), "formParameterX");
 }
 
-TEST_CASE("an EOSIG is an explosive of the database or a list of constants over four lines", "[model][cards][explicit]")
+TEST_CASE("an IgnitionGrowthStateEquation is an explosive of the database or a list of constants over four lines",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "IgnitionGrowthStateEquation;20;;Explosive94A;SiUnits\nIgnitionGrowthStateEquation;23;ImperialUnits;"
@@ -192,7 +194,8 @@ TEST_CASE("an EOSIG is an explosive of the database or a list of constants over 
     expectInvalid(withField("IgnitionGrowthStateEquation", IGNITION_GROWTH_FIELDS, 29, "1.5"), "maxIterations");
 }
 
-TEST_CASE("an EOSJWL has the pressure constants on the first line and the afterburning rate on the second",
+TEST_CASE("a JonesWilkinsLeeStateEquation has the pressure constants on the first line and the afterburning rate on "
+          "the second",
           "[model][cards][explicit]")
 {
     Model model =
@@ -221,7 +224,7 @@ TEST_CASE("an EOSJWL has the pressure constants on the first line and the afterb
     expectInvalid(withField("JonesWilkinsLeeStateEquation", JONES_WILKINS_LEE_FIELDS, 11, "SEVEN"), "coefficientN");
 }
 
-TEST_CASE("an EOSMG has four required reals", "[model][cards][explicit]")
+TEST_CASE("a MieGruneisenStateEquation has four required reals", "[model][cards][explicit]")
 {
     Model model =
         readBulk("MieGruneisenStateEquation;41;3.E+3;1.6;2.;5.E+3\nMieGruneisenStateEquation;42;2000;2;1;3000");
@@ -242,7 +245,8 @@ TEST_CASE("an EOSMG has four required reals", "[model][cards][explicit]")
     expectInvalid("MieGruneisenStateEquation;41;3.E+3;1.6;2.;CUT", "densityCutoff");
 }
 
-TEST_CASE("an EOSNA has a gamma, a co-volume that is zero when blank and the gas constants", "[model][cards][explicit]")
+TEST_CASE("a NobleAbelStateEquation has a gamma, a co-volume that is zero when blank and the gas constants",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "NobleAbelStateEquation;51;1.2\nNobleAbelStateEquation;52;1.24;0.001;314.5\nNobleAbelStateEquation;53;1.3;0."
@@ -269,7 +273,7 @@ TEST_CASE("an EOSNA has a gamma, a co-volume that is zero when blank and the gas
     expectInvalid("NobleAbelStateEquation;51;1.2;0.;1.;1.;-1.", "specificHeatPressure");
 }
 
-TEST_CASE("an EOSPOL has zero coefficients by default, a volume limit of 1.1 and a viscosity",
+TEST_CASE("a PolynomialStateEquation has zero coefficients by default, a volume limit of 1.1 and a viscosity",
           "[model][cards][explicit]")
 {
     Model model = readBulk("PolynomialStateEquation;65\nPolynomialStateEquation;66;8.E+7\n" +
@@ -297,7 +301,7 @@ TEST_CASE("an EOSPOL has zero coefficients by default, a volume limit of 1.1 and
     expectInvalid(withField("PolynomialStateEquation", POLYNOMIAL_STATE_FIELDS, 10, "THICK"), "viscosity");
 }
 
-TEST_CASE("an EOSUDS and a SHRUDS name a service group and a routine of at most eight characters",
+TEST_CASE("a UserStateEquation and a UserShearModel name a service group and a routine of at most eight characters",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -334,7 +338,8 @@ TEST_CASE("an EOSUDS and a SHRUDS name a service group and a routine of at most 
     oor::testing::requireModelFileRoundTrip(readModelText("UserShearModel;271;GRP;ROUTINENAME", true));
 }
 
-TEST_CASE("a SHREL and a SHRPOL have reals that are zero when blank", "[model][cards][explicit]")
+TEST_CASE("an ElasticShearModel and a PolynomialShearModel have reals that are zero when blank",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "ElasticShearModel;251\nElasticShearModel;252;8.E+7\nPolynomialShearModel;261\nPolynomialShearModel;262;8.E+"
@@ -359,7 +364,7 @@ TEST_CASE("a SHREL and a SHRPOL have reals that are zero when blank", "[model][c
     expectInvalid("PolynomialShearModel;261;;;;FAST", "shearModulus3");
 }
 
-TEST_CASE("the equations of state and the shear models are numbered apart and a MATDEUL names them",
+TEST_CASE("the equations of state and the shear models are numbered apart and an EulerMat names them",
           "[model][cards][explicit]")
 {
     Model model = readBulk(

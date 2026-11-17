@@ -91,7 +91,8 @@ private:
         info.family = "R10";
         info.resultQuery = true;
         info.description =
-            "The heat that flows through each surface element (CHBDYE, CHBDYG, CHBDYP) of a heat transfer analysis, "
+            "The heat that flows through each surface element (HeatSurfaceSide, HeatSurfaceNodes, HeatSurfaceProperty) "
+            "of a heat transfer analysis, "
             "one row for "
             "each subcase, step and element: the applied flux, the free and the forced convection, the radiation and "
             "the total. "

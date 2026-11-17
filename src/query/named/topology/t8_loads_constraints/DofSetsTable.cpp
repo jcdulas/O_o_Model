@@ -198,13 +198,17 @@ private:
         info.family = "T8";
         info.description =
             "The points and components of the degree-of-freedom set cards, one row for each (card, point): ASET, "
-            "BSET, CSET, QSET, OMIT, SUPORT and USET give their (point, components) pairs, ASET1, BSET1, CSET1, "
-            "QSET1, OMIT1 and USET1 their components for each point of the list (a THRU range gives the grid and "
+            "FixedBoundaryDofSet, FreeBoundaryDofSet, GeneralizedDofSet, OmittedDofSet, FreeBodySupport and UserDofSet "
+            "give their (point, components) pairs, AnalysisDofSet1, FixedBoundaryDofSet1, FreeBoundaryDofSet1, "
+            "GeneralizedDofSet1, OmittedDofSet1 and UserDofSet1 their components for each point of the list (a THRU "
+            "range gives the grid and "
             "scalar points of the model in it), SUPORT1 its pairs with its set ID in setId. dof is the components as "
-            "text (0 for a scalar point); setName the SNAME of a USET or USET1 (null for the others); subcases, for "
-            "a SUPORT1, the subcases whose Case Control SUPORT1 command selects its set (null for the other cards: "
-            "SUPORT applies to every subcase). cards keeps these card types (by type, FreeBodySupport, or keyword, "
-            "SUPORT). In the order of the card types above, "
+            "text (0 for a scalar point); setName the SNAME of a UserDofSet or UserDofSet1 (null for the others); "
+            "subcases, for "
+            "a FreeBodySupportSet, the subcases whose Case Control SUPORT1 command selects its set (null for the other "
+            "cards: "
+            "FreeBodySupport applies to every subcase). cards keeps these card types (FreeBodySupport, ...). In the "
+            "order of the card types above, "
             "then of the cards.";
         info.parameters = {parameter("cards", ParameterKind::TextList, "None", "keep these card types")};
         info.defaultSort = "card (in the order of the description), then the order of the cards";

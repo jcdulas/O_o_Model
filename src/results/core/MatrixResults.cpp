@@ -84,7 +84,8 @@ std::shared_ptr<NamedResult> matrixResultOf(const model::CooMatrix& matrix, std:
 model::LabelledTerms matrixTermsOf(const NamedResult& matrix, const NodalMatrixStorage& storage)
 {
     if (matrix.meta().kind != "matrix")
-        throw base::UsageError("a DMIG matrix is stored from a matrix result, not from a " + matrix.meta().kind);
+        throw base::UsageError("a DirectMatrixNodal matrix is stored from a matrix result, not from a " +
+                               matrix.meta().kind);
     const std::shared_ptr<const NamedResultData> data = matrix.data();
     const ResultArray& shape = need(*data, "shape");
     const auto extents = shape.values<std::int64_t>();
@@ -98,7 +99,8 @@ model::LabelledTerms matrixTermsOf(const NamedResult& matrix, const NodalMatrixS
     if (rowIds == nullptr || rowComponents == nullptr || columnIds == nullptr || columnComponents == nullptr)
         throw base::UsageError(
             "the matrix " + matrix.meta().name +
-            " has no labels for its rows and columns, and a DMIG matrix is indexed by point and component: make it "
+            " has no labels for its rows and columns, and a DirectMatrixNodal matrix is indexed by point and "
+            "component: make it "
             "with rowIds, rowComponents, columnIds and columnComponents");
     model::LabelledTerms terms;
     terms.complex = value.type == ArrayType::Complex64 || value.type == ArrayType::Complex128;
@@ -116,7 +118,8 @@ model::LabelledTerms matrixTermsOf(const NamedResult& matrix, const NodalMatrixS
         form = extents[0] == extents[1] ? 1 : 9;
     if ((form == 1 || form == 6) && extents[0] != extents[1])
         throw base::UsageError("the matrix " + matrix.meta().name + " is " + std::to_string(extents[0]) + " by " +
-                               std::to_string(extents[1]) + ": it cannot be stored as a square or symmetric DMIG");
+                               std::to_string(extents[1]) +
+                                   ": it cannot be stored as a square or symmetric DirectMatrixNodal");
     terms.form = form;
     terms.inputType = storage.inputType.value_or(terms.complex ? 4 : 2);
     terms.outputType = storage.outputType;

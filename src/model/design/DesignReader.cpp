@@ -159,23 +159,24 @@ private:
             const std::optional<std::size_t> dependent = m_design.findVariable(link.dependent);
             if (!dependent)
             {
-                problem("DLINK " + std::to_string(link.id) + " makes the design variable " +
+                problem("DesignVarLink " + std::to_string(link.id) + " makes the design variable " +
                         std::to_string(link.dependent) + " depend on others, and no DESVAR defines it");
                 continue;
             }
             DesignVariable& variable = m_design.m_variables[*dependent];
             if (variable.link != 0)
-                problem("the design variable " + std::to_string(variable.id) + " is the dependent variable of DLINK " +
-                        std::to_string(variable.link) + " and of DLINK " + std::to_string(link.id));
+                problem("the design variable " + std::to_string(variable.id) +
+                        " is the dependent variable of DesignVarLink " +
+                        std::to_string(variable.link) + " and of DesignVarLink " + std::to_string(link.id));
             variable.link = link.id;
             if (independent.contains(link.dependent))
-                problem("the design variable " + std::to_string(link.dependent) + " is dependent in DLINK " +
+                problem("the design variable " + std::to_string(link.dependent) + " is dependent in DesignVarLink " +
                         std::to_string(link.id) +
-                        " and independent in another DLINK (the format reference does not allow it)");
+                        " and independent in another DesignVarLink (the format reference does not allow it)");
             for (const DesignTerm& term : link.terms)
             {
                 if (!m_design.findVariable(term.designVarId))
-                    problem("DLINK " + std::to_string(link.id) + " names the design variable " +
+                    problem("DesignVarLink " + std::to_string(link.id) + " names the design variable " +
                             std::to_string(term.designVarId) + ", which no DESVAR defines");
             }
         }

@@ -69,7 +69,7 @@ const std::string BRAKE_TEXT =
 // BrakeProp
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a BRKPROP is a list of AVSTIF, TAVSTIF and FRICT pairs and names a TABL3Di", "[model][cards][brake]")
+TEST_CASE("a BrakeProp is a list of AVSTIF, TAVSTIF and FRICT pairs and names a TABL3Di", "[model][cards][brake]")
 {
     REQUIRE((BrakePropTable::INFO.category == CardCategory::BrakeProperty &&
              BrakePropTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -163,7 +163,8 @@ TEST_CASE("a BRKPROP is a list of AVSTIF, TAVSTIF and FRICT pairs and names a TA
 // BrakeSystem
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a BRKSYS has the flags of its first line and a disk on each line, with a blank MT2_ID resolved to MT1_ID",
+TEST_CASE("a BrakeSystem has the flags of its first line and a disk on each line, with a blank MT2_ID resolved to "
+          "MT1_ID",
           "[model][cards][brake]")
 {
     REQUIRE((BrakeSystemTable::INFO.category == CardCategory::BrakeSqueal &&
@@ -214,7 +215,7 @@ TEST_CASE("a BRKSYS has the flags of its first line and a disk on each line, wit
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("a BRKSYS follows the renumbering of the bodies, the motions, the property and the analysis number",
+TEST_CASE("a BrakeSystem follows the renumbering of the bodies, the motions, the property and the analysis number",
           "[model][cards][brake]")
 {
     Model model = readBulk(BRAKE_TEXT);
@@ -252,7 +253,7 @@ TEST_CASE("a BRKSYS follows the renumbering of the bodies, the motions, the prop
     REQUIRE_THROWS_AS(readBulk("BrakeSystem;5\nBrakeSystem;5"), base::DeckError);
 }
 
-TEST_CASE("a BRKSYS edited through its value keeps the rules of the reader", "[model][cards][brake]")
+TEST_CASE("a BrakeSystem edited through its value keeps the rules of the reader", "[model][cards][brake]")
 {
     Model model = readBulk(BRAKE_TEXT);
     BrakeSystemCard edited = cardAt<BrakeSystemTable>(model);
@@ -272,7 +273,7 @@ TEST_CASE("a BRKSYS edited through its value keeps the rules of the reader", "[m
     REQUIRE(BrakeSystemFormat::check(edited)->field == std::string("secondBodyId"));
 }
 
-TEST_CASE("a BRKSYS refuses the values that its format refuses", "[model][cards][brake]")
+TEST_CASE("a BrakeSystem refuses the values that its format refuses", "[model][cards][brake]")
 {
     expectInvalid("BrakeSystem;0", "id");
     expectInvalid("BrakeSystem;-5", "id");
@@ -297,7 +298,7 @@ TEST_CASE("a BRKSYS refuses the values that its format refuses", "[model][cards]
 // BrakeSqueal
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a BSQUEAL has the stiffness, the flag and an axis on a second line", "[model][cards][brake]")
+TEST_CASE("a BrakeSqueal has the stiffness, the flag and an axis on a second line", "[model][cards][brake]")
 {
     REQUIRE((BrakeSquealTable::INFO.category == CardCategory::BrakeSqueal &&
              BrakeSquealTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -445,7 +446,7 @@ TEST_CASE("a MOTION is a rotation about an axis through a center, or a translati
 // ContactUnglueNodes
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an UNGLUE lists the grid points of a body with THRU and BY, and its ID is shared and may be zero",
+TEST_CASE("a ContactUnglueNodes lists the grid points of a body with THRU and BY, and its ID is shared and may be zero",
           "[model][cards][unglue]")
 {
     REQUIRE((ContactUnglueNodesTable::INFO.category == CardCategory::Other &&
@@ -537,7 +538,8 @@ TEST_CASE("an UNGLUE lists the grid points of a body with THRU and BY, and its I
 // StepControlCriteria and the CRITTID of a NonlinearStepControl
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TABSCTL has criteria with a SET3, up to four ranges and the format's own compact layout",
+TEST_CASE("a StepControlCriteria has criteria with a TypedListSet3, up to four ranges and the format's own compact "
+          "layout",
           "[model][cards][tabsctl]")
 {
     REQUIRE((StepControlCriteriaTable::INFO.category == CardCategory::LoadStepControl &&
@@ -624,7 +626,8 @@ TEST_CASE("a TABSCTL has criteria with a SET3, up to four ranges and the format'
     REQUIRE(StepControlCriteriaFormat::check(edited)->field == std::string("criterion"));
 }
 
-TEST_CASE("a TABSCTL is named by the CRITTID of an NLSTEP and its SET3 by the criteria", "[model][cards][tabsctl]")
+TEST_CASE("a StepControlCriteria is named by the CRITTID of a NonlinearStepControl and its TypedListSet3 by the "
+          "criteria", "[model][cards][tabsctl]")
 {
     Model model = readBulk(
         "TypedListSet3;8400;Elements;1;2\n"
@@ -673,7 +676,7 @@ TEST_CASE("a TABSCTL is named by the CRITTID of an NLSTEP and its SET3 by the cr
         base::DeckError);
 }
 
-TEST_CASE("a TABSCTL refuses the values that its format refuses", "[model][cards][tabsctl]")
+TEST_CASE("a StepControlCriteria refuses the values that its format refuses", "[model][cards][tabsctl]")
 {
     expectInvalid("StepControlCriteria;0;StrainIncrement;;0.03", "id");
     expectInvalid("StepControlCriteria;-2;StrainIncrement;;0.03", "id");
@@ -693,7 +696,8 @@ TEST_CASE("a TABSCTL refuses the values that its format refuses", "[model][cards
 // DeactivatedElems
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a DEACTEL names a SET3 of elements and is selected by its number", "[model][cards][deactel]")
+TEST_CASE("a DeactivatedElems names a TypedListSet3 of elements and is selected by its number",
+          "[model][cards][deactel]")
 {
     REQUIRE((DeactivatedElemsTable::INFO.category == CardCategory::DeactivatedElementSet &&
              DeactivatedElemsTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -744,7 +748,8 @@ TEST_CASE("a DEACTEL names a SET3 of elements and is selected by its number", "[
 // InitialPlasticStrain
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an IPSTRAIN is a strain for a range of elements, integration points and layers", "[model][cards][initial]")
+TEST_CASE("an InitialPlasticStrain is a strain for a range of elements, integration points and layers",
+          "[model][cards][initial]")
 {
     REQUIRE((InitialPlasticStrainTable::INFO.category == CardCategory::Other &&
              InitialPlasticStrainTable::INFO.idSpace == base::IdSpace::None));
@@ -830,7 +835,7 @@ TEST_CASE("an IPSTRAIN is a strain for a range of elements, integration points a
 // InitialStress
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ISTRESS is a stress of up to seven components for a range, in the element or the basic system",
+TEST_CASE("an InitialStress is a stress of up to seven components for a range, in the element or the basic system",
           "[model][cards][initial]")
 {
     REQUIRE((InitialStressTable::INFO.category == CardCategory::Other &&
@@ -920,7 +925,7 @@ TEST_CASE("an ISTRESS is a stress of up to seven components for a range, in the 
 // TireSelection
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TIRE is the tire-model word and the names of the tires over as many lines as needed",
+TEST_CASE("a TireSelection is the tire-model word and the names of the tires over as many lines as needed",
           "[model][cards][tire]")
 {
     REQUIRE((TireSelectionTable::INFO.category == CardCategory::Other &&
@@ -973,7 +978,8 @@ TEST_CASE("a TIRE is the tire-model word and the names of the tires over as many
 // ConnectorSearchControl
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CONCTL is a SET3 and the SWLDPRM parameters that override the global ones for its connectors",
+TEST_CASE("a ConnectorSearchControl is a TypedListSet3 and the ConnectorSearchParams parameters that override the "
+          "global ones for its connectors",
           "[model][cards][conctl]")
 {
     REQUIRE((ConnectorSearchControlTable::INFO.category == CardCategory::Other &&

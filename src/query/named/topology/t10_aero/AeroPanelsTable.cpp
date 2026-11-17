@@ -252,16 +252,19 @@ private:
         info.name = "aeroPanelsTable";
         info.family = "T10";
         info.description =
-            "The aerodynamic macro elements (CAERO1 to CAERO5), one row for each. The leading edge points 1 and 4 are "
+            "The aerodynamic macro elements (AeroLiftingPanel1 to AeroPistonPanel5), one row for each. The leading "
+            "edge points 1 and 4 are "
             "taken from the system `positionFrameId` of the card to the basic system; `x12` and `x43` are the chords "
             "of the card. "
             "`span` is the distance between the two chords (the part of the vector from point 1 to point 4 that is "
             "perpendicular to the flow) and `area` the trapezoid (x12 + x43) / 2 times the span, which is the sum of "
-            "the areas of its boxes when their division points run from 0 to 1 (an AEFACT list may leave a strip "
-            "out). A CAERO2 body has its nose and length only (point 4, the second chord, the span "
+            "the areas of its boxes when their division points run from 0 to 1 (an AeroFactorList list may leave a "
+            "strip "
+            "out). An AeroBody2 body has its nose and length only (point 4, the second chord, the span "
             "and the area are null); its `chordBoxCount` and `chordDivisionListId` are NSB and LSB and its "
             "`spanBoxCount` and `spanDivisionListId` NINT and "
-            "LINT. A CAERO3 has no divisions on the card. A CAERO4 or CAERO5 strip panel has no chord divisions. A "
+            "LINT. An AeroMachBoxPanel3 has no divisions on the card. An AeroStripPanel4 or AeroPistonPanel5 strip "
+            "panel has no chord divisions. A "
             "blank division number or list is null; `interferenceGroupId` is null for a card with no IGID. The boxes "
             "of a panel are "
             "numbered from its EID on: `firstBox` is the EID and `boxCount` the number of IDs the card owns (null "

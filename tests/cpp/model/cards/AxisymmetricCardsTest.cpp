@@ -56,7 +56,7 @@ std::string omitax(int count)
 // The points of the conical shell model: AxisymConeRing and AxisymConePoint
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a RINGAX reads the layout of the format, keeps its constraints sorted and shares the node ID space",
+TEST_CASE("an AxisymConeRing reads the layout of the format, keeps its constraints sorted and shares the node ID space",
           "[model][cards][axisymmetric]")
 {
     Model model =
@@ -91,7 +91,7 @@ TEST_CASE("a RINGAX reads the layout of the format, keeps its constraints sorted
     expectInvalid("AxisymConeRing;5;2.;1.;12X", "permanentConstraints");
 }
 
-TEST_CASE("a POINTAX names a ring, is a point of the node ID space and follows its renumbering",
+TEST_CASE("an AxisymConePoint names a ring, is a point of the node ID space and follows its renumbering",
           "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
@@ -129,7 +129,7 @@ TEST_CASE("a POINTAX names a ring, is a point of the node ID space and follows i
 // AxisymConeControl, AxisymFluidControl and AcousticSlotControl: one of each in a deck
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an AXIC has the highest harmonic and is the only one of a deck", "[model][cards][axisymmetric]")
+TEST_CASE("an AxisymConeControl has the highest harmonic and is the only one of a deck", "[model][cards][axisymmetric]")
 {
     REQUIRE(cardAt<AxisymConeControlTable>(readBulk("AxisymConeControl;15")).highestHarmonic == 15);
     REQUIRE(cardAt<AxisymConeControlTable>(readBulk("AxisymConeControl;0")).highestHarmonic == 0);
@@ -147,7 +147,8 @@ TEST_CASE("an AXIC has the highest harmonic and is the only one of a deck", "[mo
     expectInvalid("AxisymConeControl;1.5", "highestHarmonic");
 }
 
-TEST_CASE("an AXIF reads its parameters and its harmonics in every form of the format", "[model][cards][axisymmetric]")
+TEST_CASE("an AxisymFluidControl reads its parameters and its harmonics in every form of the format",
+          "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
         "CylindricalFrame2;2;;0.;0.;0.;0.;0.;1.;1.;0.;0.\nAxisymFluidControl;2;9.75;0.0375;1.25E+5;Yes;;1;2;3;;4;;6;"
@@ -176,7 +177,7 @@ TEST_CASE("an AXIF reads its parameters and its harmonics in every form of the f
     REQUIRE(unresolvedIn(missing) == 1);
 }
 
-TEST_CASE("an AXIF keeps its ranges and steps as written and never splits one between two lines",
+TEST_CASE("an AxisymFluidControl keeps its ranges and steps as written and never splits one between two lines",
           "[model][cards][axisymmetric]")
 {
     // A blank DRHO, a range with a step, singles, ranges and fields left blank between numbers, over six lines.
@@ -212,7 +213,7 @@ TEST_CASE("an AXIF keeps its ranges and steps as written and never splits one be
     requireRoundTrip(full);
 }
 
-TEST_CASE("an AXIF with F = NONE has no harmonics and the other cases refuse what the format forbids",
+TEST_CASE("an AxisymFluidControl with F = NONE has no harmonics and the other cases refuse what the format forbids",
           "[model][cards][axisymmetric]")
 {
     const Model none = readBulk("AxisymFluidControl;3;9.81;;;No;None");
@@ -243,7 +244,8 @@ TEST_CASE("an AXIF with F = NONE has no harmonics and the other cases refuse wha
     expectInvalid("AxisymFluidControl;2;9.75;0.0375;;No;;Step;3", "harmonic");
 }
 
-TEST_CASE("an AXSLOT keeps its blank fields blank and is the only one of a deck", "[model][cards][axisymmetric]")
+TEST_CASE("an AcousticSlotControl keeps its blank fields blank and is the only one of a deck",
+          "[model][cards][axisymmetric]")
 {
     const AcousticSlotControlCard example =
         cardAt<AcousticSlotControlTable>(readBulk("AcousticSlotControl;0.0125;250.;4;0.375;8"));
@@ -278,7 +280,7 @@ TEST_CASE("an AXSLOT keeps its blank fields blank and is the only one of a deck"
 // The axisymmetric fluid: AxisymFluidRing, AxisymFluidFreePoint and AxisymFluidPressurePoint
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a RINGFL gives one fluid point per object, one or two to a card", "[model][cards][axisymmetric]")
+TEST_CASE("an AxisymFluidRing gives one fluid point per object, one or two to a card", "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
         "AxisymFluidRing;81101;1.5;;25.\nAxisymFluidRing;81102;4.;;10.;81103;8.;;10.\nAxisymFluidRing;81104;3.;45.");
@@ -317,7 +319,8 @@ TEST_CASE("a RINGFL gives one fluid point per object, one or two to a card", "[m
 }
 
 TEST_CASE(
-    "a FREEPT gives one free surface point per pair, in the layout of the format and with a blank field 2 before the "
+    "an AxisymFluidFreePoint gives one free surface point per pair, in the layout of the format and with a blank field "
+    "2 before the "
     "pairs",
     "[model][cards][axisymmetric]")
 {
@@ -364,7 +367,7 @@ TEST_CASE(
     expectInvalid("AxisymFluidFreePoint;81101");
 }
 
-TEST_CASE("a PRESPT gives one pressure point per pair, with a blank pair between two points",
+TEST_CASE("an AxisymFluidPressurePoint gives one pressure point per pair, with a blank pair between two points",
           "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
@@ -402,7 +405,7 @@ TEST_CASE("a PRESPT gives one pressure point per pair, with a blank pair between
 // The slot cards: AcousticSlotFluidPoint, AcousticSlotSurfacePoint, AssociativeNode, AcousticSlotBoundary
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a GRIDF is a point of the node ID space below 1000000", "[model][cards][axisymmetric]")
+TEST_CASE("an AcousticSlotFluidPoint is a point of the node ID space below 1000000", "[model][cards][axisymmetric]")
 {
     const Model model = readBulk("AcousticSlotFluidPoint;81501;3.25;-6.5\nAcousticSlotFluidPoint;999999;0.5;0.");
     const AcousticSlotFluidPointCard card = cardAt<AcousticSlotFluidPointTable>(model, 0);
@@ -419,7 +422,8 @@ TEST_CASE("a GRIDF is a point of the node ID space below 1000000", "[model][card
     expectInvalid("AcousticSlotFluidPoint;81501;1.", "zCoord");
 }
 
-TEST_CASE("a GRIDS keeps a blank width blank and names the GRIDF of an interface", "[model][cards][axisymmetric]")
+TEST_CASE("an AcousticSlotSurfacePoint keeps a blank width blank and names the GRIDF of an interface",
+          "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
         "AcousticSlotFluidPoint;81501;3.25;-6.5\n"
@@ -506,7 +510,7 @@ TEST_CASE("an associative node preserves the point and exact long part name", "[
         readModelText("AssociativeNode;81701;1000;Two words", true)); // a name has no blank
 }
 
-TEST_CASE("an SLBDY lists the slot points of a boundary in order and keeps blank defaults blank",
+TEST_CASE("an AcousticSlotBoundary lists the slot points of a boundary in order and keeps blank defaults blank",
           "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
@@ -557,7 +561,7 @@ TEST_CASE("an SLBDY lists the slot points of a boundary in order and keeps blank
 // ShellNormal
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an SNORM gives the normal of a grid point in a system and has one card per grid point",
+TEST_CASE("a ShellNormal gives the normal of a grid point in a system and has one card per grid point",
           "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
@@ -603,7 +607,8 @@ TEST_CASE("an SNORM gives the normal of a grid point in a system and has one car
 // The loads and the omitted degrees of freedom: AxisymRingMomentLoad, AxisymConePressureLoad, AxisymOmittedDofSet
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a MOMAX has a harmonic or a sequence of them, a load set ID and a ring", "[model][cards][axisymmetric]")
+TEST_CASE("an AxisymRingMomentLoad has a harmonic or a sequence of them, a load set ID and a ring",
+          "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
         "AxisymConeRing;81001;2.;1.\n"
@@ -649,7 +654,8 @@ TEST_CASE("a MOMAX has a harmonic or a sequence of them, a load set ID and a rin
     expectInvalid("AxisymRingMomentLoad;81901;81001;3", "scaleFactor");
 }
 
-TEST_CASE("a PRESAX gives a pressure between two rings over an angle, 0 to 360 degrees when the angles are blank",
+TEST_CASE("an AxisymConePressureLoad gives a pressure between two rings over an angle, 0 to 360 degrees when the "
+          "angles are blank",
           "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
@@ -695,7 +701,8 @@ TEST_CASE("a PRESAX gives a pressure between two rings over an angle, 0 to 360 d
                   "phiAngle2"); // the default PHI1 of 0.0 is above it
 }
 
-TEST_CASE("an OMITAX lists up to twelve degrees of freedom of the rings, two to a line", "[model][cards][axisymmetric]")
+TEST_CASE("an AxisymOmittedDofSet lists up to twelve degrees of freedom of the rings, two to a line",
+          "[model][cards][axisymmetric]")
 {
     Model model = readBulk(
         "AxisymConeRing;81001;2.;1.\n"

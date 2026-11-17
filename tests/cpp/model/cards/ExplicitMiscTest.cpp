@@ -74,7 +74,7 @@ RecordingVisitor referencesOf(Model& model, std::uint32_t row = 0)
 
 // ------------------------------------------------------------------------------------------------------- ATB cards
 
-TEST_CASE("an ATBJNT has eight grid points, which it refers to, and six numbers of elements to generate",
+TEST_CASE("an OccupantJoint has eight grid points, which it refers to, and six numbers of elements to generate",
           "[model][cards][explicit]")
 {
     const std::string joints =
@@ -111,7 +111,7 @@ TEST_CASE("an ATBJNT has eight grid points, which it refers to, and six numbers 
     expectInvalid("OccupantJoint;1;NK;1;2;3;4;-5;;;5;6;7;8", "elemId1");
 }
 
-TEST_CASE("an ATBSEG has a keyword, numbers to generate and four grid points, which it refers to",
+TEST_CASE("an OccupantSegment has a keyword, numbers to generate and four grid points, which it refers to",
           "[model][cards][explicit]")
 {
     const std::string segments =
@@ -159,7 +159,7 @@ TEST_CASE("an ATBSEG has a keyword, numbers to generate and four grid points, wh
     expectInvalid("OccupantSegment;1;HEAD;;;;;;;1;2;3;4;-7", "elemId1");
 }
 
-TEST_CASE("an RBJOINT has the nodes its type needs and a relative penalty stiffness in field 10",
+TEST_CASE("a RigidBodyJoint has the nodes its type needs and a relative penalty stiffness in field 10",
           "[model][cards][explicit]")
 {
     Model model = readBulk(gridCards({105, 207, 109, 212, 1, 2, 3, 4, 5, 6}) +
@@ -210,7 +210,8 @@ TEST_CASE("an RBJOINT has the nodes its type needs and a relative penalty stiffn
     expectInvalid("RigidBodyJoint;1;SphericalJoint;1;2;;;;;-1.", "penaltyScale");
 }
 
-TEST_CASE("a RELEX is found by its name and gives the program that defines the ellipsoid", "[model][cards][explicit]")
+TEST_CASE("a RigidEllipsoidExternal is found by its name and gives the program that defines the ellipsoid",
+          "[model][cards][explicit]")
 {
     const Model model = readBulk("RigidEllipsoidExternal;head;atb\nRigidEllipsoidExternal;CHEST;ATB");
     REQUIRE((cardAt<RigidEllipsoidExternalTable>(model, 0).name == "head" &&
@@ -232,7 +233,8 @@ TEST_CASE("a RELEX is found by its name and gives the program that defines the e
 
 // -------------------------------------------------------------------------------- contact cards across modules
 
-TEST_CASE("an MDBCATP is a parameter list from field 3 that takes the names of its format and of three other cards",
+TEST_CASE("a ModuleContactDetectParams is a parameter list from field 3 that takes the names of its format and of "
+          "three other cards",
           "[model][cards][explicit]")
 {
     const Model model = readBulk("ModuleContactDetectParams;DetectionDistance;0.45;DeleteSolids;Yes");
@@ -269,7 +271,8 @@ TEST_CASE("an MDBCATP is a parameter list from field 3 that takes the names of i
     expectInvalid("ModuleContactDetectParams;;5", "parameterName");
 }
 
-TEST_CASE("an MDBCPAR has SET3ID in field 2 and pairs of modules, which it reads in order", "[model][cards][explicit]")
+TEST_CASE("a ModuleContactCandidates has SET3ID in field 2 and pairs of modules, which it reads in order",
+          "[model][cards][explicit]")
 {
     Model model = readBulk("ModuleContactCandidates;5;1;6;8;9\nTypedListSet3;5;Module;1;6;8;9");
     const ModuleContactCandidatesCard example = cardAt<ModuleContactCandidatesTable>(model);
@@ -302,7 +305,8 @@ TEST_CASE("an MDBCPAR has SET3ID in field 2 and pairs of modules, which it reads
     expectInvalid("ModuleContactCandidates;-2", "moduleSetId");
 }
 
-TEST_CASE("an MDBCTB1 is a contact table of pairs of module and contact pair, refers to the ones of the main Bulk Data",
+TEST_CASE("a ModuleContactTable is a contact table of pairs of module and contact pair, refers to the ones of the main "
+          "Bulk Data",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -352,7 +356,8 @@ TEST_CASE("an MDBCTB1 is a contact table of pairs of module and contact pair, re
     expectInvalid("ModuleContactTable;5;-1;2", "module");
 }
 
-TEST_CASE("an MDBCNCT has a short form and SECNDRY and PRIMARY lists of modules and bodies", "[model][cards][explicit]")
+TEST_CASE("a ModuleContactPair has a short form and SECNDRY and PRIMARY lists of modules and bodies",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "ModuleContactPair;64;318;;103;4;205;1007\n"
@@ -468,7 +473,7 @@ TEST_CASE("an ACCEL has a vector, an axis and a table of at least two pairs from
     expectInvalid("AccelFieldLoad;1;;1.;;;XDirection;0.;1.;1.", "acceleration");
 }
 
-TEST_CASE("an ACCEL1 lists grid points with THRU and BY and refers to them", "[model][cards][explicit]")
+TEST_CASE("an AccelNodeLoad lists grid points with THRU and BY and refers to them", "[model][cards][explicit]")
 {
     Model model = readBulk(
         "AccelNodeLoad;100;2;12.;1.;3.;0.;1;2;3;5;Through;11;By;2;24;25;Through;34;41;57;63;66;78;85;96\n"
@@ -512,7 +517,8 @@ TEST_CASE("an ACCEL1 lists grid points with THRU and BY and refers to them", "[m
 
 // ---------------------------------------------------------------------------------- legacy contact cards of the decks
 
-TEST_CASE("a BCTSET is a contact set of pairs of regions, joined by a BCTADD and given parameters by a BCTPARA",
+TEST_CASE("a ContactSet is a contact set of pairs of regions, joined by a ContactSetUnion and given parameters by a "
+          "ContactSurfaceParams",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -563,7 +569,8 @@ TEST_CASE("a BCTSET is a contact set of pairs of regions, joined by a BCTADD and
     expectInvalid("ContactSet;101;1;2;-0.5", "friction");
 }
 
-TEST_CASE("a BCTPARM takes the known names with their kinds and any other name as a number", "[model][cards][explicit]")
+TEST_CASE("a ContactControlParams takes the known names with their kinds and any other name as a number",
+          "[model][cards][explicit]")
 {
     const Model model = readBulk(
         "ContactControlParams;101;PENTYP;1;INIPENE;0\nContactControlParams;102;NormalPenalty;10.;TangentPenalty;0.5;"
@@ -592,7 +599,8 @@ TEST_CASE("a BCTPARM takes the known names with their kinds and any other name a
     expectInvalid("ContactControlParams;101;FRICMOD;ABC", "parameterValue"); // an unknown name holds a number
 }
 
-TEST_CASE("a BCTPARA checks the values of the known names and keeps the blank ones", "[model][cards][explicit]")
+TEST_CASE("a ContactSurfaceParams checks the values of the known names and keeps the blank ones",
+          "[model][cards][explicit]")
 {
     const Model model = readBulk(
         "ContactSurfaceParams;101;TiedContact;1\n"

@@ -172,10 +172,11 @@ private:
         info.description =
             "The integrated loads of the monitor points, for each point, side, contribution, subcase and step, along "
             "the CD axes of the point and about its point. They are read from the monitor point table "
-            "of the results (the named result `monitorPointLoads`): a MONPNT1 gives its "
+            "of the results (the named result `monitorPointLoads`): a MonitorIntegratedLoad1 gives its "
             "structural contributions (inertial, external, flexible increment, gust) and its aerodynamic ones "
             "(flexible increment, gust), with their totals (totalAero = flexible + gust; total = "
-            "inertial + external + flexible + gust on the structure); a MONPNT3 gives its `resultant`. A MONPNT3 that "
+            "inertial + external + flexible + gust on the structure); a MonitorNodeForceSum3 gives its `resultant`. A "
+            "MonitorNodeForceSum3 that "
             "the results do not store is computed from the grid point forces (the forces of the "
             "elements of ELEMSET at the grid points of GRIDSET and the loads XFLAG does not exclude; it needs the "
             "model). `pointX pointY pointZ` is the point in the basic system (null when its CP is not 0 and no "

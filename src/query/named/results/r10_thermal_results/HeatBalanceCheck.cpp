@@ -266,7 +266,8 @@ public:
             if (loads.empty())
             {
                 reason = "the set " + std::to_string(*set) + " of subcase " + std::to_string(item.subcase) +
-                         " has no heat load card (QBDY1, QBDY2, QBDY3, QHBDY, QVOL, QVECT)";
+                         " has no heat load card (HeatFluxSurfaceLoad1, HeatFluxNodalLoad2, HeatFluxBoundaryLoad3, "
+                         "HeatFluxNodeSetLoad, HeatVolumeSourceLoad, HeatFluxVectorLoad)";
                 continue;
             }
             double total = 0.0;

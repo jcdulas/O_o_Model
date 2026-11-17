@@ -53,7 +53,7 @@ TEST_CASE("the plot elements with three and four points have geometry", "[analys
     REQUIRE(ElementGeometry::supports(typeIndexOf<PlotQuad4Table>()));
 }
 
-TEST_CASE("a PLOTEL3 is a surface: area, normal by the right-hand rule and centre, no thickness",
+TEST_CASE("a PlotTria3 is a surface: area, normal by the right-hand rule and centre, no thickness",
           "[analysis][geometry][plot]")
 {
     const Model model = readModelText(grid(1, 0, 0, 0) + grid(2, 2, 0, 0) + grid(3, 0, 2, 0) +
@@ -73,7 +73,7 @@ TEST_CASE("a PLOTEL3 is a surface: area, normal by the right-hand rule and centr
     REQUIRE_FALSE(model.locate(base::IdSpace::Element, 10).has_value());
 }
 
-TEST_CASE("a PLOTEL4 is a surface: area, normal by the right-hand rule and centre, no thickness",
+TEST_CASE("a PlotQuad4 is a surface: area, normal by the right-hand rule and centre, no thickness",
           "[analysis][geometry][plot]")
 {
     const Model model = readModelText(grid(1, 0, 0, 0) + grid(2, 2, 0, 0) + grid(3, 2, 1, 0) + grid(4, 0, 1, 0) +

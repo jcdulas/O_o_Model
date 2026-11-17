@@ -147,7 +147,7 @@ TEST_CASE("an edited or long DesignEquation retains its expression text", "[mode
             parseEquations(longText).equations->canonicalText());
 }
 
-TEST_CASE("a DEQATN that does not parse is an error, and in tolerant mode stays as text with a diagnostic",
+TEST_CASE("a DesignEquation that does not parse is an error, and in tolerant mode stays as text with a diagnostic",
           "[model][cards][design]")
 {
     for (const std::string& text : {std::string("F(A,B)=A+"), std::string("F(A)=B"), std::string("F(A)=FOO(A)"),
@@ -173,7 +173,7 @@ TEST_CASE("a DEQATN that does not parse is an error, and in tolerant mode stays 
 // ------------------------------------------------------------------------------------------------------- DesignVar,
 // DesignVarLink
 
-TEST_CASE("a DESVAR has its bounds as defaults and does not refuse a start outside them", "[model][cards][design]")
+TEST_CASE("a DesignVar has its bounds as defaults and does not refuse a start outside them", "[model][cards][design]")
 {
     const Model model = readBulk(
         "DesignVar;6;SKIN1;24.;8.;80.;0.3;9\nDesignVar;3;T;0.5\nDesignVar;4;OUT;5.;6.;7.\nDesignVar;5;UP;1.\n");
@@ -204,7 +204,7 @@ TEST_CASE("a DESVAR has its bounds as defaults and does not refuse a start outsi
     REQUIRE_THROWS_AS(readModelText("[model]\nDesignVar;1;A;1.\nDesignVar;1;B;2.\n", true), base::DeckError);
 }
 
-TEST_CASE("a DLINK is a design variable that is a linear function of others", "[model][cards][design]")
+TEST_CASE("a DesignVarLink is a design variable that is a linear function of others", "[model][cards][design]")
 {
     Model model = readBulk(
         "DesignVar;3;A;1.\n"
@@ -237,7 +237,7 @@ TEST_CASE("a DLINK is a design variable that is a linear function of others", "[
 
 // ---------------------------------------------------------------------------------------------------- the constants
 
-TEST_CASE("a DTABLE has its constants as pairs, and an integer value is a table", "[model][cards][design]")
+TEST_CASE("a DesignConstants has its constants as pairs, and an integer value is a table", "[model][cards][design]")
 {
     Model model = readBulk(
         "DesignConstants;CK;2.718;W;6.4;M;7.2E+6;;;N;2.7E+6;L;250.;TABL;12\nTableDynamic1;12;;;0.;1.;1.;2.;EndTable\n");
@@ -258,7 +258,7 @@ TEST_CASE("a DTABLE has its constants as pairs, and an integer value is a table"
     expectInvalid("DesignConstants", "label");
 }
 
-TEST_CASE("a DTABLE2 names the field of a property, a material or a connection a constant is taken from",
+TEST_CASE("a DesignFieldConstants names the field of a property, a material or a connection a constant is taken from",
           "[model][cards][design]")
 {
     Model model = readBulk(
@@ -295,7 +295,7 @@ TEST_CASE("a DTABLE2 names the field of a property, a material or a connection a
 // ------------------------------------------------------------------------------------------------------------
 // DesignOptimParams
 
-TEST_CASE("a DOPTPRM keeps its pairs as the deck wrote them and the catalogue gives the defaults",
+TEST_CASE("a DesignOptimParams keeps its pairs as the deck wrote them and the catalogue gives the defaults",
           "[model][cards][design]")
 {
     Model model = readBulk(
@@ -342,7 +342,7 @@ TEST_CASE("a DOPTPRM keeps its pairs as the deck wrote them and the catalogue gi
     expectInvalid("DesignOptimParams", "parameterName");
 }
 
-TEST_CASE("a DOPTPRM reads the print flag of the analysis results under both of its spellings",
+TEST_CASE("a DesignOptimParams reads the print flag of the analysis results under both of its spellings",
           "[model][cards][design]")
 {
     // NASPRO is the keyword; NASPR0, with a zero, is the alias some decks write. Both are the same parameter.
@@ -358,7 +358,7 @@ TEST_CASE("a DOPTPRM reads the print flag of the analysis results under both of 
 // ------------------------------------------------------------------------------------- DesignConstrScreen,
 // DesignConstr and DesignConstrUnion
 
-TEST_CASE("a DSCREEN has its threshold and count as defaults", "[model][cards][design]")
+TEST_CASE("a DesignConstrScreen has its threshold and count as defaults", "[model][cards][design]")
 {
     const Model model =
         readBulk("DesignConstrScreen;Stress;-0.6;3\nDesignConstrScreen;Displacement\nDesignConstrScreen;All;;5\n");
@@ -374,7 +374,7 @@ TEST_CASE("a DSCREEN has its threshold and count as defaults", "[model][cards][d
     expectInvalid("DesignConstrScreen;Stress;-0.5;0", "maxRetained");
 }
 
-TEST_CASE("a DCONSTR bounds a response, by numbers or by tables, and joins the set DCID", "[model][cards][design]")
+TEST_CASE("a DesignConstr bounds a response, by numbers or by tables, and joins the set DCID", "[model][cards][design]")
 {
     Model model = readBulk(
         "DesignResp1;4;S;Stress;ShellProp;;9;;10\n"
@@ -412,7 +412,8 @@ TEST_CASE("a DCONSTR bounds a response, by numbers or by tables, and joins the s
     REQUIRE(unresolvedIn(dangling) == 1);
 }
 
-TEST_CASE("a DCONADD joins DCONSTR sets, and a DESSUB or DESGLB selects a set", "[model][cards][design][control]")
+TEST_CASE("a DesignConstrUnion joins DesignConstr sets, and a DESSUB or DESGLB selects a set",
+          "[model][cards][design][control]")
 {
     const std::string cards =
         "DesignResp1;4;S;Stress;ShellProp;;9;;10\n"
@@ -457,7 +458,7 @@ TEST_CASE("a DCONADD joins DCONSTR sets, and a DESSUB or DESGLB selects a set", 
 // -------------------------------------------------------------------------------------- DesignNodeMove,
 // DesignShapeBasis and DesignBoundaryShape
 
-TEST_CASE("a DVGRID moves a grid point by a vector, and several cards add", "[model][cards][design]")
+TEST_CASE("a DesignNodeMove moves a grid point by a vector, and several cards add", "[model][cards][design]")
 {
     Model model = readBulk(
         "Node;117;;0.;0.;0.\n"
@@ -482,7 +483,7 @@ TEST_CASE("a DVGRID moves a grid point by a vector, and several cards add", "[mo
     REQUIRE(unresolvedIn(dangling) == 3);
 }
 
-TEST_CASE("a DVSHAP and a DVBSHAP combine columns with scale factors", "[model][cards][design]")
+TEST_CASE("a DesignShapeBasis and a DesignBoundaryShape combine columns with scale factors", "[model][cards][design]")
 {
     Model model = readBulk(
         "DesignVar;2;S;1.\nDesignVar;4;B;1.\nDesignShapeBasis;2;2;1.5;5;0.5\nDesignShapeBasis;2;3\nDesignBoundaryShape;"
@@ -505,7 +506,7 @@ TEST_CASE("a DVSHAP and a DVBSHAP combine columns with scale factors", "[model][
 
 // --------------------------------------------------------------------------------------------- the linear relations
 
-TEST_CASE("a DVPREL1 drives a field of a property by name or by position", "[model][cards][design]")
+TEST_CASE("a DesignPropRelation1 drives a field of a property by name or by position", "[model][cards][design]")
 {
     Model model = readBulk(
         "DesignVar;6;A;0.3\n"
@@ -592,7 +593,8 @@ TEST_CASE("the material and connectivity relations are read like the property re
 
 // ------------------------------------------------------------------------------------------ the equation relations
 
-TEST_CASE("a DVPREL2 gives a field by an equation of design variables and constants", "[model][cards][design]")
+TEST_CASE("a DesignPropRelation2 gives a field by an equation of design variables and constants",
+          "[model][cards][design]")
 {
     Model model =
         readBulk("DesignVar;1;A;1.\nDesignVar;2;B;1.\nDesignVar;3;C;1.\nShellProp;10;1;0.01\nIsoMat;1;2.1E+11;;0.3\n" +
@@ -651,7 +653,8 @@ TEST_CASE("the material and connectivity relations by equation have the same gro
 
 // ------------------------------------------------------------------------------------------------------- responses
 
-TEST_CASE("a DRESP1 keeps its attributes as written and names what the response type says", "[model][cards][design]")
+TEST_CASE("a DesignResp1 keeps its attributes as written and names what the response type says",
+          "[model][cards][design]")
 {
     Model model = readBulk(
         "Node;100;;0.;0.;0.\n"
@@ -736,7 +739,8 @@ TEST_CASE("a DRESP1 keeps its attributes as written and names what the response 
         readBulk("DesignResp1;1;S1;Stress;ShellProp;;9;;10;" + std::string(650, 'A')));
 }
 
-TEST_CASE("a DRESP2 gives a response by an equation or a function over groups of arguments", "[model][cards][design]")
+TEST_CASE("a DesignResp2 gives a response by an equation or a function over groups of arguments",
+          "[model][cards][design]")
 {
     Model model = readBulk(
         "DesignVar;104;A;1.\n"
@@ -799,7 +803,8 @@ TEST_CASE("a DRESP2 gives a response by an equation or a function over groups of
     expectInvalid("DesignResp2;1;X;;;;;;;;DesignVar;1;1", "equationId");
 }
 
-TEST_CASE("a DRESP3 names a group and a type of external response and keeps its user data", "[model][cards][design]")
+TEST_CASE("a DesignResp3 names a group and a type of external response and keeps its user data",
+          "[model][cards][design]")
 {
     Model model = readBulk(
         "DesignVar;101;A;1.\n"
@@ -834,7 +839,8 @@ TEST_CASE("the responses of the three cards share one number space", "[model][ca
 // ---------------------------------------------------------------------------------------------------------
 // DesignTopologyRegion
 
-TEST_CASE("a TOPVAR has its constraint lines each once and its density limits as written", "[model][cards][design]")
+TEST_CASE("a DesignTopologyRegion has its constraint lines each once and its density limits as written",
+          "[model][cards][design]")
 {
     Model model = readBulk(
         "ShellProp;1;1;0.01\n"
@@ -953,7 +959,7 @@ TEST_CASE("the design cards of a small model resolve and follow every renumberin
     REQUIRE(unresolvedIn(lacking) == 1);
 }
 
-TEST_CASE("a PBUSH1D of type EQUAT and a CORD3G of form EQN name their equations", "[model][cards][design]")
+TEST_CASE("a BushProp1D of type EQUAT and a GeneralFrame3 of form EQN name their equations", "[model][cards][design]")
 {
     const std::string equations = designEquationCard(30, "F(X)=2.*X") + designEquationCard(31, "G(X)=3.*X") +
                                   designEquationCard(32, "H(X)=2.") + designEquationCard(33, "K(X)=3.");

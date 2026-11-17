@@ -157,7 +157,7 @@ std::string fieldOf(const std::optional<CardProblem>& problem)
 
 } // namespace
 
-TEST_CASE("the DYPARAM catalogue lists the names of the format reference with their forms",
+TEST_CASE("the ExplicitParam catalogue lists the names of the format reference with their forms",
           "[model][cards][explicit][dyparam]")
 {
     const ExplicitParamCatalogue& catalogue = ExplicitParamCatalogue::instance();
@@ -265,7 +265,7 @@ TEST_CASE("a name alone is a card exactly where no value is required", "[model][
     }
 }
 
-TEST_CASE("a DYPARAM keeps its values as given, with the kind of each, and an unknown name as written",
+TEST_CASE("an ExplicitParam keeps its values as given, with the kind of each, and an unknown name as written",
           "[model][cards][explicit][dyparam]")
 {
     const Model model = readBulk(
@@ -358,7 +358,7 @@ TEST_CASE("a setting is the last card of its name with the format reference defa
     REQUIRE((mine.has_value() && mine->fromDeck && mine->values.size() == 1 && mine->values[0].integerValue == 3));
 }
 
-TEST_CASE("the tables, the grid points and the MATRIGs a DYPARAM names are references",
+TEST_CASE("the tables, the grid points and the MATRIGs an ExplicitParam names are references",
           "[model][cards][explicit][dyparam]")
 {
     Model model = readBulk(
@@ -528,7 +528,7 @@ TEST_CASE("the values of every entry are refused when they break its rules", "[m
     expectInvalid("ExplicitParam;RigidBodyMerge1;Automatic;RigidMat(1)", "firstBodyName");
 }
 
-TEST_CASE("the check of a DYPARAM refuses what would not read back as the same card",
+TEST_CASE("the check of an ExplicitParam refuses what would not read back as the same card",
           "[model][cards][explicit][dyparam]")
 {
     // User-defined names and values retain their spelling and length; text remains distinct from numbers.

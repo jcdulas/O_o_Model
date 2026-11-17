@@ -114,14 +114,16 @@ private:
         info.name = "aeroBoxesTable";
         info.family = "T10";
         info.description =
-            "One row for each aerodynamic box of the CAERO1, CAERO4 and CAERO5 panels, in the basic system. The "
+            "One row for each aerodynamic box of the AeroLiftingPanel1, AeroStripPanel4 and AeroPistonPanel5 panels, "
+            "in the basic system. The "
             "corners are numbered as the panel is (1 and 2 on the inboard side, 3 and 4 on the outboard side), "
             "`center` is "
             "the average of the corners and `control` the control point at three quarters of the chord at mid span "
             "(the "
             "Doublet-Lattice theory puts the boundary condition there). `chord` is the length of the box along the "
             "flow "
-            "at mid span and `normal` the unit normal of the box. A CAERO2 body and a CAERO3 Mach box surface have no "
+            "at mid span and `normal` the unit normal of the box. An AeroBody2 body and an AeroMachBoxPanel3 Mach box "
+            "surface have no "
             "boxes here, and neither has a panel whose divisions cannot be cut.";
         info.parameters = {parameter("elementIds", ParameterKind::IdList, "None", "the panels to list")};
         info.defaultSort = "boxId";

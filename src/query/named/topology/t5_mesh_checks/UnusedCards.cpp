@@ -93,7 +93,7 @@ private:
         info.family = "T5";
         info.description =
             "The grid points and scalar points, properties, materials, coordinate systems and tables (the TABLEDi and "
-            "their kin, the TABL3Di and TABLE3D, and the TABLFTG) that no card refers to "
+            "their kin, the TABL3Di and TableScattered3D, and the TableFatigueHistory) that no card refers to "
             "(a reference is a field that names the card: the node of an element, the property of an element, the "
             "material "
             "of a property...). A grid point that only sits inside a THRU range of a card is not seen as used. Sorted "

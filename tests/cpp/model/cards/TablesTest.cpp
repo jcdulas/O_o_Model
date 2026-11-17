@@ -133,7 +133,7 @@ TEST_CASE("the tables of one kind share an ID space, and the material tables hav
     REQUIRE_THROWS_AS(readBulk("TableMaterial1;0;;" + points), base::DeckError);
 }
 
-TEST_CASE("TABLED1 interpolates linearly, extends its end segments and averages a jump", "[model][cards]")
+TEST_CASE("TableDynamic1 interpolates linearly, extends its end segments and averages a jump", "[model][cards]")
 {
     // Inside the table and at the points.
     REQUIRE(tableDynamic1At(LINEAR, 0.5) == Approx(1.0));
@@ -154,7 +154,7 @@ TEST_CASE("TABLED1 interpolates linearly, extends its end segments and averages 
     REQUIRE(std::isnan(tableDynamic1At(LINEAR, std::nan(""))));
 }
 
-TEST_CASE("TABLED1 gives the same values whether x ascends or descends", "[model][cards]")
+TEST_CASE("TableDynamic1 gives the same values whether x ascends or descends", "[model][cards]")
 {
     const char* const descending = "TableDynamic1;1;;;3.;4.;1.;2.;0.;0.;EndTable";
     for (const double x : {-1.0, 0.0, 0.5, 1.0, 2.0, 3.0, 4.0})
@@ -164,7 +164,7 @@ TEST_CASE("TABLED1 gives the same values whether x ascends or descends", "[model
     REQUIRE(tableDynamic1At(descendingJump, 0.5) == Approx(1.0));
 }
 
-TEST_CASE("TABLED1 interpolates in the logarithm of the axes that are LOG", "[model][cards]")
+TEST_CASE("TableDynamic1 interpolates in the logarithm of the axes that are LOG", "[model][cards]")
 {
     // LOG x, LINEAR y: y = 4 * ln(x) / ln(100) between (1, 0) and (100, 4).
     const char* const logX = "TableDynamic1;1;Logarithmic;;1.;0.;100.;4.;EndTable";
@@ -188,7 +188,7 @@ TEST_CASE("TABLED1 interpolates in the logarithm of the axes that are LOG", "[mo
     REQUIRE(tableDynamic1At(logJump, 1.0) == Approx(4.0));
 }
 
-TEST_CASE("TABLED2 looks the points up at x - X1", "[model][cards]")
+TEST_CASE("TableDynamic2 looks the points up at x - X1", "[model][cards]")
 {
     const Model model = readBulk("TableDynamic2;1;1.;0.;0.;2.;4.;3.;4.;EndTable");
     const TableDynamic2Table& table = *model.findTable<TableDynamic2Table>();
@@ -206,7 +206,7 @@ TEST_CASE("TABLED2 looks the points up at x - X1", "[model][cards]")
         REQUIRE(out[index] == Approx(expected[index]));
 }
 
-TEST_CASE("TABLED3 looks the points up at (x - X1) / X2", "[model][cards]")
+TEST_CASE("TableDynamic3 looks the points up at (x - X1) / X2", "[model][cards]")
 {
     const Model model = readBulk("TableDynamic3;1;1.;2.;0.;0.;2.;4.;EndTable");
     const TableDynamic3Table& table = *model.findTable<TableDynamic3Table>();
@@ -222,7 +222,7 @@ TEST_CASE("TABLED3 looks the points up at (x - X1) / X2", "[model][cards]")
     REQUIRE(reversed.findTable<TableDynamic3Table>()->evaluateRow(0, -3.0) == Approx(4.0)); // yT(2)
 }
 
-TEST_CASE("TABLED4 is the polynomial in (x - X1) / X2 with x limited to [X3, X4]", "[model][cards]")
+TEST_CASE("TableDynamic4 is the polynomial in (x - X1) / X2 with x limited to [X3, X4]", "[model][cards]")
 {
     // y = 1 + 2 t + 3 t^2 with t = (x - 1) / 2, x limited to [0, 5].
     const Model model = readBulk("TableDynamic4;1;1.;2.;0.;5.;1.;2.;3.;EndTable");

@@ -96,7 +96,7 @@ public:
         std::set<std::string_view> cards;
         for (const std::string& asked : run.arguments.texts("cards"))
         {
-            // a card type, or its keyword in any case
+            // a card type
             const std::string_view card = asked;
             const auto found = std::find(CARDS.begin(), CARDS.end(), card);
             if (found == CARDS.end())
@@ -245,49 +245,61 @@ private:
         info.name = "directMatricesTable";
         info.family = "T1";
         info.description =
-            "The matrices of the direct matrix input cards DMI, DMIG, DMIJ, DMIJI and DMIK (the downwash "
+            "The matrices of the direct matrix input cards DirectMatrix, DirectMatrixNodal, DirectMatrixAeroJ, "
+            "DirectMatrixAeroJInterference and DirectMatrixAeroK (the downwash "
             "and pressure matrices of a static aeroelastic trim) as sparse matrices: one row a term, in the order of "
             "the cards "
-            "(DMI, DMIG, DMIJ, DMIJI, DMIK), of their headers in the deck, and of the terms of each matrix in the "
+            "(DirectMatrix, DirectMatrixNodal, DirectMatrixAeroJ, DirectMatrixAeroJInterference, DirectMatrixAeroK), "
+            "of their headers in the deck, and of the terms of each matrix in the "
             "deck. row and column are from 0 (the coordinate form of directMatrices and pointMatrices: "
             "scipy.sparse.coo_array((real + 1j * imag, (row, column)), shape) with the shape of detail=\"matrices\"); "
             "imag is 0 for a real matrix, and a matrix given as magnitude and phase (POLAR) is given as real and "
-            "imaginary parts. A DMI is indexed by numbers: rowId and columnId are its row I and column J (from 1), "
+            "imaginary parts. A DirectMatrix is indexed by numbers: rowId and columnId are its row I and column J "
+            "(from 1), "
             "the components 0; its columns are expanded as the format reference reads them (the groups of each row "
             "number, Through, "
             "the two fields of a complex element; a blank field skipped, not a zero), and a matrix whose column is "
             "given twice, whose rows go back or whose terms fall outside M or N is refused with the reason. A matrix "
-            "at points (the layout of DMIG) is indexed by its degrees of freedom, numbered in the order of their sort "
+            "at points (the layout of DirectMatrixNodal) is indexed by its degrees of freedom, numbered in the order "
+            "of their sort "
             "(point, component), one list for the rows and columns of a square or symmetric matrix; rowId, "
             "rowComponent, columnId and columnComponent are the point and component (for IFO 9 with NCOL the "
-            "column numbers, component 0; for a DMIJ and DMIJI the boxes of the js-set). The terms are those the "
-            "cards store; full=True gives the matrix the format reference makes: a diagonal DMI (FORM 3) on the "
+            "column numbers, component 0; for a DirectMatrixAeroJ and DirectMatrixAeroJInterference the boxes of the "
+            "js-set). The terms are those the "
+            "cards store; full=True gives the matrix the format reference makes: a diagonal DirectMatrix (FORM 3) on "
+            "the "
             "diagonal of an M x "
             "M matrix, an identity (FORM 8) with its M ones, a symmetric matrix at points (IFO 6, one triangle given) "
             "with both triangles. names keeps the matrices of these names, cards those of these cards (a matrix not "
-            "kept is not read). `card` is the card type (DirectMatrix for a DMI, DirectMatrixNodal for a DMIG, "
+            "kept is not read). `card` is the card type (DirectMatrix for a DirectMatrix, DirectMatrixNodal for a "
+            "DirectMatrixNodal, "
             "DirectMatrixAeroJ, DirectMatrixAeroJInterference, DirectMatrixAeroK). detail=\"matrices\" gives a row a "
-            "matrix: its form (for a DMI square, rectangular, "
+            "matrix: its form (for a DirectMatrix square, rectangular, "
             "diagonal, lower or upper triangular factor, symmetric, identity; for a matrix at points square, "
             "symmetric, rectangular) and formCode (FORM or IFO), TIN, TOUT, polar, isComplex, the shape (rowCount, "
             "columnCount) and termCount of the terms given; role is the role of a matrix a solution reads by "
-            "its fixed name (DownwashMatrix and AeroPressureMatrix for a DMI, DMIJ or DMIJI named W2GJ or FA2J; "
-            "AeroWeightingMatrix and AeroWeightingFactor for a DMI or DMIK named WKK or WTFACT, or named by the role; "
-            "no Case Control command or PARAM selects them) and inEffect is false for a DMIJ, DMIJI or DMIK of such a "
-            "name that a DMI also has (the "
-            "DMI is used). DMIAX is not here (directMatrixAxisymCoo gives "
+            "its fixed name (DownwashMatrix and AeroPressureMatrix for a DirectMatrix, DirectMatrixAeroJ or "
+            "DirectMatrixAeroJInterference named W2GJ or FA2J; "
+            "AeroWeightingMatrix and AeroWeightingFactor for a DirectMatrix or DirectMatrixAeroK named WKK or WTFACT, "
+            "or named by the role; "
+            "no Case Control command or PARAM selects them) and inEffect is false for a DirectMatrixAeroJ, "
+            "DirectMatrixAeroJInterference or DirectMatrixAeroK of such a "
+            "name that a DirectMatrix also has (the "
+            "DirectMatrix is used). DirectMatrixAxisym is not here (directMatrixAxisymCoo gives "
             "it).";
         info.detailParameter = "detail";
         info.parameters = {
             parameter("names", ParameterKind::TextList, "None", "keep the matrices of these names"),
             parameter("cards", ParameterKind::TextList, "None",
-                      "keep the matrices of these card types or keywords (DirectMatrixNodal or DMIG, ...)"),
+                      "keep the matrices of these card types (DirectMatrixNodal, ...)"),
             parameter("full", ParameterKind::Bool, "False",
                       "the matrix the format reference makes (a diagonal, an identity, both triangles of a symmetric "
                       "matrix)"),
             parameter("detail", ParameterKind::Text, "\"terms\"",
                       "\"terms\" (a row a term) or \"matrices\" (a row a matrix)")};
-        info.defaultSort = "the cards (DMI, DMIG, DMIJ, DMIJI, DMIK), their headers in the deck, the terms in the deck";
+        info.defaultSort = "the cards (DirectMatrix, DirectMatrixNodal, DirectMatrixAeroJ, "
+                           "DirectMatrixAeroJInterference, DirectMatrixAeroK), their headers in the deck, the terms in "
+                           "the deck";
         ColumnListBuilder terms;
         terms.dictionary("name").dictionary("card").int32("row").int32("column").real("real").real("imag");
         terms.int32("rowId").int32("rowComponent").int32("columnId").int32("columnComponent");

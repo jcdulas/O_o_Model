@@ -117,7 +117,8 @@ const std::string ROTOR_WORLD_TEXT = NODES_TEXT +
 // The rotor space and what names it
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("the ROTORG, ROTOR, ROTORAX and ROTORSE cards are one space of rotors that the other rotor cards name",
+TEST_CASE("the RotorLineNodes, RotorModel3D, RotorAxisym and RotorSuperelement cards are one space of rotors that the "
+          "other rotor cards name",
           "[model][cards][rotor]")
 {
     REQUIRE((RotorLineNodesTable::INFO.category == CardCategory::Rotor &&
@@ -157,7 +158,7 @@ TEST_CASE("the ROTORG, ROTOR, ROTORAX and ROTORSE cards are one space of rotors 
     requireRoundTrip(model);
 }
 
-TEST_CASE("an RGYRO names its reference rotor, and a rotor of another superelement is not looked up",
+TEST_CASE("a RotordynamicParams names its reference rotor, and a rotor of another superelement is not looked up",
           "[model][cards][rotor]")
 {
     Model model = readBulk(
@@ -175,7 +176,7 @@ TEST_CASE("an RGYRO names its reference rotor, and a rotor of another supereleme
     requireRoundTrip(model);
 }
 
-TEST_CASE("a ROTHYBD names the rotors that take a hybrid damping", "[model][cards][rotor]")
+TEST_CASE("a RotorHybridDamping names the rotors that take a hybrid damping", "[model][cards][rotor]")
 {
     Model model =
         readBulk("Node;1\nNode;2\nRotorLineNodes;1;1;2\nRotorLineNodes;2;1;2\nRotorHybridDamping;1;201;2;202");
@@ -190,7 +191,8 @@ TEST_CASE("a ROTHYBD names the rotors that take a hybrid damping", "[model][card
              std::vector<RotorHybridPair>{{11, 201}, {12, 202}})); // the HybridDamping numbers are another space
 }
 
-TEST_CASE("an edited ROTOR, REFRTSE, DDVAL, TOMVAR or DVPSURF is checked again, stored, given another ID and deleted",
+TEST_CASE("an edited RotorModel3D, SuperelementReferenceRotor, DesignDiscreteValues, DesignTopometryRegion or "
+          "DesignControlSurface is checked again, stored, given another ID and deleted",
           "[model][cards][rotor]")
 {
     Model model = readBulk(
@@ -251,7 +253,7 @@ TEST_CASE("an edited ROTOR, REFRTSE, DDVAL, TOMVAR or DVPSURF is checked again, 
 // RotorModel3D
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a ROTOR lists elements, properties and the axis of rotation, each on a line of its own",
+TEST_CASE("a RotorModel3D lists elements, properties and the axis of rotation, each on a line of its own",
           "[model][cards][rotor]")
 {
     Model model = readBulk(NODES_TEXT +
@@ -310,7 +312,8 @@ TEST_CASE("a ROTOR lists elements, properties and the axis of rotation, each on 
     REQUIRE(unresolvedIn(small) == 0);
 }
 
-TEST_CASE("a ROTOR refuses an order, a layout or a value the format reference does not allow", "[model][cards][rotor]")
+TEST_CASE("a RotorModel3D refuses an order, a layout or a value the format reference does not allow",
+          "[model][cards][rotor]")
 {
     expectInvalid("RotorModel3D;0;;Elements;1;10;Axis;2;1;2", "id");
     expectInvalid("RotorModel3D;10;SPIN;Elements;1;10;Axis;2;1;2", "frame");
@@ -331,7 +334,7 @@ TEST_CASE("a ROTOR refuses an order, a layout or a value the format reference do
 // RotorAxisym
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a ROTORAX lists elements, properties or grid points of an axisymmetric rotor", "[model][cards][rotor]")
+TEST_CASE("a RotorAxisym lists elements, properties or grid points of an axisymmetric rotor", "[model][cards][rotor]")
 {
     Model model = readBulk(NODES_TEXT +
                            "Node;52\n"
@@ -392,7 +395,7 @@ TEST_CASE("a ROTORAX lists elements, properties or grid points of an axisymmetri
     REQUIRE(unresolvedIn(readBulk("RotorAxisym;15;Node;1;3")) == 2);
 }
 
-TEST_CASE("a ROTORAX refuses a list the format reference does not allow", "[model][cards][rotor]")
+TEST_CASE("a RotorAxisym refuses a list the format reference does not allow", "[model][cards][rotor]")
 {
     expectInvalid("RotorAxisym;0;Elements;5", "id");
     expectInvalid("RotorAxisym;1", "listType");
@@ -413,7 +416,7 @@ TEST_CASE("a ROTORAX refuses a list the format reference does not allow", "[mode
 // RotorSuperelement
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a ROTORSE names a rotor and the superelement that holds it, and SEOPT is 1 when blank",
+TEST_CASE("a RotorSuperelement names a rotor and the superelement that holds it, and SEOPT is 1 when blank",
           "[model][cards][rotor]")
 {
     Model model = readBulk(
@@ -455,7 +458,8 @@ TEST_CASE("a ROTORSE names a rotor and the superelement that holds it, and SEOPT
 // RotorRelativeSpin and RotorTransientSpin
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an RSPINR gives the relative spin rate as a constant or a DDVAL, and the damping of the rotor",
+TEST_CASE("a RotorRelativeSpin gives the relative spin rate as a constant or a DesignDiscreteValues, and the damping "
+          "of the rotor",
           "[model][cards][rotor]")
 {
     Model model = readBulk(
@@ -501,7 +505,7 @@ TEST_CASE("an RSPINR gives the relative spin rate as a constant or a DDVAL, and 
     expectInvalid("RotorRelativeSpin;1;2;3;RevolutionsPerMinute;;1.;;abc", "node");
 }
 
-TEST_CASE("an RSPINR looks up its rotor and its grid points only when the rotor is in the residual structure",
+TEST_CASE("a RotorRelativeSpin looks up its rotor and its grid points only when the rotor is in the residual structure",
           "[model][cards][rotor]")
 {
     Model model = readBulk(
@@ -540,7 +544,8 @@ TEST_CASE("an RSPINR looks up its rotor and its grid points only when the rotor 
     REQUIRE(cardAt<RotorRelativeSpinTable>(model, 0).rotorId == 120);
 }
 
-TEST_CASE("an RSPINT gives the spin rate over time as a TABLED1 and an output point", "[model][cards][rotor]")
+TEST_CASE("a RotorTransientSpin gives the spin rate over time as a TableDynamic1 and an output point",
+          "[model][cards][rotor]")
 {
     Model model = readBulk(
         "RotorTransientSpin;120;1101;1102;RevolutionsPerMinute;1105;;;0.02;0.03;0.004;900.;1400.;1100.\n"
@@ -599,7 +604,7 @@ TEST_CASE("an RSPINT gives the spin rate over time as a TABLED1 and an output po
 // ReferenceRotor and SuperelementReferenceRotor
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a REFROT names the reference rotor and the rotors that follow it", "[model][cards][rotor]")
+TEST_CASE("a ReferenceRotor names the reference rotor and the rotors that follow it", "[model][cards][rotor]")
 {
     Model model = readBulk(
         "Node;1\n"
@@ -648,7 +653,7 @@ TEST_CASE("a REFROT names the reference rotor and the rotors that follow it", "[
     expectInvalid("ReferenceRotor;100;10;x", "nonFollowingRotorIds");
 }
 
-TEST_CASE("a REFRTSE names the reference rotor and the rotors of any superelement that follow it",
+TEST_CASE("a SuperelementReferenceRotor names the reference rotor and the rotors of any superelement that follow it",
           "[model][cards][rotor]")
 {
     Model model = readBulk(
@@ -718,7 +723,8 @@ const std::string ROTOR_INITIAL_BEND_TEXT =
 } // namespace
 
 TEST_CASE(
-    "a ROTBENT has a row for the plane vector, one for each kink and offset and one for each pair of bearing grids",
+    "a RotorInitialBend has a row for the plane vector, one for each kink and offset and one for each pair of bearing "
+    "grids",
     "[model][cards][rotor]")
 {
     Model model = readBulk(ROTOR_INITIAL_BEND_TEXT + "RotorInitialBend;300;10;2;BearingDeflectionProfile;1;1;2\n");
@@ -772,7 +778,8 @@ TEST_CASE(
     REQUIRE(unresolvedIn(resolved) == 0);
 }
 
-TEST_CASE("a ROTBENT refuses a row, a keyword or a value the format reference does not allow", "[model][cards][rotor]")
+TEST_CASE("a RotorInitialBend refuses a row, a keyword or a value the format reference does not allow",
+          "[model][cards][rotor]")
 {
     expectInvalid("RotorInitialBend;0;10;99;BearingDeflectionProfile;1;1;2", "bendTableId");
     expectInvalid("RotorInitialBend;1;0;99;BearingDeflectionProfile;1;1;2", "rotorId");
@@ -792,7 +799,7 @@ TEST_CASE("a ROTBENT refuses a row, a keyword or a value the format reference do
 // CampbellDiagram
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CAMPBLL has its defaults for the tracking of the modes and keeps a blank VPARM and TYPE blank",
+TEST_CASE("a CampbellDiagram has its defaults for the tracking of the modes and keeps a blank VPARM and TYPE blank",
           "[model][cards][rotor]")
 {
     Model model = readBulk(
@@ -851,7 +858,7 @@ TEST_CASE("a CAMPBLL has its defaults for the tracking of the modes and keeps a 
 // DesignDiscreteValues and the DesignVar that names it
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a DDVAL lists values and THRU BY ranges, which it keeps as written and expands in order",
+TEST_CASE("a DesignDiscreteValues lists values and THRU BY ranges, which it keeps as written and expands in order",
           "[model][cards][design]")
 {
     Model model = readBulk(
@@ -907,7 +914,7 @@ TEST_CASE("a DDVAL lists values and THRU BY ranges, which it keeps as written an
     expectInvalid("DesignDiscreteValues;1;0.;Through;1.;By;1.E-9", "increment"); // a billion values
 }
 
-TEST_CASE("a DESVAR names the DDVAL that lists its discrete values", "[model][cards][design]")
+TEST_CASE("a DesignVar names the DDVAL that lists its discrete values", "[model][cards][design]")
 {
     Model model = readBulk("DesignVar;1;A;1.;;;;7\nDesignVar;2;B;1.\nDesignDiscreteValues;7;1.;2.;3.\n");
     REQUIRE(referencesOf<DesignVarTable>(model, 0) ==
@@ -926,7 +933,8 @@ TEST_CASE("a DESVAR names the DDVAL that lists its discrete values", "[model][ca
 // DesignBeadRegion
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a BEADVAR has a property, the size of a bead, and optional DESVAR and GRID lines", "[model][cards][design]")
+TEST_CASE("a DesignBeadRegion has a property, the size of a bead, and optional DESVAR and GRID lines",
+          "[model][cards][design]")
 {
     Model model =
         readBulk(NODES_TEXT +
@@ -985,7 +993,8 @@ TEST_CASE("a BEADVAR has a property, the size of a bead, and optional DESVAR and
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("a BEADVAR refuses a layout or a value the format reference does not allow", "[model][cards][design]")
+TEST_CASE("a DesignBeadRegion refuses a layout or a value the format reference does not allow",
+          "[model][cards][design]")
 {
     expectInvalid("DesignBeadRegion;0;ShellProp;101;1.;1.;45.", "id");
     expectInvalid("DesignBeadRegion;1;BarProp;101;1.;1.;45.", "propType");
@@ -1014,7 +1023,7 @@ TEST_CASE("a BEADVAR refuses a layout or a value the format reference does not a
 // DesignTopometryRegion
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TOMVAR resolves its bounds from XINIT and has a line for each of its optional parts",
+TEST_CASE("a DesignTopometryRegion resolves its bounds from XINIT and has a line for each of its optional parts",
           "[model][cards][design]")
 {
     Model model = readBulk(
@@ -1095,7 +1104,8 @@ TEST_CASE("a TOMVAR resolves its bounds from XINIT and has a line for each of it
     REQUIRE(unresolvedIn(world) == 0);
 }
 
-TEST_CASE("a TOMVAR refuses a layout or a value the format reference does not allow", "[model][cards][design]")
+TEST_CASE("a DesignTopometryRegion refuses a layout or a value the format reference does not allow",
+          "[model][cards][design]")
 {
     expectInvalid("DesignTopometryRegion;0;ShellProp;5;thickness", "id");
     expectInvalid("DesignTopometryRegion;1;;5;t", "kind");
@@ -1128,7 +1138,7 @@ TEST_CASE("a TOMVAR refuses a layout or a value the format reference does not al
 // DesignLoadRelation1
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a DVLREL1 designs a value of a load, with attributes that say which load of the set",
+TEST_CASE("a DesignLoadRelation1 designs a value of a load, with attributes that say which load of the set",
           "[model][cards][design]")
 {
     Model model = readBulk(
@@ -1198,7 +1208,8 @@ TEST_CASE("a DVLREL1 designs a value of a load, with attributes that say which l
     REQUIRE(unresolvedIn(world) == 0);
 }
 
-TEST_CASE("a DVLREL1 refuses a layout or a value the format reference does not allow", "[model][cards][design]")
+TEST_CASE("a DesignLoadRelation1 refuses a layout or a value the format reference does not allow",
+          "[model][cards][design]")
 {
     expectInvalid("DesignLoadRelation1;0;PointForceLoad;1;magnitude;;;;;;;;;5;1.", "id");
     expectInvalid("DesignLoadRelation1;1;;1;f;;;;;;;;;5;1.", "kind");
@@ -1223,7 +1234,8 @@ TEST_CASE("a DVLREL1 refuses a layout or a value the format reference does not a
 // DesignControlSurface
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a DVPSURF sets a control surface of a trim as a design variable, and names the surface by its label",
+TEST_CASE("a DesignControlSurface sets a control surface of a trim as a design variable, and names the surface by its "
+          "label",
           "[model][cards][design]")
 {
     Model model = readBulk(

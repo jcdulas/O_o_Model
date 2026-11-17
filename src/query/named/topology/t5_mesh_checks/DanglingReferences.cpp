@@ -246,7 +246,7 @@ private:
             "(card "
             "SUBCASE or GLOBAL, id the subcase number). The fields that may name nothing (the end of a THRU range, a "
             "scalar "
-            "point no SPOINT defines) are not reported. In the order of the cards, then the Case Control.";
+            "point no ScalarPoint defines) are not reported. In the order of the cards, then the Case Control.";
         info.defaultSort = "(the order of the cards)";
         ColumnListBuilder columns;
         columns.dictionary("card").int32("id").dictionary("field").dictionary("targetCategory").int32("targetId");

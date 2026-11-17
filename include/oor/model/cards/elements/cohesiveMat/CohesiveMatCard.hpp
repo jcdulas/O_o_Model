@@ -8,7 +8,7 @@ namespace oor::model
 {
 
 // The values of the MODEL field of a CohesiveMat: the law of the cohesive zone. A positive value is a model of the
-// nonlinear solution (SOL 400), -1 is the user subroutine UCOHES (an UserMatService card must go with it) and -2 is the
+// nonlinear solution (SOL 400), -1 is the user subroutine UCOHES (a UserMatService card must go with it) and -2 is the
 // linear material that the linear solution sequences use.
 inline constexpr int COHESIVE_MAT_MODEL_BILINEAR = 1;
 inline constexpr int COHESIVE_MAT_MODEL_EXPONENTIAL = 2;

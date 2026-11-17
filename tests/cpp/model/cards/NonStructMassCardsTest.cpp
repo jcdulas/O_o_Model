@@ -67,7 +67,8 @@ const char* const PROPERTIES =
 
 } // namespace
 
-TEST_CASE("NSM and NSML read their (ID, VALUE) pairs over the continuation lines", "[model][cards][nsm]")
+TEST_CASE("NonStructMass and NonStructMassLumped read their (ID, VALUE) pairs over the continuation lines",
+          "[model][cards][nsm]")
 {
     const Model model = readBulk(
         "NonStructMass;3;ShellProp;17;0.031\n"
@@ -90,7 +91,7 @@ TEST_CASE("NSM and NSML read their (ID, VALUE) pairs over the continuation lines
     requireRoundTrip(model);
 }
 
-TEST_CASE("NSM1 and NSML1 list IDs, ranges with and without BY, or ALL", "[model][cards][nsm]")
+TEST_CASE("NonStructMass1 and NonStructMassLumped1 list IDs, ranges with and without BY, or ALL", "[model][cards][nsm]")
 {
     const Model model = readBulk(
         "NonStructMass1;6;ShellProp;0.038;1;2;3\n"
@@ -131,7 +132,7 @@ TEST_CASE("the writer keeps a THRU BY range on one line", "[model][cards][nsm]")
     REQUIRE(cardAt<NonStructMass1Table>(again).ids == cardAt<NonStructMass1Table>(model).ids);
 }
 
-TEST_CASE("NSMADD lists the sets it adds", "[model][cards][nsm]")
+TEST_CASE("NonStructMassUnion lists the sets it adds", "[model][cards][nsm]")
 {
     const Model model = readBulk("NonStructMassUnion;21;6;7;8\nNonStructMassUnion;22;6");
     REQUIRE(cardAt<NonStructMassUnionTable>(model, 0).sets == std::vector<base::EntityId>{6, 7, 8});

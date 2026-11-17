@@ -346,7 +346,8 @@ public:
                 }
             }
             sources[index] = skipped
-                                 ? "load cards (RFORCE, ACCEL, ACCEL1, PLOAD1 and PLOAD4 along an edge not included)"
+                                 ? "load cards (RotationalForceLoad, AccelFieldLoad, AccelNodeLoad, "
+                                   "BeamDistributedLoad and FacePressureLoad along an edge not included)"
                                  : "load cards";
         }
 
@@ -426,16 +427,20 @@ private:
             "its LOAD "
             "command selects) about `point` (basic system, the origin by default), in the basic system or along the "
             "axes of "
-            "the coordinate system `frame`. It adds the concentrated forces and moments, the pressures (PLOAD, PLOAD2 "
+            "the coordinate system `frame`. It adds the concentrated forces and moments, the pressures "
+            "(PointsPressureLoad, ShellPressureLoad "
             "and "
-            "PLOAD4 on shells, along the normal or the direction CID, N1 to N3 of a PLOAD4; PLOAD4 on the face of a "
+            "FacePressureLoad on shells, along the normal or the direction CID, N1 to N3 of a PLOAD4; FacePressureLoad "
+            "on the face of a "
             "solid, "
-            "inward; each integrated over the face, a PLOAD4 on a warped CQUAD4 or CQUADR over "
+            "inward; each integrated over the face, a FacePressureLoad on a warped ShellQuad4 or ShellQuad4Drilling "
+            "over "
             "its mean plane, on its area projected there (this library's own rule; the solver's unverified): the loads "
             "at its grid points p n int N_i (xXi x xEta) . n, n "
-            "the unit normal of its diagonals' cross product) and the inertial load of GRAV "
+            "the unit normal of its diagonals' cross product) and the inertial load of GravityLoad "
             "through the "
-            "mass of the model (its mass at its centre of gravity). RFORCE, PLOAD1 and a PLOAD4 along an edge (SORL = "
+            "mass of the model (its mass at its centre of gravity). RotationalForceLoad, BeamDistributedLoad and a "
+            "FacePressureLoad along an edge (SORL = "
             "LINE) are not included, and `source` "
             "says so "
             "when a set has one. With `subcases` the first column is `subcase` instead of `setId`.";

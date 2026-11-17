@@ -174,10 +174,12 @@ private:
         info.description =
             "The contact tables of the Bulk Data, for information (glued contact; the "
             "components use every table whatever the Case Control selects): one row per table and pair of contact "
-            "bodies (BCTABLE; BCTABL1 expanded to the pairs of its BCONECT, pairCard the BCONECT; a BCONECT alone "
-            "when the deck has no BCTABL1; BCTSET; BCTADD expanded to its BCTSET; "
-            "BCONP), and "
-            "subcases, the analysis subcases whose effective BCONTACT names the table's ID (none for a BCONP, which "
+            "bodies (BCTABLE; ContactTable1 expanded to the pairs of its ContactPair, pairCard the BCONECT; a "
+            "ContactPair alone "
+            "when the deck has no BCTABL1; BCTSET; ContactSetUnion expanded to its BCTSET; "
+            "ContactSlideline), and "
+            "subcases, the analysis subcases whose effective BCONTACT names the table's ID (none for a "
+            "ContactSlideline, which "
             "BCONTACT does not select). A pair with a rigid body is left out as in contactPairsTable; a table with "
             "no pair left has one row with null bodies.";
         info.defaultSort = "tableCard, tableId, then the pairs";

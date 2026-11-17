@@ -147,7 +147,8 @@ std::string heatBlock()
 // ------------------------------------------------------------------------------------------- heat transfer materials
 
 TEST_CASE(
-    "MAT4 has its fields in the order of the format reference, defaults for CP, RHO and HGEN, and the phase change "
+    "HeatIsoMat has its fields in the order of the format reference, defaults for CP, RHO and HGEN, and the phase "
+    "change "
     "group",
     "[model][cards][thermal]")
 {
@@ -191,7 +192,7 @@ TEST_CASE(
     expectInvalid("HeatIsoMat;1;1.;1.;1.;1.;1.;1.;1.;1.;-1.", "phaseChangeRange");
 }
 
-TEST_CASE("MAT5 is a conductivity matrix, with CP, RHO and HGEN on its two lines", "[model][cards][thermal]")
+TEST_CASE("HeatAnisoMat is a conductivity matrix, with CP, RHO and HGEN on its two lines", "[model][cards][thermal]")
 {
     const Model model =
         readBulk("HeatAnisoMat;23;0.076;;;0.069;;0.18;0.3;2.4\nHeatAnisoMat;25;1.;0.1;0.2;2.;0.3;3.;900.;2700.;0.5");
@@ -210,7 +211,7 @@ TEST_CASE("MAT5 is a conductivity matrix, with CP, RHO and HGEN on its two lines
     expectInvalid("HeatAnisoMat;0;1.", "id");
 }
 
-TEST_CASE("MAT4 and MAT5 share one ID space, apart from the structural materials and the other way round",
+TEST_CASE("HeatIsoMat and HeatAnisoMat share one ID space, apart from the structural materials and the other way round",
           "[model][cards][thermal]")
 {
     // An IsoMat and a HeatIsoMat of one ID are two materials.
@@ -251,7 +252,7 @@ TEST_CASE("MAT4 and MAT5 share one ID space, apart from the structural materials
 
 // ------------------------------------------------------------------------------------------------ surface elements
 
-TEST_CASE("CHBDYE is a side of a conduction element and has no space with the conduction elements",
+TEST_CASE("HeatSurfaceSide is a side of a conduction element and has no space with the conduction elements",
           "[model][cards][thermal]")
 {
     Model model = readBulk(heatBlock() + "HeatSurfaceSide;20;1;3;4;5;6;7");
@@ -278,7 +279,7 @@ TEST_CASE("CHBDYE is a side of a conduction element and has no space with the co
     expectInvalid("HeatSurfaceSide;0;1;1", "id");
 }
 
-TEST_CASE("the surface element and the conduction element of a CHBDYE are references that renumber",
+TEST_CASE("the surface element and the conduction element of a HeatSurfaceSide are references that renumber",
           "[model][cards][thermal]")
 {
     Model model = readBulk(heatBlock());
@@ -297,7 +298,7 @@ TEST_CASE("the surface element and the conduction element of a CHBDYE are refere
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("CHBDYG has a type and as many grid points as the type needs", "[model][cards][thermal]")
+TEST_CASE("HeatSurfaceNodes has a type and as many grid points as the type needs", "[model][cards][thermal]")
 {
     const Model model = readBulk(
         "HeatSurfaceNodes;2;AreaQuad4;4;4;6;6;110;113;112;111\n"
@@ -332,7 +333,8 @@ TEST_CASE("CHBDYG has a type and as many grid points as the type needs", "[model
     expectInvalid("HeatSurfaceNodes;1;ReversedNormal;;;;;1", "node");
 }
 
-TEST_CASE("CHBDYP has a type, two grid points (one for a POINT), a PHBDY and an orientation", "[model][cards][thermal]")
+TEST_CASE("HeatSurfaceProperty has a type, two grid points (one for a POINT), a HeatSurfaceProp and an orientation",
+          "[model][cards][thermal]")
 {
     Model model = readBulk(
         "Node;111;;0.;0.;0.\n"
@@ -373,7 +375,7 @@ TEST_CASE("CHBDYP has a type, two grid points (one for a POINT), a PHBDY and an 
     expectInvalid("HeatSurfaceProperty;1;1;Point;;;0", "node1");
 }
 
-TEST_CASE("PHBDY has an area factor and two diameters, and a blank D2 is D1", "[model][cards][thermal]")
+TEST_CASE("HeatSurfaceProp has an area factor and two diameters, and a blank D2 is D1", "[model][cards][thermal]")
 {
     const Model model = readBulk(
         "HeatSurfaceProp;2;0.03;1.5;1.5\nHeatSurfaceProp;3;0.271;2.25\nHeatSurfaceProp;4\nHeatSurfaceProp;5;;3.;4.");
@@ -394,7 +396,8 @@ TEST_CASE("PHBDY has an area factor and two diameters, and a blank D2 is D1", "[
 
 // ------------------------------------------------------------------------------------------------------- convection
 
-TEST_CASE("CONV resolves the ambient points of TA2 to TA8 from TA1 and refers to its surface element, PCONV and points",
+TEST_CASE("CONV resolves the ambient points of TA2 to TA8 from TA1 and refers to its surface element, "
+          "FreeConvectionProp and points",
           "[model][cards][thermal]")
 {
     Model model = readBulk(heatBlock() +
@@ -446,7 +449,7 @@ TEST_CASE("CONV resolves the ambient points of TA2 to TA8 from TA1 and refers to
     expectInvalid("FreeConvection;1;1;-1;;1", "filmNode");
 }
 
-TEST_CASE("CONVM has a mass flow point or a multiplier, and a blank TA2 is TA1", "[model][cards][thermal]")
+TEST_CASE("ForcedConvection has a mass flow point or a multiplier, and a blank TA2 is TA1", "[model][cards][thermal]")
 {
     const Model model =
         readBulk("ForcedConvection;105;1;207;309;24;25\nForcedConvection;102;2;;;5;;3.5\nForcedConvection;103;3;;7;6");
@@ -464,7 +467,8 @@ TEST_CASE("CONVM has a mass flow point or a multiplier, and a blank TA2 is TA1",
     expectInvalid("ForcedConvection;1;1;;;5;;-1.", "massFlowFactor");
 }
 
-TEST_CASE("PCONV has the layout of FTYPE 0 to 2 or the alternate layout of FTYPE 3", "[model][cards][thermal]")
+TEST_CASE("FreeConvectionProp has the layout of FTYPE 0 to 2 or the alternate layout of FTYPE 3",
+          "[model][cards][thermal]")
 {
     const Model model = readBulk(
         "FreeConvectionProp;57;2;0;0.3\n"
@@ -513,7 +517,8 @@ TEST_CASE("PCONV has the layout of FTYPE 0 to 2 or the alternate layout of FTYPE
     expectInvalid("FreeConvectionProp;1;1;;;0;;-2.", "characteristicLength");
 }
 
-TEST_CASE("PCONVM has a fluid material, a formula, a flag and four coefficients", "[model][cards][thermal]")
+TEST_CASE("ForcedConvectionProp has a fluid material, a formula, a flag and four coefficients",
+          "[model][cards][thermal]")
 {
     Model model =
         readBulk("HeatIsoMat;2;1.\nForcedConvectionProp;3;2;1;1;0.027;0.75;0.35;0.25\nForcedConvectionProp;4;2;;;1.5");
@@ -537,7 +542,8 @@ TEST_CASE("PCONVM has a fluid material, a formula, a flag and four coefficients"
 
 // ------------------------------------------------------------------------------------------------------- heat loads
 
-TEST_CASE("QVOL, QBDY1, QBDY3 and QVECT list their elements with THRU and BY", "[model][cards][thermal]")
+TEST_CASE("HeatVolumeSourceLoad, HeatFluxSurfaceLoad1, HeatFluxBoundaryLoad3 and HeatFluxVectorLoad list their "
+          "elements with THRU and BY", "[model][cards][thermal]")
 {
     const Model model = readBulk(
         "HeatVolumeSourceLoad;5;12.5;107;10;12;11;9\n"
@@ -633,7 +639,7 @@ TEST_CASE("the elements of the heat loads are surface elements (QVOL: conduction
     REQUIRE(cardAt<HeatFluxVectorLoadTable>(model).id == 525);
 }
 
-TEST_CASE("the heat loads are load sets: a Case Control LOAD and a TLOAD1 EXCITEID find them",
+TEST_CASE("the heat loads are load sets: a Case Control LOAD and a TransientTableLoad1 EXCITEID find them",
           "[model][cards][thermal]")
 {
     Model model = readModelText(
@@ -652,7 +658,8 @@ TEST_CASE("the heat loads are load sets: a Case Control LOAD and a TLOAD1 EXCITE
     REQUIRE(cardsOfSet(model, CardCategory::Load, 30).size() == 1);
 }
 
-TEST_CASE("QBDY2 holds the flux at each point, QHBDY a face of grid points of a type", "[model][cards][thermal]")
+TEST_CASE("HeatFluxNodalLoad2 holds the flux at each point, HeatFluxNodeSetLoad a face of grid points of a type",
+          "[model][cards][thermal]")
 {
     Model model = readBulk(
         "Node;101;;0.;0.;0.\n"
@@ -689,7 +696,7 @@ TEST_CASE("QBDY2 holds the flux at each point, QHBDY a face of grid points of a 
     expectInvalid("HeatFluxNodalLoad2;1;0;1.", "elemId");
 }
 
-TEST_CASE("QVECT components are reals or tables of time", "[model][cards][thermal]")
+TEST_CASE("HeatFluxVectorLoad components are reals or tables of time", "[model][cards][thermal]")
 {
     Model model =
         readBulk("TableDynamic1;5;;;0.;1.;1.;1.;EndTable\nHeatFluxVectorLoad;11;5.;;0;;5;;;;5;;20;Through;30");
@@ -704,7 +711,8 @@ TEST_CASE("QVECT components are reals or tables of time", "[model][cards][therma
 
 // ----------------------------------------------------------------------------------------------------- temperatures
 
-TEST_CASE("TEMPBC has a type and pairs of a temperature and a grid point or a range of them", "[model][cards][thermal]")
+TEST_CASE("TemperatureBoundary has a type and pairs of a temperature and a grid point or a range of them",
+          "[model][cards][thermal]")
 {
     Model model = readBulk(
         "Node;1;;0.;0.;0.\n"
@@ -773,7 +781,7 @@ TEST_CASE("TEMPBC has a type and pairs of a temperature and a grid point or a ra
 
 // -------------------------------------------------------------------------------------------------------- radiation
 
-TEST_CASE("RADM has an absorptivity and any number of emissivities", "[model][cards][thermal]")
+TEST_CASE("RadiationProp has an absorptivity and any number of emissivities", "[model][cards][thermal]")
 {
     const Model model = readBulk(
         "RadiationProp;11;0.42;0.35;0.31;0.24;0.19;0.11\nRadiationProp;2000;;0.9\nRadiationProp;6;0.8\nRadiationProp;7;"
@@ -791,7 +799,8 @@ TEST_CASE("RADM has an absorptivity and any number of emissivities", "[model][ca
     expectInvalid("RadiationProp;1;0.5;-0.1", "emissivity");
 }
 
-TEST_CASE("the surface elements name their RADM and VIEW, the VIEW and RADCAV their cavity, and they renumber",
+TEST_CASE("the surface elements name their RadiationProp and ViewFactorFace, the ViewFactorFace and RadiationCavity "
+          "their cavity, and they renumber",
           "[model][cards][thermal]")
 {
     Model model = readBulk(
@@ -838,7 +847,7 @@ TEST_CASE("the surface elements name their RADM and VIEW, the VIEW and RADCAV th
     REQUIRE(cardAt<RadiationCavityTable>(model).sets == std::vector<base::EntityId>{103, 105});
 }
 
-TEST_CASE("VIEW and VIEW3D have their words and ranges", "[model][cards][thermal]")
+TEST_CASE("ViewFactorFace and ViewFactorIntegration have their words and ranges", "[model][cards][thermal]")
 {
     const Model model = readBulk(
         "ViewFactorFace;1;1;Both;3;4;0.3\n"
@@ -871,7 +880,8 @@ TEST_CASE("VIEW and VIEW3D have their words and ranges", "[model][cards][thermal
     expectInvalid("ViewFactorIntegration;1;;;;;;1.", "warpTolerance");
 }
 
-TEST_CASE("RADCAV, RADLST, RADMTX and RADSET have their lists", "[model][cards][thermal]")
+TEST_CASE("RadiationCavity, RadiationCavityList, RadiationExchangeMatrix and RadiationCavitySet have their lists",
+          "[model][cards][thermal]")
 {
     const Model model = readBulk(
         "RadiationCavity;1;1;;;;;0.95;;3;6;4;6;8;6\n"
@@ -924,7 +934,7 @@ TEST_CASE("RADCAV, RADLST, RADMTX and RADSET have their lists", "[model][cards][
     expectInvalid("RadiationCavitySet;0", "cavityId");
 }
 
-TEST_CASE("RADBC applies to surface elements, with an ambient point", "[model][cards][thermal]")
+TEST_CASE("RadiationToSpace applies to surface elements, with an ambient point", "[model][cards][thermal]")
 {
     Model model = readBulk(
         "RadiationToSpace;7;1.;107;12\nRadiationToSpace;6;0.5;;1;Through;9;By;2\nRadiationToSpace;5;0.25;;11;12");
@@ -942,7 +952,7 @@ TEST_CASE("RADBC applies to surface elements, with an ambient point", "[model][c
 
 // ------------------------------------------------------------------------------------------------------- acoustics
 
-TEST_CASE("PACABS keeps field 6 and has the tables or the values", "[model][cards][acoustic]")
+TEST_CASE("AcousticAbsorberBrickProp keeps field 6 and has the tables or the values", "[model][cards][acoustic]")
 {
     Model model = readBulk(
         "TableDynamic1;1;;;0.;1.;1.;1.;EndTable\n"
@@ -971,7 +981,8 @@ TEST_CASE("PACABS keeps field 6 and has the tables or the values", "[model][card
     expectInvalid("AcousticAbsorberBrickProp;1;No;;;;;;-1.", "damping");
 }
 
-TEST_CASE("PACBAR gives the resonance as a frequency or a stiffness, PAABSF the impedance", "[model][cards][acoustic]")
+TEST_CASE("AcousticBarrierProp gives the resonance as a frequency or a stiffness, AcousticAbsorberProp the impedance",
+          "[model][cards][acoustic]")
 {
     const Model model = readBulk(
         "AcousticBarrierProp;22;1.5;0.02;350.\nAcousticBarrierProp;23;2.;0.02;;5.E+6\nAcousticAbsorberProp;44;36;"
@@ -996,7 +1007,8 @@ TEST_CASE("PACBAR gives the resonance as a frequency or a stiffness, PAABSF the 
     expectInvalid("AcousticAbsorberProp;1;;;;;-1.", "damping");
 }
 
-TEST_CASE("CAABSF has one to four fluid points, CHACAB and CHACBR eight corners and edge points",
+TEST_CASE("AcousticAbsorber has one to four fluid points, AcousticAbsorberHexa and AcousticBarrierHexa eight corners "
+          "and edge points",
           "[model][cards][acoustic]")
 {
     Model model = readBulk(
@@ -1035,7 +1047,7 @@ TEST_CASE("CAABSF has one to four fluid points, CHACAB and CHACBR eight corners 
     expectInvalid("AcousticAbsorberHexa;1;1;1;2;3;4;5;6;7;7", "node");
 }
 
-TEST_CASE("ACMODL has the layout of BW and BWKD or the shorter one of CP, and NORMAL depends on INTER",
+TEST_CASE("FluidStructureInterface has the layout of BW and BWKD or the shorter one of CP, and NORMAL depends on INTER",
           "[model][cards][acoustic]")
 {
     const Model model = readBulk("FluidStructureInterface;IdenticalMesh;All;1212;3434;0.001");
@@ -1084,7 +1096,8 @@ TEST_CASE("ACMODL has the layout of BW and BWKD or the shorter one of CP, and NO
     expectInvalid("FluidStructureInterface;DifferenceForm;;;;;;;;;MAYBE", "wholeStructureSet");
 }
 
-TEST_CASE("MFLUID, FLSYM and PANEL have their words and lists", "[model][cards][acoustic]")
+TEST_CASE("FluidVirtualMass, AxisymFluidSymmetry and FluidStructurePanels have their words and lists",
+          "[model][cards][acoustic]")
 {
     Model model = readBulk(
         "RectFrame2;2\n"
@@ -1132,7 +1145,8 @@ TEST_CASE("MFLUID, FLSYM and PANEL have their words and lists", "[model][cards][
     expectInvalid("FluidStructurePanels", "panelName");
 }
 
-TEST_CASE("FSLIST and BDYLIST list the rings of an axisymmetric fluid, with AXIS first or LAXIS last",
+TEST_CASE("AxisymFluidFreeSurface and AxisymFluidBoundaryList list the rings of an axisymmetric fluid, with AXIS first "
+          "or LAXIS last",
           "[model][cards][acoustic]")
 {
     const Model model = readBulk(

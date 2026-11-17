@@ -40,7 +40,7 @@ RecordingVisitor referencesOf(Model& model, std::uint32_t row)
 
 } // namespace
 
-TEST_CASE("a CAERO2 body has two cuts, a group that may be zero, and the elements it owns", "[model][cards][aero]")
+TEST_CASE("an AeroBody2 body has two cuts, a group that may be zero, and the elements it owns", "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroBody2;1400;2;110;;5;98;;1;-2.;80.;-25.;150.\n"
@@ -105,7 +105,7 @@ TEST_CASE("a CAERO2 body has two cuts, a group that may be zero, and the element
     expectInvalid("AeroBody2;1;1;;2;1;;;1;;;;-5.", "length");
 }
 
-TEST_CASE("a PAERO1 lists up to six bodies with no blank between them", "[model][cards][aero]")
+TEST_CASE("an AeroLiftingPanelProp1 lists up to six bodies with no blank between them", "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroLiftingPanelProp1;10;1500;1600\n"
@@ -147,7 +147,7 @@ TEST_CASE("a PAERO1 lists up to six bodies with no blank between them", "[model]
     expectInvalid("AeroLiftingPanelProp1;1;1;;3", "body3");
 }
 
-TEST_CASE("a PAERO2 has its half-width lists, its angle arrays and two ranges of interference elements",
+TEST_CASE("an AeroBodyProp2 has its half-width lists, its angle arrays and two ranges of interference elements",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -204,7 +204,8 @@ TEST_CASE("a PAERO2 has its half-width lists, its angle arrays and two ranges of
     expectInvalid("AeroBodyProp2;1;ZDirection;1.;1.;;;;;;;5;3", "angleList2LastElem");
 }
 
-TEST_CASE("a CAERO3 has the wing and two control surface lists, and owns one ID per point", "[model][cards][aero]")
+TEST_CASE("an AeroMachBoxPanel3 has the wing and two control surface lists, and owns one ID per point",
+          "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroMachBoxPanel3;2500;2003;0;24;35;;2.;0.;0.;80.;12.;110.;0.;80.\n"
@@ -271,7 +272,7 @@ TEST_CASE("a CAERO3 has the wing and two control surface lists, and owns one ID 
     expectInvalid("AeroMachBoxPanel3;1;1;;2;;;;;;10.;;;;-1.", "tipChord");
 }
 
-TEST_CASE("a CAERO4 is a panel of strips: NSPAN or LSPAN, the chords of a trapezoid, one ID a strip",
+TEST_CASE("an AeroStripPanel4 is a panel of strips: NSPAN or LSPAN, the chords of a trapezoid, one ID a strip",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -328,7 +329,8 @@ TEST_CASE("a CAERO4 is a panel of strips: NSPAN or LSPAN, the chords of a trapez
     expectInvalid("AeroStripPanel4;1;1;;2;;;;;1.;;;;-1.", "tipChord");
 }
 
-TEST_CASE("a CAERO5 adds the theory and the thickness integrals to the strips of a CAERO4", "[model][cards][aero]")
+TEST_CASE("an AeroPistonPanel5 adds the theory and the thickness integrals to the strips of an AeroStripPanel4",
+          "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroPistonPanel5;7000;6004;120;;318;0;0;0.;0.;0.;1.5;0.3;2.;0.;0.9\n"

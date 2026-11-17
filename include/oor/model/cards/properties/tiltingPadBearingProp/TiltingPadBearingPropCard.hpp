@@ -42,7 +42,7 @@ inline constexpr double TILTING_PAD_BEARING_DEFAULT_COLD_OIL_CARRY_OVER = 0.0;
 inline constexpr double TILTING_PAD_BEARING_DEFAULT_MAX_ITERATIONS = 100.0;
 
 // One TiltingPadBearingProp card: the parameters of a tilting pad journal bearing for an external bearing user service,
-// which an UserElemService with the UNAME TiltingPadBearingProp links to a BushProp2D. All units are English.
+// which a UserElemService with the UNAME TiltingPadBearingProp links to a BushProp2D. All units are English.
 //
 // Card layout, one line of eight fields each (the fields are numbered 1 to 8 after the card name, then 9 to 16, ...):
 //   line 1   TiltingPadBearingProp  RID  TLIMIT

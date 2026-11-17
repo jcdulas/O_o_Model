@@ -77,7 +77,8 @@ const std::string BEAM3_TEMPERATURE_FULL =
 // AcousticPressureLoadMatrices
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ACLOAD has the format reference defaults and is a dynamic load that a DLOAD names",
+TEST_CASE("an AcousticPressureLoadMatrices has the format reference defaults and is a dynamic load that a "
+          "DynamicLoadCombination names",
           "[model][cards][acload]")
 {
     Model model = readBulk(
@@ -129,7 +130,8 @@ TEST_CASE("an ACLOAD has the format reference defaults and is a dynamic load tha
 // AcousticInfiniteParams
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ACIFPRM keeps its pairs of name and value and checks the ones the table lists", "[model][cards][acifprm]")
+TEST_CASE("an AcousticInfiniteParams keeps its pairs of name and value and checks the ones the table lists",
+          "[model][cards][acifprm]")
 {
     Model model =
         readBulk("AcousticInfiniteParams;FieldPointInsideTolerance;0.005;FirstExtraPointId;320000000;FUTURE;2.5");
@@ -193,7 +195,8 @@ TEST_CASE("an ACIFPRM keeps its pairs of name and value and checks the ones the 
 // SuperelementAccessPoints
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ACCSSPT lists grid points and follows a renumbering of the nodes", "[model][cards][accsspt]")
+TEST_CASE("a SuperelementAccessPoints lists grid points and follows a renumbering of the nodes",
+          "[model][cards][accsspt]")
 {
     Model model = readBulk(
         "SuperelementAccessPoints;4117;4119\nSuperelementAccessPoints;1;2;3;4;5;6;7;8;9;10;"
@@ -234,7 +237,7 @@ TEST_CASE("an ACCSSPT lists grid points and follows a renumbering of the nodes",
 // LoadCaseIdLabel, LoadCaseNameLabel and LoadCaseSubcaseLabel
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a LOADCLID has an item to every two lines, with the name of the part over the whole second",
+TEST_CASE("a LoadCaseIdLabel has an item to every two lines, with the name of the part over the whole second",
           "[model][cards][loadclid]")
 {
     Model model = readBulk(
@@ -290,7 +293,8 @@ TEST_CASE("a LOADCLID has an item to every two lines, with the name of the part 
     oor::testing::requireModelFileRoundTrip(readModelText("LoadCaseIdLabel;1;1.;1.;5;wi'ng", true));
 }
 
-TEST_CASE("a LOADCNAM has an item to every three lines: the factor, the name of the load and the name of the part",
+TEST_CASE("a LoadCaseNameLabel has an item to every three lines: the factor, the name of the load and the name of the "
+          "part",
           "[model][cards][loadcnam]")
 {
     Model model = readBulk(
@@ -322,7 +326,7 @@ TEST_CASE("a LOADCNAM has an item to every three lines: the factor, the name of 
     oor::testing::requireModelFileRoundTrip(readModelText("LoadCaseNameLabel;1;1.;1.;gra'v;wing", true));
 }
 
-TEST_CASE("a LOADCSUB names the subcases of the parts", "[model][cards][loadcsub]")
+TEST_CASE("a LoadCaseSubcaseLabel names the subcases of the parts", "[model][cards][loadcsub]")
 {
     Model model = readBulk(
         "LoadCaseSubcaseLabel;4401;1.;0.8;2;nose_gear_bay_from_subcase_2;1.4;5;main_gear_bay_from_subcase_5\n"
@@ -374,7 +378,7 @@ TEST_CASE("the names of a part and the components of a heat shell point follow t
 // ImperfectionCase
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an IMPCASE lists IMPGEOM IDs with THRU, kept as written", "[model][cards][impcase]")
+TEST_CASE("an ImperfectionCase lists ImperfectionGeometry IDs with THRU, kept as written", "[model][cards][impcase]")
 {
     Model model = readBulk(
         "ImperfectionCase;5;1;2\nImperfectionCase;6;10;Through;20;30\nImperfectionCase;7;1;2;3;4;5;6;7;8;9;Through;15");
@@ -416,7 +420,8 @@ TEST_CASE("an IMPCASE lists IMPGEOM IDs with THRU, kept as written", "[model][ca
 // Beam3DistributedLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PLOADB3 takes its system as a word or a number and requires its type", "[model][cards][ploadb3]")
+TEST_CASE("a Beam3DistributedLoad takes its system as a word or a number and requires its type",
+          "[model][cards][ploadb3]")
 {
     Model model = readBulk(
         "Beam3DistributedLoad;4510;4502;LocalFrame;1.;;;Moment;;125.;95.;60.\n"
@@ -490,7 +495,7 @@ TEST_CASE("a PLOADB3 takes its system as a word or a number and requires its typ
 // Beam3TemperatureLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TEMPB3 keeps twelve temperatures by station and a list of elements with THRU and BY",
+TEST_CASE("a Beam3TemperatureLoad keeps twelve temperatures by station and a list of elements with THRU and BY",
           "[model][cards][tempb3]")
 {
     Model model = readBulk(
@@ -575,7 +580,8 @@ TEST_CASE("a TEMPB3 keeps twelve temperatures by station and a list of elements 
 // HeatShellInitialTemperature and HeatShellNodalLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TEMPN1 gives the temperature of one or two points, each on the top, the bottom and the middle",
+TEST_CASE("a HeatShellInitialTemperature gives the temperature of one or two points, each on the top, the bottom and "
+          "the middle",
           "[model][cards][tempn1]")
 {
     Model model = readBulk(
@@ -622,7 +628,8 @@ TEST_CASE("a TEMPN1 gives the temperature of one or two points, each on the top,
     expectInvalid("HeatShellInitialTemperature;1;10;1;5.;20;9;6.", "components2");
 }
 
-TEST_CASE("an SLOADN1 gives the power on one or two points of a heat shell element", "[model][cards][sloadn1]")
+TEST_CASE("a HeatShellNodalLoad gives the power on one or two points of a heat shell element",
+          "[model][cards][sloadn1]")
 {
     Model model = readBulk(
         "HeatShellNodalLoad;10;4110;12;640.;4120;2;415.\nHeatShellNodalLoad;11;5;;2.5\nHeatShellNodalLoad;12;7;321;"
@@ -664,7 +671,7 @@ TEST_CASE("an SLOADN1 gives the power on one or two points of a heat shell eleme
 // RadiationBands and RadiationPropTemperature
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a RADBND has one wavelength fewer than its bands, in ascending order", "[model][cards][radbnd]")
+TEST_CASE("a RadiationBands has one wavelength fewer than its bands, in ascending order", "[model][cards][radbnd]")
 {
     Model model = readBulk("RadiationBands;6;14388.;1.5;3.;5.5;9.;15.");
     const RadiationBandsCard sampleCard = cardAt<RadiationBandsTable>(model);
@@ -704,7 +711,8 @@ TEST_CASE("a RADBND has one wavelength fewer than its bands, in ascending order"
     expectInvalid("RadiationBands;2;14388.;xx", "bandWavelength");
 }
 
-TEST_CASE("a RADMT extends the RADM of its number with one table for each property and each wave band",
+TEST_CASE("a RadiationPropTemperature extends the RadiationProp of its number with one table for each property and "
+          "each wave band",
           "[model][cards][radmt]")
 {
     Model model = readBulk(

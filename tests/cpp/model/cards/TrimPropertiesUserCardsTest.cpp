@@ -108,7 +108,8 @@ std::string setCards(int first, int last, const std::string& name, const std::st
 // PerforatedShellProp
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PSHLPF is a property of a perforated shell: a material, a hole pattern, and a flag that defaults to 1",
+TEST_CASE("a PerforatedShellProp is a property of a perforated shell: a material, a hole pattern, and a flag that "
+          "defaults to 1",
           "[model][cards][pshlpf]")
 {
     REQUIRE((PerforatedShellPropTable::INFO.category == CardCategory::Property &&
@@ -205,7 +206,7 @@ TEST_CASE("a PSHLPF is a property of a perforated shell: a material, a hole patt
 // PropMatDistribution
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PDISTBM gives the material that replaces one material of a property for each element",
+TEST_CASE("a PropMatDistribution gives the material that replaces one material of a property for each element",
           "[model][cards][pdistbm]")
 {
     REQUIRE((PropMatDistributionTable::INFO.category == CardCategory::Other &&
@@ -283,7 +284,8 @@ TEST_CASE("a PDISTBM gives the material that replaces one material of a property
 // UserElemService
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ELEMUDS extends a PBUSH2D with the user service that computes it and the data the service is given",
+TEST_CASE("a UserElemService extends a BushProp2D with the user service that computes it and the data the service is "
+          "given",
           "[model][cards][elemuds]")
 {
     REQUIRE((UserElemServiceTable::INFO.category == CardCategory::Property &&
@@ -572,7 +574,8 @@ TEST_CASE("a THPAD holds the grid of a tilting pad bearing: titles, counts, a li
 // TrimComponentCoupling
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ACPEMCP names a set of grids for each interface and each zero constraint of a trim component",
+TEST_CASE("a TrimComponentCoupling names a set of grids for each interface and each zero constraint of a trim "
+          "component",
           "[model][cards][acpemcp]")
 {
     REQUIRE((TrimComponentCouplingTable::INFO.category == CardCategory::Other &&
@@ -665,7 +668,7 @@ TEST_CASE("an ACPEMCP names a set of grids for each interface and each zero cons
 // TrimComponentCoupling1D
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ACPMCP1 names a set of surfaces for each interface of a 1D analytical trim component",
+TEST_CASE("a TrimComponentCoupling1D names a set of surfaces for each interface of a 1D analytical trim component",
           "[model][cards][acpmcp1]")
 {
     REQUIRE((TrimComponentCoupling1DTable::INFO.category == CardCategory::Other &&
@@ -738,7 +741,8 @@ TEST_CASE("an ACPMCP1 names a set of surfaces for each interface of a 1D analyti
 // TrimCouplingTolerances
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TRMCPL gives the tolerances of one interface coupling type, each projection defaulting to the one before",
+TEST_CASE("a TrimCouplingTolerances gives the tolerances of one interface coupling type, each projection defaulting to "
+          "the one before",
           "[model][cards][trmcpl]")
 {
     REQUIRE((TrimCouplingTolerancesTable::INFO.category == CardCategory::Other &&
@@ -818,7 +822,8 @@ TEST_CASE("a TRMCPL gives the tolerances of one interface coupling type, each pr
 // TrimLayeredComponent
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TCOMPG lists the layers of a 1D trim from the bottom, a layer to a line, and is keyed by its SET3",
+TEST_CASE("a TrimLayeredComponent lists the layers of a 1D trim from the bottom, a layer to a line, and is keyed by "
+          "its TypedListSet3",
           "[model][cards][tcompg]")
 {
     REQUIRE((TrimLayeredComponentTable::INFO.category == CardCategory::Other &&

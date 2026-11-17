@@ -75,7 +75,7 @@ TEST_CASE("the six card types of the crack, seam, slot and spring elements have 
     REQUIRE(ElementGeometry::supports(typeIndexOf<SpringOffsetExplicitTable>()));
 }
 
-TEST_CASE("a CSPR is a segment between its two grid points", "[analysis][geometry][crack-seam-slot]")
+TEST_CASE("a SpringOffsetExplicit is a segment between its two grid points", "[analysis][geometry][crack-seam-slot]")
 {
     const Model model = readModelText(grid(1, 0, 0, 0) + grid(2, 3, 4, 0) + "SpringOffsetExplicit;10;22;1;2\n");
     const ElementValues values = geometryOf(model, 10);
@@ -87,7 +87,7 @@ TEST_CASE("a CSPR is a segment between its two grid points", "[analysis][geometr
     REQUIRE(std::isnan(values.volume));
 }
 
-TEST_CASE("a CSEAM given by grid points is a segment, and one given by coordinates has no geometry",
+TEST_CASE("a Seam given by grid points is a segment, and one given by coordinates has no geometry",
           "[analysis][geometry][crack-seam-slot]")
 {
     const Model model = readModelText(grid(1, 1, 1, 0) + grid(2, 1, 1, 12) + "Seam;20;5;;;43;48;;;1;;2\n" +
@@ -102,7 +102,8 @@ TEST_CASE("a CSEAM given by grid points is a segment, and one given by coordinat
     requireNothingDefined(geometryOf(model, 21));
 }
 
-TEST_CASE("a CSLOT3 and a CSLOT4 are surfaces: area, normal by the right-hand rule and centre, no thickness",
+TEST_CASE("an AcousticSlot3 and an AcousticSlot4 are surfaces: area, normal by the right-hand rule and centre, no "
+          "thickness",
           "[analysis][geometry][crack-seam-slot]")
 {
     // The slot points are AcousticSlotSurfacePoint cards in the format reference; they share the node IDs, so grid
@@ -142,7 +143,7 @@ TEST_CASE("a slot point that is not a grid point has no position, and one that n
     REQUIRE_THROWS_AS(geometryOf(model, 42), GeometryError);
 }
 
-TEST_CASE("the elements of a slot cavity lie in the plane of their GRIDS points: x is R, y is Z",
+TEST_CASE("the elements of a slot cavity lie in the plane of their AcousticSlotSurfacePoint points: x is R, y is Z",
           "[analysis][geometry][crack-seam-slot]")
 {
     // AcousticSlotSurfacePoint id R Z W: the slot width W is not a coordinate, so a point with a width and one without

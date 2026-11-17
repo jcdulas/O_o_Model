@@ -68,7 +68,7 @@ struct RecordingVisitor final : ReferenceVisitor
 
 } // namespace
 
-TEST_CASE("CORD2R reads three points in the system RID and defaults RID to the basic system", "[model][cards]")
+TEST_CASE("RectFrame2 reads three points in the system RID and defaults RID to the basic system", "[model][cards]")
 {
     const Model model = readBulk("RectFrame2;3;12;-1.7;2.;0.;4.3;0.;1.5;6.1;2.;-1.7\nRectFrame2;4");
     const RectFrame2Card first = cardAt<RectFrame2Table>(model, 0);
@@ -82,7 +82,7 @@ TEST_CASE("CORD2R reads three points in the system RID and defaults RID to the b
     REQUIRE(blank.pointA == std::array<double, 3>{});
 }
 
-TEST_CASE("CORD2C and CORD2S read the same fields as CORD2R", "[model][cards]")
+TEST_CASE("CylindricalFrame2 and SphericalFrame2 read the same fields as RectFrame2", "[model][cards]")
 {
     const Model model =
         readBulk("CylindricalFrame2;3;1;1.;2.;3.;4.;5.;6.;7.;8.;9.\nSphericalFrame2;4;2;9.;8.;7.;6.;5.;4.;3.;2.;1.");
@@ -100,7 +100,7 @@ TEST_CASE("a coordinate system cannot be defined with respect to itself", "[mode
     REQUIRE_THROWS_AS(readBulk("RectFrame2;5;-1"), base::DeckError);
 }
 
-TEST_CASE("one CORD1R card with two systems gives two rows, each written as a card of its own", "[model][cards]")
+TEST_CASE("one RectFrame1 card with two systems gives two rows, each written as a card of its own", "[model][cards]")
 {
     const Model model = readBulk("RectFrame1;3;14;27;21;4;1;2;3");
     const RectFrame1Table& table = *model.findTable<RectFrame1Table>();
@@ -118,7 +118,8 @@ TEST_CASE("one CORD1R card with two systems gives two rows, each written as a ca
     oor::testing::requireModelFileRoundTrip(copy);
 }
 
-TEST_CASE("the second system of a CORD1C or CORD1S card needs its ID and its three grid points", "[model][cards]")
+TEST_CASE("the second system of a CylindricalFrame1 or SphericalFrame1 card needs its ID and its three grid points",
+          "[model][cards]")
 {
     const Model one = readBulk("CylindricalFrame1;3;1;2;3\nSphericalFrame1;4;1;2;3");
     REQUIRE(one.findTable<CylindricalFrame1Table>()->rows().aliveCount() == 1);
@@ -153,7 +154,8 @@ TEST_CASE("coordinate systems refer to a system and to grid points", "[model][ca
     REQUIRE(basic.fields.empty());
 }
 
-TEST_CASE("CTRIA3 takes an integer in field 6 as MCID and a real as THETA, and PID defaults to EID", "[model][cards]")
+TEST_CASE("ShellTria3 takes an integer in field 6 as MCID and a real as THETA, and PID defaults to EID",
+          "[model][cards]")
 {
     const Model model = readBulk("ShellTria3;1;;1;2;3;;7\nShellTria3;2;4;1;2;3;30.;;0.5;1;0.1;0.2");
     const ShellTria3Card byMcid = cardAt<ShellTria3Table>(model, 0);
@@ -171,7 +173,7 @@ TEST_CASE("CTRIA3 takes an integer in field 6 as MCID and a real as THETA, and P
     REQUIRE_THROWS_AS(readBulk("ShellTria3;1;1;1;2;3;0.;;0.;2"), base::DeckError); // TFLAG is 0 or 1
 }
 
-TEST_CASE("CBAR reads its orientation as a vector or as a grid point", "[model][cards]")
+TEST_CASE("Bar2 reads its orientation as a vector or as a grid point", "[model][cards]")
 {
     const Model model = readBulk(
         "Bar2;1;5;1;2;0.8;;14.;31.;OffsetsBasicOrientGlobal;456;12;0.1;0.2;0.3\n"
@@ -196,7 +198,7 @@ TEST_CASE("CBAR reads its orientation as a vector or as a grid point", "[model][
     REQUIRE(cardAt<Bar2Table>(model, 2).orientation == std::array<double, 3>{0.0, 2.0, 0.0});
 }
 
-TEST_CASE("CBAR OFFT is an offset kind word and the pin flags are kept in ascending order", "[model][cards]")
+TEST_CASE("Bar2 OFFT is an offset kind word and the pin flags are kept in ascending order", "[model][cards]")
 {
     const Model model = readBulk("Bar2;1;1;1;2;0.;;0.;1.;OffsetsBasicGlobalOrient;654;21");
     const Bar2Card card = cardAt<Bar2Table>(model);
@@ -208,7 +210,7 @@ TEST_CASE("CBAR OFFT is an offset kind word and the pin flags are kept in ascend
     REQUIRE_NOTHROW(readBulk("Bar2;1;1;1;2;0.;;0.;1.;2")); // an old integer code
 }
 
-TEST_CASE("CBAR with no orientation is written with blank orientation fields", "[model][cards]")
+TEST_CASE("Bar2 with no orientation is written with blank orientation fields", "[model][cards]")
 {
     // A Bar2 that relies on a Bar2Defaults card has blank fields 5 to 7: they must stay blank, not become 0.0.
     const Model model = readBulk("Bar2;1;1;1;2");
@@ -216,7 +218,7 @@ TEST_CASE("CBAR with no orientation is written with blank orientation fields", "
     oor::testing::requireModelFileRoundTrip(model);
 }
 
-TEST_CASE("CBAR lists the property, the two ends and G0 as references", "[model][cards]")
+TEST_CASE("Bar2 lists the property, the two ends and G0 as references", "[model][cards]")
 {
     Model model = readBulk("Bar2;1;5;1;2;;105\nBar2;2;5;1;2;0.;;0.;1.");
     RecordingVisitor withGrid;
@@ -229,7 +231,7 @@ TEST_CASE("CBAR lists the property, the two ends and G0 as references", "[model]
     REQUIRE(withVector.fields == std::vector<std::string>{"propId", "nodeA", "nodeB"});
 }
 
-TEST_CASE("CBEAM reads the warping points and refuses a numeric OFFT", "[model][cards]")
+TEST_CASE("Beam2 reads the warping points and refuses a numeric OFFT", "[model][cards]")
 {
     const Model model = readBulk("Beam2;1;5;1;2;0.;;0.;1.;;;;;;;;;;7;8\nBeam2;2;5;1;2;;105");
     const Beam2Card warped = cardAt<Beam2Table>(model, 0);
@@ -241,7 +243,7 @@ TEST_CASE("CBEAM reads the warping points and refuses a numeric OFFT", "[model][
     REQUIRE_THROWS_AS(readBulk("Beam2;1;1;1;2;0.;;0.;1.;0.5"), base::DeckError);
 }
 
-TEST_CASE("the warping points of a CBEAM are grid or scalar points and need not exist", "[model][cards]")
+TEST_CASE("the warping points of a Beam2 are grid or scalar points and need not exist", "[model][cards]")
 {
     Model model = readBulk("Beam2;1;5;1;2;0.;;0.;1.;;;;;;;;;;7;8");
     RecordingVisitor visitor;
@@ -301,7 +303,7 @@ TEST_CASE("solid elements list only the nodes they have as references", "[model]
     REQUIRE(visitor.targets[5] == ReferenceTarget::Node);
 }
 
-TEST_CASE("CONM2 defaults and the order of the inertia terms", "[model][cards]")
+TEST_CASE("PointMassInertia defaults and the order of the inertia terms", "[model][cards]")
 {
     const Model model =
         readBulk("PointMassInertia;1;5;;10.\nPointMassInertia;2;5;3;2.;1.;2.;3.;1.;2.;3.;4.;5.;6.\nPointMassInertia;3;5;-1;2.;1.;2.;3.");
@@ -318,14 +320,14 @@ TEST_CASE("CONM2 defaults and the order of the inertia terms", "[model][cards]")
     REQUIRE_THROWS_AS(readBulk("PointMassInertia;1;5;-2;1."), base::DeckError);
 }
 
-TEST_CASE("CONM2 refers to its grid point and to its system when it has one", "[model][cards]")
+TEST_CASE("PointMassInertia refers to its grid point and to its system when it has one", "[model][cards]")
 {
     Model model = readBulk("PointMassInertia;1;5;-1;1.\nPointMassInertia;2;5;0;1.\nPointMassInertia;3;5;7;1.");
     // Grid point 5 is absent three times and system 7 once; -1 and 0 refer to no system.
     REQUIRE(unresolvedIn(model) == 4);
 }
 
-TEST_CASE("CELAS1 and CELAS2 take a grounded end or scalar points", "[model][cards]")
+TEST_CASE("SpringDofProperty and SpringDofInline take a grounded end or scalar points", "[model][cards]")
 {
     const Model model = readBulk(
         "SpringDofProperty;1;;5;1\nSpringDofProperty;2;3;14;;15\nSpringDofInline;3;2.5;5;1\nSpringDofInline;4;5.;10;;11;;0.01;0.5");
@@ -371,7 +373,7 @@ TEST_CASE("scalar points need no card: a spring on them has no unresolved refere
     REQUIRE(unresolvedIn(withProperty) == 2);
 }
 
-TEST_CASE("CBUSH reads GO, a vector or no orientation, and defaults the rest", "[model][cards]")
+TEST_CASE("Bushing reads GO, a vector or no orientation, and defaults the rest", "[model][cards]")
 {
     const Model model =
         readBulk("Bushing;1;2;1;120;83\nBushing;2;;1;;;0.;1.;0.\nBushing;3;2;1;120;;;;;0\nBushing;4;2;1;120");
@@ -394,7 +396,7 @@ TEST_CASE("CBUSH reads GO, a vector or no orientation, and defaults the rest", "
     REQUIRE_FALSE(axis.hasVector());
 }
 
-TEST_CASE("CBUSH reads the spring-damper location and offset", "[model][cards]")
+TEST_CASE("Bushing reads the spring-damper location and offset", "[model][cards]")
 {
     const Model model = readBulk("Bushing;1;6;1;120;;;;;640;0.35;12;0.;12.;8.");
     const BushingCard card = cardAt<BushingTable>(model);
@@ -405,7 +407,7 @@ TEST_CASE("CBUSH reads the spring-damper location and offset", "[model][cards]")
     REQUIRE_THROWS_AS(readBulk("Bushing;1;6;1;120;;;;;;0.35;-2"), base::DeckError);
 }
 
-TEST_CASE("CBUSH references its system and offset system only when they are systems", "[model][cards]")
+TEST_CASE("Bushing references its system and offset system only when they are systems", "[model][cards]")
 {
     Model model = readBulk("Bushing;1;6;1;120;83;;;;0;;-1\nBushing;2;6;1;120;;;;;640;;12");
     RecordingVisitor basic;

@@ -69,7 +69,7 @@ const char* const GAS_BAG_REST = ";1.E+3;297.;101325.;;;;293.";
 
 } // namespace
 
-TEST_CASE("a GBAG has its fields in the five lines of the format reference and resolves PINIT and TENV",
+TEST_CASE("a GasBag has its fields in the five lines of the format reference and resolves PINIT and TENV",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -124,7 +124,7 @@ TEST_CASE("a GBAG has its fields in the five lines of the format reference and r
     expectInvalid("GasBag;1;37;;;;;;;;1.E+3;297.;101325.;;;;293.;-1.", "environmentTemperature");
 }
 
-TEST_CASE("an ABINFL is filed under the set ID of its INFID, and its coefficient is a number or a table",
+TEST_CASE("an InflatorInlet is filed under the set ID of its INFID, and its coefficient is a number or a table",
           "[model][cards][explicit]")
 {
     Model model = readBulk(

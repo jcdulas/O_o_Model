@@ -103,7 +103,8 @@ const std::string ELEMENT_TEXT =
 
 } // namespace
 
-TEST_CASE("a PEULER1 is a property: its SID names a TICEUL1 and its SID2 an EULFOR1", "[model][cards][explicit]")
+TEST_CASE("an EulerRegionProp is a property: its SID names an EulerInitialRegions and its SID2 an EulerBodyForceSet",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "EulerRegionProp;100;;300\nEulerRegionProp;101;MultiMaterialHydrodynamic;301;7\nEulerRegionProp;102;FirstOrder;"
@@ -150,7 +151,7 @@ TEST_CASE("a PEULER1 is a property: its SID names a TICEUL1 and its SID2 an EULF
     expectInvalid("EulerRegionProp;100;;300;-1", "bodyForceSetId");
 }
 
-TEST_CASE("a PMARKER is a property and the marker elements are elements, so each shares its ID space",
+TEST_CASE("a MarkerProp is a property and the marker elements are elements, so each shares its ID space",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -215,7 +216,7 @@ TEST_CASE("a PMARKER is a property and the marker elements are elements, so each
     expectInvalid("MarkerNode;51;7", "node1");
 }
 
-TEST_CASE("a SURFINI, a SPHERE and a CYLINDR are the shapes of an Euler region, in one category",
+TEST_CASE("an InitialSurfaceVolume, a SPHERE and a CylinderShape are the shapes of an Euler region, in one category",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -299,7 +300,7 @@ TEST_CASE("a SURFINI, a SPHERE and a CYLINDR are the shapes of an Euler region, 
     expectInvalid("CylinderShape;4;1.;2.;3.;1.;2.;3.;0.5", "centerX2"); // no axis
 }
 
-TEST_CASE("an EULFOR is a direction scaled by a number or a table, in the category of the body forces",
+TEST_CASE("an EulerBodyForce is a direction scaled by a number or a table, in the category of the body forces",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -345,7 +346,8 @@ TEST_CASE("an EULFOR is a direction scaled by a number or a table, in the catego
     expectInvalid("EulerBodyForce;100;;1.;;0.;0.;0.", "directionX");
 }
 
-TEST_CASE("an EULFOR1 names the set of regions of an EULFREG and an EULFREG names a shape of the type it says",
+TEST_CASE("an EulerBodyForceSet names the set of regions of an EulerForceRegion and an EulerForceRegion names a shape "
+          "of the type it says",
           "[model][cards][explicit]")
 {
     const std::string tables = tableText(31) + tableText(32) + tableText(33);
@@ -452,7 +454,8 @@ TEST_CASE("an EULFOR1 names the set of regions of an EULFREG and an EULFREG name
     // A second region after the first is not in the documented layout.
 }
 
-TEST_CASE("a HYDSTAT places the free surface by a grid point or by coordinates", "[model][cards][explicit]")
+TEST_CASE("an EulerHydrostaticPreset places the free surface by a grid point or by coordinates",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "EulerHydrostaticPreset;101;4;;;0.;0.;2.5;101325.\n"
@@ -517,7 +520,7 @@ TEST_CASE("a HYDSTAT places the free surface by a grid point or by coordinates",
     expectInvalid("EulerHydrostaticPreset;101;4;;3;;;;1.", "nodeId");
 }
 
-TEST_CASE("a BIAS is a list of intervals, one per line, each with one of the seven ways to give the spacing",
+TEST_CASE("an EulerMeshBias is a list of intervals, one per line, each with one of the seven ways to give the spacing",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -578,7 +581,8 @@ TEST_CASE("a BIAS is a list of intervals, one per line, each with one of the sev
     expectInvalid("EulerMeshBias;10;1.;;5;;;1.;;5", "intervalStart");
 }
 
-TEST_CASE("a MESH has its fields over eight lines in the order of the format reference", "[model][cards][explicit]")
+TEST_CASE("an EulerMeshGenerator has its fields over eight lines in the order of the format reference",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(freeCard("EulerMeshGenerator", BOX_ALL_FIELDS) + "\n" +
                            freeCard("EulerMeshGenerator", SUB_MESH_FIELDS));
@@ -625,7 +629,8 @@ TEST_CASE("a MESH has its fields over eight lines in the order of the format ref
     requireRoundTrip(least);
 }
 
-TEST_CASE("the fields of a MESH whose default is another field are stored resolved", "[model][cards][explicit]")
+TEST_CASE("the fields of an EulerMeshGenerator whose default is another field are stored resolved",
+          "[model][cards][explicit]")
 {
     // The origin of a BOX follows the reference point that was given, field by field.
     const Model moved = readBulk(withField("EulerMeshGenerator", BOX_FIELDS, 6, "2.5"));
@@ -671,7 +676,8 @@ TEST_CASE("the fields of a MESH whose default is another field are stored resolv
     requireRoundTrip(readBulk(freeCard("EulerMeshGenerator", partitioned)));
 }
 
-TEST_CASE("a MESH is a box or an adaptive mesh, each with its way to give the sizes", "[model][cards][explicit]")
+TEST_CASE("an EulerMeshGenerator is a box or an adaptive mesh, each with its way to give the sizes",
+          "[model][cards][explicit]")
 {
     // A BOX with widths and numbers of elements, an ADAPT with element sizes, with widths and counts, resized by a
     // table.
@@ -714,7 +720,8 @@ TEST_CASE("a MESH is a box or an adaptive mesh, each with its way to give the si
         base::DeckError);
 }
 
-TEST_CASE("a MESH names a property, a sub mesh, tables, bias cards and a coordinate system", "[model][cards][explicit]")
+TEST_CASE("an EulerMeshGenerator names a property, a sub mesh, tables, bias cards and a coordinate system",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(freeCard("EulerMeshGenerator", BOX_ALL_FIELDS) + "\n" +
                            freeCard("EulerMeshGenerator", SUB_MESH_FIELDS) +
@@ -759,7 +766,7 @@ TEST_CASE("a MESH names a property, a sub mesh, tables, bias cards and a coordin
     REQUIRE(unresolvedIn(dangling) == 9); // the sub mesh, the property, three tables, three bias cards, the system
 }
 
-TEST_CASE("a MESH refuses what the format forbids", "[model][cards][explicit]")
+TEST_CASE("an EulerMeshGenerator refuses what the format forbids", "[model][cards][explicit]")
 {
     const auto fields = [](std::initializer_list<std::pair<int, std::string>> given)
     { return meshFields(std::vector<std::pair<int, std::string>>(given)); };

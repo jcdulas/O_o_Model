@@ -67,7 +67,8 @@ using Xyz = std::array<std::optional<double>, 3>;
 // ------------------------------------------------------------------------------------------------------------
 // ModuleFastener
 
-TEST_CASE("an MDFAST puts its two patches in modules, takes its element number for a blank property and locates itself",
+TEST_CASE("a ModuleFastener puts its two patches in modules, takes its element number for a blank property and locates "
+          "itself",
           "[model][cards][modules]")
 {
     Model model = readBulk(
@@ -125,7 +126,8 @@ TEST_CASE("an MDFAST puts its two patches in modules, takes its element number f
     REQUIRE(unresolvedFields<ModuleFastenerTable>(resolved, 1).empty());
 }
 
-TEST_CASE("the properties, elements and grid points of an MDFAST follow a renumbering, those of another module do not",
+TEST_CASE("the properties, elements and grid points of a ModuleFastener follow a renumbering, those of another module "
+          "do not",
           "[model][cards][modules]")
 {
     Model model = readBulk(
@@ -159,7 +161,8 @@ TEST_CASE("the properties, elements and grid points of an MDFAST follow a renumb
     REQUIRE((cardAt<ModuleFastenerTable>(model, 0).id == 8 && cardAt<ModuleFastenerTable>(model, 3).id == 11));
 }
 
-TEST_CASE("an MDFAST needs its location, refuses what its layout does not use and keeps its number per card type",
+TEST_CASE("a ModuleFastener needs its location, refuses what its layout does not use and keeps its number per card "
+          "type",
           "[model][cards][modules]")
 {
     expectInvalid("ModuleFastener;0;;Property;1;2;3", "id");
@@ -189,7 +192,8 @@ TEST_CASE("an MDFAST needs its location, refuses what its layout does not use an
 // --------------------------------------------------------------------------------------------------------------
 // ModuleMultiPointConstr
 
-TEST_CASE("an MDMPC has a point of a module in each term and is a constraint set that the Case Control names",
+TEST_CASE("a ModuleMultiPointConstr has a point of a module in each term and is a constraint set that the Case Control "
+          "names",
           "[model][cards][modules]")
 {
     Model model = readModelText(
@@ -242,7 +246,7 @@ TEST_CASE("an MDMPC has a point of a module in each term and is a constraint set
     REQUIRE(unresolvedIn(lacking) == 2); // the command and the grid point
 }
 
-TEST_CASE("the terms of an MDMPC follow each other from field 9 and its first line holds one term",
+TEST_CASE("the terms of a ModuleMultiPointConstr follow each other from field 9 and its first line holds one term",
           "[model][cards][modules]")
 {
     const Model model = readBulk("ModuleMultiPointConstr;3;;5;1;1.;;6;1;-1.;;7;1;-1.;2;8;2;0.5");
@@ -271,7 +275,7 @@ TEST_CASE("the terms of an MDMPC follow each other from field 9 and its first li
 // -------------------------------------------------------------------------------------------------------------
 // ModuleRigidBodyStar
 
-TEST_CASE("an MDRBE2 pairs each dependent grid point with its module and ends with ALPHA and TREF",
+TEST_CASE("a ModuleRigidBodyStar pairs each dependent grid point with its module and ends with ALPHA and TREF",
           "[model][cards][modules]")
 {
     Model model = readBulk(
@@ -319,7 +323,7 @@ TEST_CASE("an MDRBE2 pairs each dependent grid point with its module and ends wi
              cardAt<ModuleRigidBodyStarTable>(resolved, 1).dependents == Pairs{{3, 6}}));
 }
 
-TEST_CASE("an MDRBE2 refuses an unpaired module, a bad component set and a missing dependent point",
+TEST_CASE("a ModuleRigidBodyStar refuses an unpaired module, a bad component set and a missing dependent point",
           "[model][cards][modules]")
 {
     expectInvalid("ModuleRigidBodyStar;0;;5;1;;6", "id");
@@ -336,7 +340,8 @@ TEST_CASE("an MDRBE2 refuses an unpaired module, a bad component set and a missi
 // -------------------------------------------------------------------------------------------------------------
 // ModuleRigidInterpolation
 
-TEST_CASE("an MDRBE3 has weighted groups of pairs, a UM part of triples and ALPHA, each on a line of its own",
+TEST_CASE("a ModuleRigidInterpolation has weighted groups of pairs, a UM part of triples and ALPHA, each on a line of "
+          "its own",
           "[model][cards][modules]")
 {
     Model model = readBulk(
@@ -391,7 +396,8 @@ TEST_CASE("an MDRBE3 has weighted groups of pairs, a UM part of triples and ALPH
     REQUIRE(cardAt<ModuleRigidInterpolationTable>(resolved).groups[0].points == Pairs{{0, 1005}});
 }
 
-TEST_CASE("an MDRBE3 is written with its UM and ALPHA parts at the start of a line, as the format draws them",
+TEST_CASE("a ModuleRigidInterpolation is written with its UM and ALPHA parts at the start of a line, as the format "
+          "draws them",
           "[model][cards][modules]")
 {
     // The groups end in field 34: UM goes to the next line (field 41), its three triples fill fields 42 to 47 and 50 to
@@ -415,7 +421,8 @@ TEST_CASE("an MDRBE3 is written with its UM and ALPHA parts at the start of a li
     requireRoundTrip(many);
 }
 
-TEST_CASE("an MDRBE3 refuses a group without a point, a UM that does not start a line and fields after TREF",
+TEST_CASE("a ModuleRigidInterpolation refuses a group without a point, a UM that does not start a line and fields "
+          "after TREF",
           "[model][cards][modules]")
 {
     expectInvalid("ModuleRigidInterpolation;0;;100;1;4;1.;1;;5", "id");
@@ -440,7 +447,8 @@ TEST_CASE("an MDRBE3 refuses a group without a point, a UM that does not start a
 // -------------------------------------------------------------------------------------------------------------
 // ModuleRigidJoint
 
-TEST_CASE("an MDRJNT joins a point of each of two modules, with the components of the second that move with the first",
+TEST_CASE("a ModuleRigidJoint joins a point of each of two modules, with the components of the second that move with "
+          "the first",
           "[model][cards][modules]")
 {
     Model model =
@@ -475,7 +483,8 @@ TEST_CASE("an MDRJNT joins a point of each of two modules, with the components o
 // -------------------------------------------------------------------------------------------------------------
 // ModuleRigidRod
 
-TEST_CASE("an MDRROD has ALPHA after its components and TREF on the continuation line", "[model][cards][modules]")
+TEST_CASE("a ModuleRigidRod has ALPHA after its components and TREF on the continuation line",
+          "[model][cards][modules]")
 {
     Model model = readBulk(
         "ModuleRigidRod;14;13;1;24;2;2;;7.5E-6\nModuleRigidRod;15;;5;;6;;3;1.2E-5;20.\nModuleRigidRod;16;1;10;2;"
@@ -505,7 +514,7 @@ TEST_CASE("an MDRROD has ALPHA after its components and TREF on the continuation
     REQUIRE((cardAt<ModuleRigidRodTable>(main).nodeA == 55 && cardAt<ModuleRigidRodTable>(main).nodeB == 56));
 }
 
-TEST_CASE("an MDRROD refuses two dependent components, a translation above 3 and fields after TREF",
+TEST_CASE("a ModuleRigidRod refuses two dependent components, a translation above 3 and fields after TREF",
           "[model][cards][modules]")
 {
     expectInvalid("ModuleRigidRod;0;11;1;21;2", "id");
@@ -521,7 +530,7 @@ TEST_CASE("an MDRROD refuses two dependent components, a translation above 3 and
 // -------------------------------------------------------------------------------------------------------------
 // ModuleSeam
 
-TEST_CASE("an MDSEAM has the grid points of its ends or their coordinates, and a module for each patch",
+TEST_CASE("a ModuleSeam has the grid points of its ends or their coordinates, and a module for each patch",
           "[model][cards][modules]")
 {
     Model model = readBulk(
@@ -555,7 +564,7 @@ TEST_CASE("an MDSEAM has the grid points of its ends or their coordinates, and a
     requireRoundTrip(model);
 }
 
-TEST_CASE("an MDSEAM looks a patch up in the main Bulk Data only, as a property or an element",
+TEST_CASE("a ModuleSeam looks a patch up in the main Bulk Data only, as a property or an element",
           "[model][cards][modules]")
 {
     Model model = readBulk(
@@ -601,7 +610,7 @@ TEST_CASE("an MDSEAM looks a patch up in the main Bulk Data only, as a property 
              cardAt<ModuleSeamTable>(resolved).endNode == 1004));
 }
 
-TEST_CASE("an MDSEAM refuses what neither of its two formats has", "[model][cards][modules]")
+TEST_CASE("a ModuleSeam refuses what neither of its two formats has", "[model][cards][modules]")
 {
     expectInvalid("ModuleSeam;0;5;;;1;2;;;3;;4", "id");
     expectInvalid("ModuleSeam;452;0;;;1;2;;;3;;4", "propId");
@@ -623,7 +632,7 @@ TEST_CASE("an MDSEAM refuses what neither of its two formats has", "[model][card
 // -------------------------------------------------------------------------------------------------------------
 // ModuleWeld
 
-TEST_CASE("an MDWELD has the layout of its type: patches, elements, grid point lists or vertex points",
+TEST_CASE("a ModuleWeld has the layout of its type: patches, elements, grid point lists or vertex points",
           "[model][cards][modules]")
 {
     Model model = readBulk(
@@ -674,7 +683,7 @@ TEST_CASE("an MDWELD has the layout of its type: patches, elements, grid point l
     requireRoundTrip(detailed);
 }
 
-TEST_CASE("an MDWELD looks up the points and patches of the main Bulk Data and those of the module its type names",
+TEST_CASE("a ModuleWeld looks up the points and patches of the main Bulk Data and those of the module its type names",
           "[model][cards][modules]")
 {
     Model modules = readBulk(
@@ -738,7 +747,8 @@ TEST_CASE("an MDWELD looks up the points and patches of the main Bulk Data and t
              cardAt<ModuleWeldTable>(resolved).nodeA == 502 && cardAt<ModuleWeldTable>(resolved).nodeB == 503));
 }
 
-TEST_CASE("an MDWELD refuses a field its type does not use and the values its type requires", "[model][cards][modules]")
+TEST_CASE("a ModuleWeld refuses a field its type does not use and the values its type requires",
+          "[model][cards][modules]")
 {
     expectInvalid("ModuleWeld;0;8;207;PartPatch;;;;;24;36", "id");
     expectInvalid("ModuleWeld;101;0;207;PartPatch;;;;;24;36", "propId");

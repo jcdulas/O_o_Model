@@ -395,14 +395,15 @@ private:
             "(the smallest element ID). A loop is closed when the walk comes back to its first node; an open chain "
             "starts and ends where the boundary ends or branches. Loops are numbered by their smallest edge (by node "
             "IDs). With elementIds the edges are those of that selection of elements (its boundary), the other "
-            "elements being treated as absent. With groups (a dict {name: element IDs} or a list of SET1 IDs, named "
+            "elements being treated as absent. With groups (a dict {name: element IDs} or a list of IdListSet1 IDs, "
+            "named "
             "by their ID) the loops of the boundary of each group in one call, in the order of the groups, `group` "
             "naming it and loopId counted from 1 in each group: the rows of a group are those of a call with "
             "elementIds=its elements (`group` is null without groups); the IDs that are not shells are ignored.";
         info.parameters = {
             parameter("elementIds", ParameterKind::IdList, "None", "the elements whose boundary to find"),
             parameter("groups", ParameterKind::IdSets, "None",
-                      "{name: element IDs} or SET1 IDs: the boundary of each group")};
+                      "{name: element IDs} or IdListSet1 IDs: the boundary of each group")};
         info.defaultSort = "group, loopId, position";
         ColumnListBuilder columns;
         columns.text("group")

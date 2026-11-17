@@ -59,7 +59,8 @@ IdRun run(base::EntityId first, base::EntityId last)
 
 // --- the lists of points and elements ------------------------------------------------------------------------------
 
-TEST_CASE("SESET reads points, THRU ranges and both, and keeps them as written", "[model][superelements]")
+TEST_CASE("SuperelementInteriorNodes reads points, THRU ranges and both, and keeps them as written",
+          "[model][superelements]")
 {
     const Model model = readBulk(
         "SuperelementInteriorNodes;5;3;19;26;27;158\nSuperelementInteriorNodes;2;19;Through;"
@@ -73,7 +74,8 @@ TEST_CASE("SESET reads points, THRU ranges and both, and keeps them as written",
     requireRoundTrip(model);
 }
 
-TEST_CASE("SESET is filed under the superelement it defines and its points may name nothing", "[model][superelements]")
+TEST_CASE("SuperelementInteriorNodes is filed under the superelement it defines and its points may name nothing",
+          "[model][superelements]")
 {
     Model model = readBulk("SuperelementInteriorNodes;5;2;17;Through;20");
     REQUIRE(SuperelementInteriorNodesTable::INFO.category == CardCategory::Superelement);
@@ -90,7 +92,7 @@ TEST_CASE("SESET is filed under the superelement it defines and its points may n
     }
 }
 
-TEST_CASE("SESET refuses what the format does not allow", "[model][superelements]")
+TEST_CASE("SuperelementInteriorNodes refuses what the format does not allow", "[model][superelements]")
 {
     expectInvalid("SuperelementInteriorNodes;0;1;2", "superelementId");
     expectInvalid("SuperelementInteriorNodes;5", "nodes");
@@ -99,7 +101,8 @@ TEST_CASE("SESET refuses what the format does not allow", "[model][superelements
     expectInvalid("SuperelementInteriorNodes;5;0", "nodes");
 }
 
-TEST_CASE("SEELT lists elements that must exist, and the ends of a range that may not", "[model][superelements]")
+TEST_CASE("SuperelementElemTransfer lists elements that must exist, and the ends of a range that may not",
+          "[model][superelements]")
 {
     Model model = readBulk(
         "Node;1;;0.;0.;0.\n"
@@ -122,7 +125,7 @@ TEST_CASE("SEELT lists elements that must exist, and the ends of a range that ma
     expectInvalid("SuperelementElemTransfer;-1;5", "superelementId");
 }
 
-TEST_CASE("CSUPEXT lists exterior points and refuses an empty list", "[model][superelements]")
+TEST_CASE("SuperelementExteriorPoints lists exterior points and refuses an empty list", "[model][superelements]")
 {
     Model model = readBulk(
         "Node;153;;0.;0.;0.\nNode;574;;1.;0.;0.\nSuperelementExteriorPoints;2;153;574;941\nSuperelementExteriorPoints;"
@@ -137,7 +140,7 @@ TEST_CASE("CSUPEXT lists exterior points and refuses an empty list", "[model][su
 // --- SuperelementBulkOptions, SuperelementCopyPoints, SuperelementCopySequence, SuperelementTree
 // --------------------------------------------------------------------------------
 
-TEST_CASE("SEBULK reads a repeated, an external and a primary superelement and resolves its defaults",
+TEST_CASE("SuperelementBulkOptions reads a repeated, an external and a primary superelement and resolves its defaults",
           "[model][superelements]")
 {
     const Model model = readBulk(
@@ -160,7 +163,7 @@ TEST_CASE("SEBULK reads a repeated, an external and a primary superelement and r
     requireRoundTrip(model);
 }
 
-TEST_CASE("SEBULK knows every type and refuses the others", "[model][superelements]")
+TEST_CASE("SuperelementBulkOptions knows every type and refuses the others", "[model][superelements]")
 {
     const char* const typeWords[] = {"Primary",
                                      "CollectorSuperelement",
@@ -188,7 +191,7 @@ TEST_CASE("SEBULK knows every type and refuses the others", "[model][superelemen
         0);
 }
 
-TEST_CASE("SEBULK names its reference superelement", "[model][superelements]")
+TEST_CASE("SuperelementBulkOptions names its reference superelement", "[model][superelements]")
 {
     Model model = readBulk("SuperelementInteriorNodes;40;1\nSuperelementBulkOptions;1400;Repeat;40");
     const ScopedRecorder recorder = referencesOf<SuperelementBulkOptionsTable>(model);
@@ -198,7 +201,7 @@ TEST_CASE("SEBULK names its reference superelement", "[model][superelements]")
     REQUIRE(unresolvedIn(missing) == 1);
 }
 
-TEST_CASE("CSUPER codes the mirror in the number of the superelement", "[model][superelements]")
+TEST_CASE("SuperelementCopyPoints codes the mirror in the number of the superelement", "[model][superelements]")
 {
     Model model = readBulk(
         "SuperelementCopyPoints;120004;23;5;8;2;11\nSuperelementCopyPoints;7;-23;1;2\nSuperelementCopyPoints;5;;1;2");
@@ -220,7 +223,7 @@ TEST_CASE("CSUPER codes the mirror in the number of the superelement", "[model][
     requireRoundTrip(model);
 }
 
-TEST_CASE("CSUPER refuses a bad number, a bad code and an empty list", "[model][superelements]")
+TEST_CASE("SuperelementCopyPoints refuses a bad number, a bad code and an empty list", "[model][superelements]")
 {
     expectInvalid("SuperelementCopyPoints;120000;21;3", "superelementId"); // the number is 0
     expectInvalid("SuperelementCopyPoints;450003;21;3", "superelementId"); // 45 is not a code of the format reference
@@ -229,7 +232,7 @@ TEST_CASE("CSUPER refuses a bad number, a bad code and an empty list", "[model][
     expectInvalid("SuperelementCopyPoints;-3;21;1", "superelementId");
 }
 
-TEST_CASE("CSUPER renumbers its primary with its sign", "[model][superelements]")
+TEST_CASE("SuperelementCopyPoints renumbers its primary with its sign", "[model][superelements]")
 {
     Model model = readBulk("SuperelementInteriorNodes;23;1\nSuperelementCopyPoints;7;-23;1;2");
     Renumbering::apply(model, RenumberSpace::Superelement, Renumbering::offset(100));
@@ -237,7 +240,7 @@ TEST_CASE("CSUPER renumbers its primary with its sign", "[model][superelements]"
     REQUIRE(cardAt<SuperelementCopyPointsTable>(model).superelementId == 107);
 }
 
-TEST_CASE("SEQSEP names the primary superelement and its exterior points", "[model][superelements]")
+TEST_CASE("SuperelementCopySequence names the primary superelement and its exterior points", "[model][superelements]")
 {
     Model model = readBulk("SuperelementCopySequence;125;23;108;116;127;133");
     const SuperelementCopySequenceCard card = cardAt<SuperelementCopySequenceTable>(model);
@@ -252,7 +255,7 @@ TEST_CASE("SEQSEP names the primary superelement and its exterior points", "[mod
     expectInvalid("SuperelementCopySequence;125", "primarySuperelementId");
 }
 
-TEST_CASE("SETREE lists the superelements upstream of one", "[model][superelements]")
+TEST_CASE("SuperelementTree lists the superelements upstream of one", "[model][superelements]")
 {
     Model model = readBulk(
         "SuperelementInteriorNodes;15;1\nSuperelementInteriorNodes;25;2\nSuperelementInteriorNodes;35;"
@@ -269,7 +272,7 @@ TEST_CASE("SETREE lists the superelements upstream of one", "[model][superelemen
 
 // --- the connection of two superelements -----------------------------------------------------------------------------
 
-TEST_CASE("SECONCT reads its connections from the first continuation line", "[model][superelements]")
+TEST_CASE("SuperelementConnection reads its connections from the first continuation line", "[model][superelements]")
 {
     const Model model = readBulk(
         "SuperelementConnection;12;24;2.E-4;Yes;1011;4011;2232;4454\nSuperelementConnection;10;20;;;101;Through;110;"
@@ -288,7 +291,8 @@ TEST_CASE("SECONCT reads its connections from the first continuation line", "[mo
     requireRoundTrip(model);
 }
 
-TEST_CASE("SECONCT keeps a THRU out of the first field of a line when it writes", "[model][superelements]")
+TEST_CASE("SuperelementConnection keeps a THRU out of the first field of a line when it writes",
+          "[model][superelements]")
 {
     // Seven single connections fill the first line (field 9 to 16) and the second one up to field 22; the range that
     // follows would put its first THRU in field 24 or its second in the first field of the next line.
@@ -304,7 +308,8 @@ TEST_CASE("SECONCT keeps a THRU out of the first field of a line when it writes"
     requireRoundTrip(model);
 }
 
-TEST_CASE("SECONCT refuses ranges of different lengths and cards without a connection", "[model][superelements]")
+TEST_CASE("SuperelementConnection refuses ranges of different lengths and cards without a connection",
+          "[model][superelements]")
 {
     expectInvalid("SuperelementConnection;1;2;;;101;Through;110;201;Through;209", "nodeIdB");
     expectInvalid("SuperelementConnection;1;2;;;101;Through;110;201", "nodeIdB");
@@ -315,7 +320,7 @@ TEST_CASE("SECONCT refuses ranges of different lengths and cards without a conne
     expectInvalid("SuperelementConnection;1;2;;;101", "nodeIdB");
 }
 
-TEST_CASE("the points of an SECONCT go to the model of each superelement", "[model][superelements]")
+TEST_CASE("the points of a SuperelementConnection go to the model of each superelement", "[model][superelements]")
 {
     Model model = readBulk("SuperelementConnection;12;0;;;1011;4011;2232;4454");
     const ScopedRecorder recorder = referencesOf<SuperelementConnectionTable>(model);
@@ -325,7 +330,8 @@ TEST_CASE("the points of an SECONCT go to the model of each superelement", "[mod
     REQUIRE(recorder.of("nodeIdB") == std::vector<std::pair<base::EntityId, base::EntityId>>{{4011, 0}, {4454, 0}});
 }
 
-TEST_CASE("SEBNDRY and SEEXCLD take ALL for the other superelement", "[model][superelements]")
+TEST_CASE("SuperelementBoundarySearch and SuperelementExcludedNodes take ALL for the other superelement",
+          "[model][superelements]")
 {
     const Model model = readBulk(
         "SuperelementBoundarySearch;350;6;11;21;31;41\n"
@@ -352,7 +358,8 @@ TEST_CASE("SEBNDRY and SEEXCLD take ALL for the other superelement", "[model][su
     expectInvalid("SuperelementExcludedNodes;350;SOME;1", "superelementIdB");
 }
 
-TEST_CASE("the points of SEBNDRY and SEEXCLD are those of SEIDA", "[model][superelements]")
+TEST_CASE("the points of SuperelementBoundarySearch and SuperelementExcludedNodes are those of SEIDA",
+          "[model][superelements]")
 {
     Model model = readBulk("SuperelementBoundarySearch;350;6;10;Through;12\nSuperelementExcludedNodes;120;All;47");
     const ScopedRecorder boundary = referencesOf<SuperelementBoundarySearchTable>(model);
@@ -367,7 +374,7 @@ TEST_CASE("the points of SEBNDRY and SEEXCLD are those of SEIDA", "[model][super
 
 // --- labels, locations, planes -------------------------------------------------------------------------------------
 
-TEST_CASE("SELABEL keeps a label of several words as it was written", "[model][superelements]")
+TEST_CASE("SuperelementLabel keeps a label of several words as it was written", "[model][superelements]")
 {
     const Model model = readBulk(
         "SuperelementLabel;1;Fuselage\nSuperelementLabel;12;Mirrored Outer Flap Panel\nSuperelementLabel;15;A  B   "
@@ -380,7 +387,8 @@ TEST_CASE("SELABEL keeps a label of several words as it was written", "[model][s
     // The small format starts the label in field 3 and lets it run over the fields it needs.
 }
 
-TEST_CASE("SELOC aligns three points of a superelement to three of the main Bulk Data", "[model][superelements]")
+TEST_CASE("SuperelementLocation aligns three points of a superelement to three of the main Bulk Data",
+          "[model][superelements]")
 {
     Model model = readBulk("SuperelementLocation;120;14;104;115;1020;116;34");
     const SuperelementLocationCard card = cardAt<SuperelementLocationTable>(model);
@@ -398,7 +406,7 @@ TEST_CASE("SELOC aligns three points of a superelement to three of the main Bulk
     expectInvalid("SuperelementLocation;120;14;104;115;1020;116;1020", "pointB1");
 }
 
-TEST_CASE("SEMPLN needs the word PLANE and three different points", "[model][superelements]")
+TEST_CASE("SuperelementMirrorPlane needs the word PLANE and three different points", "[model][superelements]")
 {
     Model model = readBulk("SuperelementMirrorPlane;120;Plane;13;47;1135\nSuperelementMirrorPlane;5;Plane;1;2;3");
     REQUIRE(cardAt<SuperelementMirrorPlaneTable>(model).points == std::array<base::EntityId, 3>{13, 47, 1135});
@@ -412,7 +420,7 @@ TEST_CASE("SEMPLN needs the word PLANE and three different points", "[model][sup
     expectInvalid("SuperelementMirrorPlane;120;Plane;13;13;1135", "point");
 }
 
-TEST_CASE("SENQSET takes a superelement or ALL", "[model][superelements]")
+TEST_CASE("SuperelementGeneralizedPointCount takes a superelement or ALL", "[model][superelements]")
 {
     const Model model = readBulk(
         "SuperelementGeneralizedPointCount;120;47\nSuperelementGeneralizedPointCount;All;"
@@ -448,7 +456,8 @@ TEST_CASE("RELEASE reads points, a range and ALL", "[model][superelements]")
     expectInvalid("SuperelementReleasedDofs;15;456;All;3", "node1"); // no continuation after ALL
 }
 
-TEST_CASE("EXTRN reads pairs, ranges and blank pairs and defines its points", "[model][superelements]")
+TEST_CASE("SuperelementExternalBoundary reads pairs, ranges and blank pairs and defines its points",
+          "[model][superelements]")
 {
     Model model = readBulk(
         "SuperelementExternalBoundary;1011;123;1130;123456;1211;123\n"
@@ -475,7 +484,8 @@ TEST_CASE("EXTRN reads pairs, ranges and blank pairs and defines its points", "[
     expectInvalid("SuperelementExternalBoundary;10;0;5;Through", "nodeId");
 }
 
-TEST_CASE("EXTRN leaves the last pair of a line blank rather than put a THRU there", "[model][superelements]")
+TEST_CASE("SuperelementExternalBoundary leaves the last pair of a line blank rather than put a THRU there",
+          "[model][superelements]")
 {
     const Model model = readBulk("SuperelementExternalBoundary;1;123;2;123;3;123;4;Through;9;123");
     REQUIRE(cardAt<SuperelementExternalBoundaryTable>(model).items.back().points == run(4, 9));
@@ -513,7 +523,7 @@ TEST_CASE("the DOF sets of a superelement read their pairs and their lists", "[m
     requireRoundTrip(model);
 }
 
-TEST_CASE("the pairs of an SEBSET continue on the lines after three pairs", "[model][superelements]")
+TEST_CASE("the pairs of a SuperelementFixedDofSet continue on the lines after three pairs", "[model][superelements]")
 {
     // Three pairs fill fields 2 to 7; the next ones go four to a line from field 9.
     const Model model = readBulk("SuperelementFixedDofSet;5;1;1;2;1;3;1;4;1;5;1;6;1;7;1");
@@ -559,7 +569,8 @@ TEST_CASE("the points of the DOF set cards of a superelement are those of that s
     REQUIRE(referencesOf<SuperelementUserDofSetTable>(model).of("node").front().second == 15);
 }
 
-TEST_CASE("BNDFIX and BNDFREE are the BSET and CSET cards under other names", "[model][superelements]")
+TEST_CASE("FixedBoundaryDofs and FreeBoundaryDofs are the FixedBoundaryDofSet and FreeBoundaryDofSet cards under other "
+          "names", "[model][superelements]")
 {
     Model model = readBulk(
         "Node;3;;0.;0.;0.\n"
@@ -615,7 +626,7 @@ TEST_CASE("MASSSET combines the mass cases of a deck", "[model][superelements]")
     expectInvalid("MassCaseCombination;11;1.;1.", "caseIds");
 }
 
-TEST_CASE("a MASSSET names mass increments that parts carry", "[model][superelements]")
+TEST_CASE("a MassCaseCombination names mass increments that parts carry", "[model][superelements]")
 {
     Model model = readModelText(
         "[model]\n"
@@ -631,7 +642,7 @@ TEST_CASE("a MASSSET names mass increments that parts carry", "[model][superelem
     REQUIRE(unresolvedIn(standalone) == 0);
 }
 
-TEST_CASE("SELOAD reads a scale for each superelement, by label or by subcase", "[model][superelements]")
+TEST_CASE("SuperelementLoadScale reads a scale for each superelement, by label or by subcase", "[model][superelements]")
 {
     // SID S, then two lines for each superelement: SEID, S, LBLTYP; and the label or the number.
     const Model model = readBulk("SuperelementLoadScale;1100;1.5;410;0.75;;wing gust;420;1.25;SubcaseId;30");
@@ -650,7 +661,7 @@ TEST_CASE("SELOAD reads a scale for each superelement, by label or by subcase", 
     requireRoundTrip(model);
 }
 
-TEST_CASE("SELOAD knows the selectors of the format and their synonyms", "[model][superelements]")
+TEST_CASE("SuperelementLoadScale knows the selectors of the format and their synonyms", "[model][superelements]")
 {
     const Model model =
         readBulk("SuperelementLoadScale;12;;1;;LoadId;7;2;;ColumnNumber;3;3;2.;Column;4;4;;Subcase;LC01;5;;;Plain");
@@ -672,7 +683,8 @@ TEST_CASE("SELOAD knows the selectors of the format and their synonyms", "[model
     expectInvalid("SuperelementLoadScale;0;;1;;;x", "id");
 }
 
-TEST_CASE("the superelements of an SELOAD are references and its SID a load set", "[model][superelements]")
+TEST_CASE("the superelements of a SuperelementLoadScale are references and its SID a load set",
+          "[model][superelements]")
 {
     Model model = readBulk(
         "SuperelementInteriorNodes;410;1\nSuperelementLoadScale;1100;1.5;410;0.75;;wing gust;420;1.25;SubcaseId;30");
@@ -684,7 +696,7 @@ TEST_CASE("the superelements of an SELOAD are references and its SID a load set"
     REQUIRE(setIdsOfCategory(model, CardCategory::Load).contains(1100));
 }
 
-TEST_CASE("SECTAX and SUPAX read the cards of the conical shell", "[model][superelements]")
+TEST_CASE("AxisymConeSector and AxisymConeSupport read the cards of the conical shell", "[model][superelements]")
 {
     const Model model = readBulk(
         "AxisymConeSector;1;2;2.5;25.;35.\nAxisymConeSupport;5;2;4\nAxisymConeSupport;4;0;12;5;1;3;6;1;3;2;7;1");
@@ -707,7 +719,7 @@ TEST_CASE("SECTAX and SUPAX read the cards of the conical shell", "[model][super
     expectInvalid("AxisymConeSupport;4;3;7", "components");
 }
 
-TEST_CASE("SEDLINK reads its terms and looks its variables up in their parts", "[model][superelements]")
+TEST_CASE("SuperelementDesignLink reads its terms and looks its variables up in their parts", "[model][superelements]")
 {
     Model model = readBulk("SuperelementDesignLink;40;30;5;0.25;0.5;30;7;-1.5;12;9;-0.5;25;7;3.5;12;4;1.25");
     const SuperelementDesignLinkCard card = cardAt<SuperelementDesignLinkTable>(model);
@@ -728,7 +740,8 @@ TEST_CASE("SEDLINK reads its terms and looks its variables up in their parts", "
     expectInvalid("SuperelementDesignLink;10;10;2;;;8;8", "coefficients");
 }
 
-TEST_CASE("SEDRSP2 and SEDRSP3 read groups led by the part superelement of each item", "[model][superelements]")
+TEST_CASE("SuperelementDesignResp2 and SuperelementDesignResp3 read groups led by the part superelement of each item",
+          "[model][superelements]")
 {
     const Model model = readBulk(
         "SuperelementDesignResp2;1;RBUCK;5;;3;;;;;DesignVar;4;0;101;1;3;1;4;10;201;DesignConstants;2;1;YM;10;L;"
@@ -761,7 +774,8 @@ TEST_CASE("SEDRSP2 and SEDRSP3 read groups led by the part superelement of each 
     requireRoundTrip(model);
 }
 
-TEST_CASE("SEDRSP2 takes a function for its equation and refuses a group it does not know", "[model][superelements]")
+TEST_CASE("SuperelementDesignResp2 takes a function for its equation and refuses a group it does not know",
+          "[model][superelements]")
 {
     const Model model = readBulk("SuperelementDesignResp2;2;TOTAL;;Sum;;;;;;DesignResp1;2;1;1;2;2");
     REQUIRE(cardAt<SuperelementDesignResp2Table>(model).function == "Sum");
@@ -774,7 +788,7 @@ TEST_CASE("SEDRSP2 takes a function for its equation and refuses a group it does
     requireRoundTrip(readBulk("SuperelementDesignResp3;2;LBL;GROUP;TYPE;;UserData;1;" + std::string(600, 'x')));
 }
 
-TEST_CASE("the items of an SEDRSP2 go to the model of their part superelement", "[model][superelements]")
+TEST_CASE("the items of a SuperelementDesignResp2 go to the model of their part superelement", "[model][superelements]")
 {
     Model model = readBulk(
         "SuperelementDesignResp2;1;LBUCK;5;;;;;;;DesignVar;2;0;101;1;3;DesignConstants;1;1;YM;DesignResp1;1;2;14;"

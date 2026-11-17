@@ -413,7 +413,7 @@ TEST_CASE("the regions of a contact body have their fields in the order of the f
     requireRoundTrip(model);
 }
 
-TEST_CASE("BCBODY reads the first line, the line of the motion and every keyword line", "[model][cards][contact]")
+TEST_CASE("ContactBody reads the first line, the line of the motion and every keyword line", "[model][cards][contact]")
 {
     const Model model = readBulk(
         "ContactBody;100;ThreeDimensional;Deformable;200\n"
@@ -483,7 +483,8 @@ TEST_CASE("BCBODY reads the first line, the line of the motion and every keyword
     requireRoundTrip(model);
 }
 
-TEST_CASE("BCBODY1, BCSURF, BCGRID and BCRIGID have their layouts, the forms of BCSURF and of BCGRID included",
+TEST_CASE("ContactBody1, ContactFaceRegion, ContactNodeRegion and ContactRigidMotion have their layouts, the forms of "
+          "ContactFaceRegion and of BCGRID included",
           "[model][cards][contact]")
 {
     const Model model = readBulk(
@@ -709,7 +710,8 @@ TEST_CASE("an invalid contact body, region or rigid surface is reported by field
 
 // ----------------------------------------------------------------------------------------- pairs and contact tables
 
-TEST_CASE("BCONECT, BCTABL1, BCTABLE, BCMOVE and BCHANGE have their layouts", "[model][cards][contact]")
+TEST_CASE("ContactPair, ContactTable1, ContactTable, ContactBodyMove and ContactBodyChange have their layouts",
+          "[model][cards][contact]")
 {
     const Model model = readBulk(
         "ContactPair;330;310;320;110;111\n"
@@ -904,7 +906,7 @@ TEST_CASE("the contact pairs and tables refer to bodies, parameters and each oth
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("the BCONTACT command names a BCTABL1, a BCTABLE or a BCONECT and renumbers with it",
+TEST_CASE("the BCONTACT command names a ContactTable1, a ContactTable or a ContactPair and renumbers with it",
           "[model][cards][contact][control]")
 {
     const std::string cards = solidBlock() +
@@ -1022,7 +1024,7 @@ TEST_CASE("the parameter cards keep their pairs in order and read each value as 
     requireRoundTrip(model);
 }
 
-TEST_CASE("an ESET, SEEDESET or PROPSET of a BCAUTOP is a set of the Bulk Data and renumbers with the sets",
+TEST_CASE("an ESET, SEEDESET or PROPSET of a ContactAutoParams is a set of the Bulk Data and renumbers with the sets",
           "[model][cards][contact]")
 {
     Model model = readBulk(
@@ -1036,7 +1038,8 @@ TEST_CASE("an ESET, SEEDESET or PROPSET of a BCAUTOP is a set of the Bulk Data a
     REQUIRE(realOf(card.params, "DetectionDistance") == 0.1);
 }
 
-TEST_CASE("BCSCAP, BCPFLG and BCBMRAD have their layouts and refer to elements, properties and bodies",
+TEST_CASE("ContactBeamCap, ContactBeamSectionFlags and ContactBeamRadius have their layouts and refer to elements, "
+          "properties and bodies",
           "[model][cards][contact]")
 {
     Model model = readBulk(solidBlock() +
@@ -1103,7 +1106,8 @@ TEST_CASE("an invalid parameter list or beam contact option is reported by field
 
 // ------------------------------------------------------------------------------------ bolts and the user service
 
-TEST_CASE("BOLT, BOLT1 and BCONUDS have their layouts and refer to grid points, elements and bodies",
+TEST_CASE("BoltConnection, BoltPretension and ContactUserService have their layouts and refer to grid points, elements "
+          "and bodies",
           "[model][cards][contact]")
 {
     Model model = readBulk(
@@ -1234,7 +1238,7 @@ TEST_CASE("NLSTEP has its keyword lines with the named fields in the places of t
     requireRoundTrip(model);
 }
 
-TEST_CASE("NLADAPT has its STEP and CREEP lines in any order", "[model][cards][nonlinear]")
+TEST_CASE("NonlinearAdaptiveStepping has its STEP and CREEP lines in any order", "[model][cards][nonlinear]")
 {
     Model model = readBulk(
         "NonlinearStaticParams;700\n"
@@ -1264,7 +1268,8 @@ TEST_CASE("NLADAPT has its STEP and CREEP lines in any order", "[model][cards][n
     requireRoundTrip(model);
 }
 
-TEST_CASE("NLHARM, NLFREQ, NLFREQ1 and NLFREQC have their layouts and NLHARM names the frequencies",
+TEST_CASE("NonlinearHarmonicParams, NonlinearHarmonicFreqList, NonlinearHarmonicFreqSteps and "
+          "NonlinearHarmonicFreqContinuation have their layouts and NLHARM names the frequencies",
           "[model][cards][nonlinear]")
 {
     Model model = readBulk(
@@ -1350,7 +1355,8 @@ TEST_CASE("NLSTEP and NLHARM are selected by their Case Control commands and ren
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("NLOUT and NLOUTUD have their layouts; NLOUTUD names elements or grid points", "[model][cards][nonlinear]")
+TEST_CASE("NonlinearOutputItems and NonlinearUserOutput have their layouts; NonlinearUserOutput names elements or grid "
+          "points", "[model][cards][nonlinear]")
 {
     Model model = readBulk(solidBlock() +
                            "NonlinearOutputItems;1;TotalTemperature\n"
@@ -1389,7 +1395,8 @@ TEST_CASE("NLOUT and NLOUTUD have their layouts; NLOUTUD names elements or grid 
     requireRoundTrip(model);
 }
 
-TEST_CASE("NLRGAP and NLRSFD are nonlinear loads selected by NONLINEAR, with grid points and tables",
+TEST_CASE("NonlinearRadialGap and NonlinearSqueezeFilmDamper are nonlinear loads selected by NONLINEAR, with grid "
+          "points and tables",
           "[model][cards][nonlinear]")
 {
     Model model = readModelText(
@@ -1556,7 +1563,7 @@ TEST_CASE("a card of the family keeps its values through an edit that moves its 
     requireRoundTrip(model);
 }
 
-TEST_CASE("a BCTADD joins contact sets under an ID of its own and refuses a set that is itself",
+TEST_CASE("a ContactSetUnion joins contact sets under an ID of its own and refuses a set that is itself",
           "[model][cards][contact]")
 {
     Model model = readBulk("ContactSetUnion;100;101\nContactSetUnion;200;101;102;103;104;105;106;107;108;109");

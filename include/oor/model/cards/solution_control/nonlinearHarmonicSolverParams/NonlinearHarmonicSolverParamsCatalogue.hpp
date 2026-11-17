@@ -76,7 +76,7 @@ inline constexpr std::array<NonlinearHarmonicSolverParamsInfo, 12> NONLINEAR_HAR
      "0",
      {},
      {},
-     "-1 writes TIC cards for the d-set, to start a later transient run"},
+     "-1 writes TransientInitialCondition cards for the d-set, to start a later transient run"},
     {"MaxNonConvergedFrequencies",
      NonlinearHarmonicSolverParamsKind::Integer,
      "1000",

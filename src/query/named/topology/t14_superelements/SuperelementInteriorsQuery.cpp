@@ -76,12 +76,15 @@ private:
         info.name = "superelementInteriors";
         info.family = "T14";
         info.description =
-            "The interior of each list superelement of the main Bulk Data (format reference SESET, GRID SEID, SEELT), "
+            "The interior of each list superelement of the main Bulk Data (format reference SuperelementInteriorNodes, "
+            "Node SEID, SuperelementElemTransfer), "
             "by "
             "superelement then ID. detail=\"nodes\" (the default): its interior grid points (partId, nodeId), source "
-            "SuperelementInteriorNodes for a point an SESET lists (it takes precedence over the SEID of the GRID) "
-            "or Node for the SEID of the GRID (or of GRDSET). detail=\"elements\": "
-            "its elements (partId, elementId, type), source SuperelementElemTransfer for an element an SEELT gives it, "
+            "SuperelementInteriorNodes for a point a SuperelementInteriorNodes lists (it takes precedence over the "
+            "SEID of the GRID) "
+            "or Node for the SEID of the GRID (or of NodeDefaults). detail=\"elements\": "
+            "its elements (partId, elementId, type), source SuperelementElemTransfer for an element a "
+            "SuperelementElemTransfer gives it, "
             "points for an element on its interior points. A point or element of no list "
             "superelement belongs to the residual structure and has no row; the exterior points of each superelement "
             "are in partBoundaries. partIds keeps those superelements.";

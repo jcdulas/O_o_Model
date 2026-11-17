@@ -99,7 +99,8 @@ struct RecordingVisitor final : ReferenceVisitor
 
 } // namespace
 
-TEST_CASE("CDAMP1, CMASS1 and CDAMP5 default PID to EID and take a blank point as ground", "[model][cards]")
+TEST_CASE("DamperDofProperty, MassDofProperty and HeatCapacity2 default PID to EID and take a blank point as ground",
+          "[model][cards]")
 {
     Model model =
         readBulk("DamperDofProperty;1;;8;1\nMassDofProperty;2;;8;1;9;3\nHeatCapacity2;3;;10;20\nMassDofProperty;4;7;14;;15");
@@ -142,7 +143,7 @@ TEST_CASE("the scalar elements with a property refuse a point twice, a component
     REQUIRE_NOTHROW(readBulk("DamperDofProperty;1;;8;1;8;2")); // the same point, another component
 }
 
-TEST_CASE("CDAMP2 and CMASS2 hold their own value, which is required", "[model][cards]")
+TEST_CASE("DamperDofInline and MassDofInline hold their own value, which is required", "[model][cards]")
 {
     const Model model = readBulk(
         "DamperDofInline;1;3.46;27;1;23;4\nMassDofInline;2;7.75;6;1\nMassDofInline;3;4.5;6;1;7;1\nDamperDofInline;4;5.;10;;11");
@@ -164,7 +165,8 @@ TEST_CASE("CDAMP2 and CMASS2 hold their own value, which is required", "[model][
     expectInvalid("DamperDofInline;1;2.;1;9", "components1");
 }
 
-TEST_CASE("CDAMP3 and CMASS3 connect two scalar points with a property that defaults to EID", "[model][cards]")
+TEST_CASE("DamperScalarProperty and MassScalarProperty connect two scalar points with a property that defaults to EID",
+          "[model][cards]")
 {
     Model model = readBulk("DamperScalarProperty;1;;14;15\nMassScalarProperty;2;47;58\nMassScalarProperty;3;;7;8");
     REQUIRE(cardAt<DamperScalarPropertyTable>(model).propId == 1);
@@ -182,7 +184,8 @@ TEST_CASE("CDAMP3 and CMASS3 connect two scalar points with a property that defa
     REQUIRE(visitor.targets[1] == ReferenceTarget::ScalarOrGridPoint);
 }
 
-TEST_CASE("CDAMP4, CMASS4 and CELAS4 may carry a second element in fields 5 to 8", "[model][cards]")
+TEST_CASE("DamperScalarInline, MassScalarInline and SpringScalarInline may carry a second element in fields 5 to 8",
+          "[model][cards]")
 {
     const Model model = readBulk(
         "DamperScalarInline;1;2.5;5;6;2;3.5;7\n"
@@ -216,7 +219,7 @@ TEST_CASE("CDAMP4, CMASS4 and CELAS4 may carry a second element in fields 5 to 8
     expectInvalid("DamperScalarInline;1;2.5;5;6;2;3.5;6;6", "scalarPoint2");
 }
 
-TEST_CASE("CVISC connects two different grid points with a property that defaults to EID", "[model][cards]")
+TEST_CASE("ViscousDamper2 connects two different grid points with a property that defaults to EID", "[model][cards]")
 {
     Model model = readBulk("ViscousDamper2;1;;26;34\nViscousDamper2;2;5418;26;34");
     REQUIRE(cardAt<ViscousDamper2Table>(model, 0).propId == 1);
@@ -234,7 +237,7 @@ TEST_CASE("CVISC connects two different grid points with a property that default
     REQUIRE(unresolvedIn(model) == 2 + 4);
 }
 
-TEST_CASE("CONM1 keeps the lower triangle of its 6 x 6 matrix in the order of the card", "[model][cards]")
+TEST_CASE("PointMassMatrix keeps the lower triangle of its 6 x 6 matrix in the order of the card", "[model][cards]")
 {
     const Model model = readBulk(
         "PointMassMatrix;1;24;3;1.1;2.1;2.2;3.1;3.2;3.3;4.1;4.2;4.3;4.4;5.1;5.2;5.3;5.4;5.5;6.1;6.2;6.3;6.4;6.5;6.6\n"
@@ -265,7 +268,7 @@ TEST_CASE("CONM1 keeps the lower triangle of its 6 x 6 matrix in the order of th
     expectInvalid("PointMassMatrix;1;5;-1", "frameId");
 }
 
-TEST_CASE("CGAP takes its orientation as a vector or a grid point and a blank CID differs from 0", "[model][cards]")
+TEST_CASE("Gap2 takes its orientation as a vector or a grid point and a blank CID differs from 0", "[model][cards]")
 {
     const Model model = readBulk(
         "Gap2;1;2;120;124;;4.6;0.4;-5.3\n"
@@ -309,7 +312,7 @@ TEST_CASE("CGAP takes its orientation as a vector or a grid point and a blank CI
     REQUIRE_FALSE(Gap2Format::check(both).has_value());
 }
 
-TEST_CASE("CBUSH1D has an optional second point and an optional coordinate system", "[model][cards]")
+TEST_CASE("Bushing1D has an optional second point and an optional coordinate system", "[model][cards]")
 {
     Model model = readBulk("Bushing1D;1;104;107;113\nBushing1D;2;;107;;5\nBushing1D;3;104;107;113;0");
     REQUIRE(cardAt<Bushing1DTable>(model, 0).frameId == Bushing1DCard::NO_FRAME_ID);
@@ -325,7 +328,7 @@ TEST_CASE("CBUSH1D has an optional second point and an optional coordinate syste
     REQUIRE(visitor.fields == std::vector<std::string>{"propId", "nodeA", "frameId"}); // no GB: grounded
 }
 
-TEST_CASE("CFAST locates the fastener by GS, by the piercing points or by XS, YS and ZS", "[model][cards]")
+TEST_CASE("Fastener locates the fastener by GS, by the piercing points or by XS, YS and ZS", "[model][cards]")
 {
     Model model = readBulk(
         "Fastener;1;30;Property;31;35;412\nFastener;2;;Elements;36;58;;613;614\nFastener;3;60;Elements;36;"
@@ -359,7 +362,7 @@ TEST_CASE("CFAST locates the fastener by GS, by the piercing points or by XS, YS
     REQUIRE(element_visitor.targets[2] == ReferenceTarget::Element);
 }
 
-TEST_CASE("CWELD has five formats selected by TYPE, each with its own fields", "[model][cards]")
+TEST_CASE("Weld has five formats selected by TYPE, each with its own fields", "[model][cards]")
 {
     const Model model = readBulk(
         "Weld;1;8;207;PartPatch;405;406;9;24;36;1.5;2.5;3.5\n"
@@ -399,7 +402,7 @@ TEST_CASE("CWELD has five formats selected by TYPE, each with its own fields", "
     oor::testing::requireModelFileRoundTrip(model);
 }
 
-TEST_CASE("the CWELD formats refuse what they do not have and require what they need", "[model][cards]")
+TEST_CASE("the Weld formats refuse what they do not have and require what they need", "[model][cards]")
 {
     // PARTPAT and ELPAT need two patches and a location.
     expectInvalid("Weld;1;8;207;PartPatch;;;;24", "propIdB");
@@ -423,7 +426,7 @@ TEST_CASE("the CWELD formats refuse what they do not have and require what they 
     expectInvalid("Weld;1;26;;AlignedNodes;113;262;-2", "matFrameId");
 }
 
-TEST_CASE("CWELD refers to a property, its points and, by TYPE, to two properties or two shell elements",
+TEST_CASE("Weld refers to a property, its points and, by TYPE, to two properties or two shell elements",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -443,7 +446,7 @@ TEST_CASE("CWELD refers to a property, its points and, by TYPE, to two propertie
     REQUIRE(grid.fields.size() == 2 + 8 + 3); // PWID, GS, the 8 + 3 listed grid points
 }
 
-TEST_CASE("CBEAM3 reads its offsets, pretwist and warping points from the continuation lines", "[model][cards]")
+TEST_CASE("Beam3 reads its offsets, pretwist and warping points from the continuation lines", "[model][cards]")
 {
     Model model = readBulk(
         "Beam3;1;2;211;342;1100;;1.;2.5;-3.;2.;4.;1.8;-1.5;3.5;12.;14.;18.;1.5;0.1;0.2;0.3;216;311;322\n"
@@ -479,7 +482,7 @@ TEST_CASE("CBEAM3 reads its offsets, pretwist and warping points from the contin
     REQUIRE(visitor.targets.back() == ReferenceTarget::ScalarOrGridPoint);
 }
 
-TEST_CASE("CBEND requires its orientation and GEOM", "[model][cards]")
+TEST_CASE("CurvedBeam2 requires its orientation and GEOM", "[model][cards]")
 {
     const Model model = readBulk(
         "CurvedBeam2;1;43;18;22;;5.4;4.3;-1.6;3\nCurvedBeam2;2;;18;22;108;;;;1\nCurvedBeam2;3;4;1;2;;0.5;1.E+"
@@ -496,7 +499,7 @@ TEST_CASE("CBEND requires its orientation and GEOM", "[model][cards]")
     expectInvalid("CurvedBeam2;1;43;18;18;;5.4;4.3;-1.6;3", "nodeB");
 }
 
-TEST_CASE("PLOTEL may carry a second element and has an ID space of its own", "[model][cards]")
+TEST_CASE("PlotLine2 may carry a second element and has an ID space of its own", "[model][cards]")
 {
     Model model =
         readBulk("PlotLine2;1;37;18\nPlotLine2;2;1;2;3;2;3\nBar2;3;1;2;3;0.;;0.;1.\nPlotLine2;4;5;6");
@@ -521,7 +524,7 @@ TEST_CASE("PLOTEL may carry a second element and has an ID space of its own", "[
     REQUIRE(visitor.targets == std::vector<ReferenceTarget>{ReferenceTarget::Node, ReferenceTarget::Node});
 }
 
-TEST_CASE("CBARAO lists up to six stations or gives equally spaced ones, and refers to a bar", "[model][cards]")
+TEST_CASE("Bar2Stations lists up to six stations or gives equally spaced ones, and refers to a bar", "[model][cards]")
 {
     Model model = readBulk(
         "Bar2Stations;1;FractionalLength;0.15;;0.35;0.55;0.85\nBar2Stations;2;ActualLength;;5;0.1;0."
@@ -563,7 +566,7 @@ TEST_CASE("CBARAO lists up to six stations or gives equally spaced ones, and ref
     REQUIRE(unresolvedIn(model) == 2 + 3);
 }
 
-TEST_CASE("renumbering the elements renumbers the CBAR that a CBARAO refers to", "[model][cards]")
+TEST_CASE("renumbering the elements renumbers the Bar2 that a Bar2Stations refers to", "[model][cards]")
 {
     Model model =
         readBulk("Bar2;10;1;1;2;0.;;0.;1.\nBar2Stations;10;FractionalLength;0.5\nBar2;20;1;2;3;0.;;0.;1.");
@@ -574,7 +577,7 @@ TEST_CASE("renumbering the elements renumbers the CBAR that a CBARAO refers to",
     REQUIRE(unresolvedIn(model) == 2 + 4);
 }
 
-TEST_CASE("CQUAD takes four corners, edge points, a centre point and THETA or MCID", "[model][cards]")
+TEST_CASE("PlaneStrainQuad takes four corners, edge points, a centre point and THETA or MCID", "[model][cards]")
 {
     Model model = readBulk(
         "PlaneStrainQuad;1;205;34;76;78;35\nPlaneStrainQuad;2;205;34;76;78;35;46;47;48;49;51;30.\nPlaneStrainQuad;3;205;34;"
@@ -593,7 +596,7 @@ TEST_CASE("CQUAD takes four corners, edge points, a centre point and THETA or MC
     REQUIRE(visitor.targets.front() == ReferenceTarget::Property);
 }
 
-TEST_CASE("GENEL is laid out in parts that each start on a line of the card", "[model][cards]")
+TEST_CASE("GeneralMatrix is laid out in parts that each start on a line of the card", "[model][cards]")
 {
     const std::string deck =
         "GeneralMatrix;517;4;1;1;15;3;46;0;27;5;DependentDofs;2;8;4;36;0;Flexibility;10;1.;2.;3.;4.;5.;6.;7.;8.;9.;10.;"
@@ -630,7 +633,7 @@ TEST_CASE("GENEL is laid out in parts that each start on a line of the card", "[
     expectInvalid("GeneralMatrix;1;2;1;1;13;4;Stiffness;3;2.;0.5;x", "stiffness");
 }
 
-TEST_CASE("the points of a GENEL are grid or scalar points that renumbering follows", "[model][cards]")
+TEST_CASE("the points of a GeneralMatrix are grid or scalar points that renumbering follows", "[model][cards]")
 {
     Model model = readBulk("Node;1;;0.;0.;0.\nScalarPoint;13\nGeneralMatrix;1;2;1;1;13;0;Stiffness;3;2.;0.5;3.");
     RecordingVisitor visitor;
@@ -644,7 +647,7 @@ TEST_CASE("the points of a GENEL are grid or scalar points that renumbering foll
     REQUIRE(card.independentDofs[1] == std::array<base::EntityId, 2>{113, 0});
 }
 
-TEST_CASE("CCONEAX defaults PID to EID and names two rings", "[model][cards]")
+TEST_CASE("ShellConical2 defaults PID to EID and names two rings", "[model][cards]")
 {
     Model model = readBulk("ShellConical2;1;;1200;1201\nShellConical2;2;5;3;4");
     REQUIRE(cardAt<ShellConical2Table>(model, 0).propId == 1);

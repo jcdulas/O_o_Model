@@ -83,7 +83,8 @@ DesignPoint pointOf(const DesignModel& design, std::initializer_list<std::pair<b
 
 } // namespace
 
-TEST_CASE("the design model lists the variables with their bounds, the move limit and the DLINK that gives them",
+TEST_CASE("the design model lists the variables with their bounds, the move limit and the DesignVarLink that gives "
+          "them",
           "[model][design]")
 {
     Model model = readBulk(DECK + "DesignOptimParams;DesignVarMoveLimit;0.25\n");
@@ -107,7 +108,8 @@ TEST_CASE("the design model lists the variables with their bounds, the move limi
 }
 
 TEST_CASE(
-    "a design point gives the fields the relations compute: DLINK, a linear relation, an equation with a DTABLE "
+    "a design point gives the fields the relations compute: DesignVarLink, a linear relation, an equation with a "
+    "DesignConstants "
     "constant",
     "[model][design]")
 {
@@ -290,7 +292,8 @@ TEST_CASE(
     REQUIRE(design.relations()[relationIndex(design, "DesignPropRelation2", 15)].lowest == 1.0e-15);
 }
 
-TEST_CASE("PVAL takes the first coefficient from the field, and a DTABLE2 constant is read before anything is written",
+TEST_CASE("PVAL takes the first coefficient from the field, and a DesignFieldConstants constant is read before "
+          "anything is written",
           "[model][design]")
 {
     Model model = readBulk(
@@ -310,7 +313,8 @@ TEST_CASE("PVAL takes the first coefficient from the field, and a DTABLE2 consta
     REQUIRE(cardAt<ShellPropTable>(model).thickness == Approx(0.5));
 }
 
-TEST_CASE("an equation whose DTABLE constant is a table or does not exist cannot be applied", "[model][design]")
+TEST_CASE("an equation whose DesignConstants constant is a table or does not exist cannot be applied",
+          "[model][design]")
 {
     Model model = readBulk(
         "IsoMat;3;2.1E+11;;0.3\n"
@@ -433,7 +437,8 @@ TEST_CASE("the fields of a material and of an element", "[model][design]")
     REQUIRE(cardAt<ShellQuad4Table>(model).offset == Approx(1.1));
 }
 
-TEST_CASE("two relations on one field are an error, and so are two DLINK cards for one variable", "[model][design]")
+TEST_CASE("two relations on one field are an error, and so are two DesignVarLink cards for one variable",
+          "[model][design]")
 {
     {
         Model model = readBulk(
@@ -457,7 +462,8 @@ TEST_CASE("two relations on one field are an error, and so are two DLINK cards f
     }
 }
 
-TEST_CASE("a DVGRID is a shape term of the design, and a ply by its global ID is not applicable", "[model][design]")
+TEST_CASE("a DesignNodeMove is a shape term of the design, and a ply by its global ID is not applicable",
+          "[model][design]")
 {
     Model model = readBulk(
         "Node;1;;0.;0.;0.\n"
@@ -474,7 +480,8 @@ TEST_CASE("a DVGRID is a shape term of the design, and a ply by its global ID is
     REQUIRE_THAT(design.relations()[0].problem, ContainsSubstring("kind GlobalPly"));
 }
 
-TEST_CASE("TOMVAR, BEADVAR, DVLREL1 and DVPSURF are listed as not applied, with the variables of the last two used",
+TEST_CASE("DesignTopometryRegion, DesignBeadRegion, DesignLoadRelation1 and DesignControlSurface are listed as not "
+          "applied, with the variables of the last two used",
           "[model][design]")
 {
     // The regions of a topometry and a topography optimisation name no design variable (the solver makes theirs); a

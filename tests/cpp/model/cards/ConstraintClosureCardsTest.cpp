@@ -54,7 +54,7 @@ ShellWords words(ShellBehavior behavior, ShellIntegration integration)
 // CyclicSupport
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CYSUP supports the components of a grid point and follows its renumbering",
+TEST_CASE("a CyclicSupport supports the components of a grid point and follows its renumbering",
           "[model][cards][constraint-closure]")
 {
     Model model = readBulk("Node;2316\nNode;2317\nCyclicSupport;2316;6531\nCyclicSupport;2317;4");
@@ -95,7 +95,8 @@ TEST_CASE("a CYSUP supports the components of a grid point and follows its renum
 // MultiPointConstrValue and RelativeEnforcedMotionConstr
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an SPCR keeps the digits of its components and shares the load set of an SPCD",
+TEST_CASE("a RelativeEnforcedMotionConstr keeps the digits of its components and shares the load set of an "
+          "EnforcedMotionConstr",
           "[model][cards][constraint-closure]")
 {
     Model model = readBulk(
@@ -161,7 +162,7 @@ const std::string PANEL_AND_SPLINES =
 
 } // namespace
 
-TEST_CASE("a SET2 names a CAERO and a SPLINEi finds it as a set", "[model][cards][constraint-closure]")
+TEST_CASE("an AeroPrismNodeSet2 names a CAERO and a SPLINEi finds it as a set", "[model][cards][constraint-closure]")
 {
     Model model =
         readBulk(PANEL_AND_SPLINES + "AeroPrismNodeSet2;5;1000;0.;1.;0.;1.\nAeroSurfaceSpline1;3;1000;1001;1002;5");
@@ -197,7 +198,8 @@ TEST_CASE("a SET2 names a CAERO and a SPLINEi finds it as a set", "[model][cards
 // MonitorChordNormalCoeffs
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a MONCNCM has its label over fields 2 to 8, MREF and the CAERO1 list on the second line",
+TEST_CASE("a MonitorChordNormalCoeffs has its label over fields 2 to 8, MREF and the AeroLiftingPanel1 list on the "
+          "second line",
           "[model][cards][constraint-closure]")
 {
     Model model = readBulk(PANEL_AND_SPLINES +
@@ -252,7 +254,7 @@ TEST_CASE("a MONCNCM has its label over fields 2 to 8, MREF and the CAERO1 list 
 // ShellPropNonlinear
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PSHLN1 gives each keyword line the defaults of its keyword and keeps the words it is given",
+TEST_CASE("a ShellPropNonlinear gives each keyword line the defaults of its keyword and keeps the words it is given",
           "[model][cards][constraint-closure]")
 {
     Model model = readBulk(
@@ -365,7 +367,8 @@ TEST_CASE("a PSHLN1 gives each keyword line the defaults of its keyword and keep
 // PlanePropNonlinearExt
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PSHLN2 has its MID, DIRECT and T before ANAL and takes the plane element tables for its lines",
+TEST_CASE("a PlanePropNonlinearExt has its MID, DIRECT and T before ANAL and takes the plane element tables for its "
+          "lines",
           "[model][cards][constraint-closure]")
 {
     Model model = readBulk(

@@ -205,7 +205,7 @@ enum class ReferenceTarget
     // a DesignDiscreteValues (the DesignDiscreteValues of a DesignVar, the DSVID of a DesignTopometryRegion, the
     // DDVALID of a CampbellDiagram)
     DiscreteValueSet,
-    // an UserFileName (the UID of the load history file table, the UDID of a ResultFileModules, a FatigueLoad file)
+    // a UserFileName (the UID of the load history file table, the UDID of a ResultFileModules, a FatigueLoad file)
     UserDefinedName,
     FatigueProperty,     // a FatigueProp (the PFTGID of a FatigueDefinition)
     FatigueLoad,         // a FatigueLoad (the FLOADi of a FatigueEvent)

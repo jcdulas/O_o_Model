@@ -92,7 +92,7 @@ MarginSet computeMargins(const ResultQueryContext& context)
                 if (bond)
                     throw QuantityUnavailableError(
                         "the bonding index of the plies: the failure index table holds none, and the laminates have "
-                        "no SB (PCOMP) or the stress tables of the plies no interlaminar shear");
+                        "no SB (CompProp) or the stress tables of the plies no interlaminar shear");
                 throw QuantityUnavailableError(describeAttempts("the composite failure index", data.attempts));
             }
             return result;

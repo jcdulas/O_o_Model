@@ -8,13 +8,13 @@
 namespace oor::model
 {
 
-// The subroutine an UserYield names when its UNAME is blank: the standard user defined yield model.
+// The subroutine a UserYield names when its UNAME is blank: the standard user defined yield model.
 inline constexpr std::string_view USER_YIELD_DEFAULT_ROUTINE_NAME = "ExternalYield";
 
 // One UserYield card (SOL 700): a yield model that a user subroutine computes. The FMS statement CONNECT SERVICE names
 // the group of the routines; the card gives the group and the routine. The model serves Euler elements with shear
 // strength and is named by an EulerMat (the format reference adds an IsoMat). The yield strength may depend on the
-// damage a JohnsonCookFailure or an UserFailureModel (with EXFAIL2) computes, and on the VOLPLS and SOFTE element
+// damage a JohnsonCookFailure or a UserFailureModel (with EXFAIL2) computes, and on the VOLPLS and SOFTE element
 // variables.
 //
 // Card layout: UserYield  YLD  GROUP  UNAME         fields 1 to 3

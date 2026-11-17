@@ -42,7 +42,8 @@ std::int64_t globalCommand(const Model& model, const char* name)
 
 } // namespace
 
-TEST_CASE("an AESTAT and an AEPARM name a trim variable by label and share an ID the solver ignores",
+TEST_CASE("an AeroRigidTrimVariable and an AeroController name a trim variable by label and share an ID the solver "
+          "ignores",
           "[model][cards][aero]")
 {
     const Model model = readBulk(
@@ -64,7 +65,7 @@ TEST_CASE("an AESTAT and an AEPARM name a trim variable by label and share an ID
     requireLiteralRoundTrip("AeroController;4101;FANPWR;KN12345678", "KN12345678");
 }
 
-TEST_CASE("an AESURF has its fields in the positions of the format reference and keeps its limits resolved",
+TEST_CASE("an AeroControlSurface has its fields in the positions of the format reference and keeps its limits resolved",
           "[model][cards][aero]")
 {
     const Model model = readBulk(
@@ -108,7 +109,7 @@ TEST_CASE("an AESURF has its fields in the positions of the format reference and
     // The continuation line is optional: it is written only when one of its fields is not blank.
 }
 
-TEST_CASE("an AESURF lists its coordinate systems, boxes and tables, which follow a renumbering",
+TEST_CASE("an AeroControlSurface lists its coordinate systems, boxes and tables, which follow a renumbering",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -146,7 +147,7 @@ TEST_CASE("an AESURF lists its coordinate systems, boxes and tables, which follo
     REQUIRE_THROWS_AS(readBulk("AeroControlSurface;1;A;100;100\nAeroControlSurface;1;B;100;100"), base::DeckError);
 }
 
-TEST_CASE("an AESURF refuses what its rules and ranges forbid", "[model][cards][aero]")
+TEST_CASE("an AeroControlSurface refuses what its rules and ranges forbid", "[model][cards][aero]")
 {
     expectInvalid("AeroControlSurface;0;ELEV;100;100", "id");
     expectInvalid("AeroControlSurface;1;;100;100", "label");
@@ -171,7 +172,7 @@ TEST_CASE("an AESURF refuses what its rules and ranges forbid", "[model][cards][
              cardAt<AeroControlSurfaceTable>(mixed).upperLimitTableId == 6));
 }
 
-TEST_CASE("an AESURFS lists the grids of a control surface in SET1 cards", "[model][cards][aero]")
+TEST_CASE("an AeroControlSurfaceNodes lists the grids of a control surface in IdListSet1 cards", "[model][cards][aero]")
 {
     Model model = readBulk("AeroControlSurfaceNodes;6101;ELEV;6106;6107\nAeroControlSurfaceNodes;6101;RUDDER;6108");
     const AeroControlSurfaceNodesCard both = cardAt<AeroControlSurfaceNodesTable>(model, 0);
@@ -202,7 +203,8 @@ TEST_CASE("an AESURFS lists the grids of a control surface in SET1 cards", "[mod
     expectInvalid("AeroControlSurfaceNodes;6101;ELEV;6106;-1", "nodeSetId2");
 }
 
-TEST_CASE("an AELINK has its ID as a number or the word ALWAYS and keeps which one it was", "[model][cards][aero]")
+TEST_CASE("an AeroTrimLink has its ID as a number or the word ALWAYS and keeps which one it was",
+          "[model][cards][aero]")
 {
     const Model model = readBulk(
         "AeroTrimLink;4201;FLAPIN;FLAPOUT;-1.5\n"
@@ -242,7 +244,7 @@ TEST_CASE("an AELINK has its ID as a number or the word ALWAYS and keeps which o
     requireLiteralRoundTrip("AeroTrimLink;10;AIL;Long mixedCase.label;1.", "Long mixedCase.label");
 }
 
-TEST_CASE("an AECOMP is found by its name and its IDs name the cards of its LISTTYPE", "[model][cards][aero]")
+TEST_CASE("an AeroComponent is found by its name and its IDs name the cards of its LISTTYPE", "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroComponent;FIN;AeroBoxList;4301;4302\n"
@@ -305,7 +307,7 @@ TEST_CASE("an AECOMP is found by its name and its IDs name the cards of its LIST
     expectInvalid("AeroComponent;WING;AeroBoxList;1;THRU;5", "listIds"); // THRU is not part of the layout
 }
 
-TEST_CASE("an AECOMPL joins components by name", "[model][cards][aero]")
+TEST_CASE("an AeroComponentUnion joins components by name", "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroComponentUnion;TAILS;FIN;RUDDER;TABS\nAeroComponentUnion;ALLC;C1;C2;C3;C4;C5;C6;C7;C8;"
@@ -330,7 +332,8 @@ TEST_CASE("an AECOMPL joins components by name", "[model][cards][aero]")
     requireLiteralRoundTrip("AeroComponentUnion;TAILS;Long mixedCase.label", "Long mixedCase.label");
 }
 
-TEST_CASE("a TRIM2 has AEQR in field 8 and its variables from field 9, with numbers or words", "[model][cards][aero]")
+TEST_CASE("an AeroTrim2 has AEQR in field 8 and its variables from field 9, with numbers or words",
+          "[model][cards][aero]")
 {
     Model model = readModelText(
         "[case]\n"
@@ -388,7 +391,7 @@ TEST_CASE("a TRIM2 has AEQR in field 8 and its variables from field 9, with numb
                   "label"); // a variable is given once, whatever the case
 }
 
-TEST_CASE("a UXVEC has its pairs from field 9 and may repeat a label", "[model][cards][aero]")
+TEST_CASE("an AeroControlVector has its pairs from field 9 and may repeat a label", "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroControlVector;4701;FANPWR;2500.;AngleOfAttack;0.125\n"
@@ -418,7 +421,7 @@ TEST_CASE("a UXVEC has its pairs from field 9 and may repeat a label", "[model][
     requireLiteralRoundTrip("AeroControlVector;1001;Long mixedCase.label;1.", "Long mixedCase.label");
 }
 
-TEST_CASE("a CSSCHD names a control surface and the AEFACT lists of its schedule", "[model][cards][aero]")
+TEST_CASE("an AeroControlSchedule names a control surface and the AEFACT lists of its schedule", "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroControlSchedule;4901;4950;4932;4934;4938\n"
@@ -469,7 +472,7 @@ TEST_CASE("a CSSCHD names a control surface and the AEFACT lists of its schedule
     expectInvalid("AeroControlSchedule;4901;4950;;;4938", "angleOfAttackListId"); // not both blank
 }
 
-TEST_CASE("an AELISTC is a list of names with no blank inside", "[model][cards][aero]")
+TEST_CASE("an AeroLabelList is a list of names with no blank inside", "[model][cards][aero]")
 {
     const Model model =
         readBulk("AeroLabelList;4401;FLAPS;INBOARD1\nAeroLabelList;102;ONE\nAeroLabelList;103;A;B;C;D;E;F;G;H;I");

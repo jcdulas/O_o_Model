@@ -82,15 +82,18 @@ private:
         info.name = "aeroReferenceTable";
         info.family = "T10";
         info.description =
-            "The AERO and AEROS cards, one row for each (the AERO cards first, then the AEROS ones, each in the order "
+            "The AeroUnsteadyParams and AeroStaticParams cards, one row for each (the AERO cards first, then the "
+            "AeroStaticParams ones, each in the order "
             "of the deck). AERO gives the `velocity` (null when blank), the reference chord and the reference density; "
-            "AEROS gives `rigidBodyFrameId` (the system of the rigid body motions), the reference chord, span and "
+            "AeroStaticParams gives `rigidBodyFrameId` (the system of the rigid body motions), the reference chord, "
+            "span and "
             "area; the "
             "columns a card has no field for are null. `aeroFrameId` is the aerodynamic coordinate system, whose x "
             "axis is "
             "the flow. The symmetry keys are those of the card: the Case Control AESYMXZ and AESYMXY override them.";
         info.defaultSort =
-            "card (AeroUnsteadyParams for an AERO, AeroStaticParams for an AEROS), then the order of the "
+            "card (AeroUnsteadyParams for an AeroUnsteadyParams, AeroStaticParams for an AeroStaticParams), then the "
+            "order of the "
             "cards";
         ColumnListBuilder columns;
         columns.dictionary("card")

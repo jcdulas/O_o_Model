@@ -112,7 +112,7 @@ TEST_CASE("a ply at 45 degrees has the transformed stiffness of the textbook", "
     REQUIRE(laminate->g[1] == Approx(KAPPA * 2.0 * 0.5));
 }
 
-TEST_CASE("an isotropic ply is the same at every angle, a MAT2 ply is its matrix turned", "[analysis][laminate]")
+TEST_CASE("an isotropic ply is the same at every angle, an AnisoMat2D ply is its matrix turned", "[analysis][laminate]")
 {
     const model::Model model = readModelText(
         "IsoMat;1;100.;;0.25;0.002\n"
@@ -140,7 +140,8 @@ TEST_CASE("an isotropic ply is the same at every angle, a MAT2 ply is its matrix
     REQUIRE(turned->a[at(2, 2)] == Approx(10.0));
 }
 
-TEST_CASE("a PCOMPG laminate has its plies in the order of the card and Z0 from the first", "[analysis][laminate]")
+TEST_CASE("a CompPropGlobal laminate has its plies in the order of the card and Z0 from the first",
+          "[analysis][laminate]")
 {
     const model::Model model =
         readModelText(std::string(MATERIALS) + "CompPropGlobal;30;0.5;;;;;;;101;1;2.;0.;;;102;1;1.;90.\n");
@@ -179,7 +180,7 @@ TEST_CASE("a ply whose material is missing or has no plane stress law is an erro
     REQUIRE_FALSE(Laminate::of(model, 99).has_value());
 }
 
-TEST_CASE("the plane stress law is a MAT8 reduced to the ply axes, a MAT9 condensed to the plane",
+TEST_CASE("the plane stress law is an OrthoMat2D reduced to the ply axes, an AnisoMat3D condensed to the plane",
           "[analysis][laminate]")
 {
     const model::Model model = readModelText(

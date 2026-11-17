@@ -103,11 +103,14 @@ private:
             "The constraint stamp of each component, or of each group with `groups` (rows keyed by `group`), for each "
             "SPC set: a content hash (64 bits, as a signed int64) of the constraints on its nodes, for caching a "
             "reduction: the "
-            "components and enforced values the SPC and SPC1 cards of the set give (SPCADD expanded), the enforced "
-            "motions of the SPCD cards and the permanent constraints of the grid points (GRID PS). A reduction made "
+            "components and enforced values the SinglePointConstr and SinglePointConstrList cards of the set give "
+            "(SinglePointConstrUnion expanded), the enforced "
+            "motions of the EnforcedMotionConstr cards and the permanent constraints of the grid points (GRID PS). A "
+            "reduction made "
             "with the constraints applied before reducing stays valid while the stamp is the same; an edit of a "
             "constraint on other nodes leaves it alone. spcSets: the sets asked for; by default every set an SPC, "
-            "SPC1 or SPCADD card defines or a subcase selects (a model with none gives one row per unit with a null "
+            "SinglePointConstrList or SinglePointConstrUnion card defines or a subcase selects (a model with none "
+            "gives one row per unit with a null "
             "spcSet: the permanent constraints and enforced motions alone). constrainedNodeCount counts the nodes "
             "of the unit that have an entry.";
         info.parameters = {parameter("components", ParameterKind::IdList, "None", "keep these components"),

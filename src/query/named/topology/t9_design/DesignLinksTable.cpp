@@ -55,7 +55,8 @@ private:
         info.name = "designLinksTable";
         info.family = "T9";
         info.description =
-            "The DLINK cards, one row for each independent variable: a dependent design variable equals its `constant` "
+            "The DesignVarLink cards, one row for each independent variable: a dependent design variable equals its "
+            "`constant` "
             "plus "
             "its `multiplier` times the sum of the `coefficient` times the `independentVariable` over the rows of the "
             "card.";

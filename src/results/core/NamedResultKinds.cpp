@@ -75,7 +75,7 @@ constexpr auto DESIGN_VARIABLE_HISTORY = std::to_array<NamedArrayInfo>({
 
 constexpr auto RESPONSES = std::to_array<NamedArrayInfo>({
     {"internalId", "int32", "(n)", "the internal number of the response"},
-    {"id", "int32", "(n)", "the DRESP1 identification number"},
+    {"id", "int32", "(n)", "the DesignResp1 identification number"},
     {"responseType", "int32", "(n)", "the response type code (1 weight, 5 displacement, 6 stress, ...)"},
     {"region", "int32", "(n)", "the region of the response"},
     {"subcase", "int32", "(n)", "the subcase"},
@@ -90,13 +90,14 @@ constexpr auto RESPONSES = std::to_array<NamedArrayInfo>({
 
 constexpr auto RESPONSE_COLUMNS = std::to_array<NamedArrayInfo>({
     {"internalId", "int32", "(n)", "the internal number of the response"},
-    {"id", "int32", "(n)", "the DRESP1 or DRESP2 identification number"},
-    {"source", "int32", "(n)", "1 a DRESP1 response, 2 a DRESP2 response"},
-    {"responseType", "int32", "(n)", "the DRESP1 type code; 0 for a DRESP2"},
-    {"itemId", "int32", "(n)", "the element, grid point or mode of a DRESP1"},
-    {"component", "int32", "(n)", "the component of a DRESP1"},
+    {"id", "int32", "(n)", "the DesignResp1 or DesignResp2 identification number"},
+    {"source", "int32", "(n)", "1 a DesignResp1 response, 2 a DesignResp2 response"},
+    {"responseType", "int32", "(n)", "the DesignResp1 type code; 0 for a DesignResp2"},
+    {"itemId", "int32", "(n)", "the element, grid point or mode of a DesignResp1"},
+    {"component", "int32", "(n)", "the component of a DesignResp1"},
     {"subcase", "int32", "(n)", "the subcase"},
-    {"extra", "int32", "(n)", "a ply, a view element or a RANDPS ID of a DRESP1; the dynamic flag of a DRESP2"},
+    {"extra", "int32", "(n)",
+     "a ply, a view element or a RandomSpectralDensity ID of a DRESP1; the dynamic flag of a DesignResp2"},
     {"superelementId", "int32", "(n)", "the superelement"},
     {"frequency", "float", "(n)", "the frequency or time of a dynamic response (NaN: none)"},
 });
@@ -106,13 +107,13 @@ constexpr auto RESPONSE_COLUMNS = std::to_array<NamedArrayInfo>({
 
 constexpr auto RESPONSE_VALUES = std::to_array<NamedArrayInfo>({
     {"designCycle", "int32", "(n)", "the design cycle the value belongs to"},
-    {"id", "int32", "(n)", "the identification number of the response (DRESP1, DRESP2, DRESP3)"},
+    {"id", "int32", "(n)", "the identification number of the response (DesignResp1, DesignResp2, DesignResp3)"},
     {"subcase", "int32", "(n)", "the subcase (0: none)"},
     {"value", "float", "(n)", "the value of the response at the design cycle"},
     {"lower", "float", "(n)", "the lower bound of the constraint on the response (NaN: none)"},
     {"upper", "float", "(n)", "the upper bound of the constraint on the response (NaN: none)"},
     {"constraintSet", "int32", "(n)",
-     "the identification number of the constraint set (DCONSTR) of the bounds (0: none)"},
+     "the identification number of the constraint set (DesignConstr) of the bounds (0: none)"},
     {"isObjective", "int32", "(n)", "1 for the response the optimisation minimises, else 0"},
     {"label", "text", "(n)", "the label of the response", true},
     {"responseType", "text", "(n)", "the type of the response (weight, displacement, stress, ...)", true},
@@ -157,7 +158,8 @@ constexpr auto TRIM_VARIABLES = std::to_array<NamedArrayInfo>({
     {"value", "float", "(n)", "the value of the variable (the trimmed value of a free one)"},
     {"variable", "text", "(n)",
      "the label of the variable (Intercept, AngleOfAttack, PitchRate, RigidAccelZ, ..., a control surface)", true},
-    {"variableId", "int32", "(n)", "the AESTAT or AESURF of the variable, 0 for the intercept (when it is known)",
+    {"variableId", "int32", "(n)",
+     "the AeroRigidTrimVariable or AeroControlSurface of the variable, 0 for the intercept (when it is known)",
      false, true},
 });
 
@@ -268,19 +270,22 @@ constexpr auto MONITOR_POINT_LOADS = std::to_array<NamedArrayInfo>({
     {"value", "float or complex", "(n)", "the load (complex in a frequency response)"},
     {"name", "text", "(n)", "the name of the monitor point", true},
     {"label", "text", "(n)", "its label", true},
-    {"card", "text", "(n)", "the card that defines it: MONPNT1, MONPNT2, MONPNT3, ...", true},
+    {"card", "text", "(n)",
+     "the card that defines it: MonitorIntegratedLoad1, MonitorElemLoad2, MonitorNodeForceSum3, ...", true},
     {"pointClass", "text", "(n)",
      "the class of the point (COEF the whole vehicle, GNRL general, HM a hinge moment); empty for none", true},
     {"aeroComponent", "text", "(n)",
-     "the AECOMP or AECOMPL a MONPNT1 integrates, the surface of a hinge moment; empty for none", true},
+     "the AeroComponent or AeroComponentUnion a MonitorIntegratedLoad1 integrates, the surface of a hinge moment; "
+     "empty for none", true},
     {"side", "text", "(n)", "structural or aerodynamic: the loads on the structure or on the aerodynamic model", true},
     {"contribution", "text", "(n)",
      "what the value is: inertial, external, flexible (the flexible increment), gust, rigidAir, elasticRestrained, "
-     "rigidApplied, restrainedApplied, resultant (a MONPNT3), total, ...",
+     "rigidApplied, restrainedApplied, resultant (a MonitorNodeForceSum3), total, ...",
      true},
     {"matrixRow", "int32", "(n)",
-     "the row of the value in its load matrix, from 0 (the rows of a MONPNT3 matrix without a directory are named "
-     "from the MONPNT3 cards of the deck by it)",
+     "the row of the value in its load matrix, from 0 (the rows of a MonitorNodeForceSum3 matrix without a directory "
+     "are named "
+     "from the MonitorNodeForceSum3 cards of the deck by it)",
      false, true},
 });
 
@@ -353,8 +358,8 @@ constexpr auto KINDS = std::to_array<NamedKindInfo>({
      "the design variable history table: the objective, the approximate objective and the largest constraint of each "
      "cycle and the value of each variable",
      DESIGN_VARIABLE_HISTORY},
-    {"responses", "the design responses (DRESP1) a SOL 200 run defines: type, label, subcase, item", RESPONSES},
-    {"responseColumns", "the responses that are the columns of the sensitivity matrix (DRESP1 then DRESP2)",
+    {"responses", "the design responses (DesignResp1) a SOL 200 run defines: type, label, subcase, item", RESPONSES},
+    {"responseColumns", "the responses that are the columns of the sensitivity matrix (DesignResp1 then DesignResp2)",
      RESPONSE_COLUMNS},
     {"responseValues", "the value and the constraint bounds of each response at each design cycle", RESPONSE_VALUES},
     {"sensitivities", "the derivative of each response with respect to each design variable at each design cycle",

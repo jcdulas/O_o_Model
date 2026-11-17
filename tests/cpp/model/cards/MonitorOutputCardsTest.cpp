@@ -107,7 +107,7 @@ constexpr MonitorResultType LOAD_POINT = MonitorResultType::LoadPoint;
 // MonteCarloParams
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a MONCARL has a type and a structural and a fluid line of three variabilities",
+TEST_CASE("a MonteCarloParams has a type and a structural and a fluid line of three variabilities",
           "[model][cards][monitoroutput]")
 {
     REQUIRE((MonteCarloParamsTable::INFO.category == CardCategory::MonteCarloSet &&
@@ -151,7 +151,7 @@ TEST_CASE("a MONCARL has a type and a structural and a fluid line of three varia
     REQUIRE_THROWS_AS(readBulk("MonteCarloParams;10\nMonteCarloParams;10"), base::DeckError); // one set per SID
 }
 
-TEST_CASE("a MONCARL can be edited and is selected by the Case Control MONCARL, which follows its renumbering",
+TEST_CASE("a MonteCarloParams can be edited and is selected by the Case Control MONCARL, which follows its renumbering",
           "[model][cards][monitoroutput]")
 {
     Model model =
@@ -193,7 +193,8 @@ TEST_CASE("a MONCARL can be edited and is selected by the Case Control MONCARL, 
 // MonitorSum
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a MONSUM has an alternate layout with the type before the new component", "[model][cards][monitoroutput]")
+TEST_CASE("a MonitorSum has an alternate layout with the type before the new component",
+          "[model][cards][monitoroutput]")
 {
     // The alternate layout: one type on the first line, then NEWAXISA.
     Model model = readBulk(
@@ -225,7 +226,8 @@ TEST_CASE("a MONSUM has an alternate layout with the type before the new compone
     requireRoundTrip(changed);
 }
 
-TEST_CASE("a MONSUM refuses what its format forbids, and an edited MONSUM is checked", "[model][cards][monitoroutput]")
+TEST_CASE("a MonitorSum refuses what its format forbids, and an edited MonitorSum is checked",
+          "[model][cards][monitoroutput]")
 {
     expectInvalid("MonitorSum", "entryName");
     expectInvalid("MonitorSum;X", "termNames"); // at least one term
@@ -275,7 +277,7 @@ TEST_CASE("a MONSUM refuses what its format forbids, and an edited MONSUM is che
 // MonitorSumLocated
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a MONSUM1 has a location line before the terms and names its coordinate systems",
+TEST_CASE("a MonitorSumLocated has a location line before the terms and names its coordinate systems",
           "[model][cards][monitoroutput]")
 {
     REQUIRE((MonitorSumLocatedTable::INFO.category == CardCategory::MonitorPoint &&
@@ -363,7 +365,8 @@ TEST_CASE("a MONSUM1 has a location line before the terms and names its coordina
 // StochasticParams
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a STOCHAS has a group of statistics for each of its flags, in any order", "[model][cards][monitoroutput]")
+TEST_CASE("a StochasticParams has a group of statistics for each of its flags, in any order",
+          "[model][cards][monitoroutput]")
 {
     REQUIRE((StochasticParamsTable::INFO.category == CardCategory::Other &&
              StochasticParamsTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -430,7 +433,8 @@ TEST_CASE("a STOCHAS has a group of statistics for each of its flags, in any ord
 // IterativeSolverOptions
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ITER lists OPTION=VALUE items that the table of its format types", "[model][cards][monitoroutput]")
+TEST_CASE("an IterativeSolverOptions lists OPTION=VALUE items that the table of its format types",
+          "[model][cards][monitoroutput]")
 {
     REQUIRE((IterativeSolverOptionsTable::INFO.category == CardCategory::IterativeSolver &&
              IterativeSolverOptionsTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -511,7 +515,7 @@ TEST_CASE("an ITER lists OPTION=VALUE items that the table of its format types",
     REQUIRE(iterativeSolverOptionsKindName(findIterativeSolverOption("IterationMessages")->kind) == "word");
 }
 
-TEST_CASE("an ITER is selected by the Case Control SMETHOD, which follows its renumbering",
+TEST_CASE("an IterativeSolverOptions is selected by the Case Control SMETHOD, which follows its renumbering",
           "[model][cards][monitoroutput]")
 {
     Model model = readModelText(
@@ -544,7 +548,8 @@ TEST_CASE("an ITER is selected by the Case Control SMETHOD, which follows its re
 // NonlinearHarmonicSolverParams
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an NHRMPRM lists the parameters of its table as pairs of name and value", "[model][cards][monitoroutput]")
+TEST_CASE("a NonlinearHarmonicSolverParams lists the parameters of its table as pairs of name and value",
+          "[model][cards][monitoroutput]")
 {
     REQUIRE((NonlinearHarmonicSolverParamsTable::INFO.category == CardCategory::Other &&
              NonlinearHarmonicSolverParamsTable::INFO.idSpace == base::IdSpace::None));
@@ -615,7 +620,7 @@ TEST_CASE("an NHRMPRM lists the parameters of its table as pairs of name and val
 // CyclicSymmetry
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CYSYM has a number of segments and a symmetry type", "[model][cards][monitoroutput]")
+TEST_CASE("a CyclicSymmetry has a number of segments and a symmetry type", "[model][cards][monitoroutput]")
 {
     REQUIRE((CyclicSymmetryTable::INFO.category == CardCategory::Other &&
              CyclicSymmetryTable::INFO.idSpace == base::IdSpace::None));
@@ -648,7 +653,7 @@ TEST_CASE("a CYSYM has a number of segments and a symmetry type", "[model][cards
 // EchoOnMarker and EchoOffMarker
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("ECHOON and ECHOOFF are Bulk Data cards with no field, kept in place, also inside a part",
+TEST_CASE("EchoOnMarker and EchoOffMarker are Bulk Data cards with no field, kept in place, also inside a part",
           "[model][cards][monitoroutput]")
 {
     REQUIRE((EchoOnMarkerTable::INFO.category == CardCategory::Other &&
@@ -698,7 +703,7 @@ TEST_CASE("ECHOON and ECHOOFF are Bulk Data cards with no field, kept in place, 
 // ResultMetadata
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a METADATA has a handle and lines of text with blanks inside", "[model][cards][monitoroutput]")
+TEST_CASE("a ResultMetadata has a handle and lines of text with blanks inside", "[model][cards][monitoroutput]")
 {
     REQUIRE((ResultMetadataTable::INFO.category == CardCategory::Other &&
              ResultMetadataTable::INFO.idSpace == base::IdSpace::None));
@@ -761,7 +766,8 @@ TEST_CASE("a METADATA has a handle and lines of text with blanks inside", "[mode
 // MetadataBooleanPairs, MetadataIntegerPairs, MetadataRealPairs, MetadataTextPairs and MetadataGroup
 // --------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ABSNMVB has Boolean pairs from its fourth field, an ABSNMVI integer pairs and an ABSNMVR real pairs",
+TEST_CASE("a MetadataBooleanPairs has Boolean pairs from its fourth field, a MetadataIntegerPairs integer pairs and a "
+          "MetadataRealPairs real pairs",
           "[model][cards][monitoroutput]")
 {
     for (const CardTypeInfo* info : {&MetadataBooleanPairsTable::INFO, &MetadataIntegerPairsTable::INFO,
@@ -835,7 +841,7 @@ TEST_CASE("an ABSNMVB has Boolean pairs from its fourth field, an ABSNMVI intege
     REQUIRE(MetadataBooleanPairsFormat::check(edited).has_value());
 }
 
-TEST_CASE("the pairs of a meta data group name the ABSTRCT cards and follow their renumbering",
+TEST_CASE("the pairs of a meta data group name the MetadataGroup cards and follow their renumbering",
           "[model][cards][monitoroutput]")
 {
     Model model = readBulk(

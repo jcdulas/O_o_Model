@@ -54,7 +54,7 @@ TEST_CASE("MAT1 fills in the blank one of E, G and NU", "[model][cards]")
     REQUIRE(third.youngsModulus == Approx(2.0 * 8.0e10 * 1.25));
 }
 
-TEST_CASE("PSHELL defaults", "[model][cards]")
+TEST_CASE("ShellProp defaults", "[model][cards]")
 {
     const Model model = readBulk("ShellProp;7;1;0.02");
     const ShellPropTable& table = *model.findTable<ShellPropTable>();
@@ -63,7 +63,7 @@ TEST_CASE("PSHELL defaults", "[model][cards]")
     REQUIRE(card.membraneMatId == 1);
 }
 
-TEST_CASE("PCOMP resolves Z0 and repeats the previous ply", "[model][cards]")
+TEST_CASE("CompProp resolves Z0 and repeats the previous ply", "[model][cards]")
 {
     const Model model = readBulk("CompProp;10;;;;;;;;1;0.1;0.;Yes;;;45.\nCompProp;11;;;;;;;Symmetry;2;0.25;0.");
     const CompPropTable& table = *model.findTable<CompPropTable>();
@@ -80,7 +80,7 @@ TEST_CASE("PCOMP resolves Z0 and repeats the previous ply", "[model][cards]")
     REQUIRE(symmetric.bottomOffset == Approx(-0.25));
 }
 
-TEST_CASE("CQUAD4 takes an integer in field 7 as MCID and a real as THETA", "[model][cards]")
+TEST_CASE("ShellQuad4 takes an integer in field 7 as MCID and a real as THETA", "[model][cards]")
 {
     const Model model = readBulk("ShellQuad4;1;1;1;2;3;4;;7\nShellQuad4;2;1;1;2;3;4;30.");
     const ShellQuad4Table& table = *model.findTable<ShellQuad4Table>();
@@ -92,14 +92,14 @@ TEST_CASE("CQUAD4 takes an integer in field 7 as MCID and a real as THETA", "[mo
     REQUIRE(byTheta.thetaInDegrees == 30.0);
 }
 
-TEST_CASE("CQUAD4 PID defaults to EID and repeated nodes are refused", "[model][cards]")
+TEST_CASE("ShellQuad4 PID defaults to EID and repeated nodes are refused", "[model][cards]")
 {
     const Model model = readBulk("ShellQuad4;9;;1;2;3;4");
     REQUIRE(model.findTable<ShellQuad4Table>()->card(0).propId == 9);
     REQUIRE_THROWS_AS(readBulk("ShellQuad4;9;1;1;2;3;1"), base::DeckError);
 }
 
-TEST_CASE("SPC1 keeps singles and THRU ranges in order", "[model][cards]")
+TEST_CASE("SinglePointConstrList keeps singles and THRU ranges in order", "[model][cards]")
 {
     const Model model = readBulk("SinglePointConstrList;3;123;1;2;10;Through;20;30");
     const SinglePointConstrListCard card = model.findTable<SinglePointConstrListTable>()->card(0);

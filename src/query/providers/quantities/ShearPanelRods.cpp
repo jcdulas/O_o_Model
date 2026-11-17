@@ -73,14 +73,14 @@ const PanelRods& ShearPanelRodFacts::panel(std::int32_t resultEid)
         const auto element = card.linked ? m_model->locate(base::IdSpace::Element, card.modelId) : std::nullopt;
         if (!element || element->table != model::typeIndexOf<model::ShearPanel4Table>())
         {
-            rods.why = "the element is not linked to a CSHEAR of the model";
+            rods.why = "the element is not linked to a ShearPanel4 of the model";
             break;
         }
         const model::ShearPanel4Card panel = m_model->findTable<model::ShearPanel4Table>()->card(element->row);
         const auto property = m_model->locate(base::IdSpace::Property, panel.propId);
         if (!property || property->table != model::typeIndexOf<model::ShearPanelPropTable>())
         {
-            rods.why = "the property " + std::to_string(panel.propId) + " is not a PSHEAR";
+            rods.why = "the property " + std::to_string(panel.propId) + " is not a ShearPanelProp";
             break;
         }
         const model::ShearPanelPropCard pshear = m_model->findTable<model::ShearPanelPropTable>()->card(property->row);
@@ -93,7 +93,7 @@ const PanelRods& ShearPanelRodFacts::panel(std::int32_t resultEid)
         const auto material = m_model->locate(base::IdSpace::Material, pshear.matId);
         if (!material || material->table != model::typeIndexOf<model::IsoMatTable>())
         {
-            rods.why = "the material " + std::to_string(pshear.matId) + " of the PSHEAR is not a MAT1";
+            rods.why = "the material " + std::to_string(pshear.matId) + " of the ShearPanelProp is not an IsoMat";
             break;
         }
         const double young = youngModulus(m_model->findTable<model::IsoMatTable>()->card(material->row));

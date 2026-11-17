@@ -7,7 +7,7 @@ using namespace oor::base;
 
 TEST_CASE("a location prints the parts it has", "[base][diagnostics]")
 {
-    REQUIRE(SourceLocation{"plate.oos", 12, "CQUAD4", "PID"}.toString() == "plate.oos:12 (CQUAD4, PID)");
+    REQUIRE(SourceLocation{"plate.oos", 12, "ShellQuad4", "PID"}.toString() == "plate.oos:12 (ShellQuad4, PID)");
     REQUIRE(SourceLocation{"plate.oos", 12, "", ""}.toString() == "plate.oos:12");
     REQUIRE(SourceLocation{"plate.oos", 0, "", ""}.toString() == "plate.oos");
     REQUIRE(SourceLocation{"", 0, "GRID", ""}.toString() == "(GRID)");
@@ -17,8 +17,8 @@ TEST_CASE("a location prints the parts it has", "[base][diagnostics]")
 TEST_CASE("a diagnostic reads as one line", "[base][diagnostics]")
 {
     const Diagnostic diagnostic{Severity::Error, "deck.duplicate-id", "element 7 is defined twice",
-                                SourceLocation{"a.oos", 3, "CQUAD4", ""}};
-    REQUIRE(diagnostic.toString() == "error[deck.duplicate-id] a.oos:3 (CQUAD4): element 7 is defined twice");
+                                SourceLocation{"a.oos", 3, "ShellQuad4", ""}};
+    REQUIRE(diagnostic.toString() == "error[deck.duplicate-id] a.oos:3 (ShellQuad4): element 7 is defined twice");
 }
 
 TEST_CASE("tolerant mode collects errors and goes on", "[base][diagnostics]")

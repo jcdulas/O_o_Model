@@ -172,11 +172,13 @@ private:
         info.family = "T8";
         info.description =
             "The temperatures of the sets asked for, card the card type: NodeTemperatureLoad (a TEMP, a row for each "
-            "grid point), DefaultTemperatureLoad (a TEMPD, the default, target default with no ID), "
-            "PlateTemperatureLoad (a TEMPP1, a row for each element it names, a THRU run giving the elements of the "
+            "grid point), DefaultTemperatureLoad (a DefaultTemperatureLoad, the default, target default with no ID), "
+            "PlateTemperatureLoad (a PlateTemperatureLoad, a row for each element it names, a THRU run giving the "
+            "elements of the "
             "model in it; temperature TBAR and gradient TPRIME, the temperature gradient through the thickness) and "
-            "LineElemTemperatureLoad (a TEMPRB, temperature TA at end A, gradient TB - TA, the change along the "
-            "element). A TEMPRB row also gives temperatureB (TB), the "
+            "LineElemTemperatureLoad (a LineElemTemperatureLoad, temperature TA at end A, gradient TB - TA, the change "
+            "along the "
+            "element). A LineElemTemperatureLoad row also gives temperatureB (TB), the "
             "gradients through the element (gradient1a, gradient1b: TP1A, TP1B in the element y direction; "
             "gradient2a, gradient2b: TP2A, TP2B in z) and stressPointTemperatures (TCA, TDA, TEA, TFA, TCB, TDB, "
             "TEB, TFB; null when the card gives none, the program then assumes "

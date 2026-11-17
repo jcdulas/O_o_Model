@@ -35,7 +35,7 @@ inline constexpr std::array<std::string_view, 2> INITIAL_VALUES_TARGET_WORDS{"El
 // Card layout: InitialValuesUserRoutine  SID  GROUP  UNAME  SETID  COPT             fields 1 to 5
 // SID is the set ID the card is filed under (the format calls it a unique output number: the library lets the cards of
 // a set share it, as for every initial condition). GROUP is required and has no default; it is a name of one to eight
-// characters (the field of the small format), kept in capitals as the GROUP of an UserEnforcedVelocity is (a deck may
+// characters (the field of the small format), kept in capitals as the GROUP of a UserEnforcedVelocity is (a deck may
 // write it in lower case). SETID is the IdListSet1 of the elements or of the grid points, as COPT says (a reference to
 // a set). No other field exists: the format draws blank cells after COPT and the reader refuses a value in them.
 struct InitialValuesUserRoutineCard

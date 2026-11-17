@@ -178,16 +178,19 @@ private:
         info.name = "designResponseArgumentsTable";
         info.family = "T9";
         info.description =
-            "What each design response takes, one row per item. A DRESP1 has its ATTi (`kind` attribute, `position` "
+            "What each design response takes, one row per item. A DesignResp1 has its ATTi (`kind` attribute, "
+            "`position` "
             "from 0 in the order of the card), as the deck writes them: an integer in `id`, a real in `value`, a word "
-            "(Through, All) in `label`, nothing for a blank. A DRESP2 or a DRESP3 has the arguments of its equation or "
+            "(Through, All) in `label`, nothing for a blank. A DesignResp2 or a DesignResp3 has the arguments of its "
+            "equation or "
             "routine in the order of its argument list (`position` from 0): `kind` "
             "is the neutral word of the group (`DesignVar`, `DesignConstants`, `DesignResp1`, `DesignNodes`, "
             "`DesignPropRelation1`, `DesignElemRelation1`, `DesignMatRelation1`, `DesignPropRelation2`, "
             "`DesignElemRelation2`, `DesignMatRelation2`, `DesignResp2`, `DesignLoadRelation1`), `id` the design "
             "variable, response, relation or "
-            "grid point, `component` the component of a DNODE, `label` the DTABLE constant. The USRDATA text of a "
-            "DRESP3 is not an argument.";
+            "grid point, `component` the component of a DNODE, `label` the DesignConstants constant. The USRDATA text "
+            "of a "
+            "DesignResp3 is not an argument.";
         info.parameters = {parameter("responseIds", ParameterKind::IdList, "None", "keep these responses")};
         info.defaultSort = "responseId, position";
         ColumnListBuilder columns;

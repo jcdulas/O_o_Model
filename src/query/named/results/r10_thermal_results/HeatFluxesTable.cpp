@@ -61,9 +61,10 @@ private:
             "subcase, "
             "step and element, with the norm of the flux and the frame the table writes them in. They come from the "
             "heat flux "
-            "table; for a table that has the gradient and no flux, minus the conductivity K of the MAT4 of the element "
+            "table; for a table that has the gradient and no flux, minus the conductivity K of the HeatIsoMat of the "
+            "element "
             "times the stored gradient is the other way (marked approximate: it takes the K of the card, so it gives "
-            "nothing for a MAT5, a blank K or a MATT4 table of K).";
+            "nothing for a HeatAnisoMat, a blank K or a HeatIsoMatTemperature table of K).";
         info.parameters = {parameter("elementIds", ParameterKind::IdList, "None", "the elements to list"),
                            parameter("types", ParameterKind::TextList, "None", "the element types")};
         info.defaultSort = "subcase, [step], elementId";

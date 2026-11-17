@@ -89,7 +89,8 @@ TEST_CASE("the five moves are one category, each with a number of its own per ca
     REQUIRE_THROWS_AS(readBulk("ModuleMirror2;50;;;PlaneXy\nModuleMirror2;50;;;PlaneXz"), base::DeckError);
 }
 
-TEST_CASE("an MDTRAN is a vector between two points and a magnitude that defaults to the length of the vector",
+TEST_CASE("a ModuleTranslation is a vector between two points and a magnitude that defaults to the length of the "
+          "vector",
           "[model][cards][modulemove]")
 {
     Model model = readBulk(POINTS_TEXT + MOVES_TEXT);
@@ -114,7 +115,8 @@ TEST_CASE("an MDTRAN is a vector between two points and a magnitude that default
     expectInvalid("ModuleTranslation;10;1;2;abc", "magnitude");
 }
 
-TEST_CASE("an MDROT1 turns about the vector from IDS to IDE, or about a reference point", "[model][cards][modulemove]")
+TEST_CASE("a ModuleRotation1 turns about the vector from IDS to IDE, or about a reference point",
+          "[model][cards][modulemove]")
 {
     Model model = readBulk(POINTS_TEXT + MOVES_TEXT);
     const ModuleRotation1Card about = cardAt<ModuleRotation1Table>(model, 0);
@@ -137,7 +139,7 @@ TEST_CASE("an MDROT1 turns about the vector from IDS to IDE, or about a referenc
     expectInvalid("ModuleRotation1;20;;1;2;0.", "magnitude"); // a rotation by nothing
 }
 
-TEST_CASE("an MDROT2 turns about an axis of a coordinate system, on either side of the axis",
+TEST_CASE("a ModuleRotation2 turns about an axis of a coordinate system, on either side of the axis",
           "[model][cards][modulemove]")
 {
     Model model = readBulk(POINTS_TEXT + MOVES_TEXT);
@@ -176,7 +178,7 @@ TEST_CASE("an MDROT2 turns about an axis of a coordinate system, on either side 
     expectInvalid("ModuleRotation2;30;;;ZAxis;0.", "magnitude");
 }
 
-TEST_CASE("an MDMIR1 mirrors in the plane of three points", "[model][cards][modulemove]")
+TEST_CASE("a ModuleMirror1 mirrors in the plane of three points", "[model][cards][modulemove]")
 {
     Model model = readBulk(POINTS_TEXT + MOVES_TEXT);
     const ModuleMirror1Card card = cardAt<ModuleMirror1Table>(model, 0);
@@ -192,7 +194,7 @@ TEST_CASE("an MDMIR1 mirrors in the plane of three points", "[model][cards][modu
     expectInvalid("ModuleMirror1;40;1;2;1", "point3");
 }
 
-TEST_CASE("an MDMIR2 mirrors in the plane of two axes of a coordinate system", "[model][cards][modulemove]")
+TEST_CASE("a ModuleMirror2 mirrors in the plane of two axes of a coordinate system", "[model][cards][modulemove]")
 {
     Model model = readBulk(POINTS_TEXT + MOVES_TEXT);
     const ModuleMirror2Card basic = cardAt<ModuleMirror2Table>(model, 0);
@@ -226,7 +228,7 @@ TEST_CASE("an MDMIR2 mirrors in the plane of two axes of a coordinate system", "
     expectInvalid("ModuleMirror2;50", "axes");         // required
 }
 
-TEST_CASE("an MDMOVE lists the moves in order over any number of lines and names them as moves",
+TEST_CASE("a ModuleMoveSequence lists the moves in order over any number of lines and names them as moves",
           "[model][cards][modulemove]")
 {
     Model model = readBulk(POINTS_TEXT + MOVES_TEXT + MOVE_SEQUENCE_TEXT +
@@ -280,7 +282,7 @@ TEST_CASE("an MDMOVE lists the moves in order over any number of lines and names
     expectInvalid("ModuleMoveSequence;60;10;abc", "moveId");
 }
 
-TEST_CASE("an MDMPLN and an MDLOC are keyed by their module and look up the points of module 0 only",
+TEST_CASE("a ModuleMirrorPlane and a ModuleLocation are keyed by their module and look up the points of module 0 only",
           "[model][cards][modulemove]")
 {
     Model model = readBulk(POINTS_TEXT + "ModuleMirrorPlane;70;1;2;3\nModuleLocation;80;10;100;120;1;2;4\n");
@@ -327,7 +329,8 @@ TEST_CASE("an MDMPLN and an MDLOC are keyed by their module and look up the poin
     REQUIRE_NOTHROW(readBulk("ModuleLocation;80;1;2;3;1;2;3"));
 }
 
-TEST_CASE("a HADACRI is a criterion of one of four types and up to six parameters", "[model][cards][adaptivity]")
+TEST_CASE("an AdaptiveRefineCriterion is a criterion of one of four types and up to six parameters",
+          "[model][cards][adaptivity]")
 {
     REQUIRE((AdaptiveRefineCriterionTable::INFO.category == CardCategory::AdaptivityCriterion &&
              AdaptiveRefineCriterionTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -372,7 +375,8 @@ TEST_CASE("a HADACRI is a criterion of one of four types and up to six parameter
     expectInvalid("AdaptiveRefineCriterion;1;3;0.;0.;0.;1.;2.;x", "parameter6");
 }
 
-TEST_CASE("a HADAPTL has the layout of its two lines, a REPEAT that gives the default of MAXLEVEL, and a shared ID",
+TEST_CASE("an AdaptiveRefineControl has the layout of its two lines, a REPEAT that gives the default of MAXLEVEL, and "
+          "a shared ID",
           "[model][cards][adaptivity]")
 {
     REQUIRE((AdaptiveRefineControlTable::INFO.category == CardCategory::AdaptivitySet &&
@@ -415,7 +419,7 @@ TEST_CASE("a HADAPTL has the layout of its two lines, a REPEAT that gives the de
     REQUIRE(AdaptiveRefineControlFormat::check(edited).has_value());
 }
 
-TEST_CASE("a HADAPTL names its criterion, and a property or a superelement according to WHEREMET",
+TEST_CASE("an AdaptiveRefineControl names its criterion, and a property or a superelement according to WHEREMET",
           "[model][cards][adaptivity]")
 {
     // Superelement 5 exists because a grid point has it as its SEID; the property 5 is a ShellProp.

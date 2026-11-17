@@ -113,7 +113,7 @@ std::string problemField(const CardT& card)
 // InitialVelocityField
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TIC3 names a grid point at the centre and a list of grid points, and renumbers them",
+TEST_CASE("an InitialVelocityField names a grid point at the centre and a list of grid points, and renumbers them",
           "[model][cards][tic3]")
 {
     Model model = readBulk(
@@ -161,7 +161,7 @@ TEST_CASE("a TIC3 names a grid point at the centre and a list of grid points, an
     REQUIRE(unresolvedIn(model) == 1);
 }
 
-TEST_CASE("a TIC3 refuses a value that is not in its layout", "[model][cards][tic3]")
+TEST_CASE("an InitialVelocityField refuses a value that is not in its layout", "[model][cards][tic3]")
 {
     expectInvalid("InitialVelocityField;0;5;;;;;;;;1", "id");
     expectInvalid("InitialVelocityField;-7;5;;;;;;;;1", "id");
@@ -201,7 +201,8 @@ TEST_CASE("a TIC3 refuses a value that is not in its layout", "[model][cards][ti
 // InitialElemValues
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TICEL gives pairs of a variable and a value from field 3 on any number of lines", "[model][cards][ticel]")
+TEST_CASE("an InitialElemValues gives pairs of a variable and a value from field 3 on any number of lines",
+          "[model][cards][ticel]")
 {
     Model model = readBulk(
         "IdListSet1;40;1;2\n"
@@ -271,7 +272,7 @@ TEST_CASE("a TICEL gives pairs of a variable and a value from field 3 on any num
     REQUIRE(unresolvedIn(dangling) == 1);
 }
 
-TEST_CASE("a TICEL refuses a missing name or value and a pair after a blank one", "[model][cards][ticel]")
+TEST_CASE("an InitialElemValues refuses a missing name or value and a pair after a blank one", "[model][cards][ticel]")
 {
     expectInvalid("InitialElemValues;0;40;Density;100.", "id");
     expectInvalid("InitialElemValues;3;0;Density;100.", "elementSetId");
@@ -302,7 +303,7 @@ TEST_CASE("a TICEL refuses a missing name or value and a pair after a blank one"
 // InitialValuesUserRoutine
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TICEUDS has a group, the routine EXINIT, a set and the elements or grids it applies to",
+TEST_CASE("an InitialValuesUserRoutine has a group, the routine EXINIT, a set and the elements or grids it applies to",
           "[model][cards][ticeuds]")
 {
     Model model = readBulk(
@@ -353,7 +354,8 @@ TEST_CASE("a TICEUDS has a group, the routine EXINIT, a set and the elements or 
     REQUIRE(unresolvedIn(dangling) == 1);
 }
 
-TEST_CASE("a TICEUDS refuses a group that is no name, another routine and a sixth field", "[model][cards][ticeuds]")
+TEST_CASE("an InitialValuesUserRoutine refuses a group that is no name, another routine and a sixth field",
+          "[model][cards][ticeuds]")
 {
     expectInvalid("InitialValuesUserRoutine;0;g;;100", "id");
     expectInvalid("InitialValuesUserRoutine;12;;;100", "group");                // no default
@@ -399,7 +401,8 @@ const std::string REGIONS_TEXT =
 
 } // namespace
 
-TEST_CASE("a TICEUL1 names the group of TICREG cards that a PEULER1 reaches through it", "[model][cards][ticeul1]")
+TEST_CASE("an EulerInitialRegions names the group of InitialConditionRegion cards that an EulerRegionProp reaches "
+          "through it", "[model][cards][ticeul1]")
 {
     Model model = readBulk(REGIONS_TEXT + SURFACE_ELEMENT);
     const EulerInitialRegionsCard regions = cardAt<EulerInitialRegionsTable>(model);
@@ -445,7 +448,8 @@ TEST_CASE("a TICEUL1 names the group of TICREG cards that a PEULER1 reaches thro
     expectInvalid("EulerInitialRegions;-300;200", "id");
 }
 
-TEST_CASE("a TICREG is filed under its first TSID and names a shape by its type, a material and a TICVAL",
+TEST_CASE("an InitialConditionRegion is filed under its first TSID and names a shape by its type, a material and an "
+          "InitialConditionValues",
           "[model][cards][ticreg]")
 {
     Model model = readBulk(REGIONS_TEXT + SURFACE_ELEMENT);
@@ -529,7 +533,8 @@ TEST_CASE("a TICREG is filed under its first TSID and names a shape by its type,
     expectInvalid("InitialConditionRegion;1;200;Sphere;400;;;abc", "level");
 }
 
-TEST_CASE("a TICVAL gives numbers, or the TABLED1 of the radial profiles, and the method decides which",
+TEST_CASE("an InitialConditionValues gives numbers, or the TableDynamic1 of the radial profiles, and the method "
+          "decides which",
           "[model][cards][ticval]")
 {
     Model model = readBulk(
@@ -619,7 +624,8 @@ TEST_CASE("a TICVAL gives numbers, or the TABLED1 of the radial profiles, and th
 // GasBagSwitch
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a GBAGCOU switches a COUPLE to a GBAG after a time, with a percentage", "[model][cards][gbagcou]")
+TEST_CASE("a GasBagSwitch switches an EulerLagrangeCoupling to a GasBag after a time, with a percentage",
+          "[model][cards][gbagcou]")
 {
     Model model = readBulk(
         "GasBagSwitch;1;100;101;0.;8\nGasBagSwitch;2;100\nGasBagSwitch;3;100;101;0.02;12.5\n"
@@ -688,7 +694,8 @@ const std::string HEAT_TEXT =
 
 } // namespace
 
-TEST_CASE("a HEATLOS is filed under its HTRID and names a surface, an HTRCONV or an HTRRAD and an area coefficient",
+TEST_CASE("a GasBagHeatTransfer is filed under its HTRID and names a surface, a GasBagConvection or a GasBagRadiation "
+          "and an area coefficient",
           "[model][cards][heatlos]")
 {
     Model model = readBulk(HEAT_TEXT + SURFACE_ELEMENT);
@@ -775,7 +782,7 @@ TEST_CASE("a HEATLOS is filed under its HTRID and names a surface, an HTRCONV or
     REQUIRE(unresolvedIn(model) == 2);
 }
 
-TEST_CASE("a HEATLOS refuses a value that is not in its layout", "[model][cards][heatlos]")
+TEST_CASE("a GasBagHeatTransfer refuses a value that is not in its layout", "[model][cards][heatlos]")
 {
     expectInvalid("GasBagHeatTransfer;0;76;;GasBagConvection;2", "id");
     expectInvalid("GasBagHeatTransfer;1;0;;GasBagConvection;2", "setId");
@@ -806,7 +813,8 @@ TEST_CASE("a HEATLOS refuses a value that is not in its layout", "[model][cards]
             "coefficientSource"); // ELEMENT is not one of the two sources
 }
 
-TEST_CASE("an HTRCONV gives a constant coefficient or the TABLED1 of one, and the environmental temperature",
+TEST_CASE("a GasBagConvection gives a constant coefficient or the TableDynamic1 of one, and the environmental "
+          "temperature",
           "[model][cards][htrconv]")
 {
     Model model = readBulk(
@@ -861,7 +869,8 @@ TEST_CASE("an HTRCONV gives a constant coefficient or the TABLED1 of one, and th
     expectInvalid("GasBagConvection;8;5.;;-3.", "environmentTemperature");
 }
 
-TEST_CASE("an HTRRAD gives a constant emissivity or the TABLED1 of one, the temperature and the Boltzmann constant",
+TEST_CASE("a GasBagRadiation gives a constant emissivity or the TableDynamic1 of one, the temperature and the "
+          "Boltzmann constant",
           "[model][cards][htrrad]")
 {
     Model model = readBulk(
@@ -909,7 +918,8 @@ TEST_CASE("an HTRRAD gives a constant emissivity or the TABLED1 of one, the temp
     expectInvalid("GasBagRadiation;2;0.1;;300.;0.", "stefanBoltzmann");
 }
 
-TEST_CASE("a COUPLE and a GBAG name their HEATLOS set, and a PEULER1 its TICEUL1, with no ID left plain",
+TEST_CASE("an EulerLagrangeCoupling and a GasBag name their GasBagHeatTransfer set, and an EulerRegionProp its "
+          "EulerInitialRegions, with no ID left plain",
           "[model][cards][heatlos][ticeul1]")
 {
     // The three existing cards whose plain IDs are references: the fields keep their positions, the check of the

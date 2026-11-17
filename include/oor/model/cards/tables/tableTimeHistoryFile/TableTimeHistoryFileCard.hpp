@@ -56,7 +56,7 @@ struct TableTimeHistoryFileWindow
 //           xi1  xj1  xi2  xj2  xi3  xj3  -etc.-  ENDT                               the next lines: four pairs on each
 // The XAXIS and YAXIS are LINEAR or LOG (LINEAR by default), the TYPE the word of a load-history file (the default) or
 // of a data acquisition file, PUNCH YES or NO (NO); these static defaults are stored resolved and the writer leaves
-// them blank. UID is the number of an UserFileName and is not zero: a negative UID makes the pairs the parts of the
+// them blank. UID is the number of a UserFileName and is not zero: a negative UID makes the pairs the parts of the
 // file to leave out instead of the parts to read (the sign stays on the card and the reference is to its absolute
 // value). CHAN is the channel of a load-history file and is left blank for a data acquisition file; its default, 1,
 // depends on the type, so a blank stays blank on the card (a card of a data acquisition file must leave it blank, so a
@@ -76,7 +76,7 @@ struct TableTimeHistoryFileCard
     base::EntityId id = 0;
     TableTimeHistoryFileAxis xAxisKind = TableTimeHistoryFileAxis::Linear;
     TableTimeHistoryFileAxis yAxisKind = TableTimeHistoryFileAxis::Linear;
-    base::EntityId externalFileId = 0; // an UserFileName; negative: the pairs are the parts to leave out
+    base::EntityId externalFileId = 0; // a UserFileName; negative: the pairs are the parts to leave out
     TableTimeHistoryFileFileType fileType = TableTimeHistoryFileFileType::LoadHistoryFile;
     base::EntityId channel = 0; // the channel of a load-history file, 0 when blank
     std::optional<double> totalTime;

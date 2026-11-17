@@ -61,7 +61,7 @@ struct RecordingVisitor final : ReferenceVisitor
 
 } // namespace
 
-TEST_CASE("MOMENT and GRAV read their fields and default the system to the basic one", "[model][cards]")
+TEST_CASE("PointMomentLoad and GravityLoad read their fields and default the system to the basic one", "[model][cards]")
 {
     const Model model =
         readBulk("PointMomentLoad;2;5;;3.7;0.;1.;0.\nGravityLoad;3;;32.17;0.;0.;-1.\nGravityLoad;4;7;9.81;1.;0.;0.;-1");
@@ -81,7 +81,8 @@ TEST_CASE("MOMENT and GRAV read their fields and default the system to the basic
     REQUIRE_THROWS_AS(readBulk("GravityLoad;1;;9.81"), base::DeckError); // a zero vector
 }
 
-TEST_CASE("PLOAD4 resolves P2 to P4 to P1 for a surface load and keeps the blanks of a line load", "[model][cards]")
+TEST_CASE("FacePressureLoad resolves P2 to P4 to P1 for a surface load and keeps the blanks of a line load",
+          "[model][cards]")
 {
     const Model model =
         readBulk("FacePressureLoad;1;10;5.\nFacePressureLoad;2;10;5.;;3.\nFacePressureLoad;3;10;5.;;3.;;;;;;;;Line");
@@ -98,7 +99,7 @@ TEST_CASE("PLOAD4 resolves P2 to P4 to P1 for a surface load and keeps the blank
     oor::testing::requireModelFileRoundTrip(model);
 }
 
-TEST_CASE("PLOAD4 reads the solid face, the THRU form and the direction", "[model][cards]")
+TEST_CASE("FacePressureLoad reads the solid face, the THRU form and the direction", "[model][cards]")
 {
     const Model model = readBulk(
         "FacePressureLoad;1;2215;12.;9.;6.;;37;8;2;0.;1.;0.\n"
@@ -119,7 +120,7 @@ TEST_CASE("PLOAD4 reads the solid face, the THRU form and the direction", "[mode
     REQUIRE(cardAt<FacePressureLoadTable>(model, 2).kind == PressureKind::Surface);
 }
 
-TEST_CASE("PLOAD4 lists the elements, the grid points and the system as references", "[model][cards]")
+TEST_CASE("FacePressureLoad lists the elements, the grid points and the system as references", "[model][cards]")
 {
     Model model = readBulk("FacePressureLoad;1;2215;12.;;;;37;8;2\nFacePressureLoad;2;2215;12.;;;;Through;2242");
     RecordingVisitor solid;
@@ -144,7 +145,8 @@ TEST_CASE("LOAD reads its scale factors and load sets over continuation lines", 
     REQUIRE_THROWS_AS(readBulk("LoadCombination;1;1.;1."), base::DeckError);   // a scale factor without a load set
 }
 
-TEST_CASE("the load sets of a LOAD and the constraint sets of an SPCADD are resolved by category", "[model][cards]")
+TEST_CASE("the load sets of a LOAD and the constraint sets of a SinglePointConstrUnion are resolved by category",
+          "[model][cards]")
 {
     // Every reference resolves: load sets 10 and 11 (a LoadCombination may use another LoadCombination), constraint
     // sets 5, 6 and 8.
@@ -195,7 +197,7 @@ TEST_CASE("a removed card no longer makes its set exist", "[model][cards]")
     REQUIRE(unresolvedIn(model) == 1); // the LOAD now has no set 10; GRID 1 is no longer referenced
 }
 
-TEST_CASE("LOAD and SPCADD list their sets as references", "[model][cards]")
+TEST_CASE("LoadCombination and SinglePointConstrUnion list their sets as references", "[model][cards]")
 {
     Model model = readBulk("LoadCombination;20;1.;1.;10;2.;11\nSinglePointConstrUnion;30;5;6");
     RecordingVisitor load;
@@ -240,7 +242,7 @@ TEST_CASE("SPC has one or two groups and the second one needs its grid point", "
     REQUIRE_THROWS_AS(readBulk("SinglePointConstr;1;1;1;;;6"), base::DeckError);
 }
 
-TEST_CASE("SPCADD keeps its sets in the order they are written", "[model][cards]")
+TEST_CASE("SinglePointConstrUnion keeps its sets in the order they are written", "[model][cards]")
 {
     const Model model = readBulk("SinglePointConstrUnion;101;4;6;2;11;;;;9;5");
     REQUIRE(cardAt<SinglePointConstrUnionTable>(model).sets == std::vector<base::EntityId>{4, 6, 2, 11, 9, 5});
@@ -261,7 +263,7 @@ TEST_CASE("MPC puts two terms on each line, from the second field", "[model][car
     REQUIRE(visitor.fields.size() == 5);
 }
 
-TEST_CASE("RBE2 reads ALPHA and TREF after the last grid point", "[model][cards]")
+TEST_CASE("RigidBodyStar reads ALPHA and TREF after the last grid point", "[model][cards]")
 {
     const Model model = readBulk(
         "RigidBodyStar;1;5;321;10;11\nRigidBodyStar;2;5;123;10;6.5E-6\nRigidBodyStar;3;5;123;10;11;6.5E-6;20."
@@ -300,7 +302,7 @@ TEST_CASE("a rigid element shares the element ID space and lists its grid points
     REQUIRE(unresolvedIn(model) == 8); // none of the 8 grid point references (5, 10, 11, 5, 1, 2, 4, 6) exists
 }
 
-TEST_CASE("RBE3 reads the weighted groups, the UM list and ALPHA as the format reference lays them out",
+TEST_CASE("RigidInterpolation reads the weighted groups, the UM list and ALPHA as the format reference lays them out",
           "[model][cards]")
 {
     const Model model = readBulk(
@@ -321,7 +323,7 @@ TEST_CASE("RBE3 reads the weighted groups, the UM list and ALPHA as the format r
     REQUIRE(card.referenceTemperature == 0.0);
 }
 
-TEST_CASE("RBE3 writes UM and ALPHA at the start of a line and reads its own text back", "[model][cards]")
+TEST_CASE("RigidInterpolation writes UM and ALPHA at the start of a line and reads its own text back", "[model][cards]")
 {
     const Model model = readBulk(
         "RigidInterpolation;14;200;1234;4;1.;123;3;1;3;5;3.8;1;3;2;4;6;6.1;2;3;7;8;9;4.4;1;2;15;16;DependentDofs;3;200;"
@@ -338,7 +340,8 @@ TEST_CASE("RBE3 writes UM and ALPHA at the start of a line and reads its own tex
     REQUIRE(copy.referenceTemperature == original.referenceTemperature);
 }
 
-TEST_CASE("RBE3 reads its key words and ThermalExpansion cannot come before DependentDofs", "[model][cards]")
+TEST_CASE("RigidInterpolation reads its key words and ThermalExpansion cannot come before DependentDofs",
+          "[model][cards]")
 {
     const Model model =
         readBulk("RigidInterpolation;1;5;123;1;1.;123;2;1;2;DependentDofs;1;3;1;ThermalExpansion;1.E-5");

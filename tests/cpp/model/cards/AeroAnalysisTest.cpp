@@ -98,7 +98,8 @@ TEST_CASE("an AERO has its fields in the places of the format reference and a de
     requireModelFileRoundTrip(plain);
 }
 
-TEST_CASE("an AEROS has its fields in the places of the format reference and a deck has one", "[model][cards][aero]")
+TEST_CASE("an AeroStaticParams has its fields in the places of the format reference and a deck has one",
+          "[model][cards][aero]")
 {
     Model model = readBulk(std::string("AeroStaticParams;12;24;8.;60.;480.;1\n") + COORDINATE_SYSTEMS);
     const AeroStaticParamsCard card = cardAt<AeroStaticParamsTable>(model);
@@ -143,7 +144,7 @@ TEST_CASE("an AEROS has its fields in the places of the format reference and a d
     requireModelFileRoundTrip(plain);
 }
 
-TEST_CASE("a FLUTTER has an integer or a real in field 7 by its method and names three FLFACT cards",
+TEST_CASE("a FLUTTER has an integer or a real in field 7 by its method and names three AeroFlutterFactors cards",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -248,7 +249,7 @@ TEST_CASE("the Case Control FMETHOD selects a FLUTTER by its SID", "[model][card
     REQUIRE(unresolvedIn(dangling) == 1);
 }
 
-TEST_CASE("an FLFACT lists its factors or gives the THRU form, and keeps the form it was read in",
+TEST_CASE("an AeroFlutterFactors lists its factors or gives the THRU form, and keeps the form it was read in",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -299,7 +300,7 @@ TEST_CASE("an FLFACT lists its factors or gives the THRU form, and keeps the for
     expectInvalid("AeroFlutterFactors;5;0.3;Through;0.1;5;0.2;9", ""); // the THRU form has six fields
 }
 
-TEST_CASE("an MKAERO1 has its Mach numbers in the first line and its frequencies on the continuation line",
+TEST_CASE("an AeroMachFreqTable1 has its Mach numbers in the first line and its frequencies on the continuation line",
           "[model][cards][aero]")
 {
     Model model = readBulk(
@@ -334,7 +335,7 @@ TEST_CASE("an MKAERO1 has its Mach numbers in the first line and its frequencies
     expectInvalid("AeroMachFreqTable1;0.1;;;;;;;;0.3;;0.6", "reducedFreqs");
 }
 
-TEST_CASE("an MKAERO2 has its pairs of a Mach number and a frequency in one line", "[model][cards][aero]")
+TEST_CASE("an AeroMachFreqPairs2 has its pairs of a Mach number and a frequency in one line", "[model][cards][aero]")
 {
     Model model = readBulk(
         "AeroMachFreqPairs2;0.2;0.4;0.2;0.8;0.6;0.4;0.6;1.5\nAeroMachFreqPairs2;0.5;0.02\nAeroMachFreqPairs2;0.5;0.02;;"
@@ -361,7 +362,7 @@ TEST_CASE("an MKAERO2 has its pairs of a Mach number and a frequency in one line
     expectInvalid("AeroMachFreqPairs2;0.5;0.", "reducedFreq");
 }
 
-TEST_CASE("a GUST has its fields in the places of the format reference and is selected by the Case Control GUST",
+TEST_CASE("an AeroGust has its fields in the places of the format reference and is selected by the Case Control GUST",
           "[model][cards][aero]")
 {
     Model model = readModelText(
@@ -405,7 +406,8 @@ TEST_CASE("a GUST has its fields in the places of the format reference and is se
     requireModelFileRoundTrip(plain);
 }
 
-TEST_CASE("a DIVERG lists its distinct Mach numbers and is selected by the Case Control DIVERG", "[model][cards][aero]")
+TEST_CASE("an AeroDivergence lists its distinct Mach numbers and is selected by the Case Control DIVERG",
+          "[model][cards][aero]")
 {
     Model model = readModelText(
         "[case]\n"
@@ -448,7 +450,8 @@ TEST_CASE("a DIVERG lists its distinct Mach numbers and is selected by the Case 
     expectInvalid("AeroDivergence;5;1;0.5;x", "machNumber");
 }
 
-TEST_CASE("a CLOAD combines the load vectors of a superelement and is filed with the loads", "[model][cards][aero]")
+TEST_CASE("a SuperelementLoadCombination combines the load vectors of a superelement and is filed with the loads",
+          "[model][cards][aero]")
 {
     Model model = readBulk(
         "SuperelementLoadCombination;35;1.;15.;10;-1.;103;0.33;605;-48.;48\n"
@@ -500,7 +503,7 @@ TEST_CASE("a CLOAD combines the load vectors of a superelement and is filed with
     expectInvalid("SuperelementLoadCombination;25;1.;1.;5;2.", "loadIds"); // S2 with no IDV2
 }
 
-TEST_CASE("the Case Control CLOAD selects a CLOAD by its CID", "[model][cards][aero]")
+TEST_CASE("the Case Control CLOAD selects a SuperelementLoadCombination by its CID", "[model][cards][aero]")
 {
     Model model = readModelText(
         "[case]\nSuperelementLoadCombinationSelection;35\n[model]\nSuperelementLoadCombination;35;1.;1.;10\n", true);

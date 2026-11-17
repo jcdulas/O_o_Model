@@ -1072,7 +1072,7 @@ std::optional<CardLocation> resolveReference(const Model& model, ReferenceTarget
     // HeatAnisoMat for a heat transfer analysis (the same SolidProp serves both).
     if (!found && target == ReferenceTarget::Material)
         return model.locate(base::IdSpace::ThermalMaterial, id);
-    // A table of a material law (the T(RHO) of an UserMatTable) is a TABLEMi, or a TABL3Di of the SOL 400 materials;
+    // A table of a material law (the T(RHO) of a UserMatTable) is a TABLEMi, or a TABL3Di of the SOL 400 materials;
     // the FID of an ElastoPlasticMat a TableStress1 or TableStressTemperature, or a TABL3Di.
     if (!found &&
         (target == ReferenceTarget::MaterialTable || target == ReferenceTarget::StressOrMultiDimensionalTable))

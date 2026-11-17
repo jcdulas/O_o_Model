@@ -139,7 +139,8 @@ private:
             "elements, their total area, volume and mass, and the property IDs. `detail=\"elements\"`: one row for "
             "each "
             "element of each relation of the variable. A DVPREL drives the elements of its property, a DVMREL the "
-            "elements of the properties that use its material, a DVCREL its element; the variables a DLINK makes "
+            "elements of the properties that use its material, a DVCREL its element; the variables a DesignVarLink "
+            "makes "
             "dependent on a variable are driven by it too. The totals count each element once and leave out an element "
             "whose area, volume or mass cannot be computed.";
         info.parameters = {parameter("ids", ParameterKind::IdList, "None", "keep these design variables"),

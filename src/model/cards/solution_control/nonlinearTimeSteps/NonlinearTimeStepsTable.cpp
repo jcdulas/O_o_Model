@@ -69,7 +69,8 @@ std::optional<NonlinearTimeStepsCard> NonlinearTimeStepsFormat::read(FieldReader
         card.method = *method;
     else
         reader.error("card.bad-value",
-                     std::string("method") + " must be AUTO, ITER, ADAPT, SEMI, FNT or PFNT, found \"" +
+                     std::string("method") +
+                         " must be AUTO, IterativeSolverOptions, ADAPT, SEMI, FNT or PFNT, found \"" +
                          std::string(methodText) + "\"",
                      "method");
     card.stiffnessUpdateStep = reader.optionalInteger(6, "stiffnessUpdateStep");

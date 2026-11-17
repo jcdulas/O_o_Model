@@ -493,7 +493,7 @@ TEST_CASE("mid-side nodes at the middle of their edges change nothing, others mo
     REQUIRE((failed & bit(QualityCheck::EdgePointAngle)) != 0);
 }
 
-TEST_CASE("blank mid-side nodes are the straight element, and a CTRIAX6 alternates corners and mid-side nodes",
+TEST_CASE("blank mid-side nodes are the straight element, and an AxisymTria6 alternates corners and mid-side nodes",
           "[analysis][quality]")
 {
     // A ShellQuad8 with blank mid-side nodes is the quadrilateral on its corners.

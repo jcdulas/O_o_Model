@@ -59,7 +59,8 @@ ElementValues plotGeometry(const Model& model, base::EntityId eid)
 
 } // namespace
 
-TEST_CASE("an RBAX3D has the middle of its two points as centre and their distance as length", "[analysis][geometry]")
+TEST_CASE("a RigidAxisymConnection has the middle of its two points as centre and their distance as length",
+          "[analysis][geometry]")
 {
     REQUIRE(ElementGeometry::supports(typeIndexOf<RigidAxisymConnectionTable>()));
     // The point on the axis of the second element has an ID above 100,000,000, as the format's describer asks.
@@ -83,7 +84,7 @@ TEST_CASE("an RBAX3D has the middle of its two points as centre and their distan
     }
 }
 
-TEST_CASE("an RBAX3D is attached to its two points and is a rigid element", "[analysis][geometry]")
+TEST_CASE("a RigidAxisymConnection is attached to its two points and is a rigid element", "[analysis][geometry]")
 {
     const Model model =
         readModelText(grid(10, 0, 0, 1) + grid(20, 2, 0, 1) + grid(30, 5, 0, 1) + "RigidAxisymConnection;100;10;20\n");
@@ -94,7 +95,7 @@ TEST_CASE("an RBAX3D is attached to its two points and is a rigid element", "[an
     REQUIRE(roleOfType(typeIndexOf<RigidAxisymConnectionTable>()) == ElementRole::Rigid);
 }
 
-TEST_CASE("an RBAX3D whose point does not exist is reported with the element", "[analysis][geometry]")
+TEST_CASE("a RigidAxisymConnection whose point does not exist is reported with the element", "[analysis][geometry]")
 {
     const Model model = readModelText(grid(10, 0, 0, 1) + "RigidAxisymConnection;100;10;77\n");
     const auto location = model.locate(base::IdSpace::Element, 100);
@@ -102,7 +103,7 @@ TEST_CASE("an RBAX3D whose point does not exist is reported with the element", "
     REQUIRE_THROWS_AS(ElementGeometry::of(model, *location), GeometryError);
 }
 
-TEST_CASE("a PLTSURF is a surface whatever its number of points: area, normal by the right-hand rule and centre",
+TEST_CASE("a PlotSurface is a surface whatever its number of points: area, normal by the right-hand rule and centre",
           "[analysis][geometry]")
 {
     REQUIRE(ElementGeometry::supports(typeIndexOf<PlotSurfaceTable>()));
@@ -144,7 +145,7 @@ TEST_CASE("a PLTSURF is a surface whatever its number of points: area, normal by
     }
 }
 
-TEST_CASE("a PLTSURF is not an element of the connectivity and does not take the ID of a structural element",
+TEST_CASE("a PlotSurface is not an element of the connectivity and does not take the ID of a structural element",
           "[analysis][geometry]")
 {
     const Model model =
@@ -157,7 +158,7 @@ TEST_CASE("a PLTSURF is not an element of the connectivity and does not take the
     REQUIRE(plotGeometry(model, 10).area == Approx(1.0));      // and the PlotSurface 10 of its own
 }
 
-TEST_CASE("a PLTSURF with a point that no card defines is an error, as for every element", "[analysis][geometry]")
+TEST_CASE("a PlotSurface with a point that no card defines is an error, as for every element", "[analysis][geometry]")
 {
     const Model model =
         readModelText(grid(1, 0, 0, 0) + grid(2, 1, 0, 0) + grid(3, 0, 1, 0) + "PlotSurface;30;1;2;99\n");

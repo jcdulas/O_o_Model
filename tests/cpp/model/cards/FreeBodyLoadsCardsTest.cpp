@@ -87,7 +87,7 @@ const std::string POINTS_TEXT = "Node;1;;0.;0.;0.\nNode;2;;1.;0.;0.\nNode;10;;2.
 // FreeBodyLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an FBODYLD is named and not numbered, keeps its names as written and has its label on a second line",
+TEST_CASE("a FreeBodyLoad is named and not numbered, keeps its names as written and has its label on a second line",
           "[model][cards][fbodyld]")
 {
     Model model = readBulk(
@@ -145,7 +145,7 @@ TEST_CASE("free body loads preserve long labels, names and quoted text", "[model
     oor::testing::requireModelFileRoundTrip(readModelText("FreeBodyLoad;A;B;" + longest + "Y", true));
 }
 
-TEST_CASE("an FBODYLD is edited in place, deleted, and a repeated name is reported", "[model][cards][fbodyld]")
+TEST_CASE("a FreeBodyLoad is edited in place, deleted, and a repeated name is reported", "[model][cards][fbodyld]")
 {
     Model model = readBulk("FreeBodyLoad;FLAPLD;FLAPSB\nFreeBodyLoad;TAILLD;TAILSB");
     FreeBodyLoadCard edited = cardAt<FreeBodyLoadTable>(model, 1);
@@ -173,7 +173,7 @@ TEST_CASE("an FBODYLD is edited in place, deleted, and a repeated name is report
 // FreeBodyLoadSubcase
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an FBODYSB names a set of grid points and a set of elements and leaves out types of force",
+TEST_CASE("a FreeBodyLoadSubcase names a set of grid points and a set of elements and leaves out types of force",
           "[model][cards][fbodysb]")
 {
     Model model = readBulk(POINTS_TEXT +
@@ -219,7 +219,8 @@ TEST_CASE("an FBODYSB names a set of grid points and a set of elements and leave
     REQUIRE(unresolvedIn(readBulk("FreeBodyLoadSubcase;A;7")) == 1);
 }
 
-TEST_CASE("an FBODYSB writes its layout and refuses what the format does not allow", "[model][cards][fbodysb]")
+TEST_CASE("a FreeBodyLoadSubcase writes its layout and refuses what the format does not allow",
+          "[model][cards][fbodysb]")
 {
     Model model = readBulk("FreeBodyLoadSubcase;FLAP;2;1;SLP;INNER FLAP\nFreeBodyLoadSubcase;Tail;2");
 
@@ -281,7 +282,7 @@ TEST_CASE("an FBODYSB writes its layout and refuses what the format does not all
 // HydrostaticCavityLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a HYDROC has the layout of the format, resolves its defaults and is a load of its set",
+TEST_CASE("a HydrostaticCavityLoad has the layout of the format, resolves its defaults and is a load of its set",
           "[model][cards][hydroc]")
 {
     Model model = readBulk(
@@ -322,7 +323,7 @@ TEST_CASE("a HYDROC has the layout of the format, resolves its defaults and is a
     requireRoundTrip(zero);
 }
 
-TEST_CASE("a HYDROC names a property and a coordinate system, or a grid point when CID/GRD is negative",
+TEST_CASE("a HydrostaticCavityLoad names a property and a coordinate system, or a grid point when CID/GRD is negative",
           "[model][cards][hydroc]")
 {
     Model model = readBulk(
@@ -367,7 +368,8 @@ TEST_CASE("a HYDROC names a property and a coordinate system, or a grid point wh
                 readBulk("IsoMat;1;2.1E+11;;0.3\nSolidProp;2201;1\nHydrostaticCavityLoad;2101;2201;;;;;;2301")) == 1);
 }
 
-TEST_CASE("a HYDROC is edited in place and refuses what the format does not allow", "[model][cards][hydroc]")
+TEST_CASE("a HydrostaticCavityLoad is edited in place and refuses what the format does not allow",
+          "[model][cards][hydroc]")
 {
     Model model = readBulk("HydrostaticCavityLoad;1;2\nHydrostaticCavityLoad;3;4");
     HydrostaticCavityLoadCard edited = cardAt<HydrostaticCavityLoadTable>(model, 1);
@@ -410,7 +412,7 @@ TEST_CASE("a HYDROC is edited in place and refuses what the format does not allo
 // HydrostaticLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a HYDROS has the layout of the format, requires its density and resolves its defaults",
+TEST_CASE("a HydrostaticLoad has the layout of the format, requires its density and resolves its defaults",
           "[model][cards][hydros]")
 {
     Model model = readBulk(
@@ -454,7 +456,8 @@ TEST_CASE("a HYDROS has the layout of the format, requires its density and resol
     expectInvalid("HydrostaticLoad;3101;;abc", "density");
 }
 
-TEST_CASE("a HYDROS names the sets of its elements, grid points and control grids, and a system or a grid point",
+TEST_CASE("a HydrostaticLoad names the sets of its elements, grid points and control grids, and a system or a grid "
+          "point",
           "[model][cards][hydros]")
 {
     Model model =
@@ -493,7 +496,7 @@ TEST_CASE("a HYDROS names the sets of its elements, grid points and control grid
     REQUIRE(unresolvedIn(readBulk("HydrostaticLoad;3101;;0.375;;3201;3202")) == 2);
 }
 
-TEST_CASE("a HYDROS is edited in place and refuses what the format does not allow", "[model][cards][hydros]")
+TEST_CASE("a HydrostaticLoad is edited in place and refuses what the format does not allow", "[model][cards][hydros]")
 {
     Model model = readBulk("HydrostaticLoad;1;;0.375\nHydrostaticLoad;2;;0.5");
     HydrostaticLoadCard edited = cardAt<HydrostaticLoadTable>(model, 1);
@@ -541,7 +544,7 @@ TEST_CASE("a HYDROS is edited in place and refuses what the format does not allo
 // ImperfectionGeometry
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an IMPGEOM has a line for each group and resolves the defaults that a group leaves blank",
+TEST_CASE("an ImperfectionGeometry has a line for each group and resolves the defaults that a group leaves blank",
           "[model][cards][impgeom]")
 {
     Model model = readBulk(
@@ -580,7 +583,8 @@ TEST_CASE("an IMPGEOM has a line for each group and resolves the defaults that a
     // The fields that default to the card are resolved, so they are always written; the others are blank at 0.
 }
 
-TEST_CASE("an IMPGEOM keeps a group's explicit zero over the default of the card, and a blank line is a group",
+TEST_CASE("an ImperfectionGeometry keeps a group's explicit zero over the default of the card, and a blank line is a "
+          "group",
           "[model][cards][impgeom]")
 {
     const Model zero = readBulk("ImperfectionGeometry;1;;0.5;;;1;1;1;;0.;;;2;2;2");
@@ -604,7 +608,8 @@ TEST_CASE("an IMPGEOM keeps a group's explicit zero over the default of the card
     requireRoundTrip(three);
 }
 
-TEST_CASE("an IMPGEOM names the sets of its groups, is named by an IMPCASE and renumbers", "[model][cards][impgeom]")
+TEST_CASE("an ImperfectionGeometry names the sets of its groups, is named by an ImperfectionCase and renumbers",
+          "[model][cards][impgeom]")
 {
     Model model = readBulk(POINTS_TEXT +
                            "IdListSet1;100051;1;2\n"
@@ -648,7 +653,8 @@ TEST_CASE("an IMPGEOM names the sets of its groups, is named by an IMPCASE and r
     REQUIRE_THROWS_AS(readBulk("ImperfectionGeometry;1;;;;;1\nImperfectionGeometry;1;;;;;2"), base::DeckError);
 }
 
-TEST_CASE("an IMPGEOM is edited in place and refuses what the format does not allow", "[model][cards][impgeom]")
+TEST_CASE("an ImperfectionGeometry is edited in place and refuses what the format does not allow",
+          "[model][cards][impgeom]")
 {
     Model model = readBulk("ImperfectionGeometry;1;;;;;1;1;1\nImperfectionGeometry;2;;;;;1;1;1");
     ImperfectionGeometryCard edited = cardAt<ImperfectionGeometryTable>(model, 1);
@@ -703,7 +709,8 @@ TEST_CASE("an IMPGEOM is edited in place and refuses what the format does not al
 // TemperatureTimeGroup
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TMPSET lists grid points with THRU and BY over any number of lines and keeps the runs as written",
+TEST_CASE("a TemperatureTimeGroup lists grid points with THRU and BY over any number of lines and keeps the runs as "
+          "written",
           "[model][cards][tmpset]")
 {
     Model model = readBulk(
@@ -742,7 +749,8 @@ TEST_CASE("a TMPSET lists grid points with THRU and BY over any number of lines 
     // The runs are written as they were given: a range stays on one line and its increment stays.
 }
 
-TEST_CASE("a TMPSET names its grid points, and its ID is the group that a TTEMP names", "[model][cards][tmpset]")
+TEST_CASE("a TemperatureTimeGroup names its grid points, and its ID is the group that a TimeTemperatureLoad names",
+          "[model][cards][tmpset]")
 {
     Model model = readBulk(POINTS_TEXT + "TemperatureTimeGroup;5001;1;Through;5;10\nTemperatureTimeGroup;5002;11");
     // A single grid point is a Node, the two ends of a range are NodeInRange (the points between them need not exist).
@@ -766,7 +774,8 @@ TEST_CASE("a TMPSET names its grid points, and its ID is the group that a TTEMP 
     REQUIRE_THROWS_AS(readBulk("TemperatureTimeGroup;5001;1\nTemperatureTimeGroup;5001;2"), base::DeckError);
 }
 
-TEST_CASE("a TMPSET is edited in place and refuses what the format does not allow", "[model][cards][tmpset]")
+TEST_CASE("a TemperatureTimeGroup is edited in place and refuses what the format does not allow",
+          "[model][cards][tmpset]")
 {
     Model model = readBulk("TemperatureTimeGroup;1;10\nTemperatureTimeGroup;2;20");
     TemperatureTimeGroupCard edited = cardAt<TemperatureTimeGroupTable>(model, 1);
@@ -811,7 +820,8 @@ TEST_CASE("a TMPSET is edited in place and refuses what the format does not allo
 // TimeTemperatureLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TTEMP is a temperature set that names a TMPSET and a TABLED, or every grid point with -1",
+TEST_CASE("a TimeTemperatureLoad is a temperature set that names a TemperatureTimeGroup and a TABLED, or every grid "
+          "point with -1",
           "[model][cards][ttemp]")
 {
     Model model = readBulk(POINTS_TEXT +
@@ -858,7 +868,8 @@ TEST_CASE("a TTEMP is a temperature set that names a TMPSET and a TABLED, or eve
     REQUIRE(unresolvedIn(readBulk("TimeTemperatureLoad;6001;-1;7001")) == 1);
 }
 
-TEST_CASE("a TTEMP is edited in place and refuses what the format does not allow", "[model][cards][ttemp]")
+TEST_CASE("a TimeTemperatureLoad is edited in place and refuses what the format does not allow",
+          "[model][cards][ttemp]")
 {
     Model model = readBulk("TimeTemperatureLoad;1;-1;5\nTimeTemperatureLoad;2;7;6");
     TimeTemperatureLoadCard edited = cardAt<TimeTemperatureLoadTable>(model, 1);
@@ -898,7 +909,7 @@ TEST_CASE("a TTEMP is edited in place and refuses what the format does not allow
 // TransferPathSetup
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TPADEFN has the pairs of a response type and a set of grid points over any number of lines",
+TEST_CASE("a TransferPathSetup has the pairs of a response type and a set of grid points over any number of lines",
           "[model][cards][tpadefn]")
 {
     Model model = readBulk(
@@ -926,7 +937,8 @@ TEST_CASE("a TPADEFN has the pairs of a response type and a set of grid points o
              std::vector<TransferPathSetupResponse>{{"DA", 10}, {"V", 11}}));
 }
 
-TEST_CASE("a TPADEFN names the SET3 of its interface grid points and of each response, and the Case Control names it",
+TEST_CASE("a TransferPathSetup names the TypedListSet3 of its interface grid points and of each response, and the Case "
+          "Control names it",
           "[model][cards][tpadefn]")
 {
     Model model = readBulk(
@@ -950,7 +962,8 @@ TEST_CASE("a TPADEFN names the SET3 of its interface grid points and of each res
     REQUIRE_THROWS_AS(readBulk("TransferPathSetup;8001;8101;;D;2\nTransferPathSetup;8001;8102;;D;3"), base::DeckError);
 }
 
-TEST_CASE("a TPADEFN is edited in place and refuses what the format does not allow", "[model][cards][tpadefn]")
+TEST_CASE("a TransferPathSetup is edited in place and refuses what the format does not allow",
+          "[model][cards][tpadefn]")
 {
     Model model = readBulk("TransferPathSetup;1;2;;;3\nTransferPathSetup;4;5;;;6");
     TransferPathSetupCard edited = cardAt<TransferPathSetupTable>(model, 1);

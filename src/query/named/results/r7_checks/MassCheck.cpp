@@ -48,7 +48,7 @@ protected:
             if (context.selection().onMissing == OnMissing::Raise)
                 throw QuantityUnavailableError(
                     "no way of obtaining the mass of the result file gave it: the result file has no grid "
-                    "point weight table (PARAM,GRDPNT was not requested)");
+                    "point weight table (PARAM,WeightReferenceNode was not requested)");
             return emptyTable(info().defaultColumns());
         }
         double size = 0.0;
@@ -150,7 +150,8 @@ private:
         info.description =
             "The mass and the centre of gravity of the model (the mass of the elements and the non-structural mass, in "
             "the units "
-            "of the deck: the table of the file is not multiplied by PARAM,WTMASS either) against those of the grid "
+            "of the deck: the table of the file is not multiplied by PARAM,WeightToMass either) against those of the "
+            "grid "
             "point weight table of the result file (the mean of the three translational "
             "masses of the rigid body mass matrix, and the centre of gravity from the table, measured from its "
             "reference point), "

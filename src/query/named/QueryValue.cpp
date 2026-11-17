@@ -189,7 +189,7 @@ std::vector<NamedIdSet> QueryArguments::idSets(std::string_view name) const
         return {};
     if (const auto* sets = std::get_if<std::vector<NamedIdSet>>(value))
         return *sets;
-    wrongKind(name, "a dict {name: IDs} or a list of SET1 IDs");
+    wrongKind(name, "a dict {name: IDs} or a list of IdListSet1 IDs");
 }
 
 std::vector<NamedIdSet> QueryArguments::groups(std::string_view name) const

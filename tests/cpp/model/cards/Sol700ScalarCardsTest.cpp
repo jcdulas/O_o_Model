@@ -66,7 +66,8 @@ const std::string SUPPORT =
 
 } // namespace
 
-TEST_CASE("a CELAS1D has the fields of a CELAS1 and a continuation line with a coordinate system and FOLLOW",
+TEST_CASE("a SpringDofPropertyExplicit has the fields of a SpringDofProperty and a continuation line with a coordinate "
+          "system and FOLLOW",
           "[model][cards][sol700-scalar]")
 {
     Model model = readBulk(SUPPORT +
@@ -121,7 +122,8 @@ TEST_CASE("a CELAS1D has the fields of a CELAS1 and a continuation line with a c
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CELAS2D has its stiffness and no S or GE, and the same continuation line", "[model][cards][sol700-scalar]")
+TEST_CASE("a SpringDofInlineExplicit has its stiffness and no S or GE, and the same continuation line",
+          "[model][cards][sol700-scalar]")
 {
     Model model =
         readBulk(SUPPORT +
@@ -150,7 +152,8 @@ TEST_CASE("a CELAS2D has its stiffness and no S or GE, and the same continuation
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CDAMP1D and a CDAMP2D are the CDAMP1 and CDAMP2 with the continuation line",
+TEST_CASE("a DamperDofPropertyExplicit and a DamperDofInlineExplicit are the DamperDofProperty and DamperDofInline "
+          "with the continuation line",
           "[model][cards][sol700-scalar]")
 {
     Model model = readBulk(SUPPORT +
@@ -208,7 +211,8 @@ TEST_CASE("the values the four SOL 700 scalar elements refuse are reported by fi
     expectInvalid("DamperDofInlineExplicit;0;1.;1;1;2;1", "id");
 }
 
-TEST_CASE("a CELAS1D with no coordinate system is written as one line and FOLLOW makes the continuation line",
+TEST_CASE("a SpringDofPropertyExplicit with no coordinate system is written as one line and FOLLOW makes the "
+          "continuation line",
           "[model][cards][sol700-scalar]")
 {
     const Model plain = readBulk("SpringDofPropertyExplicit;1;1;1;1;2;1");
@@ -219,7 +223,7 @@ TEST_CASE("a CELAS1D with no coordinate system is written as one line and FOLLOW
     requireRoundTrip(following);
 }
 
-TEST_CASE("a PELAS1 is a spring property of the one property space and names the TABLED1 of its curve",
+TEST_CASE("a SpringPropTable is a spring property of the one property space and names the TableDynamic1 of its curve",
           "[model][cards][sol700-scalar]")
 {
     Model model = readBulk(
@@ -252,7 +256,8 @@ TEST_CASE("a PELAS1 is a spring property of the one property space and names the
     expectInvalid("SpringPropTable;1;-2", "tableId");
 }
 
-TEST_CASE("a PVISC1 is one nonlinear damper with the TABLED1 of its force against the velocity",
+TEST_CASE("a ViscousDamperPropNonlinear is one nonlinear damper with the TableDynamic1 of its force against the "
+          "velocity",
           "[model][cards][sol700-scalar]")
 {
     Model model = readBulk(
@@ -282,7 +287,7 @@ TEST_CASE("a PVISC1 is one nonlinear damper with the TABLED1 of its force agains
     expectInvalid("ViscousDamperPropNonlinear;8;0", "tableId");
 }
 
-TEST_CASE("a PSHELL1 reads its words, keeps a blank FORM blank and resolves the NUMB of the formulation",
+TEST_CASE("a ShellPropNodal reads its words, keeps a blank FORM blank and resolves the NUMB of the formulation",
           "[model][cards][sol700-scalar]")
 {
     Model model = readBulk(
@@ -347,7 +352,7 @@ TEST_CASE("a PSHELL1 reads its words, keeps a blank FORM blank and resolves the 
     requireRoundTrip(model);
 }
 
-TEST_CASE("the values a PSHELL1 refuses are reported by field", "[model][cards][sol700-scalar]")
+TEST_CASE("the values a ShellPropNodal refuses are reported by field", "[model][cards][sol700-scalar]")
 {
     const std::vector<std::pair<int, std::string>> valid = {{1, "1"}, {2, "2"}, {3, "BelytschkoLinTsay"}};
     expectInvalid(cardOf("ShellPropNodal", valid, {{1, "0"}}), "id");
@@ -364,7 +369,7 @@ TEST_CASE("the values a PSHELL1 refuses are reported by field", "[model][cards][
     expectInvalid(cardOf("ShellPropNodal", valid, {{9, "ABC"}}), "thickness1");
 }
 
-TEST_CASE("a PCOMPA extends the PCOMP of its number and keeps the defaults of its format",
+TEST_CASE("a CompPropExplicit extends the CompProp of its number and keeps the defaults of its format",
           "[model][cards][sol700-scalar]")
 {
     Model model = readBulk(
@@ -412,7 +417,7 @@ TEST_CASE("a PCOMPA extends the PCOMP of its number and keeps the defaults of it
     requireRoundTrip(model);
 }
 
-TEST_CASE("the values a PCOMPA refuses are reported by field", "[model][cards][sol700-scalar]")
+TEST_CASE("the values a CompPropExplicit refuses are reported by field", "[model][cards][sol700-scalar]")
 {
     const std::vector<std::pair<int, std::string>> valid = {{1, "1"}, {2, "BelytschkoLinTsay"}};
     expectInvalid(cardOf("CompPropExplicit", valid, {{1, "0"}}), "id");
@@ -431,14 +436,15 @@ TEST_CASE("the values a PCOMPA refuses are reported by field", "[model][cards][s
 namespace
 {
 
-// An UserCompositeFailureMat with the least it needs: the elastic constants, the density and the four failure stresses.
+// A UserCompositeFailureMat with the least it needs: the elastic constants, the density and the four failure stresses.
 const std::vector<std::pair<int, std::string>> USER_COMPOSITE_FAILURE_FIELDS = {
     {1, "1"},       {2, "LAYGRP1"}, {9, "18E6"}, {10, "1.2E6"}, {11, "0.31"}, {12, "0.7E6"},
     {15, "0.0582"}, {25, "215"},    {26, "165"}, {27, "55"},    {28, "120"}};
 
 } // namespace
 
-TEST_CASE("a COMPUDS reads the six lines of its format, resolves G1Z and G2Z and keeps the leading zeros",
+TEST_CASE("a UserCompositeFailureMat reads the six lines of its format, resolves G1Z and G2Z and keeps the leading "
+          "zeros",
           "[model][cards][sol700-scalar]")
 {
     Model model = readBulk(
@@ -506,7 +512,7 @@ TEST_CASE("a COMPUDS reads the six lines of its format, resolves G1Z and G2Z and
     requireRoundTrip(model);
 }
 
-TEST_CASE("the values a COMPUDS refuses are reported by field", "[model][cards][sol700-scalar]")
+TEST_CASE("the values a UserCompositeFailureMat refuses are reported by field", "[model][cards][sol700-scalar]")
 {
     expectInvalid(cardOf("UserCompositeFailureMat", USER_COMPOSITE_FAILURE_FIELDS, {{1, "0"}}), "id");
     expectInvalid(cardOf("UserCompositeFailureMat", USER_COMPOSITE_FAILURE_FIELDS, {{2, ""}}), "groupName");
@@ -550,7 +556,7 @@ TEST_CASE("the values a COMPUDS refuses are reported by field", "[model][cards][
                   "matrixShearDegradation");
 }
 
-TEST_CASE("a CORD3R defines one or two moving systems from three points and shares the coordinate system space",
+TEST_CASE("a RectFrame3 defines one or two moving systems from three points and shares the coordinate system space",
           "[model][cards][sol700-scalar]")
 {
     Model model = readBulk(

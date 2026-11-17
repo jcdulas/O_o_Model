@@ -117,7 +117,8 @@ std::string fullCrackClosureCrack()
 // HybridDampingRotorOptions, HybridDamping and RotorHybridDamping
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a DAMPING has the format reference defaults and the transient frequencies on its second line",
+TEST_CASE("a HybridDampingRotorOptions has the format reference defaults and the transient frequencies on its second "
+          "line",
           "[model][cards][damping]")
 {
     Model model = readBulk(
@@ -177,7 +178,8 @@ TEST_CASE("a DAMPING has the format reference defaults and the transient frequen
     expectInvalid("HybridDampingRotorOptions;1;;;;;;Yes;;;-1.", "hybridDampingFrequency");
 }
 
-TEST_CASE("a HYBDAMP names the method of its modes and the TABDMP1 of its damping", "[model][cards][damping]")
+TEST_CASE("a HybridDamping names the method of its modes and the TableModalDamping1 of its damping",
+          "[model][cards][damping]")
 {
     Model model = readBulk(
         "HybridDamping;2610;2640;2641;No;Yes\nHybridDamping;102;5;6\nHybridDamping;103;5;6;Yes;No\nHybridDamping;104;5;"
@@ -219,7 +221,8 @@ TEST_CASE("a HYBDAMP names the method of its modes and the TABDMP1 of its dampin
     expectInvalid("HybridDamping;1;2;3;No;MAYBE", "printEigenvalues");
 }
 
-TEST_CASE("the DAMPING, HYBDAMP and ROTHYBD cards name each other and the Case Control and follow a renumbering",
+TEST_CASE("the HybridDampingRotorOptions, HybridDamping and RotorHybridDamping cards name each other and the Case "
+          "Control and follow a renumbering",
           "[model][cards][damping]")
 {
     Model model = readModelText(
@@ -277,7 +280,8 @@ TEST_CASE("the DAMPING, HYBDAMP and ROTHYBD cards name each other and the Case C
     REQUIRE(unresolvedIn(readBulk("RotorHybridDamping;1;15;2;16\nHybridDamping;15;1;2")) == 5);
 }
 
-TEST_CASE("a ROTHYBD lists the pairs of a rotor and its HYBDAMP over any number of lines", "[model][cards][damping]")
+TEST_CASE("a RotorHybridDamping lists the pairs of a rotor and its HYBDAMP over any number of lines",
+          "[model][cards][damping]")
 {
     Model model = readBulk(
         "RotorHybridDamping;3;4205\n"
@@ -324,7 +328,8 @@ TEST_CASE("a ROTHYBD lists the pairs of a rotor and its HYBDAMP over any number 
 // FluidMassElemList
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ELIST keeps the sign of an element and the elements of a THRU range as written", "[model][cards][elist]")
+TEST_CASE("a FluidMassElemList keeps the sign of an element and the elements of a THRU range as written",
+          "[model][cards][elist]")
 {
     Model model = readBulk(
         "FluidMassElemList;2705;1305;-1318;1330;Through;1345;1372\n"
@@ -404,7 +409,7 @@ TEST_CASE("an ELIST keeps the sign of an element and the elements of a THRU rang
     expectInvalid("FluidMassElemList;1;LOW", "elemId");
 }
 
-TEST_CASE("an MFLUID names the ELIST cards of its wetted elements and follows their renumbering",
+TEST_CASE("a FluidVirtualMass names the FluidMassElemList cards of its wetted elements and follows their renumbering",
           "[model][cards][elist]")
 {
     Model model = readBulk(
@@ -428,7 +433,8 @@ TEST_CASE("an MFLUID names the ELIST cards of its wetted elements and follows th
 // RadiatedPowerPanelSet
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an ERPPNL lists the label and the SET3 of any number of panels", "[model][cards][erppnl]")
+TEST_CASE("a RadiatedPowerPanelSet lists the label and the TypedListSet3 of any number of panels",
+          "[model][cards][erppnl]")
 {
     Model model = readBulk(
         "RadiatedPowerPanelSet;CAP;1;PLATE;14\n"
@@ -481,7 +487,7 @@ TEST_CASE("an ERPPNL lists the label and the SET3 of any number of panels", "[mo
 // CyclicAxisNodes and CyclicBoundaryJoin
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CYAX lists points and THRU ranges, and its points are nodes", "[model][cards][cyclic]")
+TEST_CASE("a CyclicAxisNodes lists points and THRU ranges, and its points are nodes", "[model][cards][cyclic]")
 {
     Model model = readBulk(
         "CyclicAxisNodes;1406;1431;Through;1449;1463;1402\nCyclicAxisNodes;5\nNode;1406\nNode;1463\nNode;1402\nNode;5");
@@ -528,7 +534,7 @@ TEST_CASE("a CYAX lists points and THRU ranges, and its points are nodes", "[mod
     expectInvalid("CyclicAxisNodes;5;LOW", "nodes");
 }
 
-TEST_CASE("a CYJOIN has a side, the normal degree of freedom of dihedral problems and a list of points",
+TEST_CASE("a CyclicBoundaryJoin has a side, the normal degree of freedom of dihedral problems and a list of points",
           "[model][cards][cyclic]")
 {
     Model model = readBulk(
@@ -592,7 +598,8 @@ TEST_CASE("a CYJOIN has a side, the normal degree of freedom of dihedral problem
 // HeatController
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CONTRLT is a thermal controller with a sensor, a dead band and a process type", "[model][cards][contrlt]")
+TEST_CASE("a HeatController is a thermal controller with a sensor, a dead band and a process type",
+          "[model][cards][contrlt]")
 {
     Model model = readBulk(
         "HeatController;1702;1716;Temperature;Thermostat;16.5;21.5;6;1.;0.3;0.08;0.\n"
@@ -651,7 +658,7 @@ TEST_CASE("a CONTRLT is a thermal controller with a sensor, a dead band and a pr
 // HeatSurfaceDefaults
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a BDYOR holds the defaults of the surface elements and names the cards they would name",
+TEST_CASE("a HeatSurfaceDefaults holds the defaults of the surface elements and names the cards they would name",
           "[model][cards][bdyor]")
 {
     // Three cards in one deck: the format reference allows one, so the deck is read in the tolerant mode and the second
@@ -738,7 +745,8 @@ TEST_CASE("a BDYOR holds the defaults of the surface elements and names the card
     expectInvalid("HeatSurfaceDefaults;AreaQuad4;;;;;;;;;;LOW", "direction3");
 }
 
-TEST_CASE("the defaults of a BDYOR go to the blank fields of the CHBDYE, CHBDYG and CHBDYP of the deck",
+TEST_CASE("the defaults of a HeatSurfaceDefaults go to the blank fields of the HeatSurfaceSide, HeatSurfaceNodes and "
+          "HeatSurfaceProperty of the deck",
           "[model][cards][bdyor]")
 {
     // The HeatSurfaceDefaults is the last card: its defaults reach the cards that come before it.
@@ -796,7 +804,8 @@ TEST_CASE("the defaults of a BDYOR go to the blank fields of the CHBDYE, CHBDYG 
 // CrackClosureCrack
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a negative G1 of a VCCT is the SET3 that lists the points of the crack front", "[model][cards][vcct]")
+TEST_CASE("a negative G1 of a CrackClosureCrack is the TypedListSet3 that lists the points of the crack front",
+          "[model][cards][vcct]")
 {
     Model model = readBulk(vcct("1", "0.", "0", "-5") + "\n" + vcct("1,2", "0.", "0", "7") +
                            "\nTypedListSet3;5;Node;7;8;9\nNode;7\nNode;8\nNode;9");
@@ -823,7 +832,8 @@ TEST_CASE("a negative G1 of a VCCT is the SET3 that lists the points of the crac
     expectInvalid(vcct("1", "0.", "0", "-5,Through,9"), "node2");
 }
 
-TEST_CASE("a VCCT names its four tables, its set and its points, and the crack set is an ID shared by cards",
+TEST_CASE("a CrackClosureCrack names its four tables, its set and its points, and the crack set is an ID shared by "
+          "cards",
           "[model][cards][vcct]")
 {
     Model model = readBulk(fullCrackClosureCrack() + "\n" + TABLES + "Node;41\nNode;63\nNode;42");

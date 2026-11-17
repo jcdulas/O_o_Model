@@ -37,7 +37,7 @@ typename TableT::CardType cardAt(const Model& model, std::uint32_t row = 0)
 
 } // namespace
 
-TEST_CASE("applyDefaults gives a GRDSET added after the read to the grid points that left their fields blank",
+TEST_CASE("applyDefaults gives a NodeDefaults added after the read to the grid points that left their fields blank",
           "[model][cards]")
 {
     Model model = readBulk("Node;1;;0.;0.;0.\nNode;2;3;0.;0.;0.;0\nNode;3;;0.;0.;0.;;456;9");
@@ -85,7 +85,8 @@ TEST_CASE("applyDefaults on a model with no default card changes nothing", "[mod
     REQUIRE(cardAt<NodeTable>(model).blankFields != 0); // still noted
 }
 
-TEST_CASE("applyDefaults gives BAROR and BEAMOR to the bars and beams that left their fields blank", "[model][cards]")
+TEST_CASE("applyDefaults gives Bar2Defaults and Beam2Defaults to the bars and beams that left their fields blank",
+          "[model][cards]")
 {
     Model model = readBulk(
         "Bar2;1;;1;2\nBar2;2;5;1;2;0.;;0.;1.;OffsetsBasicGlobalGlobal\nBeam2;3;;1;2\nBeam2;4;6;1;2;1.;;0.;"

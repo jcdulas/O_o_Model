@@ -698,20 +698,20 @@ public:
                 };
                 if (theory.empty())
                 {
-                    note("the property has no failure theory (PCOMP FT) and none was asked for");
+                    note("the property has no failure theory (CompProp FT) and none was asked for");
                     continue;
                 }
                 const auto ply = static_cast<std::size_t>(stress.layer[row] - 1);
                 if (ply >= laminate->plies.size() || !laminate->plies[ply].allowables)
                 {
-                    note("a ply of the laminate has no MAT8 material (or the ply is not in the laminate)");
+                    note("a ply of the laminate has no OrthoMat2D material (or the ply is not in the laminate)");
                     continue;
                 }
                 const PlyIndex value =
                     plyFailureIndex(parsed, o11[row], o22[row], t12[row], *laminate->plies[ply].allowables);
                 if (std::isnan(value.index))
                 {
-                    note("the MAT8 lacks an allowable the theory '" + theory + "' needs");
+                    note("the OrthoMat2D lacks an allowable the theory '" + theory + "' needs");
                     continue;
                 }
                 indices.push_back(value.index);

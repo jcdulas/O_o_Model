@@ -107,7 +107,8 @@ void requireRoundTrip(const Model& model)
 
 // ------------------------------------------------------------------------------------------------ the companions
 
-TEST_CASE("a MATTEP has its tables in the fields of the format reference and the Chaboche group on the third line",
+TEST_CASE("an ElastoPlasticMatTemperature has its tables in the fields of the format reference and the Chaboche group "
+          "on the third line",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -133,7 +134,7 @@ TEST_CASE("a MATTEP has its tables in the fields of the format reference and the
     expectInvalid("ElastoPlasticMatTemperature;1;-3", "yieldStressTableId");
 }
 
-TEST_CASE("a MATTVE has the WLF, POWER, NARA and USER shift functions", "[model][cards]")
+TEST_CASE("a ViscoElasticMatTemperature has the WLF, POWER, NARA and USER shift functions", "[model][cards]")
 {
     Model model = readBulk(
         "ViscoElasticMatTemperature;100;WilliamsLandelFerry;100.;;;;;;0.8;1.2\n"
@@ -175,7 +176,7 @@ TEST_CASE("a MATTVE has the WLF, POWER, NARA and USER shift functions", "[model]
                   "activationEnergy"); // ENER is for NARA only
 }
 
-TEST_CASE("a MATUDS has its INT, REAL and CHAR blocks in any order, seven values to a line", "[model][cards]")
+TEST_CASE("a UserMatService has its INT, REAL and CHAR blocks in any order, seven values to a line", "[model][cards]")
 {
     Model model = readBulk(
         "UserMatService;17;ElastoPlasticMat;MATERIAL;UELAST1\n"
@@ -207,7 +208,8 @@ TEST_CASE("a MATUDS has its INT, REAL and CHAR blocks in any order, seven values
 
 // ------------------------------------------------------------------------------------------------ SOL 700 and failure
 
-TEST_CASE("the SOL 700 materials MATBV, MAT1A, MAT8A, MATDEUL and MATFAB have the layouts of the format reference",
+TEST_CASE("the SOL 700 materials BulkViscosityMat, IsoMatExplicitExt, OrthoMat2DFailure, EulerMat and FabricMat have "
+          "the layouts of the format reference",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -271,7 +273,8 @@ TEST_CASE("the SOL 700 materials MATBV, MAT1A, MAT8A, MATDEUL and MATFAB have th
     REQUIRE_NOTHROW(readBulk("ViscoElasticMat;1;IsotropicForm1;1.E-5;;1.E+3;10."));
 }
 
-TEST_CASE("a MATF has up to three criteria of three lines and the progressive failure line, a MATTF their tables",
+TEST_CASE("a FailureMat has up to three criteria of three lines and the progressive failure line, a "
+          "FailureMatTemperature their tables",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -329,7 +332,7 @@ TEST_CASE("a MATF has up to three criteria of three lines and the progressive fa
     expectInvalid("FailureMatTemperature;1;;12;-1;1", "criterion");
 }
 
-TEST_CASE("a MATF of SOL 700 has one criterion from 101 to 105, its words in the cells the format gives them",
+TEST_CASE("a FailureMat of SOL 700 has one criterion from 101 to 105, its words in the cells the format gives them",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -357,7 +360,7 @@ TEST_CASE("a MATF of SOL 700 has one criterion from 101 to 105, its words in the
 }
 
 TEST_CASE(
-    "a MATFTG has its blocks in any order, the MATID list with THRU, and no reference for the ID with a MATID line",
+    "a FatigueMat has its blocks in any order, the MATID list with THRU, and no reference for the ID with a MATID line",
     "[model][cards]")
 {
     Model model = readBulk(
@@ -423,7 +426,8 @@ TEST_CASE(
     expectInvalid("FatigueMat;1;;;Static;410;655;;;;11.", "standardError"); // SE is from 0.0 to 10.0
 }
 
-TEST_CASE("NLMOPTS options come in any order, each at most once, and have their values checked", "[model][cards]")
+TEST_CASE("NonlinearMatOptions options come in any order, each at most once, and have their values checked",
+          "[model][cards]")
 {
     Model model = readBulk(
         "NonlinearMatOptions;Creep;0;;;;Hemicube;1;500;0;0.01\nNonlinearMatOptions;MapTolerance;0.2;Creep;;;;;"
@@ -601,7 +605,7 @@ TEST_CASE("the new companions refer to their material and their tables, and foll
     REQUIRE(unresolvedIn(lacking) == 6);
 }
 
-TEST_CASE("the MATFTG with a MATID line and the materials of SOL 700 are primaries of the shared material space",
+TEST_CASE("the FatigueMat with a MATID line and the materials of SOL 700 are primaries of the shared material space",
           "[model][cards]")
 {
     // The primaries share one ID space; a FatigueMat with a MATID line has an ID of its own that is not a material.

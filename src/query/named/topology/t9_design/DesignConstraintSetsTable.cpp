@@ -58,7 +58,8 @@ private:
         info.name = "designConstraintSetsTable";
         info.family = "T9";
         info.description =
-            "The unions of design constraint sets (DCONADD cards): one row for each DCONSTR set `memberSet` that the "
+            "The unions of design constraint sets (DesignConstrUnion cards): one row for each DesignConstr set "
+            "`memberSet` that the "
             "set `setId` adds, in the order of the card. A DESSUB or DESGLB that selects `setId` selects its members "
             "(`designSubcasesTable` gives them expanded).";
         info.defaultSort = "setId, the order of the card";

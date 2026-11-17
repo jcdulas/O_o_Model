@@ -80,7 +80,7 @@ std::size_t countOf(const std::vector<std::string>& fields, const std::string& n
 
 } // namespace
 
-TEST_CASE("CTRIA6 has three corners, optional edge points and the shell fields after them", "[model][cards]")
+TEST_CASE("ShellTria6 has three corners, optional edge points and the shell fields after them", "[model][cards]")
 {
     const Model model =
         readBulk("ShellTria6;1;3;34;36;76;35;;57;40.;;0.04;0.03;0.035;0.035;1\nShellTria6;2;3;1;2;3;;;;;7");
@@ -101,7 +101,7 @@ TEST_CASE("CTRIA6 has three corners, optional edge points and the shell fields a
     REQUIRE(byMcid.cornerThickness == std::array<double, 3>{-1.0, -1.0, -1.0});
 }
 
-TEST_CASE("a blank edge point is a blank field when a CTRIA6 is written back", "[model][cards]")
+TEST_CASE("a blank edge point is a blank field when a ShellTria6 is written back", "[model][cards]")
 {
     const Model model = readBulk("ShellTria6;1;3;34;36;76;;53");
 
@@ -110,7 +110,8 @@ TEST_CASE("a blank edge point is a blank field when a CTRIA6 is written back", "
             std::array<base::EntityId, 6>{34, 36, 76, 0, 53, 0});
 }
 
-TEST_CASE("CTRIA6 and CQUAD8 refer to their property, their grid points and a material system", "[model][cards]")
+TEST_CASE("ShellTria6 and ShellQuad8 refer to their property, their grid points and a material system",
+          "[model][cards]")
 {
     Model model = readBulk("ShellTria6;1;3;34;36;76;;53\nShellQuad8;2;3;1;2;3;4;;;;;;;;;;9");
     // PID 3, nodes 34 36 76 53 (and 1 2 3 4), no coordinate system on the first.
@@ -128,7 +129,7 @@ TEST_CASE("CTRIA6 and CQUAD8 refer to their property, their grid points and a ma
     REQUIRE(unresolvedIn(model) == 2 + 8 + 1);
 }
 
-TEST_CASE("CQUAD8 lists the corner thicknesses before THETA, ZOFFS and TFLAG", "[model][cards]")
+TEST_CASE("ShellQuad8 lists the corner thicknesses before THETA, ZOFFS and TFLAG", "[model][cards]")
 {
     const Model model = readBulk(
         "ShellQuad8;1;3;34;36;78;76;35;53;58;77;0.115;0.035;0.04;0.035;25.;;0.04;1\n"
@@ -145,7 +146,7 @@ TEST_CASE("CQUAD8 lists the corner thicknesses before THETA, ZOFFS and TFLAG", "
     REQUIRE(second.nodes == std::array<base::EntityId, 8>{34, 36, 78, 76, 0, 0, 0, 0});
 }
 
-TEST_CASE("the corners of CTRIA6 and CQUAD8 are required and every point must differ", "[model][cards]")
+TEST_CASE("the corners of ShellTria6 and ShellQuad8 are required and every point must differ", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("ShellTria6;1;3;1;2"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("ShellTria6;1;3;1;2;3;3"), base::DeckError);
@@ -156,7 +157,8 @@ TEST_CASE("the corners of CTRIA6 and CQUAD8 are required and every point must di
     REQUIRE_NOTHROW(readBulk("ShellQuad8;1;3;1;2;3;4;0;0"));
 }
 
-TEST_CASE("CQUADR and CTRIAR are the plate elements of CQUAD4 and CTRIA3 with PID defaulting to EID", "[model][cards]")
+TEST_CASE("ShellQuad4Drilling and ShellTria3Drilling are the plate elements of ShellQuad4 and ShellTria3 with PID "
+          "defaulting to EID", "[model][cards]")
 {
     const Model model = readBulk(
         "ShellQuad4Drilling;1;;1;2;3;4;30.;;0.5;1;0.1;0.2;0.3;0.4\n"
@@ -176,7 +178,7 @@ TEST_CASE("CQUADR and CTRIAR are the plate elements of CQUAD4 and CTRIA3 with PI
     REQUIRE(full.cornerThickness == std::array<double, 3>{1.94, 1.98, 2.02});
 }
 
-TEST_CASE("CSHEAR and CTUBE default PID to EID", "[model][cards]")
+TEST_CASE("ShearPanel4 and Tube2 default PID to EID", "[model][cards]")
 {
     const Model model = readBulk("ShearPanel4;3;;2;6;4;8\nTube2;4;;1;2");
     REQUIRE(cardAt<ShearPanel4Table>(model).propId == 3);
@@ -186,7 +188,7 @@ TEST_CASE("CSHEAR and CTUBE default PID to EID", "[model][cards]")
     REQUIRE_THROWS_AS(readBulk("Tube2;4;;1;1"), base::DeckError);
 }
 
-TEST_CASE("CONROD is an element with its own material, area and constants and no property", "[model][cards]")
+TEST_CASE("Rod2InlineSection is an element with its own material, area and constants and no property", "[model][cards]")
 {
     Model model = readBulk("Rod2InlineSection;2;18;19;4;2.43;0.5;0.1;0.01\nRod2InlineSection;3;1;2;4");
     const Rod2InlineSectionCard full = cardAt<Rod2InlineSectionTable>(model, 0);
@@ -210,7 +212,7 @@ TEST_CASE("CONROD is an element with its own material, area and constants and no
     REQUIRE(unresolvedIn(model) == 3 + 3);
 }
 
-TEST_CASE("CTRIAX6 has its corners in G1, G3 and G5 and a material instead of a property", "[model][cards]")
+TEST_CASE("AxisymTria6 has its corners in G1, G3 and G5 and a material instead of a property", "[model][cards]")
 {
     Model model = readBulk("AxisymTria6;1;888;14;;16;;26\nAxisymTria6;2;888;14;15;16;25;26;36;7.5");
     REQUIRE(cardAt<AxisymTria6Table>(model, 0).nodes == std::array<base::EntityId, 6>{14, 0, 16, 0, 26, 0});
@@ -226,7 +228,8 @@ TEST_CASE("CTRIAX6 has its corners in G1, G3 and G5 and a material instead of a 
     REQUIRE(countOf(visitor.fields, "nodes") == 3);
 }
 
-TEST_CASE("CTRIAX and CQUADX take an angle or a material system, with corners and optional points", "[model][cards]")
+TEST_CASE("AxisymTria and AxisymQuad take an angle or a material system, with corners and optional points",
+          "[model][cards]")
 {
     const Model model = readBulk(
         "AxisymTria;1;205;34;76;78;46;47;48;30.\n"
@@ -245,7 +248,7 @@ TEST_CASE("CTRIAX and CQUADX take an angle or a material system, with corners an
     REQUIRE_THROWS_AS(readBulk("AxisymQuad;1;205;34;76;78"), base::DeckError);
 }
 
-TEST_CASE("CPYRAM has five corners and up to eight edge points", "[model][cards]")
+TEST_CASE("SolidPyramid has five corners and up to eight edge points", "[model][cards]")
 {
     const Model model = readBulk("SolidPyramid;1;2;86;121;93;33;178\nSolidPyramid;2;4;15;16;17;18;40;21;;;24;;32");
     const SolidPyramidCard five = cardAt<SolidPyramidTable>(model, 0);
@@ -285,7 +288,7 @@ TEST_CASE("the plane strain and plane stress elements of another implementation 
     REQUIRE_THROWS_AS(readBulk("PlaneStrainQuad8;1;;1;2;3;4"), base::DeckError);
 }
 
-TEST_CASE("CPLSTS3 and CPLSTS4 carry a thickness flag and corner thicknesses", "[model][cards]")
+TEST_CASE("PlaneStressTria3 and PlaneStressQuad4 carry a thickness flag and corner thicknesses", "[model][cards]")
 {
     const Model model =
         readBulk("PlaneStressTria3;1;3;1;2;3;10.;1;0.5;0.6;0.7\nPlaneStressQuad4;2;3;1;2;3;4;10.;1;0.5;0.6;0.7;0.8");
@@ -301,7 +304,7 @@ TEST_CASE("CPLSTS3 and CPLSTS4 carry a thickness flag and corner thicknesses", "
             std::array<double, 3>{-1.0, -1.0, -1.0});
 }
 
-TEST_CASE("CQUADX4 and CQUADX8 need a property and read THETA", "[model][cards]")
+TEST_CASE("AxisymQuad4 and AxisymQuad8 need a property and read THETA", "[model][cards]")
 {
     const Model model =
         readBulk("AxisymQuad4;1;205;34;76;78;35;15.\nAxisymQuad8;2;205;34;76;78;35;46;47;48;49;15.");

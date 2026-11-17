@@ -120,7 +120,7 @@ TEST_CASE(
 // UserFileName
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a UDNAME keeps the name of a file over the continuation lines whatever the format",
+TEST_CASE("a UserFileName keeps the name of a file over the continuation lines whatever the format",
           "[model][cards][fatigue]")
 {
     const std::string longName = longPath(130);
@@ -160,10 +160,11 @@ TEST_CASE("a UDNAME keeps the name of a file over the continuation lines whateve
     expectInvalid("UserFileName;x;file.h5", "id");
 }
 
-TEST_CASE("a UDNAME is found by the cards that name a file and follows its renumbering", "[model][cards][fatigue]")
+TEST_CASE("a UserFileName is found by the cards that name a file and follows its renumbering",
+          "[model][cards][fatigue]")
 {
     Model model = readBulk("UserFileName;10;a.h5\nUserFileName;11;b.h5\nUserFileName;12;c.h5");
-    REQUIRE(visitedBy<UserFileNameTable>(model, 0).fields.empty()); // an UserFileName names no other card
+    REQUIRE(visitedBy<UserFileNameTable>(model, 0).fields.empty()); // a UserFileName names no other card
     requireIdEdits<UserFileNameTable>(model, 10, 11, 20);
     REQUIRE(unresolvedIn(readBulk("UserFileName;10;a.h5\nMicromechanicsCompositeMat;6;10")) == 0);
     REQUIRE(unresolvedIn(readBulk("MicromechanicsCompositeMat;6;10")) == 1);
@@ -173,7 +174,7 @@ TEST_CASE("a UDNAME is found by the cards that name a file and follows its renum
 // FatigueProp
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PFTG has the format reference defaults and needs a roughness for the finishes KROUGH and KSURFC",
+TEST_CASE("a FatigueProp has the format reference defaults and needs a roughness for the finishes KROUGH and KSURFC",
           "[model][cards][fatigue]")
 {
     Model model = readBulk(
@@ -240,7 +241,8 @@ TEST_CASE("a PFTG has the format reference defaults and needs a roughness for th
 // FatigueEvent
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an FTGEVNT lists FTGLOAD cards over the lines and may end with an event name", "[model][cards][fatigue]")
+TEST_CASE("a FatigueEvent lists FatigueLoad cards over the lines and may end with an event name",
+          "[model][cards][fatigue]")
 {
     Model model = readBulk(
         "FatigueEvent;92001;2;7;13;Name;pothole_series\n"
@@ -282,7 +284,7 @@ TEST_CASE("an FTGEVNT lists FTGLOAD cards over the lines and may end with an eve
 // FatigueLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an FTGLOAD of SOL 101 and 103 has a table or a file, its defaults, and the UNITS line",
+TEST_CASE("a FatigueLoad of SOL 101 and 103 has a table or a file, its defaults, and the UNITS line",
           "[model][cards][fatigue]")
 {
     Model model = readBulk(
@@ -344,7 +346,7 @@ TEST_CASE("an FTGLOAD of SOL 101 and 103 has a table or a file, its defaults, an
     expectInvalid("FatigueLoad;5;1;1;;;;;;Units;;;DeterministicLoad;1;1.;1.", "Units");
 }
 
-TEST_CASE("an FTGLOAD of SOL 108 and 111 has the DETLOAD and SWEEP lines of its type", "[model][cards][fatigue]")
+TEST_CASE("a FatigueLoad of SOL 108 and 111 has the DETLOAD and SWEEP lines of its type", "[model][cards][fatigue]")
 {
     Model model = readBulk(
         "FatigueLoad;92009;;3;;1.;;SineLoad;;DeterministicLoad;3;15.;4.;;25.;5.;;40.;8.\n"
@@ -416,7 +418,7 @@ TEST_CASE("an FTGLOAD of SOL 108 and 111 has the DETLOAD and SWEEP lines of its 
     expectInvalid(sweepLine + ";;10;1.;2;;Q", "loadQuantity");
 }
 
-TEST_CASE("an FTGLOAD names a table, a file, or a random set, and the references follow their renumbering",
+TEST_CASE("a FatigueLoad names a table, a file, or a random set, and the references follow their renumbering",
           "[model][cards][fatigue]")
 {
     Model model = readBulk(
@@ -461,7 +463,7 @@ TEST_CASE("an FTGLOAD names a table, a file, or a random set, and the references
 // FatigueSequence
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an FTGSEQ lists events and repeats, in the format of SOL 101, 103, 112 or of SOL 108, 111",
+TEST_CASE("a FatigueSequence lists events and repeats, in the format of SOL 101, 103, 112 or of SOL 108, 111",
           "[model][cards][fatigue]")
 {
     Model model = readBulk(
@@ -522,7 +524,8 @@ TEST_CASE("an FTGSEQ lists events and repeats, in the format of SOL 101, 103, 11
     oor::testing::requireModelFileRoundTrip(readModelText("FatigueSequence;5;;;;;1;1;;Units;1.;a b", true));
 }
 
-TEST_CASE("an FTGEVNT is named by an FTGSEQ and the numbers of both are one space", "[model][cards][fatigue]")
+TEST_CASE("a FatigueEvent is named by a FatigueSequence and the numbers of both are one space",
+          "[model][cards][fatigue]")
 {
     Model model = readBulk(
         "TableFatigueHistory;1;0.;1.;-1.;EndTable\n"
@@ -561,7 +564,7 @@ TEST_CASE("an FTGEVNT is named by an FTGSEQ and the numbers of both are one spac
 // FatigueDefinition
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an FTGDEF reads the sections of both formats, the ELSET with or without properties",
+TEST_CASE("a FatigueDefinition reads the sections of both formats, the ELSET with or without properties",
           "[model][cards][fatigue]")
 {
     Model model = readBulk(
@@ -628,7 +631,7 @@ TEST_CASE("an FTGDEF reads the sections of both formats, the ELSET with or witho
     expectInvalid("FatigueDefinition;5;;;;;;;;ExcludedElemSet;1;-3", "excludedElemSetIds");
 }
 
-TEST_CASE("an FTGDEF names its properties and its sets, and the references follow their renumbering",
+TEST_CASE("a FatigueDefinition names its properties and its sets, and the references follow their renumbering",
           "[model][cards][fatigue]")
 {
     Model model = readBulk(
@@ -671,7 +674,7 @@ TEST_CASE("an FTGDEF names its properties and its sets, and the references follo
 // FatigueParams
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an FTGPARM refuses what its format does not allow", "[model][cards][fatigue]")
+TEST_CASE("a FatigueParams refuses what its format does not allow", "[model][cards][fatigue]")
 {
     expectInvalid("FatigueParams;0", "id");
     expectInvalid("FatigueParams;5;XX", "lifeModel");
@@ -735,7 +738,8 @@ TEST_CASE("an FTGPARM refuses what its format does not allow", "[model][cards][f
     REQUIRE_FALSE(FatigueParamsFormat::check(card).has_value());
 }
 
-TEST_CASE("an FTGPARM names the coordinate system of its NAVG line when OUTPUT is positive", "[model][cards][fatigue]")
+TEST_CASE("a FatigueParams names the coordinate system of its NAVG line when OUTPUT is positive",
+          "[model][cards][fatigue]")
 {
     Model model = readBulk(
         "RectFrame2;12\nFatigueParams;5;;;;;;NodeAverage;GeometryOption;12\nFatigueParams;6;;;;;;NodeAverage;;-"
@@ -759,7 +763,7 @@ TEST_CASE("an FTGPARM names the coordinate system of its NAVG line when OUTPUT i
 // TimeToSpectrum
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TIM2PSD has events, deletions and a channel map in sections", "[model][cards][fatigue]")
+TEST_CASE("a TimeToSpectrum has events, deletions and a channel map in sections", "[model][cards][fatigue]")
 {
     Model model = readBulk(
         "TimeToSpectrum;92001;400.;HanningWindow;CommaSeparatedFile;Yes;2;Event;3;92011;3.;1.5;92012;1.5;0.75;92013;3.;"
@@ -829,7 +833,7 @@ TEST_CASE("a TIM2PSD has events, deletions and a channel map in sections", "[mod
 // ResultFileModules
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an HDF5DA pairs the modules with the UDNAME of their files", "[model][cards][fatigue]")
+TEST_CASE("a ResultFileModules pairs the modules with the UserFileName of their files", "[model][cards][fatigue]")
 {
     Model model = readBulk(
         "ResultFileModules;92001;92016;0;92017;2;92018\n"
@@ -877,7 +881,8 @@ TEST_CASE("an HDF5DA pairs the modules with the UDNAME of their files", "[model]
 // ModuleResultFileParams and ResultFileParams
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an H5OUT gives the parameters of one module and an HDF5OUT those of every module", "[model][cards][fatigue]")
+TEST_CASE("a ModuleResultFileParams gives the parameters of one module and a ResultFileParams those of every module",
+          "[model][cards][fatigue]")
 {
     Model model = readBulk(
         "ModuleResultFileParams;7;InputData;No\n"
@@ -922,7 +927,7 @@ TEST_CASE("an H5OUT gives the parameters of one module and an HDF5OUT those of e
     oor::testing::requireModelFileRoundTrip(readModelText("ModuleResultFileParams;1;TOOLONGNAME;1", true));
 }
 
-TEST_CASE("an HDF5OUT lists its parameters and keeps an integer value", "[model][cards][fatigue]")
+TEST_CASE("a ResultFileParams lists its parameters and keeps an integer value", "[model][cards][fatigue]")
 {
     Model model = readBulk(
         "ResultFileParams;Precision;32;CompressionMethod;Lz4Compression;CompressionLevel;7\n"
@@ -978,7 +983,7 @@ TEST_CASE("an HDF5OUT lists its parameters and keeps an integer value", "[model]
 // TableTimeHistoryFile
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a TABLRPC is a dynamic table that reads a channel of a file, with pairs that filter it",
+TEST_CASE("a TableTimeHistoryFile is a dynamic table that reads a channel of a file, with pairs that filter it",
           "[model][cards][fatigue]")
 {
     Model model = readBulk(
@@ -1034,7 +1039,7 @@ TEST_CASE("a TABLRPC is a dynamic table that reads a channel of a file, with pai
     REQUIRE_THROWS_AS(readBulk("TableTimeHistoryFile;5;;;3300\nTableUserRoutine;5;grp"), base::DeckError);
     REQUIRE_NOTHROW(readBulk("TableDynamic1;6;;;0.;1.;1.;2.;EndTable\nTableTimeHistoryFile;5;;;3300"));
 
-    // The UID is an UserFileName, by its absolute value, and follows its renumbering with its sign.
+    // The UID is a UserFileName, by its absolute value, and follows its renumbering with its sign.
     Model named = readBulk("UserFileName;3300;f.rsp\nTableTimeHistoryFile;7;;;3300\nTableTimeHistoryFile;8;;;-3300");
     REQUIRE(unresolvedIn(named) == 0);
     const Visited visited = visitedBy<TableTimeHistoryFileTable>(named, 1);
@@ -1078,7 +1083,7 @@ TEST_CASE("a TABLRPC is a dynamic table that reads a channel of a file, with pai
 // MicromechanicsCompositeMat
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a MATDIGI names the UDNAME of its micromechanics file and follows its renumbering",
+TEST_CASE("a MicromechanicsCompositeMat names the UserFileName of its micromechanics file and follows its renumbering",
           "[model][cards][fatigue]")
 {
     Model model = readBulk(

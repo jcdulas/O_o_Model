@@ -154,11 +154,14 @@ private:
         info.name = "designConstantsTable";
         info.family = "T9";
         info.description =
-            "The constants the equations of the design relations and responses receive by label (DTABLE and DTABLE2 "
-            "cards); `card` is a card type. A DTABLE value has `card` DesignConstants; a DTABLE entry written as an "
+            "The constants the equations of the design relations and responses receive by label (DesignConstants and "
+            "DesignFieldConstants "
+            "cards); `card` is a card type. A DesignConstants value has `card` DesignConstants; a DesignConstants "
+            "entry written as an "
             "integer names a TABLEDi, a "
             "function "
-            "of frequency or time (`card` is that table and `cardId` its ID, the value is null). A DTABLE2 constant "
+            "of frequency or time (`card` is that table and `cardId` its ID, the value is null). A "
+            "DesignFieldConstants constant "
             "is "
             "the value of a field of a card of the model before the design changes it: "
             "`card`, "

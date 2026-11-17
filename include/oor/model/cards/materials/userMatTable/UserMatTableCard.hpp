@@ -7,7 +7,7 @@
 namespace oor::model
 {
 
-// One UserMatTable card: the table variation of the properties of an UserMat (a user defined generic material of SOL
+// One UserMatTable card: the table variation of the properties of a UserMat (a user defined generic material of SOL
 // 400).
 //
 // Card layout:

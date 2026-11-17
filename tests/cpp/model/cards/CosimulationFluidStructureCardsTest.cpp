@@ -92,7 +92,8 @@ Seen seenBy(Model& model, std::uint32_t row = 0)
 // CosimulationArea
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a COSMGRP lists the faces of elements, grid points or elements by its TYPE, and is a group a COSMSRV names",
+TEST_CASE("a CosimulationArea lists the faces of elements, grid points or elements by its TYPE, and is a group a "
+          "CosimulationService names",
           "[model][cards][cosimulation]")
 {
     REQUIRE((CosimulationAreaTable::INFO.category == CardCategory::CosimulationGroup &&
@@ -212,7 +213,8 @@ TEST_CASE("a COSMGRP lists the faces of elements, grid points or elements by its
 // CosimulationInputs
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a COSMINP has one or two quantities of input, FORCE when PHYQUA1 is blank", "[model][cards][cosimulation]")
+TEST_CASE("a CosimulationInputs has one or two quantities of input, FORCE when PHYQUA1 is blank",
+          "[model][cards][cosimulation]")
 {
     REQUIRE((CosimulationInputsTable::INFO.category == CardCategory::CosimulationInput &&
              CosimulationInputsTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -287,7 +289,8 @@ TEST_CASE("a COSMINP has one or two quantities of input, FORCE when PHYQUA1 is b
 // CosimulationSelection
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a COSMSEL lists up to three services, which it names, under a number a Case Control command selects",
+TEST_CASE("a CosimulationSelection lists up to three services, which it names, under a number a Case Control command "
+          "selects",
           "[model][cards][cosimulation]")
 {
     REQUIRE((CosimulationSelectionTable::INFO.category == CardCategory::Other &&
@@ -346,7 +349,8 @@ TEST_CASE("a COSMSEL lists up to three services, which it names, under a number 
 // CosimulationService
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a COSMSRV names two groups, the quantities of input and of output, and keeps its service name as written",
+TEST_CASE("a CosimulationService names two groups, the quantities of input and of output, and keeps its service name "
+          "as written",
           "[model][cards][cosimulation]")
 {
     REQUIRE((CosimulationServiceTable::INFO.category == CardCategory::CosimulationService &&
@@ -437,7 +441,8 @@ TEST_CASE("a COSMSRV names two groups, the quantities of input and of output, an
 // FluidStructureControl
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("an FSICTRL has the format reference defaults, an unrestricted service name and no ID", "[model][cards][fsi]")
+TEST_CASE("a FluidStructureControl has the format reference defaults, an unrestricted service name and no ID",
+          "[model][cards][fsi]")
 {
     REQUIRE((FluidStructureControlTable::INFO.category == CardCategory::Other &&
              FluidStructureControlTable::INFO.idSpace == base::IdSpace::None));
@@ -502,7 +507,8 @@ TEST_CASE("an FSICTRL has the format reference defaults, an unrestricted service
 // WettedElemSide
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a WETELME is a side of a structural element, numbered with the wetted elements", "[model][cards][fsi]")
+TEST_CASE("a WettedElemSide is a side of a structural element, numbered with the wetted elements",
+          "[model][cards][fsi]")
 {
     REQUIRE((WettedElemSideTable::INFO.category == CardCategory::WettedElement &&
              WettedElemSideTable::INFO.idSpace == base::IdSpace::PerCardType));
@@ -560,7 +566,8 @@ TEST_CASE("a WETELME is a side of a structural element, numbered with the wetted
 // WettedElemNodes
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a WETELMG has the grid points of its shape, which it refers to, with the numbers of the wetted elements",
+TEST_CASE("a WettedElemNodes has the grid points of its shape, which it refers to, with the numbers of the wetted "
+          "elements",
           "[model][cards][fsi]")
 {
     REQUIRE((WettedElemNodesTable::INFO.category == CardCategory::WettedElement &&
@@ -641,7 +648,8 @@ TEST_CASE("a WETELMG has the grid points of its shape, which it refers to, with 
 // WettedSurfaceLoad
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a WETLOAD is the excitation set of a TLOAD1, names a wetted surface and carries the service name",
+TEST_CASE("a WettedSurfaceLoad is the excitation set of a TransientTableLoad1, names a wetted surface and carries the "
+          "service name",
           "[model][cards][fsi]")
 {
     REQUIRE((WettedSurfaceLoadTable::INFO.category == CardCategory::Other &&

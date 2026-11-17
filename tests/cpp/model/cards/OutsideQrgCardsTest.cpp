@@ -39,7 +39,8 @@ const std::string FIXED_COMP_SOLID_PROP = "CompSolidProp;2;0;23;;;20.;0.;1;1;0.5
 // PlotTria3 and PlotQuad4
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PLOTEL3 is a triangle between three grid points and has an ID space of its own", "[model][cards][outside]")
+TEST_CASE("a PlotTria3 is a triangle between three grid points and has an ID space of its own",
+          "[model][cards][outside]")
 {
     // A plot triangle, then an ID that a ShellTria3 has too: a plot element never replaces a structural one.
     Model model = readBulk("PlotTria3;10;1847;6253;18041\nShellTria3;10;1;1;2;3\nPlotTria3;11;1;2;3");
@@ -55,7 +56,7 @@ TEST_CASE("a PLOTEL3 is a triangle between three grid points and has an ID space
     REQUIRE_THROWS_AS(readBulk("PlotTria3;1;1;2;3\nPlotTria3;1;2;3;4"), base::DeckError);
 }
 
-TEST_CASE("a PLOTEL3 refuses repeated points, missing fields and a second element", "[model][cards][outside]")
+TEST_CASE("a PlotTria3 refuses repeated points, missing fields and a second element", "[model][cards][outside]")
 {
     expectInvalid("PlotTria3;0;1;2;3", "id");
     expectInvalid("PlotTria3;1;0;2;3", "node1");
@@ -66,7 +67,7 @@ TEST_CASE("a PLOTEL3 refuses repeated points, missing fields and a second elemen
     // The layout of the decks has four fields: a fifth one (a second element, or a fourth point) is not understood.
 }
 
-TEST_CASE("a PLOTEL3 names three grid points, which a renumbering of the nodes follows", "[model][cards][outside]")
+TEST_CASE("a PlotTria3 names three grid points, which a renumbering of the nodes follows", "[model][cards][outside]")
 {
     Model model = readBulk(GRIDS + "PlotTria3;10;1;2;3\nPlotTria3;11;2;3;99");
     RecordingVisitor visitor;
@@ -84,7 +85,7 @@ TEST_CASE("a PLOTEL3 names three grid points, which a renumbering of the nodes f
     REQUIRE(cardAt<PlotTria3Table>(model, 0).id == 10);
 }
 
-TEST_CASE("a PLOTEL4 is a quadrilateral between four grid points and has an ID space of its own",
+TEST_CASE("a PlotQuad4 is a quadrilateral between four grid points and has an ID space of its own",
           "[model][cards][outside]")
 {
     Model model = readBulk("PlotQuad4;20;1847;6253;18041;9175\nShellQuad4;20;1;1;2;3;4\nPlotQuad4;21;1;2;3;4");
@@ -99,7 +100,7 @@ TEST_CASE("a PLOTEL4 is a quadrilateral between four grid points and has an ID s
     REQUIRE_THROWS_AS(readBulk("PlotQuad4;1;1;2;3;4\nPlotQuad4;1;2;3;4;5"), base::DeckError);
 }
 
-TEST_CASE("a PLOTEL4 refuses repeated points, missing fields and a second element", "[model][cards][outside]")
+TEST_CASE("a PlotQuad4 refuses repeated points, missing fields and a second element", "[model][cards][outside]")
 {
     expectInvalid("PlotQuad4;0;1;2;3;4", "id");
     expectInvalid("PlotQuad4;1;1;2;3;0", "node1");
@@ -111,7 +112,7 @@ TEST_CASE("a PLOTEL4 refuses repeated points, missing fields and a second elemen
     expectInvalid("PlotQuad4;1;1;2;3", "node4");
 }
 
-TEST_CASE("a PLOTEL4 names four grid points, which a renumbering of the nodes follows", "[model][cards][outside]")
+TEST_CASE("a PlotQuad4 names four grid points, which a renumbering of the nodes follows", "[model][cards][outside]")
 {
     Model model = readBulk(GRIDS + "PlotQuad4;20;1;2;3;4\nPlotQuad4;21;1;2;3;99");
     RecordingVisitor visitor;
@@ -129,7 +130,7 @@ TEST_CASE("a PLOTEL4 names four grid points, which a renumbering of the nodes fo
 // PlaneProp
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PPLANE has the fields of another implementation of the format and keeps a blank thickness blank",
+TEST_CASE("a PlaneProp has the fields of another implementation of the format and keeps a blank thickness blank",
           "[model][cards][outside]")
 {
     Model model = readBulk("PlaneProp;3;1;1.\nPlaneProp;4;1;0.25;0.01;2\nPlaneProp;5;1");
@@ -150,7 +151,7 @@ TEST_CASE("a PPLANE has the fields of another implementation of the format and k
     REQUIRE_THROWS_AS(readBulk("PlaneProp;3;1;1.\nShellProp;3;1;0.1"), base::DeckError);
 }
 
-TEST_CASE("a PPLANE refuses what it does not know", "[model][cards][outside]")
+TEST_CASE("a PlaneProp refuses what it does not know", "[model][cards][outside]")
 {
     expectInvalid("PlaneProp;0;1;1.", "id");
     expectInvalid("PlaneProp;3;0;1.", "matId");
@@ -160,7 +161,7 @@ TEST_CASE("a PPLANE refuses what it does not know", "[model][cards][outside]")
     expectInvalid("PlaneProp;3;1;x", "thickness");
 }
 
-TEST_CASE("a PPLANE names a material, which a renumbering of the materials and of the properties follows",
+TEST_CASE("a PlaneProp names a material, which a renumbering of the materials and of the properties follows",
           "[model][cards][outside]")
 {
     Model model = readBulk("IsoMat;1;3.E+7;;0.3\nPlaneProp;3;1;1.\nPlaneProp;4;2;1.");
@@ -181,7 +182,7 @@ TEST_CASE("a PPLANE names a material, which a renumbering of the materials and o
 // CompSolidProp
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a PCOMPS reads its plies, the last field of a ply included", "[model][cards][outside]")
+TEST_CASE("a CompSolidProp reads its plies, the last field of a ply included", "[model][cards][outside]")
 {
     Model model = readBulk(FIXED_COMP_SOLID_PROP +
                            "CompSolidProp;7;0;13;;;20.;0.;1;1;5.;0.;;;Yes;Absolute;2;1;5.;0.;;;Yes;Absolute\n"
@@ -217,7 +218,8 @@ TEST_CASE("a PCOMPS reads its plies, the last field of a ply included", "[model]
     requireRoundTrip(model);
 }
 
-TEST_CASE("a PCOMPS has the defaults of its blank fields and writes THETA of every ply", "[model][cards][outside]")
+TEST_CASE("a CompSolidProp has the defaults of its blank fields and writes THETA of every ply",
+          "[model][cards][outside]")
 {
     Model model = readBulk("CompSolidProp;7;;;;;;;1;1;5.;;;;;;2;1;5.;30.;;;No");
     const CompSolidPropCard card = cardAt<CompSolidPropTable>(model, 0);
@@ -236,7 +238,7 @@ TEST_CASE("a PCOMPS has the defaults of its blank fields and writes THETA of eve
     requireRoundTrip(model);
 }
 
-TEST_CASE("a PCOMPS refuses what it does not know", "[model][cards][outside]")
+TEST_CASE("a CompSolidProp refuses what it does not know", "[model][cards][outside]")
 {
     expectInvalid("CompSolidProp;0;;;;;;;1;1;0.5", "id");
     expectInvalid("CompSolidProp;2;-2;;;;;;1;1;0.5", "matFrameId");
@@ -257,7 +259,7 @@ TEST_CASE("a PCOMPS refuses what it does not know", "[model][cards][outside]")
     oor::testing::requireModelFileRoundTrip(readModelText("CompSolidProp;2;;;;;;;1;1;0.5;0.;;;;TOOLONGWORD", true));
 }
 
-TEST_CASE("a PCOMPS names the materials of its plies and a coordinate system, which renumberings follow",
+TEST_CASE("a CompSolidProp names the materials of its plies and a coordinate system, which renumberings follow",
           "[model][cards][outside]")
 {
     Model model = readBulk(
@@ -289,7 +291,8 @@ TEST_CASE("a PCOMPS names the materials of its plies and a coordinate system, wh
 // ElemGeneration
 // ---------------------------------------------------------------------------------------------------------------------
 
-TEST_CASE("a CGEN keeps its four leading fields and the fields it does not know as written", "[model][cards][outside]")
+TEST_CASE("an ElemGeneration keeps its four leading fields and the fields it does not know as written",
+          "[model][cards][outside]")
 {
     // Two cards with their leading fields only (the fifth field is an integer in the first one), and a card with the
     // options in both lines.
@@ -317,7 +320,7 @@ TEST_CASE("a CGEN keeps its four leading fields and the fields it does not know 
     requireRoundTrip(model);
 }
 
-TEST_CASE("a CGEN preserves long words and refuses a missing type or number", "[model][cards][outside]")
+TEST_CASE("an ElemGeneration preserves long words and refuses a missing type or number", "[model][cards][outside]")
 {
     expectInvalid("ElemGeneration;;1001;1;1", "kind");
     oor::testing::requireModelFileRoundTrip(readModelText("ElemGeneration;HEXA8TOOLONG;1001;1;1", true));
@@ -329,7 +332,7 @@ TEST_CASE("a CGEN preserves long words and refuses a missing type or number", "[
     // A thirteenth field: fields 9 to 12 are blank and field 13 is not.
 }
 
-TEST_CASE("a CGEN names the property of its elements and not its GRIDG field", "[model][cards][outside]")
+TEST_CASE("an ElemGeneration names the property of its elements and not its GRIDG field", "[model][cards][outside]")
 {
     Model model =
         readBulk("IsoMat;1;3.E+7;;0.3\nSolidProp;1;1\nElemGeneration;Hexa8;1001;1;1\nElemGeneration;Hexa8;1002;2;1");

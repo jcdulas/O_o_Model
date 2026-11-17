@@ -80,7 +80,8 @@ public:
             lowerMoment[row] = card.hingeMomentLowerLimit.value_or(NOT_A_NUMBER);
             upperMoment[row] = card.hingeMomentUpperLimit.value_or(NOT_A_NUMBER);
             const SurfaceBoxes surfaceBoxes = boxesOf(model, card);
-            const std::vector<base::EntityId> ids = surfaceBoxes.items.expand("the AESURF " + std::to_string(card.id));
+            const std::vector<base::EntityId> ids = surfaceBoxes.items.expand("the AeroControlSurface " +
+                                                                              std::to_string(card.id));
             boxes.insert(boxes.end(), ids.begin(), ids.end());
             boxOffsets.push_back(static_cast<std::int64_t>(boxes.size()));
             boxCount[row] = surfaceBoxes.items.count();
@@ -113,7 +114,8 @@ private:
         info.name = "controlSurfacesTable";
         info.family = "T10";
         info.description =
-            "The control surfaces (AESURF cards), one row for each. `effectiveness` is EFF, `isLinear` is true for "
+            "The control surfaces (AeroControlSurface cards), one row for each. `effectiveness` is EFF, `isLinear` is "
+            "true for "
             "LDW "
             "(linear downwash) and false for NOLDW, `refChord` and `refArea` are CREFC and CREFS. `positionLower` "
             "and "

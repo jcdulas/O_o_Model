@@ -132,7 +132,8 @@ std::string rods()
 
 // ------------------------------------------------------------------------------------------------ point loads
 
-TEST_CASE("FORCE1, FORCE2, MOMENT1 and MOMENT2 name their points by field and refuse coincident ones", "[model][cards]")
+TEST_CASE("PointForceLoad1, PointForceLoad2, PointMomentLoad1 and PointMomentLoad2 name their points by field and "
+          "refuse coincident ones", "[model][cards]")
 {
     const Model model = readBulk(
         "PointForceLoad1;6;21;-3.45;24;21\nPointForceLoad2;7;21;-3.45;24;21;27;19\nPointMomentLoad1;8;21;1.8;24;"
@@ -159,7 +160,8 @@ TEST_CASE("FORCE1, FORCE2, MOMENT1 and MOMENT2 name their points by field and re
     expectInvalid("PointMomentLoad2;1;1;1.;3;4;5;5", "node4");
 }
 
-TEST_CASE("the points of FORCE1, FORCE2, MOMENT1 and MOMENT2 are node references that renumber and resolve",
+TEST_CASE("the points of PointForceLoad1, PointForceLoad2, PointMomentLoad1 and PointMomentLoad2 are node references "
+          "that renumber and resolve",
           "[model][cards]")
 {
     Model model = readBulk(grids() +
@@ -185,7 +187,7 @@ TEST_CASE("the points of FORCE1, FORCE2, MOMENT1 and MOMENT2 are node references
     REQUIRE(cardAt<PointMomentLoad2Table>(model).id == 1009);
 }
 
-TEST_CASE("PLOAD is a triangle or a quadrilateral and its points are nodes", "[model][cards]")
+TEST_CASE("PointsPressureLoad is a triangle or a quadrilateral and its points are nodes", "[model][cards]")
 {
     Model model =
         readBulk(grids() +
@@ -214,7 +216,8 @@ TEST_CASE("PLOAD is a triangle or a quadrilateral and its points are nodes", "[m
 }
 
 TEST_CASE(
-    "PLOAD1 has its type and scale words, a blank X2 takes X1, a blank P2 stays blank, and its element is a reference",
+    "BeamDistributedLoad has its type and scale words, a blank X2 takes X1, a blank P2 stays blank, and its element is "
+    "a reference",
     "[model][cards]")
 {
     Model model = readBulk(rods() +
@@ -251,7 +254,8 @@ TEST_CASE(
     expectInvalid("BeamDistributedLoad;1;1;ForceX;FractionalLength;0.5;1.;1.5", "xCoord2");
 }
 
-TEST_CASE("PLOAD2 lists elements over its continuation lines, or one THRU range, and its elements are references",
+TEST_CASE("ShellPressureLoad lists elements over its continuation lines, or one THRU range, and its elements are "
+          "references",
           "[model][cards]")
 {
     Model model =
@@ -283,7 +287,7 @@ TEST_CASE("PLOAD2 lists elements over its continuation lines, or one THRU range,
     expectInvalid("ShellPressureLoad;1;1.;Through;5", "Through");
 }
 
-TEST_CASE("PLOADX1 has a PB that defaults to PA and an angle", "[model][cards]")
+TEST_CASE("AxisymTractionLoad has a PB that defaults to PA and an angle", "[model][cards]")
 {
     Model model = readBulk(
         grids() +
@@ -312,7 +316,7 @@ TEST_CASE("PLOADX1 has a PB that defaults to PA and an angle", "[model][cards]")
     expectInvalid("AxisymTractionLoad;1;1;1.;;5", "nodeB");
 }
 
-TEST_CASE("SLOAD has one to three loads on scalar or grid points", "[model][cards]")
+TEST_CASE("ScalarPointLoad has one to three loads on scalar or grid points", "[model][cards]")
 {
     Model model = readBulk(grids() +
                            "ScalarPoint;100\nScalarPointLoad;16;3;4.2;19;-5.1;100;-1.75\nScalarPointLoad;17;5;1."
@@ -333,7 +337,8 @@ TEST_CASE("SLOAD has one to three loads on scalar or grid points", "[model][card
     expectInvalid("ScalarPointLoad;1;0;1.", "scalarPoint1");
 }
 
-TEST_CASE("RFORCE has its fields on two lines, defaults, a METHOD of 1 or 2 and a rotation vector", "[model][cards]")
+TEST_CASE("RotationalForceLoad has its fields on two lines, defaults, a METHOD of 1 or 2 and a rotation vector",
+          "[model][cards]")
 {
     Model model = readBulk(grids() +
                            "RectFrame2;3;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"
@@ -368,7 +373,8 @@ TEST_CASE("RFORCE has its fields on two lines, defaults, a METHOD of 1 or 2 and 
 
 // ------------------------------------------------------------------------------------------------ sets of loads
 
-TEST_CASE("LSEQ names a set of loads and a set of temperatures, and its EXCITEID is what a dynamic load names",
+TEST_CASE("StaticLoadSequence names a set of loads and a set of temperatures, and its EXCITEID is what a dynamic load "
+          "names",
           "[model][cards]")
 {
     const std::string cards = grids() +
@@ -439,7 +445,8 @@ TEST_CASE("the Case Control commands LOADSET, DEFORM, TEMPERATURE and NONLINEAR 
     REQUIRE(cardAt<DefaultTemperatureLoadTable>(model).id == 17);
 }
 
-TEST_CASE("LOADCYN, LOADCYH and LOADCYT have their fields and rules", "[model][cards]")
+TEST_CASE("CyclicSegmentLoad, CyclicHarmonicLoad and CyclicAzimuthTableLoad have their fields and rules",
+          "[model][cards]")
 {
     Model model = readBulk(
         "Node;1;;0.;0.;0.\n"
@@ -507,7 +514,8 @@ TEST_CASE("LOADCYN, LOADCYH and LOADCYT have their fields and rules", "[model][c
 
 // ------------------------------------------------------------------------------------------------ temperatures
 
-TEST_CASE("TEMPD gives one default temperature per pair, each for the set of its own", "[model][cards]")
+TEST_CASE("DefaultTemperatureLoad gives one default temperature per pair, each for the set of its own",
+          "[model][cards]")
 {
     Model model = readBulk(
         "DefaultTemperatureLoad;1;208.4;2;300.;3;400.;4;500.\nDefaultTemperatureLoad;5;20.\nNodeTemperatureLoad;1;3;"
@@ -537,7 +545,7 @@ TEST_CASE("TEMPD gives one default temperature per pair, each for the set of its
     expectInvalid("DefaultTemperatureLoad;0;20.", "id");
 }
 
-TEST_CASE("TEMPP1 has its temperatures and its elements over the continuation lines", "[model][cards]")
+TEST_CASE("PlateTemperatureLoad has its temperatures and its elements over the continuation lines", "[model][cards]")
 {
     Model model = readBulk(rods() +
                            "PlateTemperatureLoad;2;27;55.;8.;51.;59.;29;23;17;30\n"
@@ -564,7 +572,8 @@ TEST_CASE("TEMPP1 has its temperatures and its elements over the continuation li
     expectInvalid("PlateTemperatureLoad;0;5;1.", "id");
 }
 
-TEST_CASE("TEMPRB gives the point temperatures their end temperature when some are blank and none when all are",
+TEST_CASE("LineElemTemperatureLoad gives the point temperatures their end temperature when some are blank and none "
+          "when all are",
           "[model][cards]")
 {
     Model model = readBulk(rods() +
@@ -589,7 +598,8 @@ TEST_CASE("TEMPRB gives the point temperatures their end temperature when some a
             std::vector<ElementRun>{{101, 101}, {102, 104}, {110, 114}});
 }
 
-TEST_CASE("TEMPAX, DEFORM and FORCEAX have their fields and rules", "[model][cards]")
+TEST_CASE("AxisymConeTemperatureLoad, AxialDeformationLoad and AxisymRingForceLoad have their fields and rules",
+          "[model][cards]")
 {
     Model model = readBulk(rods() +
                            "AxisymConeTemperatureLoad;4;7;30.;98.6;5;8;60.;110.\n"
@@ -633,7 +643,7 @@ TEST_CASE("TEMPAX, DEFORM and FORCEAX have their fields and rules", "[model][car
 
 // ------------------------------------------------------------------------------------------------ dynamic loads
 
-TEST_CASE("ACSRCE has IDs or constants in three fields and names its excitation set", "[model][cards]")
+TEST_CASE("AcousticSourceLoad has IDs or constants in three fields and names its excitation set", "[model][cards]")
 {
     Model model = readBulk(
         "DynamicLoadScale;11;5;1;1.\n"
@@ -675,7 +685,8 @@ TEST_CASE("ACSRCE has IDs or constants in three fields and names its excitation 
     expectInvalid("AcousticSourceLoad;1;0;;;;;5;;1.;1.", "excitationId");
 }
 
-TEST_CASE("NOLIN1 to NOLIN4 have their points, components and last field", "[model][cards]")
+TEST_CASE("NonlinearTableLoad1 to NonlinearNegativePowerLoad4 have their points, components and last field",
+          "[model][cards]")
 {
     Model model = readBulk(grids() +
                            "ExtraPoint;60\n"
@@ -717,7 +728,7 @@ TEST_CASE("NOLIN1 to NOLIN4 have their points, components and last field", "[mod
 // ------------------------------------------------------------------------------------------------ FacePressureLoad and
 // GravityLoad
 
-TEST_CASE("every form of PLOAD4 is read with the fields the format reference gives it", "[model][cards]")
+TEST_CASE("every form of FacePressureLoad is read with the fields the format reference gives it", "[model][cards]")
 {
     Model model = readBulk(rods() +
                            "FacePressureLoad;1;1;10.\n"
@@ -759,7 +770,8 @@ TEST_CASE("every form of PLOAD4 is read with the fields the format reference giv
     expectInvalid("FacePressureLoad;1;5;1.;;;;Through;3", "elemId2");
 }
 
-TEST_CASE("GRAV is read with its coordinate system, vector and MB, and its vector may not be zero", "[model][cards]")
+TEST_CASE("GravityLoad is read with its coordinate system, vector and MB, and its vector may not be zero",
+          "[model][cards]")
 {
     Model model = readBulk(
         "RectFrame2;3;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"

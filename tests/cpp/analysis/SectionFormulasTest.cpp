@@ -382,7 +382,8 @@ TEST_CASE("the section of a property card is the one the card gives, or the form
     REQUIRE_FALSE(SectionFormulas::of(model, 99).has_value());
 }
 
-TEST_CASE("the sections of PBCOMP, PBEAM3 and PBEND are the values of their cards", "[analysis][section]")
+TEST_CASE("the sections of BeamLumpedAreaProp, BeamProp3 and CurvedBeamProp are the values of their cards",
+          "[analysis][section]")
 {
     const model::Model model = readModelText(
         "IsoMat;1;2.1E+5;;0.3;7.8E-9\n"

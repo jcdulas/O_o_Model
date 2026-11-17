@@ -12,7 +12,7 @@
 namespace oor::model
 {
 
-// The kind of property an UserElemService extends (the PTYPE field). The format names one: BushProp2D. The word table
+// The kind of property a UserElemService extends (the PTYPE field). The format names one: BushProp2D. The word table
 // holds the neutral card names, as a record writes them.
 enum class UserElemServicePropertyType : std::uint8_t
 {
@@ -30,7 +30,7 @@ enum class UserElemServiceDependence : std::uint8_t
 
 inline constexpr std::array<std::string_view, 2> USER_ELEM_SERVICE_DEPENDENCE_WORDS{"NoMassDependence", "Frequency"};
 
-// The words that open the three sections of data of an UserElemService.
+// The words that open the three sections of data of a UserElemService.
 inline constexpr std::string_view USER_ELEM_SERVICE_INTEGER_WORD = "IntegerBlock";
 inline constexpr std::string_view USER_ELEM_SERVICE_REAL_WORD = "RealBlock";
 inline constexpr std::string_view USER_ELEM_SERVICE_CHARACTER_WORD = "TextBlock";

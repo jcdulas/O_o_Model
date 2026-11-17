@@ -101,7 +101,8 @@ void SuperelementCopyPointsTable::keepRows(const std::vector<std::uint32_t>& row
 void SuperelementCopyPointsTable::setIdAtRow(std::uint32_t row, base::EntityId id)
 {
     if (id <= 0 || id >= SuperelementCopyPointsCard::NUMBER_RANGE)
-        throw base::UsageError("the number of a secondary superelement (CSUPER) must be between 1 and 9999, not " +
+        throw base::UsageError("the number of a secondary superelement (SuperelementCopyPoints) must be between 1 and "
+                               "9999, not " +
                                std::to_string(id));
     SuperelementCopyPointsCard& card = m_cards.edit(row);
     card.superelementId = card.reversalCode() * SuperelementCopyPointsCard::NUMBER_RANGE + id;

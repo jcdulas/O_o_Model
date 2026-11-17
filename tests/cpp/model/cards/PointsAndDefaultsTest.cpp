@@ -68,7 +68,7 @@ std::vector<base::EntityId> idsOf(const Model& model)
 
 } // namespace
 
-TEST_CASE("an SPOINT card gives one scalar point per ID, a THRU range giving all of its points", "[model][cards]")
+TEST_CASE("a ScalarPoint card gives one scalar point per ID, a THRU range giving all of its points", "[model][cards]")
 {
     const Model model = readBulk("ScalarPoint;1;3;Through;6;10;20");
     REQUIRE(idsOf<ScalarPointTable>(model) == std::vector<base::EntityId>{1, 3, 4, 5, 6, 10, 20});
@@ -117,7 +117,7 @@ TEST_CASE("a scalar point and a grid point cannot have the same ID, but a scalar
     REQUIRE_FALSE(tolerant.diagnostics().diagnostics().empty());
 }
 
-TEST_CASE("an SPOINT THRU range must go up and stay small, and THRU needs a single ID before it", "[model][cards]")
+TEST_CASE("a ScalarPoint THRU range must go up and stay small, and THRU needs a single ID before it", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("ScalarPoint;1;Through"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("ScalarPoint;3;Through;3"), base::DeckError);
@@ -133,7 +133,7 @@ TEST_CASE("an SPOINT THRU range must go up and stay small, and THRU needs a sing
     REQUIRE(tolerant.cardCount() == 1); // kept as text
 }
 
-TEST_CASE("an SPOINT or EPOINT range at the ends of the ID range is counted and expanded without overflow",
+TEST_CASE("a ScalarPoint or ExtraPoint range at the ends of the ID range is counted and expanded without overflow",
           "[model][cards][robustness]")
 {
     // The last ID 2147483647: a 32-bit counter would wrap after it and never stop.
@@ -232,7 +232,7 @@ TEST_CASE("a renumbering that gives a scalar point the ID of a grid point change
     oor::testing::requireModelFileRoundTrip(model);
 }
 
-TEST_CASE("GRDSET gives CP, CD, PS and SEID to the grid points that leave them blank, wherever it is in the deck",
+TEST_CASE("NodeDefaults gives CP, CD, PS and SEID to the grid points that leave them blank, wherever it is in the deck",
           "[model][cards]")
 {
     const std::string grids =
@@ -268,7 +268,7 @@ TEST_CASE("GRDSET gives CP, CD, PS and SEID to the grid points that leave them b
     }
 }
 
-TEST_CASE("GRDSET applies to each field on its own", "[model][cards]")
+TEST_CASE("NodeDefaults applies to each field on its own", "[model][cards]")
 {
     const Model model = readBulk("NodeDefaults;;;6\nNode;1;3;0.;0.;0.\nNode;2;;0.;0.;0.;4\nNode;3;;0.;0.;0.;;5");
     const NodeTable& table = *model.findTable<NodeTable>();
@@ -280,7 +280,8 @@ TEST_CASE("GRDSET applies to each field on its own", "[model][cards]")
     REQUIRE(table.card(2).positionFrameId == 0);
 }
 
-TEST_CASE("without a GRDSET the blank fields of a grid point are the zeros of the format reference", "[model][cards]")
+TEST_CASE("without a NodeDefaults the blank fields of a grid point are the zeros of the format reference",
+          "[model][cards]")
 {
     const Model model = readBulk("Node;1;;0.;0.;0.");
     const NodeCard grid = cardAt<NodeTable>(model);
@@ -291,7 +292,7 @@ TEST_CASE("without a GRDSET the blank fields of a grid point are the zeros of th
                                  NodeCard::BLANK_PERMANENT_CONSTRAINTS | NodeCard::BLANK_SUPERELEMENT));
 }
 
-TEST_CASE("a model written after GRDSET was applied reads back the same grid points", "[model][cards]")
+TEST_CASE("a model written after NodeDefaults was applied reads back the same grid points", "[model][cards]")
 {
     const Model model = readBulk("Node;1;;0.;0.;0.\nNodeDefaults;14;28;2456;6");
 
@@ -300,7 +301,7 @@ TEST_CASE("a model written after GRDSET was applied reads back the same grid poi
     const Model again = readBulk(writeModelText(model));
 }
 
-TEST_CASE("with a GRDSET in the model the grids write their zeros, so the zero still overrides the default",
+TEST_CASE("with a NodeDefaults in the model the grids write their zeros, so the zero still overrides the default",
           "[model][cards]")
 {
     const Model model = readBulk("Node;3;0;0.;1.;0.;0;0;0\nNodeDefaults;14;28;2456;6");
@@ -317,7 +318,8 @@ TEST_CASE("with a GRDSET in the model the grids write their zeros, so the zero s
     oor::testing::requireModelFileRoundTrip(alone);
 }
 
-TEST_CASE("with a BAROR in the model the bars write their zeros and their OFFT, so the defaults do not apply again",
+TEST_CASE("with a Bar2Defaults in the model the bars write their zeros and their OFFT, so the defaults do not apply "
+          "again",
           "[model][cards]")
 {
     const Model model = readBulk(
@@ -332,7 +334,7 @@ TEST_CASE("with a BAROR in the model the bars write their zeros and their OFFT, 
     REQUIRE(bar.offsetKind == "OffsetsGlobalGlobalGlobal");
 }
 
-TEST_CASE("a grid point added after the read does not get the GRDSET defaults", "[model][cards]")
+TEST_CASE("a grid point added after the read does not get the NodeDefaults defaults", "[model][cards]")
 {
     Model model = readBulk("Node;1;;0.;0.;0.\nNodeDefaults;16");
     NodeCard added;
@@ -342,7 +344,7 @@ TEST_CASE("a grid point added after the read does not get the GRDSET defaults", 
     REQUIRE(model.findTable<NodeTable>()->card(1).positionFrameId == 0);
 }
 
-TEST_CASE("GRDSET is one card, all of whose fields are blank or in the format's ranges", "[model][cards]")
+TEST_CASE("NodeDefaults is one card, all of whose fields are blank or in the format's ranges", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("NodeDefaults"), base::DeckError); // at least one field is needed
     REQUIRE_THROWS_AS(readBulk("NodeDefaults;-1"), base::DeckError);
@@ -357,7 +359,7 @@ TEST_CASE("GRDSET is one card, all of whose fields are blank or in the format's 
     REQUIRE(cardAt<NodeTable>(tolerant).positionFrameId == 16);
 }
 
-TEST_CASE("each part has its own GRDSET", "[model][cards]")
+TEST_CASE("each part has its own NodeDefaults", "[model][cards]")
 {
     const Model model = readModelText(
         "[model]\nNode;1;;0.;0.;0.\nNodeDefaults;16\n[model;SuperelementPart;5]\nNode;1;;7.;0.;0.\nNodeDefaults;17\n",
@@ -367,7 +369,7 @@ TEST_CASE("each part has its own GRDSET", "[model][cards]")
     REQUIRE(cardAt<NodeTable>(*model.parts().front()).positionFrameId == 17);
 }
 
-TEST_CASE("the coordinate systems of a GRDSET and of the grids that took them are renumbered together",
+TEST_CASE("the coordinate systems of a NodeDefaults and of the grids that took them are renumbered together",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -384,7 +386,7 @@ TEST_CASE("the coordinate systems of a GRDSET and of the grids that took them ar
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("BAROR gives the PID, the orientation and OFFT to the CBARs that leave them blank, wherever it is",
+TEST_CASE("Bar2Defaults gives the PID, the orientation and OFFT to the CBARs that leave them blank, wherever it is",
           "[model][cards]")
 {
     const std::string bars =
@@ -417,7 +419,7 @@ TEST_CASE("BAROR gives the PID, the orientation and OFFT to the CBARs that leave
     }
 }
 
-TEST_CASE("BAROR can give a grid point as the default orientation", "[model][cards]")
+TEST_CASE("Bar2Defaults can give a grid point as the default orientation", "[model][cards]")
 {
     const Model model = readBulk(
         "Bar2;1;5;1;2\nBar2;2;5;1;2;0.;;0.;1.\nBar2;3;5;1;2;4.\nBar2Defaults;;;105;;;"
@@ -434,7 +436,7 @@ TEST_CASE("BAROR can give a grid point as the default orientation", "[model][car
     REQUIRE(cardAt<Bar2DefaultsTable>(model).orientationNode == 105);
 }
 
-TEST_CASE("without a BAROR a blank PID is the EID and a blank orientation is the zero vector", "[model][cards]")
+TEST_CASE("without a Bar2Defaults a blank PID is the EID and a blank orientation is the zero vector", "[model][cards]")
 {
     const Model model = readBulk("Bar2;8;;1;2");
     const Bar2Card bar = cardAt<Bar2Table>(model);
@@ -448,7 +450,7 @@ TEST_CASE("without a BAROR a blank PID is the EID and a blank orientation is the
     REQUIRE(cardAt<Bar2Table>(noPid).offsetKind == "OffsetsBasicOrientOrient");
 }
 
-TEST_CASE("BAROR is one card with a valid PID, orientation and OFFT", "[model][cards]")
+TEST_CASE("Bar2Defaults is one card with a valid PID, orientation and OFFT", "[model][cards]")
 {
     REQUIRE_THROWS_AS(readBulk("Bar2Defaults;-3"), base::DeckError);
     REQUIRE_THROWS_AS(readBulk("Bar2Defaults;;;1;;;XXX"), base::DeckError);
@@ -459,7 +461,7 @@ TEST_CASE("BAROR is one card with a valid PID, orientation and OFFT", "[model][c
     REQUIRE(cardAt<Bar2Table>(tolerant).propId == 5);
 }
 
-TEST_CASE("BEAMOR does for CBEAM what BAROR does for CBAR", "[model][cards]")
+TEST_CASE("Beam2Defaults does for Beam2 what Bar2Defaults does for Bar2", "[model][cards]")
 {
     const Model model = readBulk(
         "Beam2;1;;1;2\n"
@@ -480,7 +482,7 @@ TEST_CASE("BEAMOR does for CBEAM what BAROR does for CBAR", "[model][cards]")
     REQUIRE_THROWS_AS(readBulk("Beam2Defaults;5\nBeam2Defaults;6"), base::DeckError);
 }
 
-TEST_CASE("the cards read with BAROR defaults are written with them resolved, so they read back the same",
+TEST_CASE("the cards read with Bar2Defaults defaults are written with them resolved, so they read back the same",
           "[model][cards]")
 {
     const Model model = readBulk("Bar2;1;;1;2\nBar2Defaults;47;0.4;;3.1;-4.65;OffsetsGlobalOrientGlobal");
@@ -489,7 +491,7 @@ TEST_CASE("the cards read with BAROR defaults are written with them resolved, so
     const Model again = readBulk(writeModelText(model));
 }
 
-TEST_CASE("CORD3G is a coordinate system of the coordinate ID space and refers to its reference system",
+TEST_CASE("GeneralFrame3 is a coordinate system of the coordinate ID space and refers to its reference system",
           "[model][cards]")
 {
     // The angles are equations (DesignEquation): the six numbers name the equation cards that follow.

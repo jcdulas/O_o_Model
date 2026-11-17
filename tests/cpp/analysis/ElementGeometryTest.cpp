@@ -494,7 +494,7 @@ std::string surfaceBase()
 
 } // namespace
 
-TEST_CASE("the six sides of a CHBDYE on a cube are its faces, the normals pointing out",
+TEST_CASE("the six sides of a HeatSurfaceSide on a cube are its faces, the normals pointing out",
           "[analysis][geometry][thermal]")
 {
     std::string deck = surfaceBase();
@@ -554,7 +554,8 @@ TEST_CASE("the sides of a tetrahedron and of a prism have their own corners, thr
     REQUIRE(std::isnan(geometryOf(model, 326).area)); // a prism has five sides
 }
 
-TEST_CASE("a CHBDYE on a shell has the shell as top and bottom, and its edges as lines with the thickness as width",
+TEST_CASE("a HeatSurfaceSide on a shell has the shell as top and bottom, and its edges as lines with the thickness as "
+          "width",
           "[analysis][geometry][thermal]")
 {
     const Model model = readModelText(surfaceBase() +
@@ -575,7 +576,7 @@ TEST_CASE("a CHBDYE on a shell has the shell as top and bottom, and its edges as
     requireVec(values.normal, 1, 0, 0);
 }
 
-TEST_CASE("a CHBDYE on a rod has a linear side and two end points with the cross-section",
+TEST_CASE("a HeatSurfaceSide on a rod has a linear side and two end points with the cross-section",
           "[analysis][geometry][thermal]")
 {
     const Model model = readModelText(surfaceBase() +
@@ -599,7 +600,7 @@ TEST_CASE("a CHBDYE on a rod has a linear side and two end points with the cross
     REQUIRE(std::isnan(geometryOf(model, 563).area));     // a rod has three sides
 }
 
-TEST_CASE("a CHBDYE with no conduction element, or on one with no side numbering, has no geometry",
+TEST_CASE("a HeatSurfaceSide with no conduction element, or on one with no side numbering, has no geometry",
           "[analysis][geometry][thermal]")
 {
     const Model model = readModelText(
@@ -613,7 +614,7 @@ TEST_CASE("a CHBDYE with no conduction element, or on one with no side numbering
     }
 }
 
-TEST_CASE("a CHBDYG has the geometry of its type: triangle, quadrilateral, cone and the right-hand normal",
+TEST_CASE("a HeatSurfaceNodes has the geometry of its type: triangle, quadrilateral, cone and the right-hand normal",
           "[analysis][geometry][thermal]")
 {
     std::string deck = grid(1, 0, 0, 0) + grid(2, 2, 0, 0) + grid(3, 0, 2, 0);
@@ -641,7 +642,8 @@ TEST_CASE("a CHBDYG has the geometry of its type: triangle, quadrilateral, cone 
     requireVec(values.normal, ROOT_HALF, -ROOT_HALF, 0);
 }
 
-TEST_CASE("a CHBDYP has the area its PHBDY gives: AF for a point, AF by length for a line, the cone for a tube",
+TEST_CASE("a HeatSurfaceProperty has the area its HeatSurfaceProp gives: AF for a point, AF by length for a line, the "
+          "cone for a tube",
           "[analysis][geometry][thermal]")
 {
     const Model model = readModelText(surfaceBase() +

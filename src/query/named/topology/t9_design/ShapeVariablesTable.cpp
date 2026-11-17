@@ -101,7 +101,8 @@ private:
         info.name = "shapeVariablesTable";
         info.family = "T9";
         info.description =
-            "The shape design variables (DVGRID cards), one row per card: the design variable, the grid point it "
+            "The shape design variables (DesignNodeMove cards), one row per card: the design variable, the grid point "
+            "it "
             "moves, the system CID of the vector, COEFF, and the vector (N1, N2, N3) in the basic system, taken along "
             "the directions of CID at the grid point and not made a unit vector (the "
             "grid point "

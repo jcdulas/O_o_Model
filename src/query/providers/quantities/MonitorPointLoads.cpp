@@ -423,16 +423,16 @@ private:
 class ComputedMonitorNodeForceSum3Provider final : public MonitorProvider
 {
 public:
-    [[nodiscard]] std::string name() const override { return "grid point forces of the MONPNT3"; }
+    [[nodiscard]] std::string name() const override { return "grid point forces of the MonitorNodeForceSum3"; }
     [[nodiscard]] Outcome provide(const ResultQueryContext& context, const MonitorRequest& request,
                                   MonitorLoadSet& sink) const override
     {
         if (!context.hasModel())
-            return {0, "no model is attached to the results (the MONPNT3 cards are in the model)"};
+            return {0, "no model is attached to the results (the MonitorNodeForceSum3 cards are in the model)"};
         const model::Model& model = *context.modelPointer();
         const auto* table = model.findTable<model::MonitorNodeForceSum3Table>();
         if (table == nullptr)
-            return {0, "the model has no MONPNT3"};
+            return {0, "the model has no MonitorNodeForceSum3"};
         const std::shared_ptr<const NodePointForceSet> forces = NodePointForceSet::read(context);
         if (forces->empty())
             return {0, "the result file has no grid point force table (output of GPFORCE was not requested)"};
@@ -449,11 +449,12 @@ public:
             const std::optional<aero::IdRuns> grids = aero::setMembers(model, card.nodeSetId);
             if (!grids)
                 continue;
-            std::vector<base::EntityId> gridIds = grids->expand("the GRIDSET of MONPNT3 " + card.name);
+            std::vector<base::EntityId> gridIds = grids->expand("the GRIDSET of MonitorNodeForceSum3 " + card.name);
             std::set<std::int32_t> elements;
             if (card.elementSet > 0)
                 if (const std::optional<aero::IdRuns> listed = aero::setMembers(model, card.elementSet))
-                    for (const base::EntityId element : listed->expand("the ELEMSET of MONPNT3 " + card.name))
+                    for (const base::EntityId element : listed->expand("the ELEMSET of MonitorNodeForceSum3 " +
+                                                                       card.name))
                         elements.insert(static_cast<std::int32_t>(element));
             const auto excluded = [&](char letter) { return card.excluded.find(letter) != std::string::npos; };
             const auto counts = [&](NodePointForceKind kind, std::int32_t element)
@@ -537,7 +538,8 @@ public:
             }
         }
         if (outcome.rows == 0)
-            outcome.reason = "the grid point forces have no row at the grid points of the MONPNT3 asked for";
+            outcome.reason = "the grid point forces have no row at the grid points of the MonitorNodeForceSum3 asked "
+                             "for";
         return outcome;
     }
 

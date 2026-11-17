@@ -22,7 +22,7 @@ char dummyNumber(std::string_view name, std::string_view suffix = {}) noexcept
 
 // The user dummy elements need the attributes entry of their number: the fields of a CDUMi and a PDUMi are defined by
 // the ADUMi of the same number, and the crack tip elements are dummy elements of the
-// numbers 8 and 9 (they need an UserDefined8Attributes and an UserDefined9Attributes).
+// numbers 8 and 9 (they need a UserDefined8Attributes and a UserDefined9Attributes).
 class DummyEntryCheck final : public ValidationCheck
 {
 public:

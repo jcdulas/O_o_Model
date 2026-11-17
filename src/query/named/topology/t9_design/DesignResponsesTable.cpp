@@ -221,20 +221,27 @@ private:
         info.name = "designResponsesTable";
         info.family = "T9";
         info.description =
-            "The design responses (DRESP1, DRESP2 and DRESP3 cards): label, type of response (the neutral RTYPE word "
+            "The design responses (DesignResp1, DesignResp2 and DesignResp3 cards): label, type of response (the "
+            "neutral RTYPE word "
             "of a "
-            "DRESP1: Displacement, Stress, Weight, ...; DesignResp2 or DesignResp3 for the others), property type (the "
-            "PTYPE of a DRESP1: a neutral card name such as ShellProp, or Elements), region, the attributes ATTA and "
-            "ATTB of a DRESP1 as the deck writes them (null for the others), and what they measure: the elements, grid "
-            "points, properties or modes a DRESP1 names (the component, ATT1, of a STABDER, whose ATTi name no card), "
+            "DesignResp1: Displacement, Stress, Weight, ...; DesignResp2 or DesignResp3 for the others), property type "
+            "(the "
+            "PTYPE of a DesignResp1: a neutral card name such as ShellProp, or Elements), region, the attributes ATTA "
+            "and "
+            "ATTB of a DesignResp1 as the deck writes them (null for the others), and what they measure: the elements, "
+            "grid "
+            "points, properties or modes a DesignResp1 names (the component, ATT1, of a STABDER, whose ATTi name no "
+            "card), "
             "the "
-            "responses and grid points a DRESP2 or DRESP3 combines. "
+            "responses and grid points a DesignResp2 or DesignResp3 combines. "
             "`isObjective` is true for the response the Case Control DESOBJ names, with its `objectiveSense` (`min` "
-            "unless DESOBJ(MAX)). `responseCard` is the card type (DesignResp1, DesignResp2 or DesignResp3); a DRESP2 "
-            "gives its DEQATN (`equationId`) or its "
-            "`function` (Sum, Average, ...), a DRESP3 its `group` and `userType`. The ATTi of a DRESP1 and the "
+            "unless DESOBJ(MAX)). `responseCard` is the card type (DesignResp1, DesignResp2 or DesignResp3); a "
+            "DesignResp2 "
+            "gives its DesignEquation (`equationId`) or its "
+            "`function` (Sum, Average, ...), a DesignResp3 its `group` and `userType`. The ATTi of a DesignResp1 and "
+            "the "
             "arguments "
-            "of a DRESP2 and a DRESP3 are in `designResponseArgumentsTable`.";
+            "of a DesignResp2 and a DesignResp3 are in `designResponseArgumentsTable`.";
         info.defaultSort = "id";
         ColumnListBuilder columns;
         columns.int32("id").text("label").dictionary("responseType").dictionary("propertyType").int32("region");

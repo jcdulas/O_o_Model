@@ -82,7 +82,8 @@ private:
         info.name = "lineLoadsTable";
         info.family = "T8";
         info.description =
-            "The distributed loads on bars and beams (PLOAD1) of the sets asked for, LOAD combinations expanded: the "
+            "The distributed loads on bars and beams (BeamDistributedLoad) of the sets asked for, LOAD combinations "
+            "expanded: the "
             "element, "
             "the load type (FX FY FZ FXE FYE FZE MX MY MZ MXE MYE MZE: F force, M moment, the axis in the basic "
             "system, E at "

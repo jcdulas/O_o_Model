@@ -310,18 +310,25 @@ private:
         info.name = "aeroTrimCasesTable";
         info.family = "T10";
         info.description =
-            "The trim cases (TRIM and TRIM2 cards), one row for each variable of the model (the AESTAT, AESURF and "
-            "AEPARM cards, in this order and by ID) and for each label the card names that no card defines (last; "
+            "The trim cases (AeroTrim and AeroTrim2 cards), one row for each variable of the model (the "
+            "AeroRigidTrimVariable, AeroControlSurface and "
+            "AeroController cards, in this order and by ID) and for each label the card names that no card defines "
+            "(last; "
             "`variableKind` is null). `subcases` are the subcases whose Case Control TRIM selects the set. A variable "
-            "a TRIM fixes is `fixed` with its `value`; one it does not name is solved for (`free`) unless an AELINK of "
-            "the set (or of ID 0) makes it depend on others (`linked`) or a CSSCHD of a subcase of the case schedules "
-            "it (`scheduled`); on a TRIM2 a variable no pair, AELINK or CSSCHD names is fixed to zero "
+            "a TRIM fixes is `fixed` with its `value`; one it does not name is solved for (`free`) unless an "
+            "AeroTrimLink of "
+            "the set (or of ID 0) makes it depend on others (`linked`) or an AeroControlSchedule of a subcase of the "
+            "case schedules "
+            "it (`scheduled`); on an AeroTrim2 a variable no pair, AeroTrimLink or AeroControlSchedule names is fixed "
+            "to zero "
             "and the words FREE, LINKED and SCHED give the state. `value` is null unless the variable is fixed. "
-            "`variableKind` is `rigidBody` for the AESTAT labels the program knows (AngleOfAttack, SideSlip, "
-            "RollRate, PitchRate, YawRate, RigidAccelX to RigidAngularAccelZ), `controlSurface` for an AESURF and "
-            "`user` for an AEPARM and for any other AESTAT label.";
+            "`variableKind` is `rigidBody` for the AeroRigidTrimVariable labels the program knows (AngleOfAttack, "
+            "SideSlip, "
+            "RollRate, PitchRate, YawRate, RigidAccelX to RigidAngularAccelZ), `controlSurface` for an "
+            "AeroControlSurface and "
+            "`user` for an AeroController and for any other AeroRigidTrimVariable label.";
         info.parameters = {parameter("setIds", ParameterKind::IdList, "None", "the trim sets to list")};
-        info.defaultSort = "setId (a TRIM before a TRIM2 of the same SID), then the variables as above";
+        info.defaultSort = "setId (a TRIM before an AeroTrim2 of the same SID), then the variables as above";
         ColumnListBuilder columns;
         columns.int32("setId")
             .intList("subcases")

@@ -209,9 +209,11 @@ private:
             "system, the origin and the axes in the basic system, the depth of the chain of systems it is defined in "
             "(1 for a "
             "system defined in the basic one), and the number of grid points that use it as position system and as "
-            "displacement system and of elements that name it; g1 to g3 the grid points that define a CORD1R, CORD1C "
+            "displacement system and of elements that name it; g1 to g3 the grid points that define a RectFrame1, "
+            "CylindricalFrame1 "
             "or "
-            "CORD1S (null for a system given by coordinates): a solver that moves grid points derives its axes again "
+            "SphericalFrame1 (null for a system given by coordinates): a solver that moves grid points derives its "
+            "axes again "
             "from them.";
         info.defaultSort = "frameId";
         ColumnListBuilder columns;

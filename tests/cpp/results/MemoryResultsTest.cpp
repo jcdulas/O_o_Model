@@ -166,7 +166,8 @@ TEST_CASE("the layouts of the tables a program may hand over are listed", "[resu
     CHECK(memoryComponents(ResultKind::Stress, "ShellQuad4", false).size() > 3);
 }
 
-TEST_CASE("a matrix result carries the labels of its degrees of freedom and is stored as DMIG", "[results][memory]")
+TEST_CASE("a matrix result carries the labels of its degrees of freedom and is stored as DirectMatrixNodal",
+          "[results][memory]")
 {
     model::LabelledTerms terms;
     terms.form = 1;
@@ -195,7 +196,7 @@ TEST_CASE("a matrix result carries the labels of its degrees of freedom and is s
     CHECK(back.real == terms.real);
 }
 
-TEST_CASE("a matrix result without labels cannot be a DMIG matrix", "[results][memory]")
+TEST_CASE("a matrix result without labels cannot be a DirectMatrixNodal matrix", "[results][memory]")
 {
     const std::vector<std::int64_t> shape = {1, 1};
     const std::vector<std::int32_t> row = {0};
@@ -251,7 +252,7 @@ TEST_CASE("the sets attached to a model have labels that differ", "[results][mem
     CHECK(ResultAttachment::of(*model).size() == 3);
 }
 
-TEST_CASE("the centre and the corner layouts of a CQUAD4 are told apart by the rows", "[results][memory]")
+TEST_CASE("the centre and the corner layouts of a ShellQuad4 are told apart by the rows", "[results][memory]")
 {
     const std::vector<double> centreValues(2 * 8, 1.0);
     MemoryTableInput centre;

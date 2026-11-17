@@ -93,8 +93,9 @@ private:
         info.name = "connectionSharing";
         info.family = "T6";
         info.description =
-            "Per grid point, the connections that touch it: rigid elements (kind rigid), RBE3 (rigidInterpolation), "
-            "MPC equations (mpc), CFAST and CWELD through the grid points of the shells they pierce and their "
+            "Per grid point, the connections that touch it: rigid elements (kind rigid), RigidInterpolation "
+            "(rigidInterpolation), "
+            "MPC equations (mpc), Fastener and Weld through the grid points of the shells they pierce and their "
             "own GA and GB (fastener), and the other connection elements: springs, dampers, bushes, gaps, "
             "a 1D element or a mass between two components (connector), and with contact=\"connection\" the pairs of "
             "contact bodies that meet, on their node pairs (contact: the card is the table, the ID its ID). kinds, "

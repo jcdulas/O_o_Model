@@ -313,13 +313,16 @@ private:
         info.name = "nonStructMassTable";
         info.family = "T7";
         info.description =
-            "The non-structural mass cards (NSM, NSM1, NSML, NSML1; NSMADD expanded) of the sets asked for, one row "
+            "The non-structural mass cards (NonStructMass, NonStructMass1, NonStructMassLumped, NSML1; "
+            "NonStructMassUnion expanded) of the sets asked for, one row "
             "for each "
             "property or element they name: the kind (perArea for shells, perLength for rods, bars and beams, lumped "
             "for "
-            "NSML and NSML1), the value of the card and the mass it puts on the target (a per-unit value times the "
+            "NonStructMassLumped and NonStructMassLumped1), the value of the card and the mass it puts on the target "
+            "(a per-unit value times the "
             "area or "
-            "length of its elements; NSML the value itself; NSML1 the value shared between the targets in proportion "
+            "length of its elements; NonStructMassLumped the value itself; NonStructMassLumped1 the value shared "
+            "between the targets in proportion "
             "to "
             "their area or length). setId is the set asked for. ALL stands for every property of the type (or every "
             "element).";

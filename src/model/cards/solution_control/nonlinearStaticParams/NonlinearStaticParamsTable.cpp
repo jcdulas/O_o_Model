@@ -73,7 +73,8 @@ std::optional<NonlinearStaticParamsCard> NonlinearStaticParamsFormat::read(Field
         card.stiffnessMethod = *method;
     else
         reader.error("card.bad-value",
-                     std::string("stiffnessMethod") + " must be AUTO, ITER, SEMI, FNT or PFNT, found \"" +
+                     std::string("stiffnessMethod") +
+                         " must be AUTO, IterativeSolverOptions, SEMI, FNT or PFNT, found \"" +
                          std::string(methodText) + "\"",
                      "stiffnessMethod");
     card.stiffnessUpdateStep = reader.optionalInteger(5, "stiffnessUpdateStep");

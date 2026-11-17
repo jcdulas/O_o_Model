@@ -7,7 +7,7 @@ namespace oor::model
 {
 
 // One UserDefined9Attributes card: the attributes of the user dummy element number 9, whose connection is an
-// UserDefined9 card and whose property is an UserDefined9Prop card. The element routines that give the dummy element
+// UserDefined9 card and whose property is a UserDefined9Prop card. The element routines that give the dummy element
 // its stiffness and its output are written by the user; the UserDefined9Attributes card tells the solver how many
 // fields the two cards have.
 //

@@ -44,7 +44,7 @@ const char* const DECK =
 
 } // namespace
 
-TEST_CASE("a DMIG matrix is one object: its header and its columns", "[model][matrices]")
+TEST_CASE("a DirectMatrixNodal matrix is one object: its header and its columns", "[model][matrices]")
 {
     const Model model = readModelText(DECK, true);
     CHECK(directMatrixNodalNames(model) == std::vector<std::string>{"KAA", "CPX", "LOAD"});
@@ -84,7 +84,8 @@ TEST_CASE("fixed matrix names keep their neutral spelling through model files an
     oor::testing::requireModelFileRoundTrip(model);
 }
 
-TEST_CASE("the degrees of freedom of a DMIG matrix are numbered in the order of their sort", "[model][matrices]")
+TEST_CASE("the degrees of freedom of a DirectMatrixNodal matrix are numbered in the order of their sort",
+          "[model][matrices]")
 {
     const Model model = readModelText(DECK, true);
     const CooMatrix coo = directMatrixNodalCoo("KAA", *directMatrixNodalTerms(model, "KAA"));
@@ -116,7 +117,7 @@ TEST_CASE("an amplitude and phase matrix is converted to real and imaginary part
     CHECK(terms->imag[1] == Catch::Approx(0.0).margin(1e-12));
 }
 
-TEST_CASE("the columns of a DMI matrix are expanded to elements", "[model][matrices]")
+TEST_CASE("the columns of a DirectMatrix matrix are expanded to elements", "[model][matrices]")
 {
     const Model model = readModelText(DECK, true);
     CHECK(directMatrixNames(model) == std::vector<std::string>{"PNL", "THR", "CPL"});
@@ -138,7 +139,7 @@ TEST_CASE("the columns of a DMI matrix are expanded to elements", "[model][matri
     CHECK(complex.imag == std::vector<double>{1.0, 0.0, 9.0, 5.0});
 }
 
-TEST_CASE("a DMI element beyond the matrix is an error", "[model][matrices]")
+TEST_CASE("a DirectMatrix element beyond the matrix is an error", "[model][matrices]")
 {
     const Model model = readModelText("DirectMatrix;SMALL;0;2;1;1;2;1\nDirectMatrix;SMALL;1;1;1.;2.;3.\n");
     CHECK_THROWS_AS(directMatrixCoo(model, "SMALL"), base::UsageError);
@@ -146,7 +147,7 @@ TEST_CASE("a DMI element beyond the matrix is an error", "[model][matrices]")
     CHECK_THROWS_AS(directMatrixCoo(wide, "SMALL"), base::UsageError);
 }
 
-TEST_CASE("a DMI column is one card and its rows increase", "[model][matrices]")
+TEST_CASE("a DirectMatrix column is one card and its rows increase", "[model][matrices]")
 {
     const char* const header = "DirectMatrix;M;0;2;1;1;6;1\n";
     // a column is one logical entry, its terms in increasing row order
@@ -241,7 +242,8 @@ LabelledTerms randomTerms(std::mt19937& generator, std::int32_t size, bool symme
 
 } // namespace
 
-TEST_CASE("a matrix stored as DMIG cards reads back to the same terms from a model file", "[model][matrices]")
+TEST_CASE("a matrix stored as DirectMatrixNodal cards reads back to the same terms from a model file",
+          "[model][matrices]")
 {
     std::mt19937 generator(7);
     for (const bool symmetric : {false, true})

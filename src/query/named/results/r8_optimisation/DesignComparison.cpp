@@ -32,8 +32,10 @@ protected:
             throw QueryError("detail is \"variables\" or \"fields\", not '" + detail + "'");
         if (detail == "fields")
             (void)context.requireModel(
-                "list the fields the design variables drive: the design relations (DVPREL1, DVPREL2, DVMREL1, DVMREL2, "
-                "DVCREL1, DVCREL2) are evaluated with the variables of each cycle and the elements they drive are "
+                "list the fields the design variables drive: the design relations (DesignPropRelation1, "
+                "DesignPropRelation2, DesignMatRelation1, DesignMatRelation2, "
+                "DesignElemRelation1, DesignElemRelation2) are evaluated with the variables of each cycle and the "
+                "elements they drive are "
                 "weighed");
         const OptimisationData data(context);
         if (data.cycles().empty())

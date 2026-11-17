@@ -125,7 +125,8 @@ using Pairs = std::vector<DofPair>;
 
 // ------------------------------------------------------------------------------------------------ constraints
 
-TEST_CASE("SPCD is a load set card: its two groups, its motion and the sets that select it", "[model][cards]")
+TEST_CASE("EnforcedMotionConstr is a load set card: its two groups, its motion and the sets that select it",
+          "[model][cards]")
 {
     Model model = readBulk(grids() +
                            "EnforcedMotionConstr;140;27;3;-1.8;8;;3.4\nEnforcedMotionConstr;101;"
@@ -160,7 +161,7 @@ TEST_CASE("SPCD is a load set card: its two groups, its motion and the sets that
     expectInvalid("EnforcedMotionConstr;1;1;1;1.;2;9", "components2");
 }
 
-TEST_CASE("the load command and the dynamic loads select an SPCD", "[model][cards]")
+TEST_CASE("the load command and the dynamic loads select an EnforcedMotionConstr", "[model][cards]")
 {
     Model model = readModelText(
         "[case]\nSubcaseStart;1\nStaticLoadSelection;140\n[model]\nNode;27;;0.;0.;0.\nEnforcedMotionConstr;140;27;3;1."
@@ -174,7 +175,7 @@ TEST_CASE("the load command and the dynamic loads select an SPCD", "[model][card
     REQUIRE(unresolvedIn(lacking) == 1);
 }
 
-TEST_CASE("SPCAX and MPCAX name rings, harmonics and components", "[model][cards]")
+TEST_CASE("SinglePointConstrAxisym and MultiPointConstrAxisym name rings, harmonics and components", "[model][cards]")
 {
     Model model = readBulk(
         "SinglePointConstrAxisym;4;7;3;24;4.5\n"
@@ -219,7 +220,7 @@ TEST_CASE("SPCAX and MPCAX name rings, harmonics and components", "[model][cards
     expectInvalid("MultiPointConstrAxisym;1;0;0;1;1.", "ringId1");
 }
 
-TEST_CASE("MPCADD combines multipoint constraint sets", "[model][cards]")
+TEST_CASE("MultiPointConstrUnion combines multipoint constraint sets", "[model][cards]")
 {
     Model model = readBulk(grids() +
                            "MultiPointConstr;1;1;1;1.;2;1;-1.\nMultiPointConstr;2;3;1;1.;4;1;-1."
@@ -264,7 +265,8 @@ TEST_CASE("the SUPORT1 Case Control command selects the SUPORT1 cards of its set
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("SUPORT and SUPORT1 list points and components, four pairs a line, with field 8 blank on SUPORT1",
+TEST_CASE("FreeBodySupport and FreeBodySupportSet list points and components, four pairs a line, with field 8 blank on "
+          "SUPORT1",
           "[model][cards]")
 {
     Model model = readBulk(grids() +
@@ -297,7 +299,8 @@ TEST_CASE("SUPORT and SUPORT1 list points and components, four pairs a line, wit
     expectInvalid("FreeBodySupportSet;1;1;1237", "components1");
 }
 
-TEST_CASE("SPCOFF and SPCOFF1 are cards of the constraints that belong to no set", "[model][cards]")
+TEST_CASE("AutoConstrExclusion and AutoConstrExclusionList are cards of the constraints that belong to no set",
+          "[model][cards]")
 {
     Model model = readBulk(
         "AutoConstrExclusion;27;245;8;1\nAutoConstrExclusionList;3;2;4;11;7;9;12;15;20\nAutoConstrExclusionList;1345;7;"
@@ -315,7 +318,7 @@ TEST_CASE("SPCOFF and SPCOFF1 are cards of the constraints that belong to no set
     expectInvalid("AutoConstrExclusion;5;9", "components1");
 }
 
-TEST_CASE("GMSPC names a geometric entity and the components held on its grid", "[model][cards]")
+TEST_CASE("GeomSinglePointConstr names a geometric entity and the components held on its grid", "[model][cards]")
 {
     Model model = readBulk("GeomSinglePointConstr;1;2;ElementFace;1207\nGeomSinglePointConstr;2;12;GeomCurve;102");
     const GeomSinglePointConstrCard card = cardAt<GeomSinglePointConstrTable>(model, 1);
@@ -333,7 +336,7 @@ TEST_CASE("GMSPC names a geometric entity and the components held on its grid", 
 
 // ------------------------------------------------------------------------------------------------ rigid elements
 
-TEST_CASE("RBAR resolves its blank independent and dependent components", "[model][cards]")
+TEST_CASE("RigidBar resolves its blank independent and dependent components", "[model][cards]")
 {
     Model model = readBulk(
         "RigidBar;6;1;2\nRigidBar;7;1;2;1236;34\nRigidBar;8;3;4;;123456;123456\nRigidBar;9;1;2;12;34;56;6;1.5E-6;20.");
@@ -369,7 +372,8 @@ TEST_CASE("RBAR resolves its blank independent and dependent components", "[mode
     expectInvalid("RigidBar;1;1;2;;;;;x", "alphaCoefficient");
 }
 
-TEST_CASE("RBAR1, RJOINT, RROD, RTRPLT and RTRPLT1 have their fields, defaults and rules", "[model][cards]")
+TEST_CASE("RigidBar1, RigidJoint, RigidRod, RigidTriaPlate and RigidTriaPlate1 have their fields, defaults and rules",
+          "[model][cards]")
 {
     Model model = readBulk(
         "RigidBar1;6;3;4\n"
@@ -431,7 +435,8 @@ TEST_CASE("RBAR1, RJOINT, RROD, RTRPLT and RTRPLT1 have their fields, defaults a
     expectInvalid("RigidTriaPlate1;1;1;2;3;12;7", "componentsAtC");
 }
 
-TEST_CASE("RBE1 lists independent pairs, UM and dependent pairs over its lines, with ALPHA and TREF at the end",
+TEST_CASE("RigidBodyMulti lists independent pairs, UM and dependent pairs over its lines, with ALPHA and TREF at the "
+          "end",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -479,7 +484,8 @@ TEST_CASE("RBE1 lists independent pairs, UM and dependent pairs over its lines, 
     expectInvalid("RigidBodyMulti;1;1;;;DependentDofs;1;2;3", "independentNode1");
 }
 
-TEST_CASE("RSPLINE has D/L, then a point and its components after the first point, ending on a point", "[model][cards]")
+TEST_CASE("RigidSpline has D/L, then a point and its components after the first point, ending on a point",
+          "[model][cards]")
 {
     Model model = readBulk(
         "RigidSpline;83;0.04;21;22;123456;23;;24;123;86;123;81\nRigidSpline;74;;1;2;3;4\nRigidSpline;75;0.2;1;2");
@@ -506,7 +512,7 @@ TEST_CASE("RSPLINE has D/L, then a point and its components after the first poin
     expectInvalid("RigidSpline;1;;1;;3;2", "node2");
 }
 
-TEST_CASE("RSSCON joins elements or grid points and its fields follow its type", "[model][cards]")
+TEST_CASE("RigidShellSolidConnection joins elements or grid points and its fields follow its type", "[model][cards]")
 {
     Model model = readBulk(grids() +
                            "ShellProp;1;1;0.1\n"
@@ -666,7 +672,7 @@ TEST_CASE("the DOF set cards of the 1 form list points with THRU and write range
     expectInvalid("UserDofSet1;U1;7;1", "components");
 }
 
-TEST_CASE("BNDGRID lists grid points with the components of their prescribed motion", "[model][cards]")
+TEST_CASE("ShapeBoundaryNodeSet lists grid points with the components of their prescribed motion", "[model][cards]")
 {
     const Model model = readBulk("ShapeBoundaryNodeSet;123;5\nShapeBoundaryNodeSet;123456;1;Through;10;20;30");
     REQUIRE(cardAt<ShapeBoundaryNodeSetTable>(model, 0).components == 123);
@@ -679,7 +685,7 @@ TEST_CASE("BNDGRID lists grid points with the components of their prescribed mot
     expectInvalid("ShapeBoundaryNodeSet;123;0", "nodes");
 }
 
-TEST_CASE("SET1 is a set of IDs, with THRU ranges, SKIN or negative IDs, found by the targets of the sets",
+TEST_CASE("IdListSet1 is a set of IDs, with THRU ranges, SKIN or negative IDs, found by the targets of the sets",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -724,7 +730,7 @@ TEST_CASE("SET1 is a set of IDs, with THRU ranges, SKIN or negative IDs, found b
     expectInvalid("IdListSet1;1;Through;3", "Through");
 }
 
-TEST_CASE("SET3 says what its IDs are and they are references of that kind", "[model][cards]")
+TEST_CASE("TypedListSet3 says what its IDs are and they are references of that kind", "[model][cards]")
 {
     Model model = readBulk(grids() +
                            "ShellQuad4;5;7;1;2;3;4\n"
@@ -775,7 +781,7 @@ TEST_CASE("SET3 says what its IDs are and they are references of that kind", "[m
     expectInvalid("TypedListSet3;1;Node;5;Through;3", "ids");
 }
 
-TEST_CASE("SEQGP gives sequence numbers, whole or real, to up to four points", "[model][cards]")
+TEST_CASE("NodeSequence gives sequence numbers, whole or real, to up to four points", "[model][cards]")
 {
     Model model = readBulk(grids() + "NodeSequence;6481;12.7;17;0.3;1;2.4;8;100\nNodeSequence;3;10");
     const NodeSequenceCard card = cardAt<NodeSequenceTable>(model, 0);

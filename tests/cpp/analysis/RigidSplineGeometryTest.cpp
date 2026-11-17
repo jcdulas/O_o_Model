@@ -36,7 +36,7 @@ ElementValues geometryOf(const Model& model, base::EntityId eid)
 
 } // namespace
 
-TEST_CASE("an RBE2GS is an element with no shape: every quantity is NaN", "[analysis][geometry]")
+TEST_CASE("a RigidBodySearched is an element with no shape: every quantity is NaN", "[analysis][geometry]")
 {
     const Model model = readModelText(grid(1, 0, 0, 0) + grid(2, 2, 0, 0) + "GeomPoint;7;;1.;2.;3.\n" +
                                       "RigidBodySearched;10;1;;;0.5;;;;;;;2\n"
@@ -56,7 +56,7 @@ TEST_CASE("an RBE2GS is an element with no shape: every quantity is NaN", "[anal
     }
 }
 
-TEST_CASE("an RBE2GS is attached to its search grid and to nothing else", "[analysis][geometry]")
+TEST_CASE("a RigidBodySearched is attached to its search grid and to nothing else", "[analysis][geometry]")
 {
     const Model model = readModelText(grid(1, 0, 0, 0) + grid(2, 2, 0, 0) + grid(3, 4, 0, 0) +
                                       "RigidBodySearched;10;1;;;0.5;;;;;;;2\n"
@@ -67,7 +67,7 @@ TEST_CASE("an RBE2GS is attached to its search grid and to nothing else", "[anal
     REQUIRE(MeshAdjacency::elementsOfNode(model, 2).empty());
 }
 
-TEST_CASE("an RBE2GS whose search grid does not exist is reported with the element", "[analysis][geometry]")
+TEST_CASE("a RigidBodySearched whose search grid does not exist is reported with the element", "[analysis][geometry]")
 {
     const Model model = readModelText(grid(1, 0, 0, 0) + "RigidBodySearched;10;77;;;0.5\n");
     const auto location = model.locate(base::IdSpace::Element, 10);

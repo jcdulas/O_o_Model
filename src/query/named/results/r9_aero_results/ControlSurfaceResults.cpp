@@ -21,9 +21,10 @@ constexpr double NO_LIMIT = 1.0e9; // the limits of a hinge moment that the file
 // What the provenance says of the `id` of the rows: the table holds the label of each surface (the AeroControlSurface
 // label, the one the trim variable table lists), not its ID, so the ID is the one of the AeroControlSurface card of the
 // model that has the label.
-const LookupWords WORDS{"id", "AESURF of the model that has the label",
-                        "no AESURF of the model has the label: id is null", "the result set has no model: id is null",
-                        "two AESURF cards of the model have the label: id is null"};
+const LookupWords WORDS{"id", "AeroControlSurface of the model that has the label",
+                        "no AeroControlSurface of the model has the label: id is null",
+                            "the result set has no model: id is null",
+                        "two AeroControlSurface cards of the model have the label: id is null"};
 
 // controlSurfaceResults: the trimmed position and the hinge moment of each control surface, against their limits.
 class ControlSurfaceResultsQuery final : public ResultQuery
@@ -137,8 +138,9 @@ private:
             "the limits of the position, and whether the position and the hinge moment are within their limits (null "
             "when the "
             "table gives no limit). The table holds the label of each surface, not its ID: `id` is the ID of the "
-            "AESURF "
-            "card of the model that has the label, null when the result set has no model, when no AESURF has the label "
+            "AeroControlSurface "
+            "card of the model that has the label, null when the result set has no model, when no AeroControlSurface "
+            "has the label "
             "and when two have it (the provenance of the table says which). The rows are in the order of the IDs, the "
             "surfaces with no ID last in the order of the table.";
         info.defaultSort = "subcase, id";

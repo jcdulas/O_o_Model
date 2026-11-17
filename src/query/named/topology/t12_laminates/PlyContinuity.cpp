@@ -259,7 +259,8 @@ private:
             "when "
             "the plies of propId2 are found, in order, among those of propId1. Plies are matched by global ply ID when "
             "both "
-            "laminates are PCOMPG, else by material and angle, in stacking order. With elementIds only those shells "
+            "laminates are CompPropGlobal, else by material and angle, in stacking order. With elementIds only those "
+            "shells "
             "are "
             "looked at.";
         info.parameters = {parameter("elementIds", ParameterKind::IdList, "None", "only these shells are looked at")};

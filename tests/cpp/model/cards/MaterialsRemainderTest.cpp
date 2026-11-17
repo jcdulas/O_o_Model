@@ -105,7 +105,7 @@ void requireRoundTrip(const Model& model)
 
 // ------------------------------------------------------------------------------------------------ the tables
 
-TEST_CASE("TABLES1 evaluates like the other material tables and has a TYPE", "[model][cards]")
+TEST_CASE("TableStress1 evaluates like the other material tables and has a TYPE", "[model][cards]")
 {
     Model model = readBulk(
         "TableStress1;1;;0.;0.;0.01;1.2E+4;0.02;1.7E+4;EndTable\nTableStress1;2;2;0.;0.;Skip;Skip;1.;2.;EndTable");
@@ -131,7 +131,7 @@ TEST_CASE("TABLES1 evaluates like the other material tables and has a TYPE", "[m
     expectInvalid("TableStress1;1;;0.;0.;1.;1.;0.;2.;EndTable", "x");
 }
 
-TEST_CASE("TABLEH1 is constant outside its points and must ascend", "[model][cards]")
+TEST_CASE("TableHeat1 is constant outside its points and must ascend", "[model][cards]")
 {
     Model model = readBulk("TableHeat1;117;40.;6.12;80.;4.08;120.;1.24;EndTable");
     const TableHeat1Card card = cardAt<TableHeat1Table>(model);
@@ -145,7 +145,8 @@ TEST_CASE("TABLEH1 is constant outside its points and must ascend", "[model][car
     expectInvalid("TableHeat1;1;1.;1.", "tableEnd");
 }
 
-TEST_CASE("TABLEST and TABLEHT list the tables they select and refer to them", "[model][cards]")
+TEST_CASE("TableStressTemperature and TableHeatTwoVariables list the tables they select and refer to them",
+          "[model][cards]")
 {
     Model model = readBulk(
         "TableStress1;10;;0.;0.;1.;1.;EndTable\n"
@@ -209,7 +210,7 @@ TEST_CASE("the table spaces are separate: the same ID in each of them is not a c
 
 // ------------------------------------------------------------------------------------------------ the materials
 
-TEST_CASE("a MAT3 has GZX in field 11 and blank cells in fields 9 and 10", "[model][cards]")
+TEST_CASE("an AxisymOrthoMat has GZX in field 11 and blank cells in fields 9 and 10", "[model][cards]")
 {
     Model model = readBulk(
         "AxisymOrthoMat;1;1.4E+7;1.3E+7;1.5E+7;0.28;0.22;0.31;2.E-5;2.1E+6;1.2E-4;1.2E-4;1.4E-4;72.5;0."
@@ -238,7 +239,8 @@ TEST_CASE("a MAT3 has GZX in field 11 and blank cells in fields 9 and 10", "[mod
     expectInvalid("AxisymOrthoMat;0;1.;2.;3.;;;;;4.", "id");
 }
 
-TEST_CASE("a MAT9 has the 21 terms of the matrix, the expansions and the optional damping matrix", "[model][cards]")
+TEST_CASE("an AnisoMat3D has the 21 terms of the matrix, the expansions and the optional damping matrix",
+          "[model][cards]")
 {
     Model model = readBulk(
         "AnisoMat3D;23;7400.;;;;;;7400.;;;;;7400.;;;;4600.;;;4600.;;4600.;2.8;1.1E-5;1.1E-5;;;;;95.;0.004\n"
@@ -275,7 +277,7 @@ TEST_CASE("a MAT9 has the 21 terms of the matrix, the expansions and the optiona
     oor::testing::requireModelFileRoundTrip(zero);
 }
 
-TEST_CASE("a MAT10 keeps two of BULK, RHO and C and computes the third", "[model][cards]")
+TEST_CASE("a FluidMat keeps two of BULK, RHO and C and computes the third", "[model][cards]")
 {
     Model model = readBulk(
         "FluidMat;1;;1.18E-7;12500.\nFluidMat;2;1.;0.1\nFluidMat;3;0.712;0.012;;0.02;0.4\nFluidMat;4;1.;0.1;5.");
@@ -306,7 +308,7 @@ TEST_CASE("a MAT10 keeps two of BULK, RHO and C and computes the third", "[model
     REQUIRE(cardAt<FluidMatTable>(porous).soundSpeed == std::sqrt(10.0));
 }
 
-TEST_CASE("a MAT11 has its constants in the order of the card", "[model][cards]")
+TEST_CASE("an OrthoMat3D has its constants in the order of the card", "[model][cards]")
 {
     Model model = readBulk(
         "OrthoMat3D;3;4.E+7;5.E+7;8.E+6;0.15;0.18;0.22;2.5E+6;3.25E+6;4.75E+6;0.12;1.5E-5;2.5E-5;4.E-6;40.;0.02");
@@ -326,7 +328,8 @@ TEST_CASE("a MAT11 has its constants in the order of the card", "[model][cards]"
     expectInvalid("OrthoMat3D;1;1.;1.;0.;0.3;0.3;0.3;1.;1.;1.", "youngsModulus3");
 }
 
-TEST_CASE("a MATHP has its constants on the lines of the format reference and a D1 that depends on A10 and A01",
+TEST_CASE("a HyperelasticPolynomialMat has its constants on the lines of the format reference and a D1 that depends on "
+          "A10 and A01",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -370,7 +373,7 @@ TEST_CASE("a MATHP has its constants on the lines of the format reference and a 
     expectInvalid("HyperelasticPolynomialMat;1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1", "tensionTableId");
 }
 
-TEST_CASE("a MATHE has the four formats of the format reference", "[model][cards]")
+TEST_CASE("a HyperelasticMat has the four formats of the format reference", "[model][cards]")
 {
     Model model = readBulk(
         "HyperelasticMat;1;MooneyRivlin;2.8E+7;4.2E-4;5.E-6;80;0.02;1.6E+4;1.5;1.25;101;102;103;104;105;0.3;0.2;0.1;0."
@@ -445,7 +448,8 @@ TEST_CASE("a MATHE has the four formats of the format reference", "[model][cards
 
 // ------------------------------------------------------------------------------------------------ the companions
 
-TEST_CASE("the temperature tables of a MATT1 to a MATT11 are in the fields of the material they extend",
+TEST_CASE("the temperature tables of an IsoMatTemperature to an OrthoMat3DTemperature are in the fields of the "
+          "material they extend",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -502,7 +506,7 @@ TEST_CASE("the temperature tables of a MATT1 to a MATT11 are in the fields of th
     requireRoundTrip(model);
 }
 
-TEST_CASE("a MATT9 has the 21 + 21 tables of a MAT9 in its fields", "[model][cards]")
+TEST_CASE("an AnisoMat3DTemperature has the 21 + 21 tables of an AnisoMat3D in its fields", "[model][cards]")
 {
     Model model = readBulk(
         "AnisoMat3DTemperature;9;2;;4;;;;8;;;;;12;;;;;;;;;;22;23;;;;;;31;"
@@ -638,7 +642,8 @@ TEST_CASE("a negative T(A) names the table of thermal strains of that number and
     requireRoundTrip(model);
 }
 
-TEST_CASE("a MATS1 is nonlinear elastic or plastic and has the rules of the format reference", "[model][cards]")
+TEST_CASE("an IsoMatStressDependent is nonlinear elastic or plastic and has the rules of the format reference",
+          "[model][cards]")
 {
     Model model = readBulk(
         "IsoMatStressDependent;1;60;NonlinearElastic\n"
@@ -679,7 +684,7 @@ TEST_CASE("a MATS1 is nonlinear elastic or plastic and has the rules of the form
     requireRoundTrip(unused);
 }
 
-TEST_CASE("a CREEP is a creep law or three tables", "[model][cards]")
+TEST_CASE("a CreepMat is a creep law or three tables", "[model][cards]")
 {
     Model model = readBulk(
         "CreepMat;8;950.;;CreepLaw;;;;;121;5.214E-6;2.118;6.415E-4;0.0935;5.86E-9;0.1263;2.5\n"
@@ -723,7 +728,7 @@ TEST_CASE("a CREEP is a creep law or three tables", "[model][cards]")
     REQUIRE(visitor.targets[1] == ReferenceTarget::StressTable);
 }
 
-TEST_CASE("a MATEP has the groups of the format reference, each starting a line", "[model][cards]")
+TEST_CASE("an ElastoPlasticMat has the groups of the format reference, each starting a line", "[model][cards]")
 {
     Model model = readBulk(
         "ElastoPlasticMat;1;Table;;50;Hill;;;RateEffect;CowperSymonds;;40.;5.;AnisotropicYield;1.1;0.9;1.02\n"
@@ -795,7 +800,7 @@ TEST_CASE("a MATEP has the groups of the format reference, each starting a line"
     REQUIRE(rateVisitor.targets[2] == ReferenceTarget::StressTable);
 }
 
-TEST_CASE("a MATVE has the fixed layout, the term lines and the orthotropic layout", "[model][cards]")
+TEST_CASE("a ViscoElasticMat has the fixed layout, the term lines and the orthotropic layout", "[model][cards]")
 {
     Model model = readBulk(
         "ViscoElasticMat;1;IsotropicForm;1.E-5;2.E-5;1.E+3;10.;2.E+3;20.;500.;100.;800.;200.\n"
@@ -852,7 +857,8 @@ TEST_CASE("every companion holds the fields it should in the table and lists the
     REQUIRE(model.table<AnisoMat2DTemperatureTable>().structuralDampingTermTableIdsColumn().size() == 1);
 }
 
-TEST_CASE("the FID of a MATEP names a TABLES1 or a TABL3D, and follows the renumbering of the one it names",
+TEST_CASE("the FID of an ElastoPlasticMat names a TableStress1 or a TABL3D, and follows the renumbering of the one it "
+          "names",
           "[model][cards]")
 {
     // format reference ElastoPlasticMat (SOL 400): FID is the ID of a TableStress1 or a TABL3D entry.

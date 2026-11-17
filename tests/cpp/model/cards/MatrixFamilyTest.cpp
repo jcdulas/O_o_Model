@@ -49,7 +49,8 @@ const char* const AXISYMMETRIC_MATRICES =
 
 } // namespace
 
-TEST_CASE("DMIJ, DMIJI and DMIK are matrices of points like DMIG, each kind with its own names", "[model][matrices]")
+TEST_CASE("DMIJ, DMIJI and DMIK are matrices of points like DirectMatrixNodal, each kind with its own names",
+          "[model][matrices]")
 {
     const Model model = readModelText(AERO_MATRICES, true);
     CHECK(pointMatrixNames(model, PointMatrixCard::AeroJ) == std::vector<std::string>{"AOAJ"});
@@ -116,7 +117,7 @@ TEST_CASE("a matrix stored as DMIK or DMIJI cards reads back from a model file; 
     }
 }
 
-TEST_CASE("a DMIJ card is checked like a DMIG one", "[model][matrices]")
+TEST_CASE("a DirectMatrixAeroJ card is checked like a DirectMatrixNodal one", "[model][matrices]")
 {
     const auto expectInvalid = [](const std::string& card)
     {
@@ -131,7 +132,7 @@ TEST_CASE("a DMIJ card is checked like a DMIG one", "[model][matrices]")
     expectInvalid("DirectMatrixAeroJInterference;WJI;1;1;-4;1;2."); // a point is a positive integer
 }
 
-TEST_CASE("a DMIAX matrix keeps the harmonic number of every degree of freedom", "[model][matrices]")
+TEST_CASE("a DirectMatrixAxisym matrix keeps the harmonic number of every degree of freedom", "[model][matrices]")
 {
     const Model model = readModelText(AXISYMMETRIC_MATRICES, true);
     CHECK(directMatrixAxisymNames(model) == std::vector<std::string>{"AXK4", "REALM"});
@@ -169,7 +170,7 @@ TEST_CASE("a DMIAX matrix keeps the harmonic number of every degree of freedom",
     CHECK(directMatrixAxisymCoo("REALM", *real).columnCount == 1);
 }
 
-TEST_CASE("a DMIAX card is written and read back, a blank harmonic staying blank", "[model][matrices]")
+TEST_CASE("a DirectMatrixAxisym card is written and read back, a blank harmonic staying blank", "[model][matrices]")
 {
     Model model = readModelText(AXISYMMETRIC_MATRICES, true);
     const std::size_t cards = model.cardCount();
@@ -190,7 +191,7 @@ TEST_CASE("a DMIAX card is written and read back, a blank harmonic staying blank
     oor::testing::requireModelFileRoundTrip(model);
 }
 
-TEST_CASE("the values a DMIAX card refuses", "[model][matrices]")
+TEST_CASE("the values a DirectMatrixAxisym card refuses", "[model][matrices]")
 {
     const auto problemOf = [](DirectMatrixAxisymCard card) { return DirectMatrixAxisymFormat::check(card); };
     DirectMatrixAxisymCard header;
@@ -233,7 +234,7 @@ TEST_CASE("the values a DMIAX card refuses", "[model][matrices]")
     CHECK_THROWS_AS(readModelText("DirectMatrixAxisym;K2PP;0;1;2", true), base::DeckError);
 }
 
-TEST_CASE("the points of a DMIAX matrix are renumbered with the nodes and may name points the model lacks",
+TEST_CASE("the points of a DirectMatrixAxisym matrix are renumbered with the nodes and may name points the model lacks",
           "[model][matrices]")
 {
     Model model = readModelText(
@@ -262,7 +263,7 @@ const MonitorIntegratedLoad1Card& firstMonpnt1(const Model& model)
 
 } // namespace
 
-TEST_CASE("a MONPNT1 label is the text of fields 3 to 9 with its blanks", "[model][monitor]")
+TEST_CASE("a MonitorIntegratedLoad1 label is the text of fields 3 to 9 with its blanks", "[model][monitor]")
 {
     const Model model = readModelText(
         "MonitorIntegratedLoad1;FnRtTq1;Fin Root Torque About Hinge;4;FnRoot;;212.375;38.625;5.07125\n", true);
@@ -361,7 +362,7 @@ TEST_CASE("the values a monitor point refuses", "[model][monitor]")
     }
 }
 
-TEST_CASE("MONPNT2, MONPNT3 and MONDSP1 read their fields", "[model][monitor]")
+TEST_CASE("MonitorElemLoad2, MonitorNodeForceSum3 and MonitorDisplacement read their fields", "[model][monitor]")
 {
     const Model model = readModelText(
         "MonitorElemLoad2;BR42;Rear spar cap near rib 7;Stress;Bar2;SX1D;42\n"
@@ -402,7 +403,8 @@ TEST_CASE("MONPNT2, MONPNT3 and MONDSP1 read their fields", "[model][monitor]")
     oor::testing::requireModelFileRoundTrip(other);
 }
 
-TEST_CASE("a repeated MONPNT2 or MONPNT3 name is reported, a MONPNT1 one is not", "[model][monitor]")
+TEST_CASE("a repeated MonitorElemLoad2 or MonitorNodeForceSum3 name is reported, a MonitorIntegratedLoad1 one is not",
+          "[model][monitor]")
 {
     const Model two =
         readModelText("MonitorElemLoad2;A;;Stress;Bar2;SX;1\nMonitorElemLoad2;A;;Force;Bar2;FX;2\n");

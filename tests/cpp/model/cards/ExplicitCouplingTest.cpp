@@ -75,7 +75,8 @@ std::string coupleWith(int field, const std::string& value)
 
 } // namespace
 
-TEST_CASE("a COUPLE has its 23 fields in the format reference positions over three lines and writes the ones it has",
+TEST_CASE("an EulerLagrangeCoupling has its 23 fields in the format reference positions over three lines and writes "
+          "the ones it has",
           "[model][cards][explicit]")
 {
     const Model model = readBulk(
@@ -112,7 +113,7 @@ TEST_CASE("a COUPLE has its 23 fields in the format reference positions over thr
     requireRoundTrip(model);
 }
 
-TEST_CASE("a COUPLE refuses what its values and its grid do not allow", "[model][cards][explicit]")
+TEST_CASE("an EulerLagrangeCoupling refuses what its values and its grid do not allow", "[model][cards][explicit]")
 {
     expectInvalid("EulerLagrangeCoupling;0;10", "id");
     expectInvalid("EulerLagrangeCoupling;1", "surfaceId");
@@ -142,7 +143,7 @@ TEST_CASE("a COUPLE refuses what its values and its grid do not allow", "[model]
     REQUIRE_THROWS_AS(readBulk("EulerLagrangeCoupling;1;10\nEulerLagrangeCoupling;1;11"), base::DeckError);
 }
 
-TEST_CASE("a COUPLE names the cards of its coupling, and each reference follows its renumbering",
+TEST_CASE("an EulerLagrangeCoupling names the cards of its coupling, and each reference follows its renumbering",
           "[model][cards][explicit]")
 {
     const std::string coupling = "EulerLagrangeCoupling;1;10;;;;3;4;;;99;;;;;11;;;8;;;5";
@@ -214,7 +215,8 @@ TEST_CASE("a COUPLE names the cards of its coupling, and each reference follows 
     requireRoundTrip(model);
 }
 
-TEST_CASE("a COUCOHF is filed under the set ID of its COHFRID, and a COHFRIC holds the friction",
+TEST_CASE("a CouplingCohesiveFriction is filed under the set ID of its COHFRID, and a CohesiveFriction holds the "
+          "friction",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -273,7 +275,8 @@ TEST_CASE("a COUCOHF is filed under the set ID of its COHFRID, and a COHFRIC hol
     REQUIRE_THROWS_AS(readBulk("CohesiveFriction;1\nCohesiveFriction;1"), base::DeckError);
 }
 
-TEST_CASE("an FFCONTR names its surface and two tables, and keeps TACTIVE blank", "[model][cards][explicit]")
+TEST_CASE("a FluidFilledContainer names its surface and two tables, and keeps TACTIVE blank",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "FluidFilledContainer;1;2;0.0015;1.E+5\n"
@@ -323,7 +326,7 @@ TEST_CASE("an FFCONTR names its surface and two tables, and keeps TACTIVE blank"
                       base::DeckError);
 }
 
-TEST_CASE("a LEAKAGE is filed under the set ID of its PORID and its coefficient is a number or a table",
+TEST_CASE("a GasBagLeakage is filed under the set ID of its PORID and its coefficient is a number or a table",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -396,7 +399,8 @@ TEST_CASE("a LEAKAGE is filed under the set ID of its PORID and its coefficient 
     expectInvalid("GasBagLeakage;1;100;;PorousFlowBoundary;5;Table;0", "coefficient");
 }
 
-TEST_CASE("a PERMEAB and a PERMGBG give the permeability as a linear law or a table, one of the two",
+TEST_CASE("a SurfacePermeability and a GasBagPermeableLink give the permeability as a linear law or a table, one of "
+          "the two",
           "[model][cards][explicit]")
 {
     Model model = readBulk(
@@ -463,7 +467,8 @@ TEST_CASE("a PERMEAB and a PERMGBG give the permeability as a linear law or a ta
     REQUIRE(unresolvedIn(dangling) == 2);
 }
 
-TEST_CASE("a PORFCPL, a PORFGBG and a PORHOLE have a hole size, a flow direction and a gas", "[model][cards][explicit]")
+TEST_CASE("a CouplingHoleToCoupling, a CouplingHoleToGasBag and a GasBagVentHole have a hole size, a flow direction "
+          "and a gas", "[model][cards][explicit]")
 {
     Model model = readBulk(
         "CouplingHoleToCoupling;1;Small;Both;1\n"
@@ -556,7 +561,8 @@ TEST_CASE("a PORFCPL, a PORFGBG and a PORHOLE have a hole size, a flow direction
     expectInvalid(cardText("GasBagVentHole", {{1, "1"}, {5, "1.E5"}, {6, "1."}, {7, "2.E5"}, {9, "-3"}}), "matId");
 }
 
-TEST_CASE("a PORHYDS holds its number only and a PORUDS names a group and a subroutine", "[model][cards][explicit]")
+TEST_CASE("a PorousHydrostaticBoundary holds its number only and a PorousUserBoundary names a group and a subroutine",
+          "[model][cards][explicit]")
 {
     const Model model = readBulk(
         "PorousHydrostaticBoundary;130\nPorousHydrostaticBoundary;131\nPorousUserBoundary;12;mypor;"
@@ -584,7 +590,8 @@ TEST_CASE("a PORHYDS holds its number only and a PORUDS names a group and a subr
     REQUIRE_NOTHROW(readBulk("PorousUserBoundary;1;GRP;TOOLONGNAME"));
 }
 
-TEST_CASE("a PORFLOW keeps its pairs of TYPE and VALUE in order and writes them back", "[model][cards][explicit]")
+TEST_CASE("a PorousFlowBoundary keeps its pairs of TYPE and VALUE in order and writes them back",
+          "[model][cards][explicit]")
 {
     Model model = readBulk(
         "PorousFlowBoundary;130;VelocityX;80.;Material;1\n"
@@ -654,7 +661,8 @@ TEST_CASE("a PORFLOW keeps its pairs of TYPE and VALUE in order and writes them 
         ""); // a tenth pair
 }
 
-TEST_CASE("a PORFLWT has quantities that are the element value, a number or a table, and a MID with conditions",
+TEST_CASE("a PorousTimeFlowBoundary has quantities that are the element value, a number or a table, and a MID with "
+          "conditions",
           "[model][cards][explicit]")
 {
     Model model = readBulk(

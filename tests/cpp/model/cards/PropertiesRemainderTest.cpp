@@ -138,7 +138,8 @@ std::string dimensionList(std::size_t count)
 
 } // namespace
 
-TEST_CASE("the section catalogue gives the dimension count of every section type to PBARL and PBEAML", "[model][cards]")
+TEST_CASE("the section catalogue gives the dimension count of every section type to BarShapeProp and BeamShapeProp",
+          "[model][cards]")
 {
     REQUIRE(sections::standardSections().size() == std::size(SECTIONS));
     for (const SectionExpectation& expected : SECTIONS)
@@ -165,7 +166,8 @@ TEST_CASE("the section catalogue gives the dimension count of every section type
     expectInvalid("BeamShapeProp;1;1;;;1.", "kind");
 }
 
-TEST_CASE("a PBEAML has its stations in the fields that follow each other, and what a station leaves blank is resolved",
+TEST_CASE("a BeamShapeProp has its stations in the fields that follow each other, and what a station leaves blank is "
+          "resolved",
           "[model][cards]")
 {
     // End A: I section (six dimensions) and NSM blank; station 1 at X/XB .5 with everything blank; end B.
@@ -205,7 +207,7 @@ TEST_CASE("a blank NSM and blank dimensions at end B are the values of end A", "
     REQUIRE_FALSE(cardAt<BeamShapePropTable>(silent).stations[1].stressOutput);
 }
 
-TEST_CASE("a DBOX section takes its default dimensions at every station and a PBEAML can have end A only",
+TEST_CASE("a DBOX section takes its default dimensions at every station and a BeamShapeProp can have end A only",
           "[model][cards]")
 {
     Model model = readBulk("BeamShapeProp;1;1;;DoubleBoxSection;10.;6.;0.5;0.5\nBeamShapeProp;2;1;;Rod;0.05");
@@ -222,7 +224,7 @@ TEST_CASE("a DBOX section takes its default dimensions at every station and a PB
     REQUIRE(card.stations[1].dims == std::vector<double>{12.0, 7.0, 0.6, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7});
 }
 
-TEST_CASE("an invalid PBEAML is reported by field", "[model][cards]")
+TEST_CASE("an invalid BeamShapeProp is reported by field", "[model][cards]")
 {
     expectInvalid("BeamShapeProp;1;1;;Rod;0.", "dimension1");
     expectInvalid("BeamShapeProp;1;1;;Rod", "dimension1");
@@ -237,7 +239,8 @@ TEST_CASE("an invalid PBEAML is reported by field", "[model][cards]")
     expectInvalid("BeamShapeProp;0;1;;Rod;1.", "id");
 }
 
-TEST_CASE("a PBEAML refuses what has no value: a card of 200 dimensions, a bad end A, a changed type", "[model][cards]")
+TEST_CASE("a BeamShapeProp refuses what has no value: a card of 200 dimensions, a bad end A, a changed type",
+          "[model][cards]")
 {
     BeamShapePropCard card;
     card.id = 1;
@@ -258,7 +261,7 @@ TEST_CASE("a PBEAML refuses what has no value: a card of 200 dimensions, a bad e
     REQUIRE(BeamShapePropFormat::check(card)->field == std::string("dimension1"));
 }
 
-TEST_CASE("a PBEAML refers to its material, which renumbering follows", "[model][cards]")
+TEST_CASE("a BeamShapeProp refers to its material, which renumbering follows", "[model][cards]")
 {
     Model model = readBulk("IsoMat;5;2.1E+11;;0.3\nBeamShapeProp;1;5;;Rod;1.");
     RecordingVisitor visitor;
@@ -271,7 +274,7 @@ TEST_CASE("a PBEAML refers to its material, which renumbering follows", "[model]
     REQUIRE(unresolvedIn(model) == 0);
 }
 
-TEST_CASE("PSHEAR and PTUBE: fields, defaults that depend on other fields, and rules", "[model][cards]")
+TEST_CASE("ShearPanelProp and TubeProp: fields, defaults that depend on other fields, and rules", "[model][cards]")
 {
     Model model = readBulk(
         "ShearPanelProp;1;2;0.25;0.01;0.8;0.6\n"
@@ -312,7 +315,8 @@ TEST_CASE("PSHEAR and PTUBE: fields, defaults that depend on other fields, and r
     expectInvalid("TubeProp;1;2;1.;;;-1.", "outerDiameter2");
 }
 
-TEST_CASE("PDAMP and PMASS take up to four properties on a card, PVISC two with a blank field between them",
+TEST_CASE("DamperProp and MassProp take up to four properties on a card, ViscousDamperProp two with a blank field "
+          "between them",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -340,7 +344,8 @@ TEST_CASE("PDAMP and PMASS take up to four properties on a card, PVISC two with 
     expectInvalid("ViscousDamperProp;1", "extensionalDamping1");
 }
 
-TEST_CASE("PDAMP5 refers to its material, PLPLANE and PLSOLID to their material and PLPLANE to its system",
+TEST_CASE("HeatCapacityProp5 refers to its material, PlanePropNonlinear and SolidPropHyperelastic to their material "
+          "and PlanePropNonlinear to its system",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -370,7 +375,7 @@ TEST_CASE("PDAMP5 refers to its material, PLPLANE and PLSOLID to their material 
     expectInvalid("SolidPropHyperelastic;1", "matId");
 }
 
-TEST_CASE("PGAP stores the defaults that depend on other fields and writes them", "[model][cards]")
+TEST_CASE("GapProp stores the defaults that depend on other fields and writes them", "[model][cards]")
 {
     Model model =
         readBulk("GapProp;1\nGapProp;2;;;1.E+5;;;0.3\nGapProp;3;0.035;1.5;1.E+6;0.002;0.35;0.3;0.4;0.2;40.;0.02");
@@ -403,7 +408,7 @@ TEST_CASE("PGAP stores the defaults that depend on other fields and writes them"
     expectInvalid("GapProp;1;;;;;;;;;;2.", "minPenetrationRatio");
 }
 
-TEST_CASE("PFAST has two lines of fields and a system that is a reference when it is positive", "[model][cards]")
+TEST_CASE("FastenerProp has two lines of fields and a system that is a reference when it is positive", "[model][cards]")
 {
     Model model = readBulk(
         "FastenerProp;1;3.6;-1;;0.;183250.;19730.;100.;1.E+9;1.E+9;0.5;0.01;1.E-5;20.;0.1\n"
@@ -437,7 +442,7 @@ TEST_CASE("PFAST has two lines of fields and a system that is a reference when i
     expectInvalid("FastenerProp;1;1.;;;1.;2.;3.;;;;;;;;-1.", "coincidentLength");
 }
 
-TEST_CASE("PBEND has two forms, told by field 3, and refuses the fields of the other one", "[model][cards]")
+TEST_CASE("CurvedBeamProp has two forms, told by field 3, and refuses the fields of the other one", "[model][cards]")
 {
     Model model = readBulk(
         "CurvedBeamProp;1;1;0.7;0.06;0.03;0.05;12.;0.4;0.3;-0.4;0.3;0.5;0.7;0.2;;;0.7;0.7;;;;0.2\n"
@@ -489,7 +494,7 @@ TEST_CASE("PBEND has two forms, told by field 3, and refuses the fields of the o
     expectInvalid("CurvedBeamProp;1;1", "area");
 }
 
-TEST_CASE("PBUSH1D continuations start their lines in any order and default what depends on other fields",
+TEST_CASE("BushProp1D continuations start their lines in any order and default what depends on other fields",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -545,7 +550,7 @@ TEST_CASE("PBUSH1D continuations start their lines in any order and default what
         REQUIRE(target == ReferenceTarget::DesignEquation);
 }
 
-TEST_CASE("an invalid PBUSH1D is reported by field", "[model][cards]")
+TEST_CASE("an invalid BushProp1D is reported by field", "[model][cards]")
 {
     expectInvalid("BushProp1D;0;1.", "id");
     expectInvalid("BushProp1D;1;-1.", "stiffness");
@@ -606,7 +611,7 @@ TEST_CASE("the companions of a property have an ID space of their own and refer 
     REQUIRE_THROWS_AS(readBulk("SpringPropFreq;10;201\nSpringPropFreq;10;202"), base::DeckError);
 }
 
-TEST_CASE("PELAST and PDAMPT have blank tables and refuse negative ones", "[model][cards]")
+TEST_CASE("SpringPropFreq and DamperPropFreq have blank tables and refuse negative ones", "[model][cards]")
 {
     Model model = readBulk("SpringPropFreq;1\nSpringPropFreq;2;;;42\nDamperPropFreq;3\nDamperPropFreq;4;5");
     REQUIRE(cardAt<SpringPropFreqTable>(model, 0).stiffnessTableId == 0);
@@ -618,7 +623,7 @@ TEST_CASE("PELAST and PDAMPT have blank tables and refuse negative ones", "[mode
     expectInvalid("DamperPropFreq;1;-5", "dampingTableId");
 }
 
-TEST_CASE("PBUSHT lines: tables, the damping table of all directions, and the fuse lines", "[model][cards]")
+TEST_CASE("BushPropFreq lines: tables, the damping table of all directions, and the fuse lines", "[model][cards]")
 {
     Model model = readBulk(
         "BushPropFreq;1;Stiffness;101;102;103;104;105;106\n"
@@ -675,7 +680,7 @@ TEST_CASE("PBUSHT lines: tables, the damping table of all directions, and the fu
     REQUIRE(cardAt<BushPropFreqTable>(again).largeRotationEndA == 1);
 }
 
-TEST_CASE("an invalid PBUSHT or PFASTT is reported by field", "[model][cards]")
+TEST_CASE("an invalid BushPropFreq or FastenerPropFreq is reported by field", "[model][cards]")
 {
     expectInvalid("BushPropFreq;0;Stiffness;1", "id");
     expectInvalid("BushPropFreq;1;Stiffness;1;;;;;;Stiffness;2", "id");
@@ -695,7 +700,7 @@ TEST_CASE("an invalid PBUSHT or PFASTT is reported by field", "[model][cards]")
     expectInvalid("FastenerPropFreq;1;NonlinearForce;5;;;;;;;;;;;;;0.", "fuseStiffnessRetention");
 }
 
-TEST_CASE("PFASTT has a single damping table and the same fuse lines as PBUSHT", "[model][cards]")
+TEST_CASE("FastenerPropFreq has a single damping table and the same fuse lines as BushPropFreq", "[model][cards]")
 {
     Model model = readBulk(
         "FastenerPropFreq;1;Stiffness;51;61;10237\n"
@@ -716,7 +721,7 @@ TEST_CASE("PFASTT has a single damping table and the same fuse lines as PBUSHT",
     requireRoundTrip(model);
 }
 
-TEST_CASE("PCOMPG has a global ID per ply, a damping flag on the first ply and the Hashin failure criteria",
+TEST_CASE("CompPropGlobal has a global ID per ply, a damping flag on the first ply and the Hashin failure criteria",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -764,7 +769,8 @@ TEST_CASE("PCOMPG has a global ID per ply, a damping flag on the first ply and t
     expectInvalid("CompPropGlobal;1", "globalPlyId1");
 }
 
-TEST_CASE("PBEAM3 has fixed positions, resolves the values of B and C from end A, and keeps whether warping is given",
+TEST_CASE("BeamProp3 has fixed positions, resolves the values of B and C from end A, and keeps whether warping is "
+          "given",
           "[model][cards]")
 {
     Model model = readBulk(
@@ -832,7 +838,7 @@ TEST_CASE("PBEAM3 has fixed positions, resolves the values of B and C from end A
         "stressLocation");
 }
 
-TEST_CASE("PWELD: positions of the fields, the flags and the defaults of the length ratios", "[model][cards]")
+TEST_CASE("WeldProp: positions of the fields, the flags and the defaults of the length ratios", "[model][cards]")
 {
     Model model = readBulk("WeldProp;1;3;1.\nWeldProp;2;3;1.;On;SpotWeld;0.3;6.");
     const WeldPropCard plain = cardAt<WeldPropTable>(model, 0);

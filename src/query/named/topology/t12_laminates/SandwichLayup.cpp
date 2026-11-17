@@ -91,7 +91,7 @@ public:
                 }
                 catch (const analysis::MassError& error)
                 {
-                    throw QueryError("sandwichLayup: the PCOMP " + std::to_string(id) + ": " + error.what());
+                    throw QueryError("sandwichLayup: the CompProp " + std::to_string(id) + ": " + error.what());
                 }
                 if (!layup)
                     continue; // a core ply number the stack does not have
@@ -177,12 +177,14 @@ private:
         info.name = "sandwichLayup";
         info.family = "T12";
         info.description =
-            "The laminates (PCOMP, PCOMPG) seen as sandwiches, one row per property: the core ply "
+            "The laminates (CompProp, CompPropGlobal) seen as sandwiches, one row per property: the core ply "
             "(`core`, its number in the stack from 1, both halves of a SYM laminate; the thickest ply when None), its "
             "material, thickness and height (`coreZ`, the middle of the core from the reference plane), its "
-            "transverse shear moduli (`coreG1z`, `coreG2z`: G1Z and G2Z of a MAT8, G of a MAT1, infinite for a MAT8 "
-            "whose G1Z or G2Z is blank) and the shear allowable of its material (`coreS`: the S of a MAT8, the SS "
-            "of a MAT1); the plies and thickness of the face below the core and of the face above it, the distance "
+            "transverse shear moduli (`coreG1z`, `coreG2z`: G1Z and G2Z of an OrthoMat2D, G of an IsoMat, infinite for "
+            "an OrthoMat2D "
+            "whose G1Z or G2Z is blank) and the shear allowable of its material (`coreS`: the S of an OrthoMat2D, the "
+            "SS "
+            "of an IsoMat); the plies and thickness of the face below the core and of the face above it, the distance "
             "between their middles (the lever arm of the bending; null when a face has no ply), and the membrane "
             "matrix A of each face in the material axes (a11 a12 a16 a22 a26 a66). readBlock(kind=\"sandwich\") "
             "gives the face fluxes and the core shear of the elements.";

@@ -81,7 +81,7 @@ void UserDefined4Table::keepRows(const std::vector<std::uint32_t>& rows)
 
 void UserDefined4Table::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
 {
-    // PID is not visited: it names an UserDefined4Prop or, when the element needs no property, a material, and the
+    // PID is not visited: it names a UserDefined4Prop or, when the element needs no property, a material, and the
     // card cannot tell which. The grid points are the leading integers of the list (see UserDefined4Card).
     const std::span<const base::EntityId> grids = m_nodes.get(row);
     std::vector<base::EntityId> updated(grids.begin(), grids.end());
