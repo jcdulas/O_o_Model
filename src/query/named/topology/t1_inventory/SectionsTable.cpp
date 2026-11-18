@@ -91,10 +91,12 @@ public:
         std::vector<std::string> sectionType;
         std::vector<std::uint8_t> sectionTypeValid;
         std::vector<std::int32_t> station;
-        constexpr std::size_t VALUES = 17; // xxb area i1 i2 i12 j nsm k1 k2 c1 c2 d1 d2 e1 e2 f1 f2
+        constexpr std::size_t VALUES = 19; // xxb area i1 i2 i12 j nsm k1 k2 c1 c2 d1 d2 e1 e2 f1 f2 n1 n2
         std::array<std::vector<double>, VALUES> values;
         const std::uint16_t rodType = model::typeIndexOf<model::RodPropTable>();
         const std::uint16_t tubeType = model::typeIndexOf<model::TubePropTable>();
+        const std::uint16_t barShapeType = model::typeIndexOf<model::BarShapePropTable>();
+        const std::uint16_t beamShapeType = model::typeIndexOf<model::BeamShapePropTable>();
         for (std::size_t index = 0; index < list.size(); ++index)
         {
             const std::optional<analysis::BeamSection>& section = sections[index];
@@ -109,6 +111,15 @@ public:
                 sectionType.push_back(section->sectionType);
                 sectionTypeValid.push_back(section->sectionType.empty() ? 0 : 1);
                 station.push_back(static_cast<std::int32_t>(at));
+                // The neutral axis from the shear centre, (y, z) in the element system: the axis of a beam on a
+                // BeamShapeProp is the shear centre of its section, and its neutral axis is at the centroid; the axis
+                // of a bar on a BarShapeProp is its neutral axis. The other properties give theirs on their card.
+                std::array<double, 2> neutralAxis{NOT_A_NUMBER, NOT_A_NUMBER};
+                if (list.types[index] == barShapeType)
+                    neutralAxis = {0.0, 0.0};
+                else if (list.types[index] == beamShapeType)
+                    neutralAxis = {properties.drawingCentroid[0] - properties.drawingShearCentre[0],
+                                   properties.drawingCentroid[1] - properties.drawingShearCentre[1]};
                 // A rod (RodProp, TubeProp) carries no shear: no shear factor.
                 const std::array<double, VALUES> row{properties.xxb,
                                                      properties.area,
@@ -126,7 +137,9 @@ public:
                                                      properties.recovery[2][0],
                                                      properties.recovery[2][1],
                                                      properties.recovery[3][0],
-                                                     properties.recovery[3][1]};
+                                                     properties.recovery[3][1],
+                                                     neutralAxis[0],
+                                                     neutralAxis[1]};
                 for (std::size_t item = 0; item < VALUES; ++item)
                     values[item].push_back(row[item]);
             }
@@ -138,7 +151,7 @@ public:
         builder.int32("station", std::move(station));
         static const std::array<const char*, VALUES> NAMES{"xxb", "area", "i1", "i2", "i12", "j",  "nonStructMass",
                                                            "k1",  "k2",   "c1", "c2", "d1",  "d2", "e1",
-                                                           "e2",  "f1",   "f2"};
+                                                           "e2",  "f1",   "f2", "n1", "n2"};
         for (std::size_t item = 0; item < VALUES; ++item)
             builder.real(NAMES[item], std::move(values[item]));
         return builder.finish();
@@ -158,7 +171,10 @@ private:
             "of X/XB, xxb from 0 at end A to 1 at end B): the area, I1 (the integral of y squared, plane 1), I2, "
             "I12, the torsional constant J, the non-structural mass per unit length, the shear factors K1 (shear "
             "along the element y axis) and K2, and the stress recovery points C, D, E, F as (y, z) from the neutral "
-            "axis (c1 c2 d1 d2 e1 e2 f1 f2). BarProp, BeamProp, RodProp and TubeProp give the values of the card (a "
+            "axis (c1 c2 d1 d2 e1 e2 f1 f2), and the neutral axis from the shear centre as (y, z) (n1 n2: the "
+            "centroid less the shear centre of a BeamShapeProp, whose shear centre is the axis of its beam; zero for "
+            "a BarShapeProp, whose neutral axis is the axis of its bar; null for the properties that give theirs on "
+            "their card). BarProp, BeamProp, RodProp and TubeProp give the values of the card (a "
             "blank K1 or "
             "K2 of a BarProp is null: no shear flexibility; a Bar2 ignores K1 and K2 when "
             "I12 is not "
@@ -181,7 +197,7 @@ private:
         info.defaultSort = "propId, station";
         ColumnListBuilder columns;
         columns.int32("propId").dictionary("type").dictionary("sectionType").int32("station");
-        columns.reals("xxb area i1 i2 i12 j nsm k1 k2 c1 c2 d1 d2 e1 e2 f1 f2");
+        columns.reals("xxb area i1 i2 i12 j nsm k1 k2 c1 c2 d1 d2 e1 e2 f1 f2 n1 n2");
         info.columnSets.push_back(columns.build());
         return info;
     }
