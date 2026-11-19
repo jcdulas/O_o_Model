@@ -106,9 +106,13 @@ struct PiercedFastener
 //
 // A point falls on an element when its projection (or crossing) lies inside it or outside by at most the PROJTOL of the
 // ConnectorSearchParams card (0.02 when not given) in natural coordinates (beyond the edges of a quadrilateral, below 0
-// for an area coordinate of a triangle), the element it falls on strictly inside being preferred; and when it is at
-// most PIERCING_REACH_IN_SIZES element sizes away. Of several elements, the one the card names, else the nearest, else
-// the lowest element ID (a point on a shared edge or grid point). The natural coordinates are then brought onto the
+// for an area coordinate of a triangle), and when it is at most PIERCING_REACH_IN_SIZES element sizes away. Of several
+// elements, the one the card names, else the nearest, else the lowest element ID (a point on a shared edge or grid
+// point). The nearest is taken among all the elements the point falls on, inside or within the tolerance: the shells
+// of a property may be several sheets, and a point on the edge of its sheet may project well inside a sheet farther
+// away, which is not its own. Between two elements as near as neighbours of one sheet are (their distances differ by
+// less than the tolerance times the element size), the one the point falls on strictly inside is preferred to the
+// one it reaches past an edge. The natural coordinates are then brought onto the
 // element (detail::clampToElement), the position of a generated point taken there, and the shape functions evaluated
 // there (ShellShape: bilinear and linear, or quadratic serendipity with the mid-side points present).
 //

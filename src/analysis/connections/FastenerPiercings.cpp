@@ -17,6 +17,7 @@
 #include <array>
 #include <cmath>
 #include <cstdio>
+#include <functional>
 #include <optional>
 #include <string>
 #include <utility>
@@ -177,6 +178,28 @@ std::string toleranceText(double tolerance)
            number(PIERCING_REACH_IN_SIZES) + " element sizes of the point";
 }
 
+// The element a point belongs to, among the elements `nearest(allowed)` searches: `nearest` gives the nearest element
+// the point projects on within `allowed` of its edges (natural units).
+//
+// It is the nearest element reached within the tolerance. Several sheets may be searched together (the shells of a
+// property are often those of several parts), and a point on the edge of its sheet, or beside it within the
+// tolerance, may project well inside a sheet farther away: that sheet is not the one of the point.
+// One exception: an element that holds the projection strictly inside is kept beside a nearer one reached past its
+// edge when the two are as near as neighbours of one sheet are (the extended surface of the neighbour of a flat
+// sheet is as near as the element itself, and nearer on the inner side of a fold): their distances then differ by
+// less than the tolerance times the size of the element reached past its edge.
+std::optional<HostedPoint> hostAmong(const std::function<std::optional<HostedPoint>(double)>& nearest, double tolerance)
+{
+    std::optional<HostedPoint> within = nearest(tolerance);
+    if (!within || within->projection.outside <= 0.0)
+        return within;
+    std::optional<HostedPoint> inside = nearest(0.0);
+    const double neighbourGap = tolerance * detail::elementSize(within->element);
+    if (inside && inside->projection.distance - within->projection.distance <= neighbourGap)
+        return inside;
+    return within;
+}
+
 class Piercer
 {
 public:
@@ -259,28 +282,18 @@ SideSurface Piercer::surfaceOf(const FastenerInput& input, char side) const
 
 std::optional<HostedPoint> Piercer::hostIn(const SideSurface& surface, const base::Vec3& point, double tolerance)
 {
-    // Strictly inside first, then within the tolerance: of two elements sharing an edge, the one the point is in.
-    for (const double allowed : {0.0, tolerance})
+    if (surface.property != nullptr)
+        return hostAmong([&](double allowed) { return surface.property->nearestInside(point, allowed); }, tolerance);
+    // The named element when the point is on it, then the shells around it.
+    if (surface.named)
     {
-        if (surface.property != nullptr)
-        {
-            if (auto host = surface.property->nearestInside(point, allowed))
-                return host;
-            continue;
-        }
-        if (surface.named)
-        {
-            const detail::SurfaceProjection projection = detail::SurfaceProjection::onto(*surface.named, point);
-            if (projection.isInside(allowed))
-                return HostedPoint{*surface.named, projection};
-        }
+        const detail::SurfaceProjection projection = detail::SurfaceProjection::onto(*surface.named, point);
+        if (projection.isInside(tolerance))
+            return HostedPoint{*surface.named, projection};
     }
-    for (const double allowed : {0.0, tolerance})
-    {
-        if (auto host = detail::ShellCandidates::nearestInside(surface.around, point, allowed))
-            return host;
-    }
-    return std::nullopt;
+    return hostAmong(
+        [&](double allowed) { return detail::ShellCandidates::nearestInside(surface.around, point, allowed); },
+        tolerance);
 }
 
 SearchOutcome Piercer::footOn(const SideSurface& surface, const base::Vec3& point, double tolerance,
@@ -324,17 +337,14 @@ SearchOutcome Piercer::crossingOn(const SideSurface& surface, const base::Vec3& 
     {
         // A walk on the shells of the property: from the element nearest the origin, to the element nearest where the
         // axis crosses the surface of the current one, until the crossing falls on the current element. The element
-        // of a point is the one it projects into, else within the tolerance, else the nearest within WALK_TOLERANCE:
-        // the projection on the extended surfaces of the neighbours of a flat sheet is as near as the one inside.
+        // of a point is the one it belongs to within the tolerance (hostAmong), else the nearest within
+        // WALK_TOLERANCE.
         const auto elementNear = [&](const base::Vec3& point)
         {
-            std::optional<HostedPoint> found;
-            for (const double allowed : {0.0, tolerance, WALK_TOLERANCE})
-            {
-                found = surface.property->nearestInside(point, allowed);
-                if (found)
-                    break;
-            }
+            std::optional<HostedPoint> found = hostAmong(
+                [&](double allowed) { return surface.property->nearestInside(point, allowed); }, tolerance);
+            if (!found)
+                found = surface.property->nearestInside(point, WALK_TOLERANCE);
             return found;
         };
         std::optional<HostedPoint> host = elementNear(origin);

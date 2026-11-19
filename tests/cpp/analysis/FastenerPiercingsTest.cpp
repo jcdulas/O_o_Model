@@ -56,6 +56,21 @@ const analysis::FastenerPiercing& sideOf(const analysis::FastenerPiercings& pier
     return piercings.sides().front();
 }
 
+// One ShellQuad4 `eid` of property `pid` on the square [x0, x1] x [y0, y1] at height z, its grid points numbered
+// from `firstNode`.
+std::string squareSheet(int eid, int pid, int firstNode, double x0, double x1, double y0, double y1, double z)
+{
+    std::string text;
+    const double corners[4][2] = {{x0, y0}, {x1, y0}, {x1, y1}, {x0, y1}};
+    for (int k = 0; k < 4; ++k)
+        text += oor::testing::modelRecord("Node", firstNode + k, "", corners[k][0], corners[k][1], z);
+    return text +
+           oor::testing::modelRecord("ShellQuad4", eid, pid, firstNode, firstNode + 1, firstNode + 2, firstNode + 3);
+}
+
+const std::string SHEET_PROPERTIES = "IsoMat;1;2.E+5;7.5E+4;0.3\nShellProp;1;1;0.1\nShellProp;2;1;0.1\n"
+                                     "FastenerProp;10;0.2;;;1.;1.;1.\n";
+
 } // namespace
 
 TEST_CASE("a weld between flat plates pierces them under its location", "[analysis][connections]")
@@ -185,4 +200,96 @@ TEST_CASE("the fastener axis is found on shells far from the origin", "[analysis
     CHECK(b.elementId == 2);
     CHECK(b.position.x == Catch::Approx(132.967));
     CHECK(b.position.z == Catch::Approx(0.8));
+}
+
+// Several sheets may have the property a fastener names (the caps of the two faces of a box, two skins). The sheet a
+// point belongs to is the nearest one it projects on, also when it reaches that sheet on its edge, within the
+// tolerance, and projects well inside a sheet farther away.
+
+TEST_CASE("a location beside the edge of a sheet is placed on it, not on a farther sheet of the property",
+          "[analysis][connections]")
+{
+    // Property 1: the unit sheet 1 at z = 0, and the sheet 2 at z = 3, wide enough to hold the projection of the
+    // location. Property 2: the sheet 3 at z = -0.2. The location is 0.005 beyond the edge x = 0 of the sheet 1
+    // (0.01 in its natural coordinates, within the tolerance of 0.02), 0.1 below it.
+    const std::string deck = SHEET_PROPERTIES + squareSheet(1, 1, 1, 0.0, 1.0, 0.0, 1.0, 0.0) +
+                             squareSheet(2, 1, 11, -2.0, 3.0, -2.0, 3.0, 3.0) +
+                             squareSheet(3, 2, 21, -1.0, 2.0, -1.0, 2.0, -0.2) +
+                             "Fastener;500;10;Property;1;2;;;;-0.005;0.5;-0.1\n";
+    const analysis::FastenerPiercings piercings = analysis::FastenerPiercings::compute(readModelText(deck));
+    const analysis::FastenerPiercing& a = sideOf(piercings, 500, 'A');
+    REQUIRE(a.isFound);
+    CHECK(a.elementId == 1);
+    // brought onto the edge of the sheet
+    CHECK(a.position.x == Catch::Approx(0.0).margin(1e-12));
+    CHECK(a.position.y == Catch::Approx(0.5));
+    CHECK(a.position.z == Catch::Approx(0.0).margin(1e-12));
+    const analysis::FastenerPiercing& b = sideOf(piercings, 500, 'B');
+    REQUIRE(b.isFound);
+    CHECK(b.elementId == 3);
+    CHECK(b.position.z == Catch::Approx(-0.2));
+}
+
+TEST_CASE("a grid point given on the edge of a sheet is placed on it when a sheet of the property lies far away",
+          "[analysis][connections]")
+{
+    // The grid points of the two ends are on the edge x = 0 of the sheets 1 and 3, to the rounding of a model file
+    // (1e-9 beyond it). The other sheet of property 1 is 60 away, more than a fastener reaches (10 element sizes of
+    // a sheet of 5): held for the sheet of the point, it left the side without a piercing point.
+    const std::string deck = SHEET_PROPERTIES + squareSheet(1, 1, 1, 0.0, 1.0, 0.0, 1.0, 0.0) +
+                             squareSheet(2, 1, 11, -2.0, 3.0, -2.0, 3.0, 60.0) +
+                             squareSheet(3, 2, 21, 0.0, 1.0, 0.0, 1.0, -0.2) +
+                             squareSheet(4, 2, 31, -2.0, 3.0, -2.0, 3.0, -60.0) +
+                             "Node;600;;-1.E-9;0.5;0.\nNode;601;;-1.E-9;0.5;-0.2\n"
+                             "Fastener;500;10;Property;1;2;;600;601\n";
+    const analysis::FastenerPiercings piercings = analysis::FastenerPiercings::compute(readModelText(deck));
+    for (const auto& [side, element] : {std::tuple{'A', 1}, std::tuple{'B', 3}})
+    {
+        const analysis::FastenerPiercing& row = sideOf(piercings, 500, side);
+        INFO(row.problem);
+        REQUIRE(row.isFound);
+        CHECK(row.elementId == element);
+        CHECK(row.xi == Catch::Approx(-1.0));
+        CHECK(row.eta == Catch::Approx(0.0).margin(1e-9));
+    }
+}
+
+TEST_CASE("the fastener axis crosses the sheet beside it, not a farther sheet of the property",
+          "[analysis][connections]")
+{
+    // Side A: the sheet 1 at z = 0, pierced on its edge x = 0. Property 2: the sheet 3 at z = -0.2, whose edge is
+    // at x = 0.005 (the axis passes 0.005 beside it: 0.005 in its natural coordinates), and the sheet 4 at z = -3,
+    // which the axis crosses well inside.
+    const std::string deck = SHEET_PROPERTIES + squareSheet(1, 1, 1, 0.0, 1.0, 0.0, 1.0, 0.0) +
+                             squareSheet(3, 2, 21, 0.005, 2.005, -1.0, 2.0, -0.2) +
+                             squareSheet(4, 2, 31, -2.0, 3.0, -2.0, 3.0, -3.0) +
+                             "Fastener;500;10;Property;1;2;;;;0.;0.5;-0.1\n";
+    const analysis::FastenerPiercings piercings = analysis::FastenerPiercings::compute(readModelText(deck));
+    const analysis::FastenerPiercing& b = sideOf(piercings, 500, 'B');
+    INFO(b.problem);
+    REQUIRE(b.isFound);
+    CHECK(b.elementId == 3);
+    CHECK(b.position.x == Catch::Approx(0.005));
+    CHECK(b.position.z == Catch::Approx(-0.2));
+}
+
+TEST_CASE("a point inside an element stays on it beside a neighbour whose extended surface is nearer",
+          "[analysis][connections]")
+{
+    // Two elements of one sheet folded along x = 1: the element 1 flat on [0, 1], the element 2 going up at 45
+    // degrees from the fold. A location 0.01 under the element 1 and 0.001 before the fold is strictly inside the
+    // element 1 (0.01 away); the extended plane of the element 2 is nearer (0.0064) and the location projects 0.011
+    // beyond its edge, within the tolerance: the point is on the element it is inside of.
+    const std::string deck =
+        SHEET_PROPERTIES +
+        "Node;1;;0.;0.;0.\nNode;2;;1.;0.;0.\nNode;3;;1.;1.;0.\nNode;4;;0.;1.;0.\n"
+        "Node;5;;2.;0.;1.\nNode;6;;2.;1.;1.\n"
+        "ShellQuad4;1;1;1;2;3;4\nShellQuad4;2;1;2;5;6;3\n" +
+        squareSheet(3, 2, 21, -1.0, 3.0, -1.0, 2.0, -0.2) + "Fastener;500;10;Property;1;2;;;;0.999;0.5;-0.01\n";
+    const analysis::FastenerPiercings piercings = analysis::FastenerPiercings::compute(readModelText(deck));
+    const analysis::FastenerPiercing& a = sideOf(piercings, 500, 'A');
+    REQUIRE(a.isFound);
+    CHECK(a.elementId == 1);
+    CHECK(a.position.x == Catch::Approx(0.999));
+    CHECK(a.position.z == Catch::Approx(0.0).margin(1e-12));
 }
