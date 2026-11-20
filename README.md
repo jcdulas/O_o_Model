@@ -108,6 +108,11 @@ node --test wasm/test/*.test.mjs                        # the end-to-end test, i
 
 Each WebAssembly test checks its own duration against the same one-second limit.
 
+The `WebAssembly` workflow builds the package on every push to `main` that changes the sources, runs these tests and
+publishes it as `O_o_Reader-wasm.zip` in the
+[`wasm-latest` release](https://github.com/jcdulas/O_o_Reader/releases/tag/wasm-latest), which follows the branch;
+each run also keeps it 90 days as its `O_o_Reader-wasm` artifact.
+
 ## Licence
 
 MIT (see [LICENSE](LICENSE)). The WebAssembly package includes HDF5 (BSD-style licence) and zlib (zlib licence).
