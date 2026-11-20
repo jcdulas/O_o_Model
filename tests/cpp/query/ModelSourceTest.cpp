@@ -7,6 +7,9 @@
 #include "oor/model/cards/elements/shellTria3/ShellTria3Table.hpp"
 #include "oor/model/cards/materials/isoMat/IsoMatTable.hpp"
 #include "oor/model/cards/nodes/node/NodeTable.hpp"
+#include "oor/model/cards/nodes/surfaceEdge/SurfaceEdgeTable.hpp"
+#include "oor/model/cards/nodes/surfaceFacet/SurfaceFacetTable.hpp"
+#include "oor/model/cards/nodes/surfaceLine/SurfaceLineTable.hpp"
 #include "oor/model/cards/properties/shellProp/ShellPropTable.hpp"
 #include "oor/query/QueryErrors.hpp"
 #include "oor/query/providers/ModelSource.hpp"
@@ -159,6 +162,41 @@ TEST_CASE("a card type is a table of its stored columns, shared with the model",
     // a later edit does not change the table: the model clones the buffer
     model->table<model::ShellQuad4Table>().setPropId(0, 99);
     CHECK(ints(table->column("propId")) == std::vector<std::int32_t>{1, 1, 1, 1});
+}
+
+TEST_CASE("the geometry declaration cards are tables of their stored columns", "[query][model]")
+{
+    const auto model = std::make_shared<model::Model>(
+        readModelText("SurfaceEdge;1;301;302;Smooth\nSurfaceEdge;3;201;202;Sharp;5012\nSurfaceEdge;4;101;102;Raw\n"
+                      "SurfaceFacet;5012\nSurfaceFacet;5013\n"
+                      "SurfaceLine;1;501;502;503\nSurfaceLine;2;601;602\n"));
+    q::ExecutionContext context;
+
+    const auto edges = on(model, model::typeIndexOf<model::SurfaceEdgeTable>(), "SurfaceEdge").run(context);
+    REQUIRE(edges->rowCount() == 3);
+    CHECK(edges->columnNames() == std::vector<std::string>{"id", "node1Id", "node2Id", "state", "elementId", "type"});
+    CHECK(ints(edges->column("id")) == std::vector<std::int32_t>{1, 3, 4});
+    CHECK(ints(edges->column("node1Id")) == std::vector<std::int32_t>{301, 201, 101});
+    CHECK(ints(edges->column("node2Id")) == std::vector<std::int32_t>{302, 202, 102});
+    CHECK(edges->column("state").type() == q::ColumnType::Utf8);
+    CHECK(edges->column("state").textAt(0) == "Smooth");
+    CHECK(edges->column("state").textAt(1) == "Sharp");
+    CHECK(edges->column("state").textAt(2) == "Raw");
+    CHECK(edges->column("elementId").type() == q::ColumnType::Int32);
+    CHECK(ints(edges->column("elementId")) == std::vector<std::int32_t>{0, 5012, 0}); // 0: the whole edge
+
+    const auto facets = on(model, model::typeIndexOf<model::SurfaceFacetTable>(), "SurfaceFacet").run(context);
+    REQUIRE(facets->rowCount() == 2);
+    CHECK(facets->columnNames() == std::vector<std::string>{"elementId", "type"});
+    CHECK(ints(facets->column("elementId")) == std::vector<std::int32_t>{5012, 5013});
+
+    const auto lines = on(model, model::typeIndexOf<model::SurfaceLineTable>(), "SurfaceLine").run(context);
+    REQUIRE(lines->rowCount() == 2);
+    CHECK(lines->columnNames() == std::vector<std::string>{"id", "node1Id", "throughNodeId", "node2Id", "type"});
+    CHECK(ints(lines->column("id")) == std::vector<std::int32_t>{1, 2});
+    CHECK(ints(lines->column("node1Id")) == std::vector<std::int32_t>{501, 601});
+    CHECK(ints(lines->column("throughNodeId")) == std::vector<std::int32_t>{502, 602});
+    CHECK(ints(lines->column("node2Id")) == std::vector<std::int32_t>{503, 0}); // 0: the mesh line ends
 }
 
 TEST_CASE("a computed column is evaluated only when it is used, for the rows left", "[query][model][lazy]")

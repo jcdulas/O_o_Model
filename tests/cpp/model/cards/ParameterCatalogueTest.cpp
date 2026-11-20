@@ -163,6 +163,10 @@ TEST_CASE("a parameter of the wrong kind or outside the listed options is found"
     CHECK_FALSE(catalogue.problemWith(blank).has_value());
     CHECK_FALSE(catalogue.problemWith(textCard("MYPARAM", "WHATEVER")).has_value());
     CHECK_FALSE(catalogue.problemWith(textCard("ConditionCheck", "NO")).has_value());
+    // the geometry declarations of a model are Given, or the parameter is left out
+    CHECK_FALSE(catalogue.problemWith(textCard("GeometryDeclarations", "Given")).has_value());
+    CHECK(catalogue.problemWith(textCard("GeometryDeclarations", "Guessed"))->fit == ParameterFit::NotAllowed);
+    CHECK(catalogue.problemWith(integerCard("GeometryDeclarations", 1))->fit == ParameterFit::WrongKind);
 }
 
 TEST_CASE("the reader keeps a PARAM of the wrong kind and warns", "[model][parameters]")
@@ -214,6 +218,11 @@ TEST_CASE("a parameter has the value of the last PARAM card, else the default of
     CHECK_FALSE(parameterValue(model, "OTHER").has_value());
     // a known parameter with no default in the format reference has nothing either
     CHECK_FALSE(parameterValue(model, "OutputMaxRatio").has_value());
+    // a word parameter without a default: the word of its card, or nothing
+    const Model declared = readModelText("Parameter;GeometryDeclarations;Given\n");
+    CHECK(declared.diagnostics().diagnostics().empty());
+    CHECK(parameterValue(declared, "GeometryDeclarations")->card.textValue == "Given");
+    CHECK_FALSE(parameterValue(model, "GeometryDeclarations").has_value());
     // no PARAM at all
     const Model empty = readModelText("Node;1;;0.;0.;0.\n");
     CHECK(realParameter(empty, "WeightToMass") == 1.0);

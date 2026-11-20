@@ -525,6 +525,9 @@
 #include "oor/model/cards/nodes/nodeSequence/NodeSequenceTable.hpp"
 #include "oor/model/cards/nodes/scalarPoint/ScalarPointTable.hpp"
 #include "oor/model/cards/nodes/shellNormal/ShellNormalTable.hpp"
+#include "oor/model/cards/nodes/surfaceEdge/SurfaceEdgeTable.hpp"
+#include "oor/model/cards/nodes/surfaceFacet/SurfaceFacetTable.hpp"
+#include "oor/model/cards/nodes/surfaceLine/SurfaceLineTable.hpp"
 #include "oor/model/cards/nonlinear_contact/boltConnection/BoltConnectionTable.hpp"
 #include "oor/model/cards/nonlinear_contact/boltPretension/BoltPretensionTable.hpp"
 #include "oor/model/cards/nonlinear_contact/brakeMotion/BrakeMotionTable.hpp"
@@ -1764,6 +1767,9 @@ void registerAllCards(CardRegistry& registry)
     addCard<TemperatureTimeGroupTable>(registry);
     addCard<TimeTemperatureLoadTable>(registry);
     addCard<TransferPathSetupTable>(registry);
+    addCard<SurfaceEdgeTable>(registry);
+    addCard<SurfaceFacetTable>(registry);
+    addCard<SurfaceLineTable>(registry);
 }
 
 } // namespace oor::model

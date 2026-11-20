@@ -53,6 +53,9 @@
 #include "oor/model/cards/nodes/nodeSequence/NodeSequenceTable.hpp"
 #include "oor/model/cards/nodes/scalarPoint/ScalarPointTable.hpp"
 #include "oor/model/cards/nodes/shellNormal/ShellNormalTable.hpp"
+#include "oor/model/cards/nodes/surfaceEdge/SurfaceEdgeTable.hpp"
+#include "oor/model/cards/nodes/surfaceFacet/SurfaceFacetTable.hpp"
+#include "oor/model/cards/nodes/surfaceLine/SurfaceLineTable.hpp"
 #include "oor/model/cards/rigid_elements/ComponentSets.hpp"
 #include "oor/query/providers/ColumnExport.hpp"
 
@@ -458,6 +461,38 @@ void registerNodesColumns(StoredColumnCatalogue& catalogue)
                        { return exportColumn(model->template table<ShellNormalTable>().frameIdColumn()); });
         registerColumn(catalogue, type, "vector", [](const auto& model)
                        { return exportColumn(model->template table<ShellNormalTable>().normalColumn()); });
+    }
+    {
+        using model::SurfaceEdgeTable;
+        const std::uint16_t type = model::typeIndexOf<SurfaceEdgeTable>();
+        registerColumn(catalogue, type, "id", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceEdgeTable>().idColumn()); });
+        registerColumn(catalogue, type, "node1Id", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceEdgeTable>().node1IdColumn()); });
+        registerColumn(catalogue, type, "node2Id", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceEdgeTable>().node2IdColumn()); });
+        registerColumn(catalogue, type, "state", [](const auto& model)
+                       { return exportTextColumn(model->template table<SurfaceEdgeTable>().stateColumn()); });
+        registerColumn(catalogue, type, "elementId", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceEdgeTable>().elementIdColumn()); });
+    }
+    {
+        using model::SurfaceFacetTable;
+        const std::uint16_t type = model::typeIndexOf<SurfaceFacetTable>();
+        registerColumn(catalogue, type, "elementId", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceFacetTable>().elementIdColumn()); });
+    }
+    {
+        using model::SurfaceLineTable;
+        const std::uint16_t type = model::typeIndexOf<SurfaceLineTable>();
+        registerColumn(catalogue, type, "id", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceLineTable>().idColumn()); });
+        registerColumn(catalogue, type, "node1Id", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceLineTable>().node1IdColumn()); });
+        registerColumn(catalogue, type, "throughNodeId", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceLineTable>().throughNodeIdColumn()); });
+        registerColumn(catalogue, type, "node2Id", [](const auto& model)
+                       { return exportColumn(model->template table<SurfaceLineTable>().node2IdColumn()); });
     }
     {
         using model::ScalarPointTable;

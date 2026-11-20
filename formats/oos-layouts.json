@@ -12079,6 +12079,28 @@
      {"name": "node", "offset": 0, "kind": "any"}
    ]}
   },
+  "SurfaceEdge": {
+   "fields": [
+    {"name": "id", "slot": 1, "kind": "integer"},
+    {"name": "node1Id", "slot": 2, "kind": "integer"},
+    {"name": "node2Id", "slot": 3, "kind": "integer"},
+    {"name": "state", "slot": 4, "kind": "text"},
+    {"name": "elementId", "slot": 5, "kind": "integer", "default": "0"}
+   ]
+  },
+  "SurfaceFacet": {
+   "fields": [
+    {"name": "elementId", "slot": 1, "kind": "integer"}
+   ]
+  },
+  "SurfaceLine": {
+   "fields": [
+    {"name": "id", "slot": 1, "kind": "integer"},
+    {"name": "node1Id", "slot": 2, "kind": "integer"},
+    {"name": "throughNodeId", "slot": 3, "kind": "integer"},
+    {"name": "node2Id", "slot": 4, "kind": "integer", "default": "0"}
+   ]
+  },
   "SurfacePermeability": {
    "fields": [
     {"name": "id", "slot": 1, "kind": "integer"},

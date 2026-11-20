@@ -840,6 +840,9 @@ add_library(oor_model STATIC
     cards/nodes/acousticSlotSurfacePoint/AcousticSlotSurfacePointTable.cpp
     cards/nodes/associativeNode/AssociativeNodeTable.cpp
     cards/nodes/shellNormal/ShellNormalTable.cpp
+    cards/nodes/surfaceEdge/SurfaceEdgeTable.cpp
+    cards/nodes/surfaceFacet/SurfaceFacetTable.cpp
+    cards/nodes/surfaceLine/SurfaceLineTable.cpp
     cards/nodes/axisymConeControl/AxisymConeControlTable.cpp
     cards/nodes/axisymFluidControl/AxisymFluidControlTable.cpp
     cards/nodes/acousticSlotControl/AcousticSlotControlTable.cpp

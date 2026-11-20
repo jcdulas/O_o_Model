@@ -19,7 +19,7 @@ trailing blank fields are omitted.
 - **Accepted words**, **parameter names** and **designable field descriptors** come from the neutral vocabulary and are
   case-sensitive. Word lists are per card; each field's reader determines which words apply to it. Design indices are
   one-based; a station can be `EndA`, `EndB` or a positive position, as in `dimension(2)(EndB)`.
-872 card types: 286 with a repeated group, 62 with sections, 39 with alternatives, 24 with forms.
+875 card types: 286 with a repeated group, 62 with sections, 39 with alternatives, 24 with forms.
 
 ## Cards
 
@@ -9446,7 +9446,7 @@ Accepted words: `ElemMatOrientation`, `ElemPropOrientation`, `Elements`, `Vector
 | 2 | `parameterValue` | `any` |  |  |
 | 3 | `imaginaryValue` | `real` |  |  |
 
-Accepted words: `Absolute`, `All`, `AugmentedModes`, `Automatic`, `BackwardDifference`, `Beta`, `Both`, `ClassicFormulation`, `DataCheckOnly`, `DirectMethod`, `ElemNumbering`, `ElemOffsetZ`, `ElemOffsetsOnly`, `Element`, `Extrapolate`, `False`, `ForwardDifference`, `FreeDofSet`, `GlobalDofSet`, `HarderShearPanel`, `IntegralMethod`, `Iterative`, `KrylovMethod`, `Linear`, `Link`, `LoadRecoveryOffsets`, `Log10`, `LogLogScale`, `LowerUpperSolution`, `Manual`, `Mass`, `MinVolume`, `ModalFormulation`, `ModalMethod`, `New`, `No`, `NoDampingOffsets`, `NoFreqAdjust`, `NoLink`, `NoMassOffsets`, `NoOffsetDifference`, `NoStaticAdjust`, `NoTemperatureGradientOffsets`, `NoThermalOffsets`, `NonSmeared`, `None`, `Off`, `Old`, `On`, `PanelMethodCoupling`, `PeakValue`, `Physical`, `Print`, `Punch`, `Relative`, `ResidualModes`, `ResidualOnly`, `RitzVectors`, `RootMeanSquare`, `Same`, `SecantMethod`, `Select`, `Semi`, `StaticModalFormulation`, `SuperelementMap`, `SuperelementMapAll`, `SuperelementMapConnected`, `SuperelementMapEstimate`, `SuperelementMapPunch`, `SuperelementRecovery`, `SupersonicLiftingSurface`, `TimoshenkoBeam`, `TimoshenkoForce`, `Total`, `True`, `Volume`, `Yes`.
+Accepted words: `Absolute`, `All`, `AugmentedModes`, `Automatic`, `BackwardDifference`, `Beta`, `Both`, `ClassicFormulation`, `DataCheckOnly`, `DirectMethod`, `ElemNumbering`, `ElemOffsetZ`, `ElemOffsetsOnly`, `Element`, `Extrapolate`, `False`, `ForwardDifference`, `FreeDofSet`, `Given`, `GlobalDofSet`, `HarderShearPanel`, `IntegralMethod`, `Iterative`, `KrylovMethod`, `Linear`, `Link`, `LoadRecoveryOffsets`, `Log10`, `LogLogScale`, `LowerUpperSolution`, `Manual`, `Mass`, `MinVolume`, `ModalFormulation`, `ModalMethod`, `New`, `No`, `NoDampingOffsets`, `NoFreqAdjust`, `NoLink`, `NoMassOffsets`, `NoOffsetDifference`, `NoStaticAdjust`, `NoTemperatureGradientOffsets`, `NoThermalOffsets`, `NonSmeared`, `None`, `Off`, `Old`, `On`, `PanelMethodCoupling`, `PeakValue`, `Physical`, `Print`, `Punch`, `Relative`, `ResidualModes`, `ResidualOnly`, `RitzVectors`, `RootMeanSquare`, `Same`, `SecantMethod`, `Select`, `Semi`, `StaticModalFormulation`, `SuperelementMap`, `SuperelementMapAll`, `SuperelementMapConnected`, `SuperelementMapEstimate`, `SuperelementMapPunch`, `SuperelementRecovery`, `SupersonicLiftingSurface`, `TimoshenkoBeam`, `TimoshenkoForce`, `Total`, `True`, `Volume`, `Yes`.
 
 ### PerforatedShellProp
 
@@ -12096,6 +12096,33 @@ Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
 Repeated group `nodes`, after the fixed fields: `node` (any).
 
 Accepted words: `All`, `Through`.
+
+### SurfaceEdge
+
+| # | Field | Kind | Default | |
+| ---: | --- | --- | --- | --- |
+| 1 | `id` | `integer` |  |  |
+| 2 | `node1Id` | `integer` |  |  |
+| 3 | `node2Id` | `integer` |  |  |
+| 4 | `state` | `text` |  |  |
+| 5 | `elementId` | `integer` | 0 |  |
+
+Accepted words: `Raw`, `Sharp`, `Smooth`.
+
+### SurfaceFacet
+
+| # | Field | Kind | Default | |
+| ---: | --- | --- | --- | --- |
+| 1 | `elementId` | `integer` |  |  |
+
+### SurfaceLine
+
+| # | Field | Kind | Default | |
+| ---: | --- | --- | --- | --- |
+| 1 | `id` | `integer` |  |  |
+| 2 | `node1Id` | `integer` |  |  |
+| 3 | `throughNodeId` | `integer` |  |  |
+| 4 | `node2Id` | `integer` | 0 |  |
 
 ### SurfacePermeability
 

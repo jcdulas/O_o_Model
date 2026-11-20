@@ -4186,6 +4186,7 @@
       "False",
       "ForwardDifference",
       "FreeDofSet",
+      "Given",
       "GlobalDofSet",
       "HarderShearPanel",
       "IntegralMethod",
@@ -5308,6 +5309,11 @@
     "SuperelementUserDofSet1": [
       "All",
       "Through"
+    ],
+    "SurfaceEdge": [
+      "Raw",
+      "Sharp",
+      "Smooth"
     ],
     "SurfacePermeability": [
       "Both",

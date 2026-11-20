@@ -264,6 +264,10 @@ const std::vector<ParamInfo>& parameterCatalogueEntries()
         {"FreqZeroThreshold", ParamType::Real, realDefault(1.0)},
         {"UniformStructuralDamping", ParamType::Real, realDefault(0.0)},
         {"FluidStructuralDamping", ParamType::Real, realDefault(0.0)},
+        // The model was prepared for a solver that reads its surface from the mesh and has no SurfaceEdge, SurfaceFacet
+        // or SurfaceLine card to give: its geometry declaration is empty. The only word is Given; a model with one of
+        // those cards does not need the parameter.
+        {"GeometryDeclarations", ParamType::Text, noDefault(), "Given"},
         {"GeometryUnit", ParamType::Integer, integerDefault(40)},
         {"NodeElemConnectivity", ParamType::Integer, integerDefault(-1), "-1|1"},
         {"GradientMesh", ParamType::Text, textDefault("Off"), "Off|MinimumVolume|ElemNumbering"},
