@@ -109,9 +109,11 @@ node --test wasm/test/*.test.mjs                        # the end-to-end test, i
 Each WebAssembly test checks its own duration against the same one-second limit.
 
 The `WebAssembly` workflow builds the package on every push to `main` that changes the sources, runs these tests and
-publishes it as `O_o_Reader-wasm.zip` in the
-[`wasm-latest` release](https://github.com/jcdulas/O_o_Reader/releases/tag/wasm-latest), which follows the branch;
-each run also keeps it 90 days as its `O_o_Reader-wasm` artifact.
+publishes it as `O_o_Reader-wasm.zip` in two [releases](https://github.com/jcdulas/O_o_Reader/releases):
+`wasm-latest`, a pre-release that follows the branch, and one release kept for each version of `wasm/package.json`
+(`v0.2.0`, ...), made by the first build of that version and not changed afterwards; the newest of these is the
+latest release of the repository. Raise the version in `wasm/package.json` to keep a new one. Each run also keeps the
+package 90 days as its `O_o_Reader-wasm` artifact.
 
 ## Licence
 
