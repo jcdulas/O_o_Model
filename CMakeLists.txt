@@ -36,6 +36,11 @@ endif()
 
 add_subdirectory(src)
 
+option(OOR_BUILD_PYTHON "Build the native CPython extension" OFF)
+if(OOR_BUILD_PYTHON)
+    add_subdirectory(python)
+endif()
+
 if(OOR_BUILD_TESTS AND NOT EMSCRIPTEN)
     enable_testing()
     add_subdirectory(tests/cpp)

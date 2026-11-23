@@ -72,18 +72,24 @@ std::shared_ptr<const query::QueryTable> runQuery(const std::string& name, const
                                                   const std::shared_ptr<Results>& results,
                                                   const query::QueryArguments& arguments)
 {
+#if defined(__EMSCRIPTEN__)
+    return runQueryWithPool(name, deck, results, arguments, nullptr);
+#else
+    static base::ThreadPool sharedPool(base::ThreadPool::defaultWorkerCount() - 1);
+    return runQueryWithPool(name, deck, results, arguments, &sharedPool);
+#endif
+}
+
+std::shared_ptr<const query::QueryTable> runQueryWithPool(const std::string& name, const std::shared_ptr<Deck>& deck,
+                                                         const std::shared_ptr<Results>& results,
+                                                         const query::QueryArguments& arguments, base::ThreadPool* pool)
+{
     (void)findQuery(name);
     std::shared_ptr<model::Model> model = deck ? deck->model() : nullptr;
     std::vector<query::ResultSet> sets;
     if (results)
         sets.push_back(results->resultSet());
     std::shared_ptr<const query::ModelLink> link = model ? std::make_shared<HeldModelLink>(model) : nullptr;
-#if defined(__EMSCRIPTEN__)
-    base::ThreadPool* pool = nullptr; // one thread: everything on the calling thread
-#else
-    static base::ThreadPool sharedPool(base::ThreadPool::defaultWorkerCount() - 1);
-    base::ThreadPool* pool = &sharedPool;
-#endif
     query::ExecutionContext context(pool, nullptr, nullptr);
     const query::QueryRun run{model, arguments, context, link, sets};
     return query::NamedQueryRegistry::instance().run(name, run);

@@ -3,6 +3,7 @@
 #include "oor/api/Deck.hpp"
 #include "oor/api/Results.hpp"
 #include "oor/base/text/Json.hpp"
+#include "oor/base/threading/ThreadPool.hpp"
 #include "oor/query/QueryErrors.hpp"
 #include "oor/query/named/QueryInfo.hpp"
 #include "oor/query/named/QueryValue.hpp"
@@ -39,6 +40,11 @@ struct QueryDescription
                                                                 const std::shared_ptr<Deck>& deck,
                                                                 const std::shared_ptr<Results>& results,
                                                                 const query::QueryArguments& arguments);
+
+// An embedding application can own worker lifetime and join its workers before unloading the library.
+[[nodiscard]] std::shared_ptr<const query::QueryTable> runQueryWithPool(
+    const std::string& name, const std::shared_ptr<Deck>& deck, const std::shared_ptr<Results>& results,
+    const query::QueryArguments& arguments, base::ThreadPool* pool);
 
 // The arguments of a query from a JSON object {"parameter": value, ...} (what the JavaScript side sends): each value is
 // converted to the kind its parameter takes (ParameterKind):

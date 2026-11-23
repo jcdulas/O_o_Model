@@ -1,0 +1,23 @@
+[build-system]
+requires = ["scikit-build-core>=0.11", "pybind11>=3.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "oor-reader"
+version = "0.2.0"
+description = "Native O_o finite element model reader with Arrow table export"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.23"]
+
+[tool.scikit-build]
+minimum-version = "0.11"
+wheel.packages = ["python/oor_reader"]
+build-dir = "build/python/{wheel_tag}"
+build.targets = ["_native"]
+
+[tool.scikit-build.cmake.define]
+OOR_BUILD_PYTHON = "ON"
+OOR_BUILD_TESTS = "OFF"
