@@ -44,7 +44,7 @@ jobs:
           CIBW_SKIP: "*-musllinux* *-win32 *-manylinux_i686"
           CIBW_ARCHS: auto64
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
-          CIBW_BEFORE_ALL_LINUX: dnf install -y epel-release && dnf install -y hdf5-devel zlib-devel
+          CIBW_BEFORE_ALL_LINUX: bash {project}/scripts/build_hdf5_manylinux.sh
           CIBW_TEST_REQUIRES: pyarrow
           CIBW_BEFORE_BUILD_WINDOWS: python -m pip install delvewheel
           CIBW_TEST_COMMAND: python "{project}/python/tests/smoke.py"

@@ -1,6 +1,6 @@
 # O_o_Reader
 
-[Native Python package (`oor-reader`), build and publishing](docs/python.md)
+[Native Python package (`oo-reader`), build and publishing](docs/python.md)
 
 **[Sphinx documentation](https://jcdulas.github.io/O_o_Reader/)** ·
 [Model construction](https://jcdulas.github.io/O_o_Reader/docs/model-construction.html) ·

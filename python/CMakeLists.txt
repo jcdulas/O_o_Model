@@ -4,7 +4,7 @@ execute_process(COMMAND "${Python_EXECUTABLE}" -m pybind11 --cmakedir OUTPUT_VAR
 find_package(pybind11 CONFIG REQUIRED HINTS "${pybind11_hint}")
 pybind11_add_module(_native MODULE NO_EXTRAS bindings.cpp)
 target_link_libraries(_native PRIVATE oor_api)
-install(TARGETS _native LIBRARY DESTINATION oor_reader RUNTIME DESTINATION oor_reader)
+install(TARGETS _native LIBRARY DESTINATION oo_reader RUNTIME DESTINATION oo_reader)
 
 # Include the notices for libraries bundled by repair tools on the binary-wheel platforms.
 if(MINGW)
@@ -18,6 +18,6 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 foreach(package IN LISTS runtime_packages)
     if(IS_DIRECTORY "${license_root}/${package}")
-        install(DIRECTORY "${license_root}/${package}" DESTINATION oor_reader/licenses)
+        install(DIRECTORY "${license_root}/${package}" DESTINATION oo_reader/licenses)
     endif()
 endforeach()

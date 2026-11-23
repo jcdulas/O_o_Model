@@ -1,11 +1,11 @@
 # Native Python package
 
-The `oor-reader` distribution exposes the C++ Reader in the CPython process.
-Install its wheel with `python -m pip install /path/to/oor_reader-...whl`.
-The standard import name is `oor_reader`.
+The `oo-reader` distribution exposes the C++ Reader in the CPython process.
+Install its wheel with `python -m pip install /path/to/oo_reader-...whl`.
+The standard import name is `oo_reader`.
 
 ```python
-from oor_reader import read_model
+from oo_reader import read_model
 
 deck = read_model("wing.oos")           # also accepts a native .ooh5 archive
 counts = deck.card_counts
