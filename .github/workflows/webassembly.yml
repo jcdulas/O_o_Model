@@ -20,7 +20,8 @@ on:
       - 'scripts/build_hdf5_wasm.sh'
       - 'CMakeLists.txt'
       - '!**/*.md'
-      - '.github/workflows/webassembly.yml'
+      # A tag targeting older workflow files may require extra permissions. Supersede that build on main.
+      - '.github/workflows/**'
   pull_request:
     paths:
       - 'src/**'
