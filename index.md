@@ -7,6 +7,7 @@ Read and edit `.oos` model records and native `.ooh5` model/results archives, qu
 ## Start here
 
 - [Getting started](docs/getting-started.md): build requirements and a first working example.
+- [Native Python package](docs/python.md) shows how to read models and exchange Arrow tables.
 - [Project overview](README.md): capabilities, repository layout and build commands.
 - [API reference](docs/api.rst): the current JavaScript types and C++ entry points, included directly from source.
 - [Construct models from JavaScript](docs/model-construction.md): cards, load cases, includes, parts and batch input.
@@ -37,6 +38,7 @@ The reader and solver have public documentation sites and exchange model data th
 :caption: User guide
 
 docs/getting-started
+docs/python
 docs/optimization
 README
 docs/model-format
