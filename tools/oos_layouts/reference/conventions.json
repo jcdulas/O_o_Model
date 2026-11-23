@@ -1,0 +1,97 @@
+{
+  "Node": {
+    "id": "Unique grid point identifier used by connectivity, loads and constraints.",
+    "position1": "First coordinate in the position frame. It is x in a rectangular frame and radius in a cylindrical or spherical frame.",
+    "position2": "Second coordinate in the position frame. It is y in a rectangular frame and an angle in cylindrical or spherical coordinates.",
+    "position3": "Third coordinate in the position frame. It is z in rectangular and cylindrical coordinates and an angle in spherical coordinates.",
+    "permanentConstraints": "Component digits fixed at this node in its displacement frame."
+  },
+  "SurfaceEdge": {
+    "node1Id": "Grid point at one end of the declared edge.",
+    "node2Id": "Grid point at the other end of the declared edge.",
+    "state": "Surface continuation at this edge. Smooth continues the tangent plane, Sharp marks a fold and Raw retains the mesh edge.",
+    "elementId": "Optional incident element restricting the declaration to its side of the edge."
+  },
+  "SurfaceLine": {
+    "node1Id": "First grid point defining the line direction.",
+    "throughNodeId": "Grid point at which the line continues or terminates.",
+    "node2Id": "Next grid point on the line. Omit it to declare a line end."
+  },
+  "SurfaceFacet": {
+    "elementId": "Identifier of the existing shell element whose face is declared planar."
+  },
+  "PointForceLoad": {
+    "id": "Load-set ID, selected by case control or a load combination.",
+    "magnitude": "Force scale multiplying the three direction components, in force units.",
+    "frameId": "Frame for the force components. Zero uses the basic system."
+  },
+  "RodProp": {
+    "nonStructMass": "Additional mass per unit rod length.",
+    "torsionStressCoefficient": "Section factor used in recovering the outer-fibre shear stress from the torsional moment."
+  },
+  "IsoMat": {
+    "density": "Mass per unit volume for inertia and gravity loads.",
+    "stressFrameId": "Coordinate system used for material stress output."
+  },
+  "SinglePointConstrList": {
+    "id": "Constraint-set ID selected in case control.",
+    "node": "Grid point to which the same component mask is applied."
+  },
+  "SolidProp": {
+    "integration": "Selects the integration scheme of solid elements using the property.",
+    "stressLocation": "Selects the locations where element stresses are recovered.",
+    "integrationOrder": "Specifies the integration order for the associated solid elements.",
+    "elementFunction": "Selects the element formulation associated with the property."
+  },
+  "AcousticAbsorberBrickProp": {
+    "synthesize": "Selects between an equivalent response derived from tables and directly supplied coefficients.",
+    "damping": "Equivalent damping per unit surface area.",
+    "stiffness": "Equivalent stiffness per unit surface area.",
+    "mass": "Equivalent mass per unit surface area.",
+    "resistanceTableId": "Table defining the resistive part of the acoustic response.",
+    "reactanceTableId": "Table defining the reactive part of the acoustic response.",
+    "weightingTableId": "Optional frequency weighting table used in coefficient synthesis."
+  },
+  "DesignVar": {
+    "id": "Identifier referenced by design relations and responses.",
+    "entryLabel": "Name used to identify the variable in an optimization study.",
+    "initialValue": "Starting design coordinate. Use the same units for its bounds and discrete values."
+  },
+  "ShellProp": {
+    "nonStructMass": "Additional mass per unit shell area."
+  },
+  "CompProp": {
+    "nonStructMass": "Additional mass per unit laminate area."
+  },
+  "CompPropGlobal": {
+    "nonStructMass": "Additional mass per unit laminate area."
+  },
+  "BarProp": {
+    "nonStructMass": "Additional mass per unit bar length."
+  },
+  "BeamProp": {
+    "nonStructMass": "Additional mass per unit beam length."
+  },
+  "FluidStructureControl": {
+    "frequency": "Number of coupling updates per time step. This is an integer update rate."
+  },
+  "GeneralFrame3": {
+    "matrixForm": "Selects whether angles are supplied by equations or by multidimensional tables.",
+    "methodName": "Rotation convention and axis sequence used to construct the moving frame."
+  },
+  "TableMultiVariable0": {
+    "smoothing": "Smoothing option for interpolation along the independent variable."
+  },
+  "GeneralMatrix": {
+    "stiffness": "One term in the lower triangle of the stiffness matrix. Terms are ordered down each column.",
+    "flexibility": "One term in the lower triangle of the compliance matrix. Terms are ordered down each column.",
+    "dependencyMatrix": "Coefficient relating the independent set to the dependent set. This matrix is entered by rows."
+  },
+  "UserFileName": {
+    "entryName": "File name or path associated with this file identifier."
+  },
+  "Rod2": {
+    "node1": "First endpoint of the rod. The vector from node1 to node2 defines its local axial direction.",
+    "node2": "Second endpoint of the rod. Its distance from node1 is the undeformed element length."
+  }
+}

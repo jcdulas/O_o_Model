@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Writes docs/model-format-cards.md, the card catalogue of the model format, from formats/oos-layouts.json.
+"""Generate the model-card index and its subject pages from the Reader and its reference data.
 
 For every card type: its fields in the order of its record (name, kind, default when the code has one), the alternatives
 (two fields for one place: a record gives one of them), the repeated group after the fixed fields, the sections of a
@@ -10,10 +10,15 @@ Usage: python tools/oos_layouts/write_cards_doc.py [--check]
 """
 
 import argparse
+import csv
+import re
 import json
 import sys
 from collections import defaultdict
 from pathlib import Path
+
+from card_reference import FAMILIES, example_links, read_cards
+from field_guide import CORNERS, SOLID_EDGES, definition
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 CATALOGUE = ROOT / "formats" / "oos-layouts.json"
@@ -48,56 +53,47 @@ def kind_text(kind):
     return f"`{kind}`"
 
 
-def span_text(span):
-    return "one text field"
-
-
-def group_items(fields):
-    return ", ".join(f"`{field['name']}` ({field['kind']}"
-                     + (f", {span_text(field['span'])}" if field.get("span", 1) != 1 else "") + ")"
-                     for field in fields)
-
-
-def fields_table(fields):
-    """The table of the fixed fields of a layout."""
+def fields_table(fields, card, context=""):
     if not fields:
-        return ["No fixed field.", ""]
-    slot_count = defaultdict(int)
+        return ["This part of the record has no fixed fields.", ""]
+    positions = defaultdict(list)
     for field in fields:
-        slot_count[field["slot"]] += 1
-    lines = ["| # | Field | Kind | Default | |", "| ---: | --- | --- | --- | --- |"]
-    for index, field in enumerate(fields, 1):
-        remark = ""
-        if slot_count[field["slot"]] > 1:
-            others = [other["name"] for other in fields if other["slot"] == field["slot"] and other is not field]
-            remark = "alternative of " + ", ".join(f"`{other}`" for other in others)
+        if "slot" in field:
+            positions[field["slot"]].append(field["name"])
+    lines = ["| Position | Field | Type | Default | Meaning and conventions |",
+             "| ---: | --- | --- | --- | --- |"]
+    for i, field in enumerate(fields, 1):
+        meaning = definition(card, field, context)
+        others = [v for v in positions.get(field.get("slot"), []) if v != field["name"]]
+        if others:
+            meaning += " Alternative to " + ", ".join(f"`{v}`" for v in others) + "."
         if field.get("span", 1) != 1:
-            remark = span_text(field["span"])
-        lines.append(f"| {index} | `{field['name']}` | {kind_text(field['kind'])} | {field.get('default', '')} | "
-                     f"{remark} |")
+            meaning += " Written as one text field."
+        default = field.get("default", "—")
+        if card.name in SOLID_EDGES and (node := re.fullmatch(r"node(\d+)", field["name"])):
+            default = "Required" if int(node[1]) <= CORNERS[card.name] else "0"
+        if default == "—" and field["name"] in card.required and not context and not others:
+            default = "Required"
+        lines.append(f"| {i} | `{field['name']}` | {kind_text(field['kind'])} | {default} | {meaning.replace('|', '&#124;')} |")
     return lines + [""]
 
 
-def count_line(group):
-    return [f"The number of repetitions of `{group['name']}` (integer, blank for none).", ""]
-
-
-def group_text(group, first):
-    """One sentence on a group: its fields, how many repetitions, where it starts in the old layout."""
-    if first:
-        text = f"Repeated group `{group['name']}`, after the fixed fields"
-    else:
-        text = f"Then the repeated group `{group['name']}`"
+def group_lines(group, card, *, counted=False, nested=False):
+    name = group["name"]
     count = group.get("count")
-    if isinstance(count, int):
-        text += ", once" if count == 1 else f", {count} times"
+    if nested or counted:
+        count_text = "Give the number of entries before their values."
+    elif isinstance(count, int):
+        count_text = f"The layout contains {count} repetition(s)."
     elif count:
-        text += f", counted by `{count}`"
-    text += f": {group_items(group['fields'])}"
-    if group.get("list"):
-        nested = group["list"]
-        text += f"; then the number of `{nested['name']}` and their fields {group_items(nested['fields'])}"
-    return [text + ".", ""]
+        count_text = f"The field `{count}` gives the number of repetitions."
+    else:
+        count_text = "Repeat these fields in order for each entry."
+    lines = [f"**Repeated group `{name}`**. {count_text}", ""]
+    lines += fields_table(group["fields"], card, name)
+    if child := group.get("list"):
+        lines += group_lines(child, card, nested=True)
+    return lines
 
 
 VALUE_KIND_WORDS = {"blank": "a blank", "integer": "an integer", "real": "a real", "text": "a word"}
@@ -114,63 +110,59 @@ def condition_text(when):
     return f"`{when['field']}` is " + " or ".join(part for part in parts if part)
 
 
-def groups_lines(layout):
-    """The groups of a layout, each with the count a record gives before it when it gives one."""
-    groups = [layout["group"]] + layout.get("nextGroups", [])
-    lines = []
-    for index, group in enumerate(groups):
-        last = index + 1 == len(groups)
-        if "count" not in group and (not last or layout.get("sections")):
-            lines += count_line(group)
-        lines += group_text(group, index == 0)
+def layout_lines(layout, card):
+    names = [field["name"] for field in layout["fields"]]
+    groups = [layout["group"], *layout.get("nextGroups", [])] if layout.get("group") else []
+    tail = [f"<{group['name']}>" for group in groups]
+    if layout.get("sections"):
+        tail.append("<keyed sections>")
+    syntax = ";".join([card.name, *names, *tail])
+    lines = [f"`{syntax}`", ""] + fields_table(layout["fields"], card)
+    for i, group in enumerate(groups):
+        counted = "count" not in group and (i + 1 < len(groups) or layout.get("sections"))
+        lines += group_lines(group, card, counted=counted)
+    if sections := layout.get("sections"):
+        lines += [f"**Keyed sections in `{sections['name']}`**", "",
+                  "Begin each section with its key, then write its fixed fields and any counted list.", ""]
+        for section in sections["kinds"]:
+            key = section["key"]
+            lines += [(f"**Section `{key}`**" if key else "**Section with an empty key**"), ""]
+            if section.get("fields"):
+                lines += fields_table(section["fields"], card, section.get("name") or key)
+            if group := section.get("list"):
+                lines += group_lines(group, card, nested=True)
+            elif not section.get("fields"):
+                lines += ["The key completes this section.", ""]
     return lines
 
 
-def section_kind_line(kind):
-    text = "- `" + (json.dumps(kind["key"])[1:-1] or '""') + "`"
-    notes = []
-    if kind.get("name"):
-        notes.append(kind["name"])
-    if notes:
-        text += f" ({', '.join(notes)})"
-    parts = []
-    if kind.get("fields"):
-        parts.append("fields " + group_items(kind["fields"]))
-    if kind.get("list"):
-        parts.append(f"then the number of `{kind['list']['name']}` and their fields "
-                     + group_items(kind["list"]["fields"]))
-    text += ": " + "; ".join(parts) if parts else ": no field"
-    return text + "."
+def card_section(card, layout, words, parameters, design_fields, cards, related):
+    name = card.name
+    def link(match):
+        other = cards.get(match[0])
+        if not other or other.name == name:
+            return match[0]
+        return f"[{other.name}]({other.family}.md#{other.name.lower()})"
 
-
-def layout_lines(layout):
-    """The description of one layout: fixed fields, groups, sections."""
-    lines = fields_table(layout["fields"])
-    if layout.get("group"):
-        lines += groups_lines(layout)
-    sections = layout.get("sections")
-    if sections:
-        how = "one after the other"
-        lines += [f"Sections `{sections['name']}`, {how}, each opened by its key word:", ""]
-        lines += [section_kind_line(kind) for kind in sections["kinds"]]
-        lines.append("")
-    return lines
-
-
-def card_section(name, layout, words, parameters, design_fields):
-    lines = [f"### {name}", ""]
+    purpose = re.sub(r"\b[A-Z][a-zA-Z0-9]+\b", link, card.purpose)
+    lines = [f"## {name}", "", purpose, "", "**Record format and fields**", ""]
     if layout.get("forms"):
         forms = [form for form in layout["forms"] if not any(k in form.get("when", {}) for k in ("blankSlot", "filledSlot"))]
+        for legacy in (form for form in layout["forms"] if form not in forms):
+            when = condition_text(legacy["when"]).partition(" (")[0]
+            lines += [f"In the source layout, the form is called `{legacy['name']}` when {when}. "
+                      "Its compact field sequence is the one shown below.", ""]
         names = ", ".join(f"`{form['name']}`" for form in forms)
         lines += [f"Forms: {names}.", ""]
         for form in forms:
             when = form.get("when")
-            condition = f"when {condition_text(when)}" if when else "for every other record"
+            condition = (f"when {condition_text(when)}" if when else
+                         "for every compact record" if len(forms) == 1 else "for every other record")
             heading = f"Form `{form['name']}`, {condition}"
-            lines += [f"#### {name}: {form['name']}", "", heading + ".", ""]
-            lines += layout_lines(form)
+            lines += [f"### {name}: {form['name']}", "", heading + ".", ""]
+            lines += layout_lines(form, card)
     else:
-        lines += layout_lines(layout)
+        lines += layout_lines(layout, card)
     if layout.get("note"):
         lines += [f"*Note*: {layout['note']}.", ""]
     if words:
@@ -181,46 +173,89 @@ def card_section(name, layout, words, parameters, design_fields):
         lines += [f"Accepted parameter names: {items}.", ""]
     if design_fields:
         lines += [f"Designable field descriptors: {design_fields}.", ""]
+    if card.diagnostics:
+        lines += ["**Reader diagnostics**", "",
+                  "The following messages identify invalid input for the applicable field or form.", ""]
+        lines += [f"- `{field}` — {message.rstrip('.') }." for field, message in card.diagnostics]
+        lines.append("")
+    lines += ["**Example record**", "", "~~~text", card.example.record, "~~~", ""]
+    if card.example.path:
+        lines += [f"[Model containing this record](../../../{card.example.path})", ""]
+    if not layout.get("forms") and (fixed := layout.get("fields")):
+        values = next(csv.reader([card.example.record], delimiter=";"))[1:]
+        supplied = [(f, v) for f, v in zip(fixed, values) if v != ""]
+        if supplied:
+            pairs = ", ".join(f"`{f['name']} = {v}`" for f, v in supplied[:4])
+            lines += ["Reading the example gives " + pairs + ".", ""]
+    if related:
+        lines += ["**Referenced records in this example**", ""]
+        for target, pairs in related.items():
+            fields = ", ".join(f"`{name} = {value}`" for name, value in pairs)
+            lines.append(f"- [{target}]({cards[target].family}.md#{target.lower()}) via {fields}.")
+        lines.append("")
     return lines
 
 
-def document():
-    catalogue = json.loads(CATALOGUE.read_text(encoding="utf-8"))
+def documents():
+    layouts = json.loads(CATALOGUE.read_text(encoding="utf-8"))["cards"]
     vocabulary = json.loads(VOCABULARY.read_text(encoding="utf-8"))
-    values = vocabulary.get("cards", {})
-    parameters = vocabulary.get("parameters", {})
-    cards = catalogue["cards"]
-    lines = HEADER.splitlines()
-    grouped = sum(1 for layout in cards.values() if layout.get("group"))
-    sectioned = sum(1 for layout in cards.values() if layout.get("sections"))
-    alternatives = sum(1 for layout in cards.values()
-                       if len({field["slot"] for field in layout["fields"]}) != len(layout["fields"]))
-    with_forms = sum(1 for layout in cards.values() if layout.get("forms"))
-    lines += [f"{len(cards)} card types: {grouped} with a repeated group, {sectioned} with sections, {alternatives} with "
-              f"alternatives, {with_forms} with forms.", ""]
-    lines += ["## Cards", ""]
+    cards = read_cards(layouts)
+    related = example_links(cards, layouts)
+    by_family = defaultdict(list)
+    index = HEADER.splitlines()
+    index += ["", "## Units and interpretation", "",
+              "Choose one consistent set of length, mass and time units for the model. For example, with metres, "
+              "kilograms and seconds, a nodal coordinate in a rectangular frame is in metres, material density "
+              "is in kg/m³, Young’s modulus and pressure are in pascals, and frequency in cycles per second is in Hz. "
+              "A polar angle follows the convention of its coordinate system. Identifiers, counts and component "
+              "selectors are dimensionless. For user-defined data, the consuming model defines the units.", "",
+              "## Browse by subject", "",
+              "Each family brings together record syntax, field definitions, validation notes and examples.", ""]
     for name in sorted(cards):
-        words = set(values.get(name, {}))
-        lines += card_section(name, cards[name], words, parameters.get(name, []), vocabulary.get("designFields", {}).get(name, ""))
-        if grammar := vocabulary.get("textGrammars", {}).get(name):
-            lines += [grammar, ""]
-    return "\n".join(lines).rstrip("\n") + "\n"
+        by_family[cards[name].family].append(name)
+    for family in sorted(by_family, key=FAMILIES.get):
+        index.append(f"- [{FAMILIES[family]}](reference/cards/{family}.md) ({len(by_family[family])} cards)")
+    index += ["", "~~~{toctree}", ":hidden:", ":maxdepth: 1", "",
+              *(f"reference/cards/{f}" for f in sorted(by_family, key=FAMILIES.get)), "~~~", "", "## Cards", ""]
+    first = {}
+    for name in sorted(cards):
+        first.setdefault(name[0], name)
+    index += [" · ".join(f"[{letter}](#{name.lower()})" for letter, name in first.items()), ""]
+    for name in sorted(cards):
+        # Keep the entry and form anchors used by previous versions of the documentation.
+        card = cards[name]
+        index += [f"### {name}", "", f"[{name} — fields and example](reference/cards/{card.family}.md#{name.lower()})", ""]
+        for form in layouts[name].get("forms", []):
+            if not set(form.get("when", {})) & {"blankSlot", "filledSlot"}:
+                index += [f"#### {name}: {form['name']}", "",
+                          f"[{form['name']} form](reference/cards/{card.family}.md#{name.lower()}-{form['name'].lower()})", ""]
+    yield OUTPUT, "\n".join(index).rstrip() + "\n"
+    for family, names in sorted(by_family.items()):
+        lines = [f"# {FAMILIES[family]}", "", "[All card families and alphabetical index](../../model-format-cards.md)", "",
+                 "Read field positions from left to right within each table. A dash means the layout supplies no "
+                 "fixed default. Use a consistent system of units for dimensional quantities.", ""]
+        for n in names:
+            lines += card_section(cards[n], layouts[n], vocabulary["cards"].get(n, []),
+                                  vocabulary["parameters"].get(n, []), vocabulary["designFields"].get(n, ""), cards, related.get(n))
+            if grammar := vocabulary.get("textGrammars", {}).get(n):
+                lines += [grammar, ""]
+        yield OUTPUT.parent / "reference/cards" / (family + ".md"), "\n".join(lines).rstrip() + "\n"
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--check", action="store_true", help="only check that the document is up to date")
-    arguments = parser.parse_args()
-    text = document()
-    if arguments.check:
-        current = OUTPUT.read_text(encoding="utf-8") if OUTPUT.exists() else ""
-        if current != text:
-            print(f"{OUTPUT.relative_to(ROOT)} is not up to date: run tools/oos_layouts/write_cards_doc.py")
-            return 1
-        return 0
-    OUTPUT.write_text(text, encoding="utf-8", newline="\n")
-    print(f"{OUTPUT.relative_to(ROOT)} written")
-    return 0
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="verify every generated reference page")
+    args = parser.parse_args()
+    ok = True
+    for path, content in documents():
+        if args.check:
+            if not path.is_file() or path.read_text(encoding="utf-8") != content:
+                print(f"Out of date: {path.relative_to(ROOT)}", file=sys.stderr)
+                ok = False
+        else:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content, encoding="utf-8", newline="\n")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

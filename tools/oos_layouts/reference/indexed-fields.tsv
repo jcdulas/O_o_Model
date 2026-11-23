@@ -1,0 +1,58 @@
+angleList(\d+)(First|Last)Elem	{2} aerodynamic element to which angle list {1} applies.
+body(\d+)	Identifier of aerodynamic body {1} associated with the panel property.
+depth(\d+)	Distance over which spline {1} contributes to the blend.
+rotationFlexibility([XY])	Compliance of the spline coupling in rotation about local {1}.
+forcePoint([RT])(\d+)	Extra point for unbalance force output, component {2} of the {1} group (T for translations, R for rotations).
+massCorrectionPoint([RT])(\d+)	Extra point for the mass correction, component {2} of the {1} group (T for translations, R for rotations).
+speedCorrectionPoint(\d+)	Extra point for spin-rate correction component {1}.
+frfComponent(\d+)	Frequency-response component on side {1} of the assembly connection.
+inertia([123])([123])	Component ({1}, {2}) of the point mass inertia tensor (mass times length squared).
+scalarPoint(\d+)	Scalar point at position {1} in the ordered connection.
+biasId([XYZ])	Identifier of the mesh-bias definition in direction {1}.
+resizeTableId([XYZ])	Table controlling resizing of the Eulerian mesh in direction {1}.
+(product|unreacted)R(\d+)	Coefficient R{2} for the {1} phase of the material equation of state.
+coefficientD(\d+)TableIdOf(Boyce|Ogden)	Table supplying the variation of coefficient D{1} for the {2} constitutive law.
+(compression|tension)Strength(\d+)	Strength limit in {1} for material direction or entry {2} (force per area).
+criterionValue(\d+)	Value in position {1} of the selected material failure criterion. Its physical interpretation depends on the criterion.
+gFunction([A-F0-9]+)	Coefficient {1} of the material hardening function.
+lockAngle(\d+)	Fabric locking angle for shear branch or entry {1}.
+shearModulus(\d+)Z	Elastic shear modulus in the material plane spanned by direction {1} and z (force per area).
+strainLimit(\d+)	Limiting strain for material component or criterion entry {1}.
+vector(\d+)([XYZ])	Component {2} of orientation vector {1}.
+wlfConstant(\d+)	Coefficient {1} in the temperature shift relation for viscoelastic response.
+(fluid|structural)(Damping|Mass|Stiffness)Variability	Variation assigned to the {2} contribution of the {1} subsystem.
+(start|end)PatchId([AB])	Identifier at the {1} of the patch range on side {2}.
+(first|second)Position(\d+)	Coordinate {2} of the {1} position in the specified frame.
+parameter(\d+)	Parameter {1} of the selected refinement criterion; its meaning follows the criterion.
+position(\d+)	Coordinate {1} of the specified location in its reference frame.
+([xyz])End	{1} coordinate of the endpoint.
+approachAxis(\d+)	Component {1} of the direction of approach or rigid motion.
+axisCosine(\d+)	Direction cosine for axis component {1} (dimensionless).
+axis([XYZ])	Component {1} of the specified axis vector.
+cornerNode(\d+)	Grid point defining corner {1} of the selected geometry.
+corner([XYZ])(\d+)	Coordinate {1} of corner {2} in the local frame.
+cosine([XYZ])	Direction cosine relative to axis {1}.
+(displacement|energy|load)Tolerance(Coupled|Heat)	Convergence tolerance on {1} for the {2} solution.
+growthTable(\d+)	Identifier of the table used at position {1} in the crack-growth relation.
+incrementCountCoupled	Number of increments specified for the coupled solution.
+limit(\d+)	Increment limit or target for criterion range {1}.
+rangeEnd(\d+)	Endpoint in the criterion variable defining range {1}.
+max(Bisections|Divergences|Iterations|LineSearches|QuasiNewtonVectors)(Heat|Coupled)	Upper bound on {1} for the {2} increment.
+minIterationsCoupled	Minimum iterations before checking convergence of the coupled increment.
+patchNode(\d+)	Grid point at position {1} in the surface patch connectivity.
+serviceParameter(\d+)	Argument {1} passed to the user service in the ordered input data.
+termTable(\d+)	Table identifier associated with term {1} in the specified relation.
+column(\d+)	Column identifier for contribution {1} of the displacement or shape basis.
+mirrorPlane(\d+)	Plane of mirror symmetry applied to the design region, entry {1}.
+portAngle(\d+)	Angular position of lubricant port {1} around the bearing.
+shearRelief(\d+)	Shear-relief coefficient for section direction {1}, accounting for taper.
+title(\d+)	Descriptive title field {1} retained with the bearing definition.
+independentComponents([ABC])	Independent degrees of freedom at point {1}.
+pointA(\d+)	Grid or geometric point {1} in the original interface frame of the part to be positioned.
+pointB(\d+)	Matching point {1} in the receiving frame after positioning the part.
+quantity(\d+)	Physical quantity {1} exchanged across the co-simulation interface.
+slice(Start|End)(\d+)	{1} of time slice {2} in the evaluation history.
+kind(\d+)	Kind of independent variable or interpolation dimension {1} in the table.
+([xyz])Offset	Additive shift in the {1} coordinate of the tabulated function.
+ambientNode(\d+)	Grid or scalar point supplying ambient temperature for boundary term {1}.
+planeSymmetry(\d+)	Symmetry condition on reference plane {1} in the fluid model.

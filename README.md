@@ -3,6 +3,7 @@
 Read, edit and query finite element models in .oos and HDF5 .ooh5 format with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
 
 **[Sphinx documentation](https://jcdulas.github.io/O_o_Reader/)** ·
+[Model input reference](docs/reference/index.md) ·
 [Model construction](https://jcdulas.github.io/O_o_Reader/docs/model-construction.html) ·
 [API reference](https://jcdulas.github.io/O_o_Reader/docs/api.html)
 

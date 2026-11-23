@@ -1,7 +1,7 @@
 # Module guide
 
 The modules below follow the dependency order of the implementation. Each guide describes its responsibilities,
-entry points and numerical or data conventions.
+entry points and numerical or data conventions. For model-file syntax, see the [model input reference](reference/index.md).
 
 - [base](../src/base/README.md)
 - [io](../src/io/README.md)

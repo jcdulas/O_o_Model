@@ -10,6 +10,10 @@ on:
       - 'CMakeLists.txt'
       - 'src/**/CMakeLists.txt'
       - 'include/**'
+      - 'src/model/cards/**'
+      - 'formats/**'
+      - 'validation/models/**/*.oos'
+      - 'tools/oos_layouts/**'
       - 'wasm/js/**'
       - 'python/**'
       - '.github/workflows/documentation.yml'
@@ -21,6 +25,10 @@ on:
       - 'CMakeLists.txt'
       - 'src/**/CMakeLists.txt'
       - 'include/**'
+      - 'src/model/cards/**'
+      - 'formats/**'
+      - 'validation/models/**/*.oos'
+      - 'tools/oos_layouts/**'
       - 'wasm/js/**'
       - 'python/**'
       - '.github/workflows/documentation.yml'
@@ -51,6 +59,7 @@ jobs:
         run: python -m pip install -r docs/requirements.txt
       - name: Verify diagrams, build HTML and check local resources
         run: |
+          python tools/oos_layouts/write_cards_doc.py --check
           python docs/diagrams/render.py --check
           python -m sphinx -W --keep-going -b html -c docs -d build/docs/doctrees . build/docs/html
           python docs/check_html.py build/docs/html

@@ -9,6 +9,7 @@ Read, edit and query finite element models in .oos and HDF5 .ooh5 format with th
 - [Getting started](docs/getting-started.md): install either package and run the same example in JavaScript and Python.
 - [JavaScript operations](docs/wasm-api.md) and [Python package](docs/python.md) cover model I/O, queries and typed tables.
 - [Project overview](README.md): capabilities, repository layout and build commands.
+- [Model input reference](docs/reference/index.md) covers the command line, initialization, case control, bulk data and parameters.
 - [API reference](docs/api.rst): JavaScript and Python operations, TypeScript declarations and C++ headers.
 - [Construct and edit models](docs/model-construction.md): cards, load cases, includes, parts and batch input.
 - [Optimization with JavaScript and Python](docs/optimization.md): design points, model updates and accepted-point archives.
@@ -42,7 +43,6 @@ docs/python
 docs/optimization
 README
 docs/model-format
-docs/model-format-cards
 docs/wasm-api
 docs/model-construction
 docs/archive-format
@@ -56,6 +56,7 @@ docs/element-naming
 :maxdepth: 2
 :caption: Reference and development
 
+docs/reference/index
 docs/api
 docs/architecture
 docs/modules

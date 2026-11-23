@@ -1,0 +1,747 @@
+abscissa	Independent coordinate at which the function is sampled.
+abscissaMaximum	Upper end of the interval on the independent axis.
+abscissaMinimum	Lower end of the interval on the independent axis.
+abscissaScale	Scale applied to the independent axis of the table.
+absoluteFrame	Reference frame for quantities specified in absolute coordinates.
+absorptivity	Fraction of incident radiation absorbed at the surface.
+activationEnergy	Energy barrier in the temperature-dependent rate law.
+adaptiveContactSurface	Selects adaptive treatment of the surface during contact updates.
+adjustInterval	Interval between checks at which the time-step controller may adjust the increment.
+alignment	Alignment restriction on the manufacturing or design direction.
+amplitude	Size of the excitation or response before applying its phase.
+angle	Angular position or orientation relative to the reference on this card.
+angleListFirstElem	First element in the range to which this orientation-angle list applies.
+angleListLastElem	Last element in the range to which this orientation-angle list applies.
+areaCoefficientSource	Selects how the effective-area coefficient is supplied.
+areaEndB	Cross-sectional area at end B (length squared).
+areaFraction	Portion of the reference area participating in the model.
+areaNodeC	Cross-sectional area at node C (length squared).
+areaStiffness	Contact stiffness normalized by the effective contact area.
+areaY	Section area associated with the local y direction (length squared).
+areaZ	Section area associated with the local z direction (length squared).
+assumedStrain	Selects use of an assumed strain field in the element formulation.
+attribute	Attribute of the indicated design target used in the response or relation.
+attributeA	First attribute used to qualify the design response.
+attributeB	Second attribute used to qualify the design response.
+augmentationWeight	Weight of the additional term in the aerodynamic interpolation.
+automaticContact	Controls automatic detection or generation of contacting pairs.
+auxiliaryModified	Selection controlling how the auxiliary design data are modified.
+axes	Coordinate axes used to express or select the specified quantities.
+axialMoment	Component of applied moment along the axis (force times length).
+axialOffset	Distance from the reference position measured along the rotation axis.
+axis	Coordinate axis about which the definition acts.
+axisNode	Grid point used to define the axis of the specified rotor or rotation.
+axisProjection	Selects how the material axes are projected into the local basis.
+azimuthalMoment	Component of applied moment in the circumferential direction (force times length).
+backCalculationAccuracy	Accuracy requested when the fatigue calculation works back to a load or life value.
+backingMass	Mass assigned to the backing layer of the acoustic treatment.
+bandAmplitude	Amplitude associated with the selected frequency band.
+bandWavelength	Wavelength associated with the selected radiation band.
+baseHeight	Reference elevation from which the loading height is measured.
+basis	Basis used to express the input data or initial state.
+bearingClearance	Clearance between the bearing and journal surfaces (length).
+bearingModel	Selects the formulation used to evaluate the bearing response.
+behavior	Selects the assumed response of the body or contact formulation.
+betaSubdivisions	Number of integration subdivisions in the beta direction.
+biasStart	Start of the interval over which the mesh bias is applied.
+biaxialityLower	Lower bound for the fatigue model’s biaxiality classification.
+biaxialityMiddle	Intermediate boundary for classifying biaxial stress states.
+biaxialityUpper	Upper bound for the fatigue model’s biaxiality classification.
+blockingIntegrationOrder	Order of numerical integration used when checking for blocking surfaces.
+bondAllowable	Limiting stress for the bond between adjacent constituents.
+bottomNode	Grid point defining the bottom side of the connection.
+bottomOffset	Distance from the reference surface to the bottom of the laminate.
+branch	Identifies the branch of the selected beam section.
+bufferZone	Extent of the transition zone surrounding the selected design region.
+capacitanceScheme	Selects how thermal capacitance is represented in the model.
+caseScale	Multiplier applied to the contribution from this case.
+castDirection	Draw direction specified for the casting constraint.
+cavitation	Specifies how loss of liquid continuity is treated in the bearing film.
+cavitationConductivity	Thermal conductivity used in the cavitated region of the film.
+cavitationSpecificHeat	Heat capacity per unit mass used in the cavitated region.
+centroidRadialOffset	Radial distance from the reference line to the centroid.
+channel	Channel of the external data file supplying the sampled history.
+characteristicImpedance	Pressure-to-particle-velocity ratio used as the acoustic reference impedance.
+checkNormals	Requests a consistency check on the orientation of surface normals.
+chordEnd	End of the selected interval in the chordwise coordinate.
+chordStart	Beginning of the selected interval in the chordwise coordinate.
+clipLevel	Signal level at which the supplied history is clipped.
+closeGaps	Selects whether initial separations are closed when establishing the connection.
+clustering	Controls the concentration of frequency samples between the range limits.
+coatingCompressionScale	Multiplier applied to the coating response in compression.
+coatingDamping	Dissipative response assigned to the coating.
+coatingThicknessPercent	Coating thickness expressed as a percentage of the reference thickness.
+coefficientFtu	Hydrostatic tensile strength of the snow yield model (force per area).
+coefficientSource	Selects the source of the coefficient used in the material or flow relation.
+cohesion	Shear strength intercept in the selected material or interface law.
+cohesiveEnergy	Energy associated with separation of the cohesive interface.
+coldOilCarryOver	Fraction or option for mixing cold incoming lubricant with the film.
+columnIndex	Column of the matrix to which the following terms belong.
+combination	Rule for combining the contributions included in the analysis.
+component	Degree of freedom or response component addressed by this term.
+compressionScale	Multiplier applied to the compressive branch of the response.
+configuration	Selects the model configuration used by this calculation.
+connectionPoint	Grid point or interface point through which parts connect.
+constantValue	Fixed value entering the design relation or response.
+contactDamping	Dissipation assigned to relative normal or tangential motion in contact.
+contactForceWeighting	Weighting used when combining or distributing contact forces.
+contactSearchOrder	Order in which the contact search processes candidate surfaces or bodies.
+contactSide	Side of the surface eligible for contact.
+contactToleranceBias	Bias applied to the geometric contact tolerance.
+contourIntegrationLevel	Refinement level used for integration along the surface contour.
+controlLaw	Relation used to determine the controlled response from its input.
+controlPoint	Point defining the geometry or motion of the associated contact surface.
+controlSetting	Setting assigned to the named contact or step control.
+controlValue	Setting of the associated aerodynamic control variable.
+convergenceCoupled	Selects convergence criteria for the coupled solution.
+convergenceCriteria	Selects the residual or increment measures checked for convergence.
+convergenceFlags	Selects the residual, displacement, work or other convergence checks to apply.
+convergenceHeat	Selects convergence criteria for the heat-transfer solution.
+coordinate	Coordinate of the specified point in the selected frame.
+coordinateForm	Selects the coordinate representation of the defined surface or motion.
+correlationThreshold	Minimum correlation used when accepting or matching contributions.
+count	Number of entries to process in this group.
+cover	Definition of the cover associated with the surface or segment.
+coverPressure	Pressure acting on the cover in the specified initial or loading condition.
+coverPressureSource	Selects how the pressure acting on the cover is supplied.
+creepStepCheck	Checks the acceptance of a step against creep evolution.
+crossCoupling	Controls off-diagonal coupling between response components.
+curveDataValue	Numeric data at the current position in the curve description.
+curveInterpolation	Specifies how intermediate values on the curve are recovered.
+cyclicAxis	Axis around which the repeated sectors are arranged.
+cyclicSegments	Number of sectors in a full revolution.
+damping	Dissipative coefficient of the selected connection, material or response law.
+dampingCompression	Damping on the compressive branch of the force–velocity relation.
+dampingInStiffness	Specifies inclusion of damping contributions in the stiffness representation.
+dampingTension	Damping on the tensile branch of the force–velocity relation.
+dataFileUnit	Logical file unit containing the data values.
+deactivationOutput	Selects output concerning deactivated material or elements.
+deactivationRule	Criterion that determines when material or element contributions are deactivated.
+debugOutput	Selects diagnostic output for this model or operation.
+decayConstant	Controls the decay of the corresponding term in the material response.
+defaultDensity	Density used when the corresponding input leaves its density unspecified.
+deflectionLowerLimit	Lower travel limit of the control surface.
+deflectionUpperLimit	Upper travel limit of the control surface.
+deformationRelaxation	Relaxation applied to the deformation update during iteration.
+degradation	Reduction of material response after a damage criterion is met.
+degradationStart	Condition at which degradation begins.
+delay	Time shift relative to the reference excitation, in model time units.
+density	Mass per unit volume for a volumetric material or fluid density.
+densitySource	Selects the source used to supply the density.
+dependence	Selects the independent quantity governing the property variation.
+dependencyMatrix	Matrix describing the linear dependence of the selected degrees of freedom.
+dependentComponent	Degree of freedom to be recovered from the independent motions.
+dependentComponents	Component digits whose motion is determined by the constraint.
+dependentElemComponent	Element component driven by the spline interpolation.
+dependentModule	Module containing the dependent side of the connection.
+dependentNode	Point whose selected motions are expressed through other degrees of freedom.
+dependentNodeComponent	Nodal component driven by the spline interpolation.
+dependentPoint	Point associated with the dependent degree of freedom.
+derivativeStep	Perturbation used to evaluate the derivative numerically.
+description	Free text describing this record or its output.
+desiredIterations	Target iteration count used when adjusting the next increment.
+desiredIterationsAdapted	Target iteration count for adaptive increment control.
+dimension	Spatial dimension or section dimension according to the selected entry.
+direction	Orientation in which the specified quantity acts or is measured.
+discreteValue	One permitted value in the discrete design set.
+displacementConvergence	Specifies the criterion based on change in displacement.
+distortionalOrder	Order used for the distortional part of the constitutive expansion.
+distribution	Selects the distribution used for the input data or response.
+eccentricityInput	Specifies how bearing eccentricity is supplied.
+effectiveStressLimit	Limiting equivalent stress for the selected material criterion.
+effectiveness	Multiplier on the modeled response to control-surface motion.
+eigenvalue	Root associated with the selected mode.
+elemIds	Element identifiers defining the selected model region.
+elemValue	Value assigned at the individual element.
+element	Identifier of the element selected in this group.
+eliminateConstraints	Controls elimination of the indicated constraint equations.
+emissivity	Ratio of emitted radiation to that of a black body at the same temperature.
+endNode	Grid point at the end of the path or directed edge.
+energySource	Selects the source used to supply the energy history.
+enforcedValue	Prescribed value of the selected degree of freedom, in its displacement or rotation units.
+enthalpyScheme	Selects the treatment of enthalpy in the thermal formulation.
+entity	Entity selected by this constraint or group definition.
+entityClass	Type of model entity included in the set.
+entry	Member of the ordered input list, interpreted by the selected entry type.
+entryName	Name identifying the associated item in the list.
+epsilon	Numerical perturbation or tolerance in the associated relation.
+epsilonP	Tolerance on the load or force residual in the nonlinear convergence test.
+epsilonU	Tolerance on the displacement increment in the nonlinear convergence test.
+epsilonW	Tolerance on incremental work in the nonlinear convergence test.
+equation	Expression or reference defining the response from its arguments.
+equivalentUnits	Conversion factor between the unit conventions used by the two data sets.
+eulerInitialization	Selects the initial-state treatment of the Eulerian mesh.
+excludedForces	Force contributions to omit from the requested result.
+explicitCreepModel	Selects the creep relation used in explicit integration.
+explicitReflection	Controls reflection treatment in the explicit response.
+explosiveDatabase	Optional material-data label. Omit it when supplying coefficients explicitly.
+exponent	Power applied to the associated variable in the stated relation.
+extrapolation	Specifies how to obtain a value outside the sampled range.
+extrusionDirection	Direction along which the design cross-section is extruded.
+faceIds	Identifiers of the selected element faces.
+factor	Multiplier on the associated contribution.
+factorSource	Selects how the multiplier is supplied.
+failure	Selects or specifies the failure behavior of this material.
+failureIndexScale	Multiplier applied to the calculated failure index.
+fatiguePropIds	Identifiers of the fatigue properties included in the definition.
+fiberDamping	Dissipation attributed to the fibre reinforcement.
+fieldValue	Value of the selected field at the point or region identified in this entry.
+fileFormat	Encoding of the external file identified by this entry.
+firstLayer	First layer in the requested through-thickness range.
+firstPoint	First recovery or evaluation point included in the range.
+firstRow	Row at which the supplied matrix data begin.
+flag	Selects the option associated with this field in the current record or block.
+floodedSump	Selects the flooded-sump lubricant boundary condition.
+flowDirection	Direction used for the flow through the boundary or region.
+fluidDensity	Mass per unit volume of the fluid.
+fluidViscosity	Viscosity used in the fluid constitutive response.
+follow	Specifies whether the direction or attachment follows the changing configuration.
+followerForces	Controls whether applied forces follow the changing geometry.
+forceDeflectionRule	Defines how force is evaluated from deflection.
+formulation	Selects the mathematical treatment of the property or element behavior.
+fraction	Portion of the corresponding total, expressed as a ratio.
+frame	Specifies the coordinate frame in which values are resolved.
+frameOrNode	Selects the coordinate system or grid point used to define the load direction.
+freeSurfaceZ	Vertical coordinate of the free surface in the specified frame.
+freqStep	Increment in frequency between continuation steps.
+frequency	Number of cycles per unit time.
+frequencyIncrement	Separation between adjacent frequencies (inverse time).
+friction	Controls tangential resistance to relative motion at the interface.
+frictionAngle	Internal friction angle in the material yield or flow law.
+frictionStressLimit	Upper bound on the tangential frictional stress (force per area).
+frictionVectorMode	Selects how the friction direction vector is defined or updated.
+function	Selects the function used to combine or evaluate the supplied arguments.
+functionValue	Value of the tabulated function at this sample.
+gFunctionMaximum	Upper bound of the hardening function in the constitutive relation.
+gammaSubdivisions	Number of integration subdivisions in the gamma direction.
+gapMeasure	Convention used to measure initial separation.
+gapValue	Specified initial separation in length units.
+gasConstant	Constant relating temperature to the pressure–density response of the gas; use the basis of the selected gas model.
+gateThreshold	Threshold used to retain or discard small signal variations.
+glueHeatTransfer	Controls thermal transfer through a glued interface.
+gravity	Acceleration of gravity used by the definition, in length per time squared.
+gridMapping	Specifies how properties are mapped between material and grid locations.
+group	Grouping key for entries treated together.
+groupName	Text identifier selecting or naming the associated group.
+growthCriterion	Criterion used to determine whether the crack advances.
+growthIncrement	Amount by which the crack front advances in one growth increment.
+growthResistance	Resistance assigned to propagation in the selected fracture mode.
+growthResistanceII	Resistance to crack growth in in-plane shear (mode II).
+growthResistanceIII	Resistance to crack growth in out-of-plane shear (mode III).
+growthY	Variation of cell size in the y direction of the Eulerian mesh.
+growthZ	Variation of cell size in the z direction of the Eulerian mesh.
+gustOriginX	Streamwise location defining the origin of the gust profile.
+gustScale	Scale applied to the gust input.
+hardeningConstant	Coefficient controlling the evolution of strength during hardening.
+hardeningModulus	Increment of yield stress per unit plastic strain in the hardening relation.
+hardeningRule	Selects how the yield surface evolves with accumulated plastic deformation.
+hardeningSensitivity	Sensitivity of the hardening law to its driving variable.
+hardeningSlope	Slope of the material hardening curve.
+harmonic	Index identifying the spatial or temporal harmonic.
+harmonicIndex	Integer index specifying the harmonic represented.
+harmonicJ	Harmonic index of the matrix column or second quantity.
+heatFlux	Thermal energy crossing unit area per unit time.
+heatFromFriction	Specifies conversion of frictional work into heat at the interface.
+heatFromPlasticWork	Specifies conversion of plastic work into heat.
+heatGeneration	Heat produced by the specified source over its stated geometric measure.
+heatLaw	Selects the constitutive relation governing the thermal response.
+heightAbove	Distance above the reference elevation.
+highRange	Upper end of the range admitted to the evaluation.
+highestHarmonic	Largest harmonic index included in the representation.
+hingeMomentLowerLimit	Lower bound on the hinge moment of the control surface.
+hingeMomentUpperLimit	Upper bound on the hinge moment of the control surface.
+holeSize	Dimension of the opening used to determine its effective flow area.
+holeSpacing	Centre-to-centre spacing of perforations (length).
+homogeneous	Selects homogeneous coordinates for the rational geometric definition.
+homogeneousWeight	Weight multiplying the control point in homogeneous coordinates.
+homogenization	Selects how constituent properties are combined into an effective response.
+hotOilCarryOver	Fraction or option for recirculating heated lubricant into the film.
+housingExpansion	Thermal expansion contribution of the bearing housing.
+ignoreInitialPenetration	Selects whether the initial overlap is excluded from the contact correction.
+imaginaryPart	Quadrature component of the complex quantity.
+impedanceScale	Multiplier on the acoustic impedance assigned to the element.
+implicitCreep	Selects implicit integration of the creep response.
+implicitCreepTangent	Selects the tangent used in implicit creep integration.
+implicitFraction	Fraction assigned to the implicit contribution in the integration.
+includeThickness	Selects whether the surface search includes the physical thickness.
+inclusionRule	Criterion for including candidate entities in the region.
+increment	Change applied in one continuation or loading step.
+independentComponent	Degree of freedom contributing to the dependent motion.
+independentComponents	Component digits supplying the independent motion of a constraint.
+independentElemComponent	Element component used as an input to the spline interpolation.
+independentNode	Point supplying an independent motion in the constraint.
+independentNodeComponent	Nodal component used as an input to the spline interpolation.
+independentPoint	Point associated with the independent degree of freedom.
+inflatorPressureScale	Multiplier on the supplied inflator pressure.
+inflatorTemperature	Temperature of the gas delivered by the inflator.
+initialAlpha	Initial value of the alpha state variable of the material law.
+initialDeformationResistance	Resistance to inelastic deformation at the initial state.
+initialFreq	Starting frequency of the continuation procedure (inverse time).
+initialMetricRelaxation	Initial relaxation of the reference metric in the constitutive model.
+initialMonitor	Starting value or selection of the quantity monitored during stepping.
+initialPenetrationAdjustment	Selects the treatment of initial geometric overlap.
+initialPivotDeflection	Initial displacement assigned at the bearing-pad pivot.
+initialPressure	Pressure assigned to the initial state.
+initialState	State assigned before stepping the model forward.
+initialStep	First increment used by the stepping procedure.
+initialTimeStepFactorAdapted	Multiplier on the first adaptive time increment.
+initializedNode	Grid point whose dynamic initial state is being assigned.
+inletThermalBoundary	Thermal boundary condition at the lubricant inlet.
+inputTypeOrComponentsJ	Input numeric representation in a matrix header or column point components in a data record.
+inputUnits	Unit convention of the supplied data.
+integerValue	Integer payload assigned to the selected setting.
+integration	Selects the rule used to integrate the element or section response.
+integrationOrder	Order of the numerical integration rule.
+interfaceInput	Selects the input data supplied at the coupled interface.
+interferenceClosure	Controls how the initial interference is closed during the contact solution.
+interlaminarFrame	Coordinate system for quantities resolved between layers.
+interlaminarTheory	Selects the failure or interaction criterion between layers.
+intermediateOutput	Controls output at intermediate increments or stations.
+internalFriction	Resistance to shear associated with internal friction of the material.
+internalPressure	Pressure applied on the inside of the section or cavity (force per area).
+intervalEndSize	Cell size at the end of the mesh-bias interval.
+intervalGrowth	Growth of the cell size across the interval.
+intervalStart	Coordinate marking the start of the interval.
+intervalStartSize	Cell size prescribed at the beginning of the interval.
+invariantLimit	Limit imposed on the selected strain or stress invariant.
+journalExpansion	Thermal expansion contribution of the journal.
+journalThermalGradient	Temperature gradient imposed or computed in the journal.
+journalThermalModel	Selects how temperature in the journal is represented.
+kinematicQuantities	Selects the kinematic measures used in the constitutive evaluation.
+kinematicRecallRate	Rate controlling recovery of the kinematic hardening contribution.
+knot	Parameter value in the knot sequence defining the spline.
+laminationTheory	Selects the formulation used to combine layer properties.
+largeStrain	Selects treatment of finite deformation in the material response.
+lastLayer	Last layer in the requested through-thickness range.
+lastNode	Final grid point of the ordered segment or selection.
+lastPoint	Last recovery or evaluation point included in the range.
+layer	Layer number selected for stress recovery or evaluation.
+layerDirection	Direction in which the material layers are defined.
+lifeModel	Selects the fatigue life relation.
+lineLoadDirection	Direction in which the distributed line load acts.
+lineSearchToleranceHeat	Tolerance controlling termination of the thermal line search.
+linearBulkViscosity	Coefficient of the linear artificial bulk-viscosity term.
+linearDownwash	Downwash term used in the linear aerodynamic relation.
+linearFlexibility	Translational flexibility of the spline coupling; controls how closely displacement follows the supporting structure.
+loadNode	Grid point at which the selected load or control quantity is evaluated.
+loadQuantity	Physical load quantity to use in the evaluation.
+location	Position at which the record is applied or the response is evaluated.
+locationNode	Grid point defining the location of the operation.
+logLevel	Amount of diagnostic information requested.
+lowerAllowable	Lower admissible value of the constrained response.
+lowerBound	Lower bound of the associated quantity.
+lowerEigenvalue	Lower bound of the eigenvalue interval to search.
+lowerLimit	Lowest admissible or requested value in the selected range.
+machNumber	Ratio of flow speed to the local speed of sound.
+magnitude	Scale of the quantity applied by this record. Its units follow the load or displacement being specified.
+mappedDataUnit	Logical file unit carrying the mapped aerodynamic data.
+martensiteFraction	Fraction of the material in the martensitic phase.
+mass	Inertial mass associated with the selected component or body.
+massFlowConvection	Controls the contribution of convective transport associated with mass flow.
+massRatioConvergence	Mass-ratio criterion used when checking convergence of the step.
+materialAngle	Angle defining the material orientation relative to the reference element axes.
+materialAxes	Convention specifying the axes in which material properties are expressed.
+materialIndex	Position or identifier selecting a constituent in the material definition.
+matrixForm	Matrix organization, including the assumed relation between its rows and columns.
+matrixShape	Shape or symmetry convention used to interpret the stored matrix entries.
+matrixShapeOrNodeJ	Selects the matrix shape for a header or the column grid point for a data record.
+maxBisections	Maximum permitted subdivisions of an increment by bisection.
+maxDivergences	Number of divergence events allowed before changing or rejecting the step.
+maxFrequencyFraction	Upper frequency fraction retained in the evaluation.
+maxHeight	Maximum permitted height in the design region (length).
+maxIterations	Maximum number of iterations permitted at this stage.
+maxLineSearches	Maximum line-search updates in an iteration.
+maxMemberSize	Upper bound on the characteristic member dimension.
+maxOutputEntities	Maximum number of model entities included in the output.
+maxParametricCoordinate	Upper bound in the parametric coordinate of the surface or curve.
+maxPeak	Peak-value limit used in the fatigue evaluation.
+maxPenetration	Largest accepted penetration between the contacting surfaces.
+maxQuasiNewtonVectors	Limit on the vectors retained in a quasi-Newton update.
+maxRetained	Maximum number of responses or constraints kept by the screening operation.
+maxStressRms	Upper bound on the root-mean-square stress.
+maxSubsteps	Maximum number of subdivisions of the current step.
+maxSubstepsAdapted	Maximum number of adaptive subdivisions of an increment.
+maxTimeStep	Longest permitted time increment (time).
+maxValue	Largest value retained or permitted for the selected quantity.
+maxYieldStress	Upper stress limit of the yield law.
+maximumFreq	Highest frequency of the selected interval (inverse time).
+maximumLevel	Deepest allowed level of the specified hierarchy or refinement.
+maximumSet	Maximum Lanczos block size. A blank field leaves the block size to the implementation.
+maximumStepSize	Upper bound on one increment of the continuation variable.
+maximumSteps	Maximum number of increments to take.
+meanStress	Average stress about which the alternating stress varies.
+meanStressCorrection	Selects the correction applied to fatigue life for the mean stress.
+medium	Storage medium supplying the component frequency response functions.
+meltTemperature	Temperature at which the material reaches its melting state.
+membraneDamping	Damping associated with in-plane membrane deformation.
+memoryHardeningLimit	Bound on the retained hardening history in the constitutive law.
+mesh	Identifies the mesh or mesh option used for the selected interpolation.
+meshFace	Face of the mesh on which the boundary condition or operation acts.
+metadataInfo	Descriptive information carried with the result metadata.
+middleSheets	Intermediate sheets considered in the welded connection.
+minIterations	Minimum number of iterations before the convergence decision.
+minMemberSize	Lower bound on the characteristic member dimension.
+minStepsPerCycle	Minimum number of increments used to resolve one oscillation cycle.
+minTimeStep	Shortest permitted time increment (time).
+minValue	Smallest value retained or permitted for the selected quantity.
+minimumFreq	Lowest frequency of the selected interval (inverse time).
+minimumStepSize	Lower bound on one increment of the continuation variable.
+model	Selects the constitutive model or the corresponding form of the record.
+module	Identifier of the model part owning the selected entities.
+momentChordFraction	Position of the moment reference along the chord, as a fraction of its length.
+monitorClass	Class of monitored quantity selected by this entry.
+monitorDisplacement	Displacement component or option tracked during the step.
+monitorDisplacementValue	Prescribed or target value of the monitored displacement.
+multiplePairs	Controls whether more than one pair may contribute to the interaction.
+multiplicity	Number of times the corresponding root or contribution is represented.
+multiplier	Factor applied to the associated term before assembly.
+names	Text labels included in this selection.
+newAxes	Axes of the transformed or newly formed response.
+nodeComponent	Number of the degree of freedom at the associated point.
+nodeComponents	Degrees of freedom selected at the associated grid point.
+nodeIds	Grid point identifiers defining the selected region.
+nonProportionalityLower	Lower bound for classifying nonproportional loading in the fatigue evaluation.
+nonProportionalityUpper	Upper bound for classifying nonproportional loading in the fatigue evaluation.
+nonStructMass	Additional mass distributed with the element or property; its geometric basis follows the section definition.
+nonsymmetric	Specifies whether the two sides or matrix halves are treated separately.
+norm	Norm used for scaling a mode shape.
+normComponent	Degree of freedom used as the normalization reference.
+normalBondAllowable	Limiting normal traction of the bond.
+normalX	X component of the surface or plane normal.
+normalY	Y component of the surface or plane normal.
+normalZ	Z component of the surface or plane normal.
+normalization	Rule used to scale the amplitude of an eigenvector.
+normalizedAdmittance	Admittance expressed relative to the reference acoustic admittance.
+number	Identification number for the selected entry or output stream.
+offset	Shift from the reference location or value in the convention of this entry.
+offsetFraction	Offset expressed as a fraction of the associated reference dimension or range.
+oilConductivity	Thermal conductivity of the lubricant.
+oilDensity	Mass per unit volume of the lubricant.
+oilFlow	Lubricant flow supplied to the bearing.
+oilSpecificHeat	Heat capacity per unit mass of the lubricant.
+omega	Material coefficient of the selected equation of state.
+omegaB	Angular-frequency term associated with the second frequency parameter of the relation.
+option	Selects how the current entry or group is interpreted.
+orderU	Spline order in the first parametric direction.
+ordinate	Function value at the corresponding abscissa.
+ordinateScale	Scale applied to the dependent axis of the table.
+orientation	Specifies the local direction or axis convention used to orient the data.
+otherModule	Identifier of the module on the other side of the operation.
+output	Controls the information recovered or written for this entry.
+outputEndFreq	Highest frequency for which output is requested.
+outputFreqStep	Frequency spacing between successive outputs.
+outputInterval	Spacing between successive output requests.
+outputItem	Quantity requested for recovery or output.
+outputStartFreq	Lowest frequency for which output is requested.
+outputUnits	Unit convention of the requested output.
+overhangDirection	Build direction used to measure an overhang constraint.
+padArc	Angular span of one bearing pad.
+padBackThermal	Thermal condition on the back surface of the pad.
+padConduction	Selects treatment of heat conduction within the pad.
+padConductivity	Thermal conductivity of the pad material.
+padDeformation	Selects treatment of elastic deformation of the pad.
+padExpansion	Expansion of the pad under a temperature change.
+padMass	Mass assigned to the bearing pad.
+padPolarInertia	Polar mass moment of inertia of the bearing pad.
+partitionDirection	Direction used to divide the mesh into partitions.
+patchAEnd	Last entry defining the extent of patch A.
+patchAStart	First entry defining the extent of patch A.
+patchBEnd	Last entry defining the extent of patch B.
+patchBStart	First entry defining the extent of patch B.
+patchShapes	Selects the shapes used to represent the paired attachment patches.
+patchTypes	Categories of patches included in the selection.
+penaltyPower	Exponent penalizing intermediate values in the design interpolation.
+penetrationLimit	Largest permitted surface penetration in the contact test.
+perUnitPressure	Sets the normalization of the aerodynamic data with respect to pressure.
+phaseAngle	Angular phase offset relative to the reference excitation.
+phiAngle	Angular coordinate or orientation denoted by phi in the local geometry.
+pivotAngle	Angular location of the bearing-pad pivot.
+pivotFlexibility	Compliance at the pad support, inverse to the corresponding stiffness.
+pivotOffset	Displacement of the pad pivot relative to the reference position.
+pivotRotationStiffness	Restoring moment per unit rotation at the pivot.
+pivotStiffness	Translational restoring force per unit pivot displacement.
+planckSecondConstant	Second radiation constant used in the wavelength-dependent thermal radiation law.
+plane	Reference plane used for the geometric definition.
+planeCondition	Selects the in-plane kinematic or stress assumption.
+plasticityCorrection	Selects the correction accounting for local plastic response in fatigue.
+plyAngle	Orientation of the ply relative to the laminate material reference direction.
+plyStressOutput	Controls stress recovery for the associated ply.
+plyTail	Additional data following the ply definition.
+pointValue	Function value stored at this grid point.
+porosity	Fraction of bulk volume occupied by voids.
+positionRelaxation	Relaxation applied to the position update during iteration.
+power	Exponent applied to the dependent relation.
+prandtlExponentInner	Exponent on the Prandtl number in the inner convection correlation.
+prandtlExponentOuter	Exponent on the Prandtl number in the outer convection correlation.
+preload	Load or initial bias present before the operating load is applied.
+pressure	Normal force per unit area, in the model’s pressure units.
+pressureRelaxation	Relaxation applied to the pressure update during iteration.
+pressureSource	Selects the source used to supply the pressure.
+primaryBody	Body acting as the primary side of the contact pair.
+primaryBodyIds	List of identifiers on the primary side of contact.
+primaryListModule	Module containing the list of primary entities.
+primaryModule	Module containing the primary side of the connection.
+printCorrelation	Controls printing of correlation results.
+printEigenvalues	Switch controlling the listing of the extracted roots.
+printOnFailure	Controls diagnostic output when a step fails.
+productA	Material coefficient A of the product-phase equation of state.
+productB	Material coefficient B of the product-phase equation of state.
+productOmega	Dimensionless omega coefficient in the product-phase equation of state.
+propertiesFile	External file supplying the material property data.
+propertyBehaviour	Selects the behavior associated with the supplied property data.
+propertyFileUnit	Logical file unit containing the associated properties.
+propertyMapping	Rule for assigning the supplied property data to model locations.
+propertyMatrixUnit	Logical file unit containing the matrix of aerodynamic properties.
+propertyValue	Value of the property identified by this flow-boundary entry.
+punch	Controls writing the selected table data as text records.
+punchPressureLoads	Controls output of the generated pressure-load records.
+quadraticBulkViscosity	Coefficient of the quadratic artificial bulk-viscosity term.
+quadrature	Selects the quadrature rule for evaluation of the integral.
+radialClearance	Gap in the radial direction between mating surfaces (length).
+radialMoment	Component of applied moment in the radial direction (force times length).
+radialOffset	Distance from the reference axis in the radial direction.
+radiationCheck	Selects consistency checks on the radiative surface calculations.
+realPart	In-phase component of the complex quantity.
+recordNumber	Index identifying the record in the containing table or file.
+recordValue	Value stored at the current table record and position.
+reducedFreq	Nondimensional oscillation frequency used for the unsteady aerodynamic model.
+referenceChord	Chord length used to nondimensionalize aerodynamic quantities.
+referenceComponents	Degrees of freedom used as the reference motion.
+referenceDensity	Flow density used as the aerodynamic reference.
+referenceEnthalpy	Enthalpy assigned to the reference thermodynamic state.
+referenceLoadMagnitude	Reference load amplitude used for scaling the results.
+referenceSpan	Span used as the aerodynamic reference length.
+referenceStrainRate	Rate against which the current strain rate is compared (inverse time).
+referenceSurface	Through-thickness surface from which section locations are measured.
+repeatCount	Number of repetitions of the defined event or block.
+repeats	Number of times the specified event or history occurs.
+residualStiffness	Stiffness retained after degradation according to the material model.
+resize	Selects whether and how mesh resizing is applied.
+resonanceStiffness	Stiffness governing the resonant response of the acoustic layer.
+resultItem	Identifies the result quantity included in the selection.
+resultLocation	Entity or position at which the result is recovered.
+reverseNormals	Reverses the orientation of the selected normals.
+rightHandSide	Specified value on the right-hand side of the constraint equation.
+roomTemperature	Ambient reference temperature of the material.
+rootChord	Chord at the inboard end of the aerodynamic panel, in length units.
+rotationCorrection	Selects the correction for rotation of the moving system.
+rotationFlexibility	Rotational flexibility of the spline coupling.
+rotorNode	Grid point belonging to the rotating side.
+rotorSeparation	Separation used in the rotor representation, in length units.
+saturatedIsotropicHardening	Limiting isotropic hardening reached under continued inelastic straining.
+saturationRateSensitivity	Sensitivity of the approach to saturation in the material law.
+scaleImaginary	Imaginary part of the complex factor multiplying the supplied data.
+scaleReal	Real part of the complex factor multiplying the supplied data.
+seamLine	Line identifying the path of the seam connection.
+seamWeldLocation	Location along the seam at which weld response is evaluated.
+seamWeldResult	Quantity requested for the seam weld.
+searchUnit	Logical unit or search setting used by the associated integration routine.
+secondTermAxes	Axes used to resolve the second contributing term.
+secondTermNames	Names identifying the second set of contributing terms.
+secondaryBody	Body acting as the secondary side of the contact pair.
+secondaryBodyIds	List of identifiers on the secondary side of contact.
+secondaryListModule	Module containing the list of secondary entities.
+secondaryModule	Module containing the secondary side of the connection.
+sectionGroup	Selects the section family used to interpret the dimensions.
+sectionIntegration	Integration convention for recovering the section response.
+sectionParameterValue	Value associated with the selected section parameter.
+sensorForm	Specifies the representation of the sensor used by the thermal control law.
+septumMass	Mass assigned to the separating septum in the acoustic treatment.
+seriesTerm	Contribution at the indicated order of the material expansion.
+serviceGroup	Name identifying the group of user services.
+shading	Controls treatment of surface obstruction in the radiation calculation.
+shadowing	Selects visibility or shadow checks between radiating surfaces.
+shadowingIntegrationOrder	Integration order used for surface visibility calculations.
+shearFactorZ	Correction multiplying the section shear response in local z.
+shearFriction	Coefficient controlling frictional resistance in shear.
+shearLocking	Selects the treatment of excessive shear constraint in bending.
+shearStrength	Limiting shear stress of the material.
+shiftFunction	Selects the shift relation used to move between material response curves.
+shiftScale	Multiplier applied to the eigenvalue search shift.
+sideCode	Selects one side of the join, element or interface in the record’s local ordering.
+simplifiedModel	Selects the simplified form of the material model.
+skinFriction	Tangential resistance at the bounding surface in the flow model.
+skinToleranceIncrement	Increment applied to the skin tolerance in the surface search.
+skipFiberTimeStep	Controls whether the fibre contribution enters time-step estimation.
+skippedNodes	Grid points excluded from the operation on the design region.
+sliceDuration	Length of the time window used for one slice of the signal.
+slidingVelocityThreshold	Relative tangential velocity at which the sliding rule changes.
+slotPoint	Point defining the location on the acoustic slot.
+smoothingAngle	Angle limit used when smoothing adjacent surface segments.
+solidDensity	Mass per unit volume of the solid phase.
+spanEnd	End of the selected interval in the spanwise coordinate.
+spanStart	Beginning of the selected interval in the spanwise coordinate.
+spcRamp	Specifies how the prescribed constraint is ramped over the increment.
+specificEnergy	Energy per unit mass.
+specificHeat	Energy per unit mass required for one unit of temperature change.
+specificHeatPressure	Heat capacity per unit mass measured at constant pressure.
+specificHeatSource	Selects how the heat capacity is supplied.
+specificHeatVolume	Heat capacity per unit mass measured at constant volume.
+speedHigh	Maximum rotational speed in the selected range.
+speedLow	Minimum rotational speed in the selected range.
+speedOutput	Selects output of rotational speed data.
+speedUnit	Unit used to express the specified speed.
+spinCorrection	Selects the correction associated with rotation or spin of the section.
+spinRate	Angular speed of the rotating component.
+spotNode	Grid point locating the connection spot.
+spotWeldLocation	Location of stress evaluation for the spot weld.
+squealOnly	Restricts the option to the brake-squeal analysis when selected.
+stackingDirection	Direction in which the ordered layers are assembled.
+standardError	Dispersion measure used by the statistical material relation.
+startFreq	Starting frequency of the specified range.
+startNode	Grid point at the beginning of the path or directed edge.
+station	Position along the member or sampled path.
+stationScale	Scale applied at the specified station along the element.
+statorNode	Grid point belonging to the stationary side.
+stepBounds	Limits imposed on the size of the step.
+stepInterval	Spacing of the steps at which this action is taken.
+stepMultiplier	Factor applied to the preceding step size.
+stickSlip	Selects the treatment of sticking and sliding in frictional contact.
+stickStiffness	Tangential stiffness used while the interface sticks.
+stiffness	Elastic restoring coefficient relating generalized force to the associated displacement.
+stiffnessMethodHeat	Selects the matrix-update method in the thermal solution.
+stiffnessSmoothing	Controls smoothing of the force–deflection slope.
+stiffnessStepHeat	Increment interval for updating the thermal tangent matrix.
+stiffnessUpdateStep	Step interval or stage at which the tangent stiffness is updated.
+strainAllowables	Selects or supplies the limiting strains for the material criterion.
+strainFactorRotational	Factor converting relative rotation to a reported strain measure.
+strainOutput	Controls whether strains are recovered at the associated location.
+strainRateSensitivity	Dependence of the constitutive response on strain rate.
+stressBins	Discretization used to group stress ranges or levels.
+stressCoefficient	Coefficient used to recover stress from the element force or section response.
+stressDefinition	Convention used to recover or interpret stress.
+stressFactorRotational	Factor converting rotational loading to a reported stress measure.
+stressFreeInitialContact	Controls whether the initially contacting configuration is treated as stress free.
+stressLimit	Maximum or limiting stress in model stress units.
+stressLocation	Location in the element or section at which stress is evaluated.
+stressMultiplier	Factor applied to the stress in the response relation.
+stressOutput	Controls whether stresses are recovered at the associated location.
+stressRecovery	Method or selection used to obtain stress results.
+stressSubincrementFraction	Fraction of the stress change allowed within a subincrement.
+structuralFraction	Fraction assigned to the structural constituent.
+subcase	Identifier of the load case to which the data apply.
+subcaseFileUnit	Logical file unit associated with the subcase data.
+surfaceDataValue	Numeric data at the current position of the surface description.
+surfaceFinish	Surface-condition descriptor used by the fatigue model.
+surfaceNormal	Direction or convention used for the outward normal of the surface.
+surfaceOffset	Signed distance between the reference surface and the represented surface.
+surfaceOrLine	Selects whether the load is distributed over a face or along a line.
+surfaceResolved	Selects quantities resolved into components on the specified surface.
+survivalCertainty	Survival level associated with the fatigue calculation.
+sweepEndAmplitude	Amplitude at the end of the requested sweep.
+sweepNumber	Identifier or index of the sweep being specified.
+sweepRate	Rate at which the sweep progresses through its range.
+sweepStartAmplitude	Amplitude at the start of the requested sweep.
+symmetricXy	Symmetry convention for the aerodynamic model across the xy plane.
+symmetricXz	Symmetry convention for the aerodynamic model across the xz plane.
+synchronous	Selects operation synchronized to the reference rotational frequency.
+system	Coordinate or selection system applying to this entry.
+table	Identifier or selection of the data table supplying this part of the function.
+tableKeyValue	Value selecting the corresponding set of tabulated material data.
+tangentStiffness	Local slope of the force–displacement relation at the current state.
+tankPressureScale	Multiplier on the measured or tabulated tank pressure.
+target	Requested target of the selected search or output operation.
+targetCard	Type or identifier of the model entry to which the design relation applies.
+targetLife	Design life used as the reference for fatigue assessment.
+targetLimit	Limit on the monitored quantity used to accept or change the step.
+targetValue	Prescribed value sought during the update.
+temperature	Thermal state at the corresponding point or sample, in the selected temperature scale.
+temperatureDifference	Thermal increment measured relative to the reference state.
+temperatureDistribution	Selects the spatial distribution used for temperature-dependent response.
+temperatureEntry	Reference to, or value of, the temperature data for this boundary condition.
+temperatureGradient	Change of temperature per unit distance.
+temperatureRelaxation	Relaxation applied to the temperature update during iteration.
+termAxes	Axes in which the components of the contributing term are resolved.
+termComponents	Degrees of freedom involved in the associated term.
+termNames	Names identifying the contributing terms.
+termNode	Point identifier for the associated term.
+textValue	Literal character value assigned to the selected item.
+theory	Selects the constitutive or failure theory to apply.
+thicknessCorrection	Selects the correction to the fatigue calculation for material thickness.
+thicknessOffset	Offset applied to the thickness surface used in the contact geometry.
+threshold	Value at which the selected test changes state.
+timeConstant	Characteristic time scale of the response.
+timeInterval	Time between the events or updates specified by the record.
+timeLimit	Longest permitted duration of the specified operation.
+timeStepAdjustInterval	Number or interval of steps between changes to the step size.
+timeStepHoldBounds	Controls the bounds maintained while the step size is held fixed.
+timeUnit	Unit used for the time axis.
+tipChord	Chord at the outboard end of the aerodynamic panel, in length units.
+tireFileKeyword	Keyword selecting the associated tire data in the external file.
+tolerance	Allowable change or residual for the selected numerical check.
+toleranceAdjustment	Adjustment to the geometric tolerance used when connecting points.
+topNode	Grid point defining the top side of the connection.
+topology	Describes the arrangement or connectivity of the selected entities.
+torsion	Selection or value for the torsional component of the response.
+tortuosity	Measure of the effective path length through a porous material relative to a straight path.
+touchedBodyOptions	Contact options on the receiving side of the pair.
+touchingBodyOptions	Contact options on the approaching side of the pair.
+trackingSwitch	Controls tracking of the selected response through successive points.
+tractionAngle	Orientation of the applied traction relative to its local reference.
+transferFunctionQuantity	Response quantity used in the transfer function calculation.
+transformationVolumeChange	Change of volume associated with phase transformation.
+transverseShear	Shear response perpendicular to the reference plane.
+trigger	Condition or signal that initiates the specified event.
+trimValue	Prescribed value of the associated trim variable, in that variable’s units.
+turbulence	Selects treatment of turbulent flow in the lubricant film.
+ultimateTensileStrength	Maximum tensile stress used in the material strength model.
+unit	Logical unit or measurement convention as defined by the record.
+unitNumber	Logical file unit used to identify an external resource.
+unitSystem	Consistent measurement convention for quantities on this record.
+units	Measurement convention for the data to which the label applies.
+unreactedA	Material coefficient A of the unreacted-phase equation of state.
+unreactedB	Material coefficient B of the unreacted-phase equation of state.
+unreactedOmega	Dimensionless omega coefficient in the unreacted-phase equation of state.
+upperAllowable	Upper admissible value of the constrained response.
+upperBound	Upper bound of the associated quantity.
+upperEigenvalue	Upper bound of the eigenvalue interval to search.
+upperLimit	Highest admissible or requested value in the selected range.
+usage	Selects transfer of displacement, force or both across the aerodynamic spline.
+userData	Application-defined data supplied to the consumer in record order.
+userText	Free-form character data carried with the design entry.
+value	Scalar or literal data attached to the current entry; its kind is given in the type column.
+valueOffset	Additive shift to the value before it is used.
+variableValue	Value of the independent or design variable at the selected evaluation point.
+variableValues	Coordinates in the independent-variable grid.
+varyingParameter	Identifies the independent quantity varied during the sweep.
+velocity	Rate of displacement in the specified direction (length per time).
+velocityExponentCompression	Exponent on velocity in the compressive damping law.
+velocityExponentTension	Exponent on velocity in the tensile damping law.
+velocitySource	Selects the source used to supply the velocity.
+viewFactorCutoff	Minimum retained radiative view-factor contribution.
+viewFactorOutput	Controls reporting of the radiative exchange factors between surfaces.
+viscosity	Viscous response coefficient in the selected constitutive or flow law.
+viscosityA	First viscosity value used to define the temperature dependence.
+viscosityB	Second viscosity value used to define the temperature dependence.
+viscosityTemperatureA	Temperature corresponding to the first viscosity value.
+viscosityTemperatureB	Temperature corresponding to the second viscosity value.
+volumetricOrder	Order used for the volume-change part of the constitutive expansion.
+warpAngle	Orientation angle of the fabric warp direction.
+warpModulusLinear	Linear tensile response coefficient along the fabric warp.
+warpModulusQuadratic	Quadratic tensile response coefficient along the fabric warp.
+weftAngle	Orientation angle of the fabric weft direction.
+weftModulusLinear	Linear tensile response coefficient along the fabric weft.
+weftModulusQuadratic	Quadratic tensile response coefficient along the fabric weft.
+weight	Relative contribution of this term to the specified combination.
+weightedGroupItem	Entity or quantity included in the group with the associated weight.
+weldLocation	Position on the weld at which the requested quantity is evaluated.
+wettedTag	Tag identifying the surface exposed to the coupled fluid.
+wholeStructureSet	Set containing all structural entities used in this coupling.
+width	Transverse extent in model length units.
+window	Selects the window applied to the sampled signal.
+windowEnd	End of the interval retained from the input history.
+windowStart	Beginning of the interval retained from the input history.
+workHardening	Change in strength associated with accumulated plastic deformation.
+xStation	X coordinate of the evaluation station.
+yReference	Y coordinate of the point from which the definition is measured.
+yRotation	Rotation about the y axis of the specified reference frame.
+yStation	Y coordinate of the evaluation station.
+yieldCriterion	Rule for determining when a stress state reaches yield.
+yieldFunction	Function defining the material yield surface.
+yieldStrength	Stress marking the onset of yield under the selected criterion.
+zMaximum	Upper bound on the z coordinate of the selected region.
+zMinimum	Lower bound on the z coordinate of the selected region.
+zReference	Z coordinate of the point from which the definition is measured.
+zRotation	Rotation about the z axis of the specified reference frame.
+zStation	Z coordinate of the evaluation station.
+zeroThreshold	Magnitude below which the value is treated as zero.

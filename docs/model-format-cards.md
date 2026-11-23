@@ -19,13695 +19,3798 @@ trailing blank fields are omitted.
 - **Accepted words**, **parameter names** and **designable field descriptors** come from the neutral vocabulary and are
   case-sensitive. Word lists are per card; each field's reader determines which words apply to it. Design indices are
   one-based; a station can be `EndA`, `EndB` or a positive position, as in `dimension(2)(EndB)`.
-875 card types: 286 with a repeated group, 62 with sections, 39 with alternatives, 24 with forms.
+
+## Units and interpretation
+
+Choose one consistent set of length, mass and time units for the model. For example, with metres, kilograms and seconds, a nodal coordinate in a rectangular frame is in metres, material density is in kg/m³, Young’s modulus and pressure are in pascals, and frequency in cycles per second is in Hz. A polar angle follows the convention of its coordinate system. Identifiers, counts and component selectors are dimensionless. For user-defined data, the consuming model defines the units.
+
+## Browse by subject
+
+Each family brings together record syntax, field definitions, validation notes and examples.
+
+- [Aerodynamics and aeroelasticity](reference/cards/aero.md) (52 cards)
+- [Constraints](reference/cards/constraints.md) (20 cards)
+- [Coordinate systems](reference/cards/coordinate_systems.md) (8 cards)
+- [Design and optimization](reference/cards/optimisation.md) (27 cards)
+- [Dynamics](reference/cards/dynamics.md) (46 cards)
+- [Element properties](reference/cards/properties.md) (60 cards)
+- [Elements and connections](reference/cards/elements.md) (126 cards)
+- [Explicit analysis](reference/cards/explicit.md) (95 cards)
+- [Functions and tables](reference/cards/tables.md) (23 cards)
+- [Heat transfer](reference/cards/thermal.md) (49 cards)
+- [Loads](reference/cards/loads.md) (54 cards)
+- [Materials](reference/cards/materials.md) (56 cards)
+- [Matrices](reference/cards/matrices.md) (17 cards)
+- [Model parameters](reference/cards/parameters.md) (1 cards)
+- [Nonlinear analysis and contact](reference/cards/nonlinear_contact.md) (61 cards)
+- [Points and geometry](reference/cards/nodes.md) (56 cards)
+- [Rigid elements](reference/cards/rigid_elements.md) (15 cards)
+- [Sets](reference/cards/sets.md) (20 cards)
+- [Solution controls](reference/cards/solution_control.md) (52 cards)
+- [Superelements](reference/cards/superelements.md) (37 cards)
+
+~~~{toctree}
+:hidden:
+:maxdepth: 1
+
+reference/cards/aero
+reference/cards/constraints
+reference/cards/coordinate_systems
+reference/cards/optimisation
+reference/cards/dynamics
+reference/cards/properties
+reference/cards/elements
+reference/cards/explicit
+reference/cards/tables
+reference/cards/thermal
+reference/cards/loads
+reference/cards/materials
+reference/cards/matrices
+reference/cards/parameters
+reference/cards/nonlinear_contact
+reference/cards/nodes
+reference/cards/rigid_elements
+reference/cards/sets
+reference/cards/solution_control
+reference/cards/superelements
+~~~
 
 ## Cards
 
+[A](#accelfieldload) · [B](#bar2) · [C](#campbelldiagram) · [D](#damperdofinline) · [E](#echooffmarker) · [F](#fabricmat) · [G](#gammalawstateequation) · [H](#heatanisomat) · [I](#idlistset1) · [J](#johnsoncookfailure) · [L](#lanczoseigenmethod) · [M](#markerbody) · [N](#nobleabelstateequation) · [O](#occupantaccelfield) · [P](#parameter) · [R](#radiatedpowerpanelset) · [S](#scalarpoint) · [T](#tabledynamic1) · [U](#usercompositefailuremat) · [V](#viewfactorface) · [W](#weld) · [Z](#zerilliarmstrongyield)
+
 ### AccelFieldLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frameId` | `integer` | 0 |  |
-| 3 | `directionX` | `real` | 0.0 |  |
-| 4 | `directionY` | `real` | 0.0 |  |
-| 5 | `directionZ` | `real` | 0.0 |  |
-| 6 | `direction` | `text` |  |  |
-
-Repeated group `points`, after the fixed fields: `location` (real), `acceleration` (real).
-
-Accepted words: `Constant`, `Element`, `Table`, `XDirection`, `YDirection`, `ZDirection`.
+[AccelFieldLoad — fields and example](reference/cards/loads.md#accelfieldload)
 
 ### AccelNodeLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frameId` | `integer` | 0 |  |
-| 3 | `magnitude` | `real` |  |  |
-| 4 | `directionX` | `real` | 0.0 |  |
-| 5 | `directionY` | `real` | 0.0 |  |
-| 6 | `directionZ` | `real` | 0.0 |  |
-
-Repeated group `nodes`, after the fixed fields: `nodeId` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`.
+[AccelNodeLoad — fields and example](reference/cards/loads.md#accelnodeload)
 
 ### AcousticAbsorber
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` | 0 |  |
-| 5 | `node3` | `integer` | 0 |  |
-| 6 | `node4` | `integer` | 0 |  |
+[AcousticAbsorber — fields and example](reference/cards/thermal.md#acousticabsorber)
 
 ### AcousticAbsorberBrickProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `synthesize` | `text` |  |  |
-| 3 | `resistanceTableId` | `integer` | 0 |  |
-| 4 | `reactanceTableId` | `integer` | 0 |  |
-| 5 | `weightingTableId` | `integer` | 0 |  |
-| 6 | `reservedValue` | `real` |  |  |
-| 7 | `cutoffFrequency` | `real` |  |  |
-| 8 | `damping` | `real` |  |  |
-| 9 | `stiffness` | `real` |  |  |
-| 10 | `mass` | `real` |  |  |
-
-Accepted words: `No`, `Yes`.
+[AcousticAbsorberBrickProp — fields and example](reference/cards/thermal.md#acousticabsorberbrickprop)
 
 ### AcousticAbsorberHexa
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node17` | `integer` |  |  |
-| 16 | `node18` | `integer` |  |  |
-| 17 | `node19` | `integer` |  |  |
-| 18 | `node20` | `integer` |  |  |
+[AcousticAbsorberHexa — fields and example](reference/cards/thermal.md#acousticabsorberhexa)
 
 ### AcousticAbsorberProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `resistanceTableId` | `integer` | 0 |  |
-| 3 | `reactanceTableId` | `integer` | 0 |  |
-| 4 | `impedanceScale` | `real` | 1.0 |  |
-| 5 | `area` | `real` | 1.0 |  |
-| 6 | `damping` | `real` | 0.0 |  |
-| 7 | `stiffness` | `real` | 0.0 |  |
-| 8 | `characteristicImpedance` | `real` | 1.0 |  |
+[AcousticAbsorberProp — fields and example](reference/cards/elements.md#acousticabsorberprop)
 
 ### AcousticAxisymFluid2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `fluidPointId1` | `integer` |  |  |
-| 3 | `fluidPointId2` | `integer` |  |  |
-| 4 | `density` | `real` |  |  |
-| 5 | `bulkModulus` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticAxisymFluid2 — fields and example](reference/cards/elements.md#acousticaxisymfluid2)
 
 ### AcousticAxisymFluid3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `fluidPointId1` | `integer` |  |  |
-| 3 | `fluidPointId2` | `integer` |  |  |
-| 4 | `fluidPointId3` | `integer` |  |  |
-| 5 | `density` | `real` |  |  |
-| 6 | `bulkModulus` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticAxisymFluid3 — fields and example](reference/cards/elements.md#acousticaxisymfluid3)
 
 ### AcousticAxisymFluid4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `fluidPointId1` | `integer` |  |  |
-| 3 | `fluidPointId2` | `integer` |  |  |
-| 4 | `fluidPointId3` | `integer` |  |  |
-| 5 | `fluidPointId4` | `integer` |  |  |
-| 6 | `density` | `real` |  |  |
-| 7 | `bulkModulus` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticAxisymFluid4 — fields and example](reference/cards/elements.md#acousticaxisymfluid4)
 
 ### AcousticBarrierHexa
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node17` | `integer` |  |  |
-| 16 | `node18` | `integer` |  |  |
-| 17 | `node19` | `integer` |  |  |
-| 18 | `node20` | `integer` |  |  |
+[AcousticBarrierHexa — fields and example](reference/cards/thermal.md#acousticbarrierhexa)
 
 ### AcousticBarrierProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `backingMass` | `real` |  |  |
-| 3 | `septumMass` | `real` |  |  |
-| 4 | `resonanceFrequency` | `real` |  |  |
-| 5 | `resonanceStiffness` | `real` |  |  |
+[AcousticBarrierProp — fields and example](reference/cards/thermal.md#acousticbarrierprop)
 
 ### AcousticInfiniteParams
 
-No fixed field.
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
-
-Accepted parameter names: `FieldPointInsideTolerance`, `FirstExtraPointId`.
+[AcousticInfiniteParams — fields and example](reference/cards/loads.md#acousticinfiniteparams)
 
 ### AcousticInfiniteProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `radialOrder` | `integer` |  |  |
-| 4 | `poleX` | `real` | 0.0 |  |
-| 5 | `poleY` | `real` | 0.0 |  |
-| 6 | `poleZ` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticInfiniteProp — fields and example](reference/cards/elements.md#acousticinfiniteprop)
 
 ### AcousticInfiniteQuad4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticInfiniteQuad4 — fields and example](reference/cards/elements.md#acousticinfinitequad4)
 
 ### AcousticInfiniteTria3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticInfiniteTria3 — fields and example](reference/cards/elements.md#acousticinfinitetria3)
 
 ### AcousticPressureLoadMatrices
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dataFileUnit` | `integer` |  |  |
-| 3 | `propertyFileUnit` | `integer` |  |  |
-| 4 | `scaleReal` | `real` |  |  |
-| 5 | `scaleImaginary` | `real` |  |  |
-| 6 | `fileLoadCaseId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticPressureLoadMatrices — fields and example](reference/cards/loads.md#acousticpressureloadmatrices)
 
 ### AcousticSlot3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `slotPoint1` | `integer` |  |  |
-| 3 | `slotPoint2` | `integer` |  |  |
-| 4 | `slotPoint3` | `integer` |  |  |
-| 5 | `density` | `real` |  |  |
-| 6 | `bulkModulus` | `real` |  |  |
-| 7 | `slotCount` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticSlot3 — fields and example](reference/cards/elements.md#acousticslot3)
 
 ### AcousticSlot4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `slotPoint1` | `integer` |  |  |
-| 3 | `slotPoint2` | `integer` |  |  |
-| 4 | `slotPoint3` | `integer` |  |  |
-| 5 | `slotPoint4` | `integer` |  |  |
-| 6 | `density` | `real` |  |  |
-| 7 | `bulkModulus` | `real` |  |  |
-| 8 | `slotCount` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticSlot4 — fields and example](reference/cards/elements.md#acousticslot4)
 
 ### AcousticSlotBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `density` | `real` |  |  |
-| 2 | `slotCount` | `integer` |  |  |
-
-Repeated group `slotPoints`, after the fixed fields: `slotPoint` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticSlotBoundary — fields and example](reference/cards/thermal.md#acousticslotboundary)
 
 ### AcousticSlotControl
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `defaultDensity` | `real` |  |  |
-| 2 | `defaultBulkModulus` | `real` |  |  |
-| 3 | `harmonic` | `integer` |  |  |
-| 4 | `defaultSlotWidth` | `real` |  |  |
-| 5 | `defaultSlotCount` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticSlotControl — fields and example](reference/cards/nodes.md#acousticslotcontrol)
 
 ### AcousticSlotFluidPoint
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `radius` | `real` |  |  |
-| 3 | `zCoord` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticSlotFluidPoint — fields and example](reference/cards/nodes.md#acousticslotfluidpoint)
 
 ### AcousticSlotSurfacePoint
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `radius` | `real` |  |  |
-| 3 | `zCoord` | `real` |  |  |
-| 4 | `slotWidth` | `real` |  |  |
-| 5 | `fluidPointId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AcousticSlotSurfacePoint — fields and example](reference/cards/nodes.md#acousticslotsurfacepoint)
 
 ### AcousticSourceLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `excitationId` | `integer` |  |  |
-| 3 | `delayId` | `integer` |  | alternative of `delay` |
-| 4 | `delay` | `real` | 0.0 | alternative of `delayId` |
-| 5 | `phaseId` | `integer` |  | alternative of `phase` |
-| 6 | `phase` | `real` | 0.0 | alternative of `phaseId` |
-| 7 | `powerTableId` | `integer` |  | alternative of `power` |
-| 8 | `power` | `real` |  | alternative of `powerTableId` |
-| 9 | `density` | `real` |  |  |
-| 10 | `bulkModulus` | `real` |  |  |
-
-Accepted words: `Acceleration`, `Displacement`, `Load`, `Velocity`.
+[AcousticSourceLoad — fields and example](reference/cards/dynamics.md#acousticsourceload)
 
 ### AdaptiveRefineControl
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `repeatCount` | `integer` |  |  |
-| 3 | `criterionId` | `integer` |  |  |
-| 4 | `regionMethod` | `text` |  |  |
-| 5 | `regionId` | `integer` | 0 |  |
-| 6 | `snapMethod` | `integer` |  |  |
-| 7 | `maximumLevel` | `integer` | same as repeatCount |  |
-
-Accepted words: `All`, `Constant`, `Element`, `Property`, `Superelement`, `Table`, `Through`.
+[AdaptiveRefineControl — fields and example](reference/cards/nodes.md#adaptiverefinecontrol)
 
 ### AdaptiveRefineCriterion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `integer` |  |  |
-| 3 | `parameter1` | `real` |  |  |
-| 4 | `parameter2` | `real` |  |  |
-| 5 | `parameter3` | `real` |  |  |
-| 6 | `parameter4` | `real` |  |  |
-| 7 | `parameter5` | `real` |  |  |
-| 8 | `parameter6` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AdaptiveRefineCriterion — fields and example](reference/cards/nodes.md#adaptiverefinecriterion)
 
 ### AeroBeamSpline2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` |  |  |
-| 3 | `firstBox` | `integer` |  |  |
-| 4 | `lastBox` | `integer` |  |  |
-| 5 | `nodeSetId` | `integer` |  |  |
-| 6 | `linearFlexibility` | `real` | 0.0 |  |
-| 7 | `bendingTorsionRatio` | `real` | 1.0 |  |
-| 8 | `frameId` | `integer` | 0 |  |
-| 9 | `rotationFlexibilityX` | `real` | 0.0 |  |
-| 10 | `rotationFlexibilityY` | `real` | 0.0 |  |
-| 11 | `usage` | `text` |  |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroBeamSpline2 — fields and example](reference/cards/aero.md#aerobeamspline2)
 
 ### AeroBeamSpline5
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` |  |  |
-| 3 | `aeroBoxListId` | `integer` |  |  |
-| 4 | `nodeSetId` | `integer` |  |  |
-| 5 | `linearFlexibility` | `real` | 0.0 |  |
-| 6 | `bendingTorsionRatio` | `real` | 1.0 |  |
-| 7 | `frameId` | `integer` | 0 |  |
-| 8 | `rotationFlexibilityX` | `real` | 0.0 |  |
-| 9 | `rotationFlexibilityY` | `real` | 0.0 |  |
-| 10 | `usage` | `text` |  |  |
-| 11 | `method` | `text` |  |  |
-| 12 | `functionKind` | `text` |  |  |
-| 13 | `coreRadius` | `real` |  |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Beam`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `RigidSurfaceSpline`, `Symmetric`, `Table`, `WendlandFunction0`, `WendlandFunction2`.
+[AeroBeamSpline5 — fields and example](reference/cards/aero.md#aerobeamspline5)
 
 ### AeroBody2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `positionFrameId` | `integer` | 0 |  |
-| 4 | `slenderElemCount` | `integer` | 0 |  |
-| 5 | `interferenceElemCount` | `integer` | 0 |  |
-| 6 | `slenderListId` | `integer` | 0 |  |
-| 7 | `interferenceListId` | `integer` | 0 |  |
-| 8 | `interferenceGroupId` | `integer` |  |  |
-| 9 | `xCoord1` | `real` | 0.0 |  |
-| 10 | `yCoord1` | `real` | 0.0 |  |
-| 11 | `zCoord1` | `real` | 0.0 |  |
-| 12 | `length` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroBody2 — fields and example](reference/cards/aero.md#aerobody2)
 
 ### AeroBodyProp2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `orientation` | `text` |  |  |
-| 3 | `width` | `real` |  |  |
-| 4 | `aspectRatio` | `real` |  |  |
-| 5 | `slenderHalfWidthListId` | `integer` | 0 |  |
-| 6 | `interferenceHalfWidthListId` | `integer` | 0 |  |
-| 7 | `angleListId1` | `integer` | 0 |  |
-| 8 | `angleListId2` | `integer` | 0 |  |
-| 9 | `angleList1FirstElem` | `integer` | 0 |  |
-| 10 | `angleList1LastElem` | `integer` | 0 |  |
-| 11 | `angleList2FirstElem` | `integer` | 0 |  |
-| 12 | `angleList2LastElem` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `PlaneZy`, `Table`, `YDirection`, `ZDirection`.
+[AeroBodyProp2 — fields and example](reference/cards/aero.md#aerobodyprop2)
 
 ### AeroBoxList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `entries`, after the fixed fields: `entry` (any).
-
-Accepted words: `Constant`, `Element`, `Table`, `Through`.
+[AeroBoxList — fields and example](reference/cards/aero.md#aeroboxlist)
 
 ### AeroComponent
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `name` | `text` |  |  |
-| 2 | `listKind` | `text` |  |  |
-
-Repeated group `lists`, after the fixed fields: `listId` (integer).
-
-Accepted words: `AeroBoxList`, `AeroPanels`, `ComponentId`, `Constant`, `Element`, `IdListSet1`, `Table`.
+[AeroComponent — fields and example](reference/cards/aero.md#aerocomponent)
 
 ### AeroComponentUnion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `name` | `text` |  |  |
-
-Repeated group `labels`, after the fixed fields: `label` (text).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroComponentUnion — fields and example](reference/cards/aero.md#aerocomponentunion)
 
 ### AeroControlSchedule
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `controlSurfaceId` | `integer` |  |  |
-| 3 | `angleOfAttackListId` | `integer` | 0 |  |
-| 4 | `machListId` | `integer` | 0 |  |
-| 5 | `scheduleListId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroControlSchedule — fields and example](reference/cards/aero.md#aerocontrolschedule)
 
 ### AeroControlSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `label` | `text` |  |  |
-| 3 | `frameId1` | `integer` |  |  |
-| 4 | `boxListId1` | `integer` |  |  |
-| 5 | `frameId2` | `integer` | 0 |  |
-| 6 | `boxListId2` | `integer` | 0 |  |
-| 7 | `effectiveness` | `real` | 1.0 |  |
-| 8 | `linearDownwash` | `text` |  |  |
-| 9 | `referenceChord` | `real` | 1.0 |  |
-| 10 | `referenceArea` | `real` | 1.0 |  |
-| 11 | `deflectionLowerLimit` | `real` |  |  |
-| 12 | `deflectionUpperLimit` | `real` |  |  |
-| 13 | `hingeMomentLowerLimit` | `real` |  |  |
-| 14 | `hingeMomentUpperLimit` | `real` |  |  |
-| 15 | `lowerLimitTableId` | `integer` | 0 |  |
-| 16 | `upperLimitTableId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `LinearDownwash`, `NoLinearDownwash`, `Table`.
+[AeroControlSurface — fields and example](reference/cards/aero.md#aerocontrolsurface)
 
 ### AeroControlSurfaceNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `label` | `text` |  |  |
-| 3 | `nodeSetId1` | `integer` |  |  |
-| 4 | `nodeSetId2` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroControlSurfaceNodes — fields and example](reference/cards/aero.md#aerocontrolsurfacenodes)
 
 ### AeroControlVector
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `variables`, after the fixed fields: `label` (text), `controlValue` (real).
-
-Accepted words: `AngleOfAttack`, `Constant`, `Element`, `Intercept`, `PitchRate`, `RigidAccelX`, `RigidAccelY`, `RigidAccelZ`, `RigidAngularAccelX`, `RigidAngularAccelY`, `RigidAngularAccelZ`, `RollRate`, `SideSlip`, `Table`, `YawRate`.
+[AeroControlVector — fields and example](reference/cards/aero.md#aerocontrolvector)
 
 ### AeroController
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `label` | `text` |  |  |
-| 3 | `units` | `text` |  |  |
-
-Accepted words: `AngleOfAttack`, `Constant`, `Element`, `PitchRate`, `RigidAccelX`, `RigidAccelY`, `RigidAccelZ`, `RigidAngularAccelX`, `RigidAngularAccelY`, `RigidAngularAccelZ`, `RollRate`, `SideSlip`, `Table`, `YawRate`.
+[AeroController — fields and example](reference/cards/aero.md#aerocontroller)
 
 ### AeroDivergence
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `rootCount` | `integer` | 1 |  |
-
-Repeated group `machNumbers`, after the fixed fields: `machNumber` (real).
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroDivergence — fields and example](reference/cards/aero.md#aerodivergence)
 
 ### AeroDownwash
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `machNumber` | `real` |  |  |
-| 2 | `symmetricXz` | `text` |  |  |
-| 3 | `symmetricXy` | `text` |  |  |
-| 4 | `controlVectorId` | `integer` |  |  |
-| 5 | `matrixName` | `text` |  |  |
-| 6 | `interpolationMatrixName` | `text` |  |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroDownwash — fields and example](reference/cards/aero.md#aerodownwash)
 
 ### AeroFactorList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `factors`, after the fixed fields: `factor` (real).
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroFactorList — fields and example](reference/cards/aero.md#aerofactorlist)
 
 ### AeroFiniteBeamSpline7
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` | 0 |  |
-| 3 | `aeroBoxListId` | `integer` |  |  |
-| 4 | `nodeSetId` | `integer` |  |  |
-| 5 | `linearFlexibility` | `real` | 0.0 |  |
-| 6 | `bendingTorsionRatio` | `real` | 1.0 |  |
-| 7 | `frameId` | `integer` | 0 |  |
-| 8 | `usage` | `text` |  |  |
-| 9 | `method` | `text` |  |  |
-| 10 | `rotationFlexibility` | `real` | 0.0 |  |
-| 11 | `bendingExtensionRatio` | `real` | 1.0 |  |
-| 12 | `minBeamLengthRatio` | `real` | 0.01 |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `FiniteBeamSpline3`, `FiniteBeamSpline6`, `Force`, `Symmetric`, `Table`.
+[AeroFiniteBeamSpline7 — fields and example](reference/cards/aero.md#aerofinitebeamspline7)
 
 ### AeroFiniteSurfaceSpline6
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` | 0 |  |
-| 3 | `aeroBoxListId` | `integer` |  |  |
-| 4 | `nodeSetId` | `integer` |  |  |
-| 5 | `linearFlexibility` | `real` | 0.0 |  |
-| 6 | `method` | `text` |  |  |
-| 7 | `usage` | `text` |  |  |
-| 8 | `surfaceKind` | `text` |  |  |
-| 9 | `surfaceElemListId` | `integer` | 0 |  |
-| 10 | `independentPointCount` | `integer` | 3 |  |
-| 11 | `dependentPointCount` | `integer` | 3 |  |
-| 12 | `surfaceMethod` | `text` |  |  |
-| 13 | `rotationFlexibility` | `real` | 0.0 |  |
-| 14 | `connectionMethod` | `text` |  |  |
-| 15 | `nodeCount` | `integer` | 1 |  |
-| 16 | `projectionTolerance` | `real` | 100.0 |  |
-| 17 | `cycleCount` | `integer` | 3 |  |
-| 18 | `augmentationWeight` | `real` | 0.0 |  |
-
-Accepted words: `AeroMesh`, `Antisymmetric`, `Asymmetric`, `Both`, `CircularBias`, `Constant`, `Displacement`, `Element`, `FiniteSurfaceSpline3`, `FiniteSurfaceSpline6`, `Force`, `NodeProximity`, `Structure`, `Symmetric`, `Table`, `VibrationSimple3`, `VibrationSimple6`.
+[AeroFiniteSurfaceSpline6 — fields and example](reference/cards/aero.md#aerofinitesurfacespline6)
 
 ### AeroFlutter
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `method` | `text` |  |  |
-| 3 | `densityFactorsId` | `integer` |  |  |
-| 4 | `machFactorsId` | `integer` |  |  |
-| 5 | `reducedFreqFactorsId` | `integer` |  |  |
-| 6 | `interpolationMethod` | `text` |  |  |
-| 7 | `eigenvalueCount` | `integer` |  | alternative of `maxFrequency` |
-| 8 | `maxFrequency` | `real` |  | alternative of `eigenvalueCount` |
-| 9 | `epsilon` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `KMethod`, `KMethodEfficient`, `Linear`, `PkMethod`, `PkMethodNoLoop`, `PkMethodNoLoopSweep`, `PkMethodSweep`, `Surface`, `Table`, `TermwiseCubic`.
+[AeroFlutter — fields and example](reference/cards/aero.md#aeroflutter)
 
 ### AeroFlutterFactors
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `factors`, after the fixed fields: `factor` (any).
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`, `Through`.
+[AeroFlutterFactors — fields and example](reference/cards/aero.md#aeroflutterfactors)
 
 ### AeroForceVector
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `machNumber` | `real` |  |  |
-| 2 | `symmetricXz` | `text` |  |  |
-| 3 | `symmetricXy` | `text` |  |  |
-| 4 | `controlVectorId` | `integer` |  |  |
-| 5 | `mesh` | `text` |  |  |
-| 6 | `loadSetId` | `integer` | 0 |  |
-| 7 | `matrixName` | `text` |  |  |
-| 8 | `perUnitPressure` | `text` |  |  |
-
-Accepted words: `AeroMesh`, `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `PerDynamicPressure`, `Structure`, `Symmetric`, `Table`.
+[AeroForceVector — fields and example](reference/cards/aero.md#aeroforcevector)
 
 ### AeroGust
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dynamicLoadId` | `integer` |  |  |
-| 3 | `gustScale` | `real` |  |  |
-| 4 | `gustOriginX` | `real` |  |  |
-| 5 | `velocity` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroGust — fields and example](reference/cards/aero.md#aerogust)
 
 ### AeroLabelList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `names`, after the fixed fields: `label` (text).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroLabelList — fields and example](reference/cards/aero.md#aerolabellist)
 
 ### AeroLiftingPanel1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `positionFrameId` | `integer` | 0 |  |
-| 4 | `spanBoxCount` | `integer` | 0 |  |
-| 5 | `chordBoxCount` | `integer` | 0 |  |
-| 6 | `spanDivisionListId` | `integer` | 0 |  |
-| 7 | `chordDivisionListId` | `integer` | 0 |  |
-| 8 | `interferenceGroupId` | `integer` |  |  |
-| 9 | `xCoord1` | `real` | 0.0 |  |
-| 10 | `yCoord1` | `real` | 0.0 |  |
-| 11 | `zCoord1` | `real` | 0.0 |  |
-| 12 | `rootChord` | `real` | 0.0 |  |
-| 13 | `xCoord4` | `real` | 0.0 |  |
-| 14 | `yCoord4` | `real` | 0.0 |  |
-| 15 | `zCoord4` | `real` | 0.0 |  |
-| 16 | `tipChord` | `real` | 0.0 |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroLiftingPanel1 — fields and example](reference/cards/aero.md#aeroliftingpanel1)
 
 ### AeroLiftingPanelProp1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `body1` | `integer` | 0 |  |
-| 3 | `body2` | `integer` | 0 |  |
-| 4 | `body3` | `integer` | 0 |  |
-| 5 | `body4` | `integer` | 0 |  |
-| 6 | `body5` | `integer` | 0 |  |
-| 7 | `body6` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroLiftingPanelProp1 — fields and example](reference/cards/aero.md#aeroliftingpanelprop1)
 
 ### AeroMachBoxPanel3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `positionFrameId` | `integer` | 0 |  |
-| 4 | `wingPointListId` | `integer` |  |  |
-| 5 | `controlPointListId1` | `integer` | 0 |  |
-| 6 | `controlPointListId2` | `integer` | 0 |  |
-| 7 | `xCoord1` | `real` | 0.0 |  |
-| 8 | `yCoord1` | `real` | 0.0 |  |
-| 9 | `zCoord1` | `real` | 0.0 |  |
-| 10 | `rootChord` | `real` |  |  |
-| 11 | `xCoord4` | `real` | 0.0 |  |
-| 12 | `yCoord4` | `real` | 0.0 |  |
-| 13 | `zCoord4` | `real` | 0.0 |  |
-| 14 | `tipChord` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroMachBoxPanel3 — fields and example](reference/cards/aero.md#aeromachboxpanel3)
 
 ### AeroMachBoxProp3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `boxCount` | `integer` |  |  |
-| 3 | `controlSurfaceCount` | `integer` |  |  |
-| 4 | `pointX5` | `real` |  |  |
-| 5 | `pointY5` | `real` |  |  |
-| 6 | `pointX6` | `real` |  |  |
-| 7 | `pointY6` | `real` |  |  |
-| 8 | `pointX7` | `real` |  |  |
-| 9 | `pointY7` | `real` |  |  |
-| 10 | `pointX8` | `real` |  |  |
-| 11 | `pointY8` | `real` |  |  |
-| 12 | `pointX9` | `real` |  |  |
-| 13 | `pointY9` | `real` |  |  |
-| 14 | `pointX10` | `real` |  |  |
-| 15 | `pointY10` | `real` |  |  |
-| 16 | `pointX11` | `real` |  |  |
-| 17 | `pointY11` | `real` |  |  |
-| 18 | `pointX12` | `real` |  |  |
-| 19 | `pointY12` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroMachBoxProp3 — fields and example](reference/cards/aero.md#aeromachboxprop3)
 
 ### AeroMachFreqPairs2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `machNumber1` | `real` |  |  |
-| 2 | `reducedFreq1` | `real` |  |  |
-| 3 | `machNumber2` | `real` |  |  |
-| 4 | `reducedFreq2` | `real` |  |  |
-| 5 | `machNumber3` | `real` |  |  |
-| 6 | `reducedFreq3` | `real` |  |  |
-| 7 | `machNumber4` | `real` |  |  |
-| 8 | `reducedFreq4` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroMachFreqPairs2 — fields and example](reference/cards/aero.md#aeromachfreqpairs2)
 
 ### AeroMachFreqTable1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `machNumber1` | `real` |  |  |
-| 2 | `machNumber2` | `real` |  |  |
-| 3 | `machNumber3` | `real` |  |  |
-| 4 | `machNumber4` | `real` |  |  |
-| 5 | `machNumber5` | `real` |  |  |
-| 6 | `machNumber6` | `real` |  |  |
-| 7 | `machNumber7` | `real` |  |  |
-| 8 | `machNumber8` | `real` |  |  |
-| 9 | `reducedFreq1` | `real` |  |  |
-| 10 | `reducedFreq2` | `real` |  |  |
-| 11 | `reducedFreq3` | `real` |  |  |
-| 12 | `reducedFreq4` | `real` |  |  |
-| 13 | `reducedFreq5` | `real` |  |  |
-| 14 | `reducedFreq6` | `real` |  |  |
-| 15 | `reducedFreq7` | `real` |  |  |
-| 16 | `reducedFreq8` | `real` |  |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroMachFreqTable1 — fields and example](reference/cards/aero.md#aeromachfreqtable1)
 
 ### AeroNode
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `positionFrameId` | `integer` | 0 |  |
-| 3 | `xCoord1` | `real` | 0.0 |  |
-| 4 | `xCoord2` | `real` | 0.0 |  |
-| 5 | `xCoord3` | `real` | 0.0 |  |
-| 6 | `displacementFrameId` | `integer` | 0 |  |
-| 7 | `scaleId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroNode — fields and example](reference/cards/aero.md#aeronode)
 
 ### AeroNodeScale
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceLength1` | `real` | 1.0 |  |
-| 3 | `referenceLength2` | `real` | 1.0 |  |
-| 4 | `referenceLength3` | `real` | 1.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroNodeScale — fields and example](reference/cards/aero.md#aeronodescale)
 
 ### AeroPistonPanel5
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `positionFrameId` | `integer` | 0 |  |
-| 4 | `spanBoxCount` | `integer` | 0 |  |
-| 5 | `spanDivisionListId` | `integer` | 0 |  |
-| 6 | `theory` | `integer` | 0 |  |
-| 7 | `thicknessIntegralListId` | `integer` | 0 |  |
-| 8 | `xCoord1` | `real` | 0.0 |  |
-| 9 | `yCoord1` | `real` | 0.0 |  |
-| 10 | `zCoord1` | `real` | 0.0 |  |
-| 11 | `rootChord` | `real` | 0.0 |  |
-| 12 | `xCoord4` | `real` | 0.0 |  |
-| 13 | `yCoord4` | `real` | 0.0 |  |
-| 14 | `zCoord4` | `real` | 0.0 |  |
-| 15 | `tipChord` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroPistonPanel5 — fields and example](reference/cards/aero.md#aeropistonpanel5)
 
 ### AeroPistonProp5
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `angleOfAttackCount` | `integer` |  |  |
-| 3 | `angleOfAttackListId` | `integer` |  |  |
-| 4 | `chordCoordCount` | `integer` | 0 |  |
-| 5 | `chordCoordListId` | `integer` | 0 |  |
-| 6 | `thicknessRatioCount` | `integer` | 0 |  |
-| 7 | `thicknessRatioListId` | `integer` | 0 |  |
-
-Repeated group `controlChordRatios`, after the fixed fields: `controlChordRatio` (real).
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroPistonProp5 — fields and example](reference/cards/aero.md#aeropistonprop5)
 
 ### AeroPressureVector
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `machNumber` | `real` |  |  |
-| 2 | `symmetricXz` | `text` |  |  |
-| 3 | `symmetricXy` | `text` |  |  |
-| 4 | `controlVectorId` | `integer` |  |  |
-| 5 | `matrixName` | `text` |  |  |
-| 6 | `interpolationMatrixName` | `text` |  |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroPressureVector — fields and example](reference/cards/aero.md#aeropressurevector)
 
 ### AeroPrismNodeSet2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` |  |  |
-| 3 | `spanStart` | `real` |  |  |
-| 4 | `spanEnd` | `real` |  |  |
-| 5 | `chordStart` | `real` |  |  |
-| 6 | `chordEnd` | `real` |  |  |
-| 7 | `zMaximum` | `real` | 0.0 |  |
-| 8 | `zMinimum` | `real` | 0.0 |  |
+[AeroPrismNodeSet2 — fields and example](reference/cards/sets.md#aeroprismnodeset2)
 
 ### AeroQuad4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `componentId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroQuad4 — fields and example](reference/cards/aero.md#aeroquad4)
 
 ### AeroRigidSpline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` | 0 |  |
-| 3 | `aeroBoxListId` | `integer` |  |  |
-| 4 | `usage` | `text` |  |  |
-| 5 | `node1` | `integer` |  |  |
-| 6 | `components1` | `integer` |  |  |
-| 7 | `node2` | `integer` |  |  |
-| 8 | `components2` | `integer` |  |  |
-| 9 | `node3` | `integer` |  |  |
-| 10 | `components3` | `integer` |  |  |
-| 11 | `node4` | `integer` |  |  |
-| 12 | `components4` | `integer` |  |  |
-| 13 | `node5` | `integer` |  |  |
-| 14 | `components5` | `integer` |  |  |
-| 15 | `node6` | `integer` |  |  |
-| 16 | `components6` | `integer` |  |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`, `Through`.
+[AeroRigidSpline — fields and example](reference/cards/aero.md#aerorigidspline)
 
 ### AeroRigidTrimVariable
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `label` | `text` |  |  |
-
-Accepted words: `AngleOfAttack`, `Constant`, `Element`, `PitchRate`, `RigidAccelFamily`, `RigidAccelX`, `RigidAccelY`, `RigidAccelZ`, `RigidAngularAccelX`, `RigidAngularAccelY`, `RigidAngularAccelZ`, `RollRate`, `SideSlip`, `Table`, `YawRate`.
+[AeroRigidTrimVariable — fields and example](reference/cards/aero.md#aerorigidtrimvariable)
 
 ### AeroSplineCurveBlend
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `splineId1` | `integer` |  |  |
-| 3 | `splineId2` | `integer` |  |  |
-| 4 | `option` | `text` |  |  |
-| 5 | `aeroBoxListId` | `integer` |  |  |
-| 6 | `depth1` | `real` |  |  |
-| 7 | `depth2` | `real` |  |  |
-
-Accepted words: `Constant`, `Cubic`, `Element`, `Linear`, `Table`.
+[AeroSplineCurveBlend — fields and example](reference/cards/aero.md#aerosplinecurveblend)
 
 ### AeroSplineEquation3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` |  |  |
-| 3 | `boxId` | `integer` |  |  |
-| 4 | `component` | `integer` |  |  |
-| 5 | `node1` | `integer` |  |  |
-| 6 | `components1` | `integer` |  |  |
-| 7 | `coefficient1` | `real` |  |  |
-| 8 | `usage` | `text` |  |  |
-
-Repeated group `points`, after the fixed fields: `node` (integer), `nodeComponent` (integer), `coefficient` (real).
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroSplineEquation3 — fields and example](reference/cards/aero.md#aerosplineequation3)
 
 ### AeroSplineRelaxation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `splineId1` | `integer` |  |  |
-| 2 | `splineId2` | `integer` |  |  |
-| 3 | `curvePointListId` | `integer` |  |  |
-| 4 | `referenceDistance` | `real` |  |  |
-| 5 | `relaxedPointListId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroSplineRelaxation — fields and example](reference/cards/aero.md#aerosplinerelaxation)
 
 ### AeroSplineStripBlend
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `splineId1` | `integer` |  |  |
-| 3 | `splineId2` | `integer` |  |  |
-| 4 | `option` | `text` |  |  |
-| 5 | `weight1` | `real` |  |  |
-| 6 | `nodeId` | `integer` | 0 |  |
-| 7 | `depth1` | `real` |  |  |
-| 8 | `depth2` | `real` |  |  |
-| 9 | `directionX` | `real` |  |  |
-| 10 | `directionY` | `real` |  |  |
-| 11 | `directionZ` | `real` |  |  |
-| 12 | `frameId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Cubic`, `Element`, `Linear`, `Table`, `WeightedAverage`.
+[AeroSplineStripBlend — fields and example](reference/cards/aero.md#aerosplinestripblend)
 
 ### AeroStaticParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `aeroFrameId` | `integer` | 0 |  |
-| 2 | `referenceFrameId` | `integer` | 0 |  |
-| 3 | `referenceChord` | `real` |  |  |
-| 4 | `referenceSpan` | `real` |  |  |
-| 5 | `referenceArea` | `real` |  |  |
-| 6 | `symmetricXz` | `integer` | 0 |  |
-| 7 | `symmetricXy` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroStaticParams — fields and example](reference/cards/aero.md#aerostaticparams)
 
 ### AeroStripPanel4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `positionFrameId` | `integer` | 0 |  |
-| 4 | `spanBoxCount` | `integer` | 0 |  |
-| 5 | `spanDivisionListId` | `integer` | 0 |  |
-| 6 | `xCoord1` | `real` | 0.0 |  |
-| 7 | `yCoord1` | `real` | 0.0 |  |
-| 8 | `zCoord1` | `real` | 0.0 |  |
-| 9 | `rootChord` | `real` | 0.0 |  |
-| 10 | `xCoord4` | `real` | 0.0 |  |
-| 11 | `yCoord4` | `real` | 0.0 |  |
-| 12 | `zCoord4` | `real` | 0.0 |  |
-| 13 | `tipChord` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroStripPanel4 — fields and example](reference/cards/aero.md#aerostrippanel4)
 
 ### AeroStripProp4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `liftSlopeOption` | `integer` | 0 |  |
-| 3 | `liftSlopeListId` | `integer` | 0 |  |
-| 4 | `circulationOption` | `integer` | 0 |  |
-| 5 | `circulationListId` | `integer` | 0 |  |
-
-Repeated group `strips`, after the fixed fields: `hingeOffsetRatio` (real), `controlChordRatio` (real), `gapRatio` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroStripProp4 — fields and example](reference/cards/aero.md#aerostripprop4)
 
 ### AeroSurfaceSpline1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` |  |  |
-| 3 | `firstBox` | `integer` |  |  |
-| 4 | `lastBox` | `integer` |  |  |
-| 5 | `nodeSetId` | `integer` |  |  |
-| 6 | `linearFlexibility` | `real` | 0.0 |  |
-| 7 | `method` | `text` |  |  |
-| 8 | `usage` | `text` |  |  |
-| 9 | `elemCountX` | `integer` |  |  |
-| 10 | `elemCountY` | `integer` |  |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `FiniteSurfaceSpline`, `Force`, `InfinitePlateSpline`, `Symmetric`, `Table`, `ThinPlateSpline`.
+[AeroSurfaceSpline1 — fields and example](reference/cards/aero.md#aerosurfacespline1)
 
 ### AeroSurfaceSpline4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `aeroPanelId` | `integer` |  |  |
-| 3 | `aeroBoxListId` | `integer` |  |  |
-| 4 | `nodeSetId` | `integer` |  |  |
-| 5 | `linearFlexibility` | `real` | 0.0 |  |
-| 6 | `method` | `text` |  |  |
-| 7 | `usage` | `text` |  |  |
-| 8 | `elemCountX` | `integer` |  |  |
-| 9 | `elemCountY` | `integer` |  |  |
-| 10 | `functionKind` | `text` |  |  |
-| 11 | `coreRadius` | `real` |  |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `FiniteSurfaceSpline`, `Force`, `InfinitePlateSpline`, `RigidSurfaceSpline`, `Symmetric`, `Table`, `ThinPlateSpline`, `WendlandFunction0`, `WendlandFunction2`.
+[AeroSurfaceSpline4 — fields and example](reference/cards/aero.md#aerosurfacespline4)
 
 ### AeroTria3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `componentId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroTria3 — fields and example](reference/cards/aero.md#aerotria3)
 
 ### AeroTrim
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `machNumber` | `real` |  |  |
-| 3 | `dynamicPressure` | `real` |  |  |
-| 4 | `label1` | `text` |  |  |
-| 5 | `trimValue1` | `real` |  |  |
-| 6 | `label2` | `text` |  |  |
-| 7 | `trimValue2` | `real` |  |  |
-| 8 | `equivalentAspectRatio` | `real` | 1.0 |  |
-
-Repeated group `variables`, after the fixed fields: `label` (text), `trimValue` (real).
-
-Accepted words: `AngleOfAttack`, `Constant`, `Element`, `PitchRate`, `RigidAccelX`, `RigidAccelY`, `RigidAccelZ`, `RigidAngularAccelX`, `RigidAngularAccelY`, `RigidAngularAccelZ`, `RollRate`, `SideSlip`, `Table`, `YawRate`.
+[AeroTrim — fields and example](reference/cards/aero.md#aerotrim)
 
 ### AeroTrim2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `machNumber` | `real` |  |  |
-| 3 | `dynamicPressure` | `real` |  |  |
-| 4 | `equivalentAspectRatio` | `real` | 1.0 |  |
-
-Repeated group `variables`, after the fixed fields: `label` (text), `trimValue` (any).
-
-Accepted words: `AngleOfAttack`, `Constant`, `Element`, `Free`, `Linked`, `PitchRate`, `RigidAccelX`, `RigidAccelY`, `RigidAccelZ`, `RigidAngularAccelX`, `RigidAngularAccelY`, `RigidAngularAccelZ`, `RollRate`, `Scheduled`, `SideSlip`, `Table`, `YawRate`.
+[AeroTrim2 — fields and example](reference/cards/aero.md#aerotrim2)
 
 ### AeroTrimLink
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `any` |  |  |
-| 2 | `dependentLabel` | `text` |  |  |
-
-Repeated group `terms`, after the fixed fields: `independentLabel` (text), `coefficient` (real).
-
-Accepted words: `Always`, `AngleOfAttack`, `Constant`, `Element`, `PitchRate`, `RigidAccelX`, `RigidAccelY`, `RigidAccelZ`, `RigidAngularAccelX`, `RigidAngularAccelY`, `RigidAngularAccelZ`, `RollRate`, `SideSlip`, `Table`, `YawRate`.
+[AeroTrimLink — fields and example](reference/cards/aero.md#aerotrimlink)
 
 ### AeroUnsteadyParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `aeroFrameId` | `integer` | 0 |  |
-| 2 | `velocity` | `real` |  |  |
-| 3 | `referenceChord` | `real` |  |  |
-| 4 | `referenceDensity` | `real` |  |  |
-| 5 | `symmetricXz` | `integer` | 0 |  |
-| 6 | `symmetricXy` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AeroUnsteadyParams — fields and example](reference/cards/aero.md#aerounsteadyparams)
 
 ### AeroUserSpline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `dependentNodeComponent` | `text` |  |  |
-| 4 | `independentNodeComponent` | `text` |  |  |
-| 5 | `dependentElemComponent` | `text` |  |  |
-| 6 | `independentElemComponent` | `text` |  |  |
-| 7 | `usage` | `text` |  |  |
-| 8 | `aeroBoxListId` | `integer` | 0 |  |
-| 9 | `factorListId` | `integer` | 0 |  |
-| 10 | `labelListId` | `integer` | 0 |  |
-
-Accepted words: `Antisymmetric`, `Asymmetric`, `Both`, `Constant`, `Displacement`, `Element`, `Force`, `Symmetric`, `Table`.
+[AeroUserSpline — fields and example](reference/cards/aero.md#aerouserspline)
 
 ### AnalysisDofSet
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[AnalysisDofSet — fields and example](reference/cards/sets.md#analysisdofset)
 
 ### AnalysisDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[AnalysisDofSet1 — fields and example](reference/cards/sets.md#analysisdofset1)
 
 ### AnisoMat2D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11` | `real` | 0.0 |  |
-| 3 | `stiffness12` | `real` | 0.0 |  |
-| 4 | `stiffness13` | `real` | 0.0 |  |
-| 5 | `stiffness22` | `real` | 0.0 |  |
-| 6 | `stiffness23` | `real` | 0.0 |  |
-| 7 | `stiffness33` | `real` | 0.0 |  |
-| 8 | `density` | `real` | 0.0 |  |
-| 9 | `thermalExpansion1` | `real` | 0.0 |  |
-| 10 | `thermalExpansion2` | `real` | 0.0 |  |
-| 11 | `thermalExpansion3` | `real` | 0.0 |  |
-| 12 | `referenceTemperature` | `real` | 0.0 |  |
-| 13 | `structuralDamping` | `real` | 0.0 |  |
-| 14 | `tensionAllowable` | `real` | 0.0 |  |
-| 15 | `compressionAllowable` | `real` | 0.0 |  |
-| 16 | `shearAllowable` | `real` | 0.0 |  |
-| 17 | `stressFrameId` | `integer` | 0 |  |
-| 18 | `structuralDamping11` | `real` | 0.0 |  |
-| 19 | `structuralDamping12` | `real` | 0.0 |  |
-| 20 | `structuralDamping13` | `real` | 0.0 |  |
-| 21 | `structuralDamping22` | `real` | 0.0 |  |
-| 22 | `structuralDamping23` | `real` | 0.0 |  |
-| 23 | `structuralDamping33` | `real` | 0.0 |  |
+[AnisoMat2D — fields and example](reference/cards/materials.md#anisomat2d)
 
 ### AnisoMat2DFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11TableId` | `integer` |  |  |
-| 3 | `stiffness12TableId` | `integer` |  |  |
-| 4 | `stiffness13TableId` | `integer` |  |  |
-| 5 | `stiffness22TableId` | `integer` |  |  |
-| 6 | `stiffness23TableId` | `integer` |  |  |
-| 7 | `stiffness33TableId` | `integer` |  |  |
-| 8 | `structuralDampingTableId` | `integer` | 0 |  |
-| 9 | `structuralDamping11TableId` | `integer` |  |  |
-| 10 | `structuralDamping12TableId` | `integer` |  |  |
-| 11 | `structuralDamping13TableId` | `integer` |  |  |
-| 12 | `structuralDamping22TableId` | `integer` |  |  |
-| 13 | `structuralDamping23TableId` | `integer` |  |  |
-| 14 | `structuralDamping33TableId` | `integer` |  |  |
+[AnisoMat2DFreq — fields and example](reference/cards/materials.md#anisomat2dfreq)
 
 ### AnisoMat2DTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11TableId` | `integer` |  |  |
-| 3 | `stiffness12TableId` | `integer` |  |  |
-| 4 | `stiffness13TableId` | `integer` |  |  |
-| 5 | `stiffness22TableId` | `integer` |  |  |
-| 6 | `stiffness23TableId` | `integer` |  |  |
-| 7 | `stiffness33TableId` | `integer` |  |  |
-| 8 | `densityTableId` | `integer` | 0 |  |
-| 9 | `thermalExpansion1TableId` | `integer` |  |  |
-| 10 | `thermalExpansion2TableId` | `integer` |  |  |
-| 11 | `thermalExpansion3TableId` | `integer` |  |  |
-| 12 | `structuralDampingTableId` | `integer` | 0 |  |
-| 13 | `tensionAllowableTableId` | `integer` | 0 |  |
-| 14 | `compressionAllowableTableId` | `integer` | 0 |  |
-| 15 | `shearAllowableTableId` | `integer` | 0 |  |
-| 16 | `structuralDamping11TableId` | `integer` |  |  |
-| 17 | `structuralDamping12TableId` | `integer` |  |  |
-| 18 | `structuralDamping13TableId` | `integer` |  |  |
-| 19 | `structuralDamping22TableId` | `integer` |  |  |
-| 20 | `structuralDamping23TableId` | `integer` |  |  |
-| 21 | `structuralDamping33TableId` | `integer` |  |  |
+[AnisoMat2DTemperature — fields and example](reference/cards/materials.md#anisomat2dtemperature)
 
 ### AnisoMat3D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11` | `real` |  |  |
-| 3 | `stiffness12` | `real` |  |  |
-| 4 | `stiffness13` | `real` |  |  |
-| 5 | `stiffness14` | `real` |  |  |
-| 6 | `stiffness15` | `real` |  |  |
-| 7 | `stiffness16` | `real` |  |  |
-| 8 | `stiffness22` | `real` |  |  |
-| 9 | `stiffness23` | `real` |  |  |
-| 10 | `stiffness24` | `real` |  |  |
-| 11 | `stiffness25` | `real` |  |  |
-| 12 | `stiffness26` | `real` |  |  |
-| 13 | `stiffness33` | `real` |  |  |
-| 14 | `stiffness34` | `real` |  |  |
-| 15 | `stiffness35` | `real` |  |  |
-| 16 | `stiffness36` | `real` |  |  |
-| 17 | `stiffness44` | `real` |  |  |
-| 18 | `stiffness45` | `real` |  |  |
-| 19 | `stiffness46` | `real` |  |  |
-| 20 | `stiffness55` | `real` |  |  |
-| 21 | `stiffness56` | `real` |  |  |
-| 22 | `stiffness66` | `real` |  |  |
-| 23 | `density` | `real` | 0.0 |  |
-| 24 | `thermalExpansion1` | `real` |  |  |
-| 25 | `thermalExpansion2` | `real` |  |  |
-| 26 | `thermalExpansion3` | `real` |  |  |
-| 27 | `thermalExpansion4` | `real` |  |  |
-| 28 | `thermalExpansion5` | `real` |  |  |
-| 29 | `thermalExpansion6` | `real` |  |  |
-| 30 | `referenceTemperature` | `real` | 0.0 |  |
-| 31 | `structuralDamping` | `real` | 0.0 |  |
-| 32 | `structuralDamping11` | `real` |  |  |
-| 33 | `structuralDamping12` | `real` |  |  |
-| 34 | `structuralDamping13` | `real` |  |  |
-| 35 | `structuralDamping14` | `real` |  |  |
-| 36 | `structuralDamping15` | `real` |  |  |
-| 37 | `structuralDamping16` | `real` |  |  |
-| 38 | `structuralDamping22` | `real` |  |  |
-| 39 | `structuralDamping23` | `real` |  |  |
-| 40 | `structuralDamping24` | `real` |  |  |
-| 41 | `structuralDamping25` | `real` |  |  |
-| 42 | `structuralDamping26` | `real` |  |  |
-| 43 | `structuralDamping33` | `real` |  |  |
-| 44 | `structuralDamping34` | `real` |  |  |
-| 45 | `structuralDamping35` | `real` |  |  |
-| 46 | `structuralDamping36` | `real` |  |  |
-| 47 | `structuralDamping44` | `real` |  |  |
-| 48 | `structuralDamping45` | `real` |  |  |
-| 49 | `structuralDamping46` | `real` |  |  |
-| 50 | `structuralDamping55` | `real` |  |  |
-| 51 | `structuralDamping56` | `real` |  |  |
-| 52 | `structuralDamping66` | `real` |  |  |
+[AnisoMat3D — fields and example](reference/cards/materials.md#anisomat3d)
 
 ### AnisoMat3DFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11TableId` | `integer` |  |  |
-| 3 | `stiffness12TableId` | `integer` |  |  |
-| 4 | `stiffness13TableId` | `integer` |  |  |
-| 5 | `stiffness14TableId` | `integer` |  |  |
-| 6 | `stiffness15TableId` | `integer` |  |  |
-| 7 | `stiffness16TableId` | `integer` |  |  |
-| 8 | `stiffness22TableId` | `integer` |  |  |
-| 9 | `stiffness23TableId` | `integer` |  |  |
-| 10 | `stiffness24TableId` | `integer` |  |  |
-| 11 | `stiffness25TableId` | `integer` |  |  |
-| 12 | `stiffness26TableId` | `integer` |  |  |
-| 13 | `stiffness33TableId` | `integer` |  |  |
-| 14 | `stiffness34TableId` | `integer` |  |  |
-| 15 | `stiffness35TableId` | `integer` |  |  |
-| 16 | `stiffness36TableId` | `integer` |  |  |
-| 17 | `stiffness44TableId` | `integer` |  |  |
-| 18 | `stiffness45TableId` | `integer` |  |  |
-| 19 | `stiffness46TableId` | `integer` |  |  |
-| 20 | `stiffness55TableId` | `integer` |  |  |
-| 21 | `stiffness56TableId` | `integer` |  |  |
-| 22 | `stiffness66TableId` | `integer` |  |  |
-| 23 | `structuralDampingTableId` | `integer` | 0 |  |
-| 24 | `structuralDamping11TableId` | `integer` |  |  |
-| 25 | `structuralDamping12TableId` | `integer` |  |  |
-| 26 | `structuralDamping13TableId` | `integer` |  |  |
-| 27 | `structuralDamping14TableId` | `integer` |  |  |
-| 28 | `structuralDamping15TableId` | `integer` |  |  |
-| 29 | `structuralDamping16TableId` | `integer` |  |  |
-| 30 | `structuralDamping22TableId` | `integer` |  |  |
-| 31 | `structuralDamping23TableId` | `integer` |  |  |
-| 32 | `structuralDamping24TableId` | `integer` |  |  |
-| 33 | `structuralDamping25TableId` | `integer` |  |  |
-| 34 | `structuralDamping26TableId` | `integer` |  |  |
-| 35 | `structuralDamping33TableId` | `integer` |  |  |
-| 36 | `structuralDamping34TableId` | `integer` |  |  |
-| 37 | `structuralDamping35TableId` | `integer` |  |  |
-| 38 | `structuralDamping36TableId` | `integer` |  |  |
-| 39 | `structuralDamping44TableId` | `integer` |  |  |
-| 40 | `structuralDamping45TableId` | `integer` |  |  |
-| 41 | `structuralDamping46TableId` | `integer` |  |  |
-| 42 | `structuralDamping55TableId` | `integer` |  |  |
-| 43 | `structuralDamping56TableId` | `integer` |  |  |
-| 44 | `structuralDamping66TableId` | `integer` |  |  |
+[AnisoMat3DFreq — fields and example](reference/cards/materials.md#anisomat3dfreq)
 
 ### AnisoMat3DTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11TableId` | `integer` |  |  |
-| 3 | `stiffness12TableId` | `integer` |  |  |
-| 4 | `stiffness13TableId` | `integer` |  |  |
-| 5 | `stiffness14TableId` | `integer` |  |  |
-| 6 | `stiffness15TableId` | `integer` |  |  |
-| 7 | `stiffness16TableId` | `integer` |  |  |
-| 8 | `stiffness22TableId` | `integer` |  |  |
-| 9 | `stiffness23TableId` | `integer` |  |  |
-| 10 | `stiffness24TableId` | `integer` |  |  |
-| 11 | `stiffness25TableId` | `integer` |  |  |
-| 12 | `stiffness26TableId` | `integer` |  |  |
-| 13 | `stiffness33TableId` | `integer` |  |  |
-| 14 | `stiffness34TableId` | `integer` |  |  |
-| 15 | `stiffness35TableId` | `integer` |  |  |
-| 16 | `stiffness36TableId` | `integer` |  |  |
-| 17 | `stiffness44TableId` | `integer` |  |  |
-| 18 | `stiffness45TableId` | `integer` |  |  |
-| 19 | `stiffness46TableId` | `integer` |  |  |
-| 20 | `stiffness55TableId` | `integer` |  |  |
-| 21 | `stiffness56TableId` | `integer` |  |  |
-| 22 | `stiffness66TableId` | `integer` |  |  |
-| 23 | `densityTableId` | `integer` | 0 |  |
-| 24 | `thermalExpansion1TableId` | `integer` |  |  |
-| 25 | `thermalExpansion2TableId` | `integer` |  |  |
-| 26 | `thermalExpansion3TableId` | `integer` |  |  |
-| 27 | `thermalExpansion4TableId` | `integer` |  |  |
-| 28 | `thermalExpansion5TableId` | `integer` |  |  |
-| 29 | `thermalExpansion6TableId` | `integer` |  |  |
-| 30 | `structuralDampingTableId` | `integer` | 0 |  |
-| 31 | `structuralDamping11TableId` | `integer` |  |  |
-| 32 | `structuralDamping12TableId` | `integer` |  |  |
-| 33 | `structuralDamping13TableId` | `integer` |  |  |
-| 34 | `structuralDamping14TableId` | `integer` |  |  |
-| 35 | `structuralDamping15TableId` | `integer` |  |  |
-| 36 | `structuralDamping16TableId` | `integer` |  |  |
-| 37 | `structuralDamping22TableId` | `integer` |  |  |
-| 38 | `structuralDamping23TableId` | `integer` |  |  |
-| 39 | `structuralDamping24TableId` | `integer` |  |  |
-| 40 | `structuralDamping25TableId` | `integer` |  |  |
-| 41 | `structuralDamping26TableId` | `integer` |  |  |
-| 42 | `structuralDamping33TableId` | `integer` |  |  |
-| 43 | `structuralDamping34TableId` | `integer` |  |  |
-| 44 | `structuralDamping35TableId` | `integer` |  |  |
-| 45 | `structuralDamping36TableId` | `integer` |  |  |
-| 46 | `structuralDamping44TableId` | `integer` |  |  |
-| 47 | `structuralDamping45TableId` | `integer` |  |  |
-| 48 | `structuralDamping46TableId` | `integer` |  |  |
-| 49 | `structuralDamping55TableId` | `integer` |  |  |
-| 50 | `structuralDamping56TableId` | `integer` |  |  |
-| 51 | `structuralDamping66TableId` | `integer` |  |  |
+[AnisoMat3DTemperature — fields and example](reference/cards/materials.md#anisomat3dtemperature)
 
 ### ArcLengthParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `constraintKind` | `text` | Crisfield |  |
-| 3 | `minArcLengthRatio` | `real` | 0.25 |  |
-| 4 | `maxArcLengthRatio` | `real` | 4.0 |  |
-| 5 | `scaleFactor` | `real` | 0.0 |  |
-| 6 | `designIteration` | `integer` | 12 |  |
-| 7 | `maxIncrements` | `integer` | 20 |  |
-
-Accepted words: `Crisfield`, `ModifiedRiks`, `Riks`.
+[ArcLengthParams — fields and example](reference/cards/solution_control.md#arclengthparams)
 
 ### AssociativeNode
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `origNodeId` | `integer` |  |  |
-| 3 | `partitionName` | `text` |  | one text field |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AssociativeNode — fields and example](reference/cards/nodes.md#associativenode)
 
 ### AutoConstrExclusion
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[AutoConstrExclusion — fields and example](reference/cards/constraints.md#autoconstrexclusion)
 
 ### AutoConstrExclusionList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[AutoConstrExclusionList — fields and example](reference/cards/constraints.md#autoconstrexclusionlist)
 
 ### AxialDeformationLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `deformations`, after the fixed fields: `elemId` (integer), `deformation` (real).
+[AxialDeformationLoad — fields and example](reference/cards/loads.md#axialdeformationload)
 
 ### AxisymConeControl
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `highestHarmonic` | `integer` |  |  |
+[AxisymConeControl — fields and example](reference/cards/nodes.md#axisymconecontrol)
 
 ### AxisymConePoint
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `ringId` | `integer` |  |  |
-| 3 | `phiAngle` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymConePoint — fields and example](reference/cards/nodes.md#axisymconepoint)
 
 ### AxisymConePressureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pressure` | `real` |  |  |
-| 3 | `ringId1` | `integer` |  |  |
-| 4 | `ringId2` | `integer` |  |  |
-| 5 | `phiAngle1` | `real` | 0.0 |  |
-| 6 | `phiAngle2` | `real` | 360.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymConePressureLoad — fields and example](reference/cards/loads.md#axisymconepressureload)
 
 ### AxisymConeRing
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `radius` | `real` |  |  |
-| 3 | `zCoord` | `real` |  |  |
-| 4 | `permanentConstraints` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymConeRing — fields and example](reference/cards/nodes.md#axisymconering)
 
 ### AxisymConeSector
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `ringId` | `integer` |  |  |
-| 3 | `radius` | `real` |  |  |
-| 4 | `phiAngle1` | `real` |  |  |
-| 5 | `phiAngle2` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymConeSector — fields and example](reference/cards/superelements.md#axisymconesector)
 
 ### AxisymConeSupport
 
-No fixed field.
-
-Repeated group `dofs`, after the fixed fields: `ringId` (integer), `harmonicId` (integer), `components` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymConeSupport — fields and example](reference/cards/superelements.md#axisymconesupport)
 
 ### AxisymConeTemperatureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id1` | `integer` |  |  |
-| 2 | `ringId1` | `integer` |  |  |
-| 3 | `phiAngle1` | `real` |  |  |
-| 4 | `temperature1` | `real` |  |  |
-| 5 | `id2` | `integer` |  |  |
-| 6 | `ringId2` | `integer` |  |  |
-| 7 | `phiAngle2` | `real` |  |  |
-| 8 | `temperature2` | `real` |  |  |
+[AxisymConeTemperatureLoad — fields and example](reference/cards/loads.md#axisymconetemperatureload)
 
 ### AxisymFluid2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `fluidPointId1` | `integer` |  |  |
-| 3 | `fluidPointId2` | `integer` |  |  |
-| 4 | `density` | `real` |  |  |
-| 5 | `bulkModulus` | `real` |  |  |
+[AxisymFluid2 — fields and example](reference/cards/thermal.md#axisymfluid2)
 
 ### AxisymFluid3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `fluidPointId1` | `integer` |  |  |
-| 3 | `fluidPointId2` | `integer` |  |  |
-| 4 | `fluidPointId3` | `integer` |  |  |
-| 5 | `density` | `real` |  |  |
-| 6 | `bulkModulus` | `real` |  |  |
+[AxisymFluid3 — fields and example](reference/cards/thermal.md#axisymfluid3)
 
 ### AxisymFluid4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `fluidPointId1` | `integer` |  |  |
-| 3 | `fluidPointId2` | `integer` |  |  |
-| 4 | `fluidPointId3` | `integer` |  |  |
-| 5 | `fluidPointId4` | `integer` |  |  |
-| 6 | `density` | `real` |  |  |
-| 7 | `bulkModulus` | `real` |  |  |
+[AxisymFluid4 — fields and example](reference/cards/thermal.md#axisymfluid4)
 
 ### AxisymFluidBoundaryList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `density` | `real` |  |  |
-
-Repeated group `fluidPoints`, after the fixed fields: `fluidPointId` (any).
-
-Accepted words: `Axis`, `LocalAxis`.
+[AxisymFluidBoundaryList — fields and example](reference/cards/thermal.md#axisymfluidboundarylist)
 
 ### AxisymFluidControl
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `frameId` | `integer` |  |  |
-| 2 | `gravity` | `real` |  |  |
-| 3 | `defaultDensity` | `real` |  |  |
-| 4 | `defaultBulkModulus` | `real` |  |  |
-| 5 | `nonsymmetric` | `text` |  |  |
-| 6 | `noHarmonicsFlag` | `text` |  |  |
-
-Repeated group `harmonics`, after the fixed fields: `harmonic` (any).
-
-Accepted words: `Constant`, `Element`, `No`, `None`, `Step`, `Table`, `Through`, `Yes`.
+[AxisymFluidControl — fields and example](reference/cards/nodes.md#axisymfluidcontrol)
 
 ### AxisymFluidFreePoint
 
-Forms: `pairsFromSlot2`.
+[AxisymFluidFreePoint — fields and example](reference/cards/nodes.md#axisymfluidfreepoint)
 
 #### AxisymFluidFreePoint: pairsFromSlot2
 
-Form `pairsFromSlot2`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `fluidPointId` | `integer` |  |  |
-
-Repeated group `points`, after the fixed fields: `pointId` (integer), `phiAngle` (real).
-
-*Note*: at most three pairs.
-
-Accepted words: `Constant`, `Element`, `Table`.
+[pairsFromSlot2 form](reference/cards/nodes.md#axisymfluidfreepoint-pairsfromslot2)
 
 ### AxisymFluidFreeSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `density` | `real` |  |  |
-
-Repeated group `fluidPoints`, after the fixed fields: `fluidPointId` (any).
-
-Accepted words: `Axis`, `LocalAxis`.
+[AxisymFluidFreeSurface — fields and example](reference/cards/thermal.md#axisymfluidfreesurface)
 
 ### AxisymFluidPressurePoint
 
-Forms: `pairsFromSlot2`.
+[AxisymFluidPressurePoint — fields and example](reference/cards/nodes.md#axisymfluidpressurepoint)
 
 #### AxisymFluidPressurePoint: pairsFromSlot2
 
-Form `pairsFromSlot2`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `fluidPointId` | `integer` |  |  |
-
-Repeated group `points`, after the fixed fields: `pointId` (integer), `phiAngle` (real).
-
-*Note*: at most three pairs.
-
-Accepted words: `Constant`, `Element`, `Table`.
+[pairsFromSlot2 form](reference/cards/nodes.md#axisymfluidpressurepoint-pairsfromslot2)
 
 ### AxisymFluidRing
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `firstId` | `integer` |  |  |
-| 2 | `firstPosition1` | `real` |  |  |
-| 3 | `firstPosition2` | `real` | 0.0 |  |
-| 4 | `firstPosition3` | `real` | 0.0 |  |
-| 5 | `secondId` | `integer` |  |  |
-| 6 | `secondPosition1` | `real` |  |  |
-| 7 | `secondPosition2` | `real` | 0.0 |  |
-| 8 | `secondPosition3` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymFluidRing — fields and example](reference/cards/nodes.md#axisymfluidring)
 
 ### AxisymFluidRingNode
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `phiAngle` | `real` |  |  |
-| 3 | `displacementFrameId` | `integer` | 0 |  |
-| 4 | `permanentConstraints` | `integer` | 0 |  |
-| 5 | `fluidPointId` | `integer` |  |  |
-
-Accepted words: `AxisymFluidRing`.
+[AxisymFluidRingNode — fields and example](reference/cards/nodes.md#axisymfluidringnode)
 
 ### AxisymFluidSymmetry
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `sectionCount` | `integer` |  |  |
-| 2 | `planeSymmetry1` | `text` |  |  |
-| 3 | `planeSymmetry2` | `text` |  |  |
-
-Accepted words: `Antisymmetric`, `Symmetric`.
+[AxisymFluidSymmetry — fields and example](reference/cards/thermal.md#axisymfluidsymmetry)
 
 ### AxisymHarmonicProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `frameId` | `integer` | 0 |  |
-| 4 | `harmonicIndex` | `integer` |  |  |
-| 5 | `integration` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymHarmonicProp — fields and example](reference/cards/properties.md#axisymharmonicprop)
 
 ### AxisymOmittedDofSet
 
-No fixed field.
-
-Repeated group `dofs`, after the fixed fields: `ringId` (integer), `harmonicId` (integer), `components` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymOmittedDofSet — fields and example](reference/cards/sets.md#axisymomitteddofset)
 
 ### AxisymOrthoMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulusX` | `real` |  |  |
-| 3 | `youngsModulusTheta` | `real` |  |  |
-| 4 | `youngsModulusZ` | `real` |  |  |
-| 5 | `poissonRatioXth` | `real` | 0.0 |  |
-| 6 | `poissonRatioThz` | `real` | 0.0 |  |
-| 7 | `poissonRatioZx` | `real` | 0.0 |  |
-| 8 | `density` | `real` | 0.0 |  |
-| 9 | `shearModulusZx` | `real` |  |  |
-| 10 | `thermalExpansionX` | `real` | 0.0 |  |
-| 11 | `thermalExpansionTheta` | `real` | 0.0 |  |
-| 12 | `thermalExpansionZ` | `real` | 0.0 |  |
-| 13 | `referenceTemperature` | `real` | 0.0 |  |
-| 14 | `structuralDamping` | `real` | 0.0 |  |
+[AxisymOrthoMat — fields and example](reference/cards/materials.md#axisymorthomat)
 
 ### AxisymOrthoMatStressDependent
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulusXTableId` | `integer` | 0 |  |
-| 3 | `youngsModulusThetaTableId` | `integer` | 0 |  |
-| 4 | `youngsModulusZTableId` | `integer` | 0 |  |
-| 5 | `poissonRatioXthTableId` | `integer` | 0 |  |
-| 6 | `poissonRatioThzTableId` | `integer` | 0 |  |
-| 7 | `poissonRatioZxTableId` | `integer` | 0 |  |
-| 8 | `densityTableId` | `integer` | 0 |  |
-| 9 | `shearModulusZxTableId` | `integer` | 0 |  |
-| 10 | `thermalExpansionXTableId` | `integer` | 0 |  |
-| 11 | `thermalExpansionThetaTableId` | `integer` | 0 |  |
-| 12 | `thermalExpansionZTableId` | `integer` | 0 |  |
+[AxisymOrthoMatStressDependent — fields and example](reference/cards/materials.md#axisymorthomatstressdependent)
 
 ### AxisymOrthoMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulusXTableId` | `integer` | 0 |  |
-| 3 | `youngsModulusThetaTableId` | `integer` | 0 |  |
-| 4 | `youngsModulusZTableId` | `integer` | 0 |  |
-| 5 | `poissonRatioXthTableId` | `integer` | 0 |  |
-| 6 | `poissonRatioThzTableId` | `integer` | 0 |  |
-| 7 | `poissonRatioZxTableId` | `integer` | 0 |  |
-| 8 | `densityTableId` | `integer` | 0 |  |
-| 9 | `shearModulusZxTableId` | `integer` | 0 |  |
-| 10 | `thermalExpansionXTableId` | `integer` | 0 |  |
-| 11 | `thermalExpansionThetaTableId` | `integer` | 0 |  |
-| 12 | `thermalExpansionZTableId` | `integer` | 0 |  |
-| 13 | `structuralDampingTableId` | `integer` | 0 |  |
+[AxisymOrthoMatTemperature — fields and example](reference/cards/materials.md#axisymorthomattemperature)
 
 ### AxisymQuad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 13 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
+[AxisymQuad — fields and example](reference/cards/elements.md#axisymquad)
 
 ### AxisymQuad4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `materialAngle` | `real` | 0.0 |  |
+[AxisymQuad4 — fields and example](reference/cards/elements.md#axisymquad4)
 
 ### AxisymQuad8
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `materialAngle` | `real` | 0.0 |  |
+[AxisymQuad8 — fields and example](reference/cards/elements.md#axisymquad8)
 
 ### AxisymRingForceLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `ringId` | `integer` |  |  |
-| 3 | `harmonicId` | `any` |  |  |
-| 4 | `scaleFactor` | `real` |  |  |
-| 5 | `radialForce` | `real` | 0.0 |  |
-| 6 | `azimuthalForce` | `real` | 0.0 |  |
-| 7 | `axialForce` | `real` | 0.0 |  |
+[AxisymRingForceLoad — fields and example](reference/cards/loads.md#axisymringforceload)
 
 ### AxisymRingMomentLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `ringId` | `integer` |  |  |
-| 3 | `harmonicId` | `any` |  |  |
-| 4 | `scaleFactor` | `real` |  |  |
-| 5 | `radialMoment` | `real` | 0.0 |  |
-| 6 | `azimuthalMoment` | `real` | 0.0 |  |
-| 7 | `axialMoment` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[AxisymRingMomentLoad — fields and example](reference/cards/loads.md#axisymringmomentload)
 
 ### AxisymShellProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `thickness1` | `real` |  |  |
-| 4 | `thickness2` | `real` | 0.0 |  |
-| 5 | `analysisType` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Heat`, `Structural`, `StructuralAndHeat`, `Table`.
+[AxisymShellProp — fields and example](reference/cards/properties.md#axisymshellprop)
 
 ### AxisymTractionLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId` | `integer` |  |  |
-| 3 | `tractionA` | `real` |  |  |
-| 4 | `tractionB` | `real` | same as tractionA |  |
-| 5 | `nodeA` | `integer` |  |  |
-| 6 | `nodeB` | `integer` |  |  |
-| 7 | `tractionAngle` | `real` | 0.0 |  |
+[AxisymTractionLoad — fields and example](reference/cards/loads.md#axisymtractionload)
 
 ### AxisymTria
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 10 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
+[AxisymTria — fields and example](reference/cards/elements.md#axisymtria)
 
 ### AxisymTria6
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `materialAngle` | `real` | 0.0 |  |
+[AxisymTria6 — fields and example](reference/cards/elements.md#axisymtria6)
 
 ### Bar2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` |  |  |
-| 5 | `orientation1` | `real` |  | alternative of `orientationNode` |
-| 6 | `orientationNode` | `integer` |  | alternative of `orientation1` |
-| 7 | `orientation2` | `real` | 0.0 |  |
-| 8 | `orientation3` | `real` | 0.0 |  |
-| 9 | `offsetKind` | `text` |  |  |
-| 10 | `pinFlagsA` | `integer` | 0 |  |
-| 11 | `pinFlagsB` | `integer` | 0 |  |
-| 12 | `offset1A` | `real` |  |  |
-| 13 | `offset2A` | `real` |  |  |
-| 14 | `offset3A` | `real` |  |  |
-| 15 | `offset1B` | `real` |  |  |
-| 16 | `offset2B` | `real` |  |  |
-| 17 | `offset3B` | `real` |  |  |
-
-Accepted words: `OffsetsBasicGlobalGlobal`, `OffsetsBasicGlobalOrient`, `OffsetsBasicOrientGlobal`, `OffsetsBasicOrientOrient`, `OffsetsGlobalGlobalGlobal`, `OffsetsGlobalGlobalOrient`, `OffsetsGlobalOrientGlobal`, `OffsetsGlobalOrientOrient`.
+[Bar2 — fields and example](reference/cards/elements.md#bar2)
 
 ### Bar2Defaults
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `propId` | `integer` | 0 |  |
-| 2 | `orientation1` | `real` |  | alternative of `orientationNode` |
-| 3 | `orientationNode` | `integer` |  | alternative of `orientation1` |
-| 4 | `orientation2` | `real` | 0.0 |  |
-| 5 | `orientation3` | `real` | 0.0 |  |
-| 6 | `offsetKind` | `text` |  |  |
-
-Accepted words: `OffsetsBasicGlobalGlobal`, `OffsetsBasicGlobalOrient`, `OffsetsBasicOrientGlobal`, `OffsetsBasicOrientOrient`, `OffsetsGlobalGlobalGlobal`, `OffsetsGlobalGlobalOrient`, `OffsetsGlobalOrientGlobal`, `OffsetsGlobalOrientOrient`.
+[Bar2Defaults — fields and example](reference/cards/elements.md#bar2defaults)
 
 ### Bar2Stations
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stationScale` | `text` |  |  |
-| 3 | `station1` | `real` |  | alternative of `stationCount` |
-| 4 | `stationCount` | `integer` |  | alternative of `station1` |
-| 5 | `station2` | `real` |  |  |
-| 6 | `station3` | `real` |  |  |
-| 7 | `station4` | `real` |  |  |
-| 8 | `station5` | `real` |  |  |
-| 9 | `station6` | `real` |  |  |
-
-Accepted words: `ActualLength`, `FractionalLength`.
+[Bar2Stations — fields and example](reference/cards/elements.md#bar2stations)
 
 ### BarArbitrarySectionProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `form` | `text` |  |  |
-| 4 | `nonStructMass` | `real` | 0.0 |  |
-| 5 | `description` | `text` |  |  |
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `ClosedProfile`, `Constant`, `Element`, `GeneralSection`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `OpenProfile`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`.
-
-description contains comma-separated items: outerPerimeter=id, outerMesh=id, innerPerimeter(index)=id, branch(index)=id, thickness(index)=value, core(index)=propertyId, layer(index)=[propertyId,setId], nonStructMass=value. Thickness and core values can select points with [value,points=(startId,endId)].
+[BarArbitrarySectionProp — fields and example](reference/cards/elements.md#bararbitrarysectionprop)
 
 ### BarProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `area` | `real` | 0.0 |  |
-| 4 | `bendingInertia1` | `real` | 0.0 |  |
-| 5 | `bendingInertia2` | `real` | 0.0 |  |
-| 6 | `torsionConstant` | `real` | 0.0 |  |
-| 7 | `nonStructMass` | `real` | 0.0 |  |
-| 8 | `stressPointCy` | `real` |  |  |
-| 9 | `stressPointCz` | `real` |  |  |
-| 10 | `stressPointDy` | `real` |  |  |
-| 11 | `stressPointDz` | `real` |  |  |
-| 12 | `stressPointEy` | `real` |  |  |
-| 13 | `stressPointEz` | `real` |  |  |
-| 14 | `stressPointFy` | `real` |  |  |
-| 15 | `stressPointFz` | `real` |  |  |
-| 16 | `shearFactor1` | `real` |  |  |
-| 17 | `shearFactor2` | `real` |  |  |
-| 18 | `productInertia12` | `real` | 0.0 |  |
-
-Designable field descriptors: area, bendingInertia1, bendingInertia2, torsionConstant, nonStructMass, stressPointCy, stressPointCz, stressPointDy, stressPointDz, stressPointEy, stressPointEz, stressPointFy, stressPointFz, shearFactor1, shearFactor2, productInertia12.
+[BarProp — fields and example](reference/cards/properties.md#barprop)
 
 ### BarPropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` | 0 |  |
-| 3 | `sectionIntegration` | `text` |  |  |
-
-Sections `behaviorLines`, one after the other, each opened by its key word:
-
-- `TwoNodeElems` (twoNodeBehavior): fields `behavior2` (text), `integration2` (text).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `Constant`, `Element`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`, `TwoNodeElems`.
+[BarPropNonlinear — fields and example](reference/cards/properties.md#barpropnonlinear)
 
 ### BarShapeProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `sectionGroup` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-
-Repeated group `dimensions`, after the fixed fields: `dimension` (real).
-
-Accepted words: `Bar`, `Box`, `Box1`, `Channel`, `Channel1`, `Channel2`, `Cross`, `DoubleBoxSection`, `HSection`, `Hat`, `Hat1`, `Hexagon`, `ISection`, `ISection1`, `LSection`, `Rod`, `StandardSectionLibrary`, `TSection`, `TSection1`, `TSection2`, `Tube`, `Tube2`, `ZSection`.
-
-Designable field descriptors: dimension(1), dimension(2), ... and nonStructMass.
+[BarShapeProp — fields and example](reference/cards/properties.md#barshapeprop)
 
 ### Beam2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` |  |  |
-| 5 | `orientation1` | `real` |  | alternative of `orientationNode` |
-| 6 | `orientationNode` | `integer` |  | alternative of `orientation1` |
-| 7 | `orientation2` | `real` | 0.0 |  |
-| 8 | `orientation3` | `real` | 0.0 |  |
-| 9 | `offsetKind` | `text` |  |  |
-| 10 | `pinFlagsA` | `integer` | 0 |  |
-| 11 | `pinFlagsB` | `integer` | 0 |  |
-| 12 | `offset1A` | `real` |  |  |
-| 13 | `offset2A` | `real` |  |  |
-| 14 | `offset3A` | `real` |  |  |
-| 15 | `offset1B` | `real` |  |  |
-| 16 | `offset2B` | `real` |  |  |
-| 17 | `offset3B` | `real` |  |  |
-| 18 | `warpingPointA` | `integer` | 0 |  |
-| 19 | `warpingPointB` | `integer` | 0 |  |
-
-Accepted words: `OffsetsBasicGlobalGlobal`, `OffsetsBasicGlobalOrient`, `OffsetsBasicOrientGlobal`, `OffsetsBasicOrientOrient`, `OffsetsGlobalGlobalGlobal`, `OffsetsGlobalGlobalOrient`, `OffsetsGlobalOrientGlobal`, `OffsetsGlobalOrientOrient`.
+[Beam2 — fields and example](reference/cards/elements.md#beam2)
 
 ### Beam2Defaults
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `propId` | `integer` | 0 |  |
-| 2 | `orientation1` | `real` |  | alternative of `orientationNode` |
-| 3 | `orientationNode` | `integer` |  | alternative of `orientation1` |
-| 4 | `orientation2` | `real` | 0.0 |  |
-| 5 | `orientation3` | `real` | 0.0 |  |
-| 6 | `offsetKind` | `text` |  |  |
-
-Accepted words: `OffsetsBasicGlobalGlobal`, `OffsetsBasicGlobalOrient`, `OffsetsBasicOrientGlobal`, `OffsetsBasicOrientOrient`, `OffsetsGlobalGlobalGlobal`, `OffsetsGlobalGlobalOrient`, `OffsetsGlobalOrientGlobal`, `OffsetsGlobalOrientOrient`.
+[Beam2Defaults — fields and example](reference/cards/elements.md#beam2defaults)
 
 ### Beam3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` |  |  |
-| 5 | `nodeC` | `integer` | 0 |  |
-| 6 | `orientationNode` | `integer` |  | alternative of `orientation1` |
-| 7 | `orientation1` | `real` |  | alternative of `orientationNode` |
-| 8 | `orientation2` | `real` | 0.0 |  |
-| 9 | `orientation3` | `real` | 0.0 |  |
-| 10 | `offset1A` | `real` |  |  |
-| 11 | `offset2A` | `real` |  |  |
-| 12 | `offset3A` | `real` |  |  |
-| 13 | `offset1B` | `real` |  |  |
-| 14 | `offset2B` | `real` |  |  |
-| 15 | `offset3B` | `real` |  |  |
-| 16 | `offset1C` | `real` |  |  |
-| 17 | `offset2C` | `real` |  |  |
-| 18 | `offset3C` | `real` |  |  |
-| 19 | `twistA` | `real` |  |  |
-| 20 | `twistB` | `real` |  |  |
-| 21 | `twistC` | `real` |  |  |
-| 22 | `warpingPointA` | `integer` | 0 |  |
-| 23 | `warpingPointB` | `integer` | 0 |  |
-| 24 | `warpingPointC` | `integer` | 0 |  |
+[Beam3 — fields and example](reference/cards/elements.md#beam3)
 
 ### Beam3DistributedLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId` | `integer` |  |  |
-| 3 | `frameId` | `any` | 0 |  |
-| 4 | `directionX` | `real` | 0.0 |  |
-| 5 | `directionY` | `real` | 0.0 |  |
-| 6 | `directionZ` | `real` | 0.0 |  |
-| 7 | `kind` | `text` |  |  |
-| 8 | `scaleFactor` | `real` |  |  |
-| 9 | `pressureA` | `real` | 0.0 |  |
-| 10 | `pressureB` | `real` | 0.0 |  |
-| 11 | `pressureC` | `real` | 0.0 |  |
-
-Accepted words: `BasicFrame`, `Constant`, `Element`, `Force`, `LocalFrame`, `Moment`, `Table`, `WarpingBimoment`.
+[Beam3DistributedLoad — fields and example](reference/cards/loads.md#beam3distributedload)
 
 ### Beam3TemperatureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId` | `integer` |  |  |
-| 3 | `temperatureA` | `real` | 0.0 |  |
-| 4 | `temperatureB` | `real` | 0.0 |  |
-| 5 | `temperatureC` | `real` | 0.0 |  |
-| 6 | `gradientYA` | `real` | 0.0 |  |
-| 7 | `gradientZA` | `real` | 0.0 |  |
-| 8 | `gradientYB` | `real` | 0.0 |  |
-| 9 | `gradientZB` | `real` | 0.0 |  |
-| 10 | `gradientYC` | `real` | 0.0 |  |
-| 11 | `gradientZC` | `real` | 0.0 |  |
-| 12 | `temperatureCA` | `real` |  |  |
-| 13 | `temperatureDA` | `real` |  |  |
-| 14 | `temperatureEA` | `real` |  |  |
-| 15 | `temperatureFA` | `real` |  |  |
-| 16 | `temperatureCB` | `real` |  |  |
-| 17 | `temperatureDB` | `real` |  |  |
-| 18 | `temperatureEB` | `real` |  |  |
-| 19 | `temperatureFB` | `real` |  |  |
-| 20 | `temperatureCC` | `real` |  |  |
-| 21 | `temperatureDC` | `real` |  |  |
-| 22 | `temperatureEC` | `real` |  |  |
-| 23 | `temperatureFC` | `real` |  |  |
-
-Repeated group `elements`, after the fixed fields: `element` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`.
+[Beam3TemperatureLoad — fields and example](reference/cards/loads.md#beam3temperatureload)
 
 ### BeamArbitrarySectionProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `form` | `text` |  |  |
-| 4 | `description` | `text` |  |  |
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `ClosedProfile`, `Constant`, `Element`, `GeneralSection`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `OpenProfile`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`.
-
-description uses the same exact item names as BarArbitrarySectionProp, restricted to the items supported by this section form.
+[BeamArbitrarySectionProp — fields and example](reference/cards/elements.md#beamarbitrarysectionprop)
 
 ### BeamDistributedLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId` | `integer` |  |  |
-| 3 | `kind` | `text` |  |  |
-| 4 | `scaleFactor` | `text` |  |  |
-| 5 | `xCoord1` | `real` |  |  |
-| 6 | `pressure1` | `real` |  |  |
-| 7 | `xCoord2` | `real` | same as xCoord1 |  |
-| 8 | `pressure2` | `real` |  |  |
-
-Accepted words: `ActualLength`, `ForceX`, `ForceXAlongLength`, `ForceY`, `ForceYAlongLength`, `ForceZ`, `ForceZAlongLength`, `FractionalLength`, `FractionalProjectedLength`, `MomentX`, `MomentXAlongLength`, `MomentY`, `MomentYAlongLength`, `MomentZ`, `MomentZAlongLength`, `ProjectedLength`.
+[BeamDistributedLoad — fields and example](reference/cards/loads.md#beamdistributedload)
 
 ### BeamLumpedAreaProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `area` | `real` |  |  |
-| 4 | `bendingInertia1` | `real` | 0.0 |  |
-| 5 | `bendingInertia2` | `real` | 0.0 |  |
-| 6 | `productInertia12` | `real` | 0.0 |  |
-| 7 | `torsionConstant` | `real` | 0.0 |  |
-| 8 | `nonStructMass` | `real` | 0.0 |  |
-| 9 | `shearFactor1` | `real` | 1.0 |  |
-| 10 | `shearFactor2` | `real` | 1.0 |  |
-| 11 | `nsmCenterY` | `real` | 0.0 |  |
-| 12 | `nsmCenterZ` | `real` | 0.0 |  |
-| 13 | `neutralAxisY` | `real` | 0.0 |  |
-| 14 | `neutralAxisZ` | `real` | 0.0 |  |
-| 15 | `symmetricOption` | `integer` | 0 |  |
-
-Repeated group `areas`, after the fixed fields: `areaY` (real), `areaZ` (real), `areaFraction` (real), `areaMatId` (integer).
+[BeamLumpedAreaProp — fields and example](reference/cards/properties.md#beamlumpedareaprop)
 
 ### BeamProp
 
-Forms: `noStressPointsAtEndA`, `stressPointsAtEndA`.
+[BeamProp — fields and example](reference/cards/properties.md#beamprop)
 
 #### BeamProp: noStressPointsAtEndA
 
-Form `noStressPointsAtEndA`, when `stations` is a word.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `area` | `real` |  |  |
-| 4 | `bendingInertia1` | `real` |  |  |
-| 5 | `bendingInertia2` | `real` |  |  |
-| 6 | `productInertia12` | `real` | 0.0 |  |
-| 7 | `torsionConstant` | `real` | 0.0 |  |
-| 8 | `nonStructMass` | `real` | 0.0 |  |
-
-Sections `stations`, one after the other, each opened by its key word:
-
-- `Yes` (stationWithStressPoints): fields `stationRatio` (real), `stationArea` (real), `stationBendingInertia1` (real), `stationBendingInertia2` (real), `stationProductInertia12` (real), `stationTorsionConstant` (real), `stationNonStructMass` (real), `stationStressPointCy` (real), `stationStressPointCz` (real), `stationStressPointDy` (real), `stationStressPointDz` (real), `stationStressPointEy` (real), `stationStressPointEz` (real), `stationStressPointFy` (real), `stationStressPointFz` (real).
-- `YesSameAsEndA` (stationStressAtCorners): fields `stationRatio` (real), `stationArea` (real), `stationBendingInertia1` (real), `stationBendingInertia2` (real), `stationProductInertia12` (real), `stationTorsionConstant` (real), `stationNonStructMass` (real).
-- `No` (stationWithoutStress): fields `stationRatio` (real), `stationArea` (real), `stationBendingInertia1` (real), `stationBendingInertia2` (real), `stationProductInertia12` (real), `stationTorsionConstant` (real), `stationNonStructMass` (real).
-- `""` (lastLines): fields `shearFactor1` (real), `shearFactor2` (real), `shearRelief1` (real), `shearRelief2` (real), `nsmInertiaA` (real), `nsmInertiaB` (real), `warpingCoefficientA` (real), `warpingCoefficientB` (real), `nsmCenterYA` (real), `nsmCenterZA` (real), `nsmCenterYB` (real), `nsmCenterZB` (real), `neutralAxisYA` (real), `neutralAxisZA` (real), `neutralAxisYB` (real), `neutralAxisZB` (real).
+[noStressPointsAtEndA form](reference/cards/properties.md#beamprop-nostresspointsatenda)
 
 #### BeamProp: stressPointsAtEndA
 
-Form `stressPointsAtEndA`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `area` | `real` |  |  |
-| 4 | `bendingInertia1` | `real` |  |  |
-| 5 | `bendingInertia2` | `real` |  |  |
-| 6 | `productInertia12` | `real` | 0.0 |  |
-| 7 | `torsionConstant` | `real` | 0.0 |  |
-| 8 | `nonStructMass` | `real` | 0.0 |  |
-| 9 | `stressPointCy` | `real` | 0.0 |  |
-| 10 | `stressPointCz` | `real` | 0.0 |  |
-| 11 | `stressPointDy` | `real` | 0.0 |  |
-| 12 | `stressPointDz` | `real` | 0.0 |  |
-| 13 | `stressPointEy` | `real` | 0.0 |  |
-| 14 | `stressPointEz` | `real` | 0.0 |  |
-| 15 | `stressPointFy` | `real` | 0.0 |  |
-| 16 | `stressPointFz` | `real` | 0.0 |  |
-
-Sections `stations`, one after the other, each opened by its key word:
-
-- `Yes` (stationWithStressPoints): fields `stationRatio` (real), `stationArea` (real), `stationBendingInertia1` (real), `stationBendingInertia2` (real), `stationProductInertia12` (real), `stationTorsionConstant` (real), `stationNonStructMass` (real), `stationStressPointCy` (real), `stationStressPointCz` (real), `stationStressPointDy` (real), `stationStressPointDz` (real), `stationStressPointEy` (real), `stationStressPointEz` (real), `stationStressPointFy` (real), `stationStressPointFz` (real).
-- `YesSameAsEndA` (stationStressAtCorners): fields `stationRatio` (real), `stationArea` (real), `stationBendingInertia1` (real), `stationBendingInertia2` (real), `stationProductInertia12` (real), `stationTorsionConstant` (real), `stationNonStructMass` (real).
-- `No` (stationWithoutStress): fields `stationRatio` (real), `stationArea` (real), `stationBendingInertia1` (real), `stationBendingInertia2` (real), `stationProductInertia12` (real), `stationTorsionConstant` (real), `stationNonStructMass` (real).
-- `""` (lastLines): fields `shearFactor1` (real), `shearFactor2` (real), `shearRelief1` (real), `shearRelief2` (real), `nsmInertiaA` (real), `nsmInertiaB` (real), `warpingCoefficientA` (real), `warpingCoefficientB` (real), `nsmCenterYA` (real), `nsmCenterZA` (real), `nsmCenterYB` (real), `nsmCenterZB` (real), `neutralAxisYA` (real), `neutralAxisZA` (real), `neutralAxisYB` (real), `neutralAxisZB` (real).
-
-Accepted words: `No`, `Yes`, `YesSameAsEndA`.
-
-Designable field descriptors: area, bendingInertia1, bendingInertia2, productInertia12, torsionConstant, nonStructMass, stressPointCy to stressPointFz with a station (EndA), (EndB) or (i), and shearFactor1, shearFactor2, shearRelief1, shearRelief2, nsmInertia(EndA), nsmInertia(EndB), warpingCoefficient(EndA), warpingCoefficient(EndB), nsmCenterY(EndA), nsmCenterZ(EndA), nsmCenterY(EndB), nsmCenterZ(EndB), neutralAxisY(EndA), neutralAxisZ(EndA), neutralAxisY(EndB), neutralAxisZ(EndB).
+[stressPointsAtEndA form](reference/cards/properties.md#beamprop-stresspointsatenda)
 
 ### BeamProp3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `area` | `real` |  |  |
-| 4 | `bendingInertiaZ` | `real` |  |  |
-| 5 | `bendingInertiaY` | `real` |  |  |
-| 6 | `productInertiaYZ` | `real` | 0.0 |  |
-| 7 | `torsionConstant` | `real` |  |  |
-| 8 | `nonStructMass` | `real` | 0.0 |  |
-| 9 | `stressPointCy` | `real` | 0.0 |  |
-| 10 | `stressPointCz` | `real` | 0.0 |  |
-| 11 | `stressPointDy` | `real` | 0.0 |  |
-| 12 | `stressPointDz` | `real` | 0.0 |  |
-| 13 | `stressPointEy` | `real` | 0.0 |  |
-| 14 | `stressPointEz` | `real` | 0.0 |  |
-| 15 | `stressPointFy` | `real` | 0.0 |  |
-| 16 | `stressPointFz` | `real` | 0.0 |  |
-| 17 | `stressOutputEndB` | `text` |  |  |
-| 18 | `areaEndB` | `real` |  |  |
-| 19 | `bendingInertiaZEndB` | `real` |  |  |
-| 20 | `bendingInertiaYEndB` | `real` |  |  |
-| 21 | `productInertiaYZEndB` | `real` |  |  |
-| 22 | `torsionConstantEndB` | `real` |  |  |
-| 23 | `nonStructMassEndB` | `real` |  |  |
-| 24 | `stressPointCyEndB` | `real` | 0.0 |  |
-| 25 | `stressPointCzEndB` | `real` | 0.0 |  |
-| 26 | `stressPointDyEndB` | `real` | 0.0 |  |
-| 27 | `stressPointDzEndB` | `real` | 0.0 |  |
-| 28 | `stressPointEyEndB` | `real` | 0.0 |  |
-| 29 | `stressPointEzEndB` | `real` | 0.0 |  |
-| 30 | `stressPointFyEndB` | `real` | 0.0 |  |
-| 31 | `stressPointFzEndB` | `real` | 0.0 |  |
-| 32 | `stressOutputNodeC` | `text` |  |  |
-| 33 | `areaNodeC` | `real` |  |  |
-| 34 | `bendingInertiaZNodeC` | `real` |  |  |
-| 35 | `bendingInertiaYNodeC` | `real` |  |  |
-| 36 | `productInertiaYZNodeC` | `real` |  |  |
-| 37 | `torsionConstantNodeC` | `real` |  |  |
-| 38 | `nonStructMassNodeC` | `real` |  |  |
-| 39 | `stressPointCyNodeC` | `real` | 0.0 |  |
-| 40 | `stressPointCzNodeC` | `real` | 0.0 |  |
-| 41 | `stressPointDyNodeC` | `real` | 0.0 |  |
-| 42 | `stressPointDzNodeC` | `real` | 0.0 |  |
-| 43 | `stressPointEyNodeC` | `real` | 0.0 |  |
-| 44 | `stressPointEzNodeC` | `real` | 0.0 |  |
-| 45 | `stressPointFyNodeC` | `real` | 0.0 |  |
-| 46 | `stressPointFzNodeC` | `real` | 0.0 |  |
-| 47 | `shearFactorY` | `real` | 1.0 |  |
-| 48 | `shearFactorZ` | `real` | 1.0 |  |
-| 49 | `neutralAxisY` | `real` |  |  |
-| 50 | `neutralAxisZ` | `real` |  |  |
-| 51 | `neutralAxisYEndB` | `real` |  |  |
-| 52 | `neutralAxisZEndB` | `real` |  |  |
-| 53 | `neutralAxisYNodeC` | `real` |  |  |
-| 54 | `neutralAxisZNodeC` | `real` |  |  |
-| 55 | `nsmCenterY` | `real` |  |  |
-| 56 | `nsmCenterZ` | `real` |  |  |
-| 57 | `nsmCenterYEndB` | `real` |  |  |
-| 58 | `nsmCenterZEndB` | `real` |  |  |
-| 59 | `nsmCenterYNodeC` | `real` |  |  |
-| 60 | `nsmCenterZNodeC` | `real` |  |  |
-| 61 | `nsmInertiaY` | `real` |  |  |
-| 62 | `nsmInertiaZ` | `real` |  |  |
-| 63 | `nsmInertiaYZ` | `real` |  |  |
-| 64 | `nsmInertiaYEndB` | `real` |  |  |
-| 65 | `nsmInertiaZEndB` | `real` |  |  |
-| 66 | `nsmInertiaYZEndB` | `real` |  |  |
-| 67 | `nsmInertiaYNodeC` | `real` |  |  |
-| 68 | `nsmInertiaZNodeC` | `real` |  |  |
-| 69 | `nsmInertiaYZNodeC` | `real` |  |  |
-| 70 | `warpingCoefficient` | `real` |  |  |
-| 71 | `warpingCoefficientEndB` | `real` |  |  |
-| 72 | `warpingCoefficientNodeC` | `real` |  |  |
-| 73 | `stressLocation` | `text` |  |  |
-| 74 | `warpingAtC` | `real` |  |  |
-| 75 | `warpingGradientYAtC` | `real` |  |  |
-| 76 | `warpingGradientZAtC` | `real` |  |  |
-| 77 | `warpingAtD` | `real` |  |  |
-| 78 | `warpingGradientYAtD` | `real` |  |  |
-| 79 | `warpingGradientZAtD` | `real` |  |  |
-| 80 | `warpingAtE` | `real` |  |  |
-| 81 | `warpingGradientYAtE` | `real` |  |  |
-| 82 | `warpingGradientZAtE` | `real` |  |  |
-| 83 | `warpingAtF` | `real` |  |  |
-| 84 | `warpingGradientYAtF` | `real` |  |  |
-| 85 | `warpingGradientZAtF` | `real` |  |  |
-| 86 | `warpingAtCEndB` | `real` |  |  |
-| 87 | `warpingGradientYAtCEndB` | `real` |  |  |
-| 88 | `warpingGradientZAtCEndB` | `real` |  |  |
-| 89 | `warpingAtDEndB` | `real` |  |  |
-| 90 | `warpingGradientYAtDEndB` | `real` |  |  |
-| 91 | `warpingGradientZAtDEndB` | `real` |  |  |
-| 92 | `warpingAtEEndB` | `real` |  |  |
-| 93 | `warpingGradientYAtEEndB` | `real` |  |  |
-| 94 | `warpingGradientZAtEEndB` | `real` |  |  |
-| 95 | `warpingAtFEndB` | `real` |  |  |
-| 96 | `warpingGradientYAtFEndB` | `real` |  |  |
-| 97 | `warpingGradientZAtFEndB` | `real` |  |  |
-| 98 | `warpingAtCNodeC` | `real` |  |  |
-| 99 | `warpingGradientYAtCNodeC` | `real` |  |  |
-| 100 | `warpingGradientZAtCNodeC` | `real` |  |  |
-| 101 | `warpingAtDNodeC` | `real` |  |  |
-| 102 | `warpingGradientYAtDNodeC` | `real` |  |  |
-| 103 | `warpingGradientZAtDNodeC` | `real` |  |  |
-| 104 | `warpingAtENodeC` | `real` |  |  |
-| 105 | `warpingGradientYAtENodeC` | `real` |  |  |
-| 106 | `warpingGradientZAtENodeC` | `real` |  |  |
-| 107 | `warpingAtFNodeC` | `real` |  |  |
-| 108 | `warpingGradientYAtFNodeC` | `real` |  |  |
-| 109 | `warpingGradientZAtFNodeC` | `real` |  |  |
-
-Accepted words: `GaussPoints`, `Nodes`, `Yes`, `YesSameAsEndA`.
+[BeamProp3 — fields and example](reference/cards/properties.md#beamprop3)
 
 ### BeamPropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` | 0 |  |
-| 3 | `sectionIntegration` | `text` |  |  |
-
-Sections `behaviorLines`, one after the other, each opened by its key word:
-
-- `TwoNodeElems` (twoEndElements): fields `behavior2` (text), `integration2` (text).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `Constant`, `Element`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`, `TwoNodeElems`.
+[BeamPropNonlinear — fields and example](reference/cards/elements.md#beampropnonlinear)
 
 ### BeamShapeProp
 
-Forms: `oneDimension`, `twoDimensions`, `threeDimensions`, `fiveDimensions`, `sixDimensions`, `tenDimensions`, `fourDimensions`.
+[BeamShapeProp — fields and example](reference/cards/properties.md#beamshapeprop)
 
 #### BeamShapeProp: oneDimension
 
-Form `oneDimension`, when `kind` is `Rod`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `sectionGroup` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `dimension1` | `real` |  |  |
-| 6 | `nonStructMass` | `real` | 0.0 |  |
-
-Repeated group `stations`, after the fixed fields: `stressOutput` (text), `stationRatio` (real), `stationDimension1` (real), `stationNonStructMass` (real).
+[oneDimension form](reference/cards/properties.md#beamshapeprop-onedimension)
 
 #### BeamShapeProp: twoDimensions
 
-Form `twoDimensions`, when `kind` is `Tube`, `Tube2`, `Bar`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `sectionGroup` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `dimension1` | `real` |  |  |
-| 6 | `dimension2` | `real` |  |  |
-| 7 | `nonStructMass` | `real` | 0.0 |  |
-
-Repeated group `stations`, after the fixed fields: `stressOutput` (text), `stationRatio` (real), `stationDimension1` (real), `stationDimension2` (real), `stationNonStructMass` (real).
+[twoDimensions form](reference/cards/properties.md#beamshapeprop-twodimensions)
 
 #### BeamShapeProp: threeDimensions
 
-Form `threeDimensions`, when `kind` is `Hexagon`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `sectionGroup` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `dimension1` | `real` |  |  |
-| 6 | `dimension2` | `real` |  |  |
-| 7 | `dimension3` | `real` |  |  |
-| 8 | `nonStructMass` | `real` | 0.0 |  |
-
-Repeated group `stations`, after the fixed fields: `stressOutput` (text), `stationRatio` (real), `stationDimension1` (real), `stationDimension2` (real), `stationDimension3` (real), `stationNonStructMass` (real).
+[threeDimensions form](reference/cards/properties.md#beamshapeprop-threedimensions)
 
 #### BeamShapeProp: fiveDimensions
 
-Form `fiveDimensions`, when `kind` is `Hat1`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `sectionGroup` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `dimension1` | `real` |  |  |
-| 6 | `dimension2` | `real` |  |  |
-| 7 | `dimension3` | `real` |  |  |
-| 8 | `dimension4` | `real` |  |  |
-| 9 | `dimension5` | `real` |  |  |
-| 10 | `nonStructMass` | `real` | 0.0 |  |
-
-Repeated group `stations`, after the fixed fields: `stressOutput` (text), `stationRatio` (real), `stationDimension1` (real), `stationDimension2` (real), `stationDimension3` (real), `stationDimension4` (real), `stationDimension5` (real), `stationNonStructMass` (real).
+[fiveDimensions form](reference/cards/properties.md#beamshapeprop-fivedimensions)
 
 #### BeamShapeProp: sixDimensions
 
-Form `sixDimensions`, when `kind` is `ISection`, `Box1`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `sectionGroup` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `dimension1` | `real` |  |  |
-| 6 | `dimension2` | `real` |  |  |
-| 7 | `dimension3` | `real` |  |  |
-| 8 | `dimension4` | `real` |  |  |
-| 9 | `dimension5` | `real` |  |  |
-| 10 | `dimension6` | `real` |  |  |
-| 11 | `nonStructMass` | `real` | 0.0 |  |
-
-Repeated group `stations`, after the fixed fields: `stressOutput` (text), `stationRatio` (real), `stationDimension1` (real), `stationDimension2` (real), `stationDimension3` (real), `stationDimension4` (real), `stationDimension5` (real), `stationDimension6` (real), `stationNonStructMass` (real).
+[sixDimensions form](reference/cards/properties.md#beamshapeprop-sixdimensions)
 
 #### BeamShapeProp: tenDimensions
 
-Form `tenDimensions`, when `kind` is `DoubleBoxSection`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `sectionGroup` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `dimension1` | `real` |  |  |
-| 6 | `dimension2` | `real` |  |  |
-| 7 | `dimension3` | `real` |  |  |
-| 8 | `dimension4` | `real` |  |  |
-| 9 | `dimension5` | `real` |  |  |
-| 10 | `dimension6` | `real` |  |  |
-| 11 | `dimension7` | `real` |  |  |
-| 12 | `dimension8` | `real` |  |  |
-| 13 | `dimension9` | `real` |  |  |
-| 14 | `dimension10` | `real` |  |  |
-| 15 | `nonStructMass` | `real` | 0.0 |  |
-
-Repeated group `stations`, after the fixed fields: `stressOutput` (text), `stationRatio` (real), `stationDimension1` (real), `stationDimension2` (real), `stationDimension3` (real), `stationDimension4` (real), `stationDimension5` (real), `stationDimension6` (real), `stationDimension7` (real), `stationDimension8` (real), `stationDimension9` (real), `stationDimension10` (real), `stationNonStructMass` (real).
+[tenDimensions form](reference/cards/properties.md#beamshapeprop-tendimensions)
 
 #### BeamShapeProp: fourDimensions
 
-Form `fourDimensions`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `sectionGroup` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `dimension1` | `real` |  |  |
-| 6 | `dimension2` | `real` |  |  |
-| 7 | `dimension3` | `real` |  |  |
-| 8 | `dimension4` | `real` |  |  |
-| 9 | `nonStructMass` | `real` | 0.0 |  |
-
-Repeated group `stations`, after the fixed fields: `stressOutput` (text), `stationRatio` (real), `stationDimension1` (real), `stationDimension2` (real), `stationDimension3` (real), `stationDimension4` (real), `stationNonStructMass` (real).
-
-Accepted words: `Bar`, `Box`, `Box1`, `Channel`, `Channel1`, `Channel2`, `Cross`, `DoubleBoxSection`, `HSection`, `Hat`, `Hat1`, `Hexagon`, `ISection`, `ISection1`, `LSection`, `No`, `Rod`, `StandardSectionLibrary`, `TSection`, `TSection1`, `TSection2`, `Tube`, `Tube2`, `Yes`, `ZSection`.
-
-Designable field descriptors: dimension(1), dimension(2), ... and nonStructMass, each with an optional station (EndA), (EndB) or (i).
+[fourDimensions form](reference/cards/properties.md#beamshapeprop-fourdimensions)
 
 ### BeltProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `loadingTableId` | `integer` |  |  |
-| 3 | `unloadingTableId` | `integer` |  |  |
-| 4 | `density` | `real` |  |  |
-| 5 | `damping1` | `real` | 0.1 |  |
-| 6 | `damping2` | `real` | 0.1 |  |
-| 7 | `slackTableId` | `integer` | 0 |  |
-| 8 | `prestrainTableId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[BeltProp — fields and example](reference/cards/explicit.md#beltprop)
 
 ### BoltConnection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `controlNode` | `integer` |  |  |
-
-Sections `lists`, one after the other, each opened by its key word:
-
-- `Top` (top): then the number of `topNodes` and their fields `topNode` (integer).
-- `Bottom` (bottom): then the number of `bottomNodes` and their fields `bottomNode` (integer).
-
-Accepted words: `Bottom`, `Top`.
+[BoltConnection — fields and example](reference/cards/nonlinear_contact.md#boltconnection)
 
 ### BoltPretension
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `controlNode` | `integer` |  |  |
-| 3 | `form` | `integer` | 0 |  |
-| 4 | `directionX` | `real` | 0.0 |  |
-| 5 | `directionY` | `real` | 0.0 |  |
-| 6 | `directionZ` | `real` | 0.0 |  |
-| 7 | `offset` | `real` | 0.0 |  |
-| 8 | `idType` | `text` | List |  |
-
-Sections `lists`, one after the other, each opened by its key word:
-
-- `Elems` (elementList): then the number of `elements` and their fields `element` (integer).
-- `Nodes` (nodeList): then the number of `nodes` and their fields `node` (integer).
-
-Accepted words: `Elems`, `List`, `Nodes`, `Set`, `TypedListSet3`.
+[BoltPretension — fields and example](reference/cards/nonlinear_contact.md#boltpretension)
 
 ### BrakeMotion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `velocity` | `real` | 0.0 |  |
-| 3 | `form` | `text` |  |  |
-| 4 | `cosineX` | `real` | 0.0 |  |
-| 5 | `cosineY` | `real` | 0.0 |  |
-| 6 | `cosineZ` | `real` | 0.0 |  |
-| 7 | `xCoord` | `real` | 0.0 |  |
-| 8 | `yCoord` | `real` | 0.0 |  |
-| 9 | `zCoord` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `RotationMotion`, `Table`, `TranslationMotion`.
+[BrakeMotion — fields and example](reference/cards/nonlinear_contact.md#brakemotion)
 
 ### BrakeProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (number).
-
-Accepted words: `AverageStiffnessMethod`, `Constant`, `Element`, `Friction`, `Table`, `TemperatureAverageStiffness`.
+[BrakeProp — fields and example](reference/cards/nonlinear_contact.md#brakeprop)
 
 ### BrakeSqueal
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `loadFactor` | `real` | 0.0 |  |
-| 3 | `areaStiffness` | `real` |  |  |
-| 4 | `squealOnly` | `text` |  |  |
-| 5 | `axisX` | `real` |  |  |
-| 6 | `axisY` | `real` |  |  |
-| 7 | `axisZ` | `real` |  |  |
-| 8 | `xCoord` | `real` |  |  |
-| 9 | `yCoord` | `real` |  |  |
-| 10 | `zCoord` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `No`, `Table`, `Yes`.
+[BrakeSqueal — fields and example](reference/cards/nonlinear_contact.md#brakesqueal)
 
 ### BrakeSystem
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `loadFactor` | `real` | 0.0 |  |
-| 3 | `frictionVectorMode` | `integer` | 0 |  |
-| 4 | `squealOnly` | `text` | Yes |  |
-| 5 | `slidingContactOption` | `integer` | 0 |  |
-
-Repeated group `disks`, after the fixed fields: `diskName` (text), `firstBodyId` (integer), `secondBodyId` (integer), `firstMotionId` (integer), `secondMotionId` (integer), `brakePropId` (integer).
-
-Accepted words: `Constant`, `Element`, `No`, `Table`, `Yes`.
+[BrakeSystem — fields and example](reference/cards/nonlinear_contact.md#brakesystem)
 
 ### BucklingEigenMethod
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `method` | `text` |  |  |
-| 3 | `lowerEigenvalue` | `real` |  |  |
-| 4 | `upperEigenvalue` | `real` |  |  |
-| 5 | `estimatedModeCount` | `integer` | 0 |  |
-| 6 | `desiredPositiveModeCount` | `integer` |  |  |
-| 7 | `desiredNegativeModeCount` | `integer` |  |  |
-| 8 | `norm` | `text` |  |  |
-| 9 | `normNode` | `integer` | 0 |  |
-| 10 | `normComponent` | `integer` | 0 |  |
-
-Accepted words: `InverseIteration`, `Maximum`, `Point`, `SturmInverse`.
+[BucklingEigenMethod — fields and example](reference/cards/dynamics.md#bucklingeigenmethod)
 
 ### BulkViscosityMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bulkViscosityKind` | `text` |  |  |
-| 3 | `quadraticBulkViscosity` | `real` | 0.0 |  |
-| 4 | `linearBulkViscosity` | `real` | 1.0 |  |
-| 5 | `compressionScale` | `real` | 1.0 |  |
-| 6 | `membraneDamping` | `real` | 0.0 |  |
-| 7 | `initialMetricRelaxation` | `real` |  |  |
-
-Accepted words: `ExternalExplicitProgram`, `ExternalExplicitSolver`.
+[BulkViscosityMat — fields and example](reference/cards/materials.md#bulkviscositymat)
 
 ### BushProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Stiffness` (stiffnessLine): fields `stiffness1` (real), `stiffness2` (real), `stiffness3` (real), `stiffness4` (real), `stiffness5` (real), `stiffness6` (real).
-- `Damping` (dampingLine): fields `damping1` (real), `damping2` (real), `damping3` (real), `damping4` (real), `damping5` (real), `damping6` (real).
-- `StructuralDamping` (structuralDampingLine): fields `structuralDamping1` (real), `structuralDamping2` (real), `structuralDamping3` (real), `structuralDamping4` (real), `structuralDamping5` (real), `structuralDamping6` (real).
-- `Recovery` (recoveryLine): fields `stressFactorTranslational` (real), `stressFactorRotational` (real), `strainFactorTranslational` (real), `strainFactorRotational` (real).
-- `Mass` (massLine): fields `mass` (real).
-- `Thermal` (thermalLine): fields `alphaCoefficient` (real), `referenceTemperature` (real), `coincidentLength` (real).
-
-Accepted words: `Damping`, `Mass`, `Recovery`, `Stiffness`, `StructuralDamping`, `Thermal`.
+[BushProp — fields and example](reference/cards/properties.md#bushprop)
 
 ### BushProp1D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness` | `real` | 0.0 |  |
-| 3 | `damping` | `real` | 0.0 |  |
-| 4 | `mass` | `real` | 0.0 |  |
-| 5 | `stressFactor` | `real` | 0.0 |  |
-| 6 | `strainFactor` | `real` | 0.0 |  |
-
-Sections `behaviors`, one after the other, each opened by its key word:
-
-- `ShockAbsorber` (shockAbsorber): fields `kind` (text), `dampingTension` (real), `dampingCompression` (real), `velocityExponentTension` (real), `velocityExponentCompression` (real), `scaleTableId` (integer), `scaleTensionEquationId` (integer), `scaleCompressionEquationId` (integer), `scaleTensionDerivativeEquationId` (integer), `scaleCompressionDerivativeEquationId` (integer).
-- `Spring` (spring): fields `kind` (text), `tensionCurveId` (integer), `compressionCurveId` (integer), `tensionDisplacementDerivativeId` (integer), `compressionDisplacementDerivativeId` (integer).
-- `Damper` (damper): fields `kind` (text), `tensionCurveId` (integer), `compressionCurveId` (integer), `tensionVelocityDerivativeId` (integer), `compressionVelocityDerivativeId` (integer).
-- `General` (general): fields `kind` (text), `tensionCurveId` (integer), `compressionCurveId` (integer), `tensionDisplacementDerivativeId` (integer), `compressionDisplacementDerivativeId` (integer), `tensionVelocityDerivativeId` (integer), `compressionVelocityDerivativeId` (integer).
-
-Accepted words: `Damper`, `Equation`, `General`, `ShockAbsorber`, `Spring`, `Table`.
+[BushProp1D — fields and example](reference/cards/properties.md#bushprop1d)
 
 ### BushProp2D
 
-Forms: `squeezeFilm`, `crossTerms`, `plain`.
+[BushProp2D — fields and example](reference/cards/properties.md#bushprop2d)
 
 #### BushProp2D: squeezeFilm
 
-Form `squeezeFilm`, when `secondLineOption` is `SqueezeFilm`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11` | `real` |  |  |
-| 3 | `stiffness22` | `real` |  |  |
-| 4 | `damping11` | `real` | 0.0 |  |
-| 5 | `damping22` | `real` | 0.0 |  |
-| 6 | `mass11` | `real` | 0.0 |  |
-| 7 | `mass22` | `real` | 0.0 |  |
-| 8 | `secondLineOption` | `text` |  |  |
-| 9 | `bearingDiameter` | `real` |  |  |
-| 10 | `bearingLength` | `real` |  |  |
-| 11 | `bearingClearance` | `real` |  |  |
-| 12 | `bearingModel` | `text` | Long |  |
-| 13 | `viscosity` | `real` |  |  |
-| 14 | `vaporPressure` | `real` |  |  |
-| 15 | `portCount` | `integer` |  |  |
-| 16 | `pressure1` | `real` |  |  |
-| 17 | `portAngle1` | `real` |  |  |
-| 18 | `pressure2` | `real` |  |  |
-| 19 | `portAngle2` | `real` |  |  |
-| 20 | `offset1` | `real` | 0.0 |  |
-| 21 | `offset2` | `real` | 0.0 |  |
+[squeezeFilm form](reference/cards/properties.md#bushprop2d-squeezefilm)
 
 #### BushProp2D: crossTerms
 
-Form `crossTerms`, when `secondLineOption` is `Cross`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11` | `real` |  |  |
-| 3 | `stiffness22` | `real` |  |  |
-| 4 | `damping11` | `real` | 0.0 |  |
-| 5 | `damping22` | `real` | 0.0 |  |
-| 6 | `mass11` | `real` | 0.0 |  |
-| 7 | `mass22` | `real` | 0.0 |  |
-| 8 | `secondLineOption` | `text` |  |  |
-| 9 | `stiffness12` | `real` | 0.0 |  |
-| 10 | `stiffness21` | `real` | 0.0 |  |
-| 11 | `damping12` | `real` | 0.0 |  |
-| 12 | `damping21` | `real` | 0.0 |  |
-| 13 | `mass12` | `real` | 0.0 |  |
-| 14 | `mass21` | `real` | 0.0 |  |
+[crossTerms form](reference/cards/properties.md#bushprop2d-crossterms)
 
 #### BushProp2D: plain
 
-Form `plain`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness11` | `real` |  |  |
-| 3 | `stiffness22` | `real` |  |  |
-| 4 | `damping11` | `real` | 0.0 |  |
-| 5 | `damping22` | `real` | 0.0 |  |
-| 6 | `mass11` | `real` | 0.0 |  |
-| 7 | `mass22` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Cross`, `Element`, `Long`, `Short`, `SqueezeFilm`, `Table`.
+[plain form](reference/cards/properties.md#bushprop2d-plain)
 
 ### BushProp2DFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Stiffness` (stiffnessLine): fields `stiffnessTableId11` (integer), `stiffnessTableId22` (integer), `stiffnessTableId12` (integer), `stiffnessTableId21` (integer).
-- `Damping` (dampingLine): fields `dampingTableId11` (integer), `dampingTableId22` (integer), `dampingTableId12` (integer), `dampingTableId21` (integer).
-- `Mass` (massLine): fields `massTableId11` (integer), `massTableId22` (integer), `massTableId12` (integer), `massTableId21` (integer).
-
-Accepted words: `Damping`, `Mass`, `Stiffness`.
+[BushProp2DFreq — fields and example](reference/cards/properties.md#bushprop2dfreq)
 
 ### BushPropFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Stiffness` (stiffnessLine): fields `stiffnessTableId1` (integer), `stiffnessTableId2` (integer), `stiffnessTableId3` (integer), `stiffnessTableId4` (integer), `stiffnessTableId5` (integer), `stiffnessTableId6` (integer).
-- `Damping` (dampingLine): fields `dampingTableId1` (integer), `dampingTableId2` (integer), `dampingTableId3` (integer), `dampingTableId4` (integer), `dampingTableId5` (integer), `dampingTableId6` (integer).
-- `StructuralDamping` (structuralDampingLine): fields `structuralDampingTableId1` (integer), `structuralDampingTableId2` (integer), `structuralDampingTableId3` (integer), `structuralDampingTableId4` (integer), `structuralDampingTableId5` (integer), `structuralDampingTableId6` (integer).
-- `NonlinearForce` (nonlinearForceLine): fields `nonlinearForceTableId1` (integer), `nonlinearForceTableId2` (integer), `nonlinearForceTableId3` (integer), `nonlinearForceTableId4` (integer), `nonlinearForceTableId5` (integer), `nonlinearForceTableId6` (integer).
-- `""` (fuse): fields `forceDeflectionRule` (text), `fuseMode` (integer), `direction` (integer), `fuseOption` (text), `lowerBound` (real), `upperBound` (real), `fuseStiffnessRetention` (real), `largeRotationEndA` (integer).
-
-Accepted words: `ActualUltimateLoad`, `Damping`, `NonlinearForce`, `NonlinearResponse`, `RelativeDisplacement`, `Stiffness`, `StructuralDamping`, `TransverseShear`, `TransverseXy`, `TransverseXz`, `TransverseYz`, `UltimateLoad`.
+[BushPropFreq — fields and example](reference/cards/properties.md#bushpropfreq)
 
 ### Bushing
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` | 0 |  |
-| 5 | `orientationNode` | `integer` |  | alternative of `orientation1` |
-| 6 | `orientation1` | `real` |  | alternative of `orientationNode` |
-| 7 | `orientation2` | `real` | 0.0 |  |
-| 8 | `orientation3` | `real` | 0.0 |  |
-| 9 | `frameId` | `integer` |  |  |
-| 10 | `offsetFraction` | `real` |  |  |
-| 11 | `offsetFrameId` | `integer` |  |  |
-| 12 | `offset1` | `real` |  |  |
-| 13 | `offset2` | `real` |  |  |
-| 14 | `offset3` | `real` |  |  |
+[Bushing — fields and example](reference/cards/elements.md#bushing)
 
 ### Bushing1D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` | 0 |  |
-| 5 | `frameId` | `integer` |  |  |
+[Bushing1D — fields and example](reference/cards/elements.md#bushing1d)
 
 ### Bushing2D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` |  |  |
-| 5 | `frameId` | `integer` | 0 |  |
-| 6 | `plane` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `PlaneXy`, `PlaneYz`, `PlaneZx`, `Table`.
+[Bushing2D — fields and example](reference/cards/elements.md#bushing2d)
 
 ### CampbellDiagram
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `varyingParameter` | `text` |  |  |
-| 3 | `discreteValuesId` | `integer` |  |  |
-| 4 | `speedUnit` | `text` |  |  |
-| 5 | `modeTrackingMethod` | `integer` | 0 |  |
-| 6 | `correlationThreshold` | `real` | 0.7 |  |
-| 7 | `trackingSwitch` | `integer` | 0 |  |
-| 8 | `trackedModeCount` | `integer` |  |  |
-| 9 | `printCorrelation` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Frequency`, `RevolutionsPerMinute`, `Speed`, `Table`.
+[CampbellDiagram — fields and example](reference/cards/solution_control.md#campbelldiagram)
 
 ### CohesiveAxisymQuad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CohesiveAxisymQuad — fields and example](reference/cards/elements.md#cohesiveaxisymquad)
 
 ### CohesiveFriction
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `maxStress` | `real` | 0.0 |  |
-| 3 | `friction` | `real` | 0.0 |  |
-| 4 | `referenceVelocity` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CohesiveFriction — fields and example](reference/cards/explicit.md#cohesivefriction)
 
 ### CohesiveHexa
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node13` | `integer` |  |  |
-| 16 | `node14` | `integer` |  |  |
-| 17 | `node15` | `integer` |  |  |
-| 18 | `node16` | `integer` |  |  |
-| 19 | `node17` | `integer` |  |  |
-| 20 | `node18` | `integer` |  |  |
-| 21 | `node19` | `integer` |  |  |
-| 22 | `node20` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CohesiveHexa — fields and example](reference/cards/elements.md#cohesivehexa)
 
 ### CohesiveMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `cohesiveModel` | `integer` |  |  |
-| 3 | `tableId` | `integer` | 0 |  |
-| 4 | `cohesiveEnergy` | `real` |  |  |
-| 5 | `criticalOpening` | `real` |  |  |
-| 6 | `maxOpening` | `real` |  |  |
-| 7 | `shearNormalStressRatio` | `real` | 1.0 |  |
-| 8 | `exponent` | `real` | 1.0 |  |
-| 9 | `viscousDissipation` | `real` | 0.0 |  |
-| 10 | `referenceDisplacementRate` | `real` | 0.0 |  |
-| 11 | `compressionStiffening` | `real` | 1.0 |  |
-| 12 | `shearNormalEnergyRatio` | `real` | 1.0 |  |
-| 13 | `inPlaneStiffness` | `real` | 0.0 |  |
-| 14 | `normalStiffness` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CohesiveMat — fields and example](reference/cards/elements.md#cohesivemat)
 
 ### CohesivePenta
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node13` | `integer` |  |  |
-| 16 | `node14` | `integer` |  |  |
-| 17 | `node15` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CohesivePenta — fields and example](reference/cards/elements.md#cohesivepenta)
 
 ### CohesiveProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `integration` | `integer` |  |  |
-| 4 | `thickness` | `real` | 1.0 |  |
-| 5 | `output` | `text` |  |  |
-| 6 | `tangentStiffness` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `GaussPoints`, `Nodes`, `Table`.
+[CohesiveProp — fields and example](reference/cards/elements.md#cohesiveprop)
 
 ### CohesiveQuad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CohesiveQuad — fields and example](reference/cards/elements.md#cohesivequad)
 
 ### ColdGasInflator
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `tankVolume` | `real` |  |  |
-| 3 | `initialPressure` | `real` |  |  |
-| 4 | `initialTemperature` | `real` |  |  |
-| 5 | `initialMass` | `real` |  |  |
-| 6 | `gasName` | `integer` |  | alternative of `specificHeatRatio` |
-| 7 | `specificHeatRatio` | `real` |  | alternative of `gasName` |
-| 8 | `specificHeatVolume` | `real` |  |  |
-| 9 | `gasConstant` | `real` |  |  |
-| 10 | `specificHeatPressure` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `InflatorGas`, `Table`.
+[ColdGasInflator — fields and example](reference/cards/explicit.md#coldgasinflator)
 
 ### CompProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bottomOffset` | `real` |  |  |
-| 3 | `nonStructMass` | `real` | 0.0 |  |
-| 4 | `bondAllowable` | `real` | 0.0 |  |
-| 5 | `failureTheory` | `text` |  |  |
-| 6 | `referenceTemperature` | `real` | 0.0 |  |
-| 7 | `structuralDamping` | `real` | 0.0 |  |
-| 8 | `laminateOption` | `text` |  |  |
-
-Repeated group `plies`, after the fixed fields: `plyMatId` (integer), `plyThickness` (real), `plyAngle` (real), `plyStressOutput` (text).
-
-Accepted words: `BendingOnly`, `HashinCriterion`, `HashinFabricFailure`, `HashinTape`, `Hill`, `Hoffman`, `MembraneOnly`, `No`, `SandwichCore`, `SmearedLaminate`, `StrainTheory`, `Symmetry`, `TsaiWu`, `Yes`.
-
-Designable field descriptors: bottomOffset, nonStructMass, bondAllowable, referenceTemperature, structuralDamping, plyThickness(1), plyThickness(2), ..., plyAngle(1), plyAngle(2), ....
+[CompProp — fields and example](reference/cards/properties.md#compprop)
 
 ### CompPropExplicit
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `formulation` | `text` |  |  |
-| 3 | `shearFactor` | `real` |  |  |
-| 4 | `referenceSurface` | `text` |  |  |
-| 5 | `stressDefinition` | `text` |  |  |
-| 6 | `skipFiberTimeStep` | `text` |  |  |
-| 7 | `strainOutput` | `text` |  |  |
-| 8 | `laminationTheory` | `integer` | 0 |  |
-| 9 | `spinCorrection` | `text` |  |  |
-
-Accepted words: `BelytschkoLinTsay`, `BelytschkoWongChiang`, `Bottom`, `Constant`, `Element`, `Elements`, `Fiber`, `KeyHoff`, `MidSurface`, `No`, `Table`, `Top`, `Yes`.
+[CompPropExplicit — fields and example](reference/cards/properties.md#comppropexplicit)
 
 ### CompPropFreqDamping
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `structuralDamping` | `integer` | 0 |  |
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `Constant`, `Element`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`.
+[CompPropFreqDamping — fields and example](reference/cards/properties.md#comppropfreqdamping)
 
 ### CompPropGlobal
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bottomOffset` | `real` |  |  |
-| 3 | `nonStructMass` | `real` | 0.0 |  |
-| 4 | `bondAllowable` | `real` | 0.0 |  |
-| 5 | `failureTheory` | `text` |  |  |
-| 6 | `referenceTemperature` | `real` | 0.0 |  |
-| 7 | `structuralDamping` | `real` | 0.0 |  |
-| 8 | `laminateOption` | `text` |  |  |
-
-Repeated group `plies`, after the fixed fields: `globalPlyId` (integer), `plyMatId` (integer), `plyThickness` (real), `plyAngle` (real), `plyStressOutput` (text), `structuralDampingFlag` (integer).
-
-Accepted words: `BendingOnly`, `HashinCriterion`, `HashinFabricFailure`, `HashinTape`, `Hill`, `Hoffman`, `MembraneOnly`, `No`, `SandwichCore`, `SmearedLaminate`, `StrainTheory`, `Symmetry`, `TsaiWu`, `Yes`.
-
-Designable field descriptors: bottomOffset, nonStructMass, bondAllowable, referenceTemperature, structuralDamping, plyThickness(1), plyThickness(2), ..., plyAngle(1), plyAngle(2), ....
+[CompPropGlobal — fields and example](reference/cards/properties.md#comppropglobal)
 
 ### CompPropIntegration
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `integration` | `integer` | 1 |  |
-
-Repeated group `propIds`, after the fixed fields: `propId` (any).
-
-Accepted words: `All`, `By`, `Constant`, `Element`, `Table`, `Through`, `ToKeyword`.
+[CompPropIntegration — fields and example](reference/cards/properties.md#comppropintegration)
 
 ### CompSolidProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matFrameId` | `integer` | 0 |  |
-| 3 | `stackingDirection` | `integer` | 13 |  |
-| 4 | `bondAllowable` | `real` |  |  |
-| 5 | `normalBondAllowable` | `real` |  |  |
-| 6 | `referenceTemperature` | `real` | 0.0 |  |
-| 7 | `structuralDamping` | `real` | 0.0 |  |
-
-Repeated group `plies`, after the fixed fields: `globalPlyId` (integer), `matId` (integer), `thickness` (real), `materialAngle` (real), `failureTheory` (text), `interlaminarTheory` (text), `plyStressOutput` (text), `plyTail` (text).
-
-Accepted words: `Absolute`, `Constant`, `Element`, `Hill`, `Hoffman`, `MaximumShearStress`, `No`, `ProgressiveFailure`, `StrainTheory`, `Table`, `TsaiWu`, `Yes`.
+[CompSolidProp — fields and example](reference/cards/properties.md#compsolidprop)
 
 ### CompSolidPropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `direction` | `integer` | 1 |  |
-| 3 | `matFrameId` | `integer` | 0 |  |
-| 4 | `bondAllowable` | `real` |  |  |
-| 5 | `analysisType` | `text` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `EightNodeElems` (behaviorLineC8): fields `behavior8` (text), `integration8` (text), `heatBehavior8` (text), `heatIntegration8` (text).
-- `TwentyNodeElems` (behaviorLineC20): fields `behavior20` (text), `integration20` (text), `heatBehavior20` (text), `heatIntegration20` (text).
-- `""` (ply): fields `globalPlyId` (integer), `plyMatId` (integer), `thickness` (real), `materialAngle` (real).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `Constant`, `EightNodeElems`, `Element`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`, `TwentyNodeElems`.
+[CompSolidPropNonlinear — fields and example](reference/cards/properties.md#compsolidpropnonlinear)
 
 ### ComplexEigenMethod
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `methodName` | `text` |  |  |
-| 3 | `norm` | `text` | Maximum |  |
-| 4 | `normNode` | `integer` | 0 |  |
-| 5 | `normComponent` | `integer` | 0 |  |
-| 6 | `convergenceTolerance` | `real` |  |  |
-| 7 | `desiredModeCount0` | `integer` | 0 |  |
-
-Repeated group `regions`, after the fixed fields: `alphaA` (real), `omegaA` (real), `alphaB` (real), `omegaB` (real), `regionWidth` (real), `estimatedModeCount` (integer), `desiredModeCount` (integer).
-
-Accepted words: `ComplexLanczos`, `DeterminantMethod`, `HessenbergMethod`, `ImplicitRestartedArnoldi`, `InverseIteration`, `Maximum`, `Point`.
+[ComplexEigenMethod — fields and example](reference/cards/dynamics.md#complexeigenmethod)
 
 ### ComplexEigenPoles
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `realPart1` | `real` |  |  |
-| 3 | `imaginaryPart1` | `real` |  |  |
-| 4 | `multiplicity1` | `integer` |  |  |
-| 5 | `realPart2` | `real` |  |  |
-| 6 | `imaginaryPart2` | `real` |  |  |
-| 7 | `multiplicity2` | `integer` |  |  |
+[ComplexEigenPoles — fields and example](reference/cards/dynamics.md#complexeigenpoles)
 
 ### ConicalShellProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId1` | `integer` | 0 |  |
-| 3 | `thickness1` | `real` | 0.0 |  |
-| 4 | `matId2` | `integer` | 0 |  |
-| 5 | `inertia` | `real` | 0.0 |  |
-| 6 | `matId3` | `integer` | 0 |  |
-| 7 | `thickness2` | `real` | 0.0 |  |
-| 8 | `nonStructMass` | `real` | 0.0 |  |
-| 9 | `fiberDistance1` | `real` |  |  |
-| 10 | `fiberDistance2` | `real` |  |  |
-
-Repeated group `phiAngles`, after the fixed fields: `phiAngle` (real).
+[ConicalShellProp — fields and example](reference/cards/elements.md#conicalshellprop)
 
 ### ConnectorSearchControl
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `elementSetId` | `integer` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (number).
-
-Accepted words: `ConnectorSearchParams`, `Constant`, `Element`, `Table`.
+[ConnectorSearchControl — fields and example](reference/cards/elements.md#connectorsearchcontrol)
 
 ### ConnectorSearchParams
 
-No fixed field.
-
-The number of repetitions of `globalParameters` (integer, blank for none).
-
-Repeated group `globalParameters`, after the fixed fields: `parameterName` (text), `parameterValue` (number).
-
-Sections `connectorSections`, one after the other, each opened by its key word:
-
-- `Fastener` (fastenerParameters): then the number of `parameters` and their fields `sectionParameterName` (text), `sectionParameterValue` (number).
-- `Weld` (weldParameters): then the number of `parameters` and their fields `sectionParameterName` (text), `sectionParameterValue` (number).
-- `Seam` (seamParameters): then the number of `parameters` and their fields `sectionParameterName` (text), `sectionParameterValue` (number).
-
-Accepted words: `Constant`, `Element`, `Fastener`, `Seam`, `Table`, `Weld`.
-
-Accepted parameter names: `DiagnosticTableUnit`, `GeneratedDataPrint`, `GeometryCheckLevel`, `MaxDiameterHalvings`, `MaxEndPointMoves`, `MaxProjectionDistance`, `MaxShellNormalAngle`, `MoveEndPointsToProjection`, `PatchDiameterFactor`, `PatchStiffnessFactor`, `ProjectionTolerance`, `ProjectionToleranceSwitches`, `SeamEndMaxNormalAngle`, `SeamEndMinEdgeAngle`, `StopAfterConnectivityCheck`, `WeldMass`.
+[ConnectorSearchParams — fields and example](reference/cards/elements.md#connectorsearchparams)
 
 ### ConstantSpallation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `minPressure` | `real` | 0.0 |  |
-| 3 | `volumeCutoffTolerance` | `real` | 1.0E-4 |  |
-| 4 | `maxVoidFraction` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ConstantSpallation — fields and example](reference/cards/explicit.md#constantspallation)
 
 ### ContactAutoParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` | 0 |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `BilinearCoulomb`, `Both`, `Full`, `GeneralGlue`, `No`, `NodeToSurface`, `Off`, `On`, `PermanentGlue`, `SegmentToSegment`, `StandardGlue`, `TouchOnly`, `Yes`.
-
-Accepted parameter names: `BeamCapping`, `BeamContact`, `ContactKind`, `DetectionDistance`, `EdgeContact`, `ElemSet`, `FrictionCoefficient`, `FrictionKind`, `IgnoreThickness`, `InitialStressFree`, `ModelDimension`, `PropertySet`, `RigidBodySet`, `SeedElemSet`, `SeedNodeSet`, `SelfContact`.
+[ContactAutoParams — fields and example](reference/cards/nonlinear_contact.md#contactautoparams)
 
 ### ContactBeamCap
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `capKind` | `integer` | 0 |  |
-| 3 | `segmentCount` | `integer` | 32 |  |
+[ContactBeamCap — fields and example](reference/cards/nonlinear_contact.md#contactbeamcap)
 
 ### ContactBeamRadius
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `radius` | `real` |  |  |
-| 2 | `idKind` | `text` | ElemId |  |
-
-Repeated group `ids`, after the fixed fields: `entityId` (any).
-
-Accepted words: `All`, `Body`, `By`, `ElemId`, `Through`.
+[ContactBeamRadius — fields and example](reference/cards/nonlinear_contact.md#contactbeamradius)
 
 ### ContactBeamSectionFlags
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `branch1` | `integer` | 0 |  |
-| 3 | `segmentFlag1` | `integer` | 0 |  |
-| 4 | `branch2` | `integer` | 0 |  |
-| 5 | `segmentFlag2` | `integer` | 0 |  |
-| 6 | `branch3` | `integer` | 0 |  |
-| 7 | `segmentFlag3` | `integer` | 0 |  |
-
-Repeated group `segments`, after the fixed fields: `branch` (integer), `segmentFlag` (integer).
+[ContactBeamSectionFlags — fields and example](reference/cards/nonlinear_contact.md#contactbeamsectionflags)
 
 ### ContactBezierSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pointCount1` | `integer` |  |  |
-| 3 | `pointCount2` | `integer` |  |  |
-| 4 | `subdivisions1` | `integer` |  |  |
-| 5 | `subdivisions2` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (integer).
+[ContactBezierSurface — fields and example](reference/cards/nonlinear_contact.md#contactbeziersurface)
 
 ### ContactBody
 
-Forms: `noMotionLine`, `motionLine`.
+[ContactBody — fields and example](reference/cards/nonlinear_contact.md#contactbody)
 
 #### ContactBody: noMotionLine
 
-Form `noMotionLine`, when `lines` is a word.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dimension` | `text` | ThreeDimensional |  |
-| 3 | `behavior` | `text` | Deformable |  |
-| 4 | `surfaceId` | `integer` | 0 |  |
-| 5 | `contactKind` | `integer` | 0 |  |
-| 6 | `friction` | `number` | 0.0 |  |
-| 7 | `splineSegmentsId` | `integer` | 0 |  |
-| 8 | `control` | `integer` | 0 |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Advance` (advance): fields `smoothingAngle` (real), `contactOption` (integer), `midsideProjection` (integer).
-- `Rigid` (rigid): fields `referenceNode` (integer), `entityCount` (integer), `rigidBodyName` (text, one text field).
-- `ApproachVelocity` (approach): fields `approachAngularVelocity` (real), `approachAxis1` (real), `approachAxis2` (real), `approachAxis3` (real), `approachVelocity1` (real), `approachVelocity2` (real), `approachVelocity3` (real).
-- `Growth` (growth): fields `growthFactor1` (real), `growthFactor2` (real), `growthFactor3` (real), `growthTable1` (integer), `growthTable2` (integer), `growthTable3` (integer).
-- `HeatTransfer` (heat): fields `environmentFilmCoefficient` (number), `sinkTemperature` (number), `contactHeatTransferCoefficient` (number), `bodyTemperature` (number), `nearContactConvectionCoefficient` (number), `nearContactNaturalConvectionCoefficient` (number), `thermalInterfaceKind` (integer), `nearContactNaturalConvectionExponent` (number), `emissivity` (number), `distanceDependentConvectionCoefficient` (number), `nearContactNonlinearConvectionCoefficient` (number), `nearContactNonlinearConvectionExponent` (number), `environmentNonlinearConvectionCoefficient` (number), `environmentNonlinearConvectionExponent` (number), `environmentNaturalConvectionCoefficient` (number), `environmentNaturalConvectionExponent` (number), `additionalHeatCoefficient1` (real), `additionalHeatCoefficient2` (real).
-- `PatchSurface` (patchSurface): fields `patchCount` (integer); then the number of `patches` and their fields `patchId` (integer), `patchNode1` (integer), `patchNode2` (integer), `patchNode3` (integer), `patchNode4` (integer).
-- `BezierSurface` (bezierSurface): fields `pointCount1` (integer), `pointCount2` (integer), `subdivisions1` (integer), `subdivisions2` (integer); then the number of `controlPoints` and their fields `controlPoint` (integer).
-- `NurbsCurve` (nurbsCurve): then the number of `curveData` and their fields `curveDataValue` (number).
-- `NurbsSurface` (nurbsSurface): then the number of `surfaceData` and their fields `surfaceDataValue` (number).
+[noMotionLine form](reference/cards/nonlinear_contact.md#contactbody-nomotionline)
 
 #### ContactBody: motionLine
 
-Form `motionLine`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dimension` | `text` | ThreeDimensional |  |
-| 3 | `behavior` | `text` | Deformable |  |
-| 4 | `surfaceId` | `integer` | 0 |  |
-| 5 | `contactKind` | `integer` | 0 |  |
-| 6 | `friction` | `number` | 0.0 |  |
-| 7 | `splineSegmentsId` | `integer` | 0 |  |
-| 8 | `control` | `integer` | 0 |  |
-| 9 | `loadNode` | `integer` | 0 |  |
-| 10 | `angularVelocity` | `number` |  |  |
-| 11 | `axisCosine1` | `number` |  |  |
-| 12 | `axisCosine2` | `number` |  |  |
-| 13 | `axisCosine3` | `number` |  |  |
-| 14 | `rigidVelocity1` | `number` |  |  |
-| 15 | `rigidVelocity2` | `number` |  |  |
-| 16 | `rigidVelocity3` | `number` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Advance` (advance): fields `smoothingAngle` (real), `contactOption` (integer), `midsideProjection` (integer).
-- `Rigid` (rigid): fields `referenceNode` (integer), `entityCount` (integer), `rigidBodyName` (text, one text field).
-- `ApproachVelocity` (approach): fields `approachAngularVelocity` (real), `approachAxis1` (real), `approachAxis2` (real), `approachAxis3` (real), `approachVelocity1` (real), `approachVelocity2` (real), `approachVelocity3` (real).
-- `Growth` (growth): fields `growthFactor1` (real), `growthFactor2` (real), `growthFactor3` (real), `growthTable1` (integer), `growthTable2` (integer), `growthTable3` (integer).
-- `HeatTransfer` (heat): fields `environmentFilmCoefficient` (number), `sinkTemperature` (number), `contactHeatTransferCoefficient` (number), `bodyTemperature` (number), `nearContactConvectionCoefficient` (number), `nearContactNaturalConvectionCoefficient` (number), `thermalInterfaceKind` (integer), `nearContactNaturalConvectionExponent` (number), `emissivity` (number), `distanceDependentConvectionCoefficient` (number), `nearContactNonlinearConvectionCoefficient` (number), `nearContactNonlinearConvectionExponent` (number), `environmentNonlinearConvectionCoefficient` (number), `environmentNonlinearConvectionExponent` (number), `environmentNaturalConvectionCoefficient` (number), `environmentNaturalConvectionExponent` (number), `additionalHeatCoefficient1` (real), `additionalHeatCoefficient2` (real).
-- `PatchSurface` (patchSurface): fields `patchCount` (integer); then the number of `patches` and their fields `patchId` (integer), `patchNode1` (integer), `patchNode2` (integer), `patchNode3` (integer), `patchNode4` (integer).
-- `BezierSurface` (bezierSurface): fields `pointCount1` (integer), `pointCount2` (integer), `subdivisions1` (integer), `subdivisions2` (integer); then the number of `controlPoints` and their fields `controlPoint` (integer).
-- `NurbsCurve` (nurbsCurve): then the number of `curveData` and their fields `curveDataValue` (number).
-- `NurbsSurface` (nurbsSurface): then the number of `surfaceData` and their fields `surfaceDataValue` (number).
-
-Accepted words: `Advance`, `ApproachVelocity`, `BezierSurface`, `Deformable`, `Growth`, `HeatTransfer`, `NurbsCurve`, `NurbsSurface`, `PatchSurface`, `Rigid`, `Symmetric`, `ThreeDimensional`, `TwoDimensional`.
-
-Accepted parameter names: `AdditionalHeatCoefficient1`, `AdditionalHeatCoefficient2`, `BodyTemperature`, `ContactHeatTransferCoefficient`, `DistanceDependentConvectionCoefficient`, `Emissivity`, `EnvironmentFilmCoefficient`, `EnvironmentNaturalConvectionCoefficient`, `EnvironmentNaturalConvectionExponent`, `EnvironmentNonlinearConvectionCoefficient`, `EnvironmentNonlinearConvectionExponent`, `NearContactConvectionCoefficient`, `NearContactNaturalConvectionCoefficient`, `NearContactNaturalConvectionExponent`, `NearContactNonlinearConvectionCoefficient`, `NearContactNonlinearConvectionExponent`, `SinkTemperature`, `ThermalInterfaceKind`.
+[motionLine form](reference/cards/nonlinear_contact.md#contactbody-motionline)
 
 ### ContactBody1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bodyParamsId` | `integer` | 0 |  |
-| 3 | `dimension` | `text` |  |  |
-| 4 | `behavior` | `text` |  |  |
-| 5 | `surfaceId` | `integer` | 0 |  |
-| 6 | `rigidMotionId` | `integer` | 0 |  |
-| 7 | `forceReferencePoint` | `integer` | 0 |  |
-
-Accepted words: `Deformable`, `HeatTransfer`, `Rigid`, `Symmetric`, `ThreeDimensional`, `TwoDimensional`.
+[ContactBody1 — fields and example](reference/cards/nonlinear_contact.md#contactbody1)
 
 ### ContactBodyChange
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-
-Repeated group `ranges`, after the fixed fields: `bodyId` (integer), `firstNode` (integer), `lastNode` (integer), `increment` (integer).
-
-Accepted words: `Exclude`, `Node`.
+[ContactBodyChange — fields and example](reference/cards/nonlinear_contact.md#contactbodychange)
 
 ### ContactBodyMove
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `moveKind` | `text` | Approach |  |
-
-Repeated group `bodies`, after the fixed fields: `bodyId` (integer).
-
-Accepted words: `Approach`, `Release`, `Synchronous`.
+[ContactBodyMove — fields and example](reference/cards/nonlinear_contact.md#contactbodymove)
 
 ### ContactBodyParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `BilinearCoulomb`, `Both`, `Full`, `GeneralGlue`, `No`, `NodeToSurface`, `Off`, `On`, `PermanentGlue`, `SegmentToSegment`, `StandardGlue`, `TouchOnly`, `Yes`.
-
-Accepted parameter names: `AdditionalHeatCoefficient1`, `AdditionalHeatCoefficient2`, `BodyContactOptions`, `BodyTemperature`, `ContactHeatTransferCoefficient`, `DisplacementOption`, `DistanceDependentConvectionCoefficient`, `Emissivity`, `EnvironmentFilmCoefficient`, `EnvironmentNaturalConvectionCoefficient`, `EnvironmentNaturalConvectionExponent`, `EnvironmentNonlinearConvectionCoefficient`, `EnvironmentNonlinearConvectionExponent`, `FrictionCoefficient`, `InterfaceSubtype`, `MidsideNodes`, `NearContactConvectionCoefficient`, `NearContactNaturalConvectionCoefficient`, `NearContactNaturalConvectionExponent`, `NearContactNonlinearConvectionCoefficient`, `NearContactNonlinearConvectionExponent`, `SeparationAngle`, `SinkTemperature`, `ThermalInterfaceKind`.
+[ContactBodyParams — fields and example](reference/cards/nonlinear_contact.md#contactbodyparams)
 
 ### ContactBoxRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `inclusionRule` | `integer` | 0 | alternative of `coordinateForm` |
-| 3 | `coordinateForm` | `text` |  | alternative of `inclusionRule` |
-| 4 | `cornerNode1` | `any` |  |  |
-| 5 | `cornerNode2` | `integer` |  | alternative of `cornerX1` |
-| 6 | `cornerX1` | `real` |  | alternative of `cornerNode2` |
-| 7 | `cornerNode3` | `integer` |  | alternative of `cornerY1` |
-| 8 | `cornerY1` | `real` |  | alternative of `cornerNode3` |
-| 9 | `cornerNode4` | `integer` |  | alternative of `cornerZ1` |
-| 10 | `cornerZ1` | `real` |  | alternative of `cornerNode4` |
-| 11 | `cornerNode5` | `integer` |  | alternative of `cornerX2` |
-| 12 | `cornerX2` | `real` |  | alternative of `cornerNode5` |
-| 13 | `cornerNode6` | `integer` |  | alternative of `cornerY2` |
-| 14 | `cornerY2` | `real` |  | alternative of `cornerNode6` |
-| 15 | `cornerNode7` | `integer` |  | alternative of `cornerZ2` |
-| 16 | `cornerZ2` | `real` |  | alternative of `cornerNode7` |
-| 17 | `cornerNode8` | `integer` |  | alternative of `cornerX3` |
-| 18 | `cornerX3` | `real` |  | alternative of `cornerNode8` |
-| 19 | `cornerY3` | `real` |  |  |
-| 20 | `cornerZ3` | `real` |  |  |
-| 21 | `cornerX4` | `real` |  |  |
-| 22 | `cornerY4` | `real` |  |  |
-| 23 | `cornerZ4` | `real` |  |  |
-| 24 | `cornerX5` | `real` |  |  |
-| 25 | `cornerY5` | `real` |  |  |
-| 26 | `cornerZ5` | `real` |  |  |
-| 27 | `cornerX6` | `real` |  |  |
-| 28 | `cornerY6` | `real` |  |  |
-| 29 | `cornerZ6` | `real` |  |  |
-| 30 | `cornerX7` | `real` |  |  |
-| 31 | `cornerY7` | `real` |  |  |
-| 32 | `cornerZ7` | `real` |  |  |
-| 33 | `cornerX8` | `real` |  |  |
-| 34 | `cornerY8` | `real` |  |  |
-| 35 | `cornerZ8` | `real` |  |  |
-
-Accepted words: `Coordinates`.
+[ContactBoxRegion — fields and example](reference/cards/nonlinear_contact.md#contactboxregion)
 
 ### ContactControlParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `contactSetId` | `integer` |  |  |
-| 2 | `parameterName1` | `text` |  |  |
-| 3 | `parameterValue1` | `any` |  |  |
-| 4 | `parameterName2` | `text` |  |  |
-| 5 | `parameterValue2` | `any` |  |  |
-| 6 | `parameterName3` | `text` |  |  |
-| 7 | `parameterValue3` | `any` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `Both`, `Constant`, `Element`, `Full`, `No`, `Off`, `On`, `Table`, `Yes`.
-
-Accepted parameter names: `ContactTolerance`, `NormalPenalty`, `ShellThicknessOption`, `TangentPenalty`.
+[ContactControlParams — fields and example](reference/cards/nonlinear_contact.md#contactcontrolparams)
 
 ### ContactElemSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `elements`, after the fixed fields: `element` (any).
-
-Accepted words: `By`, `Through`.
+[ContactElemSurface — fields and example](reference/cards/nonlinear_contact.md#contactelemsurface)
 
 ### ContactEllipsoidList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `ellipsoidNames`, after the fixed fields: `ellipsoidName` (text).
+[ContactEllipsoidList — fields and example](reference/cards/nonlinear_contact.md#contactellipsoidlist)
 
 ### ContactFaceRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bodyParamsId` | `integer` | 0 |  |
-| 3 | `dimension` | `text` | ThreeDimensional |  |
-| 4 | `form` | `text` | Face |  |
-| 5 | `includeThickness` | `text` | Yes |  |
-| 6 | `edgeContact` | `integer` | 1 |  |
-
-Repeated group `faces`, after the fixed fields: `faceElemId` (integer), `faceId` (any), `idType` (any), `node` (integer).
-
-Accepted words: `Both`, `Bottom`, `Elements`, `EndA`, `EndB`, `Face`, `No`, `Node`, `Rigid`, `Set`, `ThreeDimensional`, `Top`, `TwoDimensional`, `Yes`.
+[ContactFaceRegion — fields and example](reference/cards/nonlinear_contact.md#contactfaceregion)
 
 ### ContactMaterialRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `materials`, after the fixed fields: `matId` (integer).
+[ContactMaterialRegion — fields and example](reference/cards/nonlinear_contact.md#contactmaterialregion)
 
 ### ContactNodeRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bodyParamsId` | `integer` | 0 |  |
-| 3 | `dimension` | `any` | ThreeDimensional |  |
-
-Repeated group `nodes`, after the fixed fields: `nodeId` (any).
-
-Accepted words: `By`, `ThreeDimensional`, `Through`, `TwoDimensional`.
+[ContactNodeRegion — fields and example](reference/cards/nonlinear_contact.md#contactnoderegion)
 
 ### ContactNurbsCurve
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pointCountU` | `integer` |  |  |
-| 3 | `orderU` | `integer` |  |  |
-| 4 | `subdivisions` | `integer` |  |  |
-
-Sections `dataLines`, one after the other, each opened by its key word:
-
-- `Node` (controlNodes): then the number of `controlNodes` and their fields `nodeId` (integer).
-- `Coordinates` (controlCoordinates): then the number of `coordinates` and their fields `coordinate` (real).
-- `HomogeneousCoordinates` (homogeneousCoordinates): then the number of `weights` and their fields `homogeneous` (real).
-- `KnotVector` (knotVector): then the number of `knots` and their fields `knot` (real).
-
-Accepted words: `Coordinates`, `HomogeneousCoordinates`, `KnotVector`, `Node`.
+[ContactNurbsCurve — fields and example](reference/cards/nonlinear_contact.md#contactnurbscurve)
 
 ### ContactNurbsSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pointCountU` | `integer` |  |  |
-| 3 | `pointCountV` | `integer` |  |  |
-| 4 | `orderU` | `integer` |  |  |
-| 5 | `orderV` | `integer` |  |  |
-| 6 | `subdivisionsU` | `integer` |  |  |
-| 7 | `subdivisionsV` | `integer` |  |  |
-
-Sections `dataLines`, one after the other, each opened by its key word:
-
-- `Node` (controlNodes): then the number of `controlNodes` and their fields `nodeId` (integer).
-- `Coordinates` (controlCoordinates): then the number of `coordinates` and their fields `coordinate` (real).
-- `HomogeneousCoordinates` (homogeneousCoordinates): then the number of `weights` and their fields `homogeneous` (real).
-- `KnotVector` (knotVector): then the number of `knots` and their fields `knot` (real).
-- `Trimming` (trimming): then the number of `trimCurves` and their fields `trimCurveId` (integer).
-
-Accepted words: `Coordinates`, `HomogeneousCoordinates`, `KnotVector`, `Node`, `Trimming`.
+[ContactNurbsSurface — fields and example](reference/cards/nonlinear_contact.md#contactnurbssurface)
 
 ### ContactPair
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `geomParamsId` | `integer` | 0 |  |
-| 3 | `physicalParamsId` | `integer` | 0 |  |
-| 4 | `secondaryBodyId` | `integer` | 0 |  |
-| 5 | `primaryBodyId` | `integer` | 0 |  |
-
-Sections `bodyLists`, one after the other, each opened by its key word:
-
-- `Secondary` (secondaryList): then the number of `secondaryBodies` and their fields `secondaryBody` (integer).
-- `Primary` (primaryList): then the number of `primaryBodies` and their fields `primaryBody` (integer).
-
-Accepted words: `Primary`, `Secondary`.
+[ContactPair — fields and example](reference/cards/nonlinear_contact.md#contactpair)
 
 ### ContactPairGeomParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `BilinearCoulomb`, `Both`, `Full`, `GeneralGlue`, `MonitorDisplacement`, `No`, `NodeToSurface`, `Off`, `On`, `PermanentGlue`, `SegmentToSegment`, `StandardGlue`, `TouchOnly`, `Yes`.
-
-Accepted parameter names: `AdaptiveContactSurface`, `AugmentationDistance`, `AutomaticContact`, `ContactDistanceTolerance`, `ContactForceWeighting`, `ContactMethod`, `ContactSearchOrder`, `ContactSide`, `ContactThickness`, `ContactTimeControl`, `ContactToleranceBias`, `GlueInitialNormalStiffness`, `GlueInitialTangentStiffness`, `GlueNormalStiffness`, `GlueOption`, `GlueRotationCenter`, `GlueRotationNormalStiffness`, `GlueRotationTangentStiffness`, `GlueSecondRotationCenter`, `GlueSeparationOption`, `GlueStiffnessOption`, `GlueTangentStiffness`, `HardSoftRatio`, `IgnoreInitialPenetration`, `InitialGapDirectionSystem`, `InitialGapMargin`, `InitialGapOption`, `InitialGapSecondTolerance`, `InitialGapTolerance`, `InitialMonitor`, `InterferenceBodyOption`, `InterferenceCenterX`, `InterferenceCenterY`, `InterferenceCenterZ`, `InterferenceClosure`, `InterferenceDirectionSystem`, `InterferenceDirectionX`, `InterferenceDirectionY`, `InterferenceDirectionZ`, `InterferenceOption`, `InterferenceTable`, `InterferenceTolerance`, `MaxParametricCoordinate`, `MonitorDisplacement`, `MonitorDisplacementValue`, `NormalPenaltyFactor`, `NormalPenaltyScale`, `PenetrationLimit`, `SlidingVelocityThreshold`, `SoftContact`, `StickSlip`, `StressFreeInitialContact`, `TangentPenaltyFactor`, `TangentPenaltyScale`, `ThicknessOffset`, `TouchedBodyOptions`, `TouchingBodyOptions`.
+[ContactPairGeomParams — fields and example](reference/cards/nonlinear_contact.md#contactpairgeomparams)
 
 ### ContactPairPhysicalParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `Both`, `Full`, `No`, `Off`, `On`, `Yes`.
-
-Accepted parameter names: `ContactDamping`, `ContactEndTime`, `ContactHeatTransferCoefficient`, `ContactStartTime`, `DistanceDependentConvectionCoefficient`, `Emissivity`, `FrictionCoefficient`, `FrictionDecayCoefficient`, `FrictionStressLimit`, `GlueBreakNormalExponent`, `GlueBreakNormalStress`, `GlueBreakShearExponent`, `GlueBreakShearStress`, `GlueHeatTransfer`, `InitialPenetrationAdjustment`, `KineticFrictionCoefficient`, `NearContactConvectionCoefficient`, `NearContactDistance`, `NearContactNaturalConvectionCoefficient`, `NearContactNaturalConvectionExponent`, `NearContactNonlinearConvectionCoefficient`, `NearContactNonlinearConvectionExponent`, `PenaltyScaleFactor`, `SeparationForce`.
+[ContactPairPhysicalParams — fields and example](reference/cards/nonlinear_contact.md#contactpairphysicalparams)
 
 ### ContactParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` | 0 |  |
-| 2 | `parameterName1` | `text` |  |  |
-| 3 | `parameterValue1` | `any` |  |  |
-| 4 | `parameterName2` | `text` |  |  |
-| 5 | `parameterValue2` | `any` |  |  |
-| 6 | `parameterName3` | `text` |  |  |
-| 7 | `parameterValue3` | `any` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `BilinearCoulomb`, `Both`, `Full`, `GeneralGlue`, `No`, `NodeToSurface`, `Off`, `On`, `PermanentGlue`, `SegmentToSegment`, `StandardGlue`, `TouchOnly`, `Yes`.
-
-Accepted parameter names: `AugmentationDistance`, `AugmentationOption`, `AugmentationTime`, `BackupControl`, `BeamToBeamContact`, `ContactAlgorithmVersion`, `ContactDistanceTolerance`, `ContactMethod`, `ContactTimeControl`, `ContactToleranceBasis`, `ContactToleranceBias`, `DisplacementIncrementLimit`, `DynamicPressureFactor`, `FrictionKind`, `GlueInitialNormalStiffness`, `GlueInitialTangentStiffness`, `GlueNormalStiffness`, `GlueOutput`, `GlueRotationCenter`, `GlueRotationNormalStiffness`, `GlueRotationTangentStiffness`, `GlueSecondRotationCenter`, `GlueStiffnessOption`, `GlueTangentStiffness`, `IgnoreShellThickness`, `InitialSeparationCheck`, `LineContact`, `MaxSeparations`, `NodeSeparation`, `NonlinearGlue`, `NormalPenaltyFactor`, `NormalPenaltyScale`, `OutputSplineFreq`, `ResidualVectorConstant`, `SegmentAngle`, `SegmentSymmetry`, `SeparationAcceleration`, `SeparationCriterion`, `SeparationForce`, `SolidLimit`, `StickSlip`, `TangentPenaltyFactor`, `TangentPenaltyScale`.
+[ContactParams — fields and example](reference/cards/nonlinear_contact.md#contactparams)
 
 ### ContactPatchSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `patches`, after the fixed fields: `patchId` (integer), `node1` (integer), `node2` (integer), `node3` (integer), `node4` (integer).
+[ContactPatchSurface — fields and example](reference/cards/nonlinear_contact.md#contactpatchsurface)
 
 ### ContactPropertyRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `properties`, after the fixed fields: `propId` (any).
-
-Accepted words: `By`, `Through`.
+[ContactPropertyRegion — fields and example](reference/cards/nonlinear_contact.md#contactpropertyregion)
 
 ### ContactRigidMotion
 
-Forms: `noMotionLine`, `motionLine`.
+[ContactRigidMotion — fields and example](reference/cards/nonlinear_contact.md#contactrigidmotion)
 
 #### ContactRigidMotion: noMotionLine
 
-Form `noMotionLine`, when `motionLines` is a word.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceNode` | `integer` | 0 |  |
-| 3 | `control` | `integer` | 0 |  |
-
-Sections `motionLines`, one after the other, each opened by its key word:
-
-- `ApproachVelocity` (approach): fields `approachAngularVelocity` (real), `approachAxis1` (real), `approachAxis2` (real), `approachAxis3` (real), `approachVelocity1` (real), `approachVelocity2` (real), `approachVelocity3` (real).
-- `Growth` (growth): fields `growthFactor1` (real), `growthFactor2` (real), `growthFactor3` (real), `growthTable1` (integer), `growthTable2` (integer), `growthTable3` (integer).
+[noMotionLine form](reference/cards/nonlinear_contact.md#contactrigidmotion-nomotionline)
 
 #### ContactRigidMotion: motionLine
 
-Form `motionLine`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceNode` | `integer` | 0 |  |
-| 3 | `control` | `integer` | 0 |  |
-| 4 | `loadNode` | `integer` | 0 |  |
-| 5 | `angularVelocity` | `number` |  |  |
-| 6 | `axisCosine1` | `number` |  |  |
-| 7 | `axisCosine2` | `number` |  |  |
-| 8 | `axisCosine3` | `number` |  |  |
-| 9 | `rigidVelocity1` | `number` |  |  |
-| 10 | `rigidVelocity2` | `number` |  |  |
-| 11 | `rigidVelocity3` | `number` |  |  |
-
-Sections `motionLines`, one after the other, each opened by its key word:
-
-- `ApproachVelocity` (approach): fields `approachAngularVelocity` (real), `approachAxis1` (real), `approachAxis2` (real), `approachAxis3` (real), `approachVelocity1` (real), `approachVelocity2` (real), `approachVelocity3` (real).
-- `Growth` (growth): fields `growthFactor1` (real), `growthFactor2` (real), `growthFactor3` (real), `growthTable1` (integer), `growthTable2` (integer), `growthTable3` (integer).
-
-Accepted words: `ApproachVelocity`, `Growth`.
+[motionLine form](reference/cards/nonlinear_contact.md#contactrigidmotion-motionline)
 
 ### ContactRigidSurfaceList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `rigidSurfaces`, after the fixed fields: `rigidSurfaceId` (integer).
+[ContactRigidSurfaceList — fields and example](reference/cards/nonlinear_contact.md#contactrigidsurfacelist)
 
 ### ContactSegment
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `surfaceId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` | 0 |  |
+[ContactSegment — fields and example](reference/cards/nonlinear_contact.md#contactsegment)
 
 ### ContactSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `sourceRegionId` (integer), `targetRegionId` (integer), `friction` (real), `minimumDistance` (real), `maximumDistance` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ContactSet — fields and example](reference/cards/nonlinear_contact.md#contactset)
 
 ### ContactSetUnion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `memberSets`, after the fixed fields: `memberSetId` (integer).
+[ContactSetUnion — fields and example](reference/cards/nonlinear_contact.md#contactsetunion)
 
 ### ContactSlideline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `secondaryLineId` | `integer` |  |  |
-| 3 | `primaryLineId` | `integer` |  |  |
-| 4 | `penaltyScale` | `real` | 1.0 |  |
-| 5 | `frictionId` | `integer` | 0 |  |
-| 6 | `penetrationKind` | `integer` | 1 |  |
-| 7 | `frameId` | `integer` | 0 |  |
+[ContactSlideline — fields and example](reference/cards/nonlinear_contact.md#contactslideline)
 
 ### ContactSurfaceParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `contactSetId` | `integer` |  |  |
-| 2 | `parameterName1` | `text` |  |  |
-| 3 | `parameterValue1` | `any` |  |  |
-| 4 | `parameterName2` | `text` |  |  |
-| 5 | `parameterValue2` | `any` |  |  |
-| 6 | `parameterName3` | `text` |  |  |
-| 7 | `parameterValue3` | `any` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `Both`, `Constant`, `Element`, `Full`, `No`, `Off`, `On`, `Table`, `Yes`.
-
-Accepted parameter names: `BirthTime`, `ContactKind`, `ContactStiffness`, `DeathTime`, `ExtensionFactor`, `InitialPenetration`, `OffsetDistance`, `OffsetKind`, `PenetrationDepth`, `SegmentNormal`, `SideCount`, `TiedContact`, `TiedTolerance`, `ZeroPenetrationTime`.
+[ContactSurfaceParams — fields and example](reference/cards/nonlinear_contact.md#contactsurfaceparams)
 
 ### ContactTable
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `secondaryBodyId` | `integer` | 0 |  |
-| 3 | `primaryBodyId` | `integer` | 0 |  |
-| 4 | `setCount` | `integer` | 1 |  |
-| 5 | `secondaryContactOption` | `integer` | 0 |  |
-| 6 | `primaryContactOption` | `integer` | 0 |  |
-
-Sections `sets`, one after the other, each opened by its key word:
-
-- `Secondary` (secondarySet): fields `setSecondaryBodyId` (integer), `contactDistanceTolerance` (real), `separationForce` (real), `frictionCoefficient` (number), `interferenceClosure` (real), `glueOption` (integer), `contactSearchOrder` (integer), `stressFreeInitialContact` (integer), `glueSeparationOption` (integer), `nearContactDistance` (real), `kineticFrictionCoefficient` (real), `frictionDecayCoefficient` (real), `contactMethod` (text), `adaptiveContactSurface` (text), `contactThickness` (real), `thicknessOffset` (real), `penetrationLimit` (real), `penaltyScaleFactor` (real), `contactStartTime` (real), `contactEndTime` (real), `maxParametricCoordinate` (real), `initialPenetrationAdjustment` (integer), `ignoreInitialPenetration` (integer), `automaticContact` (text), `contactSide` (text), `contactForceWeighting` (text), `monitorDisplacement` (text), `monitorDisplacementValue` (real), `initialMonitor` (real), `contactDamping` (text).
-- `Primary` (primaryList): then the number of `primaryBodies` and their fields `primaryBodyIds` (integer).
-- `FrictionAndBias` (frictionAndBias): fields `frictionStressLimit` (real), `contactToleranceBias` (real), `slidingVelocityThreshold` (real), `hardSoftRatio` (real), `touchingBodyOptions` (integer), `touchedBodyOptions` (integer).
-- `GlueBreak` (glueBreak): fields `glueBreakNormalStress` (real), `glueBreakShearStress` (real), `glueBreakNormalExponent` (real), `glueBreakShearExponent` (real).
-- `SegmentContact` (segmentContact): fields `normalPenaltyFactor` (real), `augmentationDistance` (real), `tangentPenaltyFactor` (real), `stickSlip` (real).
-- `HeatTransfer` (heatTransfer): fields `contactHeatTransferCoefficient` (number), `nearContactConvectionCoefficient` (number), `nearContactNaturalConvectionCoefficient` (number), `nearContactNaturalConvectionExponent` (number), `emissivity` (number), `distanceDependentConvectionCoefficient` (number), `nearContactNonlinearConvectionCoefficient` (number), `nearContactNonlinearConvectionExponent` (number), `glueHeatTransfer` (integer).
-
-Accepted words: `BilinearCoulomb`, `Both`, `FrictionAndBias`, `Full`, `GeneralGlue`, `GlueBreak`, `HeatTransfer`, `MonitorDisplacement`, `No`, `NodeToSurface`, `Off`, `On`, `PermanentGlue`, `Primary`, `PrimaryBodies`, `PrimaryBody`, `Secondary`, `SecondaryBody`, `SegmentContact`, `SegmentToSegment`, `StandardGlue`, `TouchOnly`, `Yes`.
-
-Accepted parameter names: `AdaptiveContactSurface`, `AugmentationDistance`, `AutomaticContact`, `ContactDamping`, `ContactDistanceTolerance`, `ContactEndTime`, `ContactForceWeighting`, `ContactHeatTransferCoefficient`, `ContactMethod`, `ContactSearchOrder`, `ContactSide`, `ContactStartTime`, `ContactThickness`, `ContactToleranceBias`, `DistanceDependentConvectionCoefficient`, `Emissivity`, `FrictionCoefficient`, `FrictionDecayCoefficient`, `FrictionStressLimit`, `GlueBreakNormalExponent`, `GlueBreakNormalStress`, `GlueBreakShearExponent`, `GlueBreakShearStress`, `GlueHeatTransfer`, `GlueOption`, `GlueSeparationOption`, `HardSoftRatio`, `IgnoreInitialPenetration`, `InitialMonitor`, `InitialPenetrationAdjustment`, `InterferenceClosure`, `KineticFrictionCoefficient`, `MaxParametricCoordinate`, `MonitorDisplacement`, `MonitorDisplacementValue`, `NearContactConvectionCoefficient`, `NearContactDistance`, `NearContactNaturalConvectionCoefficient`, `NearContactNaturalConvectionExponent`, `NearContactNonlinearConvectionCoefficient`, `NearContactNonlinearConvectionExponent`, `NormalPenaltyFactor`, `PenaltyScaleFactor`, `PenetrationLimit`, `SeparationForce`, `SlidingVelocityThreshold`, `StickSlip`, `StressFreeInitialContact`, `TangentPenaltyFactor`, `ThicknessOffset`, `TouchedBodyOptions`, `TouchingBodyOptions`.
+[ContactTable — fields and example](reference/cards/nonlinear_contact.md#contacttable)
 
 ### ContactTable1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` | 0 |  |
-
-Repeated group `pairs`, after the fixed fields: `pairId` (any).
-
-Accepted words: `By`, `Through`.
+[ContactTable1 — fields and example](reference/cards/nonlinear_contact.md#contacttable1)
 
 ### ContactTrimCurve
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pointCount` | `integer` |  |  |
-| 3 | `order` | `integer` |  |  |
-| 4 | `subdivisions` | `integer` |  |  |
-
-Sections `lists`, one after the other, each opened by its key word:
-
-- `Coordinates` (coordinates): then the number of `coordinates` and their fields `coordinate` (real).
-- `HomogeneousCoordinates` (homogeneous): then the number of `homogeneousWeights` and their fields `homogeneousWeight` (real).
-- `KnotVector` (knots): then the number of `knots` and their fields `knot` (real).
-
-Accepted words: `Coordinates`, `HomogeneousCoordinates`, `KnotVector`, `Node`.
+[ContactTrimCurve — fields and example](reference/cards/nonlinear_contact.md#contacttrimcurve)
 
 ### ContactUnglueNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bodyId` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`.
+[ContactUnglueNodes — fields and example](reference/cards/nonlinear_contact.md#contactungluenodes)
 
 ### ContactUserService
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `bodyId` | `integer` |  |  |
-| 2 | `bodyKind` | `text` |  |  |
-| 3 | `groupName` | `text` |  |  |
-| 4 | `userRoutineName` | `text` |  |  |
-
-Sections `lists`, one after the other, each opened by its key word:
-
-- `IntegerData` (integerData): then the number of `integerData` and their fields `integerValue` (integer).
-- `RealData` (realData): then the number of `realData` and their fields `realValue` (real).
-- `TextData` (textData): then the number of `textData` and their fields `textValue` (text).
-
-Accepted words: `ContactBody`, `ContactBody1`, `IntegerData`, `RealData`, `TextData`.
+[ContactUserService — fields and example](reference/cards/nonlinear_contact.md#contactuserservice)
 
 ### CosimulationArea
 
-Forms: `points`, `volume`, `surface`.
+[CosimulationArea — fields and example](reference/cards/solution_control.md#cosimulationarea)
 
 #### CosimulationArea: points
 
-Form `points`, when `kind` is `Point`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` | Surface |  |
-
-Repeated group `nodes`, after the fixed fields: `nodeIds` (any).
+[points form](reference/cards/solution_control.md#cosimulationarea-points)
 
 #### CosimulationArea: volume
 
-Form `volume`, when `kind` is `Volume`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` | Surface |  |
-
-Repeated group `elements`, after the fixed fields: `elemIds` (any).
+[volume form](reference/cards/solution_control.md#cosimulationarea-volume)
 
 #### CosimulationArea: surface
 
-Form `surface`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` | Surface |  |
-
-Repeated group `faces`, after the fixed fields: `elemIds` (integer), `faceIds` (integer).
-
-*Note*: a list of IDs may hold THRU between two IDs (a range).
-
-Accepted words: `By`, `Constant`, `Element`, `Point`, `Surface`, `Table`, `Through`, `Volume`.
+[surface form](reference/cards/solution_control.md#cosimulationarea-surface)
 
 ### CosimulationInputs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `quantity1` | `text` | Force |  |
-| 3 | `quantity2` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Force`, `Table`, `Temperature`.
+[CosimulationInputs — fields and example](reference/cards/solution_control.md#cosimulationinputs)
 
 ### CosimulationOutputs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `quantity1` | `text` |  |  |
-| 3 | `quantity2` | `text` |  |  |
-| 4 | `quantity3` | `text` |  |  |
-
-Accepted words: `Acceleration`, `Constant`, `Displacement`, `Element`, `Table`, `Velocity`.
+[CosimulationOutputs — fields and example](reference/cards/solution_control.md#cosimulationoutputs)
 
 ### CosimulationSelection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `serviceId1` | `integer` |  |  |
-| 3 | `serviceId2` | `integer` |  |  |
-| 4 | `serviceId3` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CosimulationSelection — fields and example](reference/cards/solution_control.md#cosimulationselection)
 
 ### CosimulationService
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `serviceName` | `text` |  |  |
-| 3 | `followerForces` | `text` | NoFollower |  |
-| 4 | `inputAreaId` | `integer` |  |  |
-| 5 | `inputId` | `integer` |  |  |
-| 6 | `outputAreaId` | `integer` |  |  |
-| 7 | `outputId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Follower`, `NoFollower`, `Table`.
+[CosimulationService — fields and example](reference/cards/solution_control.md#cosimulationservice)
 
 ### CouplingCohesiveFriction
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `setId` | `integer` |  |  |
-| 3 | `subsurfaceId` | `integer` | 0 |  |
-| 4 | `cohesiveFrictionModelId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CouplingCohesiveFriction — fields and example](reference/cards/explicit.md#couplingcohesivefriction)
 
 ### CouplingFailedSegmentFlow
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `density` | `real` |  |  |
-| 3 | `specificEnergy` | `real` |  |  |
-| 4 | `xVelocity` | `real` |  |  |
-| 5 | `yVelocity` | `real` |  |  |
-| 6 | `zVelocity` | `real` |  |  |
-| 7 | `pressure` | `real` |  |  |
-| 8 | `matId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CouplingFailedSegmentFlow — fields and example](reference/cards/explicit.md#couplingfailedsegmentflow)
 
 ### CouplingHoleToCoupling
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `holeSize` | `text` | Small |  |
-| 3 | `flowDirection` | `text` | Both |  |
-| 4 | `couplingId` | `integer` |  |  |
-| 5 | `matId` | `integer` | 0 |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[CouplingHoleToCoupling — fields and example](reference/cards/explicit.md#couplingholetocoupling)
 
 ### CouplingHoleToGasBag
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `holeSize` | `text` | Small |  |
-| 3 | `flowDirection` | `text` | Both |  |
-| 4 | `gasBagId` | `integer` |  |  |
-| 5 | `matId` | `integer` | 0 |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[CouplingHoleToGasBag — fields and example](reference/cards/explicit.md#couplingholetogasbag)
 
 ### CouplingInteraction
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `couplingId1` | `integer` |  |  |
-| 3 | `couplingId2` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CouplingInteraction — fields and example](reference/cards/explicit.md#couplinginteraction)
 
 ### CouplingOptions
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `setId` | `integer` |  |  |
-| 3 | `subsurfaceId` | `integer` | 0 |  |
-| 4 | `factorSource` | `text` | Constant |  |
-| 5 | `factor` | `real` | 1.0 |  |
-| 6 | `coverPressureSource` | `text` | Constant |  |
-| 7 | `coverPressure` | `any` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CouplingOptions — fields and example](reference/cards/explicit.md#couplingoptions)
 
 ### CrackClosureCrack
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setId` | `integer` |  |  |
-| 2 | `crackId` | `integer` | 1 |  |
-| 3 | `propagationKind` | `integer` |  |  |
-| 4 | `growthMethod` | `integer` |  |  |
-| 5 | `incrementMethod` | `integer` |  |  |
-| 6 | `growthCriterion` | `integer` |  |  |
-| 7 | `growthIncrement` | `real` | 0.0 |  |
-| 8 | `growthResistance` | `real` | 0.0 |  |
-| 9 | `growthResistanceII` | `real` | 0.0 |  |
-| 10 | `growthResistanceIII` | `real` | 0.0 |  |
-| 11 | `growthIncrementTableId` | `integer` | 0 |  |
-| 12 | `growthResistanceTableId` | `integer` | 0 |  |
-| 13 | `growthResistanceIITableId` | `integer` | 0 |  |
-| 14 | `growthResistanceIIITableId` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`, `TypedListSet3`.
+[CrackClosureCrack — fields and example](reference/cards/nonlinear_contact.md#crackclosurecrack)
 
 ### CrackTip2D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node13` | `integer` |  |  |
-| 16 | `node14` | `integer` |  |  |
-| 17 | `node15` | `integer` |  |  |
-| 18 | `node16` | `integer` |  |  |
-| 19 | `node17` | `integer` |  |  |
-| 20 | `node18` | `integer` |  |  |
+[CrackTip2D — fields and example](reference/cards/elements.md#cracktip2d)
 
 ### CrackTip3D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node13` | `integer` |  |  |
-| 16 | `node14` | `integer` |  |  |
-| 17 | `node15` | `integer` |  |  |
-| 18 | `node16` | `integer` |  |  |
-| 19 | `node17` | `integer` |  |  |
-| 20 | `node18` | `integer` |  |  |
-| 21 | `node19` | `integer` |  |  |
-| 22 | `node20` | `integer` |  |  |
-| 23 | `node21` | `integer` |  |  |
-| 24 | `node22` | `integer` |  |  |
-| 25 | `node23` | `integer` |  |  |
-| 26 | `node24` | `integer` |  |  |
-| 27 | `node25` | `integer` |  |  |
-| 28 | `node26` | `integer` |  |  |
-| 29 | `node27` | `integer` |  |  |
-| 30 | `node28` | `integer` |  |  |
-| 31 | `node29` | `integer` |  |  |
-| 32 | `node30` | `integer` |  |  |
-| 33 | `node31` | `integer` |  |  |
-| 34 | `node32` | `integer` |  |  |
-| 35 | `node33` | `integer` |  |  |
-| 36 | `node34` | `integer` |  |  |
-| 37 | `node35` | `integer` |  |  |
-| 38 | `node36` | `integer` |  |  |
-| 39 | `node37` | `integer` |  |  |
-| 40 | `node38` | `integer` |  |  |
-| 41 | `node39` | `integer` |  |  |
-| 42 | `node40` | `integer` |  |  |
-| 43 | `node41` | `integer` |  |  |
-| 44 | `node42` | `integer` |  |  |
-| 45 | `node43` | `integer` |  |  |
-| 46 | `node44` | `integer` |  |  |
-| 47 | `node45` | `integer` |  |  |
-| 48 | `node46` | `integer` |  |  |
-| 49 | `node47` | `integer` |  |  |
-| 50 | `node48` | `integer` |  |  |
-| 51 | `node49` | `integer` |  |  |
-| 52 | `node50` | `integer` |  |  |
-| 53 | `node51` | `integer` |  |  |
-| 54 | `node52` | `integer` |  |  |
-| 55 | `node53` | `integer` |  |  |
-| 56 | `node54` | `integer` |  |  |
-| 57 | `node55` | `integer` |  |  |
-| 58 | `node56` | `integer` |  |  |
-| 59 | `node57` | `integer` |  |  |
-| 60 | `node58` | `integer` |  |  |
-| 61 | `node59` | `integer` |  |  |
-| 62 | `node60` | `integer` |  |  |
-| 63 | `node61` | `integer` |  |  |
-| 64 | `node62` | `integer` |  |  |
-| 65 | `node63` | `integer` |  |  |
-| 66 | `node64` | `integer` |  |  |
+[CrackTip3D — fields and example](reference/cards/elements.md#cracktip3d)
 
 ### CrackTipProp2D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `thickness` | `real` |  |  |
-| 4 | `planeCondition` | `integer` |  |  |
-| 5 | `nonStructMass` | `real` | 0.0 |  |
-| 6 | `gammaCoefficient` | `real` |  |  |
-| 7 | `phiAngle` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CrackTipProp2D — fields and example](reference/cards/elements.md#cracktipprop2d)
 
 ### CrackTipProp3D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `gammaCoefficient` | `real` |  |  |
-| 4 | `phiAngle` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CrackTipProp3D — fields and example](reference/cards/elements.md#cracktipprop3d)
 
 ### CreepMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceTemperature` | `real` | 0.0 |  |
-| 3 | `exponent` | `real` |  |  |
-| 4 | `form` | `text` |  |  |
-| 5 | `primaryStiffnessTableId` | `integer` | 0 |  |
-| 6 | `primaryDampingTableId` | `integer` | 0 |  |
-| 7 | `secondaryDampingTableId` | `integer` | 0 |  |
-| 8 | `threshold` | `real` |  |  |
-| 9 | `kind` | `integer` | 0 |  |
-| 10 | `coefficientA` | `real` |  |  |
-| 11 | `coefficientB` | `real` |  |  |
-| 12 | `coefficientC` | `real` |  |  |
-| 13 | `coefficientD` | `real` |  |  |
-| 14 | `coefficientE` | `real` |  |  |
-| 15 | `coefficientF` | `real` |  |  |
-| 16 | `coefficientG` | `real` |  |  |
-
-Accepted words: `CreepLaw`, `Table`.
+[CreepMat — fields and example](reference/cards/materials.md#creepmat)
 
 ### CrossSpectrumPair
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `responseKind1` | `text` | same as responseKind2 |  |
-| 3 | `targetId1` | `integer` | 0 |  |
-| 4 | `component1` | `integer` | 0 |  |
-| 5 | `responseKind2` | `text` | same as responseKind1 |  |
-| 6 | `targetId2` | `integer` | 0 |  |
-| 7 | `component2` | `integer` | 0 |  |
-| 8 | `curveId` | `integer` | 0 |  |
-
-Accepted words: `Acceleration`, `AppliedLoad`, `ConstraintForce`, `Displacement`, `Force`, `MultiPointConstraintForce`, `Pressure`, `Strain`, `Stress`, `Velocity`.
+[CrossSpectrumPair — fields and example](reference/cards/solution_control.md#crossspectrumpair)
 
 ### CurvedBeam2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` |  |  |
-| 5 | `orientationNode` | `integer` |  | alternative of `orientation1` |
-| 6 | `orientation1` | `real` |  | alternative of `orientationNode` |
-| 7 | `orientation2` | `real` | 0.0 |  |
-| 8 | `orientation3` | `real` | 0.0 |  |
-| 9 | `geometryOption` | `integer` |  |  |
+[CurvedBeam2 — fields and example](reference/cards/elements.md#curvedbeam2)
 
 ### CurvedBeamProp
 
-Forms: `pipe`, `section`.
+[CurvedBeamProp — fields and example](reference/cards/properties.md#curvedbeamprop)
 
 #### CurvedBeamProp: pipe
 
-Form `pipe`, when `flexibilityOption` is an integer.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `flexibilityOption` | `integer` |  |  |
-| 4 | `meanRadius` | `real` |  |  |
-| 5 | `thickness` | `real` |  |  |
-| 6 | `internalPressure` | `real` |  |  |
-| 7 | `bendRadius` | `real` |  |  |
-| 8 | `arcAngle` | `real` |  |  |
-| 9 | `nonStructMass` | `real` | 0.0 |  |
-| 10 | `centroidRadialOffset` | `real` | 0.0 |  |
-| 11 | `centerZ` | `real` | 0.0 |  |
+[pipe form](reference/cards/properties.md#curvedbeamprop-pipe)
 
 #### CurvedBeamProp: section
 
-Form `section`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `area` | `real` |  |  |
-| 4 | `bendingInertia1` | `real` |  |  |
-| 5 | `bendingInertia2` | `real` |  |  |
-| 6 | `torsionConstant` | `real` |  |  |
-| 7 | `bendRadius` | `real` |  |  |
-| 8 | `arcAngle` | `real` |  |  |
-| 9 | `stressPointCy` | `real` | 0.0 |  |
-| 10 | `stressPointCz` | `real` | 0.0 |  |
-| 11 | `stressPointDy` | `real` | 0.0 |  |
-| 12 | `stressPointDz` | `real` | 0.0 |  |
-| 13 | `stressPointEy` | `real` | 0.0 |  |
-| 14 | `stressPointEz` | `real` | 0.0 |  |
-| 15 | `stressPointFy` | `real` | 0.0 |  |
-| 16 | `stressPointFz` | `real` | 0.0 |  |
-| 17 | `shearFactor1` | `real` | 0.0 |  |
-| 18 | `shearFactor2` | `real` | 0.0 |  |
-| 19 | `nonStructMass` | `real` | 0.0 |  |
-| 20 | `centroidRadialOffset` | `real` | 0.0 |  |
-| 21 | `centerZ` | `real` | 0.0 |  |
-| 22 | `neutralAxisOffset` | `real` |  |  |
+[section form](reference/cards/properties.md#curvedbeamprop-section)
 
 ### CyclicAxisNodes
 
-No fixed field.
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[CyclicAxisNodes — fields and example](reference/cards/constraints.md#cyclicaxisnodes)
 
 ### CyclicAzimuthTableLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `tableId1` | `integer` |  |  |
-| 3 | `loadSetId1` | `integer` |  |  |
-| 4 | `methodName1` | `integer` | 0 |  |
-| 5 | `tableId2` | `integer` |  |  |
-| 6 | `loadSetId2` | `integer` |  |  |
-| 7 | `methodName2` | `integer` | 0 |  |
+[CyclicAzimuthTableLoad — fields and example](reference/cards/loads.md#cyclicazimuthtableload)
 
 ### CyclicBoundaryJoin
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `sideCode` | `integer` |  |  |
-| 2 | `system` | `text` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Constant`, `Cylindrical`, `Element`, `Rectangular`, `Spherical`, `Table`, `Through`, `Translation1`, `Translation2`, `Translation3`.
+[CyclicBoundaryJoin — fields and example](reference/cards/constraints.md#cyclicboundaryjoin)
 
 ### CyclicHarmonicLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` |  |  |
-| 3 | `harmonicId` | `integer` |  |  |
-| 4 | `harmonicType` | `text` |  |  |
-| 5 | `scaleFactor1` | `real` |  |  |
-| 6 | `loadSetId1` | `integer` |  |  |
-| 7 | `scaleFactor2` | `real` |  |  |
-| 8 | `loadSetId2` | `integer` |  |  |
-
-Accepted words: `Constant`, `Cosine`, `CyclicStar`, `Element`, `GravityLoad`, `RotationalForceLoad`, `Sine`, `SymmetricStar`, `Table`.
+[CyclicHarmonicLoad — fields and example](reference/cards/loads.md#cyclicharmonicload)
 
 ### CyclicSegmentLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` |  |  |
-| 3 | `segmentId` | `integer` |  |  |
-| 4 | `segmentType` | `text` |  |  |
-| 5 | `scaleFactor1` | `real` |  |  |
-| 6 | `loadSetId1` | `integer` |  |  |
-| 7 | `scaleFactor2` | `real` |  |  |
-| 8 | `loadSetId2` | `integer` |  |  |
-
-Accepted words: `Left`, `Right`.
+[CyclicSegmentLoad — fields and example](reference/cards/loads.md#cyclicsegmentload)
 
 ### CyclicSupport
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeId` | `integer` |  |  |
-| 2 | `components` | `integer` |  |  |
+[CyclicSupport — fields and example](reference/cards/constraints.md#cyclicsupport)
 
 ### CyclicSymmetry
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `segmentCount` | `integer` |  |  |
-| 2 | `symmetryKind` | `text` |  |  |
-
-Accepted words: `Axisymmetric`, `Constant`, `Dihedral`, `Element`, `Rotational`, `Table`.
+[CyclicSymmetry — fields and example](reference/cards/solution_control.md#cyclicsymmetry)
 
 ### CylinderShape
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `centerX1` | `real` |  |  |
-| 3 | `centerY1` | `real` |  |  |
-| 4 | `centerZ1` | `real` |  |  |
-| 5 | `centerX2` | `real` |  |  |
-| 6 | `centerY2` | `real` |  |  |
-| 7 | `centerZ2` | `real` |  |  |
-| 8 | `radius` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[CylinderShape — fields and example](reference/cards/explicit.md#cylindershape)
 
 ### CylindricalFrame1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `frameIdA` | `integer` |  |  |
-| 2 | `node1A` | `integer` |  |  |
-| 3 | `node2A` | `integer` |  |  |
-| 4 | `node3A` | `integer` |  |  |
-| 5 | `frameIdB` | `integer` |  |  |
-| 6 | `node1B` | `integer` |  |  |
-| 7 | `node2B` | `integer` |  |  |
-| 8 | `node3B` | `integer` |  |  |
+[CylindricalFrame1 — fields and example](reference/cards/coordinate_systems.md#cylindricalframe1)
 
 ### CylindricalFrame2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceFrameId` | `integer` | 0 |  |
-| 3 | `pointA1` | `real` | 0.0 |  |
-| 4 | `pointA2` | `real` | 0.0 |  |
-| 5 | `pointA3` | `real` | 0.0 |  |
-| 6 | `pointB1` | `real` | 0.0 |  |
-| 7 | `pointB2` | `real` | 0.0 |  |
-| 8 | `pointB3` | `real` | 0.0 |  |
-| 9 | `pointC1` | `real` | 0.0 |  |
-| 10 | `pointC2` | `real` | 0.0 |  |
-| 11 | `pointC3` | `real` | 0.0 |  |
+[CylindricalFrame2 — fields and example](reference/cards/coordinate_systems.md#cylindricalframe2)
 
 ### DamperDofInline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `damping` | `real` |  |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
+[DamperDofInline — fields and example](reference/cards/elements.md#damperdofinline)
 
 ### DamperDofInlineExplicit
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `damping` | `real` |  |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `frameId` | `integer` | 0 |  |
-| 8 | `follow` | `text` |  |  |
-
-Accepted words: `Constant`, `CoordinateFrame`, `Element`, `Follow`, `Table`.
+[DamperDofInlineExplicit — fields and example](reference/cards/elements.md#damperdofinlineexplicit)
 
 ### DamperDofProperty
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
+[DamperDofProperty — fields and example](reference/cards/elements.md#damperdofproperty)
 
 ### DamperDofPropertyExplicit
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `frameId` | `integer` | 0 |  |
-| 8 | `follow` | `text` |  |  |
-
-Accepted words: `CoordinateFrame`, `Follow`.
+[DamperDofPropertyExplicit — fields and example](reference/cards/elements.md#damperdofpropertyexplicit)
 
 ### DamperProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id1` | `integer` |  |  |
-| 2 | `damping1` | `real` |  |  |
-| 3 | `id2` | `integer` |  |  |
-| 4 | `damping2` | `real` |  |  |
-| 5 | `id3` | `integer` |  |  |
-| 6 | `damping3` | `real` |  |  |
-| 7 | `id4` | `integer` |  |  |
-| 8 | `damping4` | `real` |  |  |
+[DamperProp — fields and example](reference/cards/properties.md#damperprop)
 
 ### DamperPropFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dampingTableId` | `integer` | 0 |  |
+[DamperPropFreq — fields and example](reference/cards/properties.md#damperpropfreq)
 
 ### DamperScalarInline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `damping` | `real` |  |  |
-| 3 | `scalarPoint1` | `integer` | 0 |  |
-| 4 | `scalarPoint2` | `integer` | 0 |  |
-| 5 | `id2` | `integer` |  |  |
-| 6 | `damping2` | `real` |  |  |
-| 7 | `scalarPoint3` | `integer` | 0 |  |
-| 8 | `scalarPoint4` | `integer` | 0 |  |
+[DamperScalarInline — fields and example](reference/cards/elements.md#damperscalarinline)
 
 ### DamperScalarProperty
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `scalarPoint1` | `integer` | 0 |  |
-| 4 | `scalarPoint2` | `integer` | 0 |  |
+[DamperScalarProperty — fields and example](reference/cards/elements.md#damperscalarproperty)
 
 ### DeactivatedElems
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemSetId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DeactivatedElems — fields and example](reference/cards/solution_control.md#deactivatedelems)
 
 ### DefaultTemperatureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id1` | `integer` |  |  |
-| 2 | `temperature1` | `real` |  |  |
-| 3 | `id2` | `integer` |  |  |
-| 4 | `temperature2` | `real` |  |  |
-| 5 | `id3` | `integer` |  |  |
-| 6 | `temperature3` | `real` |  |  |
-| 7 | `id4` | `integer` |  |  |
-| 8 | `temperature4` | `real` |  |  |
+[DefaultTemperatureLoad — fields and example](reference/cards/loads.md#defaulttemperatureload)
 
 ### DeflagrationStateEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `gammaCoefficient` | `real` |  |  |
-| 3 | `coVolume` | `real` |  |  |
-| 4 | `gasConstant` | `real` |  |  |
-| 5 | `specificHeatVolume` | `real` |  |  |
-| 6 | `specificHeatPressure` | `real` |  |  |
-| 7 | `chemicalEnergy` | `real` |  |  |
-| 8 | `referenceDensity` | `real` |  |  |
-| 9 | `powderDensityRatio` | `real` |  |  |
-| 10 | `burnRateCoefficient` | `real` |  |  |
-| 11 | `burnRateExponent` | `real` |  |  |
-| 12 | `surfaceToVolumeRatio` | `real` |  |  |
-| 13 | `formParameterX` | `real` |  |  |
-| 14 | `formParameterY` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DeflagrationStateEquation — fields and example](reference/cards/explicit.md#deflagrationstateequation)
 
 ### DesignBeadRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propType` | `text` |  |  |
-| 3 | `propId` | `integer` |  |  |
-| 4 | `minWidth` | `real` |  |  |
-| 5 | `maxHeight` | `real` |  |  |
-| 6 | `angle` | `real` |  |  |
-| 7 | `bufferZone` | `text` | Yes |  |
-| 8 | `skippedNodes` | `text` | Both |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `DesignVar` (design): fields `directionX` (real), `directionY` (real), `directionZ` (real), `frameId` (integer), `lowerBound` (real), `upperBound` (real), `designVarMoveLimit` (real).
-- `Nodes` (nodeSets): fields `excludedNodeSetId` (integer), `addedNodeSetId` (integer).
-
-Accepted words: `Both`, `BoundaryCondition`, `CompProp`, `CompPropGlobal`, `Constant`, `DesignVar`, `Element`, `ElementNormals`, `Load`, `No`, `Nodes`, `None`, `ShearPanelProp`, `ShellProp`, `Table`, `Yes`.
+[DesignBeadRegion — fields and example](reference/cards/optimisation.md#designbeadregion)
 
 ### DesignBoundaryShape
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `designVarId` | `integer` |  |  |
-| 2 | `auxiliaryModified` | `integer` |  |  |
-| 3 | `column1` | `integer` |  |  |
-| 4 | `scaleFactor1` | `real` | 1.0 |  |
-| 5 | `column2` | `integer` |  |  |
-| 6 | `scaleFactor2` | `real` | 1.0 |  |
-| 7 | `column3` | `integer` |  |  |
-| 8 | `scaleFactor3` | `real` | 1.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignBoundaryShape — fields and example](reference/cards/optimisation.md#designboundaryshape)
 
 ### DesignConstants
 
-No fixed field.
-
-Repeated group `entries`, after the fixed fields: `label` (text), `constantValue` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignConstants — fields and example](reference/cards/optimisation.md#designconstants)
 
 ### DesignConstr
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `constraintSetId` | `integer` |  |  |
-| 2 | `responseId` | `integer` |  |  |
-| 3 | `lowerAllowable` | `real` | -1.0e20 | alternative of `lowerAllowableTableId` |
-| 4 | `lowerAllowableTableId` | `integer` |  | alternative of `lowerAllowable` |
-| 5 | `upperAllowable` | `real` | 1.0e20 | alternative of `upperAllowableTableId` |
-| 6 | `upperAllowableTableId` | `integer` |  | alternative of `upperAllowable` |
-| 7 | `lowFrequency` | `real` | 0.0 |  |
-| 8 | `highFrequency` | `real` | 1.0e20 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignConstr — fields and example](reference/cards/optimisation.md#designconstr)
 
 ### DesignConstrScreen
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `responseKind` | `text` |  |  |
-| 2 | `threshold` | `real` | -0.5 |  |
-| 3 | `maxRetained` | `integer` | 20 |  |
-
-Accepted words: `AbsoluteDisplacement`, `AbsoluteStress`, `AcousticFieldIntensity`, `AcousticFieldPressure`, `AcousticFieldVelocity`, `AcousticIntensity`, `AcousticPower`, `All`, `BucklingFactor`, `ComplexEigenvalue`, `Compliance`, `CompositeFailure`, `CompositeStrain`, `CompositeStrengthRatio`, `CompositeStress`, `Constant`, `ConstraintForce`, `ContourDisplacement`, `ContourForce`, `CutLoad`, `DeflectionToThickness`, `DesignResp3`, `Displacement`, `Divergence`, `DynamicStiffness`, `Eigenvalue`, `Element`, `Equation`, `Fatigue`, `Flutter`, `Force`, `FractionalMass`, `FreqAcceleration`, `FreqConstraintForce`, `FreqDisplacement`, `FreqFatigue`, `FreqForce`, `FreqStress`, `FreqVelocity`, `Frequency`, `MeanDisplacement`, `NodeForce`, `NodeForcePanel`, `Pressure`, `RadiatedPower`, `RootMeanSquareAcceleration`, `RootMeanSquareDisplacement`, `RootMeanSquareVelocity`, `Rotation`, `SectionLoad`, `SpectralAcceleration`, `SpectralDisplacement`, `SpectralVelocity`, `StabilityDerivative`, `Strain`, `StrainEnergy`, `Stress`, `Table`, `TotalCompliance`, `TotalStrainEnergy`, `TransientAcceleration`, `TransientConstraintForce`, `TransientDisplacement`, `TransientForce`, `TransientStress`, `TransientVelocity`, `TrimVariable`, `Volume`, `Weight`, `WeightPerPropertyId`.
-
-Accepted parameter names: `RetainedConstraintCount`, `ScreeningThreshold`.
+[DesignConstrScreen — fields and example](reference/cards/optimisation.md#designconstrscreen)
 
 ### DesignConstrUnion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `constraintSetId` | `integer` |  |  |
-
-Repeated group `memberSets`, after the fixed fields: `memberSetId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignConstrUnion — fields and example](reference/cards/optimisation.md#designconstrunion)
 
 ### DesignControlSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `controlSurfaceLabel` | `text` |  |  |
-| 3 | `trimId` | `integer` |  |  |
-| 4 | `designVarId` | `integer` |  |  |
-| 5 | `coefficient` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignControlSurface — fields and example](reference/cards/optimisation.md#designcontrolsurface)
 
 ### DesignDiscreteValues
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `discreteValues`, after the fixed fields: `discreteValue` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`.
+[DesignDiscreteValues — fields and example](reference/cards/optimisation.md#designdiscretevalues)
 
 ### DesignElemRelation1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `elemId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `minValue` | `real` |  |  |
-| 6 | `maxValue` | `real` | 1.0e20 |  |
-| 7 | `constant0` | `real` | 0.0 |  |
-
-Repeated group `terms`, after the fixed fields: `designVarId` (integer), `coefficient` (any).
-
-Accepted words: `Constant`, `Element`, `PropertyValue`, `Table`.
+[DesignElemRelation1 — fields and example](reference/cards/optimisation.md#designelemrelation1)
 
 ### DesignElemRelation2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `elemId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `minValue` | `real` |  |  |
-| 6 | `maxValue` | `real` | 1.0e20 |  |
-| 7 | `equationId` | `integer` |  |  |
-
-Sections `variables`, one after the other, each opened by its key word:
-
-- `DesignVar` (designVariables): then the number of `designVariables` and their fields `designVarId` (integer).
-- `DesignConstants` (constants): then the number of `constants` and their fields `constantLabel` (text).
-
-Accepted words: `Constant`, `DesignConstants`, `DesignVar`, `Element`, `Table`.
+[DesignElemRelation2 — fields and example](reference/cards/optimisation.md#designelemrelation2)
 
 ### DesignEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `equation` | `text` |  |  |
+[DesignEquation — fields and example](reference/cards/optimisation.md#designequation)
 
 ### DesignFieldConstants
 
-No fixed field.
-
-Repeated group `entries`, after the fixed fields: `label` (text), `targetCard` (text), `targetId` (integer), `fieldName` (text).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignFieldConstants — fields and example](reference/cards/optimisation.md#designfieldconstants)
 
 ### DesignLoadRelation1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `setId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `minValue` | `real` | -1.0e35 |  |
-| 6 | `maxValue` | `real` | 1.0e20 |  |
-| 7 | `constant0` | `real` | 0.0 |  |
-| 8 | `attribute1` | `integer` |  |  |
-| 9 | `attribute2` | `integer` |  |  |
-| 10 | `attribute3` | `integer` |  |  |
-| 11 | `attribute4` | `integer` |  |  |
-| 12 | `attribute5` | `integer` |  |  |
-
-Repeated group `terms`, after the fixed fields: `designVarId` (integer), `coefficient` (any).
-
-Accepted words: `Constant`, `Element`, `LoadCombination`, `PointForceLoad`, `PointMomentLoad`, `PropertyValue`, `Table`.
+[DesignLoadRelation1 — fields and example](reference/cards/optimisation.md#designloadrelation1)
 
 ### DesignMatRelation1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `matId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `minValue` | `real` |  |  |
-| 6 | `maxValue` | `real` | 1.0e20 |  |
-| 7 | `constant0` | `real` | 0.0 |  |
-
-Repeated group `terms`, after the fixed fields: `designVarId` (integer), `coefficient` (any).
-
-Accepted words: `Constant`, `Element`, `PropertyValue`, `Table`.
+[DesignMatRelation1 — fields and example](reference/cards/optimisation.md#designmatrelation1)
 
 ### DesignMatRelation2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `matId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `minValue` | `real` |  |  |
-| 6 | `maxValue` | `real` | 1.0e20 |  |
-| 7 | `equationId` | `integer` |  |  |
-
-Sections `variables`, one after the other, each opened by its key word:
-
-- `DesignVar` (designVariables): then the number of `designVariables` and their fields `designVarId` (integer).
-- `DesignConstants` (constants): then the number of `constants` and their fields `constantLabel` (text).
-
-Accepted words: `Constant`, `DesignConstants`, `DesignVar`, `Element`, `Table`.
+[DesignMatRelation2 — fields and example](reference/cards/optimisation.md#designmatrelation2)
 
 ### DesignNodeMove
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `designVarId` | `integer` |  |  |
-| 2 | `nodeId` | `integer` |  |  |
-| 3 | `frameId` | `integer` | 0 |  |
-| 4 | `coefficient` | `real` | 0.0 |  |
-| 5 | `directionX` | `real` | 0.0 |  |
-| 6 | `directionY` | `real` | 0.0 |  |
-| 7 | `directionZ` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignNodeMove — fields and example](reference/cards/optimisation.md#designnodemove)
 
 ### DesignOptimParams
 
-No fixed field.
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `Constant`, `Element`, `Table`.
-
-Accepted parameter names: `AbsoluteObjectiveChange`, `AbsoluteObjectiveConvergence`, `ApproximationMethod`, `AutomaticSuperelementCreation`, `ConstraintActiveThreshold`, `ConstraintScale`, `ConstraintViolationThreshold`, `DesignVarConvergence`, `DesignVarMoveLimit`, `DesignVarScaling`, `DiscreteMethod`, `DiscreteStartCycle`, `EquivalentLoadMaxCycles`, `EquivalentLoadMoveLimit`, `FiniteDifferenceStep`, `FullyStressedMaxCycles`, `FullyStressedRelaxation`, `MaxConstraintViolation`, `MaxDesignCycles`, `MaxDesignVarChange`, `MaxPropertyChange`, `MinDesignVarChange`, `MinPropertyChange`, `ObjectiveRelativeToStart`, `OptimizationMethod`, `OptimizerName`, `OptimizerPrintLevel`, `PenaltyFactor`, `PrintAnalysisEveryCycle`, `PrintApproximation`, `PrintBeadConstraints`, `PrintConstraintCount`, `PrintDiscreteVars`, `PrintInterval`, `PrintItems`, `PrintMaterialCount`, `PrintMaxRetained`, `PrintPropertyCount`, `PrintResponseCount`, `PrintResponseSet`, `PropertyConvergence`, `PropertyLimitViolation`, `PropertyMoveLimit`, `PropertyTolerance`, `RelativeObjectiveChange`, `RelativeObjectiveConvergence`, `StepScale`, `SuperelementStopRatio`, `TopologyCheckerboard`, `TopologyMinMember`, `TopologyRegion`, `TrustRegionGrowthFactor`, `TrustRegionHighRatio`, `TrustRegionLowRatio`, `TrustRegionMiddleRatio`, `TrustRegionShrinkFactor`, `ViolationTreatment`.
+[DesignOptimParams — fields and example](reference/cards/optimisation.md#designoptimparams)
 
 ### DesignPropRelation1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `propId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `minValue` | `real` |  |  |
-| 6 | `maxValue` | `real` | 1.0e20 |  |
-| 7 | `constant0` | `real` | 0.0 |  |
-
-Repeated group `terms`, after the fixed fields: `designVarId` (integer), `coefficient` (any).
-
-Accepted words: `Constant`, `Element`, `PropertyValue`, `Table`.
+[DesignPropRelation1 — fields and example](reference/cards/optimisation.md#designproprelation1)
 
 ### DesignPropRelation2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `propId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `minValue` | `real` |  |  |
-| 6 | `maxValue` | `real` | 1.0e20 |  |
-| 7 | `equationId` | `integer` |  |  |
-
-Sections `variables`, one after the other, each opened by its key word:
-
-- `DesignVar` (designVariables): then the number of `designVariables` and their fields `designVarId` (integer).
-- `DesignConstants` (constants): then the number of `constants` and their fields `constantLabel` (text).
-
-Accepted words: `Constant`, `DesignConstants`, `DesignVar`, `Element`, `Table`.
+[DesignPropRelation2 — fields and example](reference/cards/optimisation.md#designproprelation2)
 
 ### DesignResp1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entryLabel` | `text` |  |  |
-| 3 | `responseKind` | `text` |  |  |
-| 4 | `ownerKind` | `any` |  |  |
-| 5 | `regionId` | `integer` | 0 |  |
-| 6 | `attributeA` | `any` |  |  |
-| 7 | `attributeB` | `any` |  |  |
-
-Repeated group `attributes`, after the fixed fields: `attribute` (any).
-
-Accepted words: `AbsoluteDisplacement`, `AbsoluteStress`, `AcousticFieldIntensity`, `AcousticFieldPressure`, `AcousticFieldVelocity`, `AcousticIntensity`, `AcousticPower`, `All`, `Alpha`, `Average`, `BucklingFactor`, `ComplexEigenvalue`, `Compliance`, `CompositeFailure`, `CompositeStrain`, `CompositeStrengthRatio`, `CompositeStress`, `Constant`, `ConstraintForce`, `ContourDisplacement`, `ContourForce`, `CutLoad`, `DeflectionToThickness`, `Displacement`, `Divergence`, `DynamicStiffness`, `Eigenvalue`, `Element`, `Elements`, `Fatigue`, `Fluid`, `Flutter`, `Force`, `FractionalMass`, `FreqAcceleration`, `FreqConstraintForce`, `FreqDisplacement`, `FreqFatigue`, `FreqForce`, `FreqStress`, `FreqVelocity`, `Frequency`, `KMethod`, `KMethodEfficient`, `MeanDisplacement`, `NodeForce`, `NodeForcePanel`, `Omega`, `PkMethod`, `PkMethodNoLoop`, `PkMethodNoLoopSweep`, `PkMethodSweep`, `Pressure`, `RadiatedPower`, `RootMeanSquareAcceleration`, `RootMeanSquareDisplacement`, `RootMeanSquareVelocity`, `Rotation`, `SectionLoad`, `SpectralAcceleration`, `SpectralDisplacement`, `SpectralVelocity`, `StabilityDerivative`, `Strain`, `StrainEnergy`, `Stress`, `Structure`, `Table`, `Through`, `TotalCompliance`, `TotalStrainEnergy`, `TransientAcceleration`, `TransientConstraintForce`, `TransientDisplacement`, `TransientForce`, `TransientStress`, `TransientVelocity`, `TrimVariable`, `Volume`, `Weight`, `WeightPerPropertyId`.
+[DesignResp1 — fields and example](reference/cards/optimisation.md#designresp1)
 
 ### DesignResp2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entryLabel` | `text` |  |  |
-| 3 | `equationId` | `integer` |  | alternative of `function` |
-| 4 | `function` | `text` |  | alternative of `equationId` |
-| 5 | `regionId` | `integer` | 0 |  |
-| 6 | `methodName` | `text` |  |  |
-| 7 | `constant1` | `real` | 1.0 |  |
-| 8 | `constant2` | `real` | 0.005 |  |
-| 9 | `constant3` | `real` | 10.0 |  |
-
-Sections `arguments`, one after the other, each opened by its key word:
-
-- `DesignVar` (designVariables): then the number of `designVariables` and their fields `designVarId` (integer).
-- `DesignConstants` (constants): then the number of `constants` and their fields `constantLabel` (text).
-- `DesignResp1` (responses): then the number of `responses` and their fields `responseId` (integer).
-- `DesignNodes` (nodeComponents): then the number of `nodeComponents` and their fields `nodeId` (integer), `nodeComponent` (integer).
-- `DesignPropRelation1` (propRelations): then the number of `propRelations` and their fields `propRelationId` (integer).
-- `DesignElemRelation1` (elemRelations): then the number of `elemRelations` and their fields `elemRelationId` (integer).
-- `DesignMatRelation1` (matRelations): then the number of `matRelations` and their fields `matRelationId` (integer).
-- `DesignPropRelation2` (propRelations2): then the number of `propRelations2` and their fields `propRelation2Id` (integer).
-- `DesignElemRelation2` (elemRelations2): then the number of `elemRelations2` and their fields `elemRelation2Id` (integer).
-- `DesignMatRelation2` (matRelations2): then the number of `matRelations2` and their fields `matRelation2Id` (integer).
-- `DesignResp2` (combinedResponses): then the number of `combinedResponses` and their fields `combinedResponseId` (integer).
-- `DesignLoadRelation1` (loadRelations): then the number of `loadRelations` and their fields `loadRelationId` (integer).
-
-Accepted words: `Average`, `BetaFunction`, `Constant`, `DesignConstants`, `DesignElemRelation1`, `DesignElemRelation2`, `DesignLoadRelation1`, `DesignMatRelation1`, `DesignMatRelation2`, `DesignNodes`, `DesignPropRelation1`, `DesignPropRelation2`, `DesignResp1`, `DesignResp2`, `DesignVar`, `Element`, `LeastSquares`, `MatchedResponses`, `Maximum`, `Minimum`, `RootSumSquare`, `SafetyFactorMax`, `Sum`, `SumOfSquares`, `Table`, `UserData`.
+[DesignResp2 — fields and example](reference/cards/optimisation.md#designresp2)
 
 ### DesignResp3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entryLabel` | `text` |  |  |
-| 3 | `groupName` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `regionId` | `integer` | 0 |  |
-
-Sections `arguments`, one after the other, each opened by its key word:
-
-- `DesignVar` (designVariables): then the number of `designVariables` and their fields `designVarId` (integer).
-- `DesignConstants` (constants): then the number of `constants` and their fields `constantLabel` (text).
-- `DesignResp1` (responses): then the number of `responses` and their fields `responseId` (integer).
-- `DesignNodes` (nodeComponents): then the number of `nodeComponents` and their fields `nodeId` (integer), `nodeComponent` (integer).
-- `DesignPropRelation1` (propRelations): then the number of `propRelations` and their fields `propRelationId` (integer).
-- `DesignElemRelation1` (elemRelations): then the number of `elemRelations` and their fields `elemRelationId` (integer).
-- `DesignMatRelation1` (matRelations): then the number of `matRelations` and their fields `matRelationId` (integer).
-- `DesignPropRelation2` (propRelations2): then the number of `propRelations2` and their fields `propRelation2Id` (integer).
-- `DesignElemRelation2` (elemRelations2): then the number of `elemRelations2` and their fields `elemRelation2Id` (integer).
-- `DesignMatRelation2` (matRelations2): then the number of `matRelations2` and their fields `matRelation2Id` (integer).
-- `DesignResp2` (combinedResponses): then the number of `combinedResponses` and their fields `combinedResponseId` (integer).
-- `DesignLoadRelation1` (loadRelations): then the number of `loadRelations` and their fields `loadRelationId` (integer).
-- `UserData` (userData): then the number of `userData` and their fields `userText` (text, one text field).
-
-Accepted words: `Constant`, `DesignConstants`, `DesignElemRelation1`, `DesignElemRelation2`, `DesignLoadRelation1`, `DesignMatRelation1`, `DesignMatRelation2`, `DesignNodes`, `DesignPropRelation1`, `DesignPropRelation2`, `DesignResp1`, `DesignResp2`, `DesignVar`, `Element`, `Table`, `UserData`.
+[DesignResp3 — fields and example](reference/cards/optimisation.md#designresp3)
 
 ### DesignShapeBasis
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `designVarId` | `integer` |  |  |
-| 2 | `column1` | `integer` |  |  |
-| 3 | `scaleFactor1` | `real` | 1.0 |  |
-| 4 | `column2` | `integer` |  |  |
-| 5 | `scaleFactor2` | `real` | 1.0 |  |
-| 6 | `column3` | `integer` |  |  |
-| 7 | `scaleFactor3` | `real` | 1.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignShapeBasis — fields and example](reference/cards/optimisation.md#designshapebasis)
 
 ### DesignTopologyRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entryLabel` | `text` |  |  |
-| 3 | `propType` | `text` |  |  |
-| 4 | `initialValue` | `real` |  |  |
-| 5 | `lowerBound` | `real` | 0.001 |  |
-| 6 | `designVarMoveLimit` | `real` |  |  |
-| 7 | `penaltyPower` | `real` |  |  |
-| 8 | `propId` | `integer` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Symmetry` (symmetry): fields `frameId` (integer), `mirrorPlane1` (text), `mirrorPlane2` (text), `mirrorPlane3` (text), `cyclicAxis` (text), `cyclicSegments` (integer).
-- `Casting` (casting): fields `frameId` (integer), `castDirection` (text), `dieCount` (integer), `alignment` (text).
-- `Extrusion` (extrusion): fields `frameId` (integer), `extrusionDirection` (text), `alignment` (text).
-- `Overhang` (overhang): fields `frameId` (integer), `overhangDirection` (text).
-- `MemberSize` (memberSize): fields `minMemberSize` (real), `maxMemberSize` (real).
-- `Stress` (stress): fields `stressLimit` (real).
-
-Accepted words: `Casting`, `Constant`, `Element`, `Extrusion`, `MemberSize`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `No`, `Overhang`, `PlaneXy`, `PlaneYz`, `PlaneZx`, `Stress`, `Symmetry`, `Table`, `XDirection`, `YDirection`, `Yes`, `ZDirection`.
+[DesignTopologyRegion — fields and example](reference/cards/optimisation.md#designtopologyregion)
 
 ### DesignTopometryRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `propId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `initialValue` | `real` |  |  |
-| 6 | `lowerBound` | `real` |  |  |
-| 7 | `upperBound` | `real` |  |  |
-| 8 | `designVarMoveLimit` | `real` | 0.5 |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `DesignVarLink` (link): fields `tableId` (integer), `constant0` (real), `coefficient1` (real).
-- `DesignDiscreteValues` (discreteValues): fields `discreteValuesId` (integer).
-- `Stress` (stress): fields `stressLimit` (real).
-- `Symmetry` (symmetry): fields `frameId` (integer), `mirrorPlane1` (text), `mirrorPlane2` (text), `mirrorPlane3` (text), `cyclicAxis` (text), `cyclicSegments` (integer), `firstSymmetryPropId` (integer).
-- `""` (moreSymmetryProps): then the number of `symmetryProps` and their fields `symmetryPropId` (integer).
-
-Accepted words: `Constant`, `DesignDiscreteValues`, `DesignVarLink`, `Element`, `PlaneXy`, `PlaneYz`, `PlaneZx`, `Stress`, `Symmetry`, `Table`, `XDirection`, `YDirection`, `ZDirection`.
+[DesignTopometryRegion — fields and example](reference/cards/optimisation.md#designtopometryregion)
 
 ### DesignVar
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entryLabel` | `text` |  |  |
-| 3 | `initialValue` | `real` |  |  |
-| 4 | `lowerBound` | `real` |  |  |
-| 5 | `upperBound` | `real` |  |  |
-| 6 | `designVarMoveLimit` | `real` |  |  |
-| 7 | `discreteValuesId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[DesignVar — fields and example](reference/cards/optimisation.md#designvar)
 
 ### DesignVarLink
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dependentVarId` | `integer` |  |  |
-| 3 | `constant0` | `real` | 0.0 |  |
-| 4 | `multiplier` | `real` | 1.0 |  |
-
-Repeated group `terms`, after the fixed fields: `independentId` (integer), `coefficient` (real).
-
-Accepted words: `Constant`, `Element`, `PropertyValue`, `Table`.
+[DesignVarLink — fields and example](reference/cards/optimisation.md#designvarlink)
 
 ### DirectMatrix
 
-Forms: `header`, `column`.
+[DirectMatrix — fields and example](reference/cards/matrices.md#directmatrix)
 
 #### DirectMatrix: header
 
-Form `header`, when `columnIndex` is `0`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `columnIndex` | `integer` |  |  |
-| 3 | `matrixForm` | `integer` |  |  |
-| 4 | `inputType` | `integer` |  |  |
-| 5 | `outputType` | `integer` | 0 |  |
-| 6 | `rowCount` | `integer` |  |  |
-| 7 | `columnCount` | `integer` | 0 |  |
+[header form](reference/cards/matrices.md#directmatrix-header)
 
 #### DirectMatrix: column
 
-Form `column`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `columnIndex` | `integer` |  |  |
-| 3 | `firstRow` | `integer` |  |  |
-
-Repeated group `values`, after the fixed fields: `value` (any).
-
-*Note*: a value of a column is a real (the element of the next row), an integer (the row of the element that follows) or THRU then a row (the element above repeated down to it).
-
-Accepted words: `AeroPressureMatrix`, `AeroWeightingFactor`, `AeroWeightingMatrix`, `DownwashMatrix`, `Through`.
+[column form](reference/cards/matrices.md#directmatrix-column)
 
 ### DirectMatrixAeroJ
 
-Forms: `header`, `column`.
+[DirectMatrixAeroJ — fields and example](reference/cards/matrices.md#directmatrixaeroj)
 
 #### DirectMatrixAeroJ: header
 
-Form `header`, when `nodeJ` is `0`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `matrixShape` | `integer` |  |  |
-| 4 | `inputType` | `integer` |  |  |
-| 5 | `outputType` | `integer` | 0 |  |
-| 6 | `polarFlag` | `integer` | 0 |  |
-| 7 | `columnCount` | `integer` | 0 |  |
+[header form](reference/cards/matrices.md#directmatrixaeroj-header)
 
 #### DirectMatrixAeroJ: column
 
-Form `column`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `componentsJ` | `integer` | 0 |  |
-
-Repeated group `terms`, after the fixed fields: `node` (integer), `components` (integer), `realValue` (real), `imaginaryValue` (real).
-
-Accepted words: `AeroPressureMatrix`, `DownwashMatrix`.
+[column form](reference/cards/matrices.md#directmatrixaeroj-column)
 
 ### DirectMatrixAeroJInterference
 
-Forms: `header`, `column`.
+[DirectMatrixAeroJInterference — fields and example](reference/cards/matrices.md#directmatrixaerojinterference)
 
 #### DirectMatrixAeroJInterference: header
 
-Form `header`, when `nodeJ` is `0`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `matrixShape` | `integer` |  |  |
-| 4 | `inputType` | `integer` |  |  |
-| 5 | `outputType` | `integer` | 0 |  |
-| 6 | `polarFlag` | `integer` | 0 |  |
-| 7 | `columnCount` | `integer` | 0 |  |
+[header form](reference/cards/matrices.md#directmatrixaerojinterference-header)
 
 #### DirectMatrixAeroJInterference: column
 
-Form `column`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `componentsJ` | `integer` | 0 |  |
-
-Repeated group `terms`, after the fixed fields: `node` (integer), `components` (integer), `realValue` (real), `imaginaryValue` (real).
-
-Accepted words: `AeroPressureMatrix`, `DownwashMatrix`.
+[column form](reference/cards/matrices.md#directmatrixaerojinterference-column)
 
 ### DirectMatrixAeroK
 
-Forms: `header`, `column`.
+[DirectMatrixAeroK — fields and example](reference/cards/matrices.md#directmatrixaerok)
 
 #### DirectMatrixAeroK: header
 
-Form `header`, when `nodeJ` is `0`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `matrixShape` | `integer` |  |  |
-| 4 | `inputType` | `integer` |  |  |
-| 5 | `outputType` | `integer` | 0 |  |
-| 6 | `polarFlag` | `integer` | 0 |  |
-| 7 | `columnCount` | `integer` | 0 |  |
+[header form](reference/cards/matrices.md#directmatrixaerok-header)
 
 #### DirectMatrixAeroK: column
 
-Form `column`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `componentsJ` | `integer` | 0 |  |
-
-Repeated group `terms`, after the fixed fields: `node` (integer), `components` (integer), `realValue` (real), `imaginaryValue` (real).
-
-Accepted words: `AeroWeightingFactor`, `AeroWeightingMatrix`.
+[column form](reference/cards/matrices.md#directmatrixaerok-column)
 
 ### DirectMatrixAxisym
 
-Forms: `header`, `column`.
+[DirectMatrixAxisym — fields and example](reference/cards/matrices.md#directmatrixaxisym)
 
 #### DirectMatrixAxisym: header
 
-Form `header`, when `nodeJ` is `0`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `matrixShape` | `integer` |  |  |
-| 4 | `inputType` | `integer` |  |  |
-| 5 | `outputType` | `integer` | 0 |  |
+[header form](reference/cards/matrices.md#directmatrixaxisym-header)
 
 #### DirectMatrixAxisym: column
 
-Form `column`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `componentsJ` | `integer` | 0 |  |
-| 4 | `harmonicJ` | `integer` |  |  |
-
-Repeated group `terms`, after the fixed fields: `node` (integer), `components` (integer), `harmonic` (integer), `realValue` (real), `imaginaryValue` (real).
+[column form](reference/cards/matrices.md#directmatrixaxisym-column)
 
 ### DirectMatrixNodal
 
-Forms: `header`, `column`.
+[DirectMatrixNodal — fields and example](reference/cards/matrices.md#directmatrixnodal)
 
 #### DirectMatrixNodal: header
 
-Form `header`, when `nodeJ` is `0`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `matrixShape` | `integer` |  |  |
-| 4 | `inputType` | `integer` |  |  |
-| 5 | `outputType` | `integer` | 0 |  |
-| 6 | `polarFlag` | `integer` | 0 |  |
-| 7 | `columnCount` | `integer` | 0 |  |
+[header form](reference/cards/matrices.md#directmatrixnodal-header)
 
 #### DirectMatrixNodal: column
 
-Form `column`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `nodeJ` | `integer` |  |  |
-| 3 | `componentsJ` | `integer` | 0 |  |
-
-Repeated group `terms`, after the fixed fields: `node` (integer), `components` (integer), `realValue` (real), `imaginaryValue` (real).
+[column form](reference/cards/matrices.md#directmatrixnodal-column)
 
 ### DirectTable
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `recordNumber` | `integer` |  |  |
-
-Repeated group `recordValues`, after the fixed fields: `recordValue` (any).
+[DirectTable — fields and example](reference/cards/matrices.md#directtable)
 
 ### DofSetRenames
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `oldName1` | `text` |  |  |
-| 2 | `newName1` | `text` |  |  |
-| 3 | `oldName2` | `text` |  |  |
-| 4 | `newName2` | `text` |  |  |
-| 5 | `oldName3` | `text` |  |  |
-| 6 | `newName3` | `text` |  |  |
-| 7 | `oldName4` | `text` |  |  |
-| 8 | `newName4` | `text` |  |  |
+[DofSetRenames — fields and example](reference/cards/sets.md#dofsetrenames)
 
 ### DynamicLoadCombination
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` |  |  |
-
-Repeated group `terms`, after the fixed fields: `termScaleFactor` (real), `loadSetId` (integer).
+[DynamicLoadCombination — fields and example](reference/cards/dynamics.md#dynamicloadcombination)
 
 ### DynamicLoadDelay
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `point1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `delay1` | `real` |  |  |
-| 5 | `point2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `delay2` | `real` |  |  |
+[DynamicLoadDelay — fields and example](reference/cards/dynamics.md#dynamicloaddelay)
 
 ### DynamicLoadPhase
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `point1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `phaseAngle1` | `real` |  |  |
-| 5 | `point2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `phaseAngle2` | `real` |  |  |
+[DynamicLoadPhase — fields and example](reference/cards/dynamics.md#dynamicloadphase)
 
 ### DynamicLoadScale
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `point1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `scaleFactor1` | `real` |  |  |
-| 5 | `point2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `scaleFactor2` | `real` |  |  |
+[DynamicLoadScale — fields and example](reference/cards/dynamics.md#dynamicloadscale)
 
 ### EchoOffMarker
 
-No fixed field.
+[EchoOffMarker — fields and example](reference/cards/solution_control.md#echooffmarker)
 
 ### EchoOnMarker
 
-No fixed field.
+[EchoOnMarker — fields and example](reference/cards/solution_control.md#echoonmarker)
 
 ### ElasticShearModel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `shearModulus` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ElasticShearModel — fields and example](reference/cards/explicit.md#elasticshearmodel)
 
 ### ElastoPlasticMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `form` | `text` | Slope |  |
-| 3 | `yieldStress` | `real` |  |  |
-| 4 | `stressStrainTableId` | `integer` | 0 |  |
-| 5 | `yieldCriterion` | `text` | VonMises |  |
-| 6 | `workHardening` | `text` | IsotropicHardening |  |
-| 7 | `hardeningSlope` | `real` | 0.0 |  |
-
-Sections `groups`, one after the other, each opened by its key word:
-
-- `RateEffect` (rateDependence): fields `groupOption` (text), `strainRateTableId` (integer), `hardeningOrRateCoefficient` (real), `cowperExponent` (real).
-- `AnisotropicYield` (anisotropy): fields `anisotropyRatio11` (real), `anisotropyRatio22` (real), `anisotropyRatio33` (real), `anisotropyRatio12` (real), `anisotropyRatio23` (real), `anisotropyRatio31` (real).
-- `PressureDependence` (pressureDependence): fields `groupOption` (text), `mohrCoulombAlpha` (real), `mohrCoulombBeta` (real).
-- `ChabocheHardening` (chabocheHardening): fields `chabocheYieldStress` (real), `saturatedIsotropicHardening` (real), `hardeningCoefficient` (real), `hardeningOrRateCoefficient` (real), `kinematicRecallRate` (real), `viscousCoefficient` (real), `hardeningOrViscousExponent` (real), `memoryHardeningLimit` (real), `memoryHardeningCoefficient` (real), `memoryEvolutionFactor` (real).
-- `JohnsonCookHardening` (johnsonCookHardening): fields `johnsonCookYieldStress` (real), `hardeningCoefficient` (real), `hardeningOrViscousExponent` (real), `hardeningOrRateCoefficient` (real), `thermalSofteningExponent` (real), `meltTemperature` (real), `roomTemperature` (real), `referenceStrainRate` (real).
-- `ImplicitCreep` (implicitCreep): fields `creepEquivalentStress` (real).
-
-Accepted words: `AnisotropicYield`, `BarlatYield`, `ChabocheHardening`, `CombinedHardening`, `CowperSymonds`, `Hill`, `ImplicitCreep`, `IsotropicHardening`, `JohnsonCookHardening`, `KinematicHardening`, `Linear`, `LinearMohrCoulomb`, `Parabolic`, `ParabolicMohrCoulomb`, `PerfectPlasticity`, `PressureDependence`, `RateEffect`, `Slope`, `Table`, `VonMises`.
+[ElastoPlasticMat — fields and example](reference/cards/materials.md#elastoplasticmat)
 
 ### ElastoPlasticMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `yieldStressTableId` | `integer` | 0 |  |
-| 3 | `stressStrainCurvesTableId` | `integer` | 0 |  |
-| 4 | `hardeningSlopeTableId` | `integer` | 0 |  |
-
-Sections `groups`, one after the other, each opened by its key word:
-
-- `ChabocheHardening` (chabocheHardening): fields `chabocheYieldStressTableId` (integer), `saturatedIsotropicHardeningTableId` (integer), `isotropicHardeningRateTableId` (integer), `kinematicHardeningModulusTableId` (integer), `kinematicRecallRateTableId` (integer), `viscousCoefficientTableId` (integer), `viscousExponentTableId` (integer), `memoryHardeningLimitTableId` (integer), `memoryHardeningCoefficientTableId` (integer), `memoryEvolutionFactorTableId` (integer).
-
-Accepted words: `ChabocheHardening`.
+[ElastoPlasticMatTemperature — fields and example](reference/cards/materials.md#elastoplasticmattemperature)
 
 ### ElemGeneration
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `kind` | `text` |  |  |
-| 2 | `firstElemId` | `integer` |  |  |
-| 3 | `propId` | `integer` |  |  |
-| 4 | `gridFieldId` | `integer` |  |  |
-| 5 | `direction` | `any` |  |  |
-| 6 | `thicknessOption` | `any` |  |  |
-| 7 | `lowElemId` | `any` |  |  |
-| 8 | `highElemId` | `any` |  |  |
-| 9 | `valueA` | `any` |  |  |
-| 10 | `valueB` | `any` |  |  |
-| 11 | `valueC` | `any` |  |  |
-| 12 | `valueD` | `any` |  |  |
-
-Accepted words: `Constant`, `Element`, `Hexa20`, `Hexa8`, `Quad4`, `Quad8`, `Table`, `Tria3`, `Tria6`.
+[ElemGeneration — fields and example](reference/cards/elements.md#elemgeneration)
 
 ### EnforcedMotionConstr
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `enforcedValue1` | `real` | 0.0 |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `enforcedValue2` | `real` | 0.0 |  |
+[EnforcedMotionConstr — fields and example](reference/cards/constraints.md#enforcedmotionconstr)
 
 ### EulerBarrier
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `contactBodyId` | `integer` | 0 |  |
-| 3 | `meshId` | `integer` | 0 |  |
-| 4 | `meshFace` | `text` |  |  |
-| 5 | `skinFriction` | `real` |  |  |
-| 6 | `minX` | `real` |  |  |
-| 7 | `maxX` | `real` |  |  |
-| 8 | `minY` | `real` |  |  |
-| 9 | `maxY` | `real` |  |  |
-| 10 | `minZ` | `real` |  |  |
-| 11 | `maxZ` | `real` |  |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[EulerBarrier — fields and example](reference/cards/explicit.md#eulerbarrier)
 
 ### EulerBodyForce
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frameId` | `integer` | 0 |  |
-| 3 | `scaleFactor` | `real` | 0.0 |  |
-| 4 | `tableId` | `integer` | 0 |  |
-| 5 | `directionX` | `real` | 0.0 |  |
-| 6 | `directionY` | `real` | 0.0 |  |
-| 7 | `directionZ` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[EulerBodyForce — fields and example](reference/cards/explicit.md#eulerbodyforce)
 
 ### EulerBodyForceSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `regionSetId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[EulerBodyForceSet — fields and example](reference/cards/explicit.md#eulerbodyforceset)
 
 ### EulerCyclicFlowBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `contactBodyId` | `integer` | 0 |  |
-| 3 | `flowType` | `text` |  |  |
-| 4 | `meshId` | `integer` | 0 |  |
-| 5 | `meshFace` | `text` |  |  |
-| 6 | `pairedBoundaryId` | `integer` |  |  |
-| 7 | `minX` | `real` |  |  |
-| 8 | `maxX` | `real` |  |  |
-| 9 | `minY` | `real` |  |  |
-| 10 | `maxY` | `real` |  |  |
-| 11 | `minZ` | `real` |  |  |
-| 12 | `maxZ` | `real` |  |  |
-| 13 | `method` | `integer` |  |  |
-| 14 | `tableId` | `integer` | 0 |  |
-
-Accepted words: `Both`, `Constant`, `Density`, `Element`, `Flow`, `Hydrostatic`, `In`, `Inside`, `Large`, `Material`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Pressure`, `Small`, `SpecificInternalEnergy`, `Symmetry`, `Table`, `VelocityX`, `VelocityY`, `VelocityZ`.
+[EulerCyclicFlowBoundary — fields and example](reference/cards/explicit.md#eulercyclicflowboundary)
 
 ### EulerDefaultFlowBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `solverType` | `text` |  |  |
-
-Repeated group `properties`, after the fixed fields: `propertyKind` (text), `propertyValue` (any).
-
-Accepted words: `Both`, `Constant`, `Density`, `Element`, `FirstOrder`, `Flow`, `Hydrodynamic`, `Hydrostatic`, `In`, `Material`, `MultiMaterialHydrodynamic`, `MultiMaterialStrength`, `Out`, `Pressure`, `SecondOrder`, `SpecificInternalEnergy`, `Strength`, `Symmetry`, `Table`, `VelocityX`, `VelocityY`, `VelocityZ`.
+[EulerDefaultFlowBoundary — fields and example](reference/cards/explicit.md#eulerdefaultflowboundary)
 
 ### EulerFlowBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setId` | `integer` |  |  |
-| 2 | `contactBodyId` | `integer` | 0 |  |
-| 3 | `meshId` | `integer` | 0 |  |
-| 4 | `meshFace` | `text` |  |  |
-| 5 | `minX` | `real` |  |  |
-| 6 | `maxX` | `real` |  |  |
-| 7 | `minY` | `real` |  |  |
-| 8 | `maxY` | `real` |  |  |
-| 9 | `minZ` | `real` |  |  |
-| 10 | `maxZ` | `real` |  |  |
-| 11 | `propertyKind1` | `text` |  |  |
-| 12 | `propertyValue1` | `any` |  |  |
-| 13 | `propertyKind2` | `text` |  |  |
-| 14 | `propertyValue2` | `any` |  |  |
-| 15 | `propertyKind3` | `text` |  |  |
-| 16 | `propertyValue3` | `any` |  |  |
-| 17 | `propertyKind4` | `text` |  |  |
-| 18 | `propertyValue4` | `any` |  |  |
-| 19 | `propertyKind5` | `text` |  |  |
-| 20 | `propertyValue5` | `any` |  |  |
-
-Accepted words: `Both`, `Constant`, `Density`, `Element`, `Flow`, `Hydrostatic`, `In`, `Inside`, `Large`, `Material`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Pressure`, `Small`, `SpecificInternalEnergy`, `Symmetry`, `Table`, `VelocityX`, `VelocityY`, `VelocityZ`.
+[EulerFlowBoundary — fields and example](reference/cards/explicit.md#eulerflowboundary)
 
 ### EulerForceRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `setId` | `integer` |  |  |
-| 3 | `shapeType` | `text` |  |  |
-| 4 | `shapeId` | `integer` |  |  |
-| 5 | `matId` | `integer` |  |  |
-| 6 | `accelX` | `integer` |  |  |
-| 7 | `accelY` | `integer` |  |  |
-| 8 | `accelZ` | `integer` |  |  |
-| 9 | `level` | `real` | 0.0 |  |
-
-Accepted words: `Box`, `Constant`, `Cylinder`, `Element`, `Elements`, `Sphere`, `Surface`, `Table`.
+[EulerForceRegion — fields and example](reference/cards/explicit.md#eulerforceregion)
 
 ### EulerHydrostaticPreset
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `nodeId` | `integer` | 0 |  |
-| 4 | `frameId` | `integer` | 0 |  |
-| 5 | `surfacePointX` | `real` |  |  |
-| 6 | `surfacePointY` | `real` |  |  |
-| 7 | `surfacePointZ` | `real` |  |  |
-| 8 | `surfacePressure` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[EulerHydrostaticPreset — fields and example](reference/cards/explicit.md#eulerhydrostaticpreset)
 
 ### EulerInitialRegions
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `regionGroupId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[EulerInitialRegions — fields and example](reference/cards/explicit.md#eulerinitialregions)
 
 ### EulerLagrangeCoupling
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `surfaceId` | `integer` |  |  |
-| 3 | `cover` | `text` |  |  |
-| 4 | `reverseNormals` | `text` |  |  |
-| 5 | `checkNormals` | `text` |  |  |
-| 6 | `porosityId` | `integer` | 0 |  |
-| 7 | `optionId` | `integer` | 0 |  |
-| 8 | `couplingType` | `text` |  |  |
-| 9 | `inflatorId` | `integer` | 0 |  |
-| 10 | `heatTransferId` | `integer` | 0 |  |
-| 11 | `staticFriction` | `real` | 0.0 |  |
-| 12 | `kineticFriction` | `real` | 0.0 |  |
-| 13 | `frictionDecay` | `real` | 0.0 |  |
-| 14 | `initialGasId` | `integer` | 0 |  |
-| 15 | `elemSetId` | `integer` | 0 |  |
-| 16 | `meshId` | `integer` | 0 |  |
-| 17 | `deactivationTime` | `real` |  |  |
-| 18 | `failedSegmentFlowId` | `integer` | 0 |  |
-| 19 | `hydrostaticId` | `integer` | 0 |  |
-| 20 | `skinFriction` | `real` | 0.0 |  |
-| 21 | `cohesiveFrictionSetId` | `integer` | 0 |  |
-
-Accepted words: `AirbagCoupling`, `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Standard`, `Table`.
+[EulerLagrangeCoupling — fields and example](reference/cards/explicit.md#eulerlagrangecoupling)
 
 ### EulerMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `density` | `real` |  |  |
-| 3 | `equationOfStateId` | `integer` |  |  |
-| 4 | `shearModelId` | `integer` | 0 |  |
-| 5 | `yieldModelId` | `integer` | 0 |  |
-| 6 | `failureModelId` | `integer` | 0 |  |
-| 7 | `spallModelId` | `integer` | 0 |  |
-| 8 | `linearBulkViscosity` | `real` | 0.0 |  |
-| 9 | `quadraticBulkViscosity` | `real` | 1.0 |  |
-| 10 | `bulkViscosityKind` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `ExternalExplicitProgram`, `ExternalExplicitSolver`, `Table`.
+[EulerMat — fields and example](reference/cards/materials.md#eulermat)
 
 ### EulerMeshBias
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `intervals`, after the fixed fields: `intervalStart` (real), `intervalGrowth` (real), `intervalElemCount` (integer), `intervalStartSize` (real), `intervalEndSize` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[EulerMeshBias — fields and example](reference/cards/explicit.md#eulermeshbias)
 
 ### EulerMeshGenerator
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `meshType` | `text` |  |  |
-| 3 | `elemSizeX` | `real` |  |  |
-| 4 | `elemSizeY` | `real` |  |  |
-| 5 | `elemSizeZ` | `real` |  |  |
-| 6 | `xReference` | `real` |  |  |
-| 7 | `yReference` | `real` |  |  |
-| 8 | `zReference` | `real` |  |  |
-| 9 | `originX` | `real` |  |  |
-| 10 | `originY` | `real` |  |  |
-| 11 | `originZ` | `real` |  |  |
-| 12 | `widthX` | `real` |  |  |
-| 13 | `widthY` | `real` |  |  |
-| 14 | `widthZ` | `real` |  |  |
-| 15 | `elemCountX` | `integer` |  |  |
-| 16 | `elemCountY` | `integer` |  |  |
-| 17 | `elemCountZ` | `integer` |  |  |
-| 18 | `subMeshId` | `integer` | 0 |  |
-| 19 | `firstNodeId` | `integer` | 0 |  |
-| 20 | `firstElemId` | `integer` | 0 |  |
-| 21 | `propKind` | `text` |  |  |
-| 22 | `propId` | `integer` |  |  |
-| 23 | `resize` | `text` |  |  |
-| 24 | `resizeTableIdX` | `integer` | 0 |  |
-| 25 | `resizeTableIdY` | `integer` | 0 |  |
-| 26 | `resizeTableIdZ` | `integer` | 0 |  |
-| 27 | `remeshMethod` | `text` |  |  |
-| 28 | `biasStart` | `text` |  |  |
-| 29 | `growthX` | `real` |  |  |
-| 30 | `growthY` | `real` |  |  |
-| 31 | `growthZ` | `real` |  |  |
-| 32 | `biasIdX` | `integer` | 0 |  |
-| 33 | `biasIdY` | `integer` | 0 |  |
-| 34 | `biasIdZ` | `integer` | 0 |  |
-| 35 | `boxOriginX` | `real` |  |  |
-| 36 | `boxOriginY` | `real` |  |  |
-| 37 | `boxOriginZ` | `real` |  |  |
-| 38 | `boxWidthX` | `real` |  |  |
-| 39 | `boxWidthY` | `real` |  |  |
-| 40 | `boxWidthZ` | `real` |  |  |
-| 41 | `frameId` | `integer` | 0 |  |
-| 42 | `elemsPerCube` | `integer` | 1 |  |
-| 43 | `cubeCountX` | `integer` |  |  |
-| 44 | `cubeCountY` | `integer` |  |  |
-| 45 | `cubeCountZ` | `integer` |  |  |
-| 46 | `partitionDirection` | `text` |  |  |
-| 47 | `partitionCountX` | `integer` |  |  |
-| 48 | `partitionCountY` | `integer` |  |  |
-| 49 | `partitionCountZ` | `integer` |  |  |
-
-Accepted words: `Adaptive`, `All`, `Box`, `Center`, `Constant`, `Element`, `Euler`, `Length`, `Material`, `None`, `Reference`, `Scale`, `Simple`, `Table`, `User`, `XDirection`, `YDirection`, `ZDirection`.
+[EulerMeshGenerator — fields and example](reference/cards/explicit.md#eulermeshgenerator)
 
 ### EulerProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` | 0 |  |
-| 3 | `solverType` | `text` | Hydrodynamic |  |
-
-Accepted words: `Constant`, `Element`, `FirstOrder`, `Hydrodynamic`, `MultiMaterialHydrodynamic`, `MultiMaterialStrength`, `SecondOrder`, `Strength`, `Table`.
+[EulerProp — fields and example](reference/cards/explicit.md#eulerprop)
 
 ### EulerRegionProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `solverType` | `text` |  |  |
-| 3 | `initialRegionsId` | `integer` |  |  |
-| 4 | `bodyForceSetId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `FirstOrder`, `Hydrodynamic`, `MultiMaterialHydrodynamic`, `MultiMaterialStrength`, `SecondOrder`, `Strength`, `Table`.
+[EulerRegionProp — fields and example](reference/cards/explicit.md#eulerregionprop)
 
 ### EulerTimeFlowBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `contactBodyId` | `integer` | 0 |  |
-| 3 | `flowType` | `text` |  |  |
-| 4 | `meshId` | `integer` | 0 |  |
-| 5 | `meshFace` | `text` |  |  |
-| 6 | `minX` | `real` |  |  |
-| 7 | `maxX` | `real` |  |  |
-| 8 | `minY` | `real` |  |  |
-| 9 | `maxY` | `real` |  |  |
-| 10 | `minZ` | `real` |  |  |
-| 11 | `maxZ` | `real` |  |  |
-| 12 | `velocitySource` | `text` | Element |  |
-| 13 | `velocity` | `any` |  |  |
-| 14 | `pressureSource` | `text` | Element |  |
-| 15 | `pressure` | `any` |  |  |
-| 16 | `matId` | `integer` | 0 |  |
-| 17 | `densitySource` | `text` | Element |  |
-| 18 | `density` | `any` |  |  |
-| 19 | `energySource` | `text` | Element |  |
-| 20 | `specificEnergy` | `any` |  |  |
-
-Accepted words: `Both`, `Constant`, `Density`, `Element`, `Flow`, `Hydrostatic`, `In`, `Inside`, `Large`, `Material`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Pressure`, `Small`, `SpecificInternalEnergy`, `Symmetry`, `Table`, `VelocityX`, `VelocityY`, `VelocityZ`.
+[EulerTimeFlowBoundary — fields and example](reference/cards/explicit.md#eulertimeflowboundary)
 
 ### EulerUserFlowBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setId` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `userRoutineName` | `text` |  |  |
-| 4 | `contactBodyId` | `integer` | 0 |  |
-| 5 | `meshId` | `integer` | 0 |  |
-| 6 | `meshFace` | `text` |  |  |
-| 7 | `minX` | `real` |  |  |
-| 8 | `maxX` | `real` |  |  |
-| 9 | `minY` | `real` |  |  |
-| 10 | `maxY` | `real` |  |  |
-| 11 | `minZ` | `real` |  |  |
-| 12 | `maxZ` | `real` |  |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `ExternalFlow`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[EulerUserFlowBoundary — fields and example](reference/cards/explicit.md#euleruserflowboundary)
 
 ### ExplicitParam
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-
-Repeated group `fieldValues`, after the fixed fields: `fieldValue` (any).
-
-Accepted words: `All`, `Automatic`, `AutomaticSize`, `Average`, `AverageDisplacement`, `AxialMesh`, `BatchSize`, `BeamEntities`, `Belt`, `BeltElem1`, `BelytschkoLinTsay`, `Both`, `CheckEulerElems`, `CodeV4`, `ContactOutput`, `CoupleSurface`, `CouplingPorosity`, `Cover`, `DampingForce`, `DampingKind`, `DrawBeadContact`, `ElemView`, `Elements`, `Euler`, `EulerPressure`, `EulerSubcyclesMax`, `EulerType9`, `ExternalExplicitProgram`, `ExternalExplicitSolver`, `FaceEntities`, `FacetSurface`, `FailureCriterion`, `Fiber`, `FlanaganBelytschkoStiffness`, `FlanaganBelytschkoViscous`, `FluidStructureCouplingKind`, `Force`, `Full`, `GapKind`, `ImpulseLoad`, `InPlaneMesh`, `InfoParameters`, `InformationKind`, `InternalKind`, `Iterative`, `KeywordHoff`, `LagrangePressure`, `LimitsKind`, `Link`, `MatrixMergeKind`, `MaxForceFactor`, `MaximumUncoupled`, `MembraneKind`, `Metal`, `MidsideNodes`, `NearOnlyKind`, `No`, `NoCheckEulerElems`, `NoFailure`, `NoLink`, `NoOffset`, `NodeOutputOff`, `NodeOutputOn`, `NonMetal`, `None`, `Off`, `On`, `OrbitKind`, `PlaneXy`, `PlaneYz`, `PlaneZx`, `PolynomialPacking`, `PolynomialPackingShort`, `PorousKind`, `ProcessorInformation`, `ProcessorLoopCount`, `Radial`, `RectRegion`, `Reduced`, `RemoveKind`, `RoeScheme`, `SharedMemoryParallel`, `ShellEntities`, `Side21Kind`, `Simple`, `SolidEntities`, `SphericalKind`, `Steps`, `Sum`, `TableDynamic1`, `ThicknessKind`, `User`, `Vector`, `VersionKind`, `XAxis`, `YAxis`, `Yes`, `ZAxis`, `Zero`.
-
-Accepted parameter names: `AccelerationX`, `AccelerationY`, `AccelerationZ`, `ActiveState`, `AlignmentOption`, `AreaTolerance`, `AutoCoupling`, `AxialRemap`, `AxialSymmetry`, `AxialSymmetryAxis`, `BoxCountX`, `BoxCountY`, `BoxCountZ`, `BulkViscosityKind`, `CenterX`, `CenterY`, `CenterZ`, `CleanupOption`, `ClumpEnergy`, `ClumpFlowLimit`, `CohesionOption`, `ContactDefaults`, `CouplingFriction`, `CouplingSubcycleMaxTime`, `CubeLimit`, `CycleCount`, `DensityCutoff`, `DistributedParallelOptions`, `DummySegments`, `DummyValue`, `ElemsPerCube`, `EntityKind`, `EulerCubeBlocks`, `EulerPartitioning`, `EulerSubcycles`, `EulerSubcyclesMax`, `EulerTransport`, `FailureOption`, `FailureOutput`, `FailureTimeStep`, `FastCoupling`, `FirstRigidBodyName`, `FlowMethod`, `FrictionCoefficient`, `FullRigidCoupling`, `GasMixing`, `GeometryCheckOption`, `GravityAcceleration`, `HourglassCoefficient`, `HourglassKind`, `HourglassMembraneCoefficient`, `HourglassShell`, `HourglassSolid`, `HourglassSolidCoefficient`, `HourglassTwistCoefficient`, `HourglassWarpCoefficient`, `HydroVolumeFailure`, `HydrostaticBody`, `HydrostaticInitialGravity`, `InfoObjects`, `InfoParameters`, `InitialMetricMethod`, `InitialStep`, `InternalOption`, `JonesWilkinsLeeDetonation`, `KeyName`, `KindChoice`, `LagrangePartitioning`, `LimiterKind`, `LinearBulkViscosity`, `MassScaling`, `MaxPercent`, `MaxStepSize`, `MaxStress`, `MaxSubcycles`, `MaxVelocity`, `MaxVelocity1`, `MaxVelocityAdapted`, `MaxVelocityChange`, `MaxVelocityTime`, `MaximumX`, `MaximumY`, `MaximumZ`, `MeshKind`, `MeshPlane`, `MinPressureFailure`, `MinStepSize`, `MinTimeStep`, `MinimumX`, `MinimumY`, `MinimumZ`, `NextRigidBodyName`, `NormalX`, `NormalY`, `NormalZ`, `OccupantAccelerationOutput`, `OccupantHistoryOutput`, `OccupantTimeOutput`, `OldLagrangeTime`, `OriginX`, `OriginY`, `OriginZ`, `OutputChoice`, `ParallelOption`, `PartitionCountX`, `PartitionCountY`, `PartitionCountZ`, `PartitionDirection`, `PartitionMethod`, `PhiValue`, `PhiValue2`, `PlasticCoverCut`, `PointMassOutput`, `ProcessorLoopCount`, `QuadraticBulkViscosity`, `RadialAxis`, `ReferenceVelocity`, `RemapRange`, `RigidBodyMerge`, `RigidBodyMerge1`, `RigidBodyStarInfo`, `RigidJointStiffness`, `ScaleFactor`, `SelectedElems`, `SharedMemoryParallel`, `ShellElemSystem`, `ShellFormulation`, `ShellPlasticity`, `ShellStrainDefinition`, `ShellThicknessUpdate`, `SmallestTimeStepElemCount`, `SoundSpeedLimit`, `SphericalRemap`, `SphericalSymmetry`, `StepCount`, `StrainOutput`, `SubcycleLink`, `SymmetryPlane`, `ToleranceCheck`, `VectorX`, `VectorY`, `VectorZ`, `VelocityDamping`, `Viscoplasticity`, `ZeroNodeVelocity`.
-
-Rigid-body designators of RigidBodyMerge and RigidBodyMerge1 use RigidAssembly(id) or RigidMat(id), with a positive ID and exact case.
+[ExplicitParam — fields and example](reference/cards/explicit.md#explicitparam)
 
 ### ExplicitTextEnd
 
-No fixed field.
+[ExplicitTextEnd — fields and example](reference/cards/explicit.md#explicittextend)
 
 ### ExplicitTextStart
 
-No fixed field.
+[ExplicitTextStart — fields and example](reference/cards/explicit.md#explicittextstart)
 
 ### ExtraPoint
 
-No fixed field.
-
-Repeated group `ids`, after the fixed fields: `id` (any).
-
-Accepted words: `Through`.
+[ExtraPoint — fields and example](reference/cards/nodes.md#extrapoint)
 
 ### FabricMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `density` | `real` |  |  |
-| 3 | `coatingYoungsModulus` | `real` |  |  |
-| 4 | `coatingPoissonRatio` | `real` |  |  |
-| 5 | `coatingShearModulus` | `real` |  |  |
-| 6 | `coatingDamping` | `real` | 0.1 |  |
-| 7 | `coatingCompressionScale` | `real` | 1.0 |  |
-| 8 | `coatingThicknessPercent` | `real` | 0.0 |  |
-| 9 | `warpModulusLinear` | `real` |  |  |
-| 10 | `warpModulusQuadratic` | `real` | 0.0 |  |
-| 11 | `warpAngle` | `real` |  |  |
-| 12 | `warpDirectionX` | `real` | 1.0 |  |
-| 13 | `warpDirectionY` | `real` | 0.0 |  |
-| 14 | `warpDirectionZ` | `real` | 0.0 |  |
-| 15 | `weftModulusLinear` | `real` |  |  |
-| 16 | `weftModulusQuadratic` | `real` | 0.0 |  |
-| 17 | `weftAngle` | `real` |  |  |
-| 18 | `weftDirectionX` | `real` | 0.0 |  |
-| 19 | `weftDirectionY` | `real` | 1.0 |  |
-| 20 | `weftDirectionZ` | `real` | 0.0 |  |
-| 21 | `shearFriction` | `real` | 0.0 |  |
-| 22 | `shearModulus12` | `real` |  |  |
-| 23 | `fiberDamping` | `real` | 0.1 |  |
-| 24 | `fiberCompressionScale` | `real` | 1.0 |  |
-| 25 | `lockAngle1` | `real` | 10.0 |  |
-| 26 | `lockAngle2` | `real` | 15.0 |  |
+[FabricMat — fields and example](reference/cards/materials.md#fabricmat)
 
 ### FacePressureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId` | `integer` |  |  |
-| 3 | `pressure1` | `real` | 0.0 |  |
-| 4 | `pressure2` | `real` |  |  |
-| 5 | `pressure3` | `real` |  |  |
-| 6 | `pressure4` | `real` |  |  |
-| 7 | `node1` | `any` | 0 |  |
-| 8 | `node3Or4OrElemId2` | `integer` |  |  |
-| 9 | `frameId` | `integer` | 0 |  |
-| 10 | `directionX` | `real` | 0.0 |  |
-| 11 | `directionY` | `real` | 0.0 |  |
-| 12 | `directionZ` | `real` | 0.0 |  |
-| 13 | `surfaceOrLine` | `text` |  |  |
-| 14 | `lineLoadDirection` | `text` |  |  |
-
-*Note*: node1 and node3Or4OrElemId2 name the loaded face of a solid element: two diagonally opposite corners of a quadrilateral face (SolidHexa, SolidPenta, the base of a SolidPyramid); the two corners of the edge that a triangular face of a SolidPyramid has on the base; node1 alone for a triangular face of a SolidPenta; for a SolidTetra, node1 a corner of the face and the other the corner that is not on it.
-
-Accepted words: `Line`, `Norm`, `Surface`, `Tangent`, `Through`, `XDirection`, `YDirection`, `ZDirection`.
+[FacePressureLoad — fields and example](reference/cards/loads.md#facepressureload)
 
 ### FailureMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `degradationKind` | `integer` | 0 |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Criterion` (criterion): fields `criterion` (integer), `criterionValue1` (real), `criterionValue2` (real), `criterionValue3` (real), `criterionValue4` (real), `criterionValue5` (real), `criterionValue6` (real), `criterionValue7` (real), `criterionValue8` (real), `criterionValue9` (real), `failureIndexScale` (real), `criterionValue10` (real), `criterionValue11` (any), `criterionValue12` (any), `strainLimit1` (any), `strainLimit2` (real), `strainLimit3` (real), `strainLimit4` (real), `strainLimit5` (real), `strainLimit6` (real), `strainLimit7` (real), `strainLimit8` (real), `strainLimit9` (real).
-- `ProgressiveFailure` (progressiveFailure): fields `residualStiffness` (real), `degradationParameter2` (real), `degradationParameter3` (real), `degradationParameter4` (real), `degradationParameter5` (real).
-
-*Note*: criterionValue11, criterionValue12 and strainLimit1 hold a word for the criteria that take one there (102: the failure method; 105: the cap type and the iteration).
-
-Accepted words: `Continue`, `Criterion`, `Discard`, `FullIterations`, `ProgressiveFailure`, `RockModel`, `SoilModel`, `VectorizedIterations`.
+[FailureMat — fields and example](reference/cards/materials.md#failuremat)
 
 ### FailureMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bondShearAllowableTableId` | `integer` | 0 |  |
-
-Repeated group `blocks`, after the fixed fields: `kind` (integer), `criterion` (integer), `failurePropertyTableId1` (integer), `failurePropertyTableId2` (integer), `failurePropertyTableId3` (integer), `failurePropertyTableId4` (integer), `failurePropertyTableId5` (integer), `failurePropertyTableId6` (integer), `failurePropertyTableId7` (integer), `failurePropertyTableId8` (integer), `failurePropertyTableId9` (integer), `failurePropertyTableId10` (integer), `failurePropertyTableId11` (integer), `failurePropertyTableId12` (integer), `failurePropertyTableId13` (integer), `failurePropertyTableId14` (integer), `failurePropertyTableId15` (integer), `failurePropertyTableId16` (integer), `failurePropertyTableId17` (integer), `failurePropertyTableId18` (integer), `failurePropertyTableId19` (integer), `failurePropertyTableId20` (integer), `failurePropertyTableId21` (integer), `failurePropertyTableId22` (integer).
+[FailureMatTemperature — fields and example](reference/cards/materials.md#failuremattemperature)
 
 ### Fastener
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `kind` | `text` |  |  |
-| 4 | `patchIdA` | `integer` |  |  |
-| 5 | `patchIdB` | `integer` |  |  |
-| 6 | `spotNode` | `integer` | 0 |  |
-| 7 | `nodeA` | `integer` | 0 |  |
-| 8 | `nodeB` | `integer` | 0 |  |
-| 9 | `locationX` | `real` |  |  |
-| 10 | `locationY` | `real` |  |  |
-| 11 | `locationZ` | `real` |  |  |
-
-Accepted words: `Elements`, `Property`.
+[Fastener — fields and example](reference/cards/elements.md#fastener)
 
 ### FastenerProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `diameter` | `real` |  |  |
-| 3 | `matFrameId` | `integer` |  |  |
-| 4 | `absoluteFrame` | `integer` | 0 |  |
-| 5 | `translationalStiffness1` | `real` |  |  |
-| 6 | `translationalStiffness2` | `real` |  |  |
-| 7 | `translationalStiffness3` | `real` |  |  |
-| 8 | `rotationalStiffness1` | `real` | 0.0 |  |
-| 9 | `rotationalStiffness2` | `real` | 0.0 |  |
-| 10 | `rotationalStiffness3` | `real` | 0.0 |  |
-| 11 | `mass` | `real` | 0.0 |  |
-| 12 | `structuralDamping` | `real` | 0.0 |  |
-| 13 | `alphaCoefficient` | `real` | 0.0 |  |
-| 14 | `referenceTemperature` | `real` | 0.0 |  |
-| 15 | `coincidentLength` | `real` | 0.0 |  |
+[FastenerProp — fields and example](reference/cards/properties.md#fastenerprop)
 
 ### FastenerPropFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Stiffness` (stiffnessLine): fields `stiffnessTableId1` (integer), `stiffnessTableId2` (integer), `stiffnessTableId3` (integer), `stiffnessTableId4` (integer), `stiffnessTableId5` (integer), `stiffnessTableId6` (integer).
-- `StructuralDamping` (structuralDampingLine): fields `structuralDampingTableId` (integer).
-- `NonlinearForce` (nonlinearForceLine): fields `nonlinearForceTableId1` (integer), `nonlinearForceTableId2` (integer), `nonlinearForceTableId3` (integer), `nonlinearForceTableId4` (integer), `nonlinearForceTableId5` (integer), `nonlinearForceTableId6` (integer).
-- `""` (fuse): fields `forceDeflectionRule` (text), `fuseMode` (integer), `direction` (integer), `fuseOption` (text), `lowerBound` (real), `upperBound` (real), `fuseStiffnessRetention` (real), `largeRotationEndA` (integer).
-
-Accepted words: `ActualUltimateLoad`, `NonlinearForce`, `NonlinearResponse`, `RelativeDisplacement`, `Stiffness`, `StructuralDamping`, `TransverseShear`, `TransverseXy`, `TransverseXz`, `TransverseYz`, `UltimateLoad`.
+[FastenerPropFreq — fields and example](reference/cards/properties.md#fastenerpropfreq)
 
 ### FatigueDefinition
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `topStressCount` | `real` |  |  |
-| 3 | `fatiguePropIds` | `integer` | 0 |  |
-| 4 | `topDamageCount` | `real` |  |  |
-| 5 | `maxEntities` | `integer` |  |  |
-| 6 | `maxOutputEntities` | `integer` | 100 |  |
-| 7 | `hotSpotCount` | `integer` |  |  |
-| 8 | `hotSpotGate` | `integer` | 0 |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `ElemSet` (elemSetLines): then the number of `elemSets` and their fields `elemSetId` (integer), `fatiguePropId` (integer).
-- `SpotWeld` (spotWeldLines): then the number of `spotWelds` and their fields `elemSetId` (integer), `fatiguePropId` (integer).
-- `SeamWeld` (seamWeldLines): then the number of `seamWelds` and their fields `elemSetId` (integer), `fatiguePropId` (integer), `nodeSetId` (integer), `weldType` (text), `weldLocation` (text).
-- `ExcludedElemSet` (excludedLines): then the number of `excludedElemSets` and their fields `excludedElemSetId` (integer).
-
-Accepted words: `Constant`, `Edge`, `ElemSet`, `Element`, `ExcludedElemSet`, `FilletWeld`, `Generic`, `LaserWeld`, `OverlapWeld`, `RootWeld`, `SeamWeld`, `SpotWeld`, `Table`, `ThroatThickness`, `ToeWeld`.
+[FatigueDefinition — fields and example](reference/cards/solution_control.md#fatiguedefinition)
 
 ### FatigueEvent
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-The number of repetitions of `fatigueLoads` (integer, blank for none).
-
-Repeated group `fatigueLoads`, after the fixed fields: `fatigueLoadId` (integer).
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Name` (nameLine): fields `eventName` (text, one text field).
-
-Accepted words: `Constant`, `Element`, `FatigueLoad`, `Name`, `Table`.
+[FatigueEvent — fields and example](reference/cards/solution_control.md#fatigueevent)
 
 ### FatigueLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `tableId` | `integer` | 0 |  |
-| 3 | `loadCaseId` | `integer` |  |  |
-| 4 | `referenceLoadMagnitude` | `real` | 1.0 |  |
-| 5 | `scaleFactor` | `real` | 1.0 |  |
-| 6 | `offset` | `real` |  |  |
-| 7 | `historyKind` | `text` |  |  |
-| 8 | `channel` | `integer` | 0 |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Units` (units): fields `equivalentUnits` (real), `equivalentUnitName` (text, one text field).
-- `DeterministicLoad` (deterministicLoad): then the number of `bands` and their fields `bandFrequency` (real), `bandAmplitude` (real), `bandWidth` (real).
-- `SweepLoad` (sweep): fields `sweepStartFrequency` (real), `sweepStartAmplitude` (real), `sweepEndFrequency` (real), `sweepEndAmplitude` (real), `sweepKind` (text), `sweepNumber` (integer), `sweepRate` (real), `sweepCount` (integer), `transferFunctionQuantity` (text), `loadQuantity` (text).
-
-Accepted words: `Acceleration`, `Constant`, `ConstantLoad`, `DataAcquisitionFile`, `Decibel`, `DeterministicLoad`, `Displacement`, `Element`, `Force`, `FreqInHertz`, `LoadHistoryFile`, `NarrowBand`, `Octave`, `SineLoad`, `SpectralDensityLoad`, `Static`, `SweepLoad`, `Table`, `Units`, `Velocity`.
+[FatigueLoad — fields and example](reference/cards/solution_control.md#fatigueload)
 
 ### FatigueMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stressUnitFactor` | `real` | 1.0 |  |
-| 3 | `debugOutput` | `integer` | 0 |  |
-
-Sections `blocks`, one after the other, each opened by its key word:
-
-- `Static` (staticProperties): fields `yieldStrength` (real), `ultimateTensileStrength` (real), `materialCode` (integer), `curveKind` (text), `testStressRatio` (real), `standardError` (real), `plasticPoissonRatio` (real), `areaReduction` (real).
-- `StressLifeMethod` (snCurve): fields `snCurveTerm1` (real), `snCurveTerm2` (real), `snCurveTerm3` (real), `snCurveTerm4` (real), `snCurveTerm5` (real), `snCurveTerm6` (real), `snCurveTerm7` (real), `meanStressTerm1` (real), `meanStressTerm2` (real), `meanStressTerm3` (real), `meanStressTerm4` (real), `meanStressTerm5` (real), `meanStressTerm6` (real), `meanStressTerm7` (real), `spotWeldTerm1` (real), `spotWeldTerm2` (real), `spotWeldTerm3` (real), `spotWeldTerm4` (real), `spotWeldTerm5` (real), `spotWeldTerm6` (real), `spotWeldTerm7` (real), `spotWeldTerm8` (real), `spotWeldTerm9` (real), `spotWeldTerm10` (real), `spotWeldTerm11` (real), `spotWeldTerm12` (real).
-- `StressLifeSegment1` (spotWeldSheetCurve1): fields `snCurveTerm1` (real), `snCurveTerm2` (real), `snCurveTerm3` (real), `snCurveTerm4` (real), `snCurveTerm5` (real), `snCurveTerm6` (real), `snCurveTerm7` (real), `meanStressTerm1` (real), `meanStressTerm2` (real), `meanStressTerm3` (real), `meanStressTerm4` (real), `meanStressTerm5` (real), `meanStressTerm6` (real), `meanStressTerm7` (real), `spotWeldTerm1` (real), `spotWeldTerm2` (real), `spotWeldTerm3` (real), `spotWeldTerm4` (real), `spotWeldTerm5` (real), `spotWeldTerm6` (real), `spotWeldTerm7` (real), `spotWeldTerm8` (real), `spotWeldTerm9` (real), `spotWeldTerm10` (real), `spotWeldTerm11` (real), `spotWeldTerm12` (real).
-- `StressLifeSegment2` (spotWeldSheetCurve2): fields `snCurveTerm1` (real), `snCurveTerm2` (real), `snCurveTerm3` (real), `snCurveTerm4` (real), `snCurveTerm5` (real), `snCurveTerm6` (real), `snCurveTerm7` (real), `meanStressTerm1` (real), `meanStressTerm2` (real), `meanStressTerm3` (real), `meanStressTerm4` (real), `meanStressTerm5` (real), `meanStressTerm6` (real), `meanStressTerm7` (real), `spotWeldTerm1` (real), `spotWeldTerm2` (real), `spotWeldTerm3` (real), `spotWeldTerm4` (real), `spotWeldTerm5` (real), `spotWeldTerm6` (real), `spotWeldTerm7` (real), `spotWeldTerm8` (real), `spotWeldTerm9` (real), `spotWeldTerm10` (real), `spotWeldTerm11` (real), `spotWeldTerm12` (real).
-- `StressLifeBranch1` (seamWeldBendingCurve): fields `snCurveTerm1` (real), `snCurveTerm2` (real), `snCurveTerm3` (real), `snCurveTerm4` (real), `snCurveTerm5` (real), `snCurveTerm6` (real), `snCurveTerm7` (real), `meanStressTerm1` (real), `meanStressTerm2` (real), `meanStressTerm3` (real), `meanStressTerm4` (real), `meanStressTerm5` (real), `meanStressTerm6` (real), `meanStressTerm7` (real), `spotWeldTerm1` (real), `spotWeldTerm2` (real), `spotWeldTerm3` (real), `spotWeldTerm4` (real), `spotWeldTerm5` (real), `spotWeldTerm6` (real), `spotWeldTerm7` (real), `spotWeldTerm8` (real), `spotWeldTerm9` (real), `spotWeldTerm10` (real), `spotWeldTerm11` (real), `spotWeldTerm12` (real).
-- `StressLifeBranch0` (seamWeldMembraneCurve): fields `snCurveTerm1` (real), `snCurveTerm2` (real), `snCurveTerm3` (real), `snCurveTerm4` (real), `snCurveTerm5` (real), `snCurveTerm6` (real), `snCurveTerm7` (real), `meanStressTerm1` (real), `meanStressTerm2` (real), `meanStressTerm3` (real), `meanStressTerm4` (real), `meanStressTerm5` (real), `meanStressTerm6` (real), `meanStressTerm7` (real), `spotWeldTerm1` (real), `spotWeldTerm2` (real), `spotWeldTerm3` (real), `spotWeldTerm4` (real), `spotWeldTerm5` (real), `spotWeldTerm6` (real), `spotWeldTerm7` (real), `spotWeldTerm8` (real), `spotWeldTerm9` (real), `spotWeldTerm10` (real), `spotWeldTerm11` (real), `spotWeldTerm12` (real).
-- `Table` (parameterTables): then the number of `tables` and their fields `tableKeyValue` (real), `tableId` (integer).
-- `MetallicHandbookData` (handbookCoefficients): fields `handbookCoefficient1` (real), `handbookCoefficient2` (real), `handbookCoefficient3` (real), `handbookCoefficient4` (real).
-- `StrainLifeMethod` (strainLife): fields `strainLifeTerm1` (real), `strainLifeTerm2` (real), `strainLifeTerm3` (real), `strainLifeTerm4` (real), `strainLifeTerm5` (real), `strainLifeTerm6` (real), `strainLifeTerm7` (real), `strainLifeError1` (real), `strainLifeError2` (real), `strainLifeError3` (real), `strainLifeError4` (real), `tolerance` (real).
-- `MatIds` (servedMaterials): fields `youngsModulus` (real), `poissonRatio` (real).
-- `""` (servedMaterialIds): then the number of `matIdList` and their fields `matIds` (any).
-
-Accepted words: `Amplitude`, `AmplitudeConstantLife`, `AmplitudeMeanStress`, `AmplitudeStressRatio`, `ConstantLife`, `MatIds`, `MeanStress`, `MetallicHandbookData`, `Range`, `Static`, `StrainLifeMethod`, `StressLifeBranch0`, `StressLifeBranch1`, `StressLifeMethod`, `StressLifeSegment1`, `StressLifeSegment2`, `StressRatio`, `Table`, `Through`.
+[FatigueMat — fields and example](reference/cards/materials.md#fatiguemat)
 
 ### FatigueParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `lifeModel` | `text` | StressLifeMethod |  |
-| 3 | `factor` | `real` | 1.0 |  |
-| 4 | `threadCount` | `integer` |  |  |
-| 5 | `logLevel` | `integer` | 0 |  |
-| 6 | `layer` | `integer` | 0 |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Stress` (stressResults): fields `combination` (text), `meanStressCorrection` (text), `plasticityCorrection` (text), `resultLocation` (text), `curveInterpolation` (integer), `stressRecovery` (text), `surfaceResolved` (text), `planeAngleCount` (integer).
-- `Strain` (strainResults): fields `combination` (text), `meanStressCorrection` (text), `plasticityCorrection` (text), `resultLocation` (text), `curveInterpolation` (integer), `stressRecovery` (text), `surfaceResolved` (text), `planeAngleCount` (integer).
-- `RainflowCounting` (rainflow): fields `responseKind` (text).
-- `CertaintyOfSurvival` (certainty): fields `survivalCertainty` (real).
-- `FactorOfSafety` (safetyFactor): fields `safetyFactorOption` (text), `targetLife` (real), `backCalculationAccuracy` (real), `maxSafetyFactor` (real), `minSafetyFactor` (real).
-- `SpotWeld` (spotWeld): fields `combination` (text), `meanStressCorrection` (text), `planeAngleCount` (integer), `spotWeldLocation` (integer), `middleSheets` (integer), `torsion` (integer).
-- `SeamWeld` (seamWeld): fields `combination` (text), `meanStressCorrection` (text), `thicknessCorrection` (integer), `seamWeldLocation` (text), `seamWeldResult` (text).
-- `Multiaxial` (multiaxial): fields `multiaxialMethod` (text), `nonProportionalityLower` (number), `nonProportionalityUpper` (number), `biaxialityLower` (number), `biaxialityMiddle` (number), `biaxialityUpper` (number), `zeroThreshold` (number), `gateThreshold` (number).
-- `NodeAverage` (averaging): fields `averagingMethod` (text), `output` (integer), `surfaceNormal` (text).
-- `VibrationFatigue` (vibration): fields `spectrumMethod` (text), `maxStressRms` (real), `clipLevel` (real), `maxPeak` (real), `stressBins` (integer), `maxFrequencyFraction` (real), `binLifeMethod` (text).
-
-Accepted words: `AbsoluteMaxPrincipal`, `Automatic`, `Average`, `Axis1`, `Axis2`, `Axis3`, `BilinearFit`, `Center`, `CertaintyOfSurvival`, `ComponentXStress`, `ComponentXyStress`, `ComponentYStress`, `ComponentYzStress`, `ComponentZStress`, `ComponentZxStress`, `Constant`, `CornerPoints`, `CriticalPlane`, `CubicFit`, `DirlikMethod`, `Element`, `Elements`, `FactorOfSafety`, `FkmGuideline`, `GeometryOption`, `GerberCorrection`, `GerberTensionCorrection`, `GoodmanCorrection`, `GoodmanTensionCorrection`, `InterpolationMethod`, `LifeResult`, `Load`, `MetallicHandbookData`, `MidSurface`, `MorrowCorrection`, `Multiaxial`, `NarrowBand`, `Neuber`, `No`, `NodalAveraging`, `Node`, `NodeAverage`, `None`, `RadiusVector`, `RainflowCounting`, `ReversedAxis1`, `ReversedAxis2`, `ReversedAxis3`, `ReversedRadiusVector`, `SeamWeld`, `SignedMaxShear`, `SignedVonMises`, `Simple`, `SinesCorrection`, `SmithWatsonTopper`, `SpotWeld`, `Standard`, `StandardCorrection`, `SteinbergModel`, `Strain`, `StrainGageFit`, `StrainLifeMethod`, `Stress`, `StressLifeMethod`, `Table`, `Topology`, `UniversalSlopes`, `UpperKind`, `VibrationFatigue`, `WalkerCorrection`, `Yes`.
+[FatigueParams — fields and example](reference/cards/solution_control.md#fatigueparams)
 
 ### FatigueProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `surfaceFinish` | `text` |  |  |
-| 3 | `finishFactor` | `real` |  |  |
-| 4 | `fatigueNotchFactor` | `real` | 1.0 |  |
-| 5 | `scaleFactor` | `real` | 1.0 |  |
-| 6 | `offset` | `real` | 0.0 |  |
-| 7 | `treatmentFactor` | `real` | 1.0 |  |
-| 8 | `diameter` | `real` |  |  |
-| 9 | `thickness1` | `real` |  |  |
-| 10 | `thickness2` | `real` |  |  |
-| 11 | `spotWeldFlag` | `integer` | 0 |  |
-
-Accepted words: `Cast`, `Constant`, `Element`, `GroundSurface`, `MachinedSurface`, `None`, `PolishedSurface`, `PoorSurface`, `RolledSurface`, `RoughnessFactor`, `SurfaceFinishFactor`, `Table`.
+[FatigueProp — fields and example](reference/cards/solution_control.md#fatigueprop)
 
 ### FatigueSequence
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `eventOutput` | `integer` | 0 |  |
-| 3 | `combinationMethod` | `integer` | 0 |  |
-| 4 | `timeUnit` | `text` | TimeInSeconds |  |
-| 5 | `referenceLoadMagnitude` | `real` | 1.0 |  |
-
-The number of repetitions of `sequenceItems` (integer, blank for none).
-
-Repeated group `sequenceItems`, after the fixed fields: `eventOrSequenceId` (integer), `repeats` (real).
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Units` (units): fields `equivalentUnits` (real), `equivalentUnitName` (text, one text field).
-
-Accepted words: `Constant`, `Element`, `Table`, `TimeInDays`, `TimeInHours`, `TimeInMinutes`, `TimeInMonths`, `TimeInSeconds`, `TimeInWeeks`, `TimeInYears`, `Units`.
+[FatigueSequence — fields and example](reference/cards/solution_control.md#fatiguesequence)
 
 ### FixedBoundaryDofSet
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[FixedBoundaryDofSet — fields and example](reference/cards/sets.md#fixedboundarydofset)
 
 ### FixedBoundaryDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[FixedBoundaryDofSet1 — fields and example](reference/cards/sets.md#fixedboundarydofset1)
 
 ### FixedBoundaryDofs
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[FixedBoundaryDofs — fields and example](reference/cards/superelements.md#fixedboundarydofs)
 
 ### FixedBoundaryDofs1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[FixedBoundaryDofs1 — fields and example](reference/cards/superelements.md#fixedboundarydofs1)
 
 ### FluidFilledContainer
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `surfaceId` | `integer` |  |  |
-| 3 | `fluidVolume` | `real` |  |  |
-| 4 | `atmosphericPressure` | `real` |  |  |
-| 5 | `temperatureTableId` | `integer` | 0 |  |
-| 6 | `densityTableId` | `integer` | 0 |  |
-| 7 | `activationTime` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[FluidFilledContainer — fields and example](reference/cards/explicit.md#fluidfilledcontainer)
 
 ### FluidMassElemList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `Constant`, `Element`, `Table`, `Through`.
+[FluidMassElemList — fields and example](reference/cards/thermal.md#fluidmasselemlist)
 
 ### FluidMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bulkModulus` | `real` |  |  |
-| 3 | `density` | `real` |  |  |
-| 4 | `soundSpeed` | `real` |  |  |
-| 5 | `structuralDamping` | `real` | 0.0 |  |
-| 6 | `normalizedAdmittance` | `real` |  |  |
+[FluidMat — fields and example](reference/cards/materials.md#fluidmat)
 
 ### FluidMatFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `bulkModulusTableId` | `integer` | 0 |  |
-| 3 | `densityTableId` | `integer` | 0 |  |
-| 4 | `soundSpeedTableId` | `integer` | 0 |  |
-| 5 | `structuralDampingTableId` | `integer` | 0 |  |
-| 6 | `normalizedAdmittanceTableId` | `integer` | 0 |  |
+[FluidMatFreq — fields and example](reference/cards/materials.md#fluidmatfreq)
 
 ### FluidStructureControl
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `serviceName` | `text` |  |  |
-| 2 | `couplingKind` | `text` | ExplicitSolver |  |
-| 3 | `frequency` | `integer` | 1 |  |
-| 4 | `interfaceKind` | `text` | DesignVariables |  |
-
-Accepted words: `Constant`, `DesignVariables`, `Displacement`, `Element`, `ExplicitSolver`, `ImplicitSolver`, `Table`.
+[FluidStructureControl — fields and example](reference/cards/solution_control.md#fluidstructurecontrol)
 
 ### FluidStructureInterface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `interfaceKind` | `text` |  |  |
-| 2 | `interfaceInput` | `text` |  |  |
-| 3 | `fluidSetId` | `integer` | 0 |  |
-| 4 | `structureSetId` | `integer` | 0 |  |
-| 5 | `normalTolerance` | `real` |  |  |
-| 6 | `methodName` | `text` | SurfaceCoupling |  |
-| 7 | `skinTolerance` | `real` | 0.5 |  |
-| 8 | `skinToleranceIncrement` | `real` | 0.75 |  |
-| 9 | `interfaceTolerance` | `real` | 0.5 |  |
-| 10 | `wholeStructureSet` | `text` |  |  |
-| 11 | `searchUnit` | `text` |  |  |
-
-Accepted words: `Absolute`, `All`, `ClosedPressure`, `DifferenceForm`, `ElemsList`, `IdenticalMesh`, `No`, `NodesList`, `None`, `Relative`, `ScaledSurfaceCoupling`, `SurfaceCoupling`, `Yes`.
+[FluidStructureInterface — fields and example](reference/cards/thermal.md#fluidstructureinterface)
 
 ### FluidStructurePanels
 
-No fixed field.
-
-Repeated group `panels`, after the fixed fields: `panelName` (text), `panelSetId` (integer).
+[FluidStructurePanels — fields and example](reference/cards/thermal.md#fluidstructurepanels)
 
 ### FluidStructureSwitch
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `tableId` | `integer` | 0 |  |
-| 3 | `eulerInitialization` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `No`, `Table`, `Yes`.
+[FluidStructureSwitch — fields and example](reference/cards/explicit.md#fluidstructureswitch)
 
 ### FluidVirtualMass
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frameId` | `integer` | 0 |  |
-| 3 | `freeSurfaceZ` | `real` |  |  |
-| 4 | `density` | `real` |  |  |
-| 5 | `oneSideElemListId` | `integer` | 0 |  |
-| 6 | `bothSidesElemListId` | `integer` | 0 |  |
-| 7 | `planeSymmetry1` | `text` |  |  |
-| 8 | `planeSymmetry2` | `text` |  |  |
-| 9 | `characteristicLength` | `real` | 1.0e10 |  |
-| 10 | `exactIntegrationRatio` | `real` | 1.0e-15 |  |
-
-Accepted words: `Antisymmetric`, `NoSymmetry`, `Symmetric`.
+[FluidVirtualMass — fields and example](reference/cards/thermal.md#fluidvirtualmass)
 
 ### ForcedConvection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `convectionPropId` | `integer` |  |  |
-| 3 | `filmNode` | `integer` | 0 |  |
-| 4 | `massFlowNode` | `integer` | 0 |  |
-| 5 | `ambientNode1` | `integer` |  |  |
-| 6 | `ambientNode2` | `integer` | same as ambientNode1 |  |
-| 7 | `massFlowFactor` | `real` | 1.0 |  |
+[ForcedConvection — fields and example](reference/cards/thermal.md#forcedconvection)
 
 ### ForcedConvectionProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `matrixForm` | `integer` | 0 |  |
-| 4 | `massFlowConvection` | `integer` | 0 |  |
-| 5 | `coefficient` | `real` |  |  |
-| 6 | `reynoldsExponent` | `real` | 0.0 |  |
-| 7 | `prandtlExponentInner` | `real` | 0.0 |  |
-| 8 | `prandtlExponentOuter` | `real` | 0.0 |  |
+[ForcedConvectionProp — fields and example](reference/cards/thermal.md#forcedconvectionprop)
 
 ### FreeBodyLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `name` | `text` |  |  |
-| 2 | `subsystemName` | `text` |  |  |
-| 3 | `label` | `text` |  | one text field |
+[FreeBodyLoad — fields and example](reference/cards/loads.md#freebodyload)
 
 ### FreeBodyLoadSubcase
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `names` | `text` |  |  |
-| 2 | `nodeSetId` | `integer` |  |  |
-| 3 | `elementSetId` | `integer` | 0 |  |
-| 4 | `excludedForces` | `text` |  |  |
-| 5 | `label` | `text` |  | one text field |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[FreeBodyLoadSubcase — fields and example](reference/cards/loads.md#freebodyloadsubcase)
 
 ### FreeBodySupport
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[FreeBodySupport — fields and example](reference/cards/constraints.md#freebodysupport)
 
 ### FreeBodySupportSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `components2` | `integer` | 0 |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `components3` | `integer` | 0 |  |
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[FreeBodySupportSet — fields and example](reference/cards/constraints.md#freebodysupportset)
 
 ### FreeBoundaryDofSet
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[FreeBoundaryDofSet — fields and example](reference/cards/sets.md#freeboundarydofset)
 
 ### FreeBoundaryDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[FreeBoundaryDofSet1 — fields and example](reference/cards/sets.md#freeboundarydofset1)
 
 ### FreeBoundaryDofs
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[FreeBoundaryDofs — fields and example](reference/cards/superelements.md#freeboundarydofs)
 
 ### FreeBoundaryDofs1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `any` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[FreeBoundaryDofs1 — fields and example](reference/cards/superelements.md#freeboundarydofs1)
 
 ### FreeConvection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `convectionPropId` | `integer` |  |  |
-| 3 | `filmNode` | `integer` | 0 |  |
-| 4 | `controlNode` | `integer` | 0 |  |
-| 5 | `ambientNode1` | `integer` |  |  |
-| 6 | `ambientNode2` | `integer` | same as ambientNode1 |  |
-| 7 | `ambientNode3` | `integer` | same as ambientNode1 |  |
-| 8 | `ambientNode4` | `integer` | same as ambientNode1 |  |
-| 9 | `ambientNode5` | `integer` | same as ambientNode1 |  |
-| 10 | `ambientNode6` | `integer` | same as ambientNode1 |  |
-| 11 | `ambientNode7` | `integer` | same as ambientNode1 |  |
-| 12 | `ambientNode8` | `integer` | same as ambientNode1 |  |
+[FreeConvection — fields and example](reference/cards/thermal.md#freeconvection)
 
 ### FreeConvectionProp
 
-Forms: `coefficients`, `standard`.
+[FreeConvectionProp — fields and example](reference/cards/thermal.md#freeconvectionprop)
 
 #### FreeConvectionProp: coefficients
 
-Form `coefficients`, when `formulaKind` is `3`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` | 0 |  |
-| 3 | `matrixForm` | `integer` | 0 |  |
-| 4 | `convectionExponent` | `real` | 0.0 |  |
-| 5 | `formulaKind` | `integer` | 0 |  |
-| 6 | `convectionCoefficient1` | `real` |  |  |
-| 7 | `convectionCoefficient2` | `real` | same as convectionCoefficient1 |  |
-| 8 | `convectionCoefficient3` | `real` | same as convectionCoefficient1 |  |
-| 9 | `convectionCoefficient4` | `real` | same as convectionCoefficient1 |  |
-| 10 | `convectionCoefficient5` | `real` | same as convectionCoefficient1 |  |
-| 11 | `convectionCoefficient6` | `real` | same as convectionCoefficient1 |  |
-| 12 | `convectionCoefficient7` | `real` | same as convectionCoefficient1 |  |
-| 13 | `convectionCoefficient8` | `real` | same as convectionCoefficient1 |  |
+[coefficients form](reference/cards/thermal.md#freeconvectionprop-coefficients)
 
 #### FreeConvectionProp: standard
 
-Form `standard`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` | 0 |  |
-| 3 | `matrixForm` | `integer` | 0 |  |
-| 4 | `convectionExponent` | `real` | 0.0 |  |
-| 5 | `formulaKind` | `integer` | 0 |  |
-| 6 | `tableId` | `integer` | 0 |  |
-| 7 | `characteristicLength` | `real` |  |  |
-| 8 | `inletNode` | `integer` | 0 |  |
-| 9 | `directionFrameId` | `integer` | 0 |  |
-| 10 | `direction1` | `real` |  |  |
-| 11 | `direction2` | `real` |  |  |
-| 12 | `direction3` | `real` |  |  |
+[standard form](reference/cards/thermal.md#freeconvectionprop-standard)
 
 ### FreqBetweenModes3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frequency1` | `real` |  |  |
-| 3 | `frequency2` | `real` | same as frequency1 |  |
-| 4 | `kind` | `text` | Linear |  |
-| 5 | `frequencyCount` | `integer` | 10 |  |
-| 6 | `clustering` | `real` | 1.0 |  |
-
-Accepted words: `Linear`, `Logarithmic`.
+[FreqBetweenModes3 — fields and example](reference/cards/dynamics.md#freqbetweenmodes3)
 
 ### FreqLinearSteps1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frequency1` | `real` | 0.0 |  |
-| 3 | `frequencyIncrement` | `real` |  |  |
-| 4 | `incrementCount` | `integer` | 1 |  |
+[FreqLinearSteps1 — fields and example](reference/cards/dynamics.md#freqlinearsteps1)
 
 ### FreqList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `frequencies`, after the fixed fields: `frequency` (real).
+[FreqList — fields and example](reference/cards/dynamics.md#freqlist)
 
 ### FreqLogSteps2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frequency1` | `real` |  |  |
-| 3 | `frequency2` | `real` |  |  |
-| 4 | `intervalCount` | `integer` | 1 |  |
+[FreqLogSteps2 — fields and example](reference/cards/dynamics.md#freqlogsteps2)
 
 ### FreqModeFractions5
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frequency1` | `real` | 0.0 |  |
-| 3 | `frequency2` | `real` | 1.0E20 |  |
-
-Repeated group `fractions`, after the fixed fields: `fraction` (real).
+[FreqModeFractions5 — fields and example](reference/cards/dynamics.md#freqmodefractions5)
 
 ### FreqResponseLoad1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `excitationId` | `integer` |  |  |
-| 3 | `delayId` | `integer` |  | alternative of `delay` |
-| 4 | `delay` | `real` | 0.0 | alternative of `delayId` |
-| 5 | `phaseId` | `integer` |  | alternative of `phase` |
-| 6 | `phase` | `real` | 0.0 | alternative of `phaseId` |
-| 7 | `realTableId` | `integer` |  | alternative of `realValue` |
-| 8 | `realValue` | `real` | 0.0 | alternative of `realTableId` |
-| 9 | `imaginaryTableId` | `integer` |  | alternative of `imaginaryValue` |
-| 10 | `imaginaryValue` | `real` | 0.0 | alternative of `imaginaryTableId` |
-| 11 | `kind` | `any` | Load |  |
-
-Accepted words: `Acceleration`, `Displacement`, `Load`, `Velocity`.
+[FreqResponseLoad1 — fields and example](reference/cards/dynamics.md#freqresponseload1)
 
 ### FreqResponseLoad2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `excitationId` | `integer` |  |  |
-| 3 | `delayId` | `integer` |  | alternative of `delay` |
-| 4 | `delay` | `real` | 0.0 | alternative of `delayId` |
-| 5 | `phaseId` | `integer` |  | alternative of `phase` |
-| 6 | `phase` | `real` | 0.0 | alternative of `phaseId` |
-| 7 | `amplitudeTableId` | `integer` |  | alternative of `amplitude` |
-| 8 | `amplitude` | `real` |  | alternative of `amplitudeTableId` |
-| 9 | `phaseTableId` | `integer` |  | alternative of `phaseAngle` |
-| 10 | `phaseAngle` | `real` | 0.0 | alternative of `phaseTableId` |
-| 11 | `kind` | `any` | Load |  |
-
-Accepted words: `Acceleration`, `Displacement`, `Load`, `Velocity`.
+[FreqResponseLoad2 — fields and example](reference/cards/dynamics.md#freqresponseload2)
 
 ### FreqSpreadAroundModes4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frequency1` | `real` | 0.0 |  |
-| 3 | `frequency2` | `real` | 1.0E20 |  |
-| 4 | `frequencySpread` | `real` | 0.10 |  |
-| 5 | `frequencyCount` | `integer` | 3 |  |
+[FreqSpreadAroundModes4 — fields and example](reference/cards/dynamics.md#freqspreadaroundmodes4)
 
 ### FrfAssemblyLoadDelay
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frfComponent` | `any` |  |  |
-| 3 | `pointId` | `integer` |  |  |
-| 4 | `components` | `integer` | 0 |  |
-| 5 | `delay` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[FrfAssemblyLoadDelay — fields and example](reference/cards/dynamics.md#frfassemblyloaddelay)
 
 ### FrfAssemblyLoadPhase
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frfComponent` | `any` |  |  |
-| 3 | `pointId` | `integer` |  |  |
-| 4 | `components` | `integer` | 0 |  |
-| 5 | `phase` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[FrfAssemblyLoadPhase — fields and example](reference/cards/dynamics.md#frfassemblyloadphase)
 
 ### FrfAssemblyLoadScale
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frfComponent` | `any` |  |  |
-| 3 | `pointId` | `integer` |  |  |
-| 4 | `components` | `integer` | 0 |  |
-| 5 | `scaleFactor` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[FrfAssemblyLoadScale — fields and example](reference/cards/dynamics.md#frfassemblyloadscale)
 
 ### FrfComponent
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `componentName` | `text` |  |  |
-| 3 | `medium` | `text` |  |  |
-| 4 | `unitNumber` | `integer` | 0 |  |
-| 5 | `lengthScaleFactor` | `real` | 1.0 |  |
-| 6 | `forceScaleFactor` | `real` | 1.0 |  |
-
-Accepted words: `All`, `Assembly`, `BinaryResultsFile`, `Component`, `ConnectionInfo`, `Constant`, `Database`, `Element`, `Table`, `UniversalFile`.
+[FrfComponent — fields and example](reference/cards/dynamics.md#frfcomponent)
 
 ### FrfConnection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frfComponent1` | `any` |  |  |
-| 3 | `point1` | `integer` |  |  |
-| 4 | `frfComponent2` | `any` |  |  |
-| 5 | `point2` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[FrfConnection — fields and example](reference/cards/dynamics.md#frfconnection)
 
 ### FrfExcitationDof
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `pointId` | `integer` |  |  |
-| 2 | `components` | `integer` | 0 |  |
-| 3 | `entryLabel` | `text` |  | one text field |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[FrfExcitationDof — fields and example](reference/cards/dynamics.md#frfexcitationdof)
 
 ### FrfExcitationDofList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `pointIds`, after the fixed fields: `pointId` (any).
-
-Accepted words: `Through`.
+[FrfExcitationDofList — fields and example](reference/cards/dynamics.md#frfexcitationdoflist)
 
 ### FrfFlexibleConnection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `components` | `integer` | 0 |  |
-| 3 | `frfComponent1` | `any` |  |  |
-| 4 | `point1` | `integer` |  |  |
-| 5 | `frfComponent2` | `any` |  |  |
-| 6 | `point2` | `integer` |  |  |
-| 7 | `stiffnessTableId` | `integer` |  | alternative of `stiffness` |
-| 8 | `stiffness` | `real` |  | alternative of `stiffnessTableId` |
-| 9 | `dampingTableId` | `integer` |  | alternative of `damping` |
-| 10 | `damping` | `real` |  | alternative of `dampingTableId` |
-| 11 | `structuralDampingTableId` | `integer` |  | alternative of `structuralDamping` |
-| 12 | `structuralDamping` | `real` |  | alternative of `structuralDampingTableId` |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[FrfFlexibleConnection — fields and example](reference/cards/dynamics.md#frfflexibleconnection)
 
 ### FrfReleasedDofs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `components` | `integer` |  |  |
-| 3 | `frfComponent1` | `any` |  |  |
-| 4 | `node1` | `integer` |  |  |
-| 5 | `frfComponent2` | `any` |  |  |
-| 6 | `node2` | `integer` |  |  |
-| 7 | `frfComponent3` | `any` |  |  |
-| 8 | `node3` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `NodePoint2`, `NodePoint3`, `Table`.
+[FrfReleasedDofs — fields and example](reference/cards/dynamics.md#frfreleaseddofs)
 
 ### FrfSinglePointConstr
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `components` | `integer` | 0 |  |
-| 3 | `frfComponent1` | `any` |  |  |
-| 4 | `point1` | `integer` |  |  |
-| 5 | `frfComponent2` | `any` |  |  |
-| 6 | `point2` | `integer` |  |  |
-| 7 | `frfComponent3` | `any` |  |  |
-| 8 | `point3` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Point3Kind`, `Table`.
+[FrfSinglePointConstr — fields and example](reference/cards/dynamics.md#frfsinglepointconstr)
 
 ### GammaLawStateEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `gammaCoefficient` | `real` |  |  |
-| 3 | `gasConstant` | `real` |  |  |
-| 4 | `specificHeatVolume` | `real` |  |  |
-| 5 | `specificHeatPressure` | `real` |  |  |
-| 6 | `viscosity` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[GammaLawStateEquation — fields and example](reference/cards/explicit.md#gammalawstateequation)
 
 ### Gap2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` |  |  |
-| 5 | `orientationNode` | `integer` |  | alternative of `orientation1` |
-| 6 | `orientation1` | `real` |  | alternative of `orientationNode` |
-| 7 | `orientation2` | `real` | 0.0 |  |
-| 8 | `orientation3` | `real` | 0.0 |  |
-| 9 | `frameId` | `integer` |  |  |
+[Gap2 — fields and example](reference/cards/elements.md#gap2)
 
 ### GapProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `initialOpening` | `real` | 0.0 |  |
-| 3 | `preload` | `real` | 0.0 |  |
-| 4 | `closedStiffness` | `real` |  |  |
-| 5 | `openStiffness` | `real` |  |  |
-| 6 | `transverseStiffness` | `real` |  |  |
-| 7 | `frictionCoeff1` | `real` | 0.0 |  |
-| 8 | `frictionCoeff2` | `real` | same as frictionCoeff1 |  |
-| 9 | `maxPenetration` | `real` | 0.0 |  |
-| 10 | `maxAdjustmentRatio` | `real` |  |  |
-| 11 | `minPenetrationRatio` | `real` |  |  |
+[GapProp — fields and example](reference/cards/properties.md#gapprop)
 
 ### GasBag
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `surfaceId` | `integer` |  |  |
-| 3 | `trigger` | `text` |  |  |
-| 4 | `triggerOffset` | `real` | 0.0 |  |
-| 5 | `porosityId` | `integer` | 0 |  |
-| 6 | `inflatorId` | `integer` | 0 |  |
-| 7 | `heatTransferId` | `integer` | 0 |  |
-| 8 | `initialGasId` | `integer` | 0 |  |
-| 9 | `specificHeatSource` | `text` |  |  |
-| 10 | `specificHeatPressure` | `real` |  |  |
-| 11 | `gasConstant` | `real` |  |  |
-| 12 | `environmentPressure` | `real` |  |  |
-| 13 | `reverseNormals` | `text` |  |  |
-| 14 | `checkNormals` | `text` |  |  |
-| 15 | `initialPressure` | `real` | same as environmentPressure |  |
-| 16 | `initialTemperature` | `real` |  |  |
-| 17 | `environmentTemperature` | `real` | same as initialTemperature |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`, `Time`.
+[GasBag — fields and example](reference/cards/explicit.md#gasbag)
 
 ### GasBagConvection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficient` | `real` |  |  |
-| 3 | `coefficientTableId` | `integer` | 0 |  |
-| 4 | `environmentTemperature` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[GasBagConvection — fields and example](reference/cards/explicit.md#gasbagconvection)
 
 ### GasBagHeatTransfer
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `setId` | `integer` |  |  |
-| 3 | `subsurfaceId` | `integer` | 0 |  |
-| 4 | `modelKind` | `text` |  |  |
-| 5 | `modelId` | `integer` |  |  |
-| 6 | `coefficientSource` | `text` |  |  |
-| 7 | `coefficient` | `any` |  |  |
-
-Accepted words: `Constant`, `Element`, `GasBagConvection`, `GasBagRadiation`, `Table`.
+[GasBagHeatTransfer — fields and example](reference/cards/explicit.md#gasbagheattransfer)
 
 ### GasBagLeakage
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `setId` | `integer` |  |  |
-| 3 | `subsurfaceId` | `integer` | 0 |  |
-| 4 | `porosityKind` | `text` |  |  |
-| 5 | `porosityModelId` | `integer` |  |  |
-| 6 | `coefficientSource` | `text` |  |  |
-| 7 | `coefficient` | `any` |  |  |
-
-Accepted words: `Constant`, `CouplingHoleToCoupling`, `CouplingHoleToGasBag`, `Element`, `GasBagPermeableLink`, `GasBagVentHole`, `PorousFlowBoundary`, `PorousHydrostaticBoundary`, `PorousTimeFlowBoundary`, `PorousUserBoundary`, `SurfacePermeability`, `Table`.
+[GasBagLeakage — fields and example](reference/cards/explicit.md#gasbagleakage)
 
 ### GasBagPermeableLink
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `permeability` | `real` |  |  |
-| 3 | `permeabilityTableId` | `integer` | 0 |  |
-| 4 | `flowDirection` | `text` |  |  |
-| 5 | `gasBagId` | `integer` |  |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[GasBagPermeableLink — fields and example](reference/cards/explicit.md#gasbagpermeablelink)
 
 ### GasBagRadiation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `emissivity` | `real` |  |  |
-| 3 | `emissivityTableId` | `integer` | 0 |  |
-| 4 | `environmentTemperature` | `real` |  |  |
-| 5 | `stefanBoltzmann` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[GasBagRadiation — fields and example](reference/cards/explicit.md#gasbagradiation)
 
 ### GasBagSwitch
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `couplingId` | `integer` |  |  |
-| 3 | `gasBagId` | `integer` | 0 |  |
-| 4 | `startTime` | `real` | 0.0 |  |
-| 5 | `validityPercent` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[GasBagSwitch — fields and example](reference/cards/explicit.md#gasbagswitch)
 
 ### GasBagVentHole
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `holeSize` | `text` |  |  |
-| 3 | `flowDirection` | `text` |  |  |
-| 4 | `environmentPressure` | `real` |  |  |
-| 5 | `environmentDensity` | `real` |  |  |
-| 6 | `environmentEnergy` | `real` |  |  |
-| 7 | `environmentSpecificHeat` | `real` |  |  |
-| 8 | `matId` | `integer` | 0 |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[GasBagVentHole — fields and example](reference/cards/explicit.md#gasbagventhole)
 
 ### GasketMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `membraneMatId` | `integer` |  |  |
-| 3 | `behaviorKind` | `integer` | 0 |  |
-| 4 | `loadingTableId` | `integer` |  |  |
-| 5 | `unloadingTableId1` | `integer` |  |  |
-| 6 | `unloadingTableId2` | `integer` |  |  |
-| 7 | `unloadingTableId3` | `integer` |  |  |
-| 8 | `unloadingTableId4` | `integer` |  |  |
-| 9 | `unloadingTableId5` | `integer` |  |  |
-| 10 | `unloadingTableId6` | `integer` |  |  |
-| 11 | `unloadingTableId7` | `integer` |  |  |
-| 12 | `unloadingTableId8` | `integer` |  |  |
-| 13 | `unloadingTableId9` | `integer` |  |  |
-| 14 | `unloadingTableId10` | `integer` |  |  |
-| 15 | `yieldPressure` | `real` |  |  |
-| 16 | `tensileModulus` | `real` |  |  |
-| 17 | `transverseShearModulus` | `real` |  |  |
-| 18 | `initialGap` | `real` | 0.0 |  |
-| 19 | `yieldPressureTableId` | `integer` | 0 |  |
-| 20 | `tensileModulusTableId` | `integer` | 0 |  |
-| 21 | `transverseShearModulusTableId` | `integer` | 0 |  |
-| 22 | `initialGapTableId` | `integer` | 0 |  |
+[GasketMat — fields and example](reference/cards/materials.md#gasketmat)
 
 ### GasketMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `membraneYoungsModulusTableId` | `integer` | 0 |  |
-| 3 | `membranePoissonRatioTableId` | `integer` | 0 |  |
-| 4 | `membraneDensityTableId` | `integer` | 0 |  |
-| 5 | `loadingTableId` | `integer` | 0 |  |
-| 6 | `unloadingTableId1` | `integer` |  |  |
-| 7 | `unloadingTableId2` | `integer` |  |  |
-| 8 | `unloadingTableId3` | `integer` |  |  |
-| 9 | `unloadingTableId4` | `integer` |  |  |
-| 10 | `unloadingTableId5` | `integer` |  |  |
-| 11 | `unloadingTableId6` | `integer` |  |  |
-| 12 | `unloadingTableId7` | `integer` |  |  |
-| 13 | `unloadingTableId8` | `integer` |  |  |
-| 14 | `unloadingTableId9` | `integer` |  |  |
-| 15 | `unloadingTableId10` | `integer` |  |  |
-| 16 | `yieldPressureTableId` | `integer` | 0 |  |
-| 17 | `tensileModulusTableId` | `integer` | 0 |  |
-| 18 | `transverseShearModulusTableId` | `integer` | 0 |  |
-| 19 | `initialGapTableId` | `integer` | 0 |  |
+[GasketMatTemperature — fields and example](reference/cards/materials.md#gasketmattemperature)
 
 ### GeneralFrame3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `methodName` | `text` | EulerAngles313 |  |
-| 3 | `matrixForm` | `text` | EquationForm |  |
-| 4 | `angleFunctionId1` | `integer` |  |  |
-| 5 | `angleFunctionId2` | `integer` |  |  |
-| 6 | `angleFunctionId3` | `integer` |  |  |
-| 7 | `referenceFrameId` | `integer` | 0 |  |
-
-Accepted words: `EquationForm`, `EulerAngles313`, `SpaceFixed321`, `Table`.
+[GeneralFrame3 — fields and example](reference/cards/coordinate_systems.md#generalframe3)
 
 ### GeneralMatrix
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-The number of repetitions of `independentDofs` (integer, blank for none).
-
-Repeated group `independentDofs`, after the fixed fields: `independentPoint` (integer), `independentComponent` (integer).
-
-Sections `parts`, one after the other, each opened by its key word:
-
-- `DependentDofs` (dependentDofs): then the number of `dependentDofs` and their fields `dependentPoint` (integer), `dependentComponent` (integer).
-- `Stiffness` (stiffnessMatrix): then the number of `stiffnessMatrix` and their fields `stiffness` (real).
-- `Flexibility` (flexibilityMatrix): then the number of `flexibilityMatrix` and their fields `stiffness` (real).
-- `Dependency` (dependencyMatrix): then the number of `dependencyMatrix` and their fields `dependencyMatrix` (real).
-
-Accepted words: `Dependency`, `DependentDofs`, `Flexibility`, `Stiffness`.
+[GeneralMatrix — fields and example](reference/cards/elements.md#generalmatrix)
 
 ### GeneralizedDofSet
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[GeneralizedDofSet — fields and example](reference/cards/sets.md#generalizeddofset)
 
 ### GeneralizedDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[GeneralizedDofSet1 — fields and example](reference/cards/sets.md#generalizeddofset1)
 
 ### GeomBoundaryCurve
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `startNode` | `integer` |  |  |
-| 3 | `endNode` | `integer` |  |  |
-| 4 | `entity` | `text` |  |  |
-
-Repeated group `entityIds`, after the fixed fields: `entityId` (integer).
-
-Accepted words: `Constant`, `Element`, `Node`, `Table`.
+[GeomBoundaryCurve — fields and example](reference/cards/constraints.md#geomboundarycurve)
 
 ### GeomPoint
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `positionFrameId` | `integer` | 0 |  |
-| 3 | `position1` | `real` | 0.0 |  |
-| 4 | `position2` | `real` | 0.0 |  |
-| 5 | `position3` | `real` | 0.0 |  |
+[GeomPoint — fields and example](reference/cards/nodes.md#geompoint)
 
 ### GeomSinglePointConstr
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `components` | `integer` |  |  |
-| 3 | `entityType` | `text` |  |  |
-| 4 | `entityId` | `integer` |  |  |
-
-Accepted words: `ElementEdge`, `ElementFace`, `GeomCurve`, `GeomSurface`.
+[GeomSinglePointConstr — fields and example](reference/cards/constraints.md#geomsinglepointconstr)
 
 ### GravityLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frameId` | `integer` | 0 |  |
-| 3 | `magnitude` | `real` |  |  |
-| 4 | `directionX` | `real` | 0.0 |  |
-| 5 | `directionY` | `real` | 0.0 |  |
-| 6 | `directionZ` | `real` | 0.0 |  |
-| 7 | `mainBulkFlag` | `integer` | 0 |  |
+[GravityLoad — fields and example](reference/cards/loads.md#gravityload)
 
 ### HeatAnisoMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `conductivityXx` | `real` | 0.0 |  |
-| 3 | `conductivityXy` | `real` | 0.0 |  |
-| 4 | `conductivityXz` | `real` | 0.0 |  |
-| 5 | `conductivityYy` | `real` | 0.0 |  |
-| 6 | `conductivityYz` | `real` | 0.0 |  |
-| 7 | `conductivityZz` | `real` | 0.0 |  |
-| 8 | `specificHeat` | `real` | 0.0 |  |
-| 9 | `density` | `real` | 1.0 |  |
-| 10 | `heatGenerationFactor` | `real` | 1.0 |  |
+[HeatAnisoMat — fields and example](reference/cards/thermal.md#heatanisomat)
 
 ### HeatAnisoMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `conductivityXxTableId` | `integer` | 0 |  |
-| 3 | `conductivityXyTableId` | `integer` | 0 |  |
-| 4 | `conductivityXzTableId` | `integer` | 0 |  |
-| 5 | `conductivityYyTableId` | `integer` | 0 |  |
-| 6 | `conductivityYzTableId` | `integer` | 0 |  |
-| 7 | `conductivityZzTableId` | `integer` | 0 |  |
-| 8 | `specificHeatTableId` | `integer` | 0 |  |
-| 9 | `heatGenerationFactorTableId` | `integer` | 0 |  |
+[HeatAnisoMatTemperature — fields and example](reference/cards/materials.md#heatanisomattemperature)
 
 ### HeatCapacity2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `node2` | `integer` | 0 |  |
+[HeatCapacity2 — fields and example](reference/cards/elements.md#heatcapacity2)
 
 ### HeatCapacityProp5
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `heatCapacity` | `real` |  |  |
+[HeatCapacityProp5 — fields and example](reference/cards/properties.md#heatcapacityprop5)
 
 ### HeatController
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `sensorNode` | `integer` |  |  |
-| 3 | `sensorForm` | `text` |  |  |
-| 4 | `controllerKind` | `text` |  |  |
-| 5 | `lowerLimit` | `real` |  |  |
-| 6 | `upperLimit` | `real` |  |  |
-| 7 | `controlLaw` | `integer` |  |  |
-| 8 | `initialState` | `real` | 0.0 |  |
-| 9 | `timeStep` | `real` | 0.0 |  |
-| 10 | `delayTime` | `real` | 0.0 |  |
-| 11 | `timeConstant` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`, `Temperature`, `Thermostat`.
+[HeatController — fields and example](reference/cards/thermal.md#heatcontroller)
 
 ### HeatFluxBoundaryLoad3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `heatFlux` | `real` |  |  |
-| 3 | `controlNode` | `integer` | 0 |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `By`, `Through`.
+[HeatFluxBoundaryLoad3 — fields and example](reference/cards/thermal.md#heatfluxboundaryload3)
 
 ### HeatFluxNodalLoad2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId` | `integer` |  |  |
-| 3 | `heatFlux1` | `real` |  |  |
-| 4 | `heatFlux2` | `real` |  |  |
-| 5 | `heatFlux3` | `real` |  |  |
-| 6 | `heatFlux4` | `real` |  |  |
-| 7 | `heatFlux5` | `real` |  |  |
-| 8 | `heatFlux6` | `real` |  |  |
-| 9 | `heatFlux7` | `real` |  |  |
-| 10 | `heatFlux8` | `real` |  |  |
+[HeatFluxNodalLoad2 — fields and example](reference/cards/thermal.md#heatfluxnodalload2)
 
 ### HeatFluxNodeSetLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `faceKind` | `text` |  |  |
-| 3 | `heatFlux` | `real` |  |  |
-| 4 | `area` | `real` |  |  |
-| 5 | `node1` | `integer` | 0 |  |
-| 6 | `node2` | `integer` | 0 |  |
-| 7 | `node3` | `integer` | 0 |  |
-| 8 | `node4` | `integer` | 0 |  |
-| 9 | `node5` | `integer` | 0 |  |
-| 10 | `node6` | `integer` | 0 |  |
-| 11 | `node7` | `integer` | 0 |  |
-| 12 | `node8` | `integer` | 0 |  |
-
-Accepted words: `AreaQuad4`, `AreaQuad8`, `AreaTria3`, `AreaTria6`, `Line`, `Point`, `ReversedNormal`.
+[HeatFluxNodeSetLoad — fields and example](reference/cards/thermal.md#heatfluxnodesetload)
 
 ### HeatFluxSurfaceLoad1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `heatFlux` | `real` |  |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `By`, `Through`.
+[HeatFluxSurfaceLoad1 — fields and example](reference/cards/thermal.md#heatfluxsurfaceload1)
 
 ### HeatFluxVectorLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `heatFlux` | `real` |  |  |
-| 3 | `sourceTemperature` | `real` |  |  |
-| 4 | `directionFrameId` | `integer` |  |  |
-| 5 | `direction1` | `real` | 0.0 | alternative of `tableId1` |
-| 6 | `tableId1` | `integer` |  | alternative of `direction1` |
-| 7 | `direction2` | `real` | 0.0 | alternative of `tableId2` |
-| 8 | `tableId2` | `integer` |  | alternative of `direction2` |
-| 9 | `direction3` | `real` | 0.0 | alternative of `tableId3` |
-| 10 | `tableId3` | `integer` |  | alternative of `direction3` |
-| 11 | `controlNode` | `integer` | 0 |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `By`, `Through`.
+[HeatFluxVectorLoad — fields and example](reference/cards/thermal.md#heatfluxvectorload)
 
 ### HeatIsoMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `conductivity` | `real` |  |  |
-| 3 | `specificHeat` | `real` | 0.0 |  |
-| 4 | `density` | `real` | 1.0 |  |
-| 5 | `convectionCoefficient` | `real` |  |  |
-| 6 | `viscosity` | `real` |  |  |
-| 7 | `heatGenerationFactor` | `real` | 1.0 |  |
-| 8 | `referenceEnthalpy` | `real` |  |  |
-| 9 | `phaseChangeTemperature` | `real` |  |  |
-| 10 | `phaseChangeRange` | `real` |  |  |
-| 11 | `latentHeat` | `real` |  |  |
+[HeatIsoMat — fields and example](reference/cards/thermal.md#heatisomat)
 
 ### HeatIsoMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `conductivityTableId` | `integer` | 0 |  |
-| 3 | `specificHeatTableId` | `integer` | 0 |  |
-| 4 | `convectionCoefficientTableId` | `integer` | 0 |  |
-| 5 | `viscosityTableId` | `integer` | 0 |  |
-| 6 | `heatGenerationFactorTableId` | `integer` | 0 |  |
+[HeatIsoMatTemperature — fields and example](reference/cards/materials.md#heatisomattemperature)
 
 ### HeatShellInitialTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 1 |  |
-| 4 | `temperature1` | `real` |  |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 1 |  |
-| 7 | `temperature2` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[HeatShellInitialTemperature — fields and example](reference/cards/loads.md#heatshellinitialtemperature)
 
 ### HeatShellNodalLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 1 |  |
-| 4 | `heatFlux1` | `real` |  |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 1 |  |
-| 7 | `heatFlux2` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[HeatShellNodalLoad — fields and example](reference/cards/dynamics.md#heatshellnodalload)
 
 ### HeatSurfaceDefaults
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `kind` | `text` |  |  |
-| 2 | `frontViewId` | `integer` | 0 |  |
-| 3 | `backViewId` | `integer` | 0 |  |
-| 4 | `frontRadiationPropId` | `integer` | 0 |  |
-| 5 | `backRadiationPropId` | `integer` | 0 |  |
-| 6 | `propId` | `integer` | 0 |  |
-| 7 | `orientationNode` | `integer` | 0 |  |
-| 8 | `directionFrameId` | `integer` | 0 |  |
-| 9 | `direction1` | `real` |  |  |
-| 10 | `direction2` | `real` |  |  |
-| 11 | `direction3` | `real` |  |  |
-
-Accepted words: `AreaQuad4`, `AreaQuad8`, `AreaTria3`, `AreaTria6`, `Constant`, `Element`, `EllipticCylinder`, `ForcedConvectionTube`, `Line`, `Point`, `ReversedNormal`, `Table`, `Tube`.
+[HeatSurfaceDefaults — fields and example](reference/cards/thermal.md#heatsurfacedefaults)
 
 ### HeatSurfaceNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `frontViewId` | `integer` | 0 |  |
-| 4 | `backViewId` | `integer` | 0 |  |
-| 5 | `frontRadiationPropId` | `integer` | 0 |  |
-| 6 | `backRadiationPropId` | `integer` | 0 |  |
-| 7 | `node1` | `integer` | 0 |  |
-| 8 | `node2` | `integer` | 0 |  |
-| 9 | `node3` | `integer` | 0 |  |
-| 10 | `node4` | `integer` | 0 |  |
-| 11 | `node5` | `integer` | 0 |  |
-| 12 | `node6` | `integer` | 0 |  |
-| 13 | `node7` | `integer` | 0 |  |
-| 14 | `node8` | `integer` | 0 |  |
-
-Accepted words: `AreaQuad4`, `AreaQuad8`, `AreaTria3`, `AreaTria6`, `ReversedNormal`, `ReversedNormal1`.
+[HeatSurfaceNodes — fields and example](reference/cards/thermal.md#heatsurfacenodes)
 
 ### HeatSurfaceProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `area` | `real` |  |  |
-| 3 | `diameter1` | `real` |  |  |
-| 4 | `diameter2` | `real` |  |  |
+[HeatSurfaceProp — fields and example](reference/cards/thermal.md#heatsurfaceprop)
 
 ### HeatSurfaceProperty
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `kind` | `text` |  |  |
-| 4 | `frontViewId` | `integer` | 0 |  |
-| 5 | `backViewId` | `integer` | 0 |  |
-| 6 | `node1` | `integer` |  |  |
-| 7 | `node2` | `integer` | 0 |  |
-| 8 | `orientationNode` | `integer` | 0 |  |
-| 9 | `frontRadiationPropId` | `integer` | 0 |  |
-| 10 | `backRadiationPropId` | `integer` | 0 |  |
-| 11 | `midsideNode` | `integer` | 0 |  |
-| 12 | `directionFrameId` | `integer` | 0 |  |
-| 13 | `direction1` | `real` |  |  |
-| 14 | `direction2` | `real` |  |  |
-| 15 | `direction3` | `real` |  |  |
-
-Accepted words: `EllipticCylinder`, `ForcedConvectionTube`, `Line`, `Point`, `Tube`.
+[HeatSurfaceProperty — fields and example](reference/cards/thermal.md#heatsurfaceproperty)
 
 ### HeatSurfaceSide
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `conductionElemId` | `integer` |  |  |
-| 3 | `sideCode` | `integer` |  |  |
-| 4 | `frontViewId` | `integer` | 0 |  |
-| 5 | `backViewId` | `integer` | 0 |  |
-| 6 | `frontRadiationPropId` | `integer` | 0 |  |
-| 7 | `backRadiationPropId` | `integer` | 0 |  |
+[HeatSurfaceSide — fields and example](reference/cards/thermal.md#heatsurfaceside)
 
 ### HeatVolumeSourceLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `heatGeneration` | `real` |  |  |
-| 3 | `controlNode` | `integer` | 0 |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `By`, `Through`.
+[HeatVolumeSourceLoad — fields and example](reference/cards/thermal.md#heatvolumesourceload)
 
 ### HourglassSuppression
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propKind` | `text` |  |  |
-| 3 | `propId` | `integer` |  |  |
-| 4 | `method` | `text` |  |  |
-| 5 | `membraneCoefficient` | `real` |  |  |
-| 6 | `warpCoefficient` | `real` |  |  |
-| 7 | `twistCoefficient` | `real` |  |  |
-| 8 | `solidCoefficient` | `real` |  |  |
-| 9 | `rotationCorrection` | `text` |  |  |
-| 10 | `stepCount` | `integer` | 0 |  |
-
-Accepted words: `Bar`, `Beam`, `Belt`, `Composite`, `Constant`, `Damper`, `Elastic`, `Element`, `Euler`, `ExternalExplicitProgram`, `FlanaganBelytschkoStiffness`, `FlanaganBelytschkoViscous`, `No`, `Rod`, `Shell`, `Solid`, `Table`, `Yes`.
+[HourglassSuppression — fields and example](reference/cards/explicit.md#hourglasssuppression)
 
 ### HybridDamping
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `methodId` | `integer` |  |  |
-| 3 | `modalDampingTableId` | `integer` |  |  |
-| 4 | `dampingInStiffness` | `text` |  |  |
-| 5 | `printEigenvalues` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `No`, `Table`, `Yes`.
+[HybridDamping — fields and example](reference/cards/dynamics.md#hybriddamping)
 
 ### HybridDampingRotorOptions
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `structuralDamping` | `real` | 0.0 |  |
-| 3 | `alphaCoefficient1` | `real` | 0.0 |  |
-| 4 | `alphaCoefficient2` | `real` | 0.0 |  |
-| 5 | `hybridDampingId` | `integer` | 0 |  |
-| 6 | `structuralDampingFactor` | `real` | 1.0 |  |
-| 7 | `rotorSeparation` | `text` |  |  |
-| 8 | `structuralDampingFrequency` | `real` | 0.0 |  |
-| 9 | `materialDampingFrequency` | `real` | 0.0 |  |
-| 10 | `hybridDampingFrequency` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `No`, `Table`, `Yes`.
+[HybridDampingRotorOptions — fields and example](reference/cards/dynamics.md#hybriddampingrotoroptions)
 
 ### HybridInflator
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `massFlowTableId` | `integer` |  |  |
-| 3 | `temperatureTableId` | `integer` | 0 |  |
-| 4 | `temperature` | `real` |  |  |
-| 5 | `fractionId` | `integer` |  |  |
-
-Repeated group `gases`, after the fixed fields: `gasId` (integer).
-
-Accepted words: `Constant`, `Element`, `InflatorGas`, `Table`.
+[HybridInflator — fields and example](reference/cards/explicit.md#hybridinflator)
 
 ### HybridInflatorFractions
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `basis` | `text` | Mass |  |
-
-Sections `steps`, one after the other, each opened by its key word:
-
-- `TimeStep` (timeStep): fields `time` (real); then the number of `fractions` and their fields `fraction` (real).
-
-Accepted words: `Constant`, `Element`, `Mass`, `MolarFraction`, `Table`, `TimeStep`.
+[HybridInflatorFractions — fields and example](reference/cards/explicit.md#hybridinflatorfractions)
 
 ### HydrodynamicYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[HydrodynamicYield — fields and example](reference/cards/explicit.md#hydrodynamicyield)
 
 ### HydrostaticCavityLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `nominalPressure` | `real` | 0.0 |  |
-| 4 | `gravity` | `real` | 1.0 |  |
-| 5 | `punchOption` | `integer` | 0 |  |
-| 6 | `punchPressureLoads` | `integer` | 0 |  |
-| 7 | `overrideOption` | `integer` | 0 |  |
-| 8 | `frameOrNode` | `integer` |  |  |
-| 9 | `baseHeight` | `real` | 0.0 |  |
-| 10 | `heightAbove` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[HydrostaticCavityLoad — fields and example](reference/cards/loads.md#hydrostaticcavityload)
 
 ### HydrostaticLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nominalPressure` | `real` | 0.0 |  |
-| 3 | `density` | `real` |  |  |
-| 4 | `gravity` | `real` | 1.0 |  |
-| 5 | `elementSetId` | `integer` | 0 |  |
-| 6 | `nodeSetId` | `integer` | 0 |  |
-| 7 | `punchPressureLoads` | `integer` | 0 |  |
-| 8 | `overrideOption` | `integer` | 0 |  |
-| 9 | `frameOrNode` | `integer` |  |  |
-| 10 | `baseHeight` | `real` | 0.0 |  |
-| 11 | `heightAbove` | `real` | 0.0 |  |
-| 12 | `controlNodeSetId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[HydrostaticLoad — fields and example](reference/cards/loads.md#hydrostaticload)
 
 ### HyperelasticMat
 
-Forms: `ogden`, `boyceOrGent`, `generalized`, `mooney`.
+[HyperelasticMat — fields and example](reference/cards/materials.md#hyperelasticmat)
 
 #### HyperelasticMat: ogden
 
-Form `ogden`, when `modelName` is `Ogden`, `Foam`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `modelName` | `text` | MooneyRivlin |  |
-| 3 | `termCount` | `integer` | 1 |  |
-| 4 | `bulkModulus` | `real` |  |  |
-| 5 | `density` | `real` | 0.0 |  |
-| 6 | `thermalExpansion` | `real` | 0.0 |  |
-| 7 | `referenceTemperature` | `real` | 0.0 |  |
-| 8 | `structuralDamping` | `real` | 0.0 |  |
-| 9 | `ogdenModulus1` | `real` | 0.0 |  |
-| 10 | `alphaCoefficient1` | `real` | 0.0 |  |
-| 11 | `betaCoefficient1` | `real` | 0.0 |  |
-| 12 | `ogdenModulus2` | `real` | 0.0 |  |
-| 13 | `alphaCoefficient2` | `real` | 0.0 |  |
-| 14 | `betaCoefficient2` | `real` | 0.0 |  |
-| 15 | `ogdenModulus3` | `real` | 0.0 |  |
-| 16 | `alphaCoefficient3` | `real` | 0.0 |  |
-| 17 | `betaCoefficient3` | `real` | 0.0 |  |
-| 18 | `ogdenModulus4` | `real` | 0.0 |  |
-| 19 | `alphaCoefficient4` | `real` | 0.0 |  |
-| 20 | `betaCoefficient4` | `real` | 0.0 |  |
-| 21 | `ogdenModulus5` | `real` | 0.0 |  |
-| 22 | `alphaCoefficient5` | `real` | 0.0 |  |
-| 23 | `betaCoefficient5` | `real` | 0.0 |  |
-| 24 | `coefficientD1` | `real` | 0.0 |  |
-| 25 | `coefficientD2` | `real` | 0.0 |  |
-| 26 | `coefficientD3` | `real` | 0.0 |  |
-| 27 | `coefficientD4` | `real` | 0.0 |  |
-| 28 | `coefficientD5` | `real` | 0.0 |  |
+[ogden form](reference/cards/materials.md#hyperelasticmat-ogden)
 
 #### HyperelasticMat: boyceOrGent
 
-Form `boyceOrGent`, when `modelName` is `ArrudaBoyce`, `Gent`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `modelName` | `text` | MooneyRivlin |  |
-| 3 | `bulkModulus` | `real` |  |  |
-| 4 | `density` | `real` | 0.0 |  |
-| 5 | `thermalExpansion` | `real` | 0.0 |  |
-| 6 | `referenceTemperature` | `real` | 0.0 |  |
-| 7 | `structuralDamping` | `real` | 0.0 |  |
-| 8 | `rubberModulus` | `real` | 1.0 |  |
-| 9 | `exponentOrModulus` | `real` | 1.0 |  |
-| 10 | `invariantLimit` | `real` | 0.0 |  |
-| 11 | `coefficientD1` | `real` | 0.0 |  |
-| 12 | `coefficientD2` | `real` | 0.0 |  |
-| 13 | `coefficientD3` | `real` | 0.0 |  |
-| 14 | `coefficientD4` | `real` | 0.0 |  |
-| 15 | `coefficientD5` | `real` | 0.0 |  |
+[boyceOrGent form](reference/cards/materials.md#hyperelasticmat-boyceorgent)
 
 #### HyperelasticMat: generalized
 
-Form `generalized`, when `modelName` is `GeneralHyperelasticModel1`, `GeneralHyperelasticModel2`, `GeneralHyperelasticModel3`, `GeneralHyperelasticModel4`, `GeneralHyperelasticModel5`, `GeneralHyperelasticModel6`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `modelName` | `text` | MooneyRivlin |  |
-| 3 | `bulkModulus` | `real` |  |  |
-| 4 | `density` | `real` | 0.0 |  |
-| 5 | `thermalExpansion` | `real` | 0.0 |  |
-| 6 | `referenceTemperature` | `real` | 0.0 |  |
-| 7 | `structuralDamping` | `real` | 0.0 |  |
+[generalized form](reference/cards/materials.md#hyperelasticmat-generalized)
 
 #### HyperelasticMat: mooney
 
-Form `mooney`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `modelName` | `text` | MooneyRivlin |  |
-| 3 | `bulkModulus` | `real` |  |  |
-| 4 | `density` | `real` | 0.0 |  |
-| 5 | `thermalExpansion` | `real` | 0.0 |  |
-| 6 | `referenceTemperature` | `real` | 0.0 |  |
-| 7 | `structuralDamping` | `real` | 0.0 |  |
-| 8 | `coefficientC10` | `real` | 0.0 |  |
-| 9 | `coefficientC01` | `real` | 0.0 |  |
-| 10 | `coefficientD1` | `real` | 0.0 |  |
-| 11 | `tensionTableId` | `integer` | 0 |  |
-| 12 | `equibiaxialTableId` | `integer` | 0 |  |
-| 13 | `simpleShearTableId` | `integer` | 0 |  |
-| 14 | `pureShearTableId` | `integer` | 0 |  |
-| 15 | `volumetricTableId` | `integer` | 0 |  |
-| 16 | `coefficientC20` | `real` | 0.0 |  |
-| 17 | `coefficientC11` | `real` | 0.0 |  |
-| 18 | `coefficientC02` | `real` | 0.0 |  |
-| 19 | `coefficientD2` | `real` | 0.0 |  |
-| 20 | `distortionalOrder` | `integer` | 2 |  |
-| 21 | `volumetricOrder` | `integer` | 1 |  |
-| 22 | `coefficientC30` | `real` | 0.0 |  |
-| 23 | `coefficientC21` | `real` | 0.0 |  |
-| 24 | `coefficientC12` | `real` | 0.0 |  |
-| 25 | `coefficientC03` | `real` | 0.0 |  |
-| 26 | `coefficientD3` | `real` | 0.0 |  |
-| 27 | `coefficientC40` | `real` | 0.0 |  |
-| 28 | `coefficientC31` | `real` | 0.0 |  |
-| 29 | `coefficientC22` | `real` | 0.0 |  |
-| 30 | `coefficientC13` | `real` | 0.0 |  |
-| 31 | `coefficientC04` | `real` | 0.0 |  |
-| 32 | `coefficientD4` | `real` | 0.0 |  |
-| 33 | `coefficientC50` | `real` | 0.0 |  |
-| 34 | `coefficientC41` | `real` | 0.0 |  |
-| 35 | `coefficientC32` | `real` | 0.0 |  |
-| 36 | `coefficientC23` | `real` | 0.0 |  |
-| 37 | `coefficientC14` | `real` | 0.0 |  |
-| 38 | `coefficientC05` | `real` | 0.0 |  |
-| 39 | `coefficientD5` | `real` | 0.0 |  |
-
-Accepted words: `ArrudaBoyce`, `Foam`, `GeneralHyperelasticModel1`, `GeneralHyperelasticModel2`, `GeneralHyperelasticModel3`, `GeneralHyperelasticModel4`, `GeneralHyperelasticModel5`, `GeneralHyperelasticModel6`, `Gent`, `MooneyRivlin`, `Ogden`.
+[mooney form](reference/cards/materials.md#hyperelasticmat-mooney)
 
 ### HyperelasticMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `modelName` | `text` | MooneyRivlin |  |
-| 3 | `bulkModulusTableId` | `integer` | 0 |  |
-| 4 | `densityTableId` | `integer` | 0 |  |
-| 5 | `thermalExpansionTableId` | `integer` | 0 |  |
-| 6 | `structuralDampingTableId` | `integer` | 0 |  |
-| 7 | `coefficientC10TableIdOrCoefficientD1TableIdOrRubberModulusTableId` | `integer` | 0 |  |
-| 8 | `coefficientC01TableIdOrCoefficientD2TableIdOrExponentOrModulusTableId` | `integer` | 0 |  |
-| 9 | `coefficientD1TableIdOrCoefficientD3TableIdOrInvariantLimitTableId` | `integer` | 0 |  |
-| 10 | `coefficientD4TableIdOfOgden` | `integer` | 0 |  |
-| 11 | `coefficientD5TableIdOfOgden` | `integer` | 0 |  |
-| 12 | `coefficientC20TableIdOrCoefficientD1TableId` | `integer` | 0 |  |
-| 13 | `coefficientC11TableIdOrCoefficientD2TableId` | `integer` | 0 |  |
-| 14 | `coefficientC02TableIdOrCoefficientD3TableId` | `integer` | 0 |  |
-| 15 | `coefficientD2TableIdOrCoefficientD4TableId` | `integer` | 0 |  |
-| 16 | `coefficientD5TableIdOfBoyce` | `integer` | 0 |  |
-| 17 | `coefficientC30TableId` | `integer` | 0 |  |
-| 18 | `coefficientC21TableId` | `integer` | 0 |  |
-| 19 | `coefficientC12TableId` | `integer` | 0 |  |
-| 20 | `coefficientC03TableId` | `integer` | 0 |  |
-| 21 | `coefficientD3TableId` | `integer` | 0 |  |
-| 22 | `coefficientC40TableIdOrCoefficientD1TableId` | `integer` | 0 |  |
-| 23 | `coefficientC31TableIdOrCoefficientD2TableId` | `integer` | 0 |  |
-| 24 | `coefficientC22TableIdOrCoefficientD3TableId` | `integer` | 0 |  |
-| 25 | `coefficientC13TableIdOrCoefficientD4TableId` | `integer` | 0 |  |
-| 26 | `coefficientC04TableIdOrCoefficientD5TableId` | `integer` | 0 |  |
-| 27 | `coefficientD4TableId` | `integer` | 0 |  |
-| 28 | `coefficientC50TableId` | `integer` | 0 |  |
-| 29 | `coefficientC41TableId` | `integer` | 0 |  |
-| 30 | `coefficientC32TableId` | `integer` | 0 |  |
-| 31 | `coefficientC23TableId` | `integer` | 0 |  |
-| 32 | `coefficientC14TableId` | `integer` | 0 |  |
-| 33 | `coefficientC05TableId` | `integer` | 0 |  |
-| 34 | `coefficientD5TableId` | `integer` | 0 |  |
-
-Accepted words: `ArrudaBoyce`, `Foam`, `Gent`, `MooneyRivlin`, `Ogden`.
+[HyperelasticMatTemperature — fields and example](reference/cards/materials.md#hyperelasticmattemperature)
 
 ### HyperelasticPolynomialMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA10` | `real` | 0.0 |  |
-| 3 | `coefficientA01` | `real` | 0.0 |  |
-| 4 | `coefficientD1` | `real` |  |  |
-| 5 | `density` | `real` | 0.0 |  |
-| 6 | `thermalExpansion` | `real` | 0.0 |  |
-| 7 | `referenceTemperature` | `real` | 0.0 |  |
-| 8 | `structuralDamping` | `real` | 0.0 |  |
-| 9 | `distortionalOrder` | `integer` | 1 |  |
-| 10 | `volumetricOrder` | `integer` | 1 |  |
-| 11 | `coefficientA20` | `real` |  |  |
-| 12 | `coefficientA11` | `real` |  |  |
-| 13 | `coefficientA02` | `real` |  |  |
-| 14 | `coefficientD2` | `real` |  |  |
-| 15 | `coefficientA30` | `real` |  |  |
-| 16 | `coefficientA21` | `real` |  |  |
-| 17 | `coefficientA12` | `real` |  |  |
-| 18 | `coefficientA03` | `real` |  |  |
-| 19 | `coefficientD3` | `real` |  |  |
-| 20 | `coefficientA40` | `real` |  |  |
-| 21 | `coefficientA31` | `real` |  |  |
-| 22 | `coefficientA22` | `real` |  |  |
-| 23 | `coefficientA13` | `real` |  |  |
-| 24 | `coefficientA04` | `real` |  |  |
-| 25 | `coefficientD4` | `real` |  |  |
-| 26 | `coefficientA50` | `real` |  |  |
-| 27 | `coefficientA41` | `real` |  |  |
-| 28 | `coefficientA32` | `real` |  |  |
-| 29 | `coefficientA23` | `real` |  |  |
-| 30 | `coefficientA14` | `real` |  |  |
-| 31 | `coefficientA05` | `real` |  |  |
-| 32 | `coefficientD5` | `real` |  |  |
-| 33 | `tensionTableId` | `integer` | 0 |  |
-| 34 | `equibiaxialTableId` | `integer` | 0 |  |
-| 35 | `simpleShearTableId` | `integer` | 0 |  |
-| 36 | `pureShearTableId` | `integer` | 0 |  |
-| 37 | `volumetricTableId` | `integer` | 0 |  |
+[HyperelasticPolynomialMat — fields and example](reference/cards/materials.md#hyperelasticpolynomialmat)
 
 ### IdListSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `members`, after the fixed fields: `memberId` (any).
-
-Accepted words: `SkinElems`, `Through`.
+[IdListSet1 — fields and example](reference/cards/sets.md#idlistset1)
 
 ### IgnitionGrowthStateEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `inputUnits` | `text` |  |  |
-| 3 | `explosiveDatabase` | `text` |  |  |
-| 4 | `outputUnits` | `text` |  |  |
-| 5 | `unreactedA` | `real` |  |  |
-| 6 | `unreactedB` | `real` |  |  |
-| 7 | `unreactedR1` | `real` |  |  |
-| 8 | `unreactedR2` | `real` |  |  |
-| 9 | `unreactedOmega` | `real` |  |  |
-| 10 | `ignitionCoefficient` | `real` |  |  |
-| 11 | `growthCoefficient` | `real` |  |  |
-| 12 | `ignitionDensityCoefficient` | `real` |  |  |
-| 13 | `productA` | `real` |  |  |
-| 14 | `productB` | `real` |  |  |
-| 15 | `productR1` | `real` |  |  |
-| 16 | `productR2` | `real` |  |  |
-| 17 | `productOmega` | `real` |  |  |
-| 18 | `burnExponentX` | `real` |  |  |
-| 19 | `burnExponentY` | `real` |  |  |
-| 20 | `pressureExponent` | `real` |  |  |
-| 21 | `densityExponent` | `real` |  |  |
-| 22 | `chemicalEnergy` | `real` |  |  |
-| 23 | `pressureTolerance` | `real` |  |  |
-| 24 | `maxIterations` | `integer` |  |  |
-
-Accepted words: `CentimeterGramMicrosecond`, `Constant`, `Element`, `Explosive94A`, `Explosive94B`, `ImperialUnits`, `InsensitiveExplosive17`, `LengthCompressionB`, `MassCompressionB`, `MetricUnits`, `MillimeterMilligramMicrosecond`, `No`, `PentaShape`, `SiUnits`, `Table`, `TriaminotrinitrobenzeneData`, `TrinitrotolueneData`.
+[IgnitionGrowthStateEquation — fields and example](reference/cards/explicit.md#ignitiongrowthstateequation)
 
 ### ImperfectionCase
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `imperfections`, after the fixed fields: `imperfectionId` (any).
-
-Accepted words: `Constant`, `Element`, `Table`, `Through`.
+[ImperfectionCase — fields and example](reference/cards/loads.md#imperfectioncase)
 
 ### ImperfectionGeometry
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeSetId` | `integer` | 0 |  |
-| 3 | `scaleFactor` | `real` | 0.0 |  |
-| 4 | `fileUnit` | `integer` | 0 |  |
-| 5 | `moduleId` | `integer` | -1 |  |
-
-Repeated group `subcases`, after the fixed fields: `subcase` (integer), `step` (integer), `modeIncrement` (integer), `subcaseNodeSetId` (integer), `subcaseScaleFactor` (real), `subcaseFileUnit` (integer), `subcaseModuleId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ImperfectionGeometry — fields and example](reference/cards/loads.md#imperfectiongeometry)
 
 ### InflatorGas
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `constantKind` | `text` |  |  |
-| 3 | `constantValue` | `real` |  |  |
-| 4 | `heatLaw` | `text` | Constant |  |
-| 5 | `heatCoefficient1` | `any` |  |  |
-| 6 | `heatCoefficient2` | `real` | 0.0 |  |
-| 7 | `heatCoefficient3` | `real` | 0.0 |  |
-| 8 | `heatCoefficient4` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `MolecularWeight`, `Polynomial`, `ResponseSpectrum`, `Table`.
+[InflatorGas — fields and example](reference/cards/explicit.md#inflatorgas)
 
 ### InflatorInlet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `inflatorId` | `integer` |  |  |
-| 3 | `subsurfaceId` | `integer` |  |  |
-| 4 | `inflatorKind` | `text` |  |  |
-| 5 | `inflatorKindId` | `integer` |  |  |
-| 6 | `areaCoefficientSource` | `text` |  |  |
-| 7 | `areaCoefficient` | `any` |  |  |
-
-Accepted words: `ColdGasInflator`, `Constant`, `Element`, `HybridInflator`, `StandardInflator`, `Table`, `TankTestInflator`.
+[InflatorInlet — fields and example](reference/cards/loads.md#inflatorinlet)
 
 ### InitialConditionRegion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupId` | `integer` |  |  |
-| 3 | `shapeType` | `text` |  |  |
-| 4 | `shapeId` | `integer` |  |  |
-| 5 | `matId` | `integer` | 0 |  |
-| 6 | `valuesId` | `integer` | 0 |  |
-| 7 | `level` | `real` | 0.0 |  |
-
-Accepted words: `Box`, `Constant`, `Cylinder`, `Element`, `Elements`, `Sphere`, `Surface`, `Table`.
+[InitialConditionRegion — fields and example](reference/cards/explicit.md#initialconditionregion)
 
 ### InitialConditionValues
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `method` | `text` |  |  |
-
-Repeated group `variables`, after the fixed fields: `variableName` (text), `variableValue` (any).
-
-Accepted words: `ArtificialViscosity`, `CenterX`, `CenterY`, `CenterZ`, `Constant`, `Decay`, `Density`, `Divergence`, `Element`, `MaterialFraction`, `MomentumX`, `MomentumY`, `MomentumZ`, `Normal`, `Radial`, `RadialVelocity`, `SpecificInternalEnergy`, `Table`, `TableDynamic1`, `VelocityX`, `VelocityY`, `VelocityZ`, `VoidFraction`.
+[InitialConditionValues — fields and example](reference/cards/explicit.md#initialconditionvalues)
 
 ### InitialElemValues
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elementSetId` | `integer` |  |  |
-
-Repeated group `variables`, after the fixed fields: `variableName` (text), `variableValue` (real).
-
-Accepted words: `ArtificialViscosity`, `CenterX`, `CenterY`, `CenterZ`, `Constant`, `Decay`, `Density`, `Divergence`, `Element`, `MaterialFraction`, `MomentumX`, `MomentumY`, `MomentumZ`, `RadialVelocity`, `SpecificInternalEnergy`, `Table`, `TableDynamic1`, `VelocityX`, `VelocityY`, `VelocityZ`, `VoidFraction`.
+[InitialElemValues — fields and example](reference/cards/dynamics.md#initialelemvalues)
 
 ### InitialGasComposition
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `gases`, after the fixed fields: `gasId` (integer), `fraction` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[InitialGasComposition — fields and example](reference/cards/explicit.md#initialgascomposition)
 
 ### InitialPlasticStrain
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `firstElemId` | `integer` |  |  |
-| 2 | `lastElemId` | `integer` |  |  |
-| 3 | `firstPoint` | `integer` |  |  |
-| 4 | `lastPoint` | `integer` |  |  |
-| 5 | `firstLayer` | `integer` |  |  |
-| 6 | `lastLayer` | `integer` |  |  |
-| 7 | `strain` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[InitialPlasticStrain — fields and example](reference/cards/solution_control.md#initialplasticstrain)
 
 ### InitialStress
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `firstElemId` | `integer` |  |  |
-| 2 | `lastElemId` | `integer` |  |  |
-| 3 | `firstPoint` | `integer` |  |  |
-| 4 | `lastPoint` | `integer` |  |  |
-| 5 | `firstLayer` | `integer` |  |  |
-| 6 | `lastLayer` | `integer` |  |  |
-| 7 | `stress1` | `real` | 0.0 |  |
-| 8 | `stress2` | `real` | 0.0 |  |
-| 9 | `stress3` | `real` | 0.0 |  |
-| 10 | `stress4` | `real` | 0.0 |  |
-| 11 | `stress5` | `real` | 0.0 |  |
-| 12 | `stress6` | `real` | 0.0 |  |
-| 13 | `stress7` | `real` | 0.0 |  |
-| 14 | `coordinate` | `text` |  |  |
-| 15 | `frameId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Coordinates`, `Element`, `Table`.
+[InitialStress — fields and example](reference/cards/solution_control.md#initialstress)
 
 ### InitialSurfaceVolume
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `surfaceId` | `integer` |  |  |
-| 3 | `cover` | `text` |  |  |
-| 4 | `reverseNormals` | `text` | On |  |
-| 5 | `checkNormals` | `text` | On |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[InitialSurfaceVolume — fields and example](reference/cards/explicit.md#initialsurfacevolume)
 
 ### InitialValuesUserRoutine
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `group` | `text` |  |  |
-| 3 | `routineName` | `text` |  |  |
-| 4 | `elementSetId` | `integer` |  |  |
-| 5 | `target` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `ExternalInitialValues`, `Node`, `Table`.
+[InitialValuesUserRoutine — fields and example](reference/cards/dynamics.md#initialvaluesuserroutine)
 
 ### InitialVelocityField
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `scaleFactor` | `real` | 1.0 |  |
-| 4 | `xVelocity` | `real` | 0.0 |  |
-| 5 | `yVelocity` | `real` | 0.0 |  |
-| 6 | `zVelocity` | `real` | 0.0 |  |
-| 7 | `xRotation` | `real` | 0.0 |  |
-| 8 | `yRotation` | `real` | 0.0 |  |
-| 9 | `zRotation` | `real` | 0.0 |  |
-
-Repeated group `initializedNodes`, after the fixed fields: `initializedNode` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`.
+[InitialVelocityField — fields and example](reference/cards/dynamics.md#initialvelocityfield)
 
 ### IsoMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus` | `real` |  |  |
-| 3 | `shearModulus` | `real` |  |  |
-| 4 | `poissonRatio` | `real` |  |  |
-| 5 | `density` | `real` | 0.0 |  |
-| 6 | `thermalExpansion` | `real` | 0.0 |  |
-| 7 | `referenceTemperature` | `real` | 0.0 |  |
-| 8 | `structuralDamping` | `real` | 0.0 |  |
-| 9 | `tensionAllowable` | `real` | 0.0 |  |
-| 10 | `compressionAllowable` | `real` | 0.0 |  |
-| 11 | `shearAllowable` | `real` | 0.0 |  |
-| 12 | `stressFrameId` | `integer` | 0 |  |
-
-Designable field descriptors: youngsModulus, shearModulus, poissonRatio, density, thermalExpansion, referenceTemperature, structuralDamping, tensionAllowable, compressionAllowable, shearAllowable.
+[IsoMat — fields and example](reference/cards/materials.md#isomat)
 
 ### IsoMatExplicitExt
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `equationOfStateId` | `integer` |  |  |
+[IsoMatExplicitExt — fields and example](reference/cards/materials.md#isomatexplicitext)
 
 ### IsoMatFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulusTableId` | `integer` | 0 |  |
-| 3 | `shearModulusTableId` | `integer` | 0 |  |
-| 4 | `poissonRatioTableId` | `integer` | 0 |  |
-| 5 | `structuralDampingTableId` | `integer` | 0 |  |
+[IsoMatFreq — fields and example](reference/cards/materials.md#isomatfreq)
 
 ### IsoMatStressDependent
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `tableId` | `integer` | 0 |  |
-| 3 | `kind` | `text` |  |  |
-| 4 | `hardeningSlope` | `real` |  |  |
-| 5 | `yieldFunction` | `integer` | 1 |  |
-| 6 | `hardeningRule` | `integer` | 1 |  |
-| 7 | `initialYieldStress` | `real` |  |  |
-| 8 | `frictionAngle` | `real` |  |  |
-
-Accepted words: `NonlinearElastic`, `Plastic`.
+[IsoMatStressDependent — fields and example](reference/cards/materials.md#isomatstressdependent)
 
 ### IsoMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulusTableId` | `integer` | 0 |  |
-| 3 | `shearModulusTableId` | `integer` | 0 |  |
-| 4 | `poissonRatioTableId` | `integer` | 0 |  |
-| 5 | `densityTableId` | `integer` | 0 |  |
-| 6 | `thermalExpansionTableId` | `integer` | 0 |  |
-| 7 | `structuralDampingTableId` | `integer` | 0 |  |
-| 8 | `tensionAllowableTableId` | `integer` | 0 |  |
-| 9 | `compressionAllowableTableId` | `integer` | 0 |  |
-| 10 | `shearAllowableTableId` | `integer` | 0 |  |
+[IsoMatTemperature — fields and example](reference/cards/materials.md#isomattemperature)
 
 ### IterativeSolverOptions
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `options`, after the fixed fields: `option` (text).
-
-Accepted words: `BlockIncompleteCholesky`, `BlockIncompleteCholeskyComplex`, `CacheAwareIncomplete`, `Constant`, `Element`, `EnergyNormCriterion`, `EnergyNormCriterionExtended`, `IncompleteCholesky`, `IncompleteCholeskyScaled`, `Jacobi`, `JacobiScaled`, `No`, `ResidualRatioCriterion`, `ResidualRatioCriterionExtended`, `RowIncompleteCholesky`, `RowIncompleteCholeskySymmetric`, `Table`, `User`, `Yes`.
-
-Accepted parameter names: `ConvergenceCriteria`, `EstimateResourcesOnly`, `IterationMessages`, `IterationTolerance`, `MaxIterationSteps`, `PreconditionerExtractionLevel`, `PreconditionerKind`, `PreconditionerPadding`.
+[IterativeSolverOptions — fields and example](reference/cards/solution_control.md#iterativesolveroptions)
 
 ### JohnsonCookFailure
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientD1` | `real` | 0.0 |  |
-| 3 | `coefficientD2` | `real` | 0.0 |  |
-| 4 | `coefficientD3` | `real` | 0.0 |  |
-| 5 | `coefficientD4` | `real` | 0.0 |  |
-| 6 | `coefficientD5` | `real` | 0.0 |  |
-| 7 | `referenceStrainRate` | `real` | 1.0 |  |
-| 8 | `roomTemperature` | `real` | 0.0 |  |
-| 9 | `meltTemperature` | `real` | 1.0E20 |  |
-| 10 | `specificHeat` | `real` | 1.0E20 |  |
-| 11 | `method` | `text` |  |  |
-
-Accepted words: `Constant`, `Continue`, `Discard`, `Element`, `NoFailure`, `Table`.
+[JohnsonCookFailure — fields and example](reference/cards/explicit.md#johnsoncookfailure)
 
 ### JohnsonCookYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA` | `real` |  |  |
-| 3 | `coefficientB` | `real` | 0.0 |  |
-| 4 | `coefficientN` | `real` | 1.0 |  |
-| 5 | `coefficientC` | `real` | 0.0 |  |
-| 6 | `coefficientM` | `real` | 1.0 |  |
-| 7 | `referenceStrainRate` | `real` | 1.0 |  |
-| 8 | `specificHeat` | `real` |  |  |
-| 9 | `meltTemperature` | `real` |  |  |
-| 10 | `roomTemperature` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[JohnsonCookYield — fields and example](reference/cards/explicit.md#johnsoncookyield)
 
 ### JonesWilkinsLeeStateEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA` | `real` | 0.0 |  |
-| 3 | `coefficientB` | `real` | 0.0 |  |
-| 4 | `coefficientR1` | `real` | 0.0 |  |
-| 5 | `coefficientR2` | `real` | 0.0 |  |
-| 6 | `omega` | `real` | 0.0 |  |
-| 7 | `initialPressure` | `real` | 0.0 |  |
-| 8 | `afterburnEnergy` | `real` | 0.0 |  |
-| 9 | `afterburnRate` | `real` | 0.0 |  |
-| 10 | `coefficientM` | `real` | 0.0 |  |
-| 11 | `coefficientN` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[JonesWilkinsLeeStateEquation — fields and example](reference/cards/explicit.md#joneswilkinsleestateequation)
 
 ### LanczosEigenMethod
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `lowerFrequency` | `real` |  |  |
-| 3 | `upperFrequency` | `real` |  |  |
-| 4 | `desiredModeCount` | `integer` | 0 |  |
-| 5 | `messageLevel` | `integer` | 0 |  |
-| 6 | `maximumSet` | `integer` | 0 |  |
-| 7 | `shiftScale` | `real` |  |  |
-| 8 | `norm` | `text` |  |  |
-
-Repeated group `options`, after the fixed fields: `option` (text).
-
-Accepted words: `Mass`, `Maximum`.
-
-Accepted parameter names: `Alpha`, `DesiredModeCount`, `FrequencySegmentCount`, `LowerFrequency`, `MaximumSet`, `MessageLevel`, `Normalization`, `SegmentFrequency1`, `SegmentFrequency10`, `SegmentFrequency11`, `SegmentFrequency12`, `SegmentFrequency13`, `SegmentFrequency14`, `SegmentFrequency15`, `SegmentFrequency2`, `SegmentFrequency3`, `SegmentFrequency4`, `SegmentFrequency5`, `SegmentFrequency6`, `SegmentFrequency7`, `SegmentFrequency8`, `SegmentFrequency9`, `ShiftScale`, `UpperFrequency`.
+[LanczosEigenMethod — fields and example](reference/cards/dynamics.md#lanczoseigenmethod)
 
 ### LineElemTemperatureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId1` | `integer` |  |  |
-| 3 | `temperatureA` | `real` | 0.0 |  |
-| 4 | `temperatureB` | `real` | 0.0 |  |
-| 5 | `gradientYA` | `real` | 0.0 |  |
-| 6 | `gradientYB` | `real` | 0.0 |  |
-| 7 | `gradientZA` | `real` | 0.0 |  |
-| 8 | `gradientZB` | `real` | 0.0 |  |
-| 9 | `temperatureCA` | `real` |  |  |
-| 10 | `temperatureDA` | `real` |  |  |
-| 11 | `temperatureEA` | `real` |  |  |
-| 12 | `temperatureFA` | `real` |  |  |
-| 13 | `temperatureCB` | `real` |  |  |
-| 14 | `temperatureDB` | `real` |  |  |
-| 15 | `temperatureEB` | `real` |  |  |
-| 16 | `temperatureFB` | `real` |  |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `Through`.
+[LineElemTemperatureLoad — fields and example](reference/cards/loads.md#lineelemtemperatureload)
 
 ### LineInterface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `boundaryList` | `text` |  | one text field |
-
-Accepted words: `Constant`, `Element`, `Linear`, `NodeList`, `Quadratic`, `Table`.
-
-boundaryList is boundaries=(id, id(Linear), id(Quadratic), ...). A bare ID uses Linear interpolation; the sign identifies an independent boundary. All names use exact case.
+[LineInterface — fields and example](reference/cards/elements.md#lineinterface)
 
 ### LoadCaseIdLabel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` |  |  |
-
-Repeated group `items`, after the fixed fields: `itemScaleFactor` (real), `loadId` (integer), `partName` (text, one text field).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[LoadCaseIdLabel — fields and example](reference/cards/loads.md#loadcaseidlabel)
 
 ### LoadCaseNameLabel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` |  |  |
-
-Repeated group `items`, after the fixed fields: `itemScaleFactor` (real), `loadName` (text, one text field), `partName` (text, one text field).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[LoadCaseNameLabel — fields and example](reference/cards/loads.md#loadcasenamelabel)
 
 ### LoadCaseSubcaseLabel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` |  |  |
-
-Repeated group `items`, after the fixed fields: `itemScaleFactor` (real), `subcase` (integer), `partName` (text, one text field).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[LoadCaseSubcaseLabel — fields and example](reference/cards/loads.md#loadcasesubcaselabel)
 
 ### LoadCombination
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` |  |  |
-
-Repeated group `terms`, after the fixed fields: `termScaleFactor` (real), `loadSetId` (integer).
+[LoadCombination — fields and example](reference/cards/loads.md#loadcombination)
 
 ### MarkerBody
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MarkerBody — fields and example](reference/cards/explicit.md#markerbody)
 
 ### MarkerNode
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MarkerNode — fields and example](reference/cards/explicit.md#markernode)
 
 ### MarkerProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `markerKind` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Fixed`, `Moving`, `Table`.
+[MarkerProp — fields and example](reference/cards/explicit.md#markerprop)
 
 ### MassCaseCombination
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `overallScale` | `real` | 0.0 |  |
-
-Repeated group `terms`, after the fixed fields: `caseScale` (real), `caseId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MassCaseCombination — fields and example](reference/cards/superelements.md#masscasecombination)
 
 ### MassDofInline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `mass` | `real` |  |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
+[MassDofInline — fields and example](reference/cards/elements.md#massdofinline)
 
 ### MassDofProperty
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
+[MassDofProperty — fields and example](reference/cards/elements.md#massdofproperty)
 
 ### MassProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id1` | `integer` |  |  |
-| 2 | `mass1` | `real` |  |  |
-| 3 | `id2` | `integer` |  |  |
-| 4 | `mass2` | `real` |  |  |
-| 5 | `id3` | `integer` |  |  |
-| 6 | `mass3` | `real` |  |  |
-| 7 | `id4` | `integer` |  |  |
-| 8 | `mass4` | `real` |  |  |
+[MassProp — fields and example](reference/cards/properties.md#massprop)
 
 ### MassScalarInline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `mass` | `real` |  |  |
-| 3 | `scalarPoint1` | `integer` | 0 |  |
-| 4 | `scalarPoint2` | `integer` | 0 |  |
-| 5 | `id2` | `integer` |  |  |
-| 6 | `mass2` | `real` |  |  |
-| 7 | `scalarPoint3` | `integer` | 0 |  |
-| 8 | `scalarPoint4` | `integer` | 0 |  |
+[MassScalarInline — fields and example](reference/cards/elements.md#massscalarinline)
 
 ### MassScalarProperty
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `scalarPoint1` | `integer` | 0 |  |
-| 4 | `scalarPoint2` | `integer` | 0 |  |
+[MassScalarProperty — fields and example](reference/cards/elements.md#massscalarproperty)
 
 ### MaxPlasticStrainFailure
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `maxPlasticStrain` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MaxPlasticStrainFailure — fields and example](reference/cards/explicit.md#maxplasticstrainfailure)
 
 ### MetadataBooleanPairs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `metadataGroupId` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `entryName` (text), `entryValue` (text).
-
-Accepted words: `Constant`, `Element`, `False`, `Table`, `True`.
+[MetadataBooleanPairs — fields and example](reference/cards/loads.md#metadatabooleanpairs)
 
 ### MetadataGroup
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `metadataGroupName` | `text` |  |  |
-| 2 | `id` | `integer` |  |  |
-| 3 | `entityName` | `text` |  |  |
-
-Repeated group `entities`, after the fixed fields: `entityId` (integer).
+[MetadataGroup — fields and example](reference/cards/loads.md#metadatagroup)
 
 ### MetadataIntegerPairs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `metadataGroupId` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `entryName` (text), `entryValue` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MetadataIntegerPairs — fields and example](reference/cards/loads.md#metadataintegerpairs)
 
 ### MetadataRealPairs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `metadataGroupId` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `entryName` (text), `entryValue` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MetadataRealPairs — fields and example](reference/cards/loads.md#metadatarealpairs)
 
 ### MetadataTextPairs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `metadataGroupId` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `entryName` (text), `entryValue` (text, one text field).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MetadataTextPairs — fields and example](reference/cards/loads.md#metadatatextpairs)
 
 ### MicromechanicsCompositeMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `userDefinedNameId` | `integer` |  |  |
-| 3 | `density` | `real` |  |  |
+[MicromechanicsCompositeMat — fields and example](reference/cards/materials.md#micromechanicscompositemat)
 
 ### MieGruneisenStateEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `soundSpeed` | `real` |  |  |
-| 3 | `shockSlope` | `real` |  |  |
-| 4 | `gruneisenParameter` | `real` |  |  |
-| 5 | `densityCutoff` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MieGruneisenStateEquation — fields and example](reference/cards/explicit.md#miegruneisenstateequation)
 
 ### ModeTracking
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `lowRange` | `integer` | 0 |  |
-| 3 | `highRange` | `integer` | 0 |  |
-| 4 | `trackingFilter` | `real` | 0.9 |  |
+[ModeTracking — fields and example](reference/cards/solution_control.md#modetracking)
 
 ### ModelParams
 
-No fixed field.
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `ElemOffsetZ`, `ElemOffsetsOnly`, `HarderShearPanel`, `LoadRecoveryOffsets`, `NoDampingOffsets`, `NoMassOffsets`, `NoOffsetDifference`, `NoTemperatureGradientOffsets`, `NoThermalOffsets`.
-
-Accepted parameter names: `BeamLibraryShearFactor`, `OffsetDefinition`, `OffsetDisplacementLoad`, `ShearPanelFormulation`.
+[ModelParams — fields and example](reference/cards/solution_control.md#modelparams)
 
 ### ModuleBolt
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `controlNode` | `integer` |  |  |
-| 3 | `controlModuleId` | `integer` | 0 |  |
-| 4 | `topModuleId` | `integer` | 0 |  |
-| 5 | `bottomModuleId` | `integer` | 0 |  |
-
-Sections `lists`, one after the other, each opened by its key word:
-
-- `Top` (top): then the number of `topNodes` and their fields `topNode` (integer).
-- `Bottom` (bottom): then the number of `bottomNodes` and their fields `bottomNode` (integer).
-
-Accepted words: `All`, `Bottom`, `Constant`, `Element`, `Table`, `Through`, `Top`.
+[ModuleBolt — fields and example](reference/cards/nodes.md#modulebolt)
 
 ### ModuleBoundaryNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `moduleIdA` | `integer` | 0 |  |
-| 2 | `otherModule` | `any` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `nodeA` (any).
-
-Accepted words: `All`, `Through`.
+[ModuleBoundaryNodes — fields and example](reference/cards/nodes.md#moduleboundarynodes)
 
 ### ModuleBrakeSystem
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `squealLoadFactor` | `real` | 0.0 |  |
-| 3 | `frictionVectorMethod` | `integer` | 0 |  |
-| 4 | `squealOnly` | `text` |  |  |
-| 5 | `contactMethod` | `integer` | 0 |  |
-
-Repeated group `disks`, after the fixed fields: `diskName` (text), `moduleId1` (integer), `body1Id` (integer), `moduleId2` (integer), `body2Id` (integer), `motion1Id` (integer), `motion2Id` (integer), `brakeSystemId` (integer).
-
-Accepted words: `All`, `Constant`, `Element`, `No`, `Table`, `Through`, `Yes`.
+[ModuleBrakeSystem — fields and example](reference/cards/nodes.md#modulebrakesystem)
 
 ### ModuleBulkOptions
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `any` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `sourceModuleId` | `integer` | 0 |  |
-| 4 | `method` | `text` |  |  |
-| 5 | `tolerance` | `real` | 0.0 |  |
-| 6 | `unitNumber` | `integer` | 0 |  |
-
-Accepted words: `All`, `Automatic`, `Constant`, `Element`, `External`, `ExternalBinaryResults`, `ExternalMatrixFile`, `Manual`, `Mirror`, `Move`, `Primary`, `Repeat`, `Table`, `Through`.
+[ModuleBulkOptions — fields and example](reference/cards/nodes.md#modulebulkoptions)
 
 ### ModuleBushing
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `nodeB` | `integer` | 0 |  |
-| 5 | `position1` | `real` |  | alternative of `orientationNode` |
-| 6 | `orientationNode` | `integer` |  | alternative of `position1` |
-| 7 | `position2` | `real` | 0.0 |  |
-| 8 | `position3` | `real` | 0.0 |  |
-| 9 | `frameId` | `integer` |  |  |
-| 10 | `offsetFraction` | `real` | 0.5 |  |
-| 11 | `offsetFrameId` | `integer` | -1 |  |
-| 12 | `offset1` | `real` | 0.0 |  |
-| 13 | `offset2` | `real` | 0.0 |  |
-| 14 | `offset3` | `real` | 0.0 |  |
-| 15 | `moduleIdA` | `integer` | 0 |  |
-| 16 | `moduleIdB` | `integer` | 0 |  |
-| 17 | `orientationModuleId` | `integer` | 0 |  |
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[ModuleBushing — fields and example](reference/cards/nodes.md#modulebushing)
 
 ### ModuleConnection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `tolerance` | `real` | 0.0 |  |
-| 4 | `xCoord` | `real` | 0.0 | alternative of `locationNode` |
-| 5 | `locationNode` | `integer` |  | alternative of `xCoord` |
-| 6 | `yCoord` | `real` | 0.0 |  |
-| 7 | `zCoord` | `real` | 0.0 |  |
-| 8 | `moduleId` | `integer` | 0 |  |
-| 9 | `frameId` | `integer` | 0 |  |
-
-Repeated group `points`, after the fixed fields: `memberModuleId` (integer), `memberNodeId` (integer).
-
-Accepted words: `All`, `Constant`, `Element`, `Merge`, `ModuleRigidStar`, `Rigid`, `RigidStarReleased`, `Table`, `Through`.
+[ModuleConnection — fields and example](reference/cards/nodes.md#moduleconnection)
 
 ### ModuleContactCandidates
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `moduleSetId` | `integer` | -1 |  |
-
-Repeated group `pairs`, after the fixed fields: `firstModuleId` (integer), `secondModuleId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`, `TypedListSet3`.
+[ModuleContactCandidates — fields and example](reference/cards/nodes.md#modulecontactcandidates)
 
 ### ModuleContactDetectParams
 
-No fixed field.
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `BilinearCoulomb`, `Both`, `Full`, `GeneralGlue`, `No`, `NodeToSurface`, `Off`, `On`, `PermanentGlue`, `SegmentToSegment`, `StandardGlue`, `TouchOnly`, `Yes`.
-
-Accepted parameter names: `BeamContact`, `ContactKind`, `DeleteSolids`, `DetectionDistance`, `EdgeContact`, `FrictionCoefficient`, `FrictionKind`, `IgnoreThickness`, `InitialStiffness`, `SelfContact`.
+[ModuleContactDetectParams — fields and example](reference/cards/nodes.md#modulecontactdetectparams)
 
 ### ModuleContactPair
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `geometricParamsId` | `integer` | 0 |  |
-| 3 | `physicalParamsId` | `integer` | 0 |  |
-| 4 | `secondaryModule` | `integer` | 0 |  |
-| 5 | `secondaryBodyId` | `integer` | 0 |  |
-| 6 | `primaryModule` | `integer` | 0 |  |
-| 7 | `primaryBodyId` | `integer` | 0 |  |
-
-Sections `lists`, one after the other, each opened by its key word:
-
-- `Secondary` (secondary): then the number of `secondaryBodies` and their fields `secondaryListModule` (integer), `secondaryListBodyId` (integer).
-- `Primary` (primary): then the number of `primaryBodies` and their fields `primaryListModule` (integer), `primaryListBodyId` (integer).
-
-Accepted words: `Constant`, `Element`, `Primary`, `Secondary`, `Table`.
+[ModuleContactPair — fields and example](reference/cards/nodes.md#modulecontactpair)
 
 ### ModuleContactTable
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `module` (integer), `contactPairId` (integer).
+[ModuleContactTable — fields and example](reference/cards/nodes.md#modulecontacttable)
 
 ### ModuleDirectMatrix
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `columnModuleId` | `integer` | 0 |  |
-| 3 | `matrixShapeOrNodeJ` | `integer` |  |  |
-| 4 | `inputTypeOrComponentsJ` | `integer` |  |  |
-| 5 | `outputType` | `integer` | 0 |  |
-| 6 | `polarFlag` | `integer` | 0 |  |
-| 7 | `columnCount` | `integer` | 0 |  |
-
-Repeated group `terms`, after the fixed fields: `moduleId` (integer), `node` (integer), `components` (integer), `realValue` (real), `imaginaryValue` (real).
-
-Accepted words: `All`, `Through`.
+[ModuleDirectMatrix — fields and example](reference/cards/nodes.md#moduledirectmatrix)
 
 ### ModuleEntryExclusion
 
-No fixed field.
-
-Repeated group `entries`, after the fixed fields: `entry` (text).
-
-Accepted words: `Constant`, `Element`, `Node`, `Table`.
+[ModuleEntryExclusion — fields and example](reference/cards/nodes.md#moduleentryexclusion)
 
 ### ModuleExcludedNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `moduleIdA` | `integer` | 0 |  |
-| 2 | `otherModule` | `any` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `nodeA` (any).
-
-Accepted words: `All`, `Through`.
+[ModuleExcludedNodes — fields and example](reference/cards/nodes.md#moduleexcludednodes)
 
 ### ModuleFastener
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `kind` | `text` |  |  |
-| 4 | `patchIdA` | `integer` |  |  |
-| 5 | `patchIdB` | `integer` |  |  |
-| 6 | `spotNode` | `integer` | 0 |  |
-| 7 | `nodeA` | `integer` | 0 |  |
-| 8 | `nodeB` | `integer` | 0 |  |
-| 9 | `xStation` | `real` |  |  |
-| 10 | `yStation` | `real` |  |  |
-| 11 | `zStation` | `real` |  |  |
-| 12 | `moduleIdA` | `integer` | 0 |  |
-| 13 | `moduleIdB` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Elements`, `Property`, `Table`.
+[ModuleFastener — fields and example](reference/cards/nodes.md#modulefastener)
 
 ### ModuleFluidSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `moduleId` | `integer` | 0 |  |
-
-Repeated group `ids`, after the fixed fields: `id` (any).
-
-Accepted words: `All`, `Through`.
+[ModuleFluidSet — fields and example](reference/cards/nodes.md#modulefluidset)
 
 ### ModuleLabel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` | 0 |  |
-| 2 | `entryLabel` | `text` |  | one text field |
-
-Accepted words: `All`, `Through`.
+[ModuleLabel — fields and example](reference/cards/nodes.md#modulelabel)
 
 ### ModuleLocation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pointA1` | `integer` |  |  |
-| 3 | `pointA2` | `integer` |  |  |
-| 4 | `pointA3` | `integer` |  |  |
-| 5 | `pointB1` | `integer` |  |  |
-| 6 | `pointB2` | `integer` |  |  |
-| 7 | `pointB3` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleLocation — fields and example](reference/cards/nodes.md#modulelocation)
 
 ### ModuleMirror1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `point1` | `integer` |  |  |
-| 3 | `point2` | `integer` |  |  |
-| 4 | `point3` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleMirror1 — fields and example](reference/cards/nodes.md#modulemirror1)
 
 ### ModuleMirror2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frameId` | `integer` | 0 |  |
-| 3 | `referenceNode` | `integer` | 0 |  |
-| 4 | `axes` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `PlaneXy`, `PlaneXz`, `PlaneYx`, `PlaneYz`, `PlaneZx`, `PlaneZy`, `Table`.
+[ModuleMirror2 — fields and example](reference/cards/nodes.md#modulemirror2)
 
 ### ModuleMirrorPlane
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `point1` | `integer` |  |  |
-| 3 | `point2` | `integer` |  |  |
-| 4 | `point3` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleMirrorPlane — fields and example](reference/cards/nodes.md#modulemirrorplane)
 
 ### ModuleMoveSequence
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `moveIds`, after the fixed fields: `moveId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleMoveSequence — fields and example](reference/cards/nodes.md#modulemovesequence)
 
 ### ModuleMultiPointConstr
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `moduleId1` | `integer` | 0 |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `coefficient1` | `real` |  |  |
-
-Repeated group `terms`, after the fixed fields: `moduleId` (integer), `node` (integer), `components` (integer), `coefficient` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleMultiPointConstr — fields and example](reference/cards/nodes.md#modulemultipointconstr)
 
 ### ModuleResultFileParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `moduleId` | `integer` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `BloscCompression`, `CompressionLevel`, `CompressionMethod`, `GzipCompression`, `InputData`, `LoadConstraintTables`, `Lz4Compression`, `MatrixData`, `ModalMatrixOutput`, `No`, `NodeElementTables`, `None`, `Precision`, `RotationalDofs`, `RunInformation`, `SeparateModelFile`, `Yes`.
+[ModuleResultFileParams — fields and example](reference/cards/solution_control.md#moduleresultfileparams)
 
 ### ModuleRigidBodyStar
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `independentModuleId` | `integer` | 0 |  |
-| 3 | `independentNode` | `integer` |  |  |
-| 4 | `dependentComponents` | `integer` |  |  |
-
-Repeated group `dependents`, after the fixed fields: `dependentModule` (number), `dependentNode` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleRigidBodyStar — fields and example](reference/cards/nodes.md#modulerigidbodystar)
 
 ### ModuleRigidInterpolation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceModuleId` | `integer` | 0 |  |
-| 3 | `referenceNode` | `integer` |  |  |
-| 4 | `referenceComponents` | `integer` |  |  |
-
-The number of repetitions of `weightedGroups` (integer, blank for none).
-
-Repeated group `weightedGroups`, after the fixed fields: `weightedGroupItem` (number).
-
-Sections `parts`, one after the other, each opened by its key word:
-
-- `DependentDofs` (dependentPart): then the number of `dependents` and their fields `dependentModuleId` (integer), `dependentNode` (integer), `dependentComponents` (integer).
-- `ThermalExpansion` (thermalExpansion): fields `alphaCoefficient` (real), `referenceTemperature` (real).
-
-Accepted words: `Constant`, `DependentDofs`, `Element`, `Table`, `ThermalExpansion`.
+[ModuleRigidInterpolation — fields and example](reference/cards/nodes.md#modulerigidinterpolation)
 
 ### ModuleRigidJoint
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `moduleIdA` | `integer` | 0 |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `moduleIdB` | `integer` | 0 |  |
-| 5 | `nodeB` | `integer` |  |  |
-| 6 | `componentsB` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleRigidJoint — fields and example](reference/cards/nodes.md#modulerigidjoint)
 
 ### ModuleRigidRod
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `moduleIdA` | `integer` | 0 |  |
-| 3 | `nodeA` | `integer` |  |  |
-| 4 | `moduleIdB` | `integer` | 0 |  |
-| 5 | `nodeB` | `integer` |  |  |
-| 6 | `componentsAtA` | `integer` | 0 |  |
-| 7 | `componentsAtB` | `integer` | 0 |  |
-| 8 | `alphaCoefficient` | `real` | 0.0 |  |
-| 9 | `referenceTemperature` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleRigidRod — fields and example](reference/cards/nodes.md#modulerigidrod)
 
 ### ModuleRotation1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceNode` | `integer` | 0 |  |
-| 3 | `startNode` | `integer` |  |  |
-| 4 | `endNode` | `integer` |  |  |
-| 5 | `magnitude` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleRotation1 — fields and example](reference/cards/nodes.md#modulerotation1)
 
 ### ModuleRotation2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frameId` | `integer` | 0 |  |
-| 3 | `referenceNode` | `integer` | 0 |  |
-| 4 | `axis` | `text` |  |  |
-| 5 | `magnitude` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `MinusXAxis`, `MinusYAxis`, `MinusZAxis`, `Table`, `XAxis`, `YAxis`, `ZAxis`.
+[ModuleRotation2 — fields and example](reference/cards/nodes.md#modulerotation2)
 
 ### ModuleSeam
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `seamLineName` | `text` |  |  |
-| 4 | `patchKind` | `text` |  |  |
-| 5 | `startPatchIdA` | `integer` |  |  |
-| 6 | `startPatchIdB` | `integer` | 0 |  |
-| 7 | `endPatchIdA` | `integer` | 0 |  |
-| 8 | `endPatchIdB` | `integer` | 0 |  |
-| 9 | `startNode` | `integer` |  | alternative of `xStation` |
-| 10 | `xStation` | `real` |  | alternative of `startNode` |
-| 11 | `endNode` | `integer` |  | alternative of `yStation` |
-| 12 | `yStation` | `real` |  | alternative of `endNode` |
-| 13 | `zStation` | `real` |  |  |
-| 14 | `xEnd` | `real` |  |  |
-| 15 | `yEnd` | `real` |  |  |
-| 16 | `zEnd` | `real` |  |  |
-| 17 | `moduleIdA` | `integer` | 0 |  |
-| 18 | `moduleIdB` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Elements`, `ShellProp`, `Table`.
+[ModuleSeam — fields and example](reference/cards/nodes.md#moduleseam)
 
 ### ModuleStructureSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `moduleId` | `integer` | 0 |  |
-
-Repeated group `ids`, after the fixed fields: `id` (any).
-
-Accepted words: `All`, `Through`.
+[ModuleStructureSet — fields and example](reference/cards/nodes.md#modulestructureset)
 
 ### ModuleTranslation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `startNode` | `integer` |  |  |
-| 3 | `endNode` | `integer` |  |  |
-| 4 | `magnitude` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ModuleTranslation — fields and example](reference/cards/nodes.md#moduletranslation)
 
 ### ModuleWeld
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `spotNode` | `integer` | 0 |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `nodeA` | `integer` | 0 |  |
-| 6 | `nodeB` | `integer` | 0 |  |
-| 7 | `patchTypes` | `text` |  |  |
-| 8 | `matFrameId` | `integer` |  |  |
-| 9 | `patchIdA` | `integer` |  |  |
-| 10 | `patchIdB` | `integer` |  |  |
-| 11 | `spotModuleId` | `integer` | 0 |  |
-| 12 | `moduleIdA` | `integer` | 0 |  |
-| 13 | `moduleIdB` | `integer` | 0 |  |
-| 14 | `nodeA1` | `integer` |  | alternative of `xStation` |
-| 15 | `xStation` | `real` |  | alternative of `nodeA1` |
-| 16 | `nodeA2` | `integer` |  | alternative of `yStation` |
-| 17 | `yStation` | `real` |  | alternative of `nodeA2` |
-| 18 | `nodeA3` | `integer` |  | alternative of `zStation` |
-| 19 | `zStation` | `real` |  | alternative of `nodeA3` |
-| 20 | `nodeA4` | `integer` |  |  |
-| 21 | `nodeA5` | `integer` |  |  |
-| 22 | `nodeA6` | `integer` |  |  |
-| 23 | `nodeA7` | `integer` |  |  |
-| 24 | `nodeA8` | `integer` |  |  |
-| 25 | `nodeB1` | `integer` |  |  |
-| 26 | `nodeB2` | `integer` |  |  |
-| 27 | `nodeB3` | `integer` |  |  |
-| 28 | `nodeB4` | `integer` |  |  |
-| 29 | `nodeB5` | `integer` |  |  |
-| 30 | `nodeB6` | `integer` |  |  |
-| 31 | `nodeB7` | `integer` |  |  |
-| 32 | `nodeB8` | `integer` |  |  |
-
-Accepted words: `AlignedNodes`, `Constant`, `ElemIdPatch`, `ElemPatch`, `Element`, `NodeIdPatch`, `PartPatch`, `QuadPatch`, `QuadQuadPatch`, `QuadTriaPatch`, `Table`, `TriaPatch`, `TriaQuadPatch`, `TriaTriaPatch`.
+[ModuleWeld — fields and example](reference/cards/nodes.md#moduleweld)
 
 ### MohrCoulombYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `maxYieldStress` | `real` |  |  |
-| 3 | `cohesion` | `real` |  |  |
-| 4 | `internalFriction` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[MohrCoulombYield — fields and example](reference/cards/explicit.md#mohrcoulombyield)
 
 ### MonitorChordNormalCoeffs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-| 3 | `momentChordFraction` | `real` | 0.25 |  |
-
-Repeated group `aeroPanelIds`, after the fixed fields: `aeroPanelId` (any).
-
-Accepted words: `All`, `Constant`, `Element`, `Table`.
+[MonitorChordNormalCoeffs — fields and example](reference/cards/matrices.md#monitorchordnormalcoeffs)
 
 ### MonitorDisplacement
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-| 3 | `outputAxes` | `integer` |  |  |
-| 4 | `component` | `text` |  |  |
-| 5 | `positionFrameId` | `integer` | 0 |  |
-| 6 | `xCoord` | `real` | 0.0 |  |
-| 7 | `yCoord` | `real` | 0.0 |  |
-| 8 | `zCoord` | `real` | 0.0 |  |
-| 9 | `displacementFrameId` | `integer` | same as positionFrameId |  |
-| 10 | `sampledComponents` | `integer` |  |  |
+[MonitorDisplacement — fields and example](reference/cards/matrices.md#monitordisplacement)
 
 ### MonitorElemLoad2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-| 3 | `resultTable` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `resultItem` | `text` |  |  |
-| 6 | `elemId` | `integer` | 0 |  |
-
-Accepted words: `Force`, `Strain`, `Stress`.
+[MonitorElemLoad2 — fields and example](reference/cards/matrices.md#monitorelemload2)
 
 ### MonitorGroup
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `groupName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-
-Repeated group `members`, after the fixed fields: `memberName` (text), `monitorClass` (text), `realAttribute` (real), `integerAttribute` (integer), `textAttribute` (text, one text field).
-
-Accepted words: `AeroMonitorDisplacement`, `AeroMonitorIntegratedLoad`, `Constant`, `Element`, `MonitorElemLoad2`, `MonitorNodeForceSum3`, `StructMonitorDisplacement`, `StructMonitorIntegratedLoad`, `Table`.
+[MonitorGroup — fields and example](reference/cards/matrices.md#monitorgroup)
 
 ### MonitorIntegratedLoad1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-| 3 | `outputAxes` | `integer` |  |  |
-| 4 | `component` | `text` |  |  |
-| 5 | `positionFrameId` | `integer` | 0 |  |
-| 6 | `xCoord` | `real` | 0.0 |  |
-| 7 | `yCoord` | `real` | 0.0 |  |
-| 8 | `zCoord` | `real` | 0.0 |  |
-| 9 | `displacementFrameId` | `integer` | same as positionFrameId |  |
+[MonitorIntegratedLoad1 — fields and example](reference/cards/matrices.md#monitorintegratedload1)
 
 ### MonitorNodeForceSum3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-| 3 | `outputAxes` | `integer` |  |  |
-| 4 | `nodeSetId` | `integer` |  |  |
-| 5 | `elementSetId` | `integer` | 0 |  |
-| 6 | `positionFrameId` | `integer` | 0 |  |
-| 7 | `xCoord` | `real` | 0.0 |  |
-| 8 | `yCoord` | `real` | 0.0 |  |
-| 9 | `zCoord` | `real` | 0.0 |  |
-| 10 | `excludedForces` | `text` |  |  |
-| 11 | `displacementFrameId` | `integer` | same as positionFrameId |  |
-
-Accepted words: `AlphaLetter`.
+[MonitorNodeForceSum3 — fields and example](reference/cards/matrices.md#monitornodeforcesum3)
 
 ### MonitorSum
 
-Forms: `typeFirst`, `axesFirst`.
+[MonitorSum — fields and example](reference/cards/matrices.md#monitorsum)
 
 #### MonitorSum: typeFirst
 
-Form `typeFirst`, when `termType` is a word.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-
-Repeated group `lines`, after the fixed fields: `termType` (text), `newAxes` (integer), `termNames` (text), `termAxes` (integer), `termCoefficient` (real), `secondTermNames` (text), `secondTermAxes` (integer), `secondTermCoefficient` (real).
+[typeFirst form](reference/cards/matrices.md#monitorsum-typefirst)
 
 #### MonitorSum: axesFirst
 
-Form `axesFirst`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-
-Repeated group `lines`, after the fixed fields: `newAxes` (integer), `termType` (text), `termNames` (text), `termAxes` (integer), `termCoefficient` (real), `secondTermNames` (text), `secondTermAxes` (integer), `secondTermCoefficient` (real).
-
-Accepted words: `AeroMonitorDisplacement`, `AeroMonitorIntegratedLoad`, `Constant`, `Element`, `MonitorNodeForceSum3`, `StructMonitorDisplacement`, `StructMonitorIntegratedLoad`, `Table`.
+[axesFirst form](reference/cards/matrices.md#monitorsum-axesfirst)
 
 ### MonitorSumLocated
 
-Forms: `typeFirst`, `axesFirst`.
+[MonitorSumLocated — fields and example](reference/cards/matrices.md#monitorsumlocated)
 
 #### MonitorSumLocated: typeFirst
 
-Form `typeFirst`, when `termType` is a word.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-| 3 | `positionFrameId` | `integer` | 0 |  |
-| 4 | `xCoord` | `real` | 0.0 |  |
-| 5 | `yCoord` | `real` | 0.0 |  |
-| 6 | `zCoord` | `real` | 0.0 |  |
-| 7 | `displacementFrameId` | `integer` | same as positionFrameId |  |
-
-Repeated group `lines`, after the fixed fields: `termType` (text), `newAxes` (integer), `termNames` (text), `termAxes` (integer), `termCoefficient` (real), `secondTermNames` (text), `secondTermAxes` (integer), `secondTermCoefficient` (real).
+[typeFirst form](reference/cards/matrices.md#monitorsumlocated-typefirst)
 
 #### MonitorSumLocated: axesFirst
 
-Form `axesFirst`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-| 3 | `positionFrameId` | `integer` | 0 |  |
-| 4 | `xCoord` | `real` | 0.0 |  |
-| 5 | `yCoord` | `real` | 0.0 |  |
-| 6 | `zCoord` | `real` | 0.0 |  |
-| 7 | `displacementFrameId` | `integer` | same as positionFrameId |  |
-
-Repeated group `lines`, after the fixed fields: `newAxes` (integer), `termType` (text), `termNames` (text), `termAxes` (integer), `termCoefficient` (real), `secondTermNames` (text), `secondTermAxes` (integer), `secondTermCoefficient` (real).
-
-Accepted words: `AeroMonitorDisplacement`, `AeroMonitorIntegratedLoad`, `Constant`, `Element`, `MonitorNodeForceSum3`, `StructMonitorDisplacement`, `StructMonitorIntegratedLoad`, `Table`.
+[axesFirst form](reference/cards/matrices.md#monitorsumlocated-axesfirst)
 
 ### MonitorSumTotal
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `entryName` | `text` |  |  |
-| 2 | `label` | `text` |  | one text field |
-| 3 | `outputAxes` | `integer` |  |  |
-| 4 | `positionFrameId` | `integer` | 0 |  |
-| 5 | `xCoord` | `real` | 0.0 |  |
-| 6 | `yCoord` | `real` | 0.0 |  |
-| 7 | `zCoord` | `real` | 0.0 |  |
-| 8 | `displacementFrameId` | `integer` | same as positionFrameId |  |
-
-Sections `memberLines`, one after the other, each opened by its key word:
-
-- `AeroMonitorIntegratedLoad` (aeroPointMembers): then the number of `members` and their fields `memberName` (text).
-- `StructMonitorIntegratedLoad` (structuralPointMembers): then the number of `members` and their fields `memberName` (text).
-- `MonitorNodeForceSum3` (nodeForceSumMembers): then the number of `members` and their fields `memberName` (text).
-
-Accepted words: `AeroMonitorDisplacement`, `AeroMonitorIntegratedLoad`, `Constant`, `Element`, `MonitorNodeForceSum3`, `StructMonitorDisplacement`, `StructMonitorIntegratedLoad`, `Table`.
+[MonitorSumTotal — fields and example](reference/cards/matrices.md#monitorsumtotal)
 
 ### MonteCarloParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `variabilityType` | `text` | AlphaVariation |  |
-
-Sections `variabilities`, one after the other, each opened by its key word:
-
-- `StructuralVariation` (structural): fields `structuralMassVariability` (real), `structuralStiffnessVariability` (real), `structuralDampingVariability` (real).
-- `FluidVariation` (fluid): fields `fluidMassVariability` (real), `fluidStiffnessVariability` (real), `fluidDampingVariability` (real).
-
-Accepted words: `AlphaVariation`, `BodyForceVariation`, `BulkSpeedVariation`, `Constant`, `DeltaVariation`, `Element`, `FluidVariation`, `MassFactorVariation`, `MassScaleVariation`, `StiffnessFactorVariation`, `StiffnessScaleVariation`, `StructuralVariation`, `Table`.
+[MonteCarloParams — fields and example](reference/cards/matrices.md#montecarloparams)
 
 ### MultiPointConstr
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `terms`, after the fixed fields: `node` (integer), `components` (integer), `coefficient` (real).
+[MultiPointConstr — fields and example](reference/cards/constraints.md#multipointconstr)
 
 ### MultiPointConstrAxisym
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `terms`, after the fixed fields: `ringId` (integer), `harmonicId` (integer), `components` (integer), `coefficient` (real).
-
-Accepted words: `Through`.
+[MultiPointConstrAxisym — fields and example](reference/cards/constraints.md#multipointconstraxisym)
 
 ### MultiPointConstrUnion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `memberSets`, after the fixed fields: `memberSetId` (integer).
+[MultiPointConstrUnion — fields and example](reference/cards/constraints.md#multipointconstrunion)
 
 ### MultiPointConstrValue
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dependentNode1` | `integer` |  |  |
-| 3 | `dependentComponents1` | `integer` | 0 |  |
-| 4 | `rightHandSide1` | `real` | 0.0 |  |
-| 5 | `dependentNode2` | `integer` |  |  |
-| 6 | `dependentComponents2` | `integer` | 0 |  |
-| 7 | `rightHandSide2` | `real` | 0.0 |  |
+[MultiPointConstrValue — fields and example](reference/cards/constraints.md#multipointconstrvalue)
 
 ### MultiPointConstrWithValue
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dependentNode` | `integer` |  |  |
-| 3 | `dependentComponents` | `integer` | 0 |  |
-| 4 | `dependentCoefficient` | `real` |  |  |
-| 5 | `rightHandSide` | `real` | 0.0 |  |
-
-Repeated group `terms`, after the fixed fields: `node` (integer), `components` (integer), `coefficient` (real).
+[MultiPointConstrWithValue — fields and example](reference/cards/constraints.md#multipointconstrwithvalue)
 
 ### NobleAbelStateEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `gammaCoefficient` | `real` |  |  |
-| 3 | `coVolume` | `real` | 0.0 |  |
-| 4 | `gasConstant` | `real` |  |  |
-| 5 | `specificHeatVolume` | `real` |  |  |
-| 6 | `specificHeatPressure` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[NobleAbelStateEquation — fields and example](reference/cards/explicit.md#nobleabelstateequation)
 
 ### Node
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `positionFrameId` | `integer` | 0 |  |
-| 3 | `position1` | `real` | 0.0 |  |
-| 4 | `position2` | `real` | 0.0 |  |
-| 5 | `position3` | `real` | 0.0 |  |
-| 6 | `displacementFrameId` | `integer` | 0 |  |
-| 7 | `permanentConstraints` | `integer` | 0 |  |
-| 8 | `superelementId` | `integer` | 0 |  |
+[Node — fields and example](reference/cards/nodes.md#node)
 
 ### NodeDefaults
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `positionFrameId` | `integer` | 0 |  |
-| 2 | `displacementFrameId` | `integer` | 0 |  |
-| 3 | `permanentConstraints` | `integer` | 0 |  |
-| 4 | `superelementId` | `integer` | 0 |  |
+[NodeDefaults — fields and example](reference/cards/nodes.md#nodedefaults)
 
 ### NodeSequence
 
-No fixed field.
-
-Repeated group `points`, after the fixed fields: `node` (integer), `sequenceId` (number).
-
-Accepted words: `Through`.
+[NodeSequence — fields and example](reference/cards/nodes.md#nodesequence)
 
 ### NodeTemperatureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `points`, after the fixed fields: `node` (integer), `temperature` (real).
+[NodeTemperatureLoad — fields and example](reference/cards/loads.md#nodetemperatureload)
 
 ### NonStructMass
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `type` | `text` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `targetId` (integer), `targetValue` (real).
-
-Accepted words: `All`, `BarProp`, `BarShapeProp`, `BeamLumpedAreaProp`, `BeamProp`, `BeamShapeProp`, `By`, `CompProp`, `CompPropGlobal`, `ConicalShellProp`, `CrackTipProp2D`, `CurvedBeamProp`, `Element`, `Rod2InlineSection`, `RodProp`, `ShearPanelProp`, `ShellProp`, `Through`, `TubeProp`.
+[NonStructMass — fields and example](reference/cards/properties.md#nonstructmass)
 
 ### NonStructMass1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `type` | `text` |  |  |
-| 3 | `nonStructMass` | `real` |  |  |
-
-Repeated group `targets`, after the fixed fields: `targetId` (any).
-
-Accepted words: `All`, `BarProp`, `BarShapeProp`, `BeamLumpedAreaProp`, `BeamProp`, `BeamShapeProp`, `By`, `CompProp`, `CompPropGlobal`, `ConicalShellProp`, `CrackTipProp2D`, `CurvedBeamProp`, `Element`, `Rod2InlineSection`, `RodProp`, `ShearPanelProp`, `ShellProp`, `Through`, `TubeProp`.
+[NonStructMass1 — fields and example](reference/cards/properties.md#nonstructmass1)
 
 ### NonStructMassLumped
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `type` | `text` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `targetId` (integer), `targetValue` (real).
-
-Accepted words: `All`, `BarProp`, `BarShapeProp`, `BeamLumpedAreaProp`, `BeamProp`, `BeamShapeProp`, `By`, `CompProp`, `CompPropGlobal`, `ConicalShellProp`, `CrackTipProp2D`, `CurvedBeamProp`, `Element`, `Rod2InlineSection`, `RodProp`, `ShearPanelProp`, `ShellProp`, `Through`, `TubeProp`.
+[NonStructMassLumped — fields and example](reference/cards/properties.md#nonstructmasslumped)
 
 ### NonStructMassLumped1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `type` | `text` |  |  |
-| 3 | `nonStructMass` | `real` |  |  |
-
-Repeated group `targets`, after the fixed fields: `targetId` (any).
-
-Accepted words: `All`, `BarProp`, `BarShapeProp`, `BeamLumpedAreaProp`, `BeamProp`, `BeamShapeProp`, `By`, `CompProp`, `CompPropGlobal`, `ConicalShellProp`, `CrackTipProp2D`, `CurvedBeamProp`, `Element`, `Rod2InlineSection`, `RodProp`, `ShearPanelProp`, `ShellProp`, `Through`, `TubeProp`.
+[NonStructMassLumped1 — fields and example](reference/cards/properties.md#nonstructmasslumped1)
 
 ### NonStructMassUnion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `memberSets`, after the fixed fields: `memberSetId` (integer).
+[NonStructMassUnion — fields and example](reference/cards/properties.md#nonstructmassunion)
 
 ### NonlinearAdaptiveStepping
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `Stepping` (stepping): fields `minStepRatio` (real), `maxStepRatio` (real), `minTimeStep` (real), `maxTimeStep` (real), `maxSubsteps` (integer), `recycleCount` (integer), `timeStepScaleFactor` (real), `dampingKind` (integer), `dampingFactor` (real).
-- `Creep` (creep): fields `creepStepCheck` (integer), `tensionCutoffStrain` (real), `tensionCutoffStress` (real), `cutoffTime` (real).
-
-Accepted words: `Creep`, `DampingKindIndex`, `RelativeAccelConvergence`, `Stepping`.
-
-Accepted parameter names: `CreepStepCheck`, `CutoffTime`, `DampingFactor`, `DampingKind`, `MaxStepRatio`, `MaxSubsteps`, `MaxTimeStep`, `MinStepRatio`, `MinTimeStep`, `RecycleCount`, `TensionCutoffStrain`, `TensionCutoffStress`, `TimeStepScaleFactor`.
+[NonlinearAdaptiveStepping — fields and example](reference/cards/nonlinear_contact.md#nonlinearadaptivestepping)
 
 ### NonlinearBushForceTables
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `form` | `text` |  |  |
-| 3 | `minimumFreq` | `real` | 0.0 |  |
-| 4 | `maximumFreq` | `real` |  |  |
-| 5 | `termTable11` | `integer` |  |  |
-| 6 | `termTable12` | `integer` |  |  |
-| 7 | `termTable13` | `integer` |  |  |
-| 8 | `termTable14` | `integer` |  |  |
-| 9 | `termTable15` | `integer` |  |  |
-| 10 | `termTable16` | `integer` |  |  |
-| 11 | `termTable21` | `integer` |  |  |
-| 12 | `termTable22` | `integer` |  |  |
-| 13 | `termTable23` | `integer` |  |  |
-| 14 | `termTable24` | `integer` |  |  |
-| 15 | `termTable25` | `integer` |  |  |
-| 16 | `termTable26` | `integer` |  |  |
-| 17 | `termTable31` | `integer` |  |  |
-| 18 | `termTable32` | `integer` |  |  |
-| 19 | `termTable33` | `integer` |  |  |
-| 20 | `termTable34` | `integer` |  |  |
-| 21 | `termTable35` | `integer` |  |  |
-| 22 | `termTable36` | `integer` |  |  |
-| 23 | `termTable41` | `integer` |  |  |
-| 24 | `termTable42` | `integer` |  |  |
-| 25 | `termTable43` | `integer` |  |  |
-| 26 | `termTable44` | `integer` |  |  |
-| 27 | `termTable45` | `integer` |  |  |
-| 28 | `termTable46` | `integer` |  |  |
-| 29 | `termTable51` | `integer` |  |  |
-| 30 | `termTable52` | `integer` |  |  |
-| 31 | `termTable53` | `integer` |  |  |
-| 32 | `termTable54` | `integer` |  |  |
-| 33 | `termTable55` | `integer` |  |  |
-| 34 | `termTable56` | `integer` |  |  |
-| 35 | `termTable61` | `integer` |  |  |
-| 36 | `termTable62` | `integer` |  |  |
-| 37 | `termTable63` | `integer` |  |  |
-| 38 | `termTable64` | `integer` |  |  |
-| 39 | `termTable65` | `integer` |  |  |
-| 40 | `termTable66` | `integer` |  |  |
-
-Accepted words: `AsymmetricForm`, `Constant`, `DiagonalForm`, `Element`, `SymmetricForm`, `Table`.
+[NonlinearBushForceTables — fields and example](reference/cards/nonlinear_contact.md#nonlinearbushforcetables)
 
 ### NonlinearBushLoad3D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setId` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `loadId1` | `integer` |  |  |
-| 5 | `loadId2` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[NonlinearBushLoad3D — fields and example](reference/cards/nonlinear_contact.md#nonlinearbushload3d)
 
 ### NonlinearHarmonicFreqContinuation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `initialFreq` | `real` | 0.0 |  |
-| 3 | `initialStep` | `real` |  |  |
-| 4 | `minimumStepSize` | `real` |  |  |
-| 5 | `maximumStepSize` | `real` |  |  |
-| 6 | `maximumSteps` | `integer` | 3 |  |
-| 7 | `minimumFreq` | `real` | 0.0 |  |
-| 8 | `maximumFreq` | `real` |  |  |
-| 9 | `derivativeStep` | `real` | 1.0E-3 |  |
-| 10 | `printOnFailure` | `text` | No |  |
-| 11 | `outputRequest` | `text` |  |  |
-| 12 | `outputFreqStep` | `real` |  |  |
-| 13 | `outputFreqTolerance` | `real` | 5.0 |  |
-| 14 | `outputStartFreq` | `real` |  |  |
-| 15 | `outputEndFreq` | `real` |  |  |
-
-Accepted words: `DefaultOutput`, `No`, `Yes`.
+[NonlinearHarmonicFreqContinuation — fields and example](reference/cards/nonlinear_contact.md#nonlinearharmonicfreqcontinuation)
 
 ### NonlinearHarmonicFreqList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `frequencies`, after the fixed fields: `frequency` (real).
+[NonlinearHarmonicFreqList — fields and example](reference/cards/nonlinear_contact.md#nonlinearharmonicfreqlist)
 
 ### NonlinearHarmonicFreqSteps
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `startFreq` | `real` |  |  |
-| 3 | `freqStep` | `real` |  |  |
-| 4 | `stepCount` | `integer` | 1 |  |
+[NonlinearHarmonicFreqSteps — fields and example](reference/cards/nonlinear_contact.md#nonlinearharmonicfreqsteps)
 
 ### NonlinearHarmonicParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `subharmonicFactor` | `integer` | 1 |  |
-| 3 | `harmonicCount` | `integer` |  |  |
-| 4 | `freqListId` | `integer` |  |  |
+[NonlinearHarmonicParams — fields and example](reference/cards/nonlinear_contact.md#nonlinearharmonicparams)
 
 ### NonlinearHarmonicSolverParams
 
-No fixed field.
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `Both`, `Constant`, `Element`, `Full`, `LdlDecomposition`, `LowerUpperDecomposition`, `No`, `Off`, `On`, `QrDecomposition`, `Table`, `Yes`.
-
-Accepted parameter names: `ContinuationMethod`, `DecompositionMethod`, `ExtraSamplingPoints`, `InitialConditionOutput`, `LineSearchStepFactor`, `MaxFrequencyInterval`, `MaxNonConvergedFrequencies`, `MaxNonConvergedSteps`, `NonlinearHarmonicDiagnostic`, `NonlinearHarmonicReduction`, `NonlinearHarmonicTolerance`, `StepHalvingIterations`.
+[NonlinearHarmonicSolverParams — fields and example](reference/cards/solution_control.md#nonlinearharmonicsolverparams)
 
 ### NonlinearMatOptions
 
-No fixed field.
-
-Sections `options`, one after the other, each opened by its key word:
-
-- `Creep` (creepOption): fields `explicitCreepModel` (integer), `explicitCreepOption` (integer), `implicitCreep` (integer), `implicitCreepTangent` (integer).
-- `AssumedStrainOption` (assumedStrainOption): fields `assumedStrain` (text).
-- `TransverseShear` (transverseShearOption): fields `transverseShear` (text).
-- `LargeStrain` (largeStrainOption): fields `largeStrain` (integer).
-- `Hemicube` (hemicubeOption): fields `viewFactorMethod` (integer), `pixelCount` (integer), `viewFactorCutoff` (real), `implicitFraction` (real), `explicitReflection` (integer), `reflectionTolerance` (real).
-- `TemperatureDistribution` (temperatureDistributionOption): fields `temperatureDistribution` (text).
-- `GridMapping` (gridMappingOption): fields `gridMapping` (text).
-- `PropertyMap` (propertyMapOption): fields `propertyMapping` (integer), `propertyBehaviour` (text), `layerDirection` (integer), `outOfPlaneThickness` (real), `printFlag` (integer).
-- `ConstraintRamp` (spcRampOption): fields `spcRamp` (integer).
-- `Deactivation` (deactivationOption): fields `deactivationRule` (integer), `deactivationOutput` (integer).
-- `Enthalpy` (enthalpyOption): fields `capacitanceScheme` (integer), `enthalpyScheme` (integer).
-- `MapTolerance` (mapToleranceOption): fields `mapTolerance` (real).
-- `Interlaminar` (interlaminarOption): fields `interlaminarFrame` (text), `axisProjection` (text), `strainOutput` (integer).
-
-Accepted words: `AssumedStrain`, `AssumedStrainOption`, `Axisymmetric`, `BottomSurface`, `Constant`, `ConstraintRamp`, `Creep`, `Deactivation`, `Enthalpy`, `GridMapping`, `Hemicube`, `Interlaminar`, `LargeStrain`, `Linear`, `MapTolerance`, `No`, `Off`, `On`, `OneDimensional`, `PlaneStrain`, `PlaneStress`, `PropertyMap`, `Quadratic`, `TemperatureDistribution`, `ThreeDimensional`, `Top`, `TransverseShear`, `Yes`.
+[NonlinearMatOptions — fields and example](reference/cards/materials.md#nonlinearmatoptions)
 
 ### NonlinearNegativePowerLoad4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeI` | `integer` |  |  |
-| 3 | `componentsI` | `integer` | 0 |  |
-| 4 | `scaleFactor` | `real` |  |  |
-| 5 | `nodeJ` | `integer` |  |  |
-| 6 | `componentsJ` | `integer` | 0 |  |
-| 7 | `exponent` | `real` |  |  |
+[NonlinearNegativePowerLoad4 — fields and example](reference/cards/dynamics.md#nonlinearnegativepowerload4)
 
 ### NonlinearOutputItems
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `outputItems`, after the fixed fields: `outputItem` (text).
-
-Accepted words: `CauchyCreepStrain`, `CauchyElasticStrain`, `CauchyPlasticStrain`, `CauchyStress`, `CauchyThermalStrain`, `CauchyTotalStrain`, `ElemStateVariables`, `EquivalentElasticStrain`, `EquivalentVonMisesStress`, `FailureIndex1`, `FailureIndex2`, `FailureIndex3`, `FailureIndex4`, `MajorEngineeringStrain`, `TotalTemperature`.
+[NonlinearOutputItems — fields and example](reference/cards/nonlinear_contact.md#nonlinearoutputitems)
 
 ### NonlinearPositivePowerLoad3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeI` | `integer` |  |  |
-| 3 | `componentsI` | `integer` | 0 |  |
-| 4 | `scaleFactor` | `real` |  |  |
-| 5 | `nodeJ` | `integer` |  |  |
-| 6 | `componentsJ` | `integer` | 0 |  |
-| 7 | `exponent` | `real` |  |  |
+[NonlinearPositivePowerLoad3 — fields and example](reference/cards/dynamics.md#nonlinearpositivepowerload3)
 
 ### NonlinearProductLoad2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeI` | `integer` |  |  |
-| 3 | `componentsI` | `integer` | 0 |  |
-| 4 | `scaleFactor` | `real` |  |  |
-| 5 | `nodeJ` | `integer` |  |  |
-| 6 | `componentsJ` | `integer` | 0 |  |
-| 7 | `nodeK` | `integer` |  |  |
-| 8 | `componentsK` | `integer` | 0 |  |
+[NonlinearProductLoad2 — fields and example](reference/cards/dynamics.md#nonlinearproductload2)
 
 ### NonlinearRadialGap
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setId` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `plane` | `text` | PlaneXy |  |
-| 5 | `stiffnessTableId` | `integer` | 0 |  |
-| 6 | `clearanceTableId` | `integer` | 0 |  |
-| 7 | `frictionTableId` | `integer` | 0 |  |
-| 8 | `radius` | `real` | 0.0 |  |
-| 9 | `smoothing` | `text` |  |  |
-| 10 | `smoothingValue` | `real` | 1.0E6 |  |
-
-Accepted words: `Gamma`, `PlaneXy`, `PlaneYz`, `PlaneZx`.
+[NonlinearRadialGap — fields and example](reference/cards/nonlinear_contact.md#nonlinearradialgap)
 
 ### NonlinearSqueezeFilmDamper
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setId` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `plane` | `text` | PlaneXy |  |
-| 5 | `bearingDiameter` | `real` |  |  |
-| 6 | `bearingLength` | `real` |  |  |
-| 7 | `bearingClearance` | `real` |  |  |
-| 8 | `bearingKind` | `text` | Long |  |
-| 9 | `viscosity` | `real` |  |  |
-| 10 | `vapourPressure` | `real` |  |  |
-| 11 | `portCount` | `integer` |  |  |
-| 12 | `pressure1` | `real` |  |  |
-| 13 | `portAngle1` | `real` |  |  |
-| 14 | `pressure2` | `real` |  |  |
-| 15 | `portAngle2` | `real` |  |  |
-| 16 | `pointCount` | `integer` | 101 |  |
-| 17 | `offset1` | `real` | 0.0 |  |
-| 18 | `offset2` | `real` | 0.0 |  |
-| 19 | `serviceGroup` | `text` |  |  |
-| 20 | `serviceEvaluation` | `text` |  |  |
-| 21 | `serviceParameter1` | `real` | 0.0 |  |
-| 22 | `serviceParameter2` | `real` | 0.0 |  |
-| 23 | `serviceParameter3` | `real` | 0.0 |  |
-| 24 | `serviceParameter4` | `real` | 0.0 |  |
-| 25 | `serviceParameter5` | `real` | 0.0 |  |
-| 26 | `serviceParameter6` | `real` | 0.0 |  |
-| 27 | `serviceParameter7` | `real` | 0.0 |  |
-| 28 | `serviceParameter8` | `real` | 0.0 |  |
-
-Accepted words: `Long`, `PlaneXy`, `PlaneXz`, `PlaneYz`, `PlaneZx`, `Short`.
+[NonlinearSqueezeFilmDamper — fields and example](reference/cards/nonlinear_contact.md#nonlinearsqueezefilmdamper)
 
 ### NonlinearStaticParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `incrementCount` | `integer` |  |  |
-| 3 | `timeStep` | `real` | 0.0 |  |
-| 4 | `stiffnessMethod` | `text` |  |  |
-| 5 | `stiffnessUpdateStep` | `integer` |  |  |
-| 6 | `maxIterations` | `integer` | 25 |  |
-| 7 | `convergenceFlags` | `text` |  |  |
-| 8 | `intermediateOutput` | `text` | No |  |
-| 9 | `epsilonU` | `real` |  |  |
-| 10 | `epsilonP` | `real` |  |  |
-| 11 | `epsilonW` | `real` |  |  |
-| 12 | `maxDivergences` | `integer` | 3 |  |
-| 13 | `maxQuasiNewtonVectors` | `integer` |  |  |
-| 14 | `maxLineSearches` | `integer` |  |  |
-| 15 | `stressSubincrementFraction` | `real` | 0.2 |  |
-| 16 | `lineSearchTolerance` | `real` | 0.5 |  |
-| 17 | `maxBisections` | `integer` |  |  |
-| 18 | `maxRotationRatio` | `real` | 20.0 |  |
-| 19 | `rotationTolerance` | `real` | 20.0 |  |
-| 20 | `minIterations` | `integer` |  |  |
-
-Accepted words: `All`, `Automatic`, `FullNewtonTangent`, `Iterative`, `No`, `PseudoFullNewtonTangent`, `Semi`, `Yes`.
+[NonlinearStaticParams — fields and example](reference/cards/solution_control.md#nonlinearstaticparams)
 
 ### NonlinearStepControl
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `totalTime` | `real` | 1.0 |  |
-| 3 | `controlSetting` | `text` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `General` (general): fields `maxIterations` (integer), `minIterations` (integer), `maxBisections` (integer), `creepOption` (integer).
-- `LoadCaseContinue` (loadCaseContinue): fields `incrementCountCoupled` (integer), `convergenceCoupled` (text), `displacementToleranceCoupled` (real), `loadToleranceCoupled` (real), `energyToleranceCoupled` (real), `maxDivergencesCoupled` (integer), `maxBisectionsCoupled` (integer), `maxIterationsCoupled` (integer), `minIterationsCoupled` (integer).
-- `FixedStepping` (fixedStepping): fields `incrementCount` (integer), `outputInterval` (integer).
-- `AdaptiveStepping` (adaptiveStepping): fields `initialTimeStepFactor` (real), `minTimeStepFactor` (real), `maxTimeStepFactor` (real), `desiredIterations` (integer), `timeStepScaleFactor` (real), `intermediateOutput` (integer), `maxSubsteps` (integer), `dampingKind` (integer), `dampingFactor` (real), `criteriaTableId` (integer), `physicsOption` (integer), `targetLimit` (integer), `minStepRatio` (real), `maxStepRatio` (real), `timeStepAdjustInterval` (integer), `stepMultiplier` (integer), `timeStepHoldBounds` (real), `displacementConvergence` (real).
-- `ArcLengthMethod` (arcLengthMethod): fields `steppingMethod` (text), `initialTimeStepFactorAdapted` (real), `minAdaptiveRatio` (real), `maxAdaptiveRatio` (real), `desiredIterationsAdapted` (integer), `maxSubstepsAdapted` (integer).
-- `HeatAnalysis` (heatAnalysis): fields `convergenceHeat` (text), `displacementToleranceHeat` (real), `loadToleranceHeat` (real), `energyToleranceHeat` (real), `stiffnessMethodHeat` (text), `stiffnessStepHeat` (integer), `maxQuasiNewtonVectorsHeat` (integer), `maxLineSearchesHeat` (integer), `lineSearchToleranceHeat` (real).
-- `MechanicalAnalysis` (mechanicalAnalysis): fields `convergenceCriteria` (text), `displacementTolerance` (real), `loadTolerance` (real), `energyTolerance` (real), `stiffnessMethod` (text), `stiffnessUpdateStep` (integer), `massRatioConvergence` (integer), `maxQuasiNewtonVectors` (integer), `maxLineSearches` (integer), `lineSearchTolerance` (real), `frictionStress` (real).
-- `CoupledAnalysis` (coupledAnalysis): fields `heatFromPlasticWork` (real), `heatFromFriction` (real).
-
-Accepted words: `AdaptiveStepping`, `ArcLengthMethod`, `CoupledAnalysis`, `Crisfield`, `CriteriaTableIdKind`, `FixedStepping`, `General`, `HeatAnalysis`, `LoadCaseAccumulation`, `LoadCaseContinue`, `LoadCasePerformance`, `MechanicalAnalysis`, `MildlyNonlinear`, `ModifiedRiks`, `QuasiLinear`, `Riks`, `SeverelyNonlinear`, `TypeKind`.
-
-Accepted parameter names: `ConvergenceCoupled`, `ConvergenceCriteria`, `ConvergenceHeat`, `CreepOption`, `CriteriaTableId`, `DampingFactor`, `DampingKind`, `DesiredIterations`, `DesiredIterationsAdapted`, `DisplacementConvergence`, `DisplacementTolerance`, `DisplacementToleranceCoupled`, `DisplacementToleranceHeat`, `EnergyTolerance`, `EnergyToleranceCoupled`, `EnergyToleranceHeat`, `FrictionStress`, `HeatFromFriction`, `HeatFromPlasticWork`, `IncrementCount`, `IncrementCountCoupled`, `InitialTimeStepFactor`, `InitialTimeStepFactorAdapted`, `IntermediateOutput`, `LineSearchTolerance`, `LineSearchToleranceHeat`, `LoadTolerance`, `LoadToleranceCoupled`, `LoadToleranceHeat`, `MassRatioConvergence`, `MaxAdaptiveRatio`, `MaxBisections`, `MaxBisectionsCoupled`, `MaxDivergencesCoupled`, `MaxIterations`, `MaxIterationsCoupled`, `MaxLineSearches`, `MaxLineSearchesHeat`, `MaxQuasiNewtonVectors`, `MaxQuasiNewtonVectorsHeat`, `MaxStepRatio`, `MaxSubsteps`, `MaxSubstepsAdapted`, `MaxTimeStepFactor`, `MinAdaptiveRatio`, `MinIterations`, `MinIterationsCoupled`, `MinStepRatio`, `MinTimeStepFactor`, `OutputInterval`, `PhysicsOption`, `StepMultiplier`, `SteppingMethod`, `StiffnessMethod`, `StiffnessMethodHeat`, `StiffnessStepHeat`, `StiffnessUpdateStep`, `TargetLimit`, `TimeStepAdjustInterval`, `TimeStepHoldBounds`, `TimeStepScaleFactor`.
+[NonlinearStepControl — fields and example](reference/cards/nonlinear_contact.md#nonlinearstepcontrol)
 
 ### NonlinearTableLoad1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeI` | `integer` |  |  |
-| 3 | `componentsI` | `integer` | 0 |  |
-| 4 | `scaleFactor` | `real` |  |  |
-| 5 | `nodeJ` | `integer` |  |  |
-| 6 | `componentsJ` | `integer` | 0 |  |
-| 7 | `tableId` | `integer` |  |  |
+[NonlinearTableLoad1 — fields and example](reference/cards/dynamics.md#nonlineartableload1)
 
 ### NonlinearTimeSteps
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stepCount` | `integer` |  |  |
-| 3 | `timeStep` | `real` |  |  |
-| 4 | `outputInterval` | `integer` | 1 |  |
-| 5 | `method` | `text` |  |  |
-| 6 | `stiffnessUpdateStep` | `integer` |  |  |
-| 7 | `maxIterations` | `integer` |  |  |
-| 8 | `convergenceFlags` | `text` |  |  |
-| 9 | `epsilonU` | `real` |  |  |
-| 10 | `epsilonP` | `real` |  |  |
-| 11 | `epsilonW` | `real` |  |  |
-| 12 | `maxDivergences` | `integer` | 2 |  |
-| 13 | `maxQuasiNewtonVectors` | `integer` |  |  |
-| 14 | `maxLineSearches` | `integer` |  |  |
-| 15 | `stressSubincrementFraction` | `real` | 0.2 |  |
-| 16 | `maxBisections` | `integer` |  |  |
-| 17 | `adjustInterval` | `integer` | 5 |  |
-| 18 | `minStepsPerCycle` | `integer` |  |  |
-| 19 | `stepBounds` | `real` | 0.6 |  |
-| 20 | `maxRotationRatio` | `real` | 32.0 |  |
-| 21 | `displacementTolerance` | `real` | 0.1 |  |
-| 22 | `rotationTolerance` | `real` | 20.0 |  |
-| 23 | `minIterations` | `integer` |  |  |
-
-Accepted words: `Adaptive`, `Automatic`, `FullNewtonTangent`, `Iterative`, `PseudoFullNewtonTangent`, `Semi`.
+[NonlinearTimeSteps — fields and example](reference/cards/solution_control.md#nonlineartimesteps)
 
 ### NonlinearUserOutput
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `outputKind` | `text` | ElemExplicitOutput |  |
-| 4 | `timeInterval` | `real` |  |  |
-| 5 | `stepInterval` | `integer` |  |  |
-| 6 | `outputName` | `text` |  |  |
-
-Repeated group `entities`, after the fixed fields: `entityId` (integer).
-
-Accepted words: `ElemExplicitOutput`, `NodeExplicitOutput`.
+[NonlinearUserOutput — fields and example](reference/cards/nonlinear_contact.md#nonlinearuseroutput)
 
 ### OccupantAccelField
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setId` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` | 1.0 |  |
-| 3 | `directionX` | `real` | 0.0 |  |
-| 4 | `directionY` | `real` | 0.0 |  |
-| 5 | `directionZ` | `real` | 0.0 |  |
-
-Repeated group `segmentNames`, after the fixed fields: `segmentName` (text).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[OccupantAccelField — fields and example](reference/cards/explicit.md#occupantaccelfield)
 
 ### OccupantJoint
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `jointName` | `text` |  |  |
-| 3 | `orientationNode` | `integer` |  |  |
-| 4 | `node1` | `integer` |  |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `elemId1` | `integer` |  |  |
-| 8 | `elemId2` | `integer` |  |  |
-| 9 | `elemId3` | `integer` |  |  |
-| 10 | `node4` | `integer` |  |  |
-| 11 | `node5` | `integer` |  |  |
-| 12 | `node6` | `integer` |  |  |
-| 13 | `node7` | `integer` |  |  |
-| 14 | `elemId4` | `integer` |  |  |
-| 15 | `elemId5` | `integer` |  |  |
-| 16 | `elemId6` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[OccupantJoint — fields and example](reference/cards/explicit.md#occupantjoint)
 
 ### OccupantSegment
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `segmentName` | `text` |  |  |
-| 3 | `cover` | `text` |  |  |
-| 4 | `elemCount` | `integer` | 0 |  |
-| 5 | `firstNodeId` | `integer` | 0 |  |
-| 6 | `firstElemId` | `integer` | 0 |  |
-| 7 | `matId` | `integer` | 0 |  |
-| 8 | `coverPropId` | `integer` | 0 |  |
-| 9 | `orientationNode` | `integer` |  |  |
-| 10 | `node1` | `integer` |  |  |
-| 11 | `node2` | `integer` |  |  |
-| 12 | `node3` | `integer` |  |  |
-| 13 | `elemId1` | `integer` | 0 |  |
-| 14 | `elemId2` | `integer` | 0 |  |
-| 15 | `elemId3` | `integer` | 0 |  |
-| 16 | `centerOfGravityPropId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `No`, `Table`, `Yes`.
+[OccupantSegment — fields and example](reference/cards/explicit.md#occupantsegment)
 
 ### OmittedDofSet
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[OmittedDofSet — fields and example](reference/cards/sets.md#omitteddofset)
 
 ### OmittedDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[OmittedDofSet1 — fields and example](reference/cards/sets.md#omitteddofset1)
 
 ### OrthoMat2D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1` | `real` |  |  |
-| 3 | `youngsModulus2` | `real` |  |  |
-| 4 | `poissonRatio12` | `real` | 0.0 |  |
-| 5 | `shearModulus12` | `real` | 0.0 |  |
-| 6 | `shearModulus1Z` | `real` |  |  |
-| 7 | `shearModulus2Z` | `real` |  |  |
-| 8 | `density` | `real` | 0.0 |  |
-| 9 | `thermalExpansion1` | `real` | 0.0 |  |
-| 10 | `thermalExpansion2` | `real` | 0.0 |  |
-| 11 | `referenceTemperature` | `real` | 0.0 |  |
-| 12 | `tensionStrength1` | `real` | 0.0 |  |
-| 13 | `compressionStrength1` | `real` | same as tensionStrength1 |  |
-| 14 | `tensionStrength2` | `real` | 0.0 |  |
-| 15 | `compressionStrength2` | `real` | same as tensionStrength2 |  |
-| 16 | `shearStrength` | `real` | 0.0 |  |
-| 17 | `structuralDamping` | `real` | 0.0 |  |
-| 18 | `interactionTerm12` | `real` | 0.0 |  |
-| 19 | `strainAllowables` | `real` | 0.0 |  |
-| 20 | `hashinUnidirectional` | `text` |  |  |
-| 21 | `hashinUnidirectional1` | `real` |  |  |
-| 22 | `hashinUnidirectional2` | `real` | same as hashinUnidirectional1 |  |
-| 23 | `hashinUnidirectional3` | `real` |  |  |
-| 24 | `hashinUnidirectional4` | `real` | same as hashinUnidirectional3 |  |
-| 25 | `hashinUnidirectional10` | `real` |  |  |
-| 26 | `hashinUnidirectional11` | `real` | same as hashinUnidirectional10 |  |
-| 27 | `hashinTape` | `text` |  |  |
-| 28 | `hashinTape1` | `real` |  |  |
-| 29 | `hashinTape2` | `real` | same as hashinTape1 |  |
-| 30 | `hashinTape3` | `real` |  |  |
-| 31 | `hashinTape4` | `real` | same as hashinTape3 |  |
-| 32 | `hashinTape5` | `real` | 0.0 |  |
-| 33 | `hashinTape6` | `real` | 0.0 |  |
-| 34 | `hashinTape10` | `real` |  |  |
-| 35 | `hashinTape11` | `real` | same as hashinTape10 |  |
-| 36 | `hashinTape12` | `real` | same as hashinTape11 |  |
-| 37 | `hashinFabric` | `text` |  |  |
-| 38 | `hashinFabric1` | `real` |  |  |
-| 39 | `hashinFabric2` | `real` | same as hashinFabric1 |  |
-| 40 | `hashinFabric3` | `real` |  |  |
-| 41 | `hashinFabric4` | `real` | same as hashinFabric3 |  |
-| 42 | `hashinFabric5` | `real` |  |  |
-| 43 | `hashinFabric6` | `real` | same as hashinFabric5 |  |
-| 44 | `hashinFabric10` | `real` |  |  |
-| 45 | `hashinFabric11` | `real` | same as hashinFabric10 |  |
-| 46 | `hashinFabric12` | `real` | same as hashinFabric11 |  |
-
-Accepted words: `HashinCriterion`, `HashinFabricFailure`, `HashinTape`.
-
-Designable field descriptors: youngsModulus1, youngsModulus2, poissonRatio12, shearModulus12, shearModulus1Z, shearModulus2Z, density, thermalExpansion1, thermalExpansion2, referenceTemperature, tensionStrength1, compressionStrength1, tensionStrength2, compressionStrength2, shearStrength, structuralDamping, interactionTerm12, strainAllowables.
+[OrthoMat2D — fields and example](reference/cards/materials.md#orthomat2d)
 
 ### OrthoMat2DFailure
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `theory` | `text` |  |  |
-| 3 | `historyVariableCount` | `integer` | 0 |  |
-| 4 | `shearStrength` | `real` |  |  |
-| 5 | `nonlinearShearCoefficient` | `real` | 0.0 |  |
-| 6 | `transverseShear` | `text` |  |  |
-| 7 | `interactionTerm12` | `real` | 0.0 |  |
-| 8 | `tensionStrength1` | `real` | 0.0 |  |
-| 9 | `compressionStrength1` | `real` | 0.0 |  |
-| 10 | `tensionStrength2` | `real` | 0.0 |  |
-| 11 | `compressionStrength2` | `real` | 0.0 |  |
-| 12 | `degradation` | `text` |  |  |
-| 13 | `degradationParameter` | `real` | 100.0 |  |
-| 14 | `degradationStart` | `text` |  |  |
-| 15 | `fiberTensionTheory` | `text` |  |  |
-| 16 | `fiberCompressionTheory` | `text` |  |  |
-| 17 | `matrixTensionTheory` | `text` |  |  |
-| 18 | `matrixCompressionTheory` | `text` |  |  |
-| 19 | `matrixShearTheory` | `text` |  |  |
-| 20 | `fiberTensionDegradation` | `text` |  |  |
-| 21 | `fiberCompressionDegradation` | `text` |  |  |
-| 22 | `matrixTensionDegradation` | `text` |  |  |
-| 23 | `matrixCompressionDegradation` | `text` |  |  |
-| 24 | `matrixShearDegradation` | `text` |  |  |
-
-Accepted words: `All`, `ChangChangFailure`, `CombinedFailure`, `Elements`, `HashinFailure`, `Hill`, `IndividualDegradation`, `ModifiedTsaiWu`, `Steps`, `StressTheory`, `SublaminateShear`, `Time`, `TsaiWu`, `Velocity`.
+[OrthoMat2DFailure — fields and example](reference/cards/materials.md#orthomat2dfailure)
 
 ### OrthoMat2DFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1TableId` | `integer` | 0 |  |
-| 3 | `youngsModulus2TableId` | `integer` | 0 |  |
-| 4 | `poissonRatio12TableId` | `integer` | 0 |  |
-| 5 | `shearModulus12TableId` | `integer` | 0 |  |
-| 6 | `shearModulus1ZTableId` | `integer` | 0 |  |
-| 7 | `shearModulus2ZTableId` | `integer` | 0 |  |
-| 8 | `structuralDampingTableId` | `integer` | 0 |  |
+[OrthoMat2DFreq — fields and example](reference/cards/materials.md#orthomat2dfreq)
 
 ### OrthoMat2DStressDependent
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1TableId` | `integer` | 0 |  |
-| 3 | `youngsModulus2TableId` | `integer` | 0 |  |
-| 4 | `poissonRatio12TableId` | `integer` | 0 |  |
-| 5 | `shearModulus12TableId` | `integer` | 0 |  |
-| 6 | `shearModulus1ZTableId` | `integer` | 0 |  |
-| 7 | `shearModulus2ZTableId` | `integer` | 0 |  |
-| 8 | `densityTableId` | `integer` | 0 |  |
-| 9 | `thermalExpansion1TableId` | `integer` | 0 |  |
-| 10 | `thermalExpansion2TableId` | `integer` | 0 |  |
+[OrthoMat2DStressDependent — fields and example](reference/cards/materials.md#orthomat2dstressdependent)
 
 ### OrthoMat2DTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1TableId` | `integer` | 0 |  |
-| 3 | `youngsModulus2TableId` | `integer` | 0 |  |
-| 4 | `poissonRatio12TableId` | `integer` | 0 |  |
-| 5 | `shearModulus12TableId` | `integer` | 0 |  |
-| 6 | `shearModulus1ZTableId` | `integer` | 0 |  |
-| 7 | `shearModulus2ZTableId` | `integer` | 0 |  |
-| 8 | `densityTableId` | `integer` | 0 |  |
-| 9 | `thermalExpansion1TableId` | `integer` | 0 |  |
-| 10 | `thermalExpansion2TableId` | `integer` | 0 |  |
-| 11 | `tensionStrength1TableId` | `integer` | 0 |  |
-| 12 | `compressionStrength1TableId` | `integer` | 0 |  |
-| 13 | `tensionStrength2TableId` | `integer` | 0 |  |
-| 14 | `compressionStrength2TableId` | `integer` | 0 |  |
-| 15 | `shearStrengthTableId` | `integer` | 0 |  |
-| 16 | `structuralDampingTableId` | `integer` | 0 |  |
-| 17 | `interactionTerm12TableId` | `integer` | 0 |  |
+[OrthoMat2DTemperature — fields and example](reference/cards/materials.md#orthomat2dtemperature)
 
 ### OrthoMat3D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1` | `real` |  |  |
-| 3 | `youngsModulus2` | `real` |  |  |
-| 4 | `youngsModulus3` | `real` |  |  |
-| 5 | `poissonRatio12` | `real` |  |  |
-| 6 | `poissonRatio13` | `real` |  |  |
-| 7 | `poissonRatio23` | `real` |  |  |
-| 8 | `shearModulus12` | `real` |  |  |
-| 9 | `shearModulus13` | `real` |  |  |
-| 10 | `shearModulus23` | `real` |  |  |
-| 11 | `density` | `real` | 0.0 |  |
-| 12 | `thermalExpansion1` | `real` | 0.0 |  |
-| 13 | `thermalExpansion2` | `real` | 0.0 |  |
-| 14 | `thermalExpansion3` | `real` | 0.0 |  |
-| 15 | `referenceTemperature` | `real` | 0.0 |  |
-| 16 | `structuralDamping` | `real` | 0.0 |  |
+[OrthoMat3D — fields and example](reference/cards/materials.md#orthomat3d)
 
 ### OrthoMat3DNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1` | `real` |  |  |
-| 3 | `youngsModulus2` | `real` |  |  |
-| 4 | `youngsModulus3` | `real` |  |  |
-| 5 | `poissonRatio12` | `real` |  |  |
-| 6 | `poissonRatio23` | `real` | 0.0 |  |
-| 7 | `poissonRatio31` | `real` | same as poissonRatio23 |  |
-| 8 | `density` | `real` | 0.0 |  |
-| 9 | `shearModulus12` | `real` | 0.0 |  |
-| 10 | `shearModulus23` | `real` | 0.0 |  |
-| 11 | `shearModulus31` | `real` | 0.0 |  |
-| 12 | `thermalExpansion1` | `real` | 0.0 |  |
-| 13 | `thermalExpansion2` | `real` | 0.0 |  |
-| 14 | `thermalExpansion3` | `real` | 0.0 |  |
-| 15 | `referenceTemperature` | `real` | 0.0 |  |
-| 16 | `structuralDamping` | `real` | 0.0 |  |
-| 17 | `yieldCriterion` | `integer` | 1 |  |
-| 18 | `hardeningRule` | `integer` | 1 |  |
-| 19 | `yieldStress` | `real` |  |  |
-| 20 | `yieldStressRatio11` | `real` |  |  |
-| 21 | `yieldStressRatio22` | `real` |  |  |
-| 22 | `yieldStressRatio33` | `real` |  |  |
-| 23 | `yieldStressRatio12` | `real` |  |  |
-| 24 | `yieldStressRatio23` | `real` |  |  |
-| 25 | `yieldStressRatio31` | `real` |  |  |
-| 26 | `materialAxes` | `text` |  |  |
-| 27 | `propertiesFile` | `text` |  |  |
-| 28 | `vector1X` | `real` |  |  |
-| 29 | `vector1Y` | `real` |  |  |
-| 30 | `vector1Z` | `real` |  |  |
-| 31 | `vector2X` | `real` |  |  |
-| 32 | `vector2Y` | `real` |  |  |
-| 33 | `vector2Z` | `real` |  |  |
-
-Accepted words: `ElemMatOrientation`, `ElemPropOrientation`, `Elements`, `Vector`.
+[OrthoMat3DNonlinear — fields and example](reference/cards/materials.md#orthomat3dnonlinear)
 
 ### OrthoMat3DNonlinearStressDependent
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1TableId` | `integer` | 0 |  |
-| 3 | `youngsModulus2TableId` | `integer` | 0 |  |
-| 4 | `youngsModulus3TableId` | `integer` | 0 |  |
-| 5 | `poissonRatio12TableId` | `integer` | 0 |  |
-| 6 | `poissonRatio23TableId` | `integer` | 0 |  |
-| 7 | `poissonRatio31TableId` | `integer` | 0 |  |
-| 8 | `densityTableId` | `integer` | 0 |  |
-| 9 | `shearModulus12TableId` | `integer` | 0 |  |
-| 10 | `shearModulus23TableId` | `integer` | 0 |  |
-| 11 | `shearModulus31TableId` | `integer` | 0 |  |
-| 12 | `thermalExpansion1TableId` | `integer` | 0 |  |
-| 13 | `thermalExpansion2TableId` | `integer` | 0 |  |
-| 14 | `thermalExpansion3TableId` | `integer` | 0 |  |
+[OrthoMat3DNonlinearStressDependent — fields and example](reference/cards/materials.md#orthomat3dnonlinearstressdependent)
 
 ### OrthoMat3DNonlinearTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1TableId` | `integer` | 0 |  |
-| 3 | `youngsModulus2TableId` | `integer` | 0 |  |
-| 4 | `youngsModulus3TableId` | `integer` | 0 |  |
-| 5 | `poissonRatio12TableId` | `integer` | 0 |  |
-| 6 | `poissonRatio23TableId` | `integer` | 0 |  |
-| 7 | `poissonRatio31TableId` | `integer` | 0 |  |
-| 8 | `shearModulus12TableId` | `integer` | 0 |  |
-| 9 | `shearModulus23TableId` | `integer` | 0 |  |
-| 10 | `shearModulus31TableId` | `integer` | 0 |  |
-| 11 | `thermalExpansion1TableId` | `integer` | 0 |  |
-| 12 | `thermalExpansion2TableId` | `integer` | 0 |  |
-| 13 | `thermalExpansion3TableId` | `integer` | 0 |  |
+[OrthoMat3DNonlinearTemperature — fields and example](reference/cards/materials.md#orthomat3dnonlineartemperature)
 
 ### OrthoMat3DTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulus1TableId` | `integer` | 0 |  |
-| 3 | `youngsModulus2TableId` | `integer` | 0 |  |
-| 4 | `youngsModulus3TableId` | `integer` | 0 |  |
-| 5 | `poissonRatio12TableId` | `integer` | 0 |  |
-| 6 | `poissonRatio13TableId` | `integer` | 0 |  |
-| 7 | `poissonRatio23TableId` | `integer` | 0 |  |
-| 8 | `shearModulus12TableId` | `integer` | 0 |  |
-| 9 | `shearModulus13TableId` | `integer` | 0 |  |
-| 10 | `shearModulus23TableId` | `integer` | 0 |  |
-| 11 | `densityTableId` | `integer` | 0 |  |
-| 12 | `thermalExpansion1TableId` | `integer` | 0 |  |
-| 13 | `thermalExpansion2TableId` | `integer` | 0 |  |
-| 14 | `thermalExpansion3TableId` | `integer` | 0 |  |
-| 15 | `structuralDampingTableId` | `integer` | 0 |  |
+[OrthoMat3DTemperature — fields and example](reference/cards/materials.md#orthomat3dtemperature)
 
 ### Parameter
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `parameterName` | `text` |  |  |
-| 2 | `parameterValue` | `any` |  |  |
-| 3 | `imaginaryValue` | `real` |  |  |
-
-Accepted words: `Absolute`, `All`, `AugmentedModes`, `Automatic`, `BackwardDifference`, `Beta`, `Both`, `ClassicFormulation`, `DataCheckOnly`, `DirectMethod`, `ElemNumbering`, `ElemOffsetZ`, `ElemOffsetsOnly`, `Element`, `Extrapolate`, `False`, `ForwardDifference`, `FreeDofSet`, `Given`, `GlobalDofSet`, `HarderShearPanel`, `IntegralMethod`, `Iterative`, `KrylovMethod`, `Linear`, `Link`, `LoadRecoveryOffsets`, `Log10`, `LogLogScale`, `LowerUpperSolution`, `Manual`, `Mass`, `MinVolume`, `ModalFormulation`, `ModalMethod`, `New`, `No`, `NoDampingOffsets`, `NoFreqAdjust`, `NoLink`, `NoMassOffsets`, `NoOffsetDifference`, `NoStaticAdjust`, `NoTemperatureGradientOffsets`, `NoThermalOffsets`, `NonSmeared`, `None`, `Off`, `Old`, `On`, `PanelMethodCoupling`, `PeakValue`, `Physical`, `Print`, `Punch`, `Relative`, `ResidualModes`, `ResidualOnly`, `RitzVectors`, `RootMeanSquare`, `Same`, `SecantMethod`, `Select`, `Semi`, `StaticModalFormulation`, `SuperelementMap`, `SuperelementMapAll`, `SuperelementMapConnected`, `SuperelementMapEstimate`, `SuperelementMapPunch`, `SuperelementRecovery`, `SupersonicLiftingSurface`, `TimoshenkoBeam`, `TimoshenkoForce`, `Total`, `True`, `Volume`, `Yes`.
+[Parameter — fields and example](reference/cards/parameters.md#parameter)
 
 ### PerforatedShellProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `thickness` | `real` |  |  |
-| 4 | `holeSpacing` | `real` |  |  |
-| 5 | `holeRadius` | `real` |  |  |
-| 6 | `topology` | `text` |  |  |
-| 7 | `fluidDensity` | `real` |  |  |
-| 8 | `fluidViscosity` | `real` |  |  |
-| 9 | `homogenization` | `integer` | 1 |  |
-
-Accepted words: `Constant`, `Element`, `Hexagonal`, `Square`, `Table`, `Triangular`.
+[PerforatedShellProp — fields and example](reference/cards/properties.md#perforatedshellprop)
 
 ### PlaneCompProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `direction` | `integer` | 1 |  |
-| 3 | `thicknessOption` | `real` | 1.0 |  |
-| 4 | `bondAllowable` | `real` |  |  |
-| 5 | `analysisType` | `text` |  |  |
-
-Sections `lines`, one after the other, each opened by its key word:
-
-- `FourNodeElems` (behaviorLineC4): fields `behavior4` (text), `integration4` (text), `heatBehavior4` (text), `heatIntegration4` (text).
-- `EightNodeElems` (behaviorLineC8): fields `behavior8` (text), `integration8` (text), `heatBehavior8` (text), `heatIntegration8` (text).
-- `""` (ply): fields `globalPlyId` (integer), `plyMatId` (integer), `thickness` (real), `materialAngle` (real).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `Constant`, `EightNodeElems`, `Element`, `FourNodeElems`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`.
+[PlaneCompProp — fields and example](reference/cards/properties.md#planecompprop)
 
 ### PlaneProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `thickness` | `real` |  |  |
-| 4 | `nonStructMass` | `real` | 0.0 |  |
-| 5 | `formulationOption` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[PlaneProp — fields and example](reference/cards/properties.md#planeprop)
 
 ### PlanePropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `frameId` | `integer` | 0 |  |
-| 4 | `stressLocation` | `text` |  |  |
-
-Accepted words: `Gauss`, `Node`.
+[PlanePropNonlinear — fields and example](reference/cards/properties.md#planepropnonlinear)
 
 ### PlanePropNonlinearExt
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `direction` | `integer` | 1 |  |
-| 4 | `thickness` | `real` | 1.0 |  |
-| 5 | `analysisType` | `text` |  |  |
-
-Sections `behaviorLines`, one after the other, each opened by its key word:
-
-- `ThreeNodeElems` (nodes3Behavior): fields `behavior3` (text), `integration3` (text), `heatBehavior3` (text), `heatIntegration3` (text).
-- `FourNodeElems` (nodes4Behavior): fields `behavior4` (text), `integration4` (text), `heatBehavior4` (text), `heatIntegration4` (text).
-- `SixNodeElems` (nodes6Behavior): fields `behavior6` (text), `integration6` (text), `heatBehavior6` (text), `heatIntegration6` (text).
-- `EightNodeElems` (nodes8Behavior): fields `behavior8` (text), `integration8` (text), `heatBehavior8` (text), `heatIntegration8` (text).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `AxisymSolid`, `Bar`, `Beam`, `Constant`, `EightNodeElems`, `Element`, `FourNodeElems`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleAxisym`, `IncompressiblePlaneStrain`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearDiscreteKirchhoff`, `LinearReducedHourglass`, `LinearShear`, `LinearTwist`, `Membrane`, `Numerical`, `PlaneStrain`, `PlaneStrainComposite`, `PlaneStress`, `Quadratic`, `QuadraticReduced`, `QuadraticTwist`, `Rod`, `SixNodeElems`, `Smeared`, `Solid`, `SolidComposite`, `Table`, `ThickShell`, `ThinShell`, `ThreeNodeElems`.
+[PlanePropNonlinearExt — fields and example](reference/cards/properties.md#planepropnonlinearext)
 
 ### PlaneStrainQuad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 13 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
+[PlaneStrainQuad — fields and example](reference/cards/elements.md#planestrainquad)
 
 ### PlaneStrainQuad4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `materialAngle` | `real` | 0.0 |  |
+[PlaneStrainQuad4 — fields and example](reference/cards/elements.md#planestrainquad4)
 
 ### PlaneStrainQuad8
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `materialAngle` | `real` | 0.0 |  |
+[PlaneStrainQuad8 — fields and example](reference/cards/elements.md#planestrainquad8)
 
 ### PlaneStrainTria3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `materialAngle` | `real` | 0.0 |  |
+[PlaneStrainTria3 — fields and example](reference/cards/elements.md#planestraintria3)
 
 ### PlaneStrainTria6
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `materialAngle` | `real` | 0.0 |  |
+[PlaneStrainTria6 — fields and example](reference/cards/elements.md#planestraintria6)
 
 ### PlaneStressQuad4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `materialAngle` | `real` | 0.0 |  |
-| 8 | `thicknessFlag` | `integer` | 0 |  |
-| 9 | `thickness1` | `real` |  |  |
-| 10 | `thickness2` | `real` |  |  |
-| 11 | `thickness3` | `real` |  |  |
-| 12 | `thickness4` | `real` |  |  |
+[PlaneStressQuad4 — fields and example](reference/cards/elements.md#planestressquad4)
 
 ### PlaneStressQuad8
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `materialAngle` | `real` | 0.0 |  |
+[PlaneStressQuad8 — fields and example](reference/cards/elements.md#planestressquad8)
 
 ### PlaneStressTria3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `materialAngle` | `real` | 0.0 |  |
-| 7 | `thicknessFlag` | `integer` | 0 |  |
-| 8 | `thickness1` | `real` |  |  |
-| 9 | `thickness2` | `real` |  |  |
-| 10 | `thickness3` | `real` |  |  |
+[PlaneStressTria3 — fields and example](reference/cards/elements.md#planestresstria3)
 
 ### PlaneStressTria6
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `materialAngle` | `real` | 0.0 |  |
+[PlaneStressTria6 — fields and example](reference/cards/elements.md#planestresstria6)
 
 ### PlateTemperatureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId1` | `integer` |  |  |
-| 3 | `meanTemperature` | `real` | 0.0 |  |
-| 4 | `temperatureGradient` | `real` | 0.0 |  |
-| 5 | `temperature1` | `real` |  |  |
-| 6 | `temperature2` | `real` |  |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `Through`.
+[PlateTemperatureLoad — fields and example](reference/cards/loads.md#platetemperatureload)
 
 ### PlotLine2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `node2` | `integer` |  |  |
-| 4 | `id2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
+[PlotLine2 — fields and example](reference/cards/elements.md#plotline2)
 
 ### PlotQuad4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `node2` | `integer` |  |  |
-| 4 | `node3` | `integer` |  |  |
-| 5 | `node4` | `integer` |  |  |
+[PlotQuad4 — fields and example](reference/cards/elements.md#plotquad4)
 
 ### PlotSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeId1` | `integer` |  |  |
-| 3 | `nodeId2` | `integer` |  |  |
-| 4 | `nodeId3` | `integer` |  |  |
-| 5 | `nodeId4` | `integer` |  |  |
-| 6 | `nodeId5` | `integer` |  |  |
-| 7 | `nodeId6` | `integer` |  |  |
-| 8 | `nodeId7` | `integer` |  |  |
-| 9 | `nodeId8` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[PlotSurface — fields and example](reference/cards/elements.md#plotsurface)
 
 ### PlotTria3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `node2` | `integer` |  |  |
-| 4 | `node3` | `integer` |  |  |
+[PlotTria3 — fields and example](reference/cards/elements.md#plottria3)
 
 ### PointForceLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `frameId` | `integer` | 0 |  |
-| 4 | `magnitude` | `real` |  |  |
-| 5 | `directionX` | `real` | 0.0 |  |
-| 6 | `directionY` | `real` | 0.0 |  |
-| 7 | `directionZ` | `real` | 0.0 |  |
+[PointForceLoad — fields and example](reference/cards/loads.md#pointforceload)
 
 ### PointForceLoad1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `magnitude` | `real` |  |  |
-| 4 | `node1` | `integer` |  |  |
-| 5 | `node2` | `integer` |  |  |
+[PointForceLoad1 — fields and example](reference/cards/loads.md#pointforceload1)
 
 ### PointForceLoad2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `magnitude` | `real` |  |  |
-| 4 | `node1` | `integer` |  |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `node4` | `integer` |  |  |
+[PointForceLoad2 — fields and example](reference/cards/loads.md#pointforceload2)
 
 ### PointMassInertia
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `frameId` | `integer` | 0 |  |
-| 4 | `mass` | `real` | 0.0 |  |
-| 5 | `offset1` | `real` |  |  |
-| 6 | `offset2` | `real` |  |  |
-| 7 | `offset3` | `real` |  |  |
-| 8 | `inertia11` | `real` |  |  |
-| 9 | `inertia21` | `real` |  |  |
-| 10 | `inertia22` | `real` |  |  |
-| 11 | `inertia31` | `real` |  |  |
-| 12 | `inertia32` | `real` |  |  |
-| 13 | `inertia33` | `real` |  |  |
-
-Designable field descriptors: mass, offset1, offset2, offset3, inertia11, inertia21, inertia22, inertia31, inertia32, inertia33.
+[PointMassInertia — fields and example](reference/cards/elements.md#pointmassinertia)
 
 ### PointMassMatrix
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `frameId` | `integer` | 0 |  |
-| 4 | `massTerm11` | `real` | 0.0 |  |
-| 5 | `massTerm21` | `real` | 0.0 |  |
-| 6 | `massTerm22` | `real` | 0.0 |  |
-| 7 | `massTerm31` | `real` | 0.0 |  |
-| 8 | `massTerm32` | `real` | 0.0 |  |
-| 9 | `massTerm33` | `real` | 0.0 |  |
-| 10 | `massTerm41` | `real` | 0.0 |  |
-| 11 | `massTerm42` | `real` | 0.0 |  |
-| 12 | `massTerm43` | `real` | 0.0 |  |
-| 13 | `massTerm44` | `real` | 0.0 |  |
-| 14 | `massTerm51` | `real` | 0.0 |  |
-| 15 | `massTerm52` | `real` | 0.0 |  |
-| 16 | `massTerm53` | `real` | 0.0 |  |
-| 17 | `massTerm54` | `real` | 0.0 |  |
-| 18 | `massTerm55` | `real` | 0.0 |  |
-| 19 | `massTerm61` | `real` | 0.0 |  |
-| 20 | `massTerm62` | `real` | 0.0 |  |
-| 21 | `massTerm63` | `real` | 0.0 |  |
-| 22 | `massTerm64` | `real` | 0.0 |  |
-| 23 | `massTerm65` | `real` | 0.0 |  |
-| 24 | `massTerm66` | `real` | 0.0 |  |
+[PointMassMatrix — fields and example](reference/cards/elements.md#pointmassmatrix)
 
 ### PointMomentLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `frameId` | `integer` | 0 |  |
-| 4 | `magnitude` | `real` |  |  |
-| 5 | `directionX` | `real` | 0.0 |  |
-| 6 | `directionY` | `real` | 0.0 |  |
-| 7 | `directionZ` | `real` | 0.0 |  |
-
-Accepted words: `HingeMomentClass`.
+[PointMomentLoad — fields and example](reference/cards/loads.md#pointmomentload)
 
 ### PointMomentLoad1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `magnitude` | `real` |  |  |
-| 4 | `node1` | `integer` |  |  |
-| 5 | `node2` | `integer` |  |  |
+[PointMomentLoad1 — fields and example](reference/cards/loads.md#pointmomentload1)
 
 ### PointMomentLoad2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `magnitude` | `real` |  |  |
-| 4 | `node1` | `integer` |  |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `node4` | `integer` |  |  |
+[PointMomentLoad2 — fields and example](reference/cards/loads.md#pointmomentload2)
 
 ### PointsPressureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pressure` | `real` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` | 0 |  |
+[PointsPressureLoad — fields and example](reference/cards/loads.md#pointspressureload)
 
 ### PolynomialShearModel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `shearModulus0` | `real` | 0.0 |  |
-| 3 | `shearModulus1` | `real` | 0.0 |  |
-| 4 | `shearModulus2` | `real` | 0.0 |  |
-| 5 | `shearModulus3` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[PolynomialShearModel — fields and example](reference/cards/explicit.md#polynomialshearmodel)
 
 ### PolynomialStateEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA1` | `real` | 0.0 |  |
-| 3 | `coefficientA2` | `real` | 0.0 |  |
-| 4 | `coefficientA3` | `real` | 0.0 |  |
-| 5 | `coefficientB0` | `real` | 0.0 |  |
-| 6 | `coefficientB1` | `real` | 0.0 |  |
-| 7 | `coefficientB2` | `real` | 0.0 |  |
-| 8 | `coefficientB3` | `real` | 0.0 |  |
-| 9 | `volumeLimit` | `real` | 1.1 |  |
-| 10 | `viscosity` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[PolynomialStateEquation — fields and example](reference/cards/explicit.md#polynomialstateequation)
 
 ### PolynomialYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA` | `real` |  |  |
-| 3 | `coefficientB` | `real` | 0.0 |  |
-| 4 | `coefficientC` | `real` | 0.0 |  |
-| 5 | `coefficientD` | `real` | 0.0 |  |
-| 6 | `coefficientE` | `real` | 0.0 |  |
-| 7 | `coefficientF` | `real` | 0.0 |  |
-| 8 | `maxYieldStress` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[PolynomialYield — fields and example](reference/cards/explicit.md#polynomialyield)
 
 ### PoroElasticMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `solidMatId` | `integer` | 0 |  |
-| 3 | `fluidMatId` | `integer` |  |  |
-| 4 | `biotFactor` | `real` | 1.0 |  |
-| 5 | `simplifiedModel` | `text` |  |  |
-| 6 | `solidDensity` | `real` | 0.0 |  |
-| 7 | `viscosity` | `real` | 0.0 |  |
-| 8 | `specificHeatRatio` | `real` | 1.402 |  |
-| 9 | `prandtlNumber` | `real` | 0.71 |  |
-| 10 | `porosity` | `real` | 0.0 |  |
-| 11 | `tortuosity` | `real` | 1.0 |  |
-| 12 | `flowResistivity` | `real` |  |  |
-| 13 | `viscousLength` | `real` | 0.0 |  |
-| 14 | `thermalLength` | `real` | 0.0 |  |
-
-Accepted words: `DelanyBazleyModel`, `LumpedMass`, `MikiModel`, `Rigid`.
+[PoroElasticMat — fields and example](reference/cards/materials.md#poroelasticmat)
 
 ### PoroElasticMatFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `youngsModulusTableId` | `integer` | 0 |  |
-| 3 | `shearModulusTableId` | `integer` | 0 |  |
-| 4 | `poissonRatioTableId` | `integer` | 0 |  |
-| 5 | `densityTableId` | `integer` | 0 |  |
-| 6 | `thermalExpansionTableId` | `integer` | 0 |  |
-| 7 | `structuralDampingTableId` | `integer` | 0 |  |
-| 8 | `tensionAllowableTableId` | `integer` | 0 |  |
-| 9 | `compressionAllowableTableId` | `integer` | 0 |  |
-| 10 | `shearAllowableTableId` | `integer` | 0 |  |
+[PoroElasticMatFreq — fields and example](reference/cards/materials.md#poroelasticmatfreq)
 
 ### PorousFlowBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `properties`, after the fixed fields: `propertyKind` (text), `propertyValue` (any).
-
-Accepted words: `Both`, `Constant`, `Density`, `Element`, `FlowDirection`, `In`, `Inside`, `Large`, `Material`, `Method`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `PressureQuantity`, `Small`, `SpecificInternalEnergy`, `Table`, `VelocityQuantity`, `VelocityX`, `VelocityY`, `VelocityZ`.
+[PorousFlowBoundary — fields and example](reference/cards/explicit.md#porousflowboundary)
 
 ### PorousHydrostaticBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[PorousHydrostaticBoundary — fields and example](reference/cards/explicit.md#poroushydrostaticboundary)
 
 ### PorousTimeFlowBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `flowDirection` | `text` | Both |  |
-| 3 | `velocitySource` | `text` | Element |  |
-| 4 | `velocity` | `any` |  |  |
-| 5 | `pressureSource` | `text` | Element |  |
-| 6 | `pressure` | `any` |  |  |
-| 7 | `matId` | `integer` | 0 |  |
-| 8 | `densitySource` | `text` | Element |  |
-| 9 | `density` | `any` |  |  |
-| 10 | `energySource` | `text` | Element |  |
-| 11 | `specificEnergy` | `any` |  |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[PorousTimeFlowBoundary — fields and example](reference/cards/explicit.md#poroustimeflowboundary)
 
 ### PorousUserBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `userRoutineName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `ExternalPorosity`, `Table`.
+[PorousUserBoundary — fields and example](reference/cards/explicit.md#poroususerboundary)
 
 ### ProgressiveFailureMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `failure` | `text` |  |  |
-| 3 | `density` | `real` | 0.0 |  |
-
-Sections `entries`, one after the other, each opened by its key word:
-
-- `Temperature` (temperature): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real).
-- `Unidirectional` (unidirectional): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real).
-- `WovenFabric` (woven): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real).
-- `FiberDirection` (fibreDirection): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real), `entryValue7` (real), `entryValue8` (real), `entryValue9` (real).
-- `CrossDirection` (crossDirection): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real), `entryValue7` (real), `entryValue8` (real), `entryValue9` (real).
-- `ThicknessDirection` (thicknessDirection): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real), `entryValue7` (real), `entryValue8` (real), `entryValue9` (real).
-- `WarpDirection` (warpDirection): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real), `entryValue7` (real), `entryValue8` (real), `entryValue9` (real).
-- `FiberCrossShear` (fibreCrossShear): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real).
-- `CrossThicknessShear` (crossThicknessShear): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real).
-- `ThicknessFiberShear` (thicknessFibreShear): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real).
-- `WarpFiberShear` (warpFibreShear): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real).
-- `FiberThicknessShear` (fibreThicknessShear): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real).
-- `ThicknessWarpShear` (thicknessWarpShear): fields `entryValue1` (real), `entryValue2` (real), `entryValue3` (real), `entryValue4` (real), `entryValue5` (real), `entryValue6` (real).
-
-Accepted words: `CrossDirection`, `CrossThicknessShear`, `CuntzeBold`, `FiberCrossShear`, `FiberDirection`, `FiberThicknessShear`, `Temperature`, `ThicknessDirection`, `ThicknessFiberShear`, `ThicknessWarpShear`, `Unidirectional`, `WarpDirection`, `WarpFiberShear`, `WovenFabric`.
+[ProgressiveFailureMat — fields and example](reference/cards/materials.md#progressivefailuremat)
 
 ### PropDistribution
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `type` | `text` |  |  |
-| 3 | `propId` | `integer` |  |  |
-| 4 | `fieldName` | `text` |  |  |
-| 5 | `locationNumber` | `integer` |  |  |
-| 6 | `scaleFactor` | `real` | 1.0 |  |
-| 7 | `valueOffset` | `real` | 0.0 |  |
-
-Repeated group `entries`, after the fixed fields: `elemId` (integer), `elemValue` (number).
-
-Accepted words: `BarProp`, `BeamProp`, `BeamProp3`, `CompProp`, `CompPropGlobal`, `Constant`, `Element`, `RodProp`, `ShearPanelProp`, `ShellProp`, `SolidProp`, `Table`, `TubeProp`, `area`, `bendingInertia1`, `bendingInertia2`, `bendingInertiaY`, `bendingInertiaZ`, `bendingStiffnessRatio`, `bondAllowable`, `bottomOffset`, `extensionalFactor1`, `extensionalFactor2`, `fiberDistance1`, `fiberDistance2`, `matFrameId`, `nonStructMass`, `outerDiameter`, `outerDiameter2`, `plyAngle`, `plyStressOutput`, `plyThickness`, `productInertia12`, `productInertiaYZ`, `referenceTemperature`, `shearFactor1`, `shearFactor2`, `shearFactorY`, `shearFactorZ`, `shearThicknessRatio`, `structuralDamping`, `thickness`, `torsionConstant`, `warpingCoefficient`.
+[PropDistribution — fields and example](reference/cards/properties.md#propdistribution)
 
 ### PropMatDistribution
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `type` | `text` |  |  |
-| 3 | `propId` | `integer` |  |  |
-| 4 | `materialIndex` | `integer` | 1 |  |
-
-Repeated group `entries`, after the fixed fields: `elemId` (integer), `elemMatId` (integer).
-
-Accepted words: `BarProp`, `BeamProp`, `BeamProp3`, `CompProp`, `CompPropGlobal`, `Constant`, `Element`, `RodProp`, `ShearPanelProp`, `ShellProp`, `SolidProp`, `Table`, `TubeProp`.
+[PropMatDistribution — fields and example](reference/cards/properties.md#propmatdistribution)
 
 ### PropertyListSet4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entityClass` | `text` |  |  |
-| 3 | `type` | `text` |  |  |
-
-Repeated group `propIds`, after the fixed fields: `propId` (any).
-
-Accepted words: `All`, `BarProp`, `BeamProp`, `Constant`, `Element`, `Property`, `ShearPanelProp`, `ShellProp`, `SolidProp`, `Table`, `Through`, `WeldProp`.
+[PropertyListSet4 — fields and example](reference/cards/sets.md#propertylistset4)
 
 ### RadiatedPowerPanelSet
 
-No fixed field.
-
-Repeated group `panels`, after the fixed fields: `panelName` (text), `panelSetId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[RadiatedPowerPanelSet — fields and example](reference/cards/sets.md#radiatedpowerpanelset)
 
 ### RadiationBands
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `bandCount` | `integer` |  |  |
-| 2 | `planckSecondConstant` | `real` |  |  |
-
-Repeated group `wavelengths`, after the fixed fields: `bandWavelength` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[RadiationBands — fields and example](reference/cards/thermal.md#radiationbands)
 
 ### RadiationCavity
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `ambientElemId` | `integer` | 0 |  |
-| 3 | `shadowing` | `text` |  |  |
-| 4 | `scaleFactor` | `real` | 0.0 |  |
-| 5 | `viewFactorOutput` | `integer` |  |  |
-| 6 | `viewFactorMethod` | `text` |  |  |
-| 7 | `subdivisionAreaRatio` | `real` | 0.1 |  |
-| 8 | `componentCount` | `integer` | 32 |  |
-
-Repeated group `pairSets`, after the fixed fields: `pairSetId` (integer).
-
-Accepted words: `Contour`, `FiniteDifferenceMethod`, `No`, `Yes`.
+[RadiationCavity — fields and example](reference/cards/thermal.md#radiationcavity)
 
 ### RadiationCavityList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `cavityId` | `integer` |  |  |
-| 2 | `matrixKind` | `integer` |  |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `By`, `Through`.
+[RadiationCavityList — fields and example](reference/cards/thermal.md#radiationcavitylist)
 
 ### RadiationCavitySet
 
-No fixed field.
-
-Repeated group `cavities`, after the fixed fields: `cavityId` (integer).
+[RadiationCavitySet — fields and example](reference/cards/thermal.md#radiationcavityset)
 
 ### RadiationExchangeMatrix
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `cavityId` | `integer` |  |  |
-| 2 | `columnIndex` | `integer` |  |  |
-
-Repeated group `exchangeFactors`, after the fixed fields: `exchangeFactor` (real).
+[RadiationExchangeMatrix — fields and example](reference/cards/thermal.md#radiationexchangematrix)
 
 ### RadiationProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `absorptivity` | `real` |  |  |
-
-Repeated group `emissivities`, after the fixed fields: `emissivity` (real).
+[RadiationProp — fields and example](reference/cards/thermal.md#radiationprop)
 
 ### RadiationPropTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `absorptivityTableId` | `integer` | 0 |  |
-
-Repeated group `emissivityTables`, after the fixed fields: `emissivityTableId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[RadiationPropTemperature — fields and example](reference/cards/thermal.md#radiationproptemperature)
 
 ### RadiationToSpace
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `ambientNode` | `integer` |  |  |
-| 2 | `ambientViewFactor` | `real` |  |  |
-| 3 | `controlNode` | `integer` | 0 |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `By`, `Through`.
+[RadiationToSpace — fields and example](reference/cards/thermal.md#radiationtospace)
 
 ### RandomSpectralDensity
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `subcaseJ` | `integer` |  |  |
-| 3 | `subcaseK` | `integer` |  |  |
-| 4 | `realPart` | `real` | 0.0 |  |
-| 5 | `imaginaryPart` | `real` | 0.0 |  |
-| 6 | `tableId` | `integer` | 0 |  |
+[RandomSpectralDensity — fields and example](reference/cards/dynamics.md#randomspectraldensity)
 
 ### RandomTimeLags
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `count` | `integer` |  |  |
-| 3 | `startTime` | `real` |  |  |
-| 4 | `maximumTime` | `real` |  |  |
+[RandomTimeLags — fields and example](reference/cards/dynamics.md#randomtimelags)
 
 ### RatePowerLawYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA` | `real` |  |  |
-| 3 | `coefficientB` | `real` | 0.0 |  |
-| 4 | `coefficientN` | `real` | 1.0 |  |
-| 5 | `coefficientM` | `real` | 1.0 |  |
-| 6 | `coefficientC` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[RatePowerLawYield — fields and example](reference/cards/explicit.md#ratepowerlawyield)
 
 ### RealEigenMethod
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `method` | `text` | Lanczos |  |
-| 3 | `frequency1` | `real` |  |  |
-| 4 | `frequency2` | `real` |  |  |
-| 5 | `estimatedModeCount` | `integer` | 0 |  |
-| 6 | `desiredModeCount` | `integer` |  |  |
-| 7 | `normalization` | `text` | Mass |  |
-| 8 | `normNode` | `integer` | 0 |  |
-| 9 | `normComponent` | `integer` | 0 |  |
-
-Accepted words: `AutomaticGivens`, `AutomaticHouseholder`, `Givens`, `Householder`, `InverseIteration`, `Lanczos`, `Mass`, `Maximum`, `ModifiedGivens`, `ModifiedHouseholder`, `Point`, `SturmInverse`.
+[RealEigenMethod — fields and example](reference/cards/dynamics.md#realeigenmethod)
 
 ### RectFrame1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `frameIdA` | `integer` |  |  |
-| 2 | `node1A` | `integer` |  |  |
-| 3 | `node2A` | `integer` |  |  |
-| 4 | `node3A` | `integer` |  |  |
-| 5 | `frameIdB` | `integer` |  |  |
-| 6 | `node1B` | `integer` |  |  |
-| 7 | `node2B` | `integer` |  |  |
-| 8 | `node3B` | `integer` |  |  |
+[RectFrame1 — fields and example](reference/cards/coordinate_systems.md#rectframe1)
 
 ### RectFrame2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceFrameId` | `integer` | 0 |  |
-| 3 | `pointA1` | `real` | 0.0 |  |
-| 4 | `pointA2` | `real` | 0.0 |  |
-| 5 | `pointA3` | `real` | 0.0 |  |
-| 6 | `pointB1` | `real` | 0.0 |  |
-| 7 | `pointB2` | `real` | 0.0 |  |
-| 8 | `pointB3` | `real` | 0.0 |  |
-| 9 | `pointC1` | `real` | 0.0 |  |
-| 10 | `pointC2` | `real` | 0.0 |  |
-| 11 | `pointC3` | `real` | 0.0 |  |
+[RectFrame2 — fields and example](reference/cards/coordinate_systems.md#rectframe2)
 
 ### RectFrame3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `frameIdA` | `integer` |  |  |
-| 2 | `node1A` | `integer` |  |  |
-| 3 | `node2A` | `integer` |  |  |
-| 4 | `node3A` | `integer` |  |  |
-| 5 | `frameIdB` | `integer` |  |  |
-| 6 | `node1B` | `integer` |  |  |
-| 7 | `node2B` | `integer` |  |  |
-| 8 | `node3B` | `integer` |  |  |
+[RectFrame3 — fields and example](reference/cards/coordinate_systems.md#rectframe3)
 
 ### ReferenceRotor
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceRotorId` | `integer` |  |  |
-
-Repeated group `nonFollowingRotors`, after the fixed fields: `nonFollowingRotorId` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`.
+[ReferenceRotor — fields and example](reference/cards/solution_control.md#referencerotor)
 
 ### RelativeEnforcedMotionConstr
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `enforcedValue1` | `real` | 0.0 |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `enforcedValue2` | `real` | 0.0 |  |
+[RelativeEnforcedMotionConstr — fields and example](reference/cards/constraints.md#relativeenforcedmotionconstr)
 
 ### ResidualVectorDofs
 
-No fixed field.
-
-Repeated group `dofs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[ResidualVectorDofs — fields and example](reference/cards/solution_control.md#residualvectordofs)
 
 ### ResidualVectorDofs1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[ResidualVectorDofs1 — fields and example](reference/cards/solution_control.md#residualvectordofs1)
 
 ### ResultFileModules
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `configuration` | `integer` | 0 |  |
-
-Repeated group `modules`, after the fixed fields: `moduleId` (integer), `userNameId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ResultFileModules — fields and example](reference/cards/solution_control.md#resultfilemodules)
 
 ### ResultFileParams
 
-Forms: `numbered`, `plain`.
+[ResultFileParams — fields and example](reference/cards/solution_control.md#resultfileparams)
 
 #### ResultFileParams: numbered
 
-Form `numbered`, when `number` is an integer.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `number` | `integer` |  |  |
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
+[numbered form](reference/cards/solution_control.md#resultfileparams-numbered)
 
 #### ResultFileParams: plain
 
-Form `plain`, for every other record.
-
-No fixed field.
-
-Repeated group `parameters`, after the fixed fields: `parameterName` (text), `parameterValue` (any).
-
-Accepted words: `BloscCompression`, `CompressionLevel`, `CompressionMethod`, `Constant`, `Element`, `GzipCompression`, `InputData`, `LoadConstraintTables`, `Lz4Compression`, `MatrixData`, `ModalMatrixOutput`, `No`, `NodeElementTables`, `None`, `Precision`, `RotationalDofs`, `RunInformation`, `SeparateModelFile`, `Table`, `Yes`.
-
-Accepted parameter names: `CompressionLevel`, `CompressionMethod`, `InputData`, `LoadConstraintTables`, `MatrixData`, `ModalMatrixOutput`, `NodeElementTables`, `Precision`, `RotationalDofs`, `RunInformation`, `SeparateModelFile`.
+[plain form](reference/cards/solution_control.md#resultfileparams-plain)
 
 ### ResultMetadata
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `metadataName` | `text` |  | one text field |
-
-Repeated group `metadataLines`, after the fixed fields: `metadataInfo` (text, one text field).
+[ResultMetadata — fields and example](reference/cards/solution_control.md#resultmetadata)
 
 ### RigidAxisymConnection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node3D` | `integer` |  |  |
-| 3 | `axisymNode` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[RigidAxisymConnection — fields and example](reference/cards/rigid_elements.md#rigidaxisymconnection)
 
 ### RigidBar
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `independentComponentsA` | `integer` | 0 |  |
-| 5 | `independentComponentsB` | `integer` | 0 |  |
-| 6 | `componentsAtA` | `integer` | 0 |  |
-| 7 | `componentsAtB` | `integer` | 0 |  |
-| 8 | `alphaCoefficient` | `real` | 0.0 |  |
-| 9 | `referenceTemperature` | `real` | 0.0 |  |
+[RigidBar — fields and example](reference/cards/rigid_elements.md#rigidbar)
 
 ### RigidBar1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `componentsB` | `integer` | 123456 |  |
-| 5 | `alphaCoefficient` | `real` | 0.0 |  |
-| 6 | `referenceTemperature` | `real` | 0.0 |  |
+[RigidBar1 — fields and example](reference/cards/rigid_elements.md#rigidbar1)
 
 ### RigidBodyJoint
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `jointType` | `text` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `penaltyScale` | `real` | 1.0 |  |
-
-Accepted words: `Constant`, `CylindricalJoint`, `Element`, `PlanarJoint`, `RevoluteJoint`, `SphericalJoint`, `Table`, `TranslationalJoint`, `UniversalJoint`.
+[RigidBodyJoint — fields and example](reference/cards/explicit.md#rigidbodyjoint)
 
 ### RigidBodyMulti
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-The number of repetitions of `independents` (integer, blank for none).
-
-Repeated group `independents`, after the fixed fields: `independentNode` (integer), `independentComponents` (integer).
-
-Sections `dependentLines`, one after the other, each opened by its key word:
-
-- `DependentDofs` (dependents): then the number of `dependents` and their fields `dependentNode` (number), `dependentComponents` (number).
-
-Accepted words: `DependentDofs`, `Through`.
+[RigidBodyMulti — fields and example](reference/cards/rigid_elements.md#rigidbodymulti)
 
 ### RigidBodySearched
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `spotNode` | `integer` | 0 |  |
-| 3 | `kind` | `text` |  |  |
-| 4 | `referenceTemperature` | `real` | 0.0 |  |
-| 5 | `radius` | `real` |  |  |
-| 6 | `dependentComponents` | `integer` | 123456 |  |
-| 7 | `alphaCoefficient` | `real` | 0.0 |  |
-| 8 | `xStation` | `real` |  |  |
-| 9 | `yStation` | `real` |  |  |
-| 10 | `zStation` | `real` |  |  |
-
-The number of repetitions of `independentList` (integer, blank for none).
-
-Repeated group `independentList`, after the fixed fields: `independentNodes` (any).
-
-Then the repeated group `dependentList`: `dependentNodes` (any).
-
-*Note*: a list of nodes may hold THRU between two nodes (a range).
-
-Accepted words: `ClosestRigidBodyStars`, `ClosestRigidBodyStarsSwapped`, `Constant`, `Element`, `EndList`, `Swapped`, `Table`, `Through`.
+[RigidBodySearched — fields and example](reference/cards/rigid_elements.md#rigidbodysearched)
 
 ### RigidBodyStar
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `independentNode` | `integer` |  |  |
-| 3 | `dependentComponents` | `integer` |  |  |
-
-Repeated group `dependentNodes`, after the fixed fields: `dependentNode` (number).
+[RigidBodyStar — fields and example](reference/cards/rigid_elements.md#rigidbodystar)
 
 ### RigidEllipsoidExternal
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `ellipsoidName` | `text` |  |  |
-| 2 | `programName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[RigidEllipsoidExternal — fields and example](reference/cards/explicit.md#rigidellipsoidexternal)
 
 ### RigidInterpolation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceNode` | `integer` |  |  |
-| 3 | `referenceComponents` | `integer` |  |  |
-
-The number of repetitions of `terms` (integer, blank for none).
-
-Repeated group `terms`, after the fixed fields: `weight` (real), `components` (integer); then the number of `nodes` and their fields `node` (integer).
-
-Sections `parts`, one after the other, each opened by its key word:
-
-- `DependentDofs` (dependents): then the number of `dependents` and their fields `dependentNode` (integer), `dependentComponents` (integer).
-- `ThermalExpansion` (thermalExpansion): fields `alphaCoefficient` (real), `referenceTemperature` (real).
-
-Accepted words: `DependentDofs`, `ThermalExpansion`.
+[RigidInterpolation — fields and example](reference/cards/rigid_elements.md#rigidinterpolation)
 
 ### RigidInterpolationOverride
 
-No fixed field.
-
-Repeated group `elements`, after the fixed fields: `elemId` (integer), `perturbationX` (real), `perturbationY` (real), `perturbationZ` (real), `toleranceAdjustment` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[RigidInterpolationOverride — fields and example](reference/cards/rigid_elements.md#rigidinterpolationoverride)
 
 ### RigidJoint
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `componentsB` | `integer` | 123456 |  |
+[RigidJoint — fields and example](reference/cards/rigid_elements.md#rigidjoint)
 
 ### RigidMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `density` | `real` | 1.0 |  |
-| 3 | `youngsModulus` | `real` | 1.0 |  |
-| 4 | `poissonRatio` | `real` | 0.2 |  |
-| 5 | `mass` | `real` |  |  |
-| 6 | `centerX` | `real` |  |  |
-| 7 | `centerY` | `real` |  |  |
-| 8 | `centerZ` | `real` |  |  |
-| 9 | `inertiaXx` | `real` |  |  |
-| 10 | `inertiaXy` | `real` |  |  |
-| 11 | `inertiaXz` | `real` |  |  |
-| 12 | `inertiaYy` | `real` |  |  |
-| 13 | `inertiaYz` | `real` |  |  |
-| 14 | `inertiaZz` | `real` |  |  |
-| 15 | `frameId` | `integer` | 0 |  |
-| 16 | `velocityX` | `real` |  |  |
-| 17 | `velocityY` | `real` |  |  |
-| 18 | `velocityZ` | `real` |  |  |
-| 19 | `angularVelocityX` | `real` |  |  |
-| 20 | `angularVelocityY` | `real` |  |  |
-| 21 | `angularVelocityZ` | `real` |  |  |
-| 22 | `localCenterX` | `real` |  |  |
-| 23 | `localCenterY` | `real` |  |  |
-| 24 | `localCenterZ` | `real` |  |  |
+[RigidMat — fields and example](reference/cards/materials.md#rigidmat)
 
 ### RigidMeshConnection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `secondaryType` | `text` |  |  |
-| 3 | `primaryType` | `text` |  |  |
-| 4 | `secondaryId` | `integer` |  |  |
-| 5 | `primaryId` | `integer` |  |  |
-| 6 | `option` | `text` |  |  |
-| 7 | `closeGaps` | `text` |  |  |
-| 8 | `gapMeasure` | `text` |  |  |
-| 9 | `gapValue` | `real` |  |  |
-
-Accepted words: `Constant`, `Distance`, `Element`, `No`, `Node`, `Normal`, `Shell`, `Surface`, `Table`, `Yes`.
+[RigidMeshConnection — fields and example](reference/cards/rigid_elements.md#rigidmeshconnection)
 
 ### RigidRod
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `componentsAtA` | `integer` | 0 |  |
-| 5 | `componentsAtB` | `integer` | 0 |  |
-| 6 | `alphaCoefficient` | `real` | 0.0 |  |
-| 7 | `referenceTemperature` | `real` | 0.0 |  |
+[RigidRod — fields and example](reference/cards/rigid_elements.md#rigidrod)
 
 ### RigidShellSolidConnection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `shellId1` | `integer` |  |  |
-| 4 | `solidIdA1` | `integer` |  |  |
-| 5 | `solidIdB1` | `integer` |  |  |
-| 6 | `shellId2` | `integer` |  |  |
-| 7 | `solidIdA2` | `integer` |  |  |
-| 8 | `solidIdB2` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Elements`, `Node`, `Table`.
+[RigidShellSolidConnection — fields and example](reference/cards/rigid_elements.md#rigidshellsolidconnection)
 
 ### RigidSpline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `diameterRatio` | `real` | 0.1 |  |
-| 3 | `node1` | `integer` |  |  |
-
-Repeated group `points`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `Through`.
+[RigidSpline — fields and example](reference/cards/rigid_elements.md#rigidspline)
 
 ### RigidTriaPlate
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `nodeC` | `integer` |  |  |
-| 5 | `independentComponentsA` | `integer` |  |  |
-| 6 | `independentComponentsB` | `integer` |  |  |
-| 7 | `independentComponentsC` | `integer` |  |  |
-| 8 | `componentsAtA` | `integer` |  |  |
-| 9 | `componentsAtB` | `integer` |  |  |
-| 10 | `componentsAtC` | `integer` |  |  |
-| 11 | `alphaCoefficient` | `real` | 0.0 |  |
-| 12 | `referenceTemperature` | `real` | 0.0 |  |
+[RigidTriaPlate — fields and example](reference/cards/rigid_elements.md#rigidtriaplate)
 
 ### RigidTriaPlate1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `nodeC` | `integer` |  |  |
-| 5 | `componentsAtB` | `integer` | 123456 |  |
-| 6 | `componentsAtC` | `integer` | 123456 |  |
-| 7 | `alphaCoefficient` | `real` | 0.0 |  |
-| 8 | `referenceTemperature` | `real` | 0.0 |  |
+[RigidTriaPlate1 — fields and example](reference/cards/rigid_elements.md#rigidtriaplate1)
 
 ### RigidWall
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pointX` | `real` | 0.0 |  |
-| 3 | `pointY` | `real` | 0.0 |  |
-| 4 | `pointZ` | `real` | 0.0 |  |
-| 5 | `normalX` | `real` | 0.0 |  |
-| 6 | `normalY` | `real` | 0.0 |  |
-| 7 | `normalZ` | `real` | 0.0 |  |
-| 8 | `nodeSetId` | `integer` |  |  |
-| 9 | `method` | `text` |  |  |
-| 10 | `staticFriction` | `real` | 0.0 |  |
-| 11 | `kineticFriction` | `real` | 0.0 |  |
-| 12 | `frictionDecay` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Kinematic`, `PenaltyMethod`, `Table`.
+[RigidWall — fields and example](reference/cards/explicit.md#rigidwall)
 
 ### Rod2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
+[Rod2 — fields and example](reference/cards/elements.md#rod2)
 
 ### Rod2InlineSection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `node2` | `integer` |  |  |
-| 4 | `matId` | `integer` |  |  |
-| 5 | `area` | `real` | 0.0 |  |
-| 6 | `torsionConstant` | `real` | 0.0 |  |
-| 7 | `torsionStressCoefficient` | `real` | 0.0 |  |
-| 8 | `nonStructMass` | `real` | 0.0 |  |
+[Rod2InlineSection — fields and example](reference/cards/elements.md#rod2inlinesection)
 
 ### RodProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `area` | `real` |  |  |
-| 4 | `torsionConstant` | `real` | 0.0 |  |
-| 5 | `torsionStressCoefficient` | `real` | 0.0 |  |
-| 6 | `nonStructMass` | `real` | 0.0 |  |
-
-Designable field descriptors: area, torsionConstant, torsionStressCoefficient, nonStructMass.
+[RodProp — fields and example](reference/cards/properties.md#rodprop)
 
 ### RodPropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` | 0 |  |
-| 3 | `analysisType` | `text` |  |  |
-
-Sections `behaviorLines`, one after the other, each opened by its key word:
-
-- `TwoNodeElems` (nodes2Behavior): fields `behavior2` (text), `integration2` (text), `heatBehavior2` (text), `heatIntegration2` (text).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `Constant`, `Element`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`, `TwoNodeElems`.
+[RodPropNonlinear — fields and example](reference/cards/properties.md#rodpropnonlinear)
 
 ### RotationalForceLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` | 0 |  |
-| 3 | `frameId` | `integer` | 0 |  |
-| 4 | `magnitude` | `real` | 0.0 |  |
-| 5 | `radius1` | `real` | 0.0 |  |
-| 6 | `radius2` | `real` | 0.0 |  |
-| 7 | `radius3` | `real` | 0.0 |  |
-| 8 | `methodName` | `integer` | 1 |  |
-| 9 | `angularAcceleration` | `real` | 0.0 |  |
-| 10 | `mainBulkFlag` | `integer` | 0 |  |
-| 11 | `regionId` | `integer` | 0 |  |
+[RotationalForceLoad — fields and example](reference/cards/loads.md#rotationalforceload)
 
 ### RotorAxisym
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `listType` | `text` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `nodeId` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Elements`, `Node`, `Property`, `Table`, `Through`.
+[RotorAxisym — fields and example](reference/cards/solution_control.md#rotoraxisym)
 
 ### RotorHybridDamping
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `rotorId` (integer), `hybridDampingId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[RotorHybridDamping — fields and example](reference/cards/dynamics.md#rotorhybriddamping)
 
 ### RotorInitialBend
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `bendTableId` | `integer` |  |  |
-| 2 | `rotorId` | `integer` |  |  |
-| 3 | `loadId` | `integer` |  |  |
-
-Sections `rows`, one after the other, each opened by its key word:
-
-- `UnbalanceFrame` (unbalancePlane): fields `coordinate1` (real), `coordinate2` (real), `coordinate3` (real).
-- `KinkDeformation` (kinkRows): then the number of `kinks` and their fields `station` (real), `angle` (real), `phase` (real).
-- `Offset` (offsetRows): then the number of `offsets` and their fields `station` (real), `offset` (real), `phase` (real).
-- `BearingDeflectionProfile` (bearingRows): then the number of `bearings` and their fields `rotorNode` (integer), `statorNode` (integer).
-
-Accepted words: `BearingDeflectionProfile`, `Constant`, `Element`, `KinkDeformation`, `Offset`, `Table`, `UnbalanceFrame`.
+[RotorInitialBend — fields and example](reference/cards/solution_control.md#rotorinitialbend)
 
 ### RotorLineNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `nodeId` (any).
-
-Accepted words: `By`, `Through`.
+[RotorLineNodes — fields and example](reference/cards/solution_control.md#rotorlinenodes)
 
 ### RotorModel3D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `frame` | `text` | FixedEnd |  |
-
-Sections `lists`, one after the other, each opened by its key word:
-
-- `Elements` (elementList): then the number of `elements` and their fields `elemId` (any).
-- `Property` (propertyList): then the number of `properties` and their fields `propId` (any).
-- `Axis` (axisList): then the number of `axisNodes` and their fields `axisNode` (integer).
-
-Accepted words: `Axis`, `By`, `Constant`, `Element`, `Elements`, `FixedEnd`, `Property`, `Rotation`, `Table`, `Through`.
+[RotorModel3D — fields and example](reference/cards/solution_control.md#rotormodel3d)
 
 ### RotorRelativeSpin
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `rotorId` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `speedUnit` | `text` |  |  |
-| 5 | `spinTableId` | `integer` |  | alternative of `spinRate` |
-| 6 | `spinRate` | `real` |  | alternative of `spinTableId` |
-| 7 | `rotorSuperelementId` | `integer` | 0 |  |
-| 8 | `node` | `real` | 0.0 |  |
-| 9 | `massDampingFactor` | `real` | 0.0 |  |
-| 10 | `stiffnessDampingFactor` | `real` | 0.0 |  |
-| 11 | `viscousDampingFrequency` | `real` | 0.0 |  |
-| 12 | `structuralDampingFrequency` | `real` | 0.0 |  |
-| 13 | `hybridDampingFrequency` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `DesignDiscreteValues`, `Element`, `Frequency`, `RevolutionsPerMinute`, `Table`.
+[RotorRelativeSpin — fields and example](reference/cards/solution_control.md#rotorrelativespin)
 
 ### RotorSuperelement
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `superelementId` | `integer` |  |  |
-| 3 | `superelementOption` | `integer` | 1 |  |
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[RotorSuperelement — fields and example](reference/cards/solution_control.md#rotorsuperelement)
 
 ### RotorTransientSpin
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `rotorId` | `integer` |  |  |
-| 2 | `nodeA` | `integer` |  |  |
-| 3 | `nodeB` | `integer` |  |  |
-| 4 | `speedUnit` | `text` |  |  |
-| 5 | `spinTableId` | `integer` |  |  |
-| 6 | `speedOutput` | `integer` | 0 |  |
-| 7 | `rotorSuperelementId` | `integer` | 0 |  |
-| 8 | `node` | `real` | 0.0 |  |
-| 9 | `massDampingFactor` | `real` | 0.0 |  |
-| 10 | `stiffnessDampingFactor` | `real` | 0.0 |  |
-| 11 | `viscousDampingFrequency` | `real` | 0.0 |  |
-| 12 | `structuralDampingFrequency` | `real` | 0.0 |  |
-| 13 | `hybridDampingFrequency` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Frequency`, `RevolutionsPerMinute`, `Table`.
+[RotorTransientSpin — fields and example](reference/cards/solution_control.md#rotortransientspin)
 
 ### RotorUnbalanceLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `massTableId` | `integer` |  | alternative of `mass` |
-| 3 | `mass` | `real` |  | alternative of `massTableId` |
-| 4 | `nodeId` | `integer` |  |  |
-| 5 | `directionX` | `real` |  |  |
-| 6 | `directionY` | `real` |  |  |
-| 7 | `directionZ` | `real` |  |  |
-| 8 | `radialOffsetTableId` | `integer` |  | alternative of `radialOffset` |
-| 9 | `radialOffset` | `real` | 1.0 | alternative of `radialOffsetTableId` |
-| 10 | `angularPosition` | `real` | 0.0 |  |
-| 11 | `axialOffsetTableId` | `integer` |  | alternative of `axialOffset` |
-| 12 | `axialOffset` | `real` | 0.0 | alternative of `axialOffsetTableId` |
-| 13 | `startTimeOrFrequency` | `real` | 0.0 |  |
-| 14 | `stopTimeOrFrequency` | `real` | 999999.0 |  |
-| 15 | `correctionFlag` | `text` | None |  |
-| 16 | `forcePointT1` | `integer` | 0 |  |
-| 17 | `forcePointT2` | `integer` | 0 |  |
-| 18 | `forcePointT3` | `integer` | 0 |  |
-| 19 | `forcePointR1` | `integer` | 0 |  |
-| 20 | `forcePointR2` | `integer` | 0 |  |
-| 21 | `forcePointR3` | `integer` | 0 |  |
-| 22 | `massCorrectionPointT1` | `integer` | 0 |  |
-| 23 | `massCorrectionPointT2` | `integer` | 0 |  |
-| 24 | `massCorrectionPointT3` | `integer` | 0 |  |
-| 25 | `massCorrectionPointR1` | `integer` | 0 |  |
-| 26 | `massCorrectionPointR2` | `integer` | 0 |  |
-| 27 | `massCorrectionPointR3` | `integer` | 0 |  |
-| 28 | `speedCorrectionPoint1` | `integer` | 0 |  |
-| 29 | `speedCorrectionPoint2` | `integer` | 0 |  |
-| 30 | `speedCorrectionPoint3` | `integer` | 0 |  |
-
-Accepted words: `Acceleration`, `Both`, `Displacement`, `Load`, `Mass`, `None`, `Speed`, `Velocity`.
+[RotorUnbalanceLoad — fields and example](reference/cards/dynamics.md#rotorunbalanceload)
 
 ### RotordynamicParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `synchronous` | `text` |  |  |
-| 3 | `referenceRotorId` | `integer` |  |  |
-| 4 | `speedUnit` | `text` |  |  |
-| 5 | `speedLow` | `real` | 0.0 |  |
-| 6 | `speedHigh` | `real` | 99999.0 |  |
-| 7 | `speed` | `real` | 0.0 |  |
-| 8 | `rotorSuperelementId` | `integer` | 0 |  |
-| 9 | `viscousDampingFrequency` | `real` | 0.0 |  |
-| 10 | `structuralDampingFrequency` | `real` | 0.0 |  |
-| 11 | `hybridDampingFrequency` | `real` | 0.0 |  |
-
-Accepted words: `AsynchronousWhirl`, `Constant`, `Element`, `Frequency`, `RevolutionsPerMinute`, `SynchronousWhirl`, `Table`.
+[RotordynamicParams — fields and example](reference/cards/solution_control.md#rotordynamicparams)
 
 ### ScalarPoint
 
-No fixed field.
-
-Repeated group `ids`, after the fixed fields: `id` (any).
-
-Accepted words: `Through`.
+[ScalarPoint — fields and example](reference/cards/nodes.md#scalarpoint)
 
 ### ScalarPointLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `loads`, after the fixed fields: `scalarPoint` (integer), `magnitude` (real).
+[ScalarPointLoad — fields and example](reference/cards/loads.md#scalarpointload)
 
 ### Seam
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `seamLine` | `text` |  |  |
-| 4 | `patchKind` | `text` |  |  |
-| 5 | `patchAStart` | `integer` |  |  |
-| 6 | `patchBStart` | `integer` | 0 |  |
-| 7 | `patchAEnd` | `integer` | 0 |  |
-| 8 | `patchBEnd` | `integer` | 0 |  |
-| 9 | `startNode` | `integer` |  | alternative of `startX` |
-| 10 | `startX` | `real` |  | alternative of `startNode` |
-| 11 | `endNode` | `integer` |  | alternative of `startY` |
-| 12 | `startY` | `real` |  | alternative of `endNode` |
-| 13 | `startZ` | `real` |  |  |
-| 14 | `endX` | `real` |  |  |
-| 15 | `endY` | `real` |  |  |
-| 16 | `endZ` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Elements`, `ShellProp`, `Table`.
+[Seam — fields and example](reference/cards/elements.md#seam)
 
 ### SeamProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `kind` | `text` |  |  |
-| 4 | `width` | `real` |  |  |
-| 5 | `thickness` | `real` |  |  |
-| 6 | `integration` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Line`, `Table`.
+[SeamProp — fields and example](reference/cards/elements.md#seamprop)
 
 ### ShapeBoundaryNodeSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `components` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[ShapeBoundaryNodeSet — fields and example](reference/cards/sets.md#shapeboundarynodeset)
 
 ### ShapeMemoryMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `model` | `integer` |  |  |
-| 3 | `referenceTemperature` | `real` |  |  |
-| 4 | `maximumDetwinningStrain` | `real` |  |  |
-| 5 | `austeniteYoungsModulus` | `real` | 0.0 |  |
-| 6 | `austenitePoissonRatio` | `real` | 0.0 |  |
-| 7 | `austeniteThermalExpansion` | `real` | 0.0 |  |
-| 8 | `austeniteStressLimit` | `real` | 0.0 |  |
-| 9 | `austeniteDensity` | `real` | 0.0 |  |
-| 10 | `transformationStartStress` | `real` | 0.0 |  |
-| 11 | `transformationFinishStress` | `real` | 0.0 |  |
-| 12 | `austeniteStressSlope` | `real` | 0.0 |  |
-| 13 | `martensiteYoungsModulus` | `real` | 0.0 |  |
-| 14 | `martensitePoissonRatio` | `real` | 0.0 |  |
-| 15 | `martensiteThermalExpansion` | `real` | 0.0 |  |
-| 16 | `martensiteStressLimit` | `real` | 0.0 |  |
-| 17 | `martensiteDensity` | `real` | 0.0 |  |
-| 18 | `reverseStartStress` | `real` | 0.0 |  |
-| 19 | `reverseFinishStress` | `real` | 0.0 |  |
-| 20 | `martensiteStressSlope` | `real` | 0.0 |  |
-| 21 | `transformationVolumeChange` | `real` | 0.0 |  |
-| 22 | `martensiteFraction` | `real` | 0.0 |  |
-| 23 | `effectiveStressLimit` | `real` | 0.0 |  |
-| 24 | `maximumStress` | `real` | 0.0 |  |
-| 25 | `gFunction0` | `real` | 0.0 |  |
-| 26 | `gFunctionA` | `real` | 0.0 |  |
-| 27 | `gFunctionB` | `real` | 0.0 |  |
-| 28 | `gFunctionC` | `real` | 0.0 |  |
-| 29 | `gFunctionD` | `real` | 0.0 |  |
-| 30 | `gFunctionE` | `real` | 0.0 |  |
-| 31 | `gFunctionF` | `real` | 0.0 |  |
-| 32 | `gFunctionMaximum` | `real` | 0.0 |  |
+[ShapeMemoryMat — fields and example](reference/cards/materials.md#shapememorymat)
 
 ### ShearPanel4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
+[ShearPanel4 — fields and example](reference/cards/elements.md#shearpanel4)
 
 ### ShearPanelProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `thickness` | `real` |  |  |
-| 4 | `nonStructMass` | `real` | 0.0 |  |
-| 5 | `extensionalFactor1` | `real` | 0.0 |  |
-| 6 | `extensionalFactor2` | `real` | 0.0 |  |
-
-Designable field descriptors: thickness, nonStructMass, extensionalFactor1, extensionalFactor2.
+[ShearPanelProp — fields and example](reference/cards/properties.md#shearpanelprop)
 
 ### ShearPanelPropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` | 0 |  |
-| 3 | `analysisType` | `text` |  |  |
-
-Sections `behaviorLines`, one after the other, each opened by its key word:
-
-- `FourNodeElems` (nodes4Behavior): fields `behavior4` (text), `integration4` (text).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `Constant`, `Element`, `FourNodeElems`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `Smeared`, `Solid`, `SolidComposite`, `Table`.
+[ShearPanelPropNonlinear — fields and example](reference/cards/properties.md#shearpanelpropnonlinear)
 
 ### ShellAxisym
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `offset` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ShellAxisym — fields and example](reference/cards/elements.md#shellaxisym)
 
 ### ShellConical2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `ringIdA` | `integer` |  |  |
-| 4 | `ringIdB` | `integer` |  |  |
+[ShellConical2 — fields and example](reference/cards/elements.md#shellconical2)
 
 ### ShellNormal
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeId` | `integer` |  |  |
-| 2 | `frameId` | `integer` | 0 |  |
-| 3 | `directionX` | `real` | 0.0 |  |
-| 4 | `directionY` | `real` | 0.0 |  |
-| 5 | `directionZ` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ShellNormal — fields and example](reference/cards/nodes.md#shellnormal)
 
 ### ShellPressureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `pressure` | `real` |  |  |
-
-Repeated group `elements`, after the fixed fields: `elemId` (any).
-
-Accepted words: `Through`.
+[ShellPressureLoad — fields and example](reference/cards/loads.md#shellpressureload)
 
 ### ShellProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `membraneMatId` | `integer` | 0 |  |
-| 3 | `thickness` | `real` | 0.0 |  |
-| 4 | `bendingMatId` | `integer` | 0 |  |
-| 5 | `bendingStiffnessRatio` | `real` | 1.0 |  |
-| 6 | `shearMatId` | `integer` | 0 |  |
-| 7 | `shearThicknessRatio` | `real` | 0.833333 |  |
-| 8 | `nonStructMass` | `real` | 0.0 |  |
-| 9 | `fiberDistance1` | `real` |  |  |
-| 10 | `fiberDistance2` | `real` |  |  |
-| 11 | `couplingMatId` | `integer` | 0 |  |
-
-Designable field descriptors: thickness, shearThicknessRatio, nonStructMass, fiberDistance1, fiberDistance2 and bendingStiffnessRatio.
+[ShellProp — fields and example](reference/cards/properties.md#shellprop)
 
 ### ShellPropNodal
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `formulation` | `text` |  |  |
-| 4 | `quadrature` | `text` |  |  |
-| 5 | `integrationPointCount` | `integer` |  |  |
-| 6 | `shearFactor` | `real` |  |  |
-| 7 | `referenceSurface` | `text` |  |  |
-| 8 | `spinCorrection` | `text` |  |  |
-| 9 | `thickness1` | `real` | 0.0 |  |
-| 10 | `thickness2` | `real` | 0.0 |  |
-| 11 | `thickness3` | `real` | 0.0 |  |
-| 12 | `thickness4` | `real` | 0.0 |  |
-| 13 | `transverseShear` | `text` |  |  |
-| 14 | `shearLocking` | `text` |  |  |
-
-Accepted words: `AvoidShearLocking`, `BelytschkoLinTsay`, `Bottom`, `C0Triangle`, `Constant`, `ConstantApproximation`, `Dummy`, `Element`, `Gauss`, `HughesLiu`, `KeyHoff`, `Linear`, `LobattoPoints`, `Membrane`, `MidSurface`, `No`, `NoAvoidShearLocking`, `Table`, `Top`, `Yes`.
+[ShellPropNodal — fields and example](reference/cards/properties.md#shellpropnodal)
 
 ### ShellPropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId1` | `integer` | 0 |  |
-| 3 | `matId2` | `integer` | 0 |  |
-| 4 | `analysisType` | `text` |  |  |
-
-Sections `behaviorLines`, one after the other, each opened by its key word:
-
-- `ThreeNodeElems` (nodes3Behavior): fields `behavior3` (text), `integration3` (text), `heatBehavior3` (text), `heatIntegration3` (text).
-- `FourNodeElems` (nodes4Behavior): fields `behavior4` (text), `integration4` (text), `heatBehavior4` (text), `heatIntegration4` (text).
-- `SixNodeElems` (nodes6Behavior): fields `behavior6` (text), `integration6` (text), `heatBehavior6` (text), `heatIntegration6` (text).
-- `EightNodeElems` (nodes8Behavior): fields `behavior8` (text), `integration8` (text), `heatBehavior8` (text), `heatIntegration8` (text).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `AxisymSolid`, `Bar`, `Beam`, `Constant`, `EightNodeElems`, `Element`, `FourNodeElems`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleAxisym`, `IncompressiblePlaneStrain`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearDiscreteKirchhoff`, `LinearReducedHourglass`, `LinearShear`, `LinearTwist`, `Membrane`, `Numerical`, `PlaneStrain`, `PlaneStrainComposite`, `PlaneStress`, `Quadratic`, `QuadraticReduced`, `QuadraticTwist`, `Rod`, `SixNodeElems`, `Smeared`, `Solid`, `SolidComposite`, `Table`, `ThickShell`, `ThinShell`, `ThreeNodeElems`.
+[ShellPropNonlinear — fields and example](reference/cards/properties.md#shellpropnonlinear)
 
 ### ShellQuad4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 8 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
-| 9 | `offset` | `real` | 0.0 |  |
-| 10 | `thicknessFlag` | `integer` | 0 |  |
-| 11 | `cornerThickness1` | `real` |  |  |
-| 12 | `cornerThickness2` | `real` |  |  |
-| 13 | `cornerThickness3` | `real` |  |  |
-| 14 | `cornerThickness4` | `real` |  |  |
-
-Designable field descriptors: offset, cornerThickness1, cornerThickness2, cornerThickness3, cornerThickness4.
+[ShellQuad4 — fields and example](reference/cards/elements.md#shellquad4)
 
 ### ShellQuad4Drilling
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 8 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
-| 9 | `offset` | `real` | 0.0 |  |
-| 10 | `thicknessFlag` | `integer` | 0 |  |
-| 11 | `cornerThickness1` | `real` |  |  |
-| 12 | `cornerThickness2` | `real` |  |  |
-| 13 | `cornerThickness3` | `real` |  |  |
-| 14 | `cornerThickness4` | `real` |  |  |
+[ShellQuad4Drilling — fields and example](reference/cards/elements.md#shellquad4drilling)
 
 ### ShellQuad8
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `cornerThickness1` | `real` |  |  |
-| 12 | `cornerThickness2` | `real` |  |  |
-| 13 | `cornerThickness3` | `real` |  |  |
-| 14 | `cornerThickness4` | `real` |  |  |
-| 15 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 16 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
-| 17 | `offset` | `real` | 0.0 |  |
-| 18 | `thicknessFlag` | `integer` | 0 |  |
+[ShellQuad8 — fields and example](reference/cards/elements.md#shellquad8)
 
 ### ShellTria3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 7 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
-| 8 | `offset` | `real` | 0.0 |  |
-| 9 | `thicknessFlag` | `integer` | 0 |  |
-| 10 | `cornerThickness1` | `real` |  |  |
-| 11 | `cornerThickness2` | `real` |  |  |
-| 12 | `cornerThickness3` | `real` |  |  |
-
-Designable field descriptors: offset, cornerThickness1, cornerThickness2, cornerThickness3.
+[ShellTria3 — fields and example](reference/cards/elements.md#shelltria3)
 
 ### ShellTria3Drilling
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 7 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
-| 8 | `offset` | `real` | 0.0 |  |
-| 9 | `thicknessFlag` | `integer` | 0 |  |
-| 10 | `cornerThickness1` | `real` |  |  |
-| 11 | `cornerThickness2` | `real` |  |  |
-| 12 | `cornerThickness3` | `real` |  |  |
+[ShellTria3Drilling — fields and example](reference/cards/elements.md#shelltria3drilling)
 
 ### ShellTria6
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `materialAngle` | `real` |  | alternative of `matFrameId` |
-| 10 | `matFrameId` | `integer` |  | alternative of `materialAngle` |
-| 11 | `offset` | `real` | 0.0 |  |
-| 12 | `cornerThickness1` | `real` |  |  |
-| 13 | `cornerThickness2` | `real` |  |  |
-| 14 | `cornerThickness3` | `real` |  |  |
-| 15 | `thicknessFlag` | `integer` | 0 |  |
+[ShellTria6 — fields and example](reference/cards/elements.md#shelltria6)
 
 ### SinglePointConstr
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `enforcedValue1` | `real` | 0.0 |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `enforcedValue2` | `real` | 0.0 |  |
+[SinglePointConstr — fields and example](reference/cards/constraints.md#singlepointconstr)
 
 ### SinglePointConstrAxisym
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `ringId` | `integer` |  |  |
-| 3 | `harmonicId` | `integer` |  |  |
-| 4 | `components` | `integer` |  |  |
-| 5 | `enforcedValue` | `real` |  |  |
+[SinglePointConstrAxisym — fields and example](reference/cards/constraints.md#singlepointconstraxisym)
 
 ### SinglePointConstrList
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `components` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[SinglePointConstrList — fields and example](reference/cards/constraints.md#singlepointconstrlist)
 
 ### SinglePointConstrUnion
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `memberSets`, after the fixed fields: `memberSetId` (integer).
+[SinglePointConstrUnion — fields and example](reference/cards/constraints.md#singlepointconstrunion)
 
 ### SlidelineFriction
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stickStiffness` | `real` | 0.0 |  |
-| 3 | `staticFriction` | `real` |  |  |
+[SlidelineFriction — fields and example](reference/cards/nonlinear_contact.md#slidelinefriction)
 
 ### SlidelineOutput
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `By`, `Through`.
+[SlidelineOutput — fields and example](reference/cards/nonlinear_contact.md#slidelineoutput)
 
 ### SlidelineSegments
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `By`, `Through`.
+[SlidelineSegments — fields and example](reference/cards/nonlinear_contact.md#slidelinesegments)
 
 ### SlidelineWidth
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `segmentsId` | `integer` |  |  |
-
-Repeated group `widths`, after the fixed fields: `width` (any).
-
-Accepted words: `By`, `Through`.
+[SlidelineWidth — fields and example](reference/cards/nonlinear_contact.md#slidelinewidth)
 
 ### SnowMultiSurfaceYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientKc` | `real` |  |  |
-| 3 | `coefficientT` | `real` |  |  |
-| 4 | `coefficientCc` | `real` |  |  |
-| 5 | `coefficientAc` | `real` |  |  |
-| 6 | `coefficientBc` | `real` |  |  |
-| 7 | `coefficientFc` | `real` |  |  |
-| 8 | `coefficientFtu` | `real` |  |  |
-| 9 | `initialAlpha` | `real` |  |  |
-| 10 | `coefficientDs` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[SnowMultiSurfaceYield — fields and example](reference/cards/explicit.md#snowmultisurfaceyield)
 
 ### SolidHexa
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node13` | `integer` |  |  |
-| 16 | `node14` | `integer` |  |  |
-| 17 | `node15` | `integer` |  |  |
-| 18 | `node16` | `integer` |  |  |
-| 19 | `node17` | `integer` |  |  |
-| 20 | `node18` | `integer` |  |  |
-| 21 | `node19` | `integer` |  |  |
-| 22 | `node20` | `integer` |  |  |
+[SolidHexa — fields and example](reference/cards/elements.md#solidhexa)
 
 ### SolidPenta
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node13` | `integer` |  |  |
-| 16 | `node14` | `integer` |  |  |
-| 17 | `node15` | `integer` |  |  |
+[SolidPenta — fields and example](reference/cards/elements.md#solidpenta)
 
 ### SolidProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `matFrameId` | `integer` | 0 |  |
-| 4 | `integration` | `any` |  |  |
-| 5 | `stressLocation` | `any` |  |  |
-| 6 | `integrationOrder` | `any` |  |  |
-| 7 | `elementFunction` | `text` |  |  |
-
-Accepted words: `BubbleFunctions`, `FreeFluid`, `Full`, `Gauss`, `Node`, `Poroelastic`, `PressureFluid`, `Reduced`, `SolidMechanics`, `SolidShell`, `ThreePoints`, `TwoPoints`.
+[SolidProp — fields and example](reference/cards/properties.md#solidprop)
 
 ### SolidPropHyperelastic
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `stressLocation` | `text` |  |  |
-
-Accepted words: `Gauss`, `Node`.
+[SolidPropHyperelastic — fields and example](reference/cards/properties.md#solidprophyperelastic)
 
 ### SolidPropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` | 0 |  |
-| 3 | `direction` | `integer` | 1 |  |
-| 4 | `analysisType` | `text` |  |  |
-
-Sections `behaviorLines`, one after the other, each opened by its key word:
-
-- `FourNodeElems` (fourNodeElements): fields `behavior4` (text), `integration4` (text), `heatBehavior4` (text), `heatIntegration4` (text).
-- `FiveNodeElems` (fiveNodeElements): fields `behavior5` (text), `integration5` (text), `heatBehavior5` (text), `heatIntegration5` (text).
-- `SixNodeElems` (sixNodeElements): fields `behavior6` (text), `integration6` (text), `heatBehavior6` (text), `heatIntegration6` (text).
-- `EightNodeElems` (eightNodeElements): fields `behavior8` (text), `integration8` (text), `heatBehavior8` (text), `heatIntegration8` (text).
-- `TenNodeElems` (tenNodeElements): fields `behavior10` (text), `integration10` (text), `heatBehavior10` (text), `heatIntegration10` (text).
-- `ThirteenNodeElems` (thirteenNodeElements): fields `behavior13` (text), `integration13` (text), `heatBehavior13` (text), `heatIntegration13` (text).
-- `FifteenNodeElems` (fifteenNodeElements): fields `behavior15` (text), `integration15` (text), `heatBehavior15` (text), `heatIntegration15` (text).
-- `TwentyNodeElems` (twentyNodeElements): fields `behavior20` (text), `integration20` (text), `heatBehavior20` (text), `heatIntegration20` (text).
-
-Accepted words: `AssumedStrain`, `AxisymComposite`, `Bar`, `Beam`, `Constant`, `EightNodeElems`, `Element`, `FifteenNodeElems`, `FiveNodeElems`, `FourNodeElems`, `ImplicitHeat`, `ImplicitStructural`, `ImplicitStructuralHeat`, `IncompressibleSolid`, `Linear`, `LinearCubic`, `LinearCubicClosed`, `LinearCubicOpen`, `LinearReducedHourglass`, `LinearShear`, `Membrane`, `Numerical`, `PlaneStrainComposite`, `Quadratic`, `QuadraticReduced`, `Rod`, `SixNodeElems`, `Smeared`, `Solid`, `SolidComposite`, `Table`, `TenNodeElems`, `ThirteenNodeElems`, `TwentyNodeElems`.
+[SolidPropNonlinear — fields and example](reference/cards/elements.md#solidpropnonlinear)
 
 ### SolidPyramid
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
-| 13 | `node11` | `integer` |  |  |
-| 14 | `node12` | `integer` |  |  |
-| 15 | `node13` | `integer` |  |  |
+[SolidPyramid — fields and example](reference/cards/elements.md#solidpyramid)
 
 ### SolidTetra
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-| 11 | `node9` | `integer` |  |  |
-| 12 | `node10` | `integer` |  |  |
+[SolidTetra — fields and example](reference/cards/elements.md#solidtetra)
 
 ### SphereShape
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `centerX` | `real` | 0.0 |  |
-| 3 | `centerY` | `real` | 0.0 |  |
-| 4 | `centerZ` | `real` | 0.0 |  |
-| 5 | `radius` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[SphereShape — fields and example](reference/cards/explicit.md#sphereshape)
 
 ### SphericalDetonation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `pointX` | `real` | 0.0 |  |
-| 4 | `pointY` | `real` | 0.0 |  |
-| 5 | `pointZ` | `real` | 0.0 |  |
-| 6 | `detonationSpeed` | `real` | 0.0 |  |
-| 7 | `detonationTime` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[SphericalDetonation — fields and example](reference/cards/explicit.md#sphericaldetonation)
 
 ### SphericalFrame1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `frameIdA` | `integer` |  |  |
-| 2 | `node1A` | `integer` |  |  |
-| 3 | `node2A` | `integer` |  |  |
-| 4 | `node3A` | `integer` |  |  |
-| 5 | `frameIdB` | `integer` |  |  |
-| 6 | `node1B` | `integer` |  |  |
-| 7 | `node2B` | `integer` |  |  |
-| 8 | `node3B` | `integer` |  |  |
+[SphericalFrame1 — fields and example](reference/cards/coordinate_systems.md#sphericalframe1)
 
 ### SphericalFrame2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceFrameId` | `integer` | 0 |  |
-| 3 | `pointA1` | `real` | 0.0 |  |
-| 4 | `pointA2` | `real` | 0.0 |  |
-| 5 | `pointA3` | `real` | 0.0 |  |
-| 6 | `pointB1` | `real` | 0.0 |  |
-| 7 | `pointB2` | `real` | 0.0 |  |
-| 8 | `pointB3` | `real` | 0.0 |  |
-| 9 | `pointC1` | `real` | 0.0 |  |
-| 10 | `pointC2` | `real` | 0.0 |  |
-| 11 | `pointC3` | `real` | 0.0 |  |
+[SphericalFrame2 — fields and example](reference/cards/coordinate_systems.md#sphericalframe2)
 
 ### SpotweldJoinPairs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeSetId` | `integer` |  |  |
-| 3 | `tolerance` | `real` |  |  |
-| 4 | `failureKind` | `text` |  |  |
-| 5 | `tensileFailureForce` | `real` |  |  |
-| 6 | `shearFailureForce` | `real` |  |  |
-| 7 | `multiplePairs` | `text` |  |  |
-| 8 | `failureTime` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `No`, `SpotWeld`, `Table`, `Yes`.
+[SpotweldJoinPairs — fields and example](reference/cards/explicit.md#spotweldjoinpairs)
 
 ### SpringDofInline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness` | `real` |  |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `structuralDamping` | `real` | 0.0 |  |
-| 8 | `stressCoefficient` | `real` | 0.0 |  |
-
-Designable field descriptors: stiffness, structuralDamping, stressCoefficient.
+[SpringDofInline — fields and example](reference/cards/elements.md#springdofinline)
 
 ### SpringDofInlineExplicit
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness` | `real` |  |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `frameId` | `integer` | 0 |  |
-| 8 | `follow` | `text` |  |  |
-
-Accepted words: `Constant`, `CoordinateFrame`, `Element`, `Table`.
+[SpringDofInlineExplicit — fields and example](reference/cards/elements.md#springdofinlineexplicit)
 
 ### SpringDofProperty
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
+[SpringDofProperty — fields and example](reference/cards/elements.md#springdofproperty)
 
 ### SpringDofPropertyExplicit
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` | 0 |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` | 0 |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `frameId` | `integer` | 0 |  |
-| 8 | `follow` | `text` |  |  |
-
-Accepted words: `CoordinateFrame`.
+[SpringDofPropertyExplicit — fields and example](reference/cards/elements.md#springdofpropertyexplicit)
 
 ### SpringOffsetExplicit
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
+[SpringOffsetExplicit — fields and example](reference/cards/elements.md#springoffsetexplicit)
 
 ### SpringOffsetProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness` | `real` |  |  |
-| 3 | `tensileFailureForce` | `real` |  |  |
-| 4 | `compressiveFailureForce` | `real` |  |  |
-| 5 | `loadingTableId` | `integer` | 0 |  |
-| 6 | `unloadingTableId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`, `TableDynamic1`.
+[SpringOffsetProp — fields and example](reference/cards/properties.md#springoffsetprop)
 
 ### SpringProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id1` | `integer` |  |  |
-| 2 | `stiffness1` | `real` |  |  |
-| 3 | `structuralDamping1` | `real` |  |  |
-| 4 | `stressCoefficient1` | `real` |  |  |
-| 5 | `id2` | `integer` |  |  |
-| 6 | `stiffness2` | `real` |  |  |
-| 7 | `structuralDamping2` | `real` |  |  |
-| 8 | `stressCoefficient2` | `real` |  |  |
-
-Designable field descriptors: stiffness, structuralDamping or stressCoefficient.
+[SpringProp — fields and example](reference/cards/properties.md#springprop)
 
 ### SpringPropFreq
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffnessTableId` | `integer` | 0 |  |
-| 3 | `structuralDampingTableId` | `integer` | 0 |  |
-| 4 | `nonlinearForceTableId` | `integer` | 0 |  |
+[SpringPropFreq — fields and example](reference/cards/properties.md#springpropfreq)
 
 ### SpringPropTable
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `tableId` | `integer` |  |  |
-
-Accepted words: `TableDynamic1`.
+[SpringPropTable — fields and example](reference/cards/properties.md#springproptable)
 
 ### SpringScalarInline
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `stiffness` | `real` |  |  |
-| 3 | `scalarPoint1` | `integer` | 0 |  |
-| 4 | `scalarPoint2` | `integer` | 0 |  |
-| 5 | `id2` | `integer` |  |  |
-| 6 | `stiffness2` | `real` |  |  |
-| 7 | `scalarPoint3` | `integer` | 0 |  |
-| 8 | `scalarPoint4` | `integer` | 0 |  |
+[SpringScalarInline — fields and example](reference/cards/elements.md#springscalarinline)
 
 ### SpringScalarProperty
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `scalarPoint1` | `integer` | 0 |  |
-| 4 | `scalarPoint2` | `integer` | 0 |  |
+[SpringScalarProperty — fields and example](reference/cards/elements.md#springscalarproperty)
 
 ### StandardInflator
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `massFlowTableId` | `integer` |  |  |
-| 3 | `temperatureTableId` | `integer` | 0 |  |
-| 4 | `temperature` | `real` |  |  |
-| 5 | `gasName` | `integer` |  | alternative of `specificHeatRatio` |
-| 6 | `specificHeatRatio` | `real` |  | alternative of `gasName` |
-| 7 | `specificHeatVolume` | `real` |  |  |
-| 8 | `gasConstant` | `real` |  |  |
-| 9 | `specificHeatPressure` | `real` |  |  |
-| 10 | `matId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `InflatorGas`, `Table`.
+[StandardInflator — fields and example](reference/cards/explicit.md#standardinflator)
 
 ### StaticLoadSequence
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `excitationId` | `integer` |  |  |
-| 3 | `loadId` | `integer` | 0 |  |
-| 4 | `tableId` | `integer` | 0 |  |
+[StaticLoadSequence — fields and example](reference/cards/loads.md#staticloadsequence)
 
 ### SteinbergGuinanYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA1` | `real` |  |  |
-| 3 | `coefficientA2` | `real` |  |  |
-| 4 | `coefficientA3` | `real` |  |  |
-| 5 | `coefficientA4` | `real` |  |  |
-| 6 | `coefficientH` | `real` | 0.0 |  |
-| 7 | `coefficientB` | `real` | 0.0 |  |
-| 8 | `specificHeat` | `real` | 1.0E20 |  |
-| 9 | `meltTemperature` | `real` | 1.0E20 |  |
-| 10 | `roomTemperature` | `real` | 293.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[SteinbergGuinanYield — fields and example](reference/cards/explicit.md#steinbergguinanyield)
 
 ### StepControlCriteria
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Sections `criteria`, one after the other, each opened by its key word:
-
-- `StrainIncrement` (strainIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `PlasticStrainIncrement` (plasticStrainIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `CreepStrainIncrement` (creepStrainIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `NormalizedCreepStrainIncrement` (normalizedCreepStrainIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `StressIncrement` (stressIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `StrainEnergyIncrement` (strainEnergyIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `TemperatureIncrement` (temperatureIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `DisplacementIncrement` (displacementIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `RotationIncrement` (rotationIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-- `NormalizedStressIncrement` (normalizedStressIncrement): fields `setId` (any), `limit1` (real), `rangeEnd1` (real), `limit2` (real), `rangeEnd2` (real), `limit3` (real), `rangeEnd3` (real), `limit4` (real), `rangeEnd4` (real).
-
-Accepted words: `All`, `Constant`, `CreepStrainIncrement`, `DisplacementIncrement`, `Element`, `NormalizedCreepStrainIncrement`, `NormalizedStressIncrement`, `PlasticStrainIncrement`, `RotationIncrement`, `StrainEnergyIncrement`, `StrainIncrement`, `StressIncrement`, `Table`, `TemperatureIncrement`.
+[StepControlCriteria — fields and example](reference/cards/nonlinear_contact.md#stepcontrolcriteria)
 
 ### StochasticParams
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `randomGroups`, after the fixed fields: `flag` (text), `distribution` (text), `variationCoefficient` (real), `standardDeviations` (real).
-
-Accepted words: `ConnectivityEntries`, `Constant`, `Element`, `EnforcedMotionConstr`, `Gauss`, `LoadEntries`, `MaterialEntries`, `PropertyEntries`, `Table`.
+[StochasticParams — fields and example](reference/cards/solution_control.md#stochasticparams)
 
 ### SuperelementAccessPoints
 
-No fixed field.
-
-Repeated group `nodes`, after the fixed fields: `nodeId` (integer).
-
-Accepted words: `Through`.
+[SuperelementAccessPoints — fields and example](reference/cards/superelements.md#superelementaccesspoints)
 
 ### SuperelementBoundarySearch
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementIdA` | `integer` |  |  |
-| 2 | `superelementIdB` | `any` |  |  |
-
-Repeated group `boundaryNodes`, after the fixed fields: `boundaryNodeId` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementBoundarySearch — fields and example](reference/cards/superelements.md#superelementboundarysearch)
 
 ### SuperelementBulkOptions
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `partType` | `text` |  |  |
-| 3 | `referenceSuperelementId` | `integer` | 0 |  |
-| 4 | `method` | `text` | Automatic |  |
-| 5 | `tolerance` | `real` | 0.0 |  |
-| 6 | `location` | `text` | Yes |  |
-| 7 | `unitNumber` | `integer` | 0 |  |
-
-Accepted words: `All`, `Automatic`, `CollectorSuperelement`, `Constant`, `Element`, `External`, `ExternalBinaryResults`, `ExternalMatrixFile`, `ExternalPunchFile`, `ExternalReducedModel`, `Manual`, `Mirror`, `No`, `Primary`, `Repeat`, `Table`, `Through`, `Yes`.
+[SuperelementBulkOptions — fields and example](reference/cards/superelements.md#superelementbulkoptions)
 
 ### SuperelementConnection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementIdA` | `integer` |  |  |
-| 2 | `superelementIdB` | `integer` |  |  |
-| 3 | `tolerance` | `real` | 0.0 |  |
-| 4 | `location` | `text` | Yes |  |
-
-Repeated group `connections`, after the fixed fields: `connectionPoint` (any).
-
-Accepted words: `All`, `Both`, `Constant`, `Element`, `Full`, `No`, `Off`, `On`, `Table`, `Through`, `Yes`.
+[SuperelementConnection — fields and example](reference/cards/superelements.md#superelementconnection)
 
 ### SuperelementCopyPoints
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `primarySuperelementId` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[SuperelementCopyPoints — fields and example](reference/cards/superelements.md#superelementcopypoints)
 
 ### SuperelementCopySequence
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `primarySuperelementId` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (integer).
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementCopySequence — fields and example](reference/cards/superelements.md#superelementcopysequence)
 
 ### SuperelementDesignLink
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `dependentSuperelementId` | `integer` |  |  |
-| 3 | `dependentVarId` | `integer` |  |  |
-| 4 | `constant0` | `real` | 0.0 |  |
-| 5 | `multiplier` | `real` | 1.0 |  |
-
-Repeated group `terms`, after the fixed fields: `independentSuperelementId` (integer), `independentVarId` (integer), `coefficient` (real).
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementDesignLink — fields and example](reference/cards/superelements.md#superelementdesignlink)
 
 ### SuperelementDesignResp2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entryLabel` | `text` |  |  |
-| 3 | `equationId` | `integer` |  | alternative of `function` |
-| 4 | `function` | `text` |  | alternative of `equationId` |
-| 5 | `regionId` | `integer` | 0 |  |
-| 6 | `methodName` | `text` |  |  |
-| 7 | `constant1` | `real` | 100.0 |  |
-| 8 | `constant2` | `real` | 0.005 |  |
-| 9 | `constant3` | `real` | 10.0 |  |
-
-Sections `groups`, one after the other, each opened by its key word:
-
-- `DesignVar` (designVariables): then the number of `designVariables` and their fields `superelementId` (integer), `designVarId` (integer).
-- `DesignConstants` (constants): then the number of `constants` and their fields `superelementId` (integer), `constantLabel` (text).
-- `DesignResp1` (responses): then the number of `responses` and their fields `superelementId` (integer), `responseId` (integer).
-- `DesignNodes` (designNodes): then the number of `designNodes` and their fields `superelementId` (integer), `nodeId` (integer), `nodeComponents` (integer).
-- `DesignPropRelation1` (propRelations): then the number of `propRelations` and their fields `superelementId` (integer), `propRelationId` (integer).
-- `DesignElemRelation1` (elemRelations): then the number of `elemRelations` and their fields `superelementId` (integer), `elemRelationId` (integer).
-- `DesignMatRelation1` (matRelations): then the number of `matRelations` and their fields `superelementId` (integer), `matRelationId` (integer).
-- `DesignPropRelation2` (propRelations2): then the number of `propRelations2` and their fields `superelementId` (integer), `propRelation2Id` (integer).
-- `DesignElemRelation2` (elemRelations2): then the number of `elemRelations2` and their fields `superelementId` (integer), `elemRelation2Id` (integer).
-- `DesignMatRelation2` (matRelations2): then the number of `matRelations2` and their fields `superelementId` (integer), `matRelation2Id` (integer).
-
-Accepted words: `All`, `Average`, `BetaFunction`, `Constant`, `DesignConstants`, `DesignElemRelation1`, `DesignElemRelation2`, `DesignMatRelation1`, `DesignMatRelation2`, `DesignNodes`, `DesignPropRelation1`, `DesignPropRelation2`, `DesignResp1`, `DesignVar`, `Element`, `MatchedResponses`, `Maximum`, `Minimum`, `RootSumSquare`, `SafetyFactorMax`, `Sum`, `SumOfSquares`, `Table`, `Through`.
+[SuperelementDesignResp2 — fields and example](reference/cards/superelements.md#superelementdesignresp2)
 
 ### SuperelementDesignResp3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entryLabel` | `text` |  |  |
-| 3 | `groupName` | `text` |  |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `regionId` | `integer` | 0 |  |
-
-Sections `groups`, one after the other, each opened by its key word:
-
-- `DesignVar` (designVariables): then the number of `designVariables` and their fields `superelementId` (integer), `designVarId` (integer).
-- `DesignConstants` (constants): then the number of `constants` and their fields `superelementId` (integer), `constantLabel` (text).
-- `DesignResp1` (responses): then the number of `responses` and their fields `superelementId` (integer), `responseId` (integer).
-- `DesignNodes` (designNodes): then the number of `designNodes` and their fields `superelementId` (integer), `nodeId` (integer), `nodeComponents` (integer).
-- `DesignPropRelation1` (propRelations): then the number of `propRelations` and their fields `superelementId` (integer), `propRelationId` (integer).
-- `DesignElemRelation1` (elemRelations): then the number of `elemRelations` and their fields `superelementId` (integer), `elemRelationId` (integer).
-- `DesignMatRelation1` (matRelations): then the number of `matRelations` and their fields `superelementId` (integer), `matRelationId` (integer).
-- `DesignPropRelation2` (propRelations2): then the number of `propRelations2` and their fields `superelementId` (integer), `propRelation2Id` (integer).
-- `DesignElemRelation2` (elemRelations2): then the number of `elemRelations2` and their fields `superelementId` (integer), `elemRelation2Id` (integer).
-- `DesignMatRelation2` (matRelations2): then the number of `matRelations2` and their fields `superelementId` (integer), `matRelation2Id` (integer).
-- `UserData` (userData): then the number of `userDataLines` and their fields `userData` (text, one text field).
-
-Accepted words: `All`, `Constant`, `DesignConstants`, `DesignElemRelation1`, `DesignElemRelation2`, `DesignMatRelation1`, `DesignMatRelation2`, `DesignNodes`, `DesignPropRelation1`, `DesignPropRelation2`, `DesignResp1`, `DesignVar`, `Element`, `Table`, `Through`, `UserData`.
+[SuperelementDesignResp3 — fields and example](reference/cards/superelements.md#superelementdesignresp3)
 
 ### SuperelementElemTransfer
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-
-Repeated group `elements`, after the fixed fields: `element` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementElemTransfer — fields and example](reference/cards/superelements.md#superelementelemtransfer)
 
 ### SuperelementExcludedNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementIdA` | `integer` |  |  |
-| 2 | `superelementIdB` | `any` |  |  |
-
-Repeated group `excludedNodes`, after the fixed fields: `excludedNodeId` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementExcludedNodes — fields and example](reference/cards/superelements.md#superelementexcludednodes)
 
 ### SuperelementExteriorPoints
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementExteriorPoints — fields and example](reference/cards/superelements.md#superelementexteriorpoints)
 
 ### SuperelementExternalBoundary
 
-No fixed field.
-
-Repeated group `pairs`, after the fixed fields: `nodeId` (integer), `components` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementExternalBoundary — fields and example](reference/cards/superelements.md#superelementexternalboundary)
 
 ### SuperelementFixedDofSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `components2` | `integer` | 0 |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `components3` | `integer` | 0 |  |
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementFixedDofSet — fields and example](reference/cards/superelements.md#superelementfixeddofset)
 
 ### SuperelementFixedDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementFixedDofSet1 — fields and example](reference/cards/superelements.md#superelementfixeddofset1)
 
 ### SuperelementFreeDofSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `components2` | `integer` | 0 |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `components3` | `integer` | 0 |  |
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementFreeDofSet — fields and example](reference/cards/superelements.md#superelementfreedofset)
 
 ### SuperelementFreeDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `components` | `any` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementFreeDofSet1 — fields and example](reference/cards/superelements.md#superelementfreedofset1)
 
 ### SuperelementGeneralizedDofSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `components2` | `integer` | 0 |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `components3` | `integer` | 0 |  |
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementGeneralizedDofSet — fields and example](reference/cards/superelements.md#superelementgeneralizeddofset)
 
 ### SuperelementGeneralizedDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementGeneralizedDofSet1 — fields and example](reference/cards/superelements.md#superelementgeneralizeddofset1)
 
 ### SuperelementGeneralizedPointCount
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `any` |  |  |
-| 2 | `count` | `integer` | 0 |  |
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementGeneralizedPointCount — fields and example](reference/cards/superelements.md#superelementgeneralizedpointcount)
 
 ### SuperelementInteriorNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementInteriorNodes — fields and example](reference/cards/superelements.md#superelementinteriornodes)
 
 ### SuperelementLabel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `entryLabel` | `text` |  | one text field |
-
-Accepted words: `All`, `Through`.
+[SuperelementLabel — fields and example](reference/cards/superelements.md#superelementlabel)
 
 ### SuperelementLoadCombination
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` |  |  |
-
-Repeated group `terms`, after the fixed fields: `termScaleFactor` (real), `loadId` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[SuperelementLoadCombination — fields and example](reference/cards/loads.md#superelementloadcombination)
 
 ### SuperelementLoadScale
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `scaleFactor` | `real` | 1.0 |  |
-
-Repeated group `entries`, after the fixed fields: `superelementId` (integer), `entryScaleFactor` (real), `labelKind` (text), `labelledId` (any, one text field).
-
-Accepted words: `All`, `Column`, `ColumnNumber`, `Constant`, `Element`, `Label`, `LoadId`, `Subcase`, `SubcaseId`, `Table`, `Through`.
+[SuperelementLoadScale — fields and example](reference/cards/superelements.md#superelementloadscale)
 
 ### SuperelementLocation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `pointA1` | `integer` |  |  |
-| 3 | `pointA2` | `integer` |  |  |
-| 4 | `pointA3` | `integer` |  |  |
-| 5 | `pointB1` | `integer` |  |  |
-| 6 | `pointB2` | `integer` |  |  |
-| 7 | `pointB3` | `integer` |  |  |
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementLocation — fields and example](reference/cards/superelements.md#superelementlocation)
 
 ### SuperelementMirrorPlane
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `plane` | `text` |  |  |
-| 3 | `point1` | `integer` |  |  |
-| 4 | `point2` | `integer` |  |  |
-| 5 | `point3` | `integer` |  |  |
-
-Accepted words: `All`, `Constant`, `Element`, `Plane`, `Table`, `Through`.
+[SuperelementMirrorPlane — fields and example](reference/cards/superelements.md#superelementmirrorplane)
 
 ### SuperelementReferenceRotor
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `referenceRotorId` | `integer` |  |  |
-| 3 | `referenceSuperelementId` | `integer` | 0 |  |
-
-Repeated group `rotors`, after the fixed fields: `nonFollowingRotorId` (integer), `nonFollowingSuperelementId` (integer).
-
-Accepted words: `Constant`, `Element`, `Frequency`, `RevolutionsPerMinute`, `Table`.
+[SuperelementReferenceRotor — fields and example](reference/cards/solution_control.md#superelementreferencerotor)
 
 ### SuperelementReleasedDofs
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `components` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementReleasedDofs — fields and example](reference/cards/superelements.md#superelementreleaseddofs)
 
 ### SuperelementSupport
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `components2` | `integer` | 0 |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `components3` | `integer` | 0 |  |
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementSupport — fields and example](reference/cards/superelements.md#superelementsupport)
 
 ### SuperelementTree
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-
-Repeated group `upstreamSuperelements`, after the fixed fields: `upstreamSuperelementId` (integer).
-
-Accepted words: `All`, `Through`.
+[SuperelementTree — fields and example](reference/cards/superelements.md#superelementtree)
 
 ### SuperelementUserDofSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `setName` | `text` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `components1` | `integer` | 0 |  |
-| 5 | `node2` | `integer` |  |  |
-| 6 | `components2` | `integer` | 0 |  |
-| 7 | `node3` | `integer` |  |  |
-| 8 | `components3` | `integer` | 0 |  |
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `All`, `Constant`, `Element`, `Table`, `Through`.
+[SuperelementUserDofSet — fields and example](reference/cards/superelements.md#superelementuserdofset)
 
 ### SuperelementUserDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `superelementId` | `integer` |  |  |
-| 2 | `setName` | `text` |  |  |
-| 3 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `All`, `Through`.
+[SuperelementUserDofSet1 — fields and example](reference/cards/superelements.md#superelementuserdofset1)
 
 ### SurfaceEdge
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1Id` | `integer` |  |  |
-| 3 | `node2Id` | `integer` |  |  |
-| 4 | `state` | `text` |  |  |
-| 5 | `elementId` | `integer` | 0 |  |
-
-Accepted words: `Raw`, `Sharp`, `Smooth`.
+[SurfaceEdge — fields and example](reference/cards/nodes.md#surfaceedge)
 
 ### SurfaceFacet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `elementId` | `integer` |  |  |
+[SurfaceFacet — fields and example](reference/cards/nodes.md#surfacefacet)
 
 ### SurfaceLine
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node1Id` | `integer` |  |  |
-| 3 | `throughNodeId` | `integer` |  |  |
-| 4 | `node2Id` | `integer` | 0 |  |
+[SurfaceLine — fields and example](reference/cards/nodes.md#surfaceline)
 
 ### SurfacePermeability
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `permeability` | `real` |  |  |
-| 3 | `permeabilityTableId` | `integer` | 0 |  |
-| 4 | `flowDirection` | `text` |  |  |
-| 5 | `environmentPressure` | `real` |  |  |
-| 6 | `environmentDensity` | `real` |  |  |
-| 7 | `environmentEnergy` | `real` |  |  |
-| 8 | `environmentSpecificHeat` | `real` |  |  |
-
-Accepted words: `Both`, `Constant`, `Element`, `In`, `Inside`, `Large`, `NegativeXDirection`, `NegativeYDirection`, `NegativeZDirection`, `None`, `Off`, `On`, `Out`, `Outside`, `PositiveXDirection`, `PositiveYDirection`, `PositiveZDirection`, `Small`, `Table`.
+[SurfacePermeability — fields and example](reference/cards/explicit.md#surfacepermeability)
 
 ### TableDynamic1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `xAxisKind` | `text` |  |  |
-| 3 | `yAxisKind` | `text` |  |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableDynamic1 — fields and example](reference/cards/tables.md#tabledynamic1)
 
 ### TableDynamic2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `abscissaShift` | `real` | 0.0 |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableDynamic2 — fields and example](reference/cards/tables.md#tabledynamic2)
 
 ### TableDynamic3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `abscissaShift` | `real` |  |  |
-| 3 | `abscissaScale` | `real` |  |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableDynamic3 — fields and example](reference/cards/tables.md#tabledynamic3)
 
 ### TableDynamic4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `abscissaShift` | `real` |  |  |
-| 3 | `abscissaScale` | `real` |  |  |
-| 4 | `abscissaMinimum` | `real` |  |  |
-| 5 | `abscissaMaximum` | `real` |  |  |
-
-Repeated group `coefficients`, after the fixed fields: `coefficient` (any).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableDynamic4 — fields and example](reference/cards/tables.md#tabledynamic4)
 
 ### TableDynamic5
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `x` (any), `table` (integer).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableDynamic5 — fields and example](reference/cards/tables.md#tabledynamic5)
 
 ### TableFatigueHistory
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `ordinates`, after the fixed fields: `ordinate` (any).
-
-Accepted words: `Constant`, `Element`, `EndTable`, `Table`.
+[TableFatigueHistory — fields and example](reference/cards/tables.md#tablefatiguehistory)
 
 ### TableGustSpectrum
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `integer` |  |  |
-| 3 | `turbulenceScaleRatio` | `real` |  |  |
-| 4 | `gustVelocity` | `real` |  |  |
+[TableGustSpectrum — fields and example](reference/cards/tables.md#tablegustspectrum)
 
 ### TableHeat1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableHeat1 — fields and example](reference/cards/tables.md#tableheat1)
 
 ### TableHeatTwoVariables
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `x` (any), `table` (integer).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableHeatTwoVariables — fields and example](reference/cards/tables.md#tableheattwovariables)
 
 ### TableMaterial1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `xAxisKind` | `text` |  |  |
-| 3 | `yAxisKind` | `text` |  |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableMaterial1 — fields and example](reference/cards/tables.md#tablematerial1)
 
 ### TableMaterial2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `abscissaShift` | `real` | 0.0 |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableMaterial2 — fields and example](reference/cards/tables.md#tablematerial2)
 
 ### TableMaterial3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `abscissaShift` | `real` |  |  |
-| 3 | `abscissaScale` | `real` |  |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableMaterial3 — fields and example](reference/cards/tables.md#tablematerial3)
 
 ### TableMaterial4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `abscissaShift` | `real` |  |  |
-| 3 | `abscissaScale` | `real` |  |  |
-| 4 | `abscissaMinimum` | `real` |  |  |
-| 5 | `abscissaMaximum` | `real` |  |  |
-
-Repeated group `coefficients`, after the fixed fields: `coefficient` (any).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableMaterial4 — fields and example](reference/cards/tables.md#tablematerial4)
 
 ### TableModalDamping1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` | StructuralDamping |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `CriticalDamping`, `EndTable`, `Linear`, `Logarithmic`, `QualityFactor`, `Skip`, `StructuralDamping`.
+[TableModalDamping1 — fields and example](reference/cards/tables.md#tablemodaldamping1)
 
 ### TableMultiVariable0
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `integer` |  |  |
-| 3 | `extrapolation` | `integer` |  |  |
-| 4 | `belowRangeTableId` | `integer` | 0 |  |
-| 5 | `aboveRangeTableId` | `integer` | 0 |  |
-| 6 | `smoothing` | `integer` | 0 |  |
-
-Repeated group `points`, after the fixed fields: `abscissa` (real), `ordinate` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TableMultiVariable0 — fields and example](reference/cards/tables.md#tablemultivariable0)
 
 ### TableMultiVariable1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `variableCount` | `integer` |  |  |
-| 3 | `kind1` | `integer` |  |  |
-| 4 | `kind2` | `integer` |  |  |
-| 5 | `kind3` | `integer` |  |  |
-| 6 | `kind4` | `integer` |  |  |
-| 7 | `valueCount1` | `integer` |  |  |
-| 8 | `valueCount2` | `integer` |  |  |
-| 9 | `valueCount3` | `integer` |  |  |
-| 10 | `valueCount4` | `integer` |  |  |
-| 11 | `extrapolation1` | `integer` |  |  |
-| 12 | `extrapolation2` | `integer` |  |  |
-| 13 | `extrapolation3` | `integer` |  |  |
-| 14 | `extrapolation4` | `integer` |  |  |
-| 15 | `belowRangeTableId1` | `integer` |  |  |
-| 16 | `aboveRangeTableId1` | `integer` |  |  |
-| 17 | `belowRangeTableId2` | `integer` |  |  |
-| 18 | `aboveRangeTableId2` | `integer` |  |  |
-| 19 | `belowRangeTableId3` | `integer` |  |  |
-| 20 | `aboveRangeTableId3` | `integer` |  |  |
-| 21 | `belowRangeTableId4` | `integer` |  |  |
-| 22 | `aboveRangeTableId4` | `integer` |  |  |
-| 23 | `smoothing1` | `integer` |  |  |
-| 24 | `smoothing2` | `integer` |  |  |
-| 25 | `smoothing3` | `integer` |  |  |
-| 26 | `smoothing4` | `integer` |  |  |
-
-Repeated group `xValues1`, after the fixed fields, counted by `valueCount1`: `variableValues1` (real).
-
-Then the repeated group `xValues2`, counted by `valueCount2`: `variableValues2` (real).
-
-Then the repeated group `xValues3`, counted by `valueCount3`: `variableValues3` (real).
-
-Then the repeated group `xValues4`, counted by `valueCount4`: `variableValues4` (real).
-
-Then the repeated group `yValues`: `ordinate` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TableMultiVariable1 — fields and example](reference/cards/tables.md#tablemultivariable1)
 
 ### TableMultiVariable2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `variableCount` | `integer` |  |  |
-| 3 | `kind1` | `integer` |  |  |
-| 4 | `kind2` | `integer` |  |  |
-| 5 | `kind3` | `integer` |  |  |
-| 6 | `kind4` | `integer` |  |  |
-| 7 | `valueCount1` | `integer` |  |  |
-| 8 | `valueCount2` | `integer` |  |  |
-| 9 | `valueCount3` | `integer` |  |  |
-| 10 | `valueCount4` | `integer` |  |  |
-| 11 | `extrapolation1` | `integer` |  |  |
-| 12 | `extrapolation2` | `integer` |  |  |
-| 13 | `extrapolation3` | `integer` |  |  |
-| 14 | `extrapolation4` | `integer` |  |  |
-| 15 | `belowRangeTableId1` | `integer` |  |  |
-| 16 | `aboveRangeTableId1` | `integer` |  |  |
-| 17 | `belowRangeTableId2` | `integer` |  |  |
-| 18 | `aboveRangeTableId2` | `integer` |  |  |
-| 19 | `belowRangeTableId3` | `integer` |  |  |
-| 20 | `aboveRangeTableId3` | `integer` |  |  |
-| 21 | `belowRangeTableId4` | `integer` |  |  |
-| 22 | `aboveRangeTableId4` | `integer` |  |  |
-| 23 | `smoothing1` | `integer` |  |  |
-| 24 | `smoothing2` | `integer` |  |  |
-| 25 | `smoothing3` | `integer` |  |  |
-| 26 | `smoothing4` | `integer` |  |  |
-
-Repeated group `xValues1`, after the fixed fields, counted by `valueCount1`: `variableValues1` (real).
-
-Then the repeated group `xValues2`, counted by `valueCount2`: `variableValues2` (real).
-
-Then the repeated group `xValues3`, counted by `valueCount3`: `variableValues3` (real).
-
-Then the repeated group `xValues4`, counted by `valueCount4`: `variableValues4` (real).
-
-Then the repeated group `yValues`: `ordinate` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TableMultiVariable2 — fields and example](reference/cards/tables.md#tablemultivariable2)
 
 ### TableRandomSpectrum1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `xAxisKind` | `text` |  |  |
-| 3 | `yAxisKind` | `text` |  |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableRandomSpectrum1 — fields and example](reference/cards/tables.md#tablerandomspectrum1)
 
 ### TableScattered3D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `xOffset` | `real` | 0.0 |  |
-| 3 | `yOffset` | `real` | 0.0 |  |
-| 4 | `zOffset` | `real` | 0.0 |  |
-| 5 | `valueOffset` | `real` | 0.0 |  |
-
-Repeated group `points`, after the fixed fields: `pointX` (any), `pointY` (real), `pointZ` (real), `pointValue` (real).
-
-Accepted words: `Constant`, `Element`, `EndTable`, `Table`.
+[TableScattered3D — fields and example](reference/cards/tables.md#tablescattered3d)
 
 ### TableStress1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `integer` | 1 |  |
-
-Repeated group `points`, after the fixed fields: `x` (any), `y` (real).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableStress1 — fields and example](reference/cards/tables.md#tablestress1)
 
 ### TableStressTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `pairs`, after the fixed fields: `temperature` (any), `table` (integer).
-
-Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
+[TableStressTemperature — fields and example](reference/cards/tables.md#tablestresstemperature)
 
 ### TableTimeHistoryFile
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `xAxisKind` | `text` | Linear |  |
-| 3 | `yAxisKind` | `text` | Linear |  |
-| 4 | `externalFileId` | `integer` |  |  |
-| 5 | `fileType` | `text` |  |  |
-| 6 | `channel` | `integer` |  |  |
-| 7 | `totalTime` | `real` |  |  |
-| 8 | `punch` | `text` | No |  |
-
-Repeated group `windows`, after the fixed fields: `windowStart` (any), `windowEnd` (any).
-
-Accepted words: `Constant`, `DataAcquisitionFile`, `Element`, `EndTable`, `Linear`, `LoadHistoryFile`, `Logarithmic`, `No`, `Skip`, `Table`, `Yes`.
+[TableTimeHistoryFile — fields and example](reference/cards/tables.md#tabletimehistoryfile)
 
 ### TableUserRoutine
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `routineName` | `text` | ExternalFunction |  |
-
-Accepted words: `Constant`, `Element`, `ExternalFunction`, `Table`.
+[TableUserRoutine — fields and example](reference/cards/tables.md#tableuserroutine)
 
 ### TanimuraMimuraYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA` | `real` |  |  |
-| 3 | `coefficientB` | `real` | 0.0 |  |
-| 4 | `coefficientC` | `real` | 0.0 |  |
-| 5 | `coefficientD` | `real` | 0.0 |  |
-| 6 | `coefficientM` | `real` | 0.0 |  |
-| 7 | `quasiStaticStrainRate` | `real` | 1.0 |  |
-| 8 | `specificHeat` | `real` |  |  |
-| 9 | `meltTemperature` | `real` |  |  |
-| 10 | `roomTemperature` | `real` |  |  |
-| 11 | `criticalStress` | `real` | 1.0 |  |
-| 12 | `coefficientE` | `real` | 0.0 |  |
-| 13 | `coefficientK` | `real` | 1.0 |  |
-| 14 | `referenceStrainRate` | `real` | 1.0 |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TanimuraMimuraYield — fields and example](reference/cards/explicit.md#tanimuramimurayield)
 
 ### TankTestInflator
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `method` | `text` |  |  |
-| 3 | `tankPressureTableId` | `integer` |  |  |
-| 4 | `tankVolume` | `real` |  |  |
-| 5 | `inflatorMass` | `real` |  |  |
-| 6 | `initialPressure` | `real` |  |  |
-| 7 | `endPressure` | `real` |  |  |
-| 8 | `initialTemperature` | `real` |  |  |
-| 9 | `endTemperature` | `real` |  |  |
-| 10 | `gammaCoefficient` | `real` |  |  |
-| 11 | `specificHeatVolume` | `real` |  |  |
-| 12 | `gasConstant` | `real` |  |  |
-| 13 | `specificHeatPressure` | `real` |  |  |
-| 14 | `inflatorPressureTableId` | `integer` | 0 |  |
-| 15 | `inflatorPressure` | `real` |  |  |
-| 16 | `inflatorTemperature` | `any` | AtmosphereUnit |  |
-| 17 | `inflatorArea` | `real` |  |  |
-| 18 | `tankPressureScale` | `real` | 1.0 |  |
-| 19 | `inflatorPressureScale` | `real` | 1.0 |  |
-
-Accepted words: `AtmosphereUnit`, `AverageTemperatureMethod`, `Constant`, `Element`, `InfinitePressure`, `Table`.
+[TankTestInflator — fields and example](reference/cards/explicit.md#tanktestinflator)
 
 ### TemperatureBoundary
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` | Static |  |
-
-Repeated group `temperatureGroups`, after the fixed fields: `temperatureEntry` (any).
-
-Accepted words: `By`, `Static`, `Through`, `Transient`.
+[TemperatureBoundary — fields and example](reference/cards/thermal.md#temperatureboundary)
 
 ### TemperatureTimeGroup
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`.
+[TemperatureTimeGroup — fields and example](reference/cards/loads.md#temperaturetimegroup)
 
 ### TiltingPadBearingProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `timeLimit` | `real` |  |  |
-| 3 | `title1` | `text` |  | one text field |
-| 4 | `title2` | `text` |  | one text field |
-| 5 | `journalRadius` | `real` |  |  |
-| 6 | `radialClearance` | `real` |  |  |
-| 7 | `padOuterRadius` | `real` |  |  |
-| 8 | `bearingLength` | `real` |  |  |
-| 9 | `padModulus` | `real` |  |  |
-| 10 | `padExpansion` | `real` |  |  |
-| 11 | `journalExpansion` | `real` |  |  |
-| 12 | `housingExpansion` | `real` |  |  |
-| 13 | `padCount` | `integer` |  |  |
-| 14 | `elementCount` | `integer` |  |  |
-| 15 | `eccentricityInput` | `integer` |  |  |
-
-Repeated group `pads`, after the fixed fields, counted by `padCount`: `padArc` (real), `pivotOffset` (real), `preload` (real), `pivotAngle` (real), `padPolarInertia` (real), `pivotStiffness` (real), `padMass` (real), `padBendingInertia` (real).
-
-Then the repeated group `afterPads`, once: `oilConductivity` (real), `padConductivity` (real), `padBackTemperature` (real), `journalTemperature` (real), `sumpPressure` (real), `inletTemperature` (real), `cavitationConductivity` (real), `cavitationSpecificHeat` (real), `oilDensity` (real), `oilSpecificHeat` (real), `viscosityTemperatureA` (real), `viscosityA` (real), `viscosityTemperatureB` (real), `viscosityB` (real), `sumpMixingFactor` (real), `manufacturingTemperature` (real), `convergenceTolerance` (real), `initialPositionX` (real), `initialPositionY` (real), `axialNodeCount` (real), `pressureRelaxation` (real), `temperatureRelaxation` (real), `journalThermalModel` (integer), `inletThermalBoundary` (integer), `turbulence` (integer), `dimensionalOutput` (integer), `padConduction` (integer), `padBackThermal` (integer), `journalThermalGradient` (integer), `cavitation` (integer), `crossCoupling` (integer), `padDeformation` (integer), `pivotFlexibility` (integer), `unitSystem` (integer), `floodedSump` (integer), `pivotRotationStiffness` (real), `initialPivotDeflection` (real), `hotOilCarryOver` (real), `coldOilCarryOver` (real), `caseCount` (integer), `maxIterations` (real), `stiffnessSmoothing` (real).
-
-Then the repeated group `cases`, counted by `caseCount`: `speed` (real), `loadX` (real), `loadY` (real), `whirlRatio` (real), `positionRelaxation` (real), `oilFlow` (real), `deformationRelaxation` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TiltingPadBearingProp — fields and example](reference/cards/properties.md#tiltingpadbearingprop)
 
 ### TimeTemperatureLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupId` | `integer` |  |  |
-| 3 | `tableId` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TimeTemperatureLoad — fields and example](reference/cards/loads.md#timetemperatureload)
 
 ### TimeToSpectrum
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `samplingRate` | `real` |  |  |
-| 3 | `window` | `text` | HanningWindow |  |
-| 4 | `fileFormat` | `text` | CommaSeparatedFile |  |
-| 5 | `meanStress` | `text` | No |  |
-| 6 | `skipCount` | `integer` | 0 |  |
-
-Sections `sections`, one after the other, each opened by its key word:
-
-- `Event` (eventLines): then the number of `events` and their fields `eventId` (integer), `sliceTime` (real), `sliceDuration` (real).
-- `Delete` (deleteLines): then the number of `deletions` and their fields `eventId` (integer), `sliceStart1` (real), `sliceEnd1` (real), `sliceStart2` (real), `sliceEnd2` (real), `sliceStart3` (real), `sliceEnd3` (real).
-- `Map` (mapLines): then the number of `channels` and their fields `loadCaseId` (integer), `channel` (integer).
-
-Accepted words: `CommaSeparatedFile`, `Constant`, `Delete`, `Element`, `Event`, `HanningWindow`, `LoadHistoryFile`, `Map`, `No`, `None`, `Table`, `Yes`.
+[TimeToSpectrum — fields and example](reference/cards/solution_control.md#timetospectrum)
 
 ### TireSelection
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `tireFileKeyword` | `text` |  |  |
-
-Repeated group `tires`, after the fixed fields: `tireName` (text).
-
-Accepted words: `Constant`, `Element`, `ExternalTireModel`, `Table`.
+[TireSelection — fields and example](reference/cards/solution_control.md#tireselection)
 
 ### TransferFunction
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeD` | `integer` |  |  |
-| 3 | `componentsD` | `integer` | 0 |  |
-| 4 | `coefficientB0` | `real` | 0.0 |  |
-| 5 | `coefficientB1` | `real` | 0.0 |  |
-| 6 | `coefficientB2` | `real` | 0.0 |  |
-
-Repeated group `terms`, after the fixed fields: `termNode` (integer), `termComponents` (integer), `coefficientA0` (real), `coefficientA1` (real), `coefficientA2` (real).
+[TransferFunction — fields and example](reference/cards/dynamics.md#transferfunction)
 
 ### TransferPathSetup
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `nodeSetId` | `integer` |  |  |
-| 3 | `unit` | `integer` | 24 |  |
-
-Repeated group `responses`, after the fixed fields: `responseKind` (text), `outputSet` (integer).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TransferPathSetup — fields and example](reference/cards/solution_control.md#transferpathsetup)
 
 ### TransientFormulaLoad2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `excitationId` | `integer` |  |  |
-| 3 | `delayId` | `integer` |  | alternative of `delay` |
-| 4 | `delay` | `real` | 0.0 | alternative of `delayId` |
-| 5 | `kind` | `any` | Load |  |
-| 6 | `time1` | `real` | 0.0 |  |
-| 7 | `time2` | `real` | same as time1 |  |
-| 8 | `frequency` | `real` | 0.0 |  |
-| 9 | `phase` | `real` | 0.0 |  |
-| 10 | `coefficientC` | `real` | 0.0 |  |
-| 11 | `exponentB` | `real` | 0.0 |  |
-| 12 | `initialDisplacementFactor` | `real` | 0.0 |  |
-| 13 | `initialVelocityFactor` | `real` | 0.0 |  |
-
-Accepted words: `Acceleration`, `Displacement`, `Load`, `Velocity`.
+[TransientFormulaLoad2 — fields and example](reference/cards/dynamics.md#transientformulaload2)
 
 ### TransientInitialCondition
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `node` | `integer` |  |  |
-| 3 | `components` | `integer` | 0 |  |
-| 4 | `initialDisplacement` | `real` | 0.0 |  |
-| 5 | `initialVelocity` | `real` | 0.0 |  |
+[TransientInitialCondition — fields and example](reference/cards/dynamics.md#transientinitialcondition)
 
 ### TransientTableLoad1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `excitationId` | `integer` |  |  |
-| 3 | `delayId` | `integer` |  | alternative of `delay` |
-| 4 | `delay` | `real` | 0.0 | alternative of `delayId` |
-| 5 | `kind` | `any` | Load |  |
-| 6 | `tableId` | `integer` |  | alternative of `functionValue` |
-| 7 | `functionValue` | `real` | 0.0 | alternative of `tableId` |
-| 8 | `initialDisplacementFactor` | `real` | 0.0 |  |
-| 9 | `initialVelocityFactor` | `real` | 0.0 |  |
-
-Accepted words: `Acceleration`, `Displacement`, `Load`, `Velocity`.
+[TransientTableLoad1 — fields and example](reference/cards/dynamics.md#transienttableload1)
 
 ### TransientTimeSteps
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `intervals`, after the fixed fields: `stepCount` (integer), `timeStep` (real), `outputInterval` (integer).
+[TransientTimeSteps — fields and example](reference/cards/solution_control.md#transienttimesteps)
 
 ### TrimComponentCoupling
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `gluedSetId` | `integer` | 0 |  |
-| 3 | `slidingSetId` | `integer` | 0 |  |
-| 4 | `openSetId` | `integer` | 0 |  |
-| 5 | `imperviousSetId` | `integer` | 0 |  |
-| 6 | `outOfCoreBlockCount` | `integer` | 1 |  |
-| 7 | `singlePrecisionFlag` | `integer` | 0 |  |
-| 8 | `airGapSetId` | `integer` | 0 |  |
-| 9 | `fixedTranslationXSetId` | `integer` | 0 |  |
-| 10 | `fixedTranslationYSetId` | `integer` | 0 |  |
-| 11 | `fixedTranslationZSetId` | `integer` | 0 |  |
-| 12 | `fixedRotationXSetId` | `integer` | 0 |  |
-| 13 | `fixedRotationYSetId` | `integer` | 0 |  |
-| 14 | `fixedRotationZSetId` | `integer` | 0 |  |
-| 15 | `fixedPressureSetId` | `integer` | 0 |  |
-| 16 | `regionId` | `integer` | 0 |  |
-| 17 | `structureCompressionRatio` | `real` |  |  |
-| 18 | `cavityCompressionRatio` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TrimComponentCoupling — fields and example](reference/cards/thermal.md#trimcomponentcoupling)
 
 ### TrimComponentCoupling1D
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `gluedSetId` | `integer` | 0 |  |
-| 3 | `slidingSetId` | `integer` | 0 |  |
-| 4 | `openSetId` | `integer` | 0 |  |
-| 5 | `imperviousSetId` | `integer` | 0 |  |
-| 6 | `regionId` | `integer` | 0 |  |
-| 7 | `methodName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `OneDimensional`, `Table`.
+[TrimComponentCoupling1D — fields and example](reference/cards/thermal.md#trimcomponentcoupling1d)
 
 ### TrimCouplingTolerances
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `couplingKind` | `text` |  |  |
-| 3 | `relativeTolerance` | `real` |  |  |
-| 4 | `gapTolerance1` | `real` |  |  |
-| 5 | `gapTolerance2` | `real` | same as gapTolerance1 |  |
-| 6 | `gapTolerance3` | `real` | same as gapTolerance2 |  |
-| 7 | `gapTolerance4` | `real` | same as gapTolerance3 |  |
-| 8 | `regionId` | `integer` | 0 |  |
-
-Accepted words: `Constant`, `Element`, `Interface`, `SimplePerforation`, `SolidAirGap`, `SolidGlued`, `SolidOpen`, `SolidSlide`, `Table`, `TrimSurface`.
+[TrimCouplingTolerances — fields and example](reference/cards/thermal.md#trimcouplingtolerances)
 
 ### TrimLayeredComponent
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-
-Repeated group `layers`, after the fixed fields: `globalPlyId` (integer), `plyMatId` (integer), `plyThickness` (real), `plyScaleFactor` (real).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TrimLayeredComponent — fields and example](reference/cards/thermal.md#trimlayeredcomponent)
 
 ### TrimmedMaterialMatrices
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `name` | `text` |  |  |
-| 2 | `mappedDataUnit` | `integer` |  |  |
-| 3 | `propertyMatrixUnit` | `integer` |  |  |
-| 4 | `scaleReal` | `real` |  |  |
-| 5 | `scaleImaginary` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[TrimmedMaterialMatrices — fields and example](reference/cards/aero.md#trimmedmaterialmatrices)
 
 ### Tube2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
+[Tube2 — fields and example](reference/cards/elements.md#tube2)
 
 ### TubeProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `outerDiameter` | `real` |  |  |
-| 4 | `thickness` | `real` |  |  |
-| 5 | `nonStructMass` | `real` | 0.0 |  |
-| 6 | `outerDiameter2` | `real` | same as outerDiameter |  |
-
-Designable field descriptors: outerDiameter, thickness, nonStructMass, outerDiameter2.
+[TubeProp — fields and example](reference/cards/properties.md#tubeprop)
 
 ### TypedListSet3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-
-Repeated group `members`, after the fixed fields: `memberId` (any).
-
-Accepted words: `Elements`, `GeomPoint`, `Module`, `Node`, `Property`, `RigidElemsExcluded`, `RigidElemsIncluded`, `Through`.
+[TypedListSet3 — fields and example](reference/cards/sets.md#typedlistset3)
 
 ### UserCompositeFailureMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `userRoutineName` | `text` |  |  |
-| 4 | `youngsModulus1` | `real` |  |  |
-| 5 | `youngsModulus2` | `real` |  |  |
-| 6 | `poissonRatio12` | `real` |  |  |
-| 7 | `shearModulus12` | `real` |  |  |
-| 8 | `shearModulus1Z` | `real` | same as shearModulus12 |  |
-| 9 | `shearModulus2Z` | `real` | same as shearModulus12 |  |
-| 10 | `density` | `real` |  |  |
-| 11 | `historyVariableCount` | `integer` | 0 |  |
-| 12 | `shearStrength` | `real` | 0.0 |  |
-| 13 | `nonlinearShearCoefficient` | `real` | 0.0 |  |
-| 14 | `transverseShear` | `text` |  |  |
-| 15 | `interactionTerm12` | `real` | 0.0 |  |
-| 16 | `tensionStrength1` | `real` |  |  |
-| 17 | `compressionStrength1` | `real` |  |  |
-| 18 | `tensionStrength2` | `real` |  |  |
-| 19 | `compressionStrength2` | `real` |  |  |
-| 20 | `degradation` | `text` |  |  |
-| 21 | `degradationParameter` | `real` |  |  |
-| 22 | `degradationStart` | `text` |  |  |
-| 23 | `fiberTensionTheory` | `text` |  |  |
-| 24 | `fiberCompressionTheory` | `text` |  |  |
-| 25 | `matrixTensionTheory` | `text` |  |  |
-| 26 | `matrixCompressionTheory` | `text` |  |  |
-| 27 | `matrixShearTheory` | `text` |  |  |
-| 28 | `fiberTensionDegradation` | `text` |  |  |
-| 29 | `fiberCompressionDegradation` | `text` |  |  |
-| 30 | `matrixTensionDegradation` | `text` |  |  |
-| 31 | `matrixCompressionDegradation` | `text` |  |  |
-| 32 | `matrixShearDegradation` | `text` |  |  |
-
-Accepted words: `All`, `Constant`, `Element`, `Elements`, `IndividualDegradation`, `Steps`, `SublaminateShear`, `Table`, `Time`, `Velocity`.
+[UserCompositeFailureMat — fields and example](reference/cards/materials.md#usercompositefailuremat)
 
 ### UserDefined1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined1 — fields and example](reference/cards/elements.md#userdefined1)
 
 ### UserDefined1Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined1Attributes — fields and example](reference/cards/elements.md#userdefined1attributes)
 
 ### UserDefined1Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined1Prop — fields and example](reference/cards/elements.md#userdefined1prop)
 
 ### UserDefined2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined2 — fields and example](reference/cards/elements.md#userdefined2)
 
 ### UserDefined2Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined2Attributes — fields and example](reference/cards/elements.md#userdefined2attributes)
 
 ### UserDefined2Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined2Prop — fields and example](reference/cards/elements.md#userdefined2prop)
 
 ### UserDefined3
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined3 — fields and example](reference/cards/elements.md#userdefined3)
 
 ### UserDefined3Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined3Attributes — fields and example](reference/cards/elements.md#userdefined3attributes)
 
 ### UserDefined3Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined3Prop — fields and example](reference/cards/elements.md#userdefined3prop)
 
 ### UserDefined4
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined4 — fields and example](reference/cards/elements.md#userdefined4)
 
 ### UserDefined4Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined4Attributes — fields and example](reference/cards/elements.md#userdefined4attributes)
 
 ### UserDefined4Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined4Prop — fields and example](reference/cards/elements.md#userdefined4prop)
 
 ### UserDefined5
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined5 — fields and example](reference/cards/elements.md#userdefined5)
 
 ### UserDefined5Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined5Attributes — fields and example](reference/cards/elements.md#userdefined5attributes)
 
 ### UserDefined5Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined5Prop — fields and example](reference/cards/elements.md#userdefined5prop)
 
 ### UserDefined6
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined6 — fields and example](reference/cards/elements.md#userdefined6)
 
 ### UserDefined6Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined6Attributes — fields and example](reference/cards/elements.md#userdefined6attributes)
 
 ### UserDefined6Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined6Prop — fields and example](reference/cards/elements.md#userdefined6prop)
 
 ### UserDefined7
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined7 — fields and example](reference/cards/elements.md#userdefined7)
 
 ### UserDefined7Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined7Attributes — fields and example](reference/cards/elements.md#userdefined7attributes)
 
 ### UserDefined7Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined7Prop — fields and example](reference/cards/elements.md#userdefined7prop)
 
 ### UserDefined8
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined8 — fields and example](reference/cards/elements.md#userdefined8)
 
 ### UserDefined8Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined8Attributes — fields and example](reference/cards/elements.md#userdefined8attributes)
 
 ### UserDefined8Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined8Prop — fields and example](reference/cards/elements.md#userdefined8prop)
 
 ### UserDefined9
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-
-Repeated group `connectionFields`, after the fixed fields: `connectionField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined9 — fields and example](reference/cards/elements.md#userdefined9)
 
 ### UserDefined9Attributes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `nodeCount` | `integer` |  |  |
-| 2 | `connectionFieldCount` | `integer` | 0 |  |
-| 3 | `propertyFieldCount` | `integer` | 0 |  |
-| 4 | `displacementComponentCount` | `integer` | 0 |  |
-| 5 | `elementName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined9Attributes — fields and example](reference/cards/elements.md#userdefined9attributes)
 
 ### UserDefined9Prop
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-
-Repeated group `propertyFields`, after the fixed fields: `propertyField` (number).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserDefined9Prop — fields and example](reference/cards/elements.md#userdefined9prop)
 
 ### UserDofSet
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setName` | `text` |  |  |
-| 2 | `node1` | `integer` |  |  |
-| 3 | `components1` | `integer` | 0 |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `components2` | `integer` | 0 |  |
-| 6 | `node3` | `integer` |  |  |
-| 7 | `components3` | `integer` | 0 |  |
-
-Repeated group `pairs`, after the fixed fields: `node` (integer), `components` (integer).
-
-Accepted words: `FixedBoundaryLetter`, `SinglePointLetter`, `Through`.
+[UserDofSet — fields and example](reference/cards/sets.md#userdofset)
 
 ### UserDofSet1
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setName` | `text` |  |  |
-| 2 | `components` | `integer` | 0 |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `Through`.
+[UserDofSet1 — fields and example](reference/cards/sets.md#userdofset1)
 
 ### UserElemService
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propType` | `text` |  |  |
-| 3 | `groupName` | `text` |  |  |
-| 4 | `userRoutineName` | `text` |  |  |
-| 5 | `dependence` | `text` |  |  |
-| 6 | `nominalSpeed` | `real` |  |  |
-
-Sections `blocks`, one after the other, each opened by its key word:
-
-- `IntegerBlock` (integerBlock): then the number of `integers` and their fields `integerData` (integer).
-- `RealBlock` (realBlock): then the number of `reals` and their fields `realData` (real).
-- `TextBlock` (textBlock): then the number of `words` and their fields `textData` (text).
-
-Accepted words: `BushProp2D`, `Constant`, `Element`, `Frequency`, `IntegerBlock`, `NoMassDependence`, `RealBlock`, `Table`, `TextBlock`.
+[UserElemService — fields and example](reference/cards/properties.md#userelemservice)
 
 ### UserEnforcedVelocity
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `setId` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `userRoutineName` | `text` |  |  |
-
-Repeated group `nodes`, after the fixed fields: `node` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `ExternalVelocity`, `Table`, `Through`.
+[UserEnforcedVelocity — fields and example](reference/cards/explicit.md#userenforcedvelocity)
 
 ### UserFailureModel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `userRoutineName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `ExternalFailure`, `Table`.
+[UserFailureModel — fields and example](reference/cards/explicit.md#userfailuremodel)
 
 ### UserFileName
 
-Forms: `nameOnSecondLine`.
+[UserFileName — fields and example](reference/cards/solution_control.md#userfilename)
 
 #### UserFileName: nameOnSecondLine
 
-Form `nameOnSecondLine`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `entryName` | `text` |  | one text field |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[nameOnSecondLine form](reference/cards/solution_control.md#userfilename-nameonsecondline)
 
 ### UserMat
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `userFrameFlag` | `integer` | 0 |  |
-| 3 | `kinematicQuantities` | `integer` | 0 |  |
-| 4 | `density` | `real` |  |  |
-| 5 | `thermalExpansion1` | `real` |  |  |
-| 6 | `thermalExpansion2` | `real` |  |  |
-| 7 | `thermalExpansion3` | `real` |  |  |
-| 8 | `referenceTemperature` | `real` | 0.0 |  |
-| 9 | `structuralDamping` | `real` | 0.0 |  |
-| 10 | `tensionAllowable` | `real` | 0.0 |  |
-| 11 | `compressionAllowable` | `real` | 0.0 |  |
-| 12 | `shearAllowable` | `real` | 0.0 |  |
+[UserMat — fields and example](reference/cards/materials.md#usermat)
 
 ### UserMatService
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `materialCardType` | `text` |  |  |
-| 3 | `groupName` | `text` |  |  |
-| 4 | `userRoutineName` | `text` |  |  |
-
-Sections `blocks`, one after the other, each opened by its key word:
-
-- `IntegerBlock` (integerBlock): then the number of `integers` and their fields `integerData` (integer).
-- `RealBlock` (realBlock): then the number of `reals` and their fields `realData` (real).
-- `TextBlock` (textBlock): then the number of `texts` and their fields `textData` (text).
-
-Accepted words: `IntegerBlock`, `RealBlock`, `TextBlock`.
+[UserMatService — fields and example](reference/cards/materials.md#usermatservice)
 
 ### UserMatTable
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `densityTableId` | `integer` | 0 |  |
-| 3 | `thermalExpansion1TableId` | `integer` |  |  |
-| 4 | `thermalExpansion2TableId` | `integer` |  |  |
-| 5 | `thermalExpansion3TableId` | `integer` |  |  |
-| 6 | `structuralDampingTableId` | `integer` | 0 |  |
-| 7 | `tensionAllowableTableId` | `integer` | 0 |  |
-| 8 | `compressionAllowableTableId` | `integer` | 0 |  |
-| 9 | `shearAllowableTableId` | `integer` | 0 |  |
+[UserMatTable — fields and example](reference/cards/materials.md#usermattable)
 
 ### UserServiceData
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `serviceId` | `text` |  |  |
-
-Sections `blocks`, one after the other, each opened by its key word:
-
-- `IntegerBlock` (integerBlock): then the number of `integers` and their fields `integerData` (integer).
-- `RealBlock` (realBlock): then the number of `reals` and their fields `realData` (real).
-- `TextBlock` (textBlock): then the number of `words` and their fields `textData` (text).
-
-Accepted words: `Constant`, `Element`, `IntegerBlock`, `RealBlock`, `Table`, `TextBlock`.
+[UserServiceData — fields and example](reference/cards/explicit.md#userservicedata)
 
 ### UserShearModel
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `userRoutineName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `ExternalShear`, `Table`.
+[UserShearModel — fields and example](reference/cards/explicit.md#usershearmodel)
 
 ### UserStateEquation
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `userRoutineName` | `text` |  |  |
-| 4 | `viscosity` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `ExternalStateEquation`, `Table`.
+[UserStateEquation — fields and example](reference/cards/explicit.md#userstateequation)
 
 ### UserStateVariables
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `variableCount` | `integer` |  |  |
-
-Repeated group `stateVariables`, after the fixed fields: `variableLabel` (text), `variableName` (text).
-
-Accepted words: `Constant`, `Element`, `Table`.
+[UserStateVariables — fields and example](reference/cards/explicit.md#userstatevariables)
 
 ### UserYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `groupName` | `text` |  |  |
-| 3 | `userRoutineName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `ExternalYield`, `Table`.
+[UserYield — fields and example](reference/cards/explicit.md#useryield)
 
 ### ViewFactorFace
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `cavityId` | `integer` | 0 |  |
-| 3 | `shading` | `text` |  |  |
-| 4 | `betaSubdivisions` | `integer` | 1 |  |
-| 5 | `gammaSubdivisions` | `integer` | 1 |  |
-| 6 | `surfaceOffset` | `real` | 0.0 |  |
-
-Accepted words: `Both`, `CanBeShaded`, `CanShade`, `None`.
+[ViewFactorFace — fields and example](reference/cards/thermal.md#viewfactorface)
 
 ### ViewFactorIntegration
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `cavityId` | `integer` |  |  |
-| 2 | `blockingIntegrationOrder` | `integer` | 4 |  |
-| 3 | `shadowingIntegrationOrder` | `integer` | 4 |  |
-| 4 | `contourIntegrationLevel` | `integer` | 4 |  |
-| 5 | `errorTolerance` | `real` | 0.1 |  |
-| 6 | `zeroTolerance` | `real` | 1.0e-10 |  |
-| 7 | `warpTolerance` | `real` | 0.01 |  |
-| 8 | `radiationCheck` | `integer` | 3 |  |
+[ViewFactorIntegration — fields and example](reference/cards/thermal.md#viewfactorintegration)
 
 ### ViscoElasticMat
 
-Forms: `linearIsotropic`, `orthotropic`, `fiveTerms`, `termLines`.
+[ViscoElasticMat — fields and example](reference/cards/materials.md#viscoelasticmat)
 
 #### ViscoElasticMat: linearIsotropic
 
-Form `linearIsotropic`, when `model` is `IsotropicLinear`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `model` | `text` | IsotropicForm1 |  |
-| 3 | `shortTimeShearModulus` | `real` | 0.0 |  |
-| 4 | `longTimeShearModulus` | `real` | 0.0 |  |
-| 5 | `decayConstant` | `real` | 0.0 |  |
-| 6 | `viscosity` | `real` | 0.0 |  |
+[linearIsotropic form](reference/cards/materials.md#viscoelasticmat-linearisotropic)
 
 #### ViscoElasticMat: orthotropic
 
-Form `orthotropic`, when `model` is `OrthotropicForm`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `model` | `text` | IsotropicForm1 |  |
-
-Repeated group `terms`, after the fixed fields: `deviatoricRelaxationTime` (real), `youngsModulusX` (real), `youngsModulusY` (real), `youngsModulusZ` (real), `poissonRatioXY` (real), `poissonRatioYZ` (real), `poissonRatioZX` (real), `shearModulusXY` (real), `shearModulusYZ` (real), `shearModulusZX` (real).
+[orthotropic form](reference/cards/materials.md#viscoelasticmat-orthotropic)
 
 #### ViscoElasticMat: fiveTerms
 
-Form `fiveTerms`, when `model` is `IsotropicForm`, `MooneyRivlin`, `Ogden`, `Foam`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `model` | `text` | IsotropicForm1 |  |
-| 3 | `solidThermalExpansion` | `real` | 0.0 |  |
-| 4 | `liquidThermalExpansion` | `real` | 0.0 |  |
-| 5 | `shearModulus1` | `real` | 0.0 |  |
-| 6 | `deviatoricRelaxationTime1` | `real` | 0.0 |  |
-| 7 | `bulkModulus1` | `real` | 0.0 |  |
-| 8 | `volumetricRelaxationTime1` | `real` | 0.0 |  |
-| 9 | `shearModulus2` | `real` | 0.0 |  |
-| 10 | `deviatoricRelaxationTime2` | `real` | 0.0 |  |
-| 11 | `bulkModulus2` | `real` | 0.0 |  |
-| 12 | `volumetricRelaxationTime2` | `real` | 0.0 |  |
-| 13 | `shearModulus3` | `real` | 0.0 |  |
-| 14 | `deviatoricRelaxationTime3` | `real` | 0.0 |  |
-| 15 | `bulkModulus3` | `real` | 0.0 |  |
-| 16 | `volumetricRelaxationTime3` | `real` | 0.0 |  |
-| 17 | `shearModulus4` | `real` | 0.0 |  |
-| 18 | `deviatoricRelaxationTime4` | `real` | 0.0 |  |
-| 19 | `bulkModulus4` | `real` | 0.0 |  |
-| 20 | `volumetricRelaxationTime4` | `real` | 0.0 |  |
-| 21 | `shearModulus5` | `real` | 0.0 |  |
-| 22 | `deviatoricRelaxationTime5` | `real` | 0.0 |  |
-| 23 | `bulkModulus5` | `real` | 0.0 |  |
-| 24 | `volumetricRelaxationTime5` | `real` | 0.0 |  |
+[fiveTerms form](reference/cards/materials.md#viscoelasticmat-fiveterms)
 
 #### ViscoElasticMat: termLines
 
-Form `termLines`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `model` | `text` | IsotropicForm1 |  |
-| 3 | `solidThermalExpansion` | `real` | 0.0 |  |
-| 4 | `liquidThermalExpansion` | `real` | 0.0 |  |
-
-Repeated group `terms`, after the fixed fields: `shearModulus` (real), `deviatoricRelaxationTime` (real), `bulkModulus` (real), `volumetricRelaxationTime` (real).
-
-Accepted words: `Foam`, `FoamMaterial1`, `IsotropicForm`, `IsotropicForm1`, `IsotropicLinear`, `Linear`, `MooneyRivlin`, `MooneyRivlinModel1`, `Ogden`, `OgdenModel1`, `OrthotropicForm`.
+[termLines form](reference/cards/materials.md#viscoelasticmat-termlines)
 
 ### ViscoElasticMatTemperature
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `shiftFunction` | `text` | WilliamsLandelFerry |  |
-| 3 | `shiftReferenceTemperature` | `real` | 0.0 |  |
-| 4 | `activationEnergy` | `real` |  |  |
-| 5 | `structuralFraction` | `real` |  |  |
-| 6 | `temperatureDifference` | `real` |  |  |
-| 7 | `referenceTemperature` | `real` |  |  |
-| 8 | `termCount` | `integer` | 0 |  |
-| 9 | `wlfConstant1` | `real` | 0.0 |  |
-| 10 | `wlfConstant2` | `real` | 0.0 |  |
-
-Repeated group `series`, after the fixed fields: `seriesTerm` (number).
-
-Accepted words: `Narayanaswamy`, `PowerLaw`, `User`, `WilliamsLandelFerry`.
+[ViscoElasticMatTemperature — fields and example](reference/cards/materials.md#viscoelasticmattemperature)
 
 ### ViscoPlasticMat
 
-Forms: `anand`, `powerLaw`.
+[ViscoPlasticMat — fields and example](reference/cards/materials.md#viscoplasticmat)
 
 #### ViscoPlasticMat: anand
 
-Form `anand`, when `model` is `AnandModel`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `model` | `text` |  |  |
-| 3 | `preExponentialFactor` | `real` |  |  |
-| 4 | `activationEnergy` | `real` |  |  |
-| 5 | `stressMultiplier` | `real` |  |  |
-| 6 | `strainRateSensitivity` | `real` |  |  |
-| 7 | `saturationCoefficient` | `real` |  |  |
-| 8 | `saturationRateSensitivity` | `real` |  |  |
-| 9 | `hardeningConstant` | `real` |  |  |
-| 10 | `hardeningSensitivity` | `real` |  |  |
-| 11 | `initialDeformationResistance` | `real` |  |  |
+[anand form](reference/cards/materials.md#viscoplasticmat-anand)
 
 #### ViscoPlasticMat: powerLaw
 
-Form `powerLaw`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `rateCoefficient` | `real` | 0.0 |  |
-| 3 | `rateTableId` | `integer` | 0 |  |
-| 4 | `stressExponent` | `real` | 0.0 |  |
-| 5 | `strainExponent` | `real` | 0.0 |  |
-| 6 | `temperatureExponent` | `real` | 0.0 |  |
-| 7 | `timeExponent` | `real` | 0.0 |  |
-| 8 | `userSubroutineFlag` | `integer` | 0 |  |
-
-Accepted words: `AnandModel`.
+[powerLaw form](reference/cards/materials.md#viscoplasticmat-powerlaw)
 
 ### ViscousDamper2
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` | same as id |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
+[ViscousDamper2 — fields and example](reference/cards/elements.md#viscousdamper2)
 
 ### ViscousDamperProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id1` | `integer` |  |  |
-| 2 | `extensionalDamping1` | `real` |  |  |
-| 3 | `rotationalDamping1` | `real` |  |  |
-| 4 | `id2` | `integer` |  |  |
-| 5 | `extensionalDamping2` | `real` |  |  |
-| 6 | `rotationalDamping2` | `real` |  |  |
+[ViscousDamperProp — fields and example](reference/cards/properties.md#viscousdamperprop)
 
 ### ViscousDamperPropNonlinear
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `tableId` | `integer` |  |  |
-
-Accepted words: `TableDynamic1`.
+[ViscousDamperPropNonlinear — fields and example](reference/cards/properties.md#viscousdamperpropnonlinear)
 
 ### VonMisesYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `yieldStress` | `real` |  |  |
-| 3 | `hardeningModulus` | `real` | 0.0 |  |
-| 4 | `tableId` | `integer` | 0 |  |
-| 5 | `curveType` | `text` |  |  |
-| 6 | `rateScaleTableId` | `integer` | 0 |  |
-| 7 | `rateCoefficientD` | `real` | 0.0 |  |
-| 8 | `rateExponentP` | `real` | 0.0 |  |
-
-Accepted words: `Constant`, `Element`, `EngineeringStrain`, `Plasticity`, `PowerModel`, `Table`, `True`.
+[VonMisesYield — fields and example](reference/cards/explicit.md#vonmisesyield)
 
 ### Weld
 
-Forms: `partPattern`, `elementPattern`, `elementIds`, `gridIds`, `align`.
+[Weld — fields and example](reference/cards/elements.md#weld)
 
 #### Weld: partPattern
 
-Form `partPattern`, when `kind` is `PartPatch`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `spotNode` | `integer` | 0 |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `nodeA` | `integer` | 0 |  |
-| 6 | `nodeB` | `integer` | 0 |  |
-| 7 | `matFrameId` | `integer` | -1 |  |
-| 8 | `propIdA` | `integer` |  |  |
-| 9 | `propIdB` | `integer` |  |  |
-| 10 | `locationX` | `real` |  |  |
-| 11 | `locationY` | `real` |  |  |
-| 12 | `locationZ` | `real` |  |  |
+[partPattern form](reference/cards/elements.md#weld-partpattern)
 
 #### Weld: elementPattern
 
-Form `elementPattern`, when `kind` is `ElemPatch`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `spotNode` | `integer` | 0 |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `nodeA` | `integer` | 0 |  |
-| 6 | `nodeB` | `integer` | 0 |  |
-| 7 | `matFrameId` | `integer` | -1 |  |
-| 8 | `shellIdA` | `integer` |  |  |
-| 9 | `shellIdB` | `integer` |  |  |
-| 10 | `locationX` | `real` |  |  |
-| 11 | `locationY` | `real` |  |  |
-| 12 | `locationZ` | `real` |  |  |
+[elementPattern form](reference/cards/elements.md#weld-elementpattern)
 
 #### Weld: elementIds
 
-Form `elementIds`, when `kind` is `ElemIdPatch`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `spotNode` | `integer` | 0 |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `nodeA` | `integer` | 0 |  |
-| 6 | `nodeB` | `integer` | 0 |  |
-| 7 | `matFrameId` | `integer` | -1 |  |
-| 8 | `shellIdA` | `integer` |  |  |
-| 9 | `shellIdB` | `integer` | 0 |  |
+[elementIds form](reference/cards/elements.md#weld-elementids)
 
 #### Weld: gridIds
 
-Form `gridIds`, when `kind` is `NodeIdPatch`.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `spotNode` | `integer` | 0 |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `nodeA` | `integer` | 0 |  |
-| 6 | `nodeB` | `integer` | 0 |  |
-| 7 | `patchShapes` | `text` |  |  |
-| 8 | `matFrameId` | `integer` | -1 |  |
-| 9 | `nodeA1` | `integer` | 0 |  |
-| 10 | `nodeA2` | `integer` | 0 |  |
-| 11 | `nodeA3` | `integer` | 0 |  |
-| 12 | `nodeA4` | `integer` | 0 |  |
-| 13 | `nodeA5` | `integer` | 0 |  |
-| 14 | `nodeA6` | `integer` | 0 |  |
-| 15 | `nodeA7` | `integer` | 0 |  |
-| 16 | `nodeA8` | `integer` | 0 |  |
-| 17 | `nodeB1` | `integer` | 0 |  |
-| 18 | `nodeB2` | `integer` | 0 |  |
-| 19 | `nodeB3` | `integer` | 0 |  |
-| 20 | `nodeB4` | `integer` | 0 |  |
-| 21 | `nodeB5` | `integer` | 0 |  |
-| 22 | `nodeB6` | `integer` | 0 |  |
-| 23 | `nodeB7` | `integer` | 0 |  |
-| 24 | `nodeB8` | `integer` | 0 |  |
+[gridIds form](reference/cards/elements.md#weld-gridids)
 
 #### Weld: align
 
-Form `align`, for every other record.
-
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `propId` | `integer` |  |  |
-| 3 | `spotNode` | `integer` | 0 |  |
-| 4 | `kind` | `text` |  |  |
-| 5 | `nodeA` | `integer` | 0 |  |
-| 6 | `nodeB` | `integer` | 0 |  |
-| 7 | `matFrameId` | `integer` | -1 |  |
-
-Accepted words: `AlignedNodes`, `ElemIdPatch`, `ElemPatch`, `NodeIdPatch`, `PartPatch`, `QuadPatch`, `QuadQuadPatch`, `QuadTriaPatch`, `TriaPatch`, `TriaQuadPatch`, `TriaTriaPatch`.
+[align form](reference/cards/elements.md#weld-align)
 
 ### WeldProp
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `matId` | `integer` |  |  |
-| 3 | `diameter` | `real` |  |  |
-| 4 | `eliminateConstraints` | `text` |  |  |
-| 5 | `kind` | `text` |  |  |
-| 6 | `minLengthRatio` | `real` |  |  |
-| 7 | `maxLengthRatio` | `real` |  |  |
-
-Accepted words: `Off`, `On`, `SpotWeld`.
+[WeldProp — fields and example](reference/cards/properties.md#weldprop)
 
 ### WettedElemNodes
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `kind` | `text` |  |  |
-| 3 | `node1` | `integer` |  |  |
-| 4 | `node2` | `integer` |  |  |
-| 5 | `node3` | `integer` |  |  |
-| 6 | `node4` | `integer` |  |  |
-| 7 | `node5` | `integer` |  |  |
-| 8 | `node6` | `integer` |  |  |
-| 9 | `node7` | `integer` |  |  |
-| 10 | `node8` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Line2Nodes`, `Line3Nodes`, `Quad4Shape`, `Quad8Shape`, `Table`, `Tria3Shape`, `Tria6Shape`.
+[WettedElemNodes — fields and example](reference/cards/solution_control.md#wettedelemnodes)
 
 ### WettedElemSide
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `elemId` | `integer` |  |  |
-| 3 | `sideCode` | `integer` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[WettedElemSide — fields and example](reference/cards/solution_control.md#wettedelemside)
 
 ### WettedSurface
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `wettedTag` | `text` |  |  |
-
-Repeated group `wettedElems`, after the fixed fields: `wettedElemId` (any).
-
-Accepted words: `By`, `Constant`, `Element`, `Table`, `Through`.
+[WettedSurface — fields and example](reference/cards/solution_control.md#wettedsurface)
 
 ### WettedSurfaceLoad
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `wettedSurfaceId` | `integer` |  |  |
-| 3 | `serviceName` | `text` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[WettedSurfaceLoad — fields and example](reference/cards/loads.md#wettedsurfaceload)
 
 ### ZerilliArmstrongYield
 
-| # | Field | Kind | Default | |
-| ---: | --- | --- | --- | --- |
-| 1 | `id` | `integer` |  |  |
-| 2 | `coefficientA` | `real` |  |  |
-| 3 | `coefficientB` | `real` | 0.0 |  |
-| 4 | `coefficientN` | `real` | 0.0 |  |
-| 5 | `coefficientC` | `real` | 1.0 |  |
-| 6 | `coefficientM` | `real` | 1.0 |  |
-| 7 | `referenceStrainRate` | `real` | 1.0 |  |
-| 8 | `specificHeat` | `real` |  |  |
-| 9 | `coefficientD` | `real` |  |  |
-
-Accepted words: `Constant`, `Element`, `Table`.
+[ZerilliArmstrongYield — fields and example](reference/cards/explicit.md#zerilliarmstrongyield)

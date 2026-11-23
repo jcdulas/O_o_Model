@@ -72,6 +72,26 @@ the inter-module contract. Update an image's alternative text and surrounding ex
 - Keep headings unique within each page so fragment links remain stable.
 - Build with warnings treated as errors and run the local-resource checker before pushing.
 
+The [model input reference](reference/index.md) uses the compiled Reader catalogues for the alphabetical
+case-command and parameter entries. To regenerate them from the repository root with a native GCC or Clang build
+and a single-configuration generator, use the same C++ compiler that built the libraries:
+
+~~~sh
+cmake --build build/native --target oor_model
+c++ -std=c++20 -Iinclude tools/reference/write_control_reference.cpp \
+    build/native/src/model/liboor_model.a build/native/src/deck/liboor_deck.a \
+    build/native/src/io/liboor_io.a build/native/src/base/liboor_base.a -o build/write_control_reference
+./build/write_control_reference docs/reference
+~~~
+
+The HTML build reads the checked-in Markdown and needs no compiler. For changes to card layouts, regenerate the
+[card catalogue](model-format-cards.md) and its subject pages with `python tools/oos_layouts/write_cards_doc.py`.
+The generator combines the model layouts, neutral vocabulary, typed card definitions, validation models and the
+editorial descriptions in `tools/oos_layouts/reference/`. It reports missing purposes, field definitions and examples.
+Run `python tools/oos_layouts/write_cards_doc.py --check` to check that the committed pages match their sources.
+With the native `oo-reader` Python package installed, run `python tools/oos_layouts/check_card_examples.py` to
+strict-read every published example and verify its typed card count and stable canonical representation.
+
 When changing archive storage, update [the format specification](archive-format.md), the
 [JavaScript archive workflow](wasm-api.md#a-model-and-results-in-one-archive), the
 [format selection guide](getting-started.md#choose-a-file-format) and the
