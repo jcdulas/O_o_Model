@@ -1,66 +1,68 @@
 # O_o_Reader
 
-[Native Python package (`oo-reader`), build and publishing](docs/python.md)
+Read, edit and query finite element models in .oos and HDF5 .ooh5 format with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
 
 **[Sphinx documentation](https://jcdulas.github.io/O_o_Reader/)** ·
 [Model construction](https://jcdulas.github.io/O_o_Reader/docs/model-construction.html) ·
 [API reference](https://jcdulas.github.io/O_o_Reader/docs/api.html)
 
-A C++20 library, compiled to WebAssembly for the web, that:
+## Install
 
-- reads and writes its own **model format** (`.oos`, [docs/model-format.md](docs/model-format.md));
-- constructs and edits models from **JavaScript objects and typed arrays**, including load cases, includes and parts
-  ([docs/model-construction.md](docs/model-construction.md));
-- stores models and results in its own **HDF5 archive** (`.ooh5`), together or separately: typed model columns,
-  compressed buffers and model loading on demand ([docs/archive-format.md](docs/archive-format.md));
-- writes results as an **Excel workbook** (.xlsx) for people: an index sheet and one sheet per table;
-- exports custom query tables as **HDF5 datasets** (`.h5`);
-- analyses a model (geometry, coordinate frames, mass, mesh quality, components, connections, validation checks) and
-  runs over 160 **named queries** on a model and its results (inventory, loads, stresses, margins, section cuts, ...).
+| Interface | Install |
+| --- | --- |
+| JavaScript / WebAssembly | Extract the [Reader ZIP](https://github.com/jcdulas/O_o_Reader/releases/download/v0.2.0/O_o_Reader-wasm.zip) into `reader/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
+| Python / native C++ | Run `python -m pip install oo-reader`. [PyPI](https://pypi.org/project/oo-reader/) provides wheels for CPython 3.10–3.14 on Windows x64 and Linux x86-64. |
 
-It is the reading layer of the O_o viewer and works with native model records, archives and their neutral names.
-The project's rules on formats and third-party code are in
-[LEGAL.md](LEGAL.md).
+## Read, query and save a model
+
+Create a model with one node at (1, 2, 3), count its nodes and write a model-only HDF5 archive. Save the JavaScript example as `example.mjs` and run `node example.mjs`, or save the Python example as `example.py` and run `python example.py`.
+
+**JavaScript / WebAssembly**
+
+```javascript
+import { writeFile } from "node:fs/promises";
+import { loadOorReader } from "./reader/index.js";
+
+const reader = await loadOorReader();
+reader.writeFile("/work/point.oos", "[model]\nNode;1;;1.;2.;3.\n");
+const deck = reader.readModel("/work/point.oos");
+const nodes = reader.runQuery("nodesTable", { deck });
+try {
+  console.log(nodes.rowCount()); // 1
+  deck.writeArchive("/work/point.ooh5");
+  await writeFile("point.ooh5", reader.readFile("/work/point.ooh5"));
+} finally {
+  nodes.delete();
+  deck.delete();
+}
+```
+
+**Python / native C++**
+
+```python
+from pathlib import Path
+from oo_reader import read_model
+
+Path("point.oos").write_text("[model]\nNode;1;;1.;2.;3.\n", encoding="utf-8")
+deck = read_model("point.oos")
+print(len(deck.query("nodesTable")))  # 1
+deck.write_archive("point.ooh5")
+```
+
+Both scripts create `point.ooh5` in the current directory. The Node.js script copies the archive from WASM memory to disk; Python writes the host file directly.
+
+Model queries cover geometry, mesh quality, mass, loads and connections. The JavaScript results API also queries stresses, margins and section cuts. [Query and export guide](docs/wasm-api.md)
+
+The Reader also edits card fields and applies design points in both languages. JavaScript additionally supports constructing models from objects, combining models with result tables and exporting Excel workbooks. [Model construction](docs/model-construction.md) · [Archive format](docs/archive-format.md)
 
 ## Documentation
 
-[JavaScript optimization](docs/optimization.md): design interfaces, derivatives and accepted model updates.
+[Optimization with JavaScript and Python](docs/optimization.md): design interfaces, derivatives and accepted model updates.
 
 **[Read Sphinx documentation](https://jcdulas.github.io/O_o_Reader/)** · [Architecture with diagrams](docs/architecture.md) · [Documentation index](index.md)
 
 The Documentation workflow publishes the HTML site and provides a downloadable archive.
 See [read, download and build instructions](docs/documentation.md).
-
-## Use it from JavaScript
-
-```js
-import { loadOorReader } from "oor-reader";
-
-const oor = await loadOorReader();
-oor.writeFile("/work/plate.oos", modelText);                      // a model file (docs/model-format.md)
-const deck = oor.readModel("/work/plate.oos");
-const nodes = oor.runQuery("nodesTable", { deck }).columns();     // ids, x, y, z, ...
-
-const results = oor.createResults([                                // results computed by a program
-  { kind: "displacements", subcase: 1, ids: [1, 2], values: new Float64Array(12) },
-]);
-results.writeArchive("/work/plate.ooh5");                         // to exchange and to view
-results.writeXlsx("/work/plate.xlsx");                             // for people
-const table = oor.openResults("/work/plate.ooh5").read(0);        // { shape, ids, values, ... }
-
-// One file for the model and its results, without converting numeric model data to text.
-results.attach(deck, false);
-results.writeArchive("/work/complete.ooh5");
-const complete = oor.openResults("/work/complete.ooh5");          // lists results without loading the model
-const embedded = complete.model();                               // loads and attaches the model on demand
-const sameModel = oor.readModel("/work/complete.ooh5");           // the model can also be read independently
-deck.writeArchive("/work/model-only.ooh5");                       // a model without results
-```
-
-The whole interface: [docs/wasm-api.md](docs/wasm-api.md).
-For externally controlled SOL 101, 103, 105 and 144 optimization, Reader provides copy-on-write model edits,
-capability inspection, versioned application documents and typed results in `.ooh5`; see the
-[optimization guide](docs/optimization.md).
 
 New `.ooh5` files use archive version **4**, with native model schema **1**. Version **3** result archives remain
 readable. See [choosing a format](docs/getting-started.md#choose-a-file-format) and
@@ -71,10 +73,11 @@ readable. See [choosing a format](docs/getting-started.md#choose-a-file-format) 
 | Folder | What |
 | --- | --- |
 | `include/oor/<module>/`, `src/<module>/` | the library, in modules that each use only the ones before them: `base` → `io` → `deck` → `model` → `results` → `analysis` → `query` → `api` |
+| `python/` | Native Python extension, public package and installed-wheel tests |
 | `wasm/` | the WebAssembly module: the embind interface (`src/Bindings.cpp`), the JavaScript wrapper (`js/`), its Node.js test (`test/`) |
 | `tests/cpp/<module>/` | the C++ tests (Catch2), run natively |
 | `validation/models/` | model files written for the project, read by the tests |
-| `docs/` | the archive format, the JavaScript interface, the architecture |
+| `docs/` | the archive format, JavaScript and Python interfaces, and architecture |
 | `scripts/` | the build scripts |
 | `tools/` | the layering check and the generator of the card catalogue (`oos_layouts/`) |
 | `formats/` | the card layout catalogue of the model format (`oos-layouts.json`, [docs/model-format-cards.md](docs/model-format-cards.md)) |
@@ -82,6 +85,8 @@ readable. See [choosing a format](docs/getting-started.md#choose-a-file-format) 
 Start reading at [docs/architecture.md](docs/architecture.md).
 
 ## Build
+
+For the JavaScript distribution, use the WebAssembly build below. For a Python wheel, see the [native build and installation guide](docs/python.md#build-and-publish).
 
 ### Native (development and tests)
 

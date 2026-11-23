@@ -1,70 +1,72 @@
 # Getting started
 
-O_o_Reader reads `.oos` model records and native `.ooh5` model/results archives, exposes typed tables and named
-queries, and exports result workbooks.
+Read, edit and query finite element models in .oos and HDF5 .ooh5 format with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
 
-## Build requirements
+(build-requirements)=
+## Install the packages
 
-The [project overview](../README.md#build) gives the native and WebAssembly build commands.
-Native development needs a C++20 compiler, CMake, Ninja and HDF5. The WebAssembly build also needs the Emscripten
-SDK and HDF5 compiled for Memory64. Its package is written to `build/wasm/dist/`.
+| Interface | Install |
+| --- | --- |
+| JavaScript / WebAssembly | Extract the [Reader ZIP](https://github.com/jcdulas/O_o_Reader/releases/download/v0.2.0/O_o_Reader-wasm.zip) into `reader/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
+| Python / native C++ | Run `python -m pip install oo-reader`. [PyPI](https://pypi.org/project/oo-reader/) provides wheels for CPython 3.10–3.14 on Windows x64 and Linux x86-64. |
 
-JavaScript use requires Node.js 24 or later, or a browser supporting Memory64. Serve the JavaScript wrapper and its
-corresponding WebAssembly file together.
+(read-and-query-a-model)=
+## Read, query and save a model
 
-## Choose a file format
+Create a model with one node at (1, 2, 3), count its nodes and write a model-only HDF5 archive. Save the JavaScript example as `example.mjs` and run `node example.mjs`, or save the Python example as `example.py` and run `python example.py`.
 
-| Format | Contents | Main entry points |
-| --- | --- | --- |
-| `.oos` | Editable UTF-8 model records, with optional Include files | `oor.readModel`, `deck.writeModel` |
-| `.ooh5` | Native typed model columns, results, or both in one HDF5 archive | `deck.writeArchive`, `results.writeArchive`, `oor.openResults`, `oor.readModel` |
-| `.xlsx` | Result tables in a workbook for people | `results.writeXlsx` (output only) |
-| `.h5` query export | Named query tables in the separate `oor-query-tables` layout | `oor.writeQueryTables` |
+**JavaScript / WebAssembly**
 
-Use `.oos` for reviewing and editing records as text. Use `.ooh5` to save a model and its results together and load
-numeric fields directly. An arbitrary HDF5 file is not a native model archive: renaming its extension does not convert
-its contents. Table packages produced by `toPackage()` are a separate transport between Reader and Solver.
+```javascript
+import { writeFile } from "node:fs/promises";
+import { loadOorReader } from "./reader/index.js";
 
-For direct object input without a file, see [constructing models from JavaScript](model-construction.md).
-
-## Read and query a model
-
-Save this example as `read-model.mjs` in the repository root after building the WebAssembly package:
-
-~~~javascript
-import { loadOorReader } from "./build/wasm/dist/index.js";
-
-const oor = await loadOorReader();
-const text = "[model]\nNode;1;;0.;0.;0.\n";
-oor.writeFile("/work/point.oos", text);
-const deck = oor.readModel("/work/point.oos");
-const nodes = oor.runQuery("nodesTable", { deck });
+const reader = await loadOorReader();
+reader.writeFile("/work/point.oos", "[model]\nNode;1;;1.;2.;3.\n");
+const deck = reader.readModel("/work/point.oos");
+const nodes = reader.runQuery("nodesTable", { deck });
 try {
-  if (deck.diagnostics().some((item) => item.severity === "error")) {
-    throw new Error("The model contains an error.");
-  }
-  console.log("Nodes:", nodes.rowCount());
-  console.log(deck.toModelText());
+  console.log(nodes.rowCount()); // 1
+  deck.writeArchive("/work/point.ooh5");
+  await writeFile("point.ooh5", reader.readFile("/work/point.ooh5"));
 } finally {
   nodes.delete();
   deck.delete();
 }
-~~~
+```
 
-Run it with `node read-model.mjs`. It prints one node and the canonical model text.
-The paths under `/work` belong to the module's in-memory file system; they are not host file paths.
+**Python / native C++**
 
-To save a native binary model, call `deck.writeArchive("/work/point.ooh5")` and retrieve its bytes with
-`oor.readFile`. `oor.readModel("/work/point.ooh5")` reads that model directly from typed HDF5 columns. An archive can
-also include results: attach the deck to a result set and call `results.writeArchive`. See the
-[archive specification](archive-format.md) for the layout and access patterns.
+```python
+from pathlib import Path
+from oo_reader import read_model
+
+Path("point.oos").write_text("[model]\nNode;1;;1.;2.;3.\n", encoding="utf-8")
+deck = read_model("point.oos")
+print(len(deck.query("nodesTable")))  # 1
+deck.write_archive("point.ooh5")
+```
+
+Both scripts create `point.ooh5` in the current directory. The Node.js script copies the archive from WASM memory to disk; Python writes the host file directly.
+
+## Choose a file format
+
+| Format | JavaScript / WebAssembly | Native Python |
+| --- | --- | --- |
+| `.oos` model records | `reader.readModel`, `deck.writeModel` | `read_model`, `deck.write_model` |
+| `.ooh5` model in HDF5 | `reader.readModel`, `deck.writeArchive` | `read_model`, `deck.write_archive` |
+| `.ooh5` result tables | `reader.openResults`, `results.writeArchive` | Read datasets with h5py as shown in the [archive guide](archive-format.md). |
+| Excel result workbook / HDF5 query export | `results.writeXlsx`, `reader.writeQueryTables` | The package exposes model query tables through Arrow. |
 
 ## Save and reopen a model with results
 
-Save this example as `archive-model.mjs` in the repository root after building the WebAssembly package:
+Save this example as `archive-model.mjs` in the repository root with the extracted Reader in `reader/`:
+
+**JavaScript / WebAssembly**
 
 ~~~javascript
-import { loadOorReader } from "./build/wasm/dist/index.js";
+import { writeFile } from "node:fs/promises";
+import { loadOorReader } from "./reader/index.js";
 
 const oor = await loadOorReader();
 oor.writeFile("/work/point.oos", "[model]\nNode;1;;0.;0.;0.\n");
@@ -76,6 +78,7 @@ const results = oor.createResults([
 try {
   results.attach(deck, false);
   results.writeArchive("/work/point.ooh5");
+  await writeFile("point.ooh5", oor.readFile("/work/point.ooh5"));
   const archive = oor.openResults("/work/point.ooh5"); // result index only; model values stay unread
   const restored = archive.model();                  // loads the model and attaches it for queries
   try {
@@ -93,6 +96,18 @@ try {
 }
 ~~~
 
+**Python / native C++**
+
+Open the combined archive written to disk by the JavaScript example. Python can retrieve its model and export its records; the result-index API shown above belongs to JavaScript.
+
+```python
+from oo_reader import read_model
+
+restored = read_model("point.ooh5")
+print(restored.card_counts["Node"])  # 1
+restored.write_model("export.oos")
+```
+
 Run it with `node archive-model.mjs`. `oor.readFile("/work/point.ooh5")` returns the archive bytes for downloading or
 writing to host storage. `oor.readModel("/work/point.ooh5")` can load the model independently of its results.
 
@@ -106,7 +121,7 @@ new writes use version 4, and version 3 result archives remain readable.
 - A record occupies one physical line, with semicolons between values.
 - Card names, field names and vocabulary words use their exact neutral spelling.
 - Quote values containing semicolons or quotes; double an embedded quote.
-- Use `Include` records for model includes. Put every required file in the module file system before reading.
+- Use `Include` records for model includes. Put every required file in the WASM file system for JavaScript or beside the host model at its declared relative path for Python.
 - Inspect diagnostics before using a model. The C++ facade also offers strict read settings.
 
 See the [format specification](model-format.md) and the [card catalogue](model-format-cards.md) for the ordered values,
@@ -114,10 +129,10 @@ defaults, alternatives and repeated groups of each card.
 
 ## Continue
 
-- [JavaScript guide](wasm-api.md): file operations, queries, card editing and result objects.
-- [API declarations](api.rst): current TypeScript types and C++ facade headers.
+- [JavaScript guide](wasm-api.md) and [Python guide](python.md) cover file operations, queries, card editing and result objects.
+- [API declarations](api.rst): JavaScript types, Python interfaces and C++ facade headers.
 - [Native model/results archive](archive-format.md): model columns, result tables, compatibility and custom outputs.
 - [Table packages](table-package.md): transfer of query tables to a consumer.
 - [Architecture](architecture.md) and [module guide](modules.md): implementation entry points.
 
-Release native-backed objects with `delete()` when their data is no longer needed.
+In JavaScript, release native-backed handles with `delete()` when their data is no longer needed.

@@ -5,12 +5,16 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "oo-reader"
 version = "0.2.0"
-description = "Native O_o finite element model reader with Arrow table export"
+description = "Read, edit and query finite element models in .oos and HDF5 .ooh5 format. Native Python interface to the O_o C++ library, also available for JavaScript/WebAssembly."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.23"]
+
+[project.urls]
+Documentation = "https://jcdulas.github.io/O_o_Reader/"
+Repository = "https://github.com/jcdulas/O_o_Reader"
 
 [tool.scikit-build]
 minimum-version = "0.11"

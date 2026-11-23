@@ -1,6 +1,8 @@
 # Preparing and applying an optimization design
 
-Reader supplies the model and design declarations to a JavaScript-driven optimization. Solver computes the analyses,
+The examples assume a loaded Reader model named `deck`. In JavaScript, `oor` and `solver` are the loaded WASM modules. In Python, `deck` comes from `oo_reader.read_model`. See [Getting started](getting-started.md) for package setup.
+
+Reader supplies the model and design declarations to optimization loops written in JavaScript or Python. Solver computes the analyses,
 response derivatives, Jacobian products and supported Hessian products. See the
 [Solver optimization guide](https://jcdulas.github.io/O_o_Solver/docs/optimization.html) for the complete iteration API,
 matrix conventions, callbacks and derivative limits.
@@ -14,12 +16,22 @@ apply, and the general card-editing and model-document facilities. Solver's `cap
 
 ## Inspect variables and export declarations
 
+**JavaScript / WebAssembly**
+
 ```javascript
 const design = oor.designVariables(deck);
 console.log(design.variables, design.problems, design.notApplied);
 
 // Independent owned buffers; safe to transfer to another module or worker.
 const tables = oor.optimizationTables(deck);
+```
+
+**Python / native C++**
+
+```python
+deck.validate_design()
+variables = deck.query("designVariablesTable")
+print(len(variables), variables.columns)
 ```
 
 `designVariables` returns ID, label, initial value, bounds, move limit and dependency flag for every variable.
@@ -37,6 +49,8 @@ use `runQuery` and `queryCatalogue` when an application needs a particular table
 
 ## Connect the solver
 
+**JavaScript / WebAssembly**
+
 ```javascript
 const problem = solver.optimizationFromReader(oor, deck, {
   responses: [{ id: 101, type: "Volume", label: "volume" }],
@@ -52,11 +66,25 @@ try {
 }
 ```
 
+**Python / native C++**
+
+Declare response 101 and the objective in the input model for the Python example.
+
+```python
+from oo_solver import optimization_from_reader
+
+problem = optimization_from_reader(deck)
+point = problem.evaluate(problem.initial_values)
+print(point.objective, point.gradients()["objective"])
+```
+
 The application imports both built modules. The deck must define the variables and relations used by this example.
 The solver owns an immutable snapshot: trial evaluations never modify the Reader model. Edits to the deck require
 rebuilding the solver problem.
 
 ## Apply the accepted point
+
+**JavaScript / WebAssembly**
 
 ```javascript
 const ids = Array.from(info.independentIndices, i => info.variables[i].id);
@@ -65,6 +93,16 @@ console.log(update.changedFields, update.movedGrids);
 const text = deck.toModelText();
 deck.writeArchive("/work/accepted-model.ooh5"); // save the accepted model as native columns
 ```
+
+**Python / native C++**
+
+```python
+ids = [v["id"] for v in problem.variables]
+accepted = deck.with_design_point(ids, accepted_x)
+accepted.write_archive("accepted-model.ooh5")
+```
+
+Python returns a copy at the accepted point. The original deck remains available for another trial.
 
 The IDs are explicit because Solver's vector contains independent variables only, whereas Reader lists all variables.
 IDs must be distinct, defined, independent positive integers; values must be finite and within variable bounds.

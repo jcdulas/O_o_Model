@@ -19,6 +19,7 @@ myst_heading_anchors = 6
 myst_enable_extensions = ["colon_fence", "deflist", "fieldlist"]
 html_theme = "furo"
 html_title = project + " documentation"
+html_short_title = project + " | JavaScript and Python"
 html_show_sphinx = False
 html_show_copyright = False
 html_theme_options = {

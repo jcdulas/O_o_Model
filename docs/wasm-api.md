@@ -1,4 +1,6 @@
-# Using the WebAssembly package
+# Reader operations in JavaScript and Python
+
+Use [Getting started](getting-started.md) to install either distribution. Python imports `oo_reader` from the native `oo-reader` wheel. The JavaScript examples use `oor` for the loaded WASM module.
 
 The package `oor-reader` (built in `build/wasm/dist`) runs the whole library in a browser, a web worker or Node.js.
 It is a WebAssembly module (`oor_reader_core.wasm`, made by Emscripten) and a small JavaScript wrapper
@@ -11,18 +13,35 @@ it refuses to compile the module).
 
 ## Loading
 
+**JavaScript / WebAssembly**
+
 ```js
-import { loadOorReader } from "oor-reader";
+import { loadOorReader } from "./reader/index.js";
 
 const oor = await loadOorReader();
 console.log(oor.version()); // "0.2.0"
 ```
 
+**Python / native C++**
+
+```python
+from importlib.metadata import version
+from oo_reader import read_model
+
+print(version("oo-reader"))
+```
+
 In a browser, serve `oor_reader_core.wasm` next to `oor_reader_core.js`, or tell Emscripten where it is:
+
+**JavaScript / WebAssembly**
 
 ```js
 const oor = await loadOorReader({ locateFile: (file) => `/static/${file}` });
 ```
+
+**Python / native C++**
+
+Install the native wheel with `python -m pip install oo-reader`. The Python importer loads its compiled extension from the environment.
 
 The module is single-threaded: run it in a web worker to keep the page responsive on large files.
 
@@ -30,6 +49,8 @@ The module is single-threaded: run it in a web worker to keep the page responsiv
 
 The library reads and writes files in an in-memory file system. Put the input files in it, and take the output files
 out of it:
+
+**JavaScript / WebAssembly**
 
 ```js
 const text = await (await fetch("plate.oos")).text();
@@ -40,10 +61,21 @@ const bytes = oor.readFile("/work/run.ooh5");   // Uint8Array, to download or up
 oor.removeFile("/work/run.ooh5");               // free the memory of a file you no longer need
 ```
 
+**Python / native C++**
+
+```python
+from pathlib import Path
+
+deck = read_model("plate.oos")
+archive_bytes = Path("run.ooh5").read_bytes()
+```
+
 ## Models
 
 Use `oor.createModel()` to construct an empty model without a file. The [model construction guide](model-construction.md)
 covers object input, typed batches, stable keys, load cases, controls, includes and parts. These APIs also edit imported models.
+
+**JavaScript / WebAssembly**
 
 ```js
 const deck = oor.readModel("/work/plate.oos", { strict: false });  // a model file (model-format.md)
@@ -57,6 +89,16 @@ nativeDeck.delete();
 deck.delete();            // free the C++ object when done
 ```
 
+**Python / native C++**
+
+```python
+deck = read_model("plate.oos", strict=False)
+print(deck.card_counts, [d.message for d in deck.diagnostics])
+deck.write_model("out.oos")
+deck.write_archive("model.ooh5")
+restored = read_model("model.ooh5")
+```
+
 Model records, diagnostics and JavaScript values use the same exact neutral names
 ([naming.md](naming.md)): `ShellQuad4`, `propId`, `All` and `Yes`.
 
@@ -67,6 +109,8 @@ returns any content it could not carry, one description per item. `toModelText` 
 ### Cards by ID
 
 Every card type can be read by ID, with the names of its fields:
+
+**JavaScript / WebAssembly**
 
 ```js
 const node = deck.nodes[11];        // undefined when there is no grid point 11
@@ -81,10 +125,24 @@ deck.cardById("SinglePointConstrList", 7);           // any card type ("source")
 deck.nodes.ids();                   // [1, 2, 3, ...]
 ```
 
+**Python / native C++**
+
+Use the optional PyArrow package to inspect the same node by ID.
+
+```python
+import pyarrow as pa
+
+nodes = pa.record_batch(deck.card_table("nodes", ["id", "xyzGlobal"]))
+row = nodes.column("id").to_pylist().index(11)
+print(nodes.column("xyzGlobal")[row].as_py())
+```
+
 A card is `{ type, id, key, values, fields, text, comment }`; each named value is also a property of the card (`node.xyz` is
 `node.values.xyz`). `fields` are the fields as written, field 1 first: the numbering the editing functions use.
 
 ### Editing cards
+
+**JavaScript / WebAssembly**
 
 ```js
 deck.setCardField("nodes", 11, 3, "2.5");          // compact field 3 of a Node (position1) set to 2.5
@@ -98,6 +156,13 @@ deck.addCards("Node;7;;3.;0.;0.\nShellQuad4;12;1;3;7;8;6");   // [{ type: "Node"
 deck.removeCard("elements", 12);
 ```
 
+**Python / native C++**
+
+```python
+deck.set_card_value("Node", 11, "position1", 2.5)
+deck.set_card_value("ShellProp", 1, "thickness", 0.25)
+```
+
 An edited card keeps its place in the deck, its comment and its link to attached results. Its new fields are checked as
 the model reader checks them: a field the card cannot hold, or an ID another card has, throws an `Error` that says why,
 and nothing changes. `addCards` adds all its cards or none.
@@ -109,6 +174,8 @@ the card's fields. `fields` and numerical edits use the compact order of the mod
 for alternatives such as `materialAngle` and `matFrameId`.
 
 ## Results
+
+**JavaScript / WebAssembly**
 
 ```js
 const results = oor.openResults("/work/run.ooh5"); // an HDF5 results archive, recognised by its content
@@ -125,6 +192,10 @@ results.writeArchive("/work/run.ooh5", { compressionLevel: 4, title: "PLATE" });
 results.writeXlsx("/work/run.xlsx", { title: "PLATE" });  // an Excel workbook, for people
 ```
 
+**Python / native C++**
+
+For result datasets, including slices by step, see the [h5py examples](archive-format.md). The native Reader loads the model portion of a combined archive with `read_model("run.ooh5")`.
+
 `openResults` loads the result indexes, leaving model columns and result values unread. `model()` caches its deck;
 subsequent calls share that deck and its edits. `attach(deck, false)` selects an existing deck instead. `writeArchive`
 includes the attached deck, and preserves an embedded model even when `model()` has not been called. To write the model
@@ -132,6 +203,8 @@ alone, use `deck.writeArchive(path, options)`; it takes the same compression and
 results remain supported. New archives use version 4; version 3 result archives remain readable.
 
 ### A model and results in one archive
+
+**JavaScript / WebAssembly**
 
 ```js
 results.attach(deck, false);
@@ -155,6 +228,16 @@ if (archive.hasModel()) {
 }
 archive.delete();
 ```
+
+**Python / native C++**
+
+```python
+embedded = read_model("complete.ooh5")
+embedded.write_model("export.oos")
+embedded.write_archive("model-only.ooh5")
+```
+
+In the JavaScript example, `maxDisplacement` uses the attached results. Python Reader queries operate on the model.
 
 | Operation | Behavior |
 | --- | --- |
@@ -184,6 +267,8 @@ is a complete runnable program. The archive, native model and table-package vers
 A solver, or a computation in the page, hands its results over as plain arrays; each table is checked against the
 result catalogue (the components of each kind and element type):
 
+**JavaScript / WebAssembly**
+
 ```js
 const results = oor.createResults([
   {
@@ -196,6 +281,10 @@ const results = oor.createResults([
   },
 ], "my run");
 ```
+
+**Python / native C++**
+
+Constructing a Reader results object and writing result workbooks are JavaScript operations. The Python Solver returns numerical tables as read-only NumPy arrays accessible via `model.run("statics")["nodal_tables"]`.
 
 The members of a table are listed by `MemoryTable` in `index.d.ts`. Writing folders that do not exist yet are made.
 
@@ -220,6 +309,8 @@ A table a format cannot hold is listed in `skipped`, never dropped silently.
 The named queries of the library (over 160: inventory of the model, geometry, mass, quality, loads, results, margins,
 section cuts, ...) run on a deck, on results, or on both:
 
+**JavaScript / WebAssembly**
+
 ```js
 const nodes = oor.runQuery("nodesTable", { deck });
 nodes.column("x").values;                   // Float64Array of the basic x coordinates
@@ -234,11 +325,23 @@ oor.queryCatalogue();                       // every query, its description and 
 worst.toCsv();
 ```
 
+**Python / native C++**
+
+```python
+import pyarrow as pa
+
+nodes = pa.record_batch(deck.query("nodesTable"))
+print(nodes.column("x").to_numpy())
+elements = deck.query("elementsTable", columns=["elementId", "type", "propId", "nodes"])
+```
+
 Arguments are plain JavaScript values: numbers, texts, arrays of IDs, objects for named sets
 (`{ wing: [1, 2, 3] }`), `{ start, stop, step }` for step positions. See `argumentsFromJson` in
 [include/oor/api/Queries.hpp](../include/oor/api/Queries.hpp) for every kind.
 
 ### Custom outputs in HDF5
+
+**JavaScript / WebAssembly**
 
 ```js
 oor.writeQueryTables("/work/outputs.h5", [
@@ -247,12 +350,18 @@ oor.writeQueryTables("/work/outputs.h5", [
 ]);
 ```
 
+**Python / native C++**
+
+The `oor-query-tables` writer is exposed by JavaScript. A Python consumer can retrieve the typed model rows with `deck.query("nodesTable")` and export them through its chosen Arrow consumer.
+
 The layout of that file is in [archive-format.md](archive-format.md#query-tables-custom-outputs).
 
 ## Card tables
 
 The named queries give views made for people. A program that computes on the model (the O_o_Solver module) reads the
 cards themselves: every field of a card type, with the computed columns it asks for, sorted by ID.
+
+**JavaScript / WebAssembly**
 
 ```js
 oor.cardTypesOf(deck, "elements");                       // ["ShellQuad4", "ShellTria3"]
@@ -263,6 +372,16 @@ const nodes = oor.cardTable(deck, "nodes", ["id", "positionFrameId", "displaceme
 oor.displacementRotations(deck);                         // Float64Array, 9 values per grid point (row-major)
 oor.modelVersions(deck);                                 // { structure, content, control }
 const bytes = quads.toPackage();                         // Uint8Array: the table with its exact Arrow layout
+```
+
+**Python / native C++**
+
+```python
+from oo_reader import card_columns
+
+stored, computed = card_columns("ShellQuad4")
+quads = deck.card_table("ShellQuad4", ["id", "propId", "nodes", "nodesRows"])
+rotations = deck.displacement_rotations()  # one row of nine values per node
 ```
 
 `nodesRows` indexes the rows of `cardTable(deck, "nodes")`, and `propIdRow` the rows of the property's card table.
@@ -282,10 +401,21 @@ shows accepted-point persistence and restoration.
 
 Every error of the library is thrown as a JavaScript `Error` whose message says what went wrong:
 
+**JavaScript / WebAssembly**
+
 ```js
 try {
   oor.openResults("/work/missing.ooh5");
 } catch (error) {
   console.error(error.message); // "cannot open /work/missing.ooh5: no such file"
 }
+```
+
+**Python / native C++**
+
+```python
+try:
+    read_model("missing.ooh5")
+except RuntimeError as error:
+    print(error)
 ```

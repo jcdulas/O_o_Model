@@ -1,4 +1,4 @@
-# Constructing models from JavaScript
+# Constructing and editing models
 
 An application can attach versioned text documents to a model with `deck.setDocument(name, text)`, list them with
 `documentNames()`, read with `document(name)` and remove with `removeDocument(name)`. A copied deck owns its document
@@ -10,8 +10,10 @@ See [the API reference](api.rst) for the declarations.
 
 ## A complete model
 
+**JavaScript / WebAssembly**
+
 ```js
-import { loadOorReader } from "oor-reader";
+import { loadOorReader } from "./reader/index.js";
 
 const oor = await loadOorReader();
 const deck = oor.createModel();
@@ -47,6 +49,38 @@ deck.writeModel("/work/plate.oos");
 deck.delete();
 ```
 
+**Python / native C++**
+
+For the same plate, create the model records in Python and load them through the public Reader API. The JavaScript builder above also accepts mutable object references and typed batches.
+
+```python
+from pathlib import Path
+from oo_reader import read_model
+
+plate = """[executive]
+SolutionSequence;101
+[case]
+TitleText;Plate built in memory
+SinglePointConstrSelection;7
+DisplacementOutput;All
+SubcaseStart;1
+StaticLoadSelection;10
+[model]
+Node;1;;0.;0.;0.
+Node;2;;1.;0.;0.
+Node;3;;1.;1.;0.
+Node;4;;0.;1.;0.
+ShellQuad4;1;1;1;2;3;4
+ShellProp;1;1;0.01
+IsoMat;1;70000.;;0.3
+SinglePointConstrList;7;123456;1;4
+PointForceLoad;10;2;0;100.;0.;0.;1.
+"""
+Path("plate.oos").write_text(plate, encoding="utf-8")
+deck = read_model("plate.oos")
+deck.write_archive("plate.ooh5")
+```
+
 A load case selects the set ID of load cards, rather than owning copies of those cards. Multiple load cases can
 select the same set. `LoadCombination` combines sets through its `terms` group (`termScaleFactor`, `loadSetId`).
 Results can later be attached and saved with the model; see [the archive guide](archive-format.md).
@@ -75,6 +109,8 @@ Groups are arrays of objects; a one-field group also accepts scalar items. Count
 the catalogue. Fixed-count groups require their declared number of items. An explicit form must agree with its
 discriminating values; slot-only forms are internal layouts. Sections carry their `key` and named values. For example:
 
+**JavaScript / WebAssembly**
+
 ```js
 const rigid = deck.addCard({ type: "RigidInterpolation", values: {
   id: 50, referenceNode: 1, referenceComponents: 123,
@@ -83,6 +119,10 @@ const rigid = deck.addCard({ type: "RigidInterpolation", values: {
 } });
 ```
 
+**Python / native C++**
+
+Represent repeating groups in the `.oos` record before calling `read_model`. For an existing rigid interpolation, `deck.card_table("RigidInterpolation")` returns its stored columns.
+
 `addCards(definitions)` returns `{ type, id, key }` per created entity. Some records create multiple entities:
 `addCard(definition)` requires exactly one entity and returns its reference. Use `addCards` for expanding records. The existing text overload
 `addCards(text)` remains available.
@@ -90,6 +130,8 @@ const rigid = deck.addCard({ type: "RigidInterpolation", values: {
 IDs may change, and load or constraint cards can share a set ID. Keys remain stable until removal and are never reused.
 References are scoped to their model or part. Independent `copy()` models retain corresponding keys; unrelated
 models do not share that key namespace. For example:
+
+**JavaScript / WebAssembly**
 
 ```js
 const [force] = deck.addCards([{ type: "PointForceLoad", fields: [10, 2, 0, 100, 0, 0, 1] }]);
@@ -100,6 +142,16 @@ deck.updateCard(force, { fields: [10, 3, 0, 250, 0, 0, 1] }); // complete replac
 deck.removeCardRef(force);
 ```
 
+**Python / native C++**
+
+```python
+trial = deck.copy()
+trial.set_card_value("PointForceLoad", 10, "magnitude", 250)
+trial.write_model("trial.oos")
+```
+
+Python updates a named field by card type and ID. Stable keys, comments and card removal are JavaScript editing operations.
+
 `setCardValues` uses scalar names from `cardFieldNames`. For group or section changes use a complete `updateCard`.
 Snapshots are detached values; fetch them again after edits. Existing category accessors such as `deck.nodes[id]`
 still support property assignment, following the captured card key even after its ID changes.
@@ -109,6 +161,8 @@ still support property assignment, following the captured card key even after it
 The root model owns executive and case sections. `setSolution()` accepts a number or neutral solution name.
 `setExecutive(records)` replaces executive statements and file assignments together, after validation. Each record
 has `name`, separate `fields` and an optional `comment`; `executiveRecords()` reads them back.
+
+**JavaScript / WebAssembly**
 
 ```js
 const control = deck.caseControl;
@@ -129,6 +183,10 @@ first.removeEntry(snapshot.entries[0].key);
 first.removeSection();             // also removes its steps/substeps
 ```
 
+**Python / native C++**
+
+Define subcases and steps in the `[case]` records before loading the file. Inspect the resolved data with `deck.query("subcasesTable")` and `deck.query("outputRequestsTable")`.
+
 Section keys survive unrelated edits and renumbering. Removed sections and children throw on access. `sections()`
 returns the hierarchy, and `section(key)` retrieves a handle. `addSubcase(id, { kind })` also accepts combination,
 symmetry and repeated-subcase kinds. `addAuxiliaryCase()` opens a separate scope for subsequent top-level subcases.
@@ -146,6 +204,8 @@ is refused to preserve its source structure.
 
 ## Includes and parts
 
+**JavaScript / WebAssembly**
+
 ```js
 deck.addInclude("mesh/nodes.oos", [{ type: "Node", values: { id: 11, position1: 0 } }]);
 const part = deck.addPart({ kind: "SuperelementPart", id: 5 });
@@ -153,6 +213,10 @@ part.addCards([{ type: "Node", values: { id: 11, position1: 99 } }]); // indepen
 deck.writeModel("/work/assembly.oos", { splitIncludes: true });
 part.delete();
 ```
+
+**Python / native C++**
+
+Place the declared Include files beside the main file at their relative paths and load the assembly with `read_model("assembly.oos")`. Interactive part creation and split-Include export are JavaScript builder operations.
 
 `addInclude` appends a new relative `.oos` source and its cards. Its path must remain inside the model folder and
 must not already exist in the source tree. Existing include trees are imported with `readModel()`. Includes flatten

@@ -183,6 +183,8 @@ implementation, compression and storage.
 
 ## Archive APIs
 
+**JavaScript / WebAssembly**
+
 ```js
 results.attach(deck, false);
 results.writeArchive("/work/complete.ooh5"); // model plus results
@@ -192,6 +194,18 @@ const independent = oor.readModel("/work/complete.ooh5");
 model.writeArchive("/work/model-only.ooh5");
 model.writeModel("/work/export.oos");
 ```
+
+**Python / native C++**
+
+```python
+from oo_reader import read_model
+
+model = read_model("complete.ooh5")
+model.write_archive("model-only.ooh5")
+model.write_model("export.oos")
+```
+
+Python loads the embedded model. The JavaScript results writer above can attach result tables to it.
 
 In C++, pass `ArchiveWriteOptions::model` to either `writeArchive` or `beginArchive`. The model is written when the
 session begins; result tables can then be pushed as before. The API also includes an attached deck automatically and
@@ -257,9 +271,23 @@ one named payload. `results.addNamed(input)` validates its kind, array shapes an
 variables, stability derivatives, hinge moments and monitor loads. Structural tables remain under `/index/tables`.
 The `analysis_code` values 101, 103, 105 and 144 identify static, modes, buckling and static aeroelastic output.
 
-## Reading an archive without this library
+(reading-an-archive-without-this-library)=
+## Reading HDF5 datasets directly
 
-With Python and h5py, list result tables only when the optional result index exists:
+The JavaScript results API lists the available tables and reads the first step. Python can inspect the same HDF5 datasets directly with the optional h5py package.
+
+**JavaScript / WebAssembly**
+
+```javascript
+const results = oor.openResults("/work/run.ooh5");
+try {
+  const tables = results.tables();
+  console.log(tables);
+  if (tables.length) console.log(results.read(tables[0].index, { stepIndices: [0] }).values);
+} finally { results.delete(); }
+```
+
+**Python / h5py**
 
 ```python
 import h5py
@@ -269,13 +297,28 @@ with h5py.File("run.ooh5", "r") as archive:
         index = archive["index/tables"][...]
         for row in index:
             print(row["kind"].decode(), row["container"].decode(), row["subcase"], row["step_count"])
-        first = index[0]["group"].decode()
-        one_step = archive[first]["values"][0]     # reads and inflates the first step only
-        components = [c.decode() for c in archive[first]["components"][...]]
+        if len(index):
+            first = index[0]["group"].decode()
+            one_step = archive[first]["values"][0]
+            components = [c.decode() for c in archive[first]["components"][...]]
 ```
 
 To read only the first coordinate field of a native `Node` table, decode its small descriptors and slice the real
-buffer. This example requires a root-part `Node` table and handles dense, constant and sparse columns:
+buffer. Both examples read coordinates in each node's position frame.
+
+**JavaScript / WebAssembly**
+
+```javascript
+const deck = oor.readModel("/work/model.ooh5");
+const nodes = oor.cardTable(deck, "Node", ["id", "position1"]);
+try {
+  console.log(nodes.column("position1").values.slice(0, 5));
+} finally { nodes.delete(); deck.delete(); }
+```
+
+**Python / h5py**
+
+This example requires a root-part `Node` table and handles dense, constant and sparse columns.
 
 ```python
 import h5py

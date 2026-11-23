@@ -4,6 +4,11 @@ A guide for a developer who joins the project: where things are, how they fit, a
 
 ## Reader and solver boundary
 
+In JavaScript, Reader and Solver are separate WASM modules. In Python, `oo_reader` and
+`oo_solver` run in one CPython process. `model_from_reader(deck)` imports Arrow buffers
+through release callbacks, and result arrays retain their native owner. The diagram below
+shows the WebAssembly transport.
+
 ![Two independent module memories exchange model table packages and result arrays through JavaScript.](images/reader-solver-boundary.svg)
 
 *The reader owns parsing, model queries and result storage. The solver owns finite element computations.*

@@ -1,10 +1,26 @@
 API reference
 =============
 
-These declarations are read from the same source files as the packages and C++ facade. A documentation build
-therefore reflects the checked-out revision rather than a separately maintained copy of the signatures.
+The table maps the most common operations across both packages. For Python signatures, see :ref:`native-python-api`.
+The TypeScript declarations and C++ headers below are included directly from the source tree.
 
 For a runnable example, start with :doc:`getting-started`. The module guides explain implementation details.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Operation
+     - JavaScript / WebAssembly
+     - Python / native C++
+   * - Read a deck
+     - ``reader.readModel(path)``
+     - ``oo_reader.read_model(path)``
+   * - Count node rows
+     - ``query.rowCount()``
+     - ``len(table)``
+   * - Save a model
+     - ``deck.writeArchive(path)``
+     - ``deck.write_archive(path)``
 
 JavaScript and TypeScript
 -------------------------
@@ -14,6 +30,24 @@ Load the built package from ``build/wasm/dist/index.js``. The declarations below
 .. literalinclude:: ../wasm/js/index.d.ts
    :language: typescript
    :linenos:
+
+.. _native-python-api:
+
+Python
+------
+
+Import ``read_model(path, *, strict=True)`` from ``oo_reader``. It returns a ``Deck``.
+
+* Inspect ``deck.card_counts``, ``deck.diagnostics`` and ``deck.card_types(group)``.
+* Select columns with ``deck.card_table(name, columns)`` or run ``deck.query(name, **arguments)``.
+  Both return a ``Table`` with ``columns``, a row count via ``len(table)`` and an Arrow capsule.
+* Edit a copy with ``deck.copy()`` and ``set_card_value(card, id, field, value)``.
+  Apply design variables with ``deck.with_design_point(ids, values)`` to get a new deck.
+* Save to text with ``deck.write_model(path)`` or to HDF5 with ``deck.write_archive(path)``.
+
+See :doc:`python` for paired examples and installation details. The public
+`Python module <https://github.com/jcdulas/O_o_Reader/blob/main/python/oo_reader/__init__.py>`_ and
+`native bindings <https://github.com/jcdulas/O_o_Reader/blob/main/python/bindings.cpp>`_ define the available calls.
 
 C++ entry points
 ----------------
