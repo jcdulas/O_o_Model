@@ -16,7 +16,7 @@ Use `Include;parts/rod.oos` to read another text file at that position. Use `Fil
 
 ### Output control
 
-Put model titles and result requests in `[case]`. For example, `DisplacementOutput;All` asks for displacements at all nodes. Writing a model archive from the Reader stores the model. Result datasets enter an archive when the application supplies result tables. [Case control](case-control.md) · [Archive layout](../archive-format.md#layout)
+Put model titles and result requests in `[case]`. For example, `DisplacementOutput;All` asks for displacements at all nodes. Writing a model archive from the Model stores the model. Result datasets enter an archive when the application supplies result tables. [Case control](case-control.md) · [Archive layout](../archive-format.md#layout)
 
 ### Memory management
 

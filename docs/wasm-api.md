@@ -1,8 +1,8 @@
-# Reader operations in JavaScript and Python
+# Model operations in JavaScript and Python
 
-Use [Getting started](getting-started.md) to install either distribution. Python imports `oo_reader` from the native `oo-reader` wheel. The JavaScript examples use `oor` for the loaded WASM module.
+Use [Getting started](getting-started.md) to install either distribution. Python imports `oo_model` from the native `oo-model` wheel. The JavaScript examples use `oor` for the loaded WASM module.
 
-The package `oor-reader` (built in `build/wasm/dist`) runs the whole library in a browser, a web worker or Node.js.
+The package `oo-model` (built in `build/wasm/dist`) runs the whole library in a browser, a web worker or Node.js.
 It is a WebAssembly module (`oor_reader_core.wasm`, made by Emscripten) and a small JavaScript wrapper
 (`index.js` and `model-editing.js`, with its types in `index.d.ts`).
 
@@ -16,9 +16,9 @@ it refuses to compile the module).
 **JavaScript / WebAssembly**
 
 ```js
-import { loadOorReader } from "./reader/index.js";
+import { loadOoModel } from "./model/index.js";
 
-const oor = await loadOorReader();
+const oor = await loadOoModel();
 console.log(oor.version()); // "0.2.0"
 ```
 
@@ -26,9 +26,9 @@ console.log(oor.version()); // "0.2.0"
 
 ```python
 from importlib.metadata import version
-from oo_reader import read_model
+from oo_model import read_model
 
-print(version("oo-reader"))
+print(version("oo-model"))
 ```
 
 In a browser, serve `oor_reader_core.wasm` next to `oor_reader_core.js`, or tell Emscripten where it is:
@@ -36,12 +36,12 @@ In a browser, serve `oor_reader_core.wasm` next to `oor_reader_core.js`, or tell
 **JavaScript / WebAssembly**
 
 ```js
-const oor = await loadOorReader({ locateFile: (file) => `/static/${file}` });
+const oor = await loadOoModel({ locateFile: (file) => `/static/${file}` });
 ```
 
 **Python / native C++**
 
-Install the native wheel with `python -m pip install oo-reader`. The Python importer loads its compiled extension from the environment.
+Install the native package with `python -m pip install oo-model`. The Python importer loads its compiled extension from the environment.
 
 The module is single-threaded: run it in a web worker to keep the page responsive on large files.
 
@@ -194,7 +194,7 @@ results.writeXlsx("/work/run.xlsx", { title: "PLATE" });  // an Excel workbook, 
 
 **Python / native C++**
 
-For result datasets, including slices by step, see the [h5py examples](archive-format.md). The native Reader loads the model portion of a combined archive with `read_model("run.ooh5")`.
+For result datasets, including slices by step, see the [h5py examples](archive-format.md). The native Model loads the model portion of a combined archive with `read_model("run.ooh5")`.
 
 `openResults` loads the result indexes, leaving model columns and result values unread. `model()` caches its deck;
 subsequent calls share that deck and its edits. `attach(deck, false)` selects an existing deck instead. `writeArchive`
@@ -237,7 +237,7 @@ embedded.write_model("export.oos")
 embedded.write_archive("model-only.ooh5")
 ```
 
-In the JavaScript example, `maxDisplacement` uses the attached results. Python Reader queries operate on the model.
+In the JavaScript example, `maxDisplacement` uses the attached results. Python Model queries operate on the model.
 
 | Operation | Behavior |
 | --- | --- |
@@ -284,7 +284,7 @@ const results = oor.createResults([
 
 **Python / native C++**
 
-Constructing a Reader results object and writing result workbooks are JavaScript operations. The Python Solver returns numerical tables as read-only NumPy arrays accessible via `model.run("statics")["nodal_tables"]`.
+Constructing a Model results object and writing result workbooks are JavaScript operations. The Python Solver returns numerical tables as read-only NumPy arrays accessible via `model.run("statics")["nodal_tables"]`.
 
 The members of a table are listed by `MemoryTable` in `index.d.ts`. Writing folders that do not exist yet are made.
 
@@ -377,7 +377,7 @@ const bytes = quads.toPackage();                         // Uint8Array: the tabl
 **Python / native C++**
 
 ```python
-from oo_reader import card_columns
+from oo_model import card_columns
 
 stored, computed = card_columns("ShellQuad4")
 quads = deck.card_table("ShellQuad4", ["id", "propId", "nodes", "nodesRows"])
@@ -392,7 +392,7 @@ A table package hands a table to another WebAssembly module: [table-package.md](
 `designVariables(deck)` inspects bounds and dependencies, `optimizationTables(deck)` exports owned design table
 packages, and `applyDesignPoint(deck, ids, values)` atomically writes an accepted point. The
 [optimization guide](optimization.md) describes the Solver connection, validation and shape update rules.
-`designCapabilities(deck)` reports which Reader design updates and card edits can be prepared. Model documents
+`designCapabilities(deck)` reports which Model design updates and card edits can be prepared. Model documents
 (`deck.setDocument`, `document`, `documentNames`, `removeDocument`) preserve serializable application state in `.ooh5`.
 The Solver [external optimization guide](https://jcdulas.github.io/O_o_Solver/docs/external-optimization.html)
 shows accepted-point persistence and restoration.

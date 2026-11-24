@@ -1,18 +1,20 @@
-# O_o_Reader
+# O_o_Model
 
 Build, edit and query finite element models in memory, or load them through the .oos and HDF5 .ooh5 file adapters, with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
 
-**[Sphinx documentation](https://jcdulas.github.io/O_o_Reader/)** ·
+**[Sphinx documentation](https://jcdulas.github.io/O_o_Model/)** ·
 [Model input reference](docs/reference/index.md) ·
-[Model construction](https://jcdulas.github.io/O_o_Reader/docs/model-construction.html) ·
-[API reference](https://jcdulas.github.io/O_o_Reader/docs/api.html)
+[Model construction](https://jcdulas.github.io/O_o_Model/docs/model-construction.html) ·
+[API reference](https://jcdulas.github.io/O_o_Model/docs/api.html)
 
 ## Install
 
 | Interface | Install |
 | --- | --- |
-| JavaScript / WebAssembly | Extract the [Reader ZIP](https://github.com/jcdulas/O_o_Reader/releases/download/v0.2.0/O_o_Reader-wasm.zip) into `reader/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
-| Python / native C++ | Run `python -m pip install oo-reader`. [PyPI](https://pypi.org/project/oo-reader/) provides wheels for CPython 3.10–3.14 on Windows x64 and Linux x86-64. |
+| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/wasm-latest/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
+| Python / native C++ | Install the [native wheel](https://pypi.org/project/oo-model/0.2.0/) with `python -m pip install oo-model`. For source builds, see the [native build requirements](docs/python.md#build-and-publish). |
+
+Previously published as `O_o_Reader`. The current JavaScript package exports `loadOoModel` and retains `loadOorReader` as an alias. The native wheel exposes `oo_model` and supports the former `oo_reader` import in a fresh environment. The [0.2.0 PyPI release](https://pypi.org/project/oo-reader/0.2.0/) and the [original WASM archive](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.0/O_o_Reader-wasm.zip) use the former names.
 
 ## Read, query and save a model
 
@@ -22,9 +24,9 @@ Create a model with one node at (1, 2, 3), count its nodes and write a model-onl
 
 ```javascript
 import { writeFile } from "node:fs/promises";
-import { loadOorReader } from "./reader/index.js";
+import { loadOoModel } from "./model/index.js";
 
-const reader = await loadOorReader();
+const reader = await loadOoModel();
 reader.writeFile("/work/point.oos", "[model]\nNode;1;;1.;2.;3.\n");
 const deck = reader.readModel("/work/point.oos");
 const nodes = reader.runQuery("nodesTable", { deck });
@@ -42,7 +44,7 @@ try {
 
 ```python
 from pathlib import Path
-from oo_reader import read_model
+from oo_model import read_model
 
 Path("point.oos").write_text("[model]\nNode;1;;1.;2.;3.\n", encoding="utf-8")
 deck = read_model("point.oos")
@@ -62,7 +64,7 @@ only the in-memory core. [Model construction](docs/model-construction.md) · [Bu
 
 [Optimization with JavaScript and Python](docs/optimization.md): design interfaces, derivatives and accepted model updates.
 
-**[Read Sphinx documentation](https://jcdulas.github.io/O_o_Reader/)** · [Architecture with diagrams](docs/architecture.md) · [Documentation index](index.md)
+**[Read Sphinx documentation](https://jcdulas.github.io/O_o_Model/)** · [Architecture with diagrams](docs/architecture.md) · [Documentation index](index.md)
 
 The Documentation workflow publishes the HTML site and provides a downloadable archive.
 See [read, download and build instructions](docs/documentation.md).
@@ -120,11 +122,11 @@ node --test wasm/test/*.test.mjs                        # the end-to-end test, i
 Each WebAssembly test checks its own duration against the same one-second limit.
 
 The `WebAssembly` workflow builds the package on every push to `main` that changes the sources, runs these tests and
-publishes it as `O_o_Reader-wasm.zip` in two [releases](https://github.com/jcdulas/O_o_Reader/releases):
+publishes it as `O_o_Model-wasm.zip` in two [releases](https://github.com/jcdulas/O_o_Model/releases):
 `wasm-latest`, a pre-release that follows the branch, and one release kept for each version of `wasm/package.json`
 (`v0.2.0`, ...), made by the first build of that version and not changed afterwards; the newest of these is the
 latest release of the repository. Raise the version in `wasm/package.json` to keep a new one. Each run also keeps the
-package 90 days as its `O_o_Reader-wasm` artifact.
+package 90 days as its `O_o_Model-wasm` artifact.
 
 ## Licence
 

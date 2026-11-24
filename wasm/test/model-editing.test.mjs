@@ -6,10 +6,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const dist =
   process.env.OOR_DIST ?? path.join(here, "..", "..", "build", "wasm", "dist");
-const { loadOorReader } = await import(
+const { loadOoModel } = await import(
   pathToFileURL(path.join(dist, "index.js")).href
 );
-const oor = await loadOorReader();
+const oor = await loadOoModel();
 
 test("a complete model is built from objects, solved-input tables and archives keep its cases", () => {
   const deck = oor.createModel();

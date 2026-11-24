@@ -13,7 +13,7 @@ The rules this project follows on file formats, names and third-party code. This
 
 ## Names
 
-- The product, its namespace (`oor`), its libraries (`oor_*`), its package (`oor-reader`) and its file formats
+- The product, its namespace (`oor`), its libraries (`oor_*`), its package (`oo-model`) and its file formats
   (`oor-results-archive`, `oor-query-tables`) carry
   no vendor name.
 - The code, comments, messages and tests name no vendor and no vendor product.

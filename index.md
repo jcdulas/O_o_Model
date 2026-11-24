@@ -1,8 +1,8 @@
-# O_o_Reader documentation
+# O_o_Model documentation
 
-Read, edit and query finite element models in .oos and HDF5 .ooh5 format with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
+Build, edit and query finite element models in memory, and exchange files through the OOS and OOH5 adapters with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
 
-**[Published documentation](https://jcdulas.github.io/O_o_Reader/)** · [JavaScript / WASM releases](https://github.com/jcdulas/O_o_Reader/releases) · [Python wheels on PyPI](https://pypi.org/project/oo-reader/)
+**[Published documentation](https://jcdulas.github.io/O_o_Model/)** · [JavaScript / WASM releases](https://github.com/jcdulas/O_o_Model/releases) · [Native Python wheels](https://pypi.org/project/oo-model/0.2.0/)
 
 ## Start here
 
@@ -24,11 +24,11 @@ Read, edit and query finite element models in .oos and HDF5 .ooh5 format with th
 - [JavaScript and Python operations](docs/wasm-api.md) and [native model/results archive](docs/archive-format.md).
 - [Architecture](docs/architecture.md), [table packages](docs/table-package.md) and [naming](docs/naming.md).
 
-## Reader and Solver
+## Model and Solver
 
 | Project | Responsibility |
 | --- | --- |
-| [O_o_Reader](https://github.com/jcdulas/O_o_Reader/blob/main/index.md) | Model records, native model/results archives and model queries |
+| [O_o_Model](https://github.com/jcdulas/O_o_Model/blob/main/index.md) | Model records, native model/results archives and model queries |
 | [O_o_Solver](https://github.com/jcdulas/O_o_Solver/blob/main/index.md) | Finite element analyses from reader tables |
 
 The reader and solver have public documentation sites and exchange model data through typed table packages.

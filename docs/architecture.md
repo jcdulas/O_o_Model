@@ -2,16 +2,16 @@
 
 A guide for a developer who joins the project: where things are, how they fit, and where to start reading.
 
-## Reader and solver boundary
+## Model and solver boundary
 
-In JavaScript, Reader and Solver are separate WASM modules. In Python, `oo_reader` and
+In JavaScript, Model and Solver are separate WASM modules. In Python, `oo_model` and
 `oo_solver` run in one CPython process. `model_from_reader(deck)` imports Arrow buffers
 through release callbacks, and result arrays retain their native owner. The diagram below
 shows the WebAssembly transport.
 
 ![Two independent module memories exchange model table packages and result arrays through JavaScript.](images/reader-solver-boundary.svg)
 
-*Reader exposes model queries and in-memory results. File adapters handle persistence. Solver owns the finite element calculations.*
+*Model exposes model queries and in-memory results. File adapters handle persistence. Solver owns the finite element calculations.*
 
 The application loads each module independently. A query table becomes a byte package through `toPackage()`;
 the receiving module imports that package and checks its data contract. A C++ pointer stays in the memory that owns
@@ -35,12 +35,12 @@ adapters. The standard `oor::api` facade links the configured adapters and prese
 | `oor::xlsx` | `oor/results/xlsx/XlsxWriter.hpp` | Export a result workbook |
 
 The adapters live in [O_o_OOS](https://github.com/jcdulas/O_o_OOS) and [O_o_OOH5](https://github.com/jcdulas/O_o_OOH5).
-Reader fetches the selected revisions during CMake configuration. To use existing checkouts offline, set
+Model fetches the selected revisions during CMake configuration. To use existing checkouts offline, set
 `FETCHCONTENT_SOURCE_DIR_OOR_OOS` and `FETCHCONTENT_SOURCE_DIR_OOR_OOH5` to their absolute paths.
 The memory-only build skips both downloads.
 
 The default value of the CMake cache entry `OOR_FORMATS` is `oos;ooh5;xlsx`. To build just the core in a
-parent CMake project, configure with `-DOOR_FORMATS=`, use `add_subdirectory` for the Reader and link
+parent CMake project, configure with `-DOOR_FORMATS=`, use `add_subdirectory` for the Model and link
 `oor::core`. Use `-DOOR_FORMATS=oos` for a text-only distribution. HDF5 is discovered only for `ooh5`.
 Format selection applies at build time to both language interfaces.
 With native tests enabled, `ctest --test-dir <build> -R "^reader[.]"` exercises the core and each selected model adapter

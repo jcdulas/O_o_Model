@@ -1,8 +1,8 @@
-// oor-reader: reads and writes .oos model files and native HDF5 model/results archives,
+// oo-model: reads and writes .oos model files and native HDF5 model/results archives,
 // writes them as an Excel workbook, and runs the named queries of the library, in the browser or in Node.js.
 //
-//   import { loadOorReader } from "oor-reader";
-//   const oor = await loadOorReader();
+//   import { loadOoModel } from "oo-model";
+//   const oor = await loadOoModel();
 //   oor.writeFile("/work/plate.oos", modelText);
 //   const deck = oor.readModel("/work/plate.oos");
 //   const nodes = oor.runQuery("nodesTable", { deck }).columns();
@@ -26,10 +26,10 @@ export function supportsMemory64() {
 
 // Loads the WebAssembly module. `options` are passed to Emscripten (for example `locateFile` to say where the .wasm
 // file is served from).
-export async function loadOorReader(options = {}) {
+export async function loadOoModel(options = {}) {
   if (!supportsMemory64()) {
     throw new Error(
-      "oor-reader needs 64-bit WebAssembly (Memory64), which this JavaScript runtime does not support: " +
+      "oo-model needs 64-bit WebAssembly (Memory64), which this JavaScript runtime does not support: " +
         "use Node.js 24 or later, or a browser that supports Memory64.");
   }
   const core = await createOorReaderCore(options);
@@ -39,7 +39,7 @@ export async function loadOorReader(options = {}) {
   for (const name of ["read", "writeArchive", "writeXlsx"]) optionalOptions(core.Results.prototype, name, 1);
   addCardAccess(core.Deck.prototype);
   const editing = installModelEditing(core);
-  return new OorReader(core, editing);
+  return new OoModel(core, editing);
 }
 
 function optionalOptions(prototype, name, required) {
@@ -132,7 +132,7 @@ function addCardAccess(prototype) {
   };
 }
 
-export class OorReader {
+export class OoModel {
   constructor(core, editing) {
     this.core = core;
     this.editing = editing;
@@ -264,3 +264,6 @@ export class OorReader {
     return this.core.modelVersions(deck);
   }
 }
+
+// Compatibility exports for applications using the original package.
+export { OoModel as OorReader, loadOoModel as loadOorReader };

@@ -1,4 +1,4 @@
-// Types of the oor-reader package (see index.js).
+// Types of the oo-model package (see index.js).
 
 export interface Diagnostic {
   severity: "info" | "warning" | "error";
@@ -126,7 +126,7 @@ export interface Deck {
   setDocument(name: string, text: string): void;
   removeDocument(name: string): boolean;
   copy(): Deck; // independent copy; column buffers are shared until edited
-  // Empty-model construction uses OorReader.createModel(). Each successful insertion returns stable card keys.
+  // Empty-model construction uses OoModel.createModel(). Each successful insertion returns stable card keys.
   addCard(card: CardDefinition): AddedCard;
   addCards(cards: readonly CardDefinition[]): AddedCard[];
   // Fixed layouts only; scalar columns broadcast. Numeric typed arrays cross the boundary once per column.
@@ -326,7 +326,7 @@ export interface QueryDescription {
   parameters: { name: string; default: string; description: string }[];
 }
 
-export declare class OorReader {
+export declare class OoModel {
   version(): string;
   writeFile(path: string, content: string | Uint8Array): void;
   readFile(path: string, options?: { encoding?: "utf8" | "binary" }): Uint8Array | string;
@@ -367,6 +367,9 @@ export declare class OorReader {
   modelVersions(deck: Deck): { structure: number; content: number; control: number };
 }
 
-export declare function loadOorReader(options?: Record<string, unknown>): Promise<OorReader>;
+export declare function loadOoModel(options?: Record<string, unknown>): Promise<OoModel>;
 // True when the runtime supports 64-bit WebAssembly (Memory64), which the module needs.
 export declare function supportsMemory64(): boolean;
+
+// Compatibility exports for applications using the original package.
+export { OoModel as OorReader, loadOoModel as loadOorReader };

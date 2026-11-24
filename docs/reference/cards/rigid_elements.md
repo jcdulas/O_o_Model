@@ -20,7 +20,7 @@ A rigid connection between a point of an axisymmetric harmonic element ([AxisymQ
 
 Accepted words: `Constant`, `Element`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -60,7 +60,7 @@ A rigid bar with six degrees of freedom at each end.
 | 8 | `alphaCoefficient` | `real` | 0.0 | Coefficient in the relation for alpha. |
 | 9 | `referenceTemperature` | `real` | 0.0 | Temperature defining the reference state for these data, in the model’s temperature scale. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -97,7 +97,7 @@ Ties selected motion components of the second endpoint of a rigid bar to the fir
 | 5 | `alphaCoefficient` | `real` | 0.0 | Coefficient in the relation for alpha. |
 | 6 | `referenceTemperature` | `real` | 0.0 | Temperature defining the reference state for these data, in the model’s temperature scale. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -151,7 +151,7 @@ Begin each section with its key, then write its fixed fields and any counted lis
 
 Accepted words: `DependentDofs`, `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -240,7 +240,7 @@ A rigid body whose independent degrees of freedom are the six of one grid point 
 | ---: | --- | --- | --- | --- |
 | 1 | `dependentNode` | `number` | — | Identifier addressing node data. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -307,7 +307,7 @@ Begin each section with its key, then write its fixed fields and any counted lis
 
 Accepted words: `DependentDofs`, `ThermalExpansion`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -353,7 +353,7 @@ This part of the record has no fixed fields.
 
 Accepted words: `Constant`, `Element`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -382,7 +382,7 @@ A rigid joint connecting two coinciding grid points.
 | 3 | `nodeB` | `integer` | Required | Identifier addressing node data. |
 | 4 | `componentsB` | `integer` | 123456 | Component mask at the indicated endpoint or point. Structural translations use 1–3 and rotations use 4–6. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -452,7 +452,7 @@ A pin-ended element that is rigid in translation.
 | 6 | `alphaCoefficient` | `real` | 0.0 | Coefficient in the relation for alpha. |
 | 7 | `referenceTemperature` | `real` | 0.0 | Temperature defining the reference state for these data, in the model’s temperature scale. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -493,7 +493,7 @@ A clamped connection between a shell and a solid element (multipoint constraints
 
 Accepted words: `Constant`, `Element`, `Elements`, `Node`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -532,7 +532,7 @@ Multipoint constraints that interpolate the displacements of grid points along a
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -575,7 +575,7 @@ A rigid triangular plate.
 | 11 | `alphaCoefficient` | `real` | 0.0 | Coefficient in the relation for alpha. |
 | 12 | `referenceTemperature` | `real` | 0.0 | Temperature defining the reference state for these data, in the model’s temperature scale. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -615,7 +615,7 @@ Ties selected motion components of the second and third points of a rigid triang
 | 7 | `alphaCoefficient` | `real` | 0.0 | Coefficient in the relation for alpha. |
 | 8 | `referenceTemperature` | `real` | 0.0 | Temperature defining the reference state for these data, in the model’s temperature scale. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 

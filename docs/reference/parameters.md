@@ -56,8 +56,8 @@ print(len(table))  # 1
 | --- | --- |
 | Where are geometry, connectivity and model controls stored? | [Native model datasets](../archive-format.md#native-model) |
 | Where are result components and steps stored? | [Result tables](../archive-format.md#result-tables) |
-| Which archive versions can the Reader open? | [Archive compatibility](../archive-format.md#versions) |
-| Which solution does a setting belong to? | Read the [solution sequence](initialization.md#executive-records) and [case selections](case-control.md). The Reader catalogue defines record types and defaults. Solver support is specific to the selected analysis. |
+| Which archive versions can the Model open? | [Archive compatibility](../archive-format.md#versions) |
+| Which solution does a setting belong to? | Read the [solution sequence](initialization.md#executive-records) and [case selections](case-control.md). The Model catalogue defines record types and defaults. Solver support is specific to the selected analysis. |
 
 ~~~{toctree}
 :hidden:

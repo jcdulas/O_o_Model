@@ -27,7 +27,7 @@ A function y(x) for dynamic loads (of time or of frequency), given by points.
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -65,7 +65,7 @@ A function of x - X1 for dynamic loads, given by points: y = yT(x - X1).
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -104,7 +104,7 @@ A function of (x - X1) / X2 for dynamic loads, given by points: y = yT((x - X1) 
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -144,7 +144,7 @@ A polynomial for dynamic loads, y = sum of Ai * ((x - X1) / X2)^i for i = 0 to N
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -181,7 +181,7 @@ A function f(x, y) of two variables for dynamic loads, given by a [TableDynamic1
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -218,7 +218,7 @@ Defines a cyclic loading history as load values sampled over time for use by [Fa
 
 Accepted words: `Constant`, `Element`, `EndTable`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -249,7 +249,7 @@ The power spectral density of a gust for an aeroelastic response analysis (refer
 | 3 | `turbulenceScaleRatio` | `real` | Required | Relative measure of turbulence scale. |
 | 4 | `gustVelocity` | `real` | Required | Gust velocity (length per time). |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -286,7 +286,7 @@ A function f(y) of one variable for the convection heat transfer coefficient or 
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -324,7 +324,7 @@ The heat transfer coefficient or the Nusselt number as a function of two variabl
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -368,7 +368,7 @@ A function y(x) for material properties (of temperature), given by points.
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -406,7 +406,7 @@ A function of x - X1 for material properties, given by points: y = yT(x - X1).
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -445,7 +445,7 @@ A function of (x - X1) / X2 for material properties, given by points: y = yT((x 
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -485,7 +485,7 @@ A polynomial for material properties, y = sum of Ai * ((x - X1) / X2)^i for i = 
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -523,7 +523,7 @@ Modal damping as a function of natural frequency.
 
 Accepted words: `CriticalDamping`, `EndTable`, `Linear`, `Logarithmic`, `QualityFactor`, `Skip`, `StructuralDamping`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -757,7 +757,7 @@ A power spectral density as a function of frequency, G(F), for random analysis (
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -802,7 +802,7 @@ Represents a function sampled at scattered points in three dimensions for a gene
 
 Accepted words: `Constant`, `Element`, `EndTable`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -841,7 +841,7 @@ A function y(x) for stress dependent material properties (the stress-strain curv
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -878,7 +878,7 @@ The stress dependent tables of a nonlinear elastic material at several temperatu
 
 Accepted words: `EndTable`, `Linear`, `Logarithmic`, `Skip`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -927,7 +927,7 @@ Defines a function of time using a channel in an external history file identifie
 
 Accepted words: `Constant`, `DataAcquisitionFile`, `Element`, `EndTable`, `Linear`, `LoadHistoryFile`, `Logarithmic`, `No`, `Skip`, `Table`, `Yes`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 

@@ -7,8 +7,8 @@ Read, edit and query finite element models in .oos and HDF5 .ooh5 format with th
 
 | Interface | Install |
 | --- | --- |
-| JavaScript / WebAssembly | Extract the [Reader ZIP](https://github.com/jcdulas/O_o_Reader/releases/download/v0.2.0/O_o_Reader-wasm.zip) into `reader/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
-| Python / native C++ | Run `python -m pip install oo-reader`. [PyPI](https://pypi.org/project/oo-reader/) provides wheels for CPython 3.10–3.14 on Windows x64 and Linux x86-64. |
+| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/wasm-latest/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
+| Python / native C++ | Install the [native wheel](https://pypi.org/project/oo-model/0.2.0/) with `python -m pip install oo-model`. For source builds, see the [native build requirements](python.md#build-and-publish). |
 
 (read-and-query-a-model)=
 ## Read, query and save a model
@@ -19,9 +19,9 @@ Create a model with one node at (1, 2, 3), count its nodes and write a model-onl
 
 ```javascript
 import { writeFile } from "node:fs/promises";
-import { loadOorReader } from "./reader/index.js";
+import { loadOoModel } from "./model/index.js";
 
-const reader = await loadOorReader();
+const reader = await loadOoModel();
 reader.writeFile("/work/point.oos", "[model]\nNode;1;;1.;2.;3.\n");
 const deck = reader.readModel("/work/point.oos");
 const nodes = reader.runQuery("nodesTable", { deck });
@@ -39,7 +39,7 @@ try {
 
 ```python
 from pathlib import Path
-from oo_reader import read_model
+from oo_model import read_model
 
 Path("point.oos").write_text("[model]\nNode;1;;1.;2.;3.\n", encoding="utf-8")
 deck = read_model("point.oos")
@@ -60,15 +60,15 @@ Both scripts create `point.ooh5` in the current directory. The Node.js script co
 
 ## Save and reopen a model with results
 
-Save this example as `archive-model.mjs` in the repository root with the extracted Reader in `reader/`:
+Save this example as `archive-model.mjs` in the repository root with the extracted Model in `reader/`:
 
 **JavaScript / WebAssembly**
 
 ~~~javascript
 import { writeFile } from "node:fs/promises";
-import { loadOorReader } from "./reader/index.js";
+import { loadOoModel } from "./model/index.js";
 
-const oor = await loadOorReader();
+const oor = await loadOoModel();
 oor.writeFile("/work/point.oos", "[model]\nNode;1;;0.;0.;0.\n");
 const deck = oor.readModel("/work/point.oos");
 const results = oor.createResults([
@@ -101,7 +101,7 @@ try {
 Open the combined archive written to disk by the JavaScript example. Python can retrieve its model and export its records; the result-index API shown above belongs to JavaScript.
 
 ```python
-from oo_reader import read_model
+from oo_model import read_model
 
 restored = read_model("point.ooh5")
 print(restored.card_counts["Node"])  # 1

@@ -198,7 +198,7 @@ model.writeModel("/work/export.oos");
 **Python / native C++**
 
 ```python
-from oo_reader import read_model
+from oo_model import read_model
 
 model = read_model("complete.ooh5")
 model.write_archive("model-only.ooh5")
@@ -397,7 +397,7 @@ that readers can ignore does not change the version.
 | --- | --- | --- | --- |
 | Root archive `format_version` | `4` | `3`, `4` | Model/results container and result layout |
 | `/model` `format_version` | `1` | `1` when a model is requested | Native model slot layout and interpretation |
-| Table-package data contract | `75` | Checked by the receiving module | Query-table transport between Reader and Solver |
+| Table-package data contract | `75` | Checked by the receiving module | Query-table transport between Model and Solver |
 
 Archive and model version constants are in `ArchiveFormat.hpp`; the table-package contract is in
 `include/oor/model/DataContract.hpp`. Changing a native slot's meaning requires a new model schema version. A change

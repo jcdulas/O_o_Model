@@ -5,7 +5,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).parent / "_ext"))
-project = "O_o_Reader"
+project = "O_o_Model"
 author = "O_o contributors"
 release = re.search(r"\bVERSION\s+([0-9.]+)", (ROOT / "CMakeLists.txt").read_text(encoding="utf-8"))[1]
 version = release
@@ -23,11 +23,11 @@ html_short_title = project + " | JavaScript and Python"
 html_show_sphinx = False
 html_show_copyright = False
 html_theme_options = {
-    "source_repository": "https://github.com/jcdulas/O_o_Reader",
+    "source_repository": "https://github.com/jcdulas/O_o_Model",
     "source_branch": "main",
     "source_directory": "",
     "light_css_variables": {"color-brand-primary": "#245d78", "color-brand-content": "#245d78"},
 }
-repository_url = "https://github.com/jcdulas/O_o_Reader"
+repository_url = "https://github.com/jcdulas/O_o_Model"
 
-html_baseurl = "https://jcdulas.github.io/O_o_Reader/"
+html_baseurl = "https://jcdulas.github.io/O_o_Model/"

@@ -2,14 +2,14 @@
   {
     "id": "reader-solver-boundary",
     "title": "Two modules, an explicit data boundary",
-    "description": "JavaScript coordinates two independent WebAssembly memories. Reader query tables cross as byte packages. Solver results return as arrays and may be added to Reader result storage.",
+    "description": "JavaScript coordinates two independent WebAssembly memories. Model query tables cross as byte packages. Solver results return as arrays and may be added to Model result storage.",
     "size": [
       1120,
       840
     ],
     "nodes": [
       {
-        "title": "O_o_Reader",
+        "title": "O_o_Model",
         "box": [
           55,
           195,
@@ -65,7 +65,7 @@
           "Query, archive or export"
         ],
         "color": "teal",
-        "tag": "Reader result API"
+        "tag": "Model result API"
       },
       {
         "title": "Result arrays",
@@ -140,7 +140,7 @@
           415,
           560
         ],
-        "title": "Reader module",
+        "title": "Model module",
         "subtitle": "Owns model parsing and result storage",
         "color": "blue"
       },
@@ -173,7 +173,7 @@
   },
   {
     "id": "reader-layers",
-    "title": "Reader library dependency spine",
+    "title": "Model library dependency spine",
     "description": "The main direct library dependencies from the project build files. An arrow points from a library to a library it requires.",
     "size": [
       1120,
@@ -602,7 +602,7 @@
         "text": [
           "Both inputs build the same model tables, including controls, parts and source metadata.",
           "Model analysis derives geometry and mass without running a finite element solve.",
-          "Query buffers stay inside Reader; table packages cross the boundary to another module."
+          "Query buffers stay inside Model; table packages cross the boundary to another module."
         ]
       }
     ],

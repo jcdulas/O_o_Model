@@ -1,6 +1,6 @@
 # Element names
 
-An element has one descriptive, case-sensitive name throughout Reader and Solver. Its model record, table metadata,
+An element has one descriptive, case-sensitive name throughout Model and Solver. Its model record, table metadata,
 result container, diagnostic and formulation selector use the same root: `ShellQuad4`, for example.
 
 ## Build a name
@@ -41,7 +41,7 @@ for an analysis: inspect the solver's support report.
 | Role | Example |
 | --- | --- |
 | Model record and result `elementType` | `ShellQuad4` |
-| Reader data/table/format | `ShellQuad4Card`, `ShellQuad4Table`, `ShellQuad4Format` |
+| Model data/table/format | `ShellQuad4Card`, `ShellQuad4Table`, `ShellQuad4Format` |
 | Solver element family | `ShellQuad4Element` |
 | Numerical kernel and geometry | `ShellQuad4`, `ShellQuad4Geometry` |
 | Drilling family and geometry | `ShellQuad4DrillingElement`, `ShellQuad4DrillingGeometry` |
@@ -57,7 +57,7 @@ Native model records and table packages use this vocabulary directly.
 
 ## Compatibility
 
-Reader and Solver are version `0.2.0`. Build and update them together. Table packages use data contract **75**.
+Model and Solver are version `0.2.0`. Build and update them together. Table packages use data contract **75**.
 New `.ooh5` archives use format version **4** and native model schema **1**; the reader also accepts version **3**
 result archives. Version 4 retains version 3 result layouts and element names while adding native model columns.
 Older version 3 readers reject version 4 files. See [archive compatibility](archive-format.md#versions).

@@ -93,7 +93,7 @@ jobs:
         id: archive
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: O_o_Reader-wasm
+          name: O_o_Model-wasm
           path: build/wasm/dist/
           if-no-files-found: error
           retention-days: 90
@@ -123,12 +123,12 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       BRANCH_TAG: wasm-latest
       BRANCH_TITLE: WebAssembly package of the main branch
-      ARCHIVE: O_o_Reader-wasm.zip
+      ARCHIVE: O_o_Model-wasm.zip
     steps:
       - name: Fetch the package
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: O_o_Reader-wasm
+          name: O_o_Model-wasm
           path: package
       - name: Make the archive and its notes
         run: |
@@ -161,6 +161,9 @@ jobs:
             gh release create "$BRANCH_TAG" "$ARCHIVE" --target "$GITHUB_SHA" --title "$BRANCH_TITLE" \
               --notes-file branch-notes.md --prerelease --repo "$GITHUB_REPOSITORY"
           fi
+          # Keep existing wasm-latest clients on the same tested build.
+          cp "$ARCHIVE" O_o_Reader-wasm.zip
+          gh release upload "$BRANCH_TAG" O_o_Reader-wasm.zip --clobber --repo "$GITHUB_REPOSITORY"
           echo '## Releases' >> "$GITHUB_STEP_SUMMARY"
           echo "[$ARCHIVE of the main branch]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/download/$BRANCH_TAG/$ARCHIVE) is published." >> "$GITHUB_STEP_SUMMARY"
       - name: Keep the release of a new version

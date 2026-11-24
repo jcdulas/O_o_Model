@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the model-card index and its subject pages from the Reader and its reference data.
+"""Generate the model-card index and its subject pages from O_o_Model and its reference data.
 
 For every card type: its fields in the order of its record (name, kind, default when the code has one), the alternatives
 (two fields for one place: a record gives one of them), the repeated group after the fixed fields, the sections of a
@@ -174,7 +174,7 @@ def card_section(card, layout, words, parameters, design_fields, cards, related)
     if design_fields:
         lines += [f"Designable field descriptors: {design_fields}.", ""]
     if card.diagnostics:
-        lines += ["**Reader diagnostics**", "",
+        lines += ["**Model diagnostics**", "",
                   "The following messages identify invalid input for the applicable field or form.", ""]
         lines += [f"- `{field}` — {message.rstrip('.') }." for field, message in card.diagnostics]
         lines.append("")

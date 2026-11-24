@@ -67,7 +67,7 @@ jobs:
         id: archive
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: O_o_Reader-documentation
+          name: O_o_Model-documentation
           path: build/docs/html/
           if-no-files-found: error
           retention-days: 90
@@ -76,7 +76,7 @@ jobs:
           ARTIFACT_URL: ${{ steps.archive.outputs.artifact-url }}
         run: |
           echo '## Documentation' >> "$GITHUB_STEP_SUMMARY"
-          echo '[Read the published site](https://jcdulas.github.io/O_o_Reader/).' >> "$GITHUB_STEP_SUMMARY"
+          echo '[Read the published site](https://jcdulas.github.io/O_o_Model/).' >> "$GITHUB_STEP_SUMMARY"
           echo "[Download the HTML archive]($ARTIFACT_URL)." >> "$GITHUB_STEP_SUMMARY"
           echo 'Extract the archive and open index.html, or serve it with python -m http.server 8000 --bind 127.0.0.1.' >> "$GITHUB_STEP_SUMMARY"
       - name: Package the public site

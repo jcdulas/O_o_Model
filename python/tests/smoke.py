@@ -4,11 +4,15 @@ import tempfile
 from pathlib import Path
 
 import numpy as np
+import oo_model
 import oo_reader
+
+# In the isolated wheel test the legacy import resolves to the same native types.
+assert oo_reader.Deck is oo_model.Deck
 
 
 def check_builder():
-    deck = oo_reader.create_model()
+    deck = oo_model.create_model()
     added = deck.add_card_batch("Node", {
         "id": np.arange(1, 5, dtype=np.int32)[::2],
         "position1": np.array([0., 2.]),
@@ -44,15 +48,15 @@ with tempfile.TemporaryDirectory() as directory:
             memory_deck.write_archive(path)
         else:
             assert memory_deck.write_model(path) == []
-        restored = oo_reader.read_model(path)
+        restored = oo_model.read_model(path)
         assert restored.card_counts == memory_deck.card_counts and not restored.check_references()
     path = Path(directory, "node.oos")
     path.write_text("[model]\nNode;1;;1.;2.;3.\n", encoding="utf-8")
-    deck = oo_reader.read_model(path)
+    deck = oo_model.read_model(path)
     assert deck.card_counts == {"Node": 1}
     archive = str(path.with_suffix(".ooh5"))
     deck.write_archive(archive)
-    assert oo_reader.read_model(archive).card_counts == deck.card_counts
+    assert oo_model.read_model(archive).card_counts == deck.card_counts
     table = deck.card_table("nodes", ["id", "xyzGlobal"])
     del deck
     gc.collect()

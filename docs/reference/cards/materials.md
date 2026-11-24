@@ -38,7 +38,7 @@ An anisotropic material for two-dimensional elements.
 | 22 | `structuralDamping23` | `real` | 0.0 | Structural damping coefficient for the associated material or property. Entry 23. |
 | 23 | `structuralDamping33` | `real` | 0.0 | Structural damping coefficient for the associated material or property. Entry 33. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -202,7 +202,7 @@ An anisotropic material for solid elements.
 | 51 | `structuralDamping56` | `real` | — | Structural damping coefficient for the associated material or property. Entry 56. |
 | 52 | `structuralDamping66` | `real` | — | Structural damping coefficient for the associated material or property. Entry 66. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -843,7 +843,7 @@ Begin each section with its key, then write its fixed fields and any counted lis
 
 Accepted words: `Continue`, `Criterion`, `Discard`, `FullIterations`, `ProgressiveFailure`, `RockModel`, `SoilModel`, `VectorizedIterations`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -1259,7 +1259,7 @@ Defines the nonlinear through-thickness compression response of a gasket and ref
 | 21 | `transverseShearModulusTableId` | `integer` | 0 | Table supplying the variation of transverse shear modulus. |
 | 22 | `initialGapTableId` | `integer` | 0 | Table supplying the variation of initial gap. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -1674,7 +1674,7 @@ An isotropic elastic material shared by element properties. Young’s modulus, s
 
 Designable field descriptors: youngsModulus, shearModulus, poissonRatio, density, thermalExpansion, referenceTemperature, structuralDamping, tensionAllowable, compressionAllowable, shearAllowable.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -2023,7 +2023,7 @@ Accepted words: `HashinCriterion`, `HashinFabricFailure`, `HashinTape`.
 
 Designable field descriptors: youngsModulus1, youngsModulus2, poissonRatio12, shearModulus12, shearModulus1Z, shearModulus2Z, density, thermalExpansion1, thermalExpansion2, referenceTemperature, tensionStrength1, compressionStrength1, tensionStrength2, compressionStrength2, shearStrength, structuralDamping, interactionTerm12, strainAllowables.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -2286,7 +2286,7 @@ Defines a three-dimensional orthotropic material with optional plastic yielding 
 
 Accepted words: `ElemMatOrientation`, `ElemPropOrientation`, `Elements`, `Vector`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -2712,7 +2712,7 @@ A rigid material (a rigid body is the elements whose properties name it).
 | 23 | `localCenterY` | `real` | — | Y coordinate of the centre in local axes. |
 | 24 | `localCenterZ` | `real` | — | Z coordinate of the centre in local axes. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -2771,7 +2771,7 @@ A shape memory alloy.
 | 31 | `gFunctionF` | `real` | 0.0 | Coefficient F of the material hardening function. |
 | 32 | `gFunctionMaximum` | `real` | 0.0 | Upper bound of the hardening function in the constitutive relation. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -3074,7 +3074,7 @@ Form `termLines`, for every other record.
 
 Accepted words: `Foam`, `FoamMaterial1`, `IsotropicForm`, `IsotropicForm1`, `IsotropicLinear`, `Linear`, `MooneyRivlin`, `MooneyRivlinModel1`, `Ogden`, `OgdenModel1`, `OrthotropicForm`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -3117,7 +3117,7 @@ The temperature dependent viscoelastic properties of the material of the [ViscoE
 
 Accepted words: `Narayanaswamy`, `PowerLaw`, `User`, `WilliamsLandelFerry`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 

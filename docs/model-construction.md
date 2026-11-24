@@ -13,9 +13,9 @@ See [the API reference](api.rst) for the declarations.
 **JavaScript / WebAssembly**
 
 ```js
-import { loadOorReader } from "./reader/index.js";
+import { loadOoModel } from "./model/index.js";
 
-const oor = await loadOorReader();
+const oor = await loadOoModel();
 const deck = oor.createModel();
 deck.setSolution("LinearStatics");
 deck.caseControl.global.set("TitleText", "Plate built in memory");
@@ -49,11 +49,11 @@ deck.delete();
 **Python / native C++**
 
 The native Python builder accepts the same compact field order and NumPy columns for a homogeneous batch.
-This example requires a Reader built with the in-memory Python builder.
+This example requires a Model built with the in-memory Python builder.
 
 ~~~python
 import numpy as np
-from oo_reader import create_model
+from oo_model import create_model
 
 deck = create_model()
 deck.set_solution("LinearStatics")

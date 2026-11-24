@@ -66,16 +66,16 @@ PYBIND11_MODULE(_native, m)
         workers->closed = true;
         workers->pool.reset();
     }));
-    py::class_<Table>(m, "Table")
+    py::class_<Table>(m, "Table", py::module_local())
         .def("__arrow_c_array__", &exportTable, py::arg("requested_schema") = py::none())
         .def_property_readonly("columns", [](const Table& t) { return t.data->columnNames(); })
         .def("__len__", [](const Table& t) { return t.data->rowCount(); });
-    py::class_<api::DiagnosticText>(m, "Diagnostic")
+    py::class_<api::DiagnosticText>(m, "Diagnostic", py::module_local())
         .def_readonly("severity", &api::DiagnosticText::severity)
         .def_readonly("message", &api::DiagnosticText::message)
         .def_readonly("code", &api::DiagnosticText::code)
         .def_readonly("location", &api::DiagnosticText::location);
-    auto deck = py::class_<api::Deck, std::shared_ptr<api::Deck>>(m, "Deck");
+    auto deck = py::class_<api::Deck, std::shared_ptr<api::Deck>>(m, "Deck", py::module_local());
     bindModelBuilder(deck);
     m.def("create_model", &api::Deck::createModel);
     deck

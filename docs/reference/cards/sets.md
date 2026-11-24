@@ -23,7 +23,7 @@ Selects structural grid points inside a prism over an aerodynamic panel for use 
 | 7 | `zMaximum` | `real` | 0.0 | Upper bound on the z coordinate of the selected region. |
 | 8 | `zMinimum` | `real` | 0.0 | Lower bound on the z coordinate of the selected region. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -91,7 +91,7 @@ The degrees of freedom C of a list of points in the analysis set (a-set).
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -127,7 +127,7 @@ This part of the record has no fixed fields.
 
 Accepted words: `Constant`, `Element`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -160,7 +160,7 @@ New names for the degree-of-freedom sets.
 | 7 | `oldName4` | `text` | — | Text naming the old. |
 | 8 | `newName4` | `text` | — | Text naming the new. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -224,7 +224,7 @@ The degrees of freedom C of a list of points in the fixed analysis set (b-set).
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -287,7 +287,7 @@ The degrees of freedom C of a list of points in the free boundary set (c-set).
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -350,7 +350,7 @@ The degrees of freedom C of a list of points in the generalized set (q-set).
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -386,7 +386,7 @@ Groups grid points or elements for selection by splines, interfaces and other mo
 
 Accepted words: `SkinElems`, `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -449,7 +449,7 @@ The degrees of freedom C of a list of points in the omitted set (o-set).
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -516,7 +516,7 @@ This part of the record has no fixed fields.
 
 Accepted words: `Constant`, `Element`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -550,7 +550,7 @@ The grid points on the boundary of a shape optimisation, with the components for
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -587,7 +587,7 @@ A list of grid points, elements, points, properties or modules that other cards 
 
 Accepted words: `Elements`, `GeomPoint`, `Module`, `Node`, `Property`, `RigidElemsExcluded`, `RigidElemsIncluded`, `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -661,7 +661,7 @@ The degrees of freedom C of a list of points in a set that the user names.
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 

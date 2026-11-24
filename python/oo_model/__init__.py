@@ -1,4 +1,4 @@
-"""Read O_o models and expose their native tables through the Arrow C Data Interface."""
+"""Build, edit and query O_o models and expose their native tables through the Arrow C Data Interface."""
 from os import fsdecode
 
 from ._native import Deck, Diagnostic, Table, card_columns, create_model, read_model as _read_model

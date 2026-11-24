@@ -23,7 +23,7 @@ One cylindrical coordinate system defined by three grid points.
 | 7 | `node2B` | `integer` | — | Grid point defining the point on the positive z-axis of frame B. |
 | 8 | `node3B` | `integer` | — | Grid point defining the point in the positive x–z half-plane of frame B. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -63,7 +63,7 @@ A cylindrical coordinate system defined by three points.
 | 10 | `pointC2` | `real` | 0.0 | Coordinate 2 of the point in the positive x–z half-plane, expressed in the reference frame. |
 | 11 | `pointC3` | `real` | 0.0 | Coordinate 3 of the point in the positive x–z half-plane, expressed in the reference frame. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -101,7 +101,7 @@ A general coordinate system whose three rotation angles are functions of the coo
 
 Accepted words: `EquationForm`, `EulerAngles313`, `SpaceFixed321`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -140,7 +140,7 @@ One rectangular coordinate system defined by three grid points.
 | 7 | `node2B` | `integer` | — | Grid point defining the point on the positive z-axis of frame B. |
 | 8 | `node3B` | `integer` | — | Grid point defining the point in the positive x–z half-plane of frame B. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -180,7 +180,7 @@ A rectangular coordinate system defined by three points.
 | 10 | `pointC2` | `real` | 0.0 | Coordinate 2 of the point in the positive x–z half-plane, expressed in the reference frame. |
 | 11 | `pointC3` | `real` | 0.0 | Coordinate 3 of the point in the positive x–z half-plane, expressed in the reference frame. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -217,7 +217,7 @@ One moving rectangular coordinate system defined by three grid points.
 | 7 | `node2B` | `integer` | — | Grid point defining the point on the positive z-axis of frame B. |
 | 8 | `node3B` | `integer` | — | Grid point defining the point in the positive x–z half-plane of frame B. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -252,7 +252,7 @@ One spherical coordinate system defined by three grid points.
 | 7 | `node2B` | `integer` | — | Grid point defining the point on the positive z-axis of frame B. |
 | 8 | `node3B` | `integer` | — | Grid point defining the point in the positive x–z half-plane of frame B. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -292,7 +292,7 @@ A spherical coordinate system defined by three points.
 | 10 | `pointC2` | `real` | 0.0 | Coordinate 2 of the point in the positive x–z half-plane, expressed in the reference frame. |
 | 11 | `pointC3` | `real` | 0.0 | Coordinate 3 of the point in the positive x–z half-plane, expressed in the reference frame. |
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 

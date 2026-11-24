@@ -8,9 +8,9 @@ Save the [rod model](introduction.md#a-rod-in-tension) as `tie.oos` in your work
 
 ~~~javascript
 import { readFile, writeFile } from "node:fs/promises";
-import { loadOorReader } from "./reader/index.js";
+import { loadOoModel } from "./model/index.js";
 
-const reader = await loadOorReader();
+const reader = await loadOoModel();
 reader.writeFile("/work/input.oos", await readFile(process.argv[2]));
 const deck = reader.readModel("/work/input.oos", { strict: true });
 try {
@@ -27,7 +27,7 @@ try {
 
 ~~~python
 import sys
-from oo_reader import read_model
+from oo_model import read_model
 
 deck = read_model(sys.argv[1], strict=True)
 print(deck.card_counts["Node"], deck.card_counts["Rod2"])  # 2 1
@@ -46,4 +46,4 @@ The Python reader opens the host path directly. In the JavaScript example the fi
 | Output path | The archive-writing call and, for JavaScript, the host write | Chooses where to save the archive |
 | Strict reading | `{ strict: true }` or `strict=True` | Stops on a malformed known record and identifies its location |
 
-To reopen the output, pass `tie.ooh5` as the input path. The Reader recognizes the format by content. Choose a different output filename if you want to keep both archives.
+To reopen the output, pass `tie.ooh5` as the input path. The Model recognizes the format by content. Choose a different output filename if you want to keep both archives.

@@ -5,8 +5,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const dist = process.env.OOR_DIST ?? path.join(here, "..", "..", "build", "wasm", "dist");
-const { loadOorReader } = await import(pathToFileURL(path.join(dist, "index.js")).href);
-const oor = await loadOorReader();
+const { loadOoModel } = await import(pathToFileURL(path.join(dist, "index.js")).href);
+const oor = await loadOoModel();
 
 test("application documents copy independently and survive a model archive", () => {
   const deck = oor.createModel();

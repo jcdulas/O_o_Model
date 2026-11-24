@@ -2,7 +2,7 @@
 
 ## Read online
 
-The public site is **[O_o_Reader documentation](https://jcdulas.github.io/O_o_Reader/)**.
+The public site is **[O_o_Model documentation](https://jcdulas.github.io/O_o_Model/)**.
 Start with the [paired JavaScript and Python examples](getting-started.md) or look up an operation in the [API reference](api.rst).
 The [architecture guide](architecture.md) explains the modules and data flow with diagrams.
 The [source index](../index.md) and the Markdown guides can also be read directly on GitHub.
@@ -12,9 +12,9 @@ images and diagrams; publication follows a successful build on `main` or a manua
 
 ## Download HTML
 
-1. Open the [Documentation workflow](https://github.com/jcdulas/O_o_Reader/actions/workflows/documentation.yml).
+1. Open the [Documentation workflow](https://github.com/jcdulas/O_o_Model/actions/workflows/documentation.yml).
 2. Open its latest successful run on `main`.
-3. Download the `O_o_Reader-documentation` artifact from **Artifacts** or the run summary.
+3. Download the `O_o_Model-documentation` artifact from **Artifacts** or the run summary.
 4. Extract the ZIP archive and open `index.html`.
 
 Archives are retained for 90 days. Use **Run workflow** to create a fresh archive if an older one has expired.
@@ -72,7 +72,7 @@ the inter-module contract. Update an image's alternative text and surrounding ex
 - Keep headings unique within each page so fragment links remain stable.
 - Build with warnings treated as errors and run the local-resource checker before pushing.
 
-The [model input reference](reference/index.md) uses the compiled Reader catalogues for the alphabetical
+The [model input reference](reference/index.md) uses the compiled Model catalogues for the alphabetical
 case-command and parameter entries. To regenerate them from the repository root with a native GCC or Clang build
 and a single-configuration generator, use the same C++ compiler that built the libraries:
 
@@ -89,7 +89,7 @@ The HTML build reads the checked-in Markdown and needs no compiler. For changes 
 The generator combines the model layouts, neutral vocabulary, typed card definitions, validation models and the
 editorial descriptions in `tools/oos_layouts/reference/`. It reports missing purposes, field definitions and examples.
 Run `python tools/oos_layouts/write_cards_doc.py --check` to check that the committed pages match their sources.
-With the native `oo-reader` Python package installed, run `python tools/oos_layouts/check_card_examples.py` to
+With the native `oo-model` Python package installed, run `python tools/oos_layouts/check_card_examples.py` to
 strict-read every published example and verify its typed card count and stable canonical representation.
 Add `--archive` to verify each example through the native HDF5 adapter as well.
 

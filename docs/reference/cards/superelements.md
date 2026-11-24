@@ -56,7 +56,7 @@ This part of the record has no fixed fields.
 
 Accepted words: `Constant`, `Element`, `Table`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -234,7 +234,7 @@ This part of the record has no fixed fields.
 
 Accepted words: `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -333,7 +333,7 @@ The boundary connection between two superelements, point by point.
 
 Accepted words: `All`, `Both`, `Constant`, `Element`, `Full`, `No`, `Off`, `On`, `Table`, `Through`, `Yes`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 
@@ -815,7 +815,7 @@ This part of the record has no fixed fields.
 
 Accepted words: `All`, `Through`.
 
-**Reader diagnostics**
+**Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.
 

@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1120" height="812" viewBox="0 0 1120 812" role="img" aria-labelledby="title description">
-<title id="title">Reader library dependency spine</title>
+<title id="title">Model library dependency spine</title>
 <desc id="description">The main direct library dependencies from the project build files. An arrow points from a library to a library it requires.</desc>
 <rect width="100%" height="100%" rx="18" fill="#f8fafc"/>
 <g font-family="sans-serif" fill="#1c2e48">
 <text x="36" y="40" font-size="13" font-weight="700" letter-spacing="1.5" fill="#52647e">C++ DEPENDENCIES</text>
-<text x="36" y="77" font-size="28" font-weight="700">Reader library dependency spine</text>
+<text x="36" y="77" font-size="28" font-weight="700">Model library dependency spine</text>
 <path d="M505 188 H610" fill="none" stroke="#50627b" stroke-width="2.4" stroke-linejoin="round"/>
 <polygon points="610,188 598,183 598,193" fill="#50627b"/>
 <path d="M835 246 V288" fill="none" stroke="#50627b" stroke-width="2.4" stroke-linejoin="round"/>

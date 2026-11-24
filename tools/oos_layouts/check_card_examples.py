@@ -1,6 +1,6 @@
 """Strict-read the published examples, write them again, and check canonical round trips.
 
-Run after write_cards_doc.py --check with a native oo-reader from the same checkout.
+Run after write_cards_doc.py --check with a native oo-model from the same checkout.
 """
 import argparse
 import json
@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from oo_reader import read_model
+from oo_model import read_model
 
 from card_reference import ROOT
 

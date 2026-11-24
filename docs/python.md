@@ -1,15 +1,15 @@
 # Native Python package
 
-The `oo-reader` distribution exposes the C++ Reader in the CPython process.
-Install it from PyPI with `python -m pip install oo-reader`.
-The standard import name is `oo_reader`. Place `wing.oos` in the working directory and extract the WASM package as described in [Getting started](getting-started.md).
+The `oo-model` distribution exposes the C++ Model in the CPython process.
+Install it with `python -m pip install oo-model` or build from a source checkout with `python -m pip install .`.
+The standard import name is `oo_model`. Place `wing.oos` in the working directory and extract the WASM package as described in [Getting started](getting-started.md).
 
 **JavaScript / WebAssembly**
 
 ```javascript
 import { readFile, writeFile } from "node:fs/promises";
-import { loadOorReader } from "./reader/index.js";
-const reader = await loadOorReader();
+import { loadOoModel } from "./model/index.js";
+const reader = await loadOoModel();
 reader.writeFile("/work/wing.oos", await readFile("wing.oos", "utf8"));
 const deck = reader.readModel("/work/wing.oos");
 const nodes = reader.cardTable(deck, "nodes", ["id", "xyzGlobal"]);
@@ -26,7 +26,7 @@ try {
 **Python / native C++**
 
 ```python
-from oo_reader import read_model
+from oo_model import read_model
 
 deck = read_model("wing.oos")           # also accepts a native .ooh5 archive
 counts = deck.card_counts
@@ -57,4 +57,4 @@ and Windows x64, bundles the required shared libraries and tests archive I/O and
 Arrow ownership. It also builds a source distribution. Configure a PyPI trusted
 publisher for this repository, workflow `python-wheels.yml` and environment `pypi`.
 Enable the workflow's publish input to upload a new version. A default run only
-creates downloadable artifacts. Release the Reader before the matching Solver.
+creates downloadable artifacts. Release the Model before the matching Solver.

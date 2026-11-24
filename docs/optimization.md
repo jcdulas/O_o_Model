@@ -1,8 +1,8 @@
 # Preparing and applying an optimization design
 
-The examples assume a loaded Reader model named `deck`. In JavaScript, `oor` and `solver` are the loaded WASM modules. In Python, `deck` comes from `oo_reader.read_model`. See [Getting started](getting-started.md) for package setup.
+The examples assume a loaded model named `deck`. In JavaScript, `oor` and `solver` are the loaded WASM modules. In Python, `deck` comes from `oo_model.read_model`. See [Getting started](getting-started.md) for package setup.
 
-Reader supplies the model and design declarations to optimization loops written in JavaScript or Python. Solver computes the analyses,
+Model supplies the model and design declarations to optimization loops written in JavaScript or Python. Solver computes the analyses,
 response derivatives, Jacobian products and supported Hessian products. See the
 [Solver optimization guide](https://jcdulas.github.io/O_o_Solver/docs/optimization.html) for the complete iteration API,
 matrix conventions, callbacks and derivative limits.
@@ -10,7 +10,7 @@ For parameters and response fields outside native design declarations, see the
 [external optimization guide](https://jcdulas.github.io/O_o_Solver/docs/external-optimization.html). It covers SOL 101,
 103, 105 and 144, generic card/case updates, numerical derivatives, parallel workers and accepted-point archives.
 
-`oor.designCapabilities(deck)` lists Reader's editable card types, pending design problems, declarations it cannot
+`oor.designCapabilities(deck)` lists Model's editable card types, pending design problems, declarations it cannot
 apply, and the general card-editing and model-document facilities. Solver's `capabilities(model)` and
 `checkOptimization(model, declarations, settings)` describe its supported analyses and native design fields.
 
@@ -35,12 +35,12 @@ print(len(variables), variables.columns)
 ```
 
 `designVariables` returns ID, label, initial value, bounds, move limit and dependency flag for every variable.
-`problems` lists declarations that prevent a valid design point. `notApplied` lists declarations that the Reader
+`problems` lists declarations that prevent a valid design point. `notApplied` lists declarations that the Model
 cannot write, with their card type, ID and reason.
 
 `optimizationTables` exports the typed design variables, links, relations, constants, shape terms, compiled equations,
 responses, response arguments, constraints, constraint unions, subcase selections and screening rules. Each value is
-the corresponding query's table package. No pointer into Reader memory is given to Solver.
+the corresponding query's table package. No pointer into Model memory is given to Solver.
 The optional `IsoMat.sourceBlankFields` card column identifies which of E, G or Poisson ratio was blank in the
 source. Solver uses it to recompute that implicit elastic constant at each designed point and perturbation.
 
@@ -79,7 +79,7 @@ print(point.objective, point.gradients()["objective"])
 ```
 
 The application imports both built modules. The deck must define the variables and relations used by this example.
-The solver owns an immutable snapshot: trial evaluations never modify the Reader model. Edits to the deck require
+The solver owns an immutable snapshot: trial evaluations never modify the model. Edits to the deck require
 rebuilding the solver problem.
 
 ## Apply the accepted point
@@ -104,7 +104,7 @@ accepted.write_archive("accepted-model.ooh5")
 
 Python returns a copy at the accepted point. The original deck remains available for another trial.
 
-The IDs are explicit because Solver's vector contains independent variables only, whereas Reader lists all variables.
+The IDs are explicit because Solver's vector contains independent variables only, whereas Model lists all variables.
 IDs must be distinct, defined, independent positive integers; values must be finite and within variable bounds.
 Omitted independent variables keep their initial value. Linked variables are computed from their links.
 
@@ -120,6 +120,6 @@ To save the accepted model with its result tables, attach it to the result set a
 An archive reopened through `results.model()` shares its deck with subsequent archive writes. See
 [model/results archives](wasm-api.md#a-model-and-results-in-one-archive) for ownership and loading behavior.
 
-Declarations added only to the solver from JavaScript do not automatically create Reader cards. Add their declarations
+Declarations added only to the solver from JavaScript do not automatically create Model cards. Add their declarations
 to the model before using `applyDesignPoint`, or write the final fields through the existing card-editing interface.
-Reader evaluates and writes design relations; derivatives of structural responses belong to Solver.
+Model evaluates and writes design relations; derivatives of structural responses belong to Solver.

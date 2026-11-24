@@ -14,7 +14,7 @@ For a runnable example, start with :doc:`getting-started`. The module guides exp
      - Python / native C++
    * - Create an empty model
      - ``reader.createModel()``
-     - ``oo_reader.create_model()``
+     - ``oo_model.create_model()``
    * - Add a homogeneous batch
      - ``deck.addCardBatch(type, columns)``
      - ``deck.add_card_batch(type, columns)``
@@ -23,7 +23,7 @@ For a runnable example, start with :doc:`getting-started`. The module guides exp
      - ``deck.check_references()``
    * - Read a deck
      - ``reader.readModel(path)``
-     - ``oo_reader.read_model(path)``
+     - ``oo_model.read_model(path)``
    * - Count node rows
      - ``query.rowCount()``
      - ``len(table)``
@@ -45,7 +45,7 @@ Load the built package from ``build/wasm/dist/index.js``. The declarations below
 Python
 ------
 
-Import ``read_model(path, *, strict=True)`` from ``oo_reader``. It returns a ``Deck``.
+Import ``read_model(path, *, strict=True)`` from ``oo_model``. It returns a ``Deck``.
 
 * Create a deck with ``create_model()``, select the solution with ``deck.set_solution(name)`` and set the case
   commands with ``deck.set_case_control(records)``. Each record provides a name and a sequence of string fields.
@@ -60,8 +60,8 @@ Import ``read_model(path, *, strict=True)`` from ``oo_reader``. It returns a ``D
 * Save to text with ``deck.write_model(path)`` or to HDF5 with ``deck.write_archive(path)``.
 
 See :doc:`python` for paired examples and installation details. The public
-`Python module <https://github.com/jcdulas/O_o_Reader/blob/main/python/oo_reader/__init__.py>`_ and
-`native bindings <https://github.com/jcdulas/O_o_Reader/blob/main/python/bindings.cpp>`_ define the available calls.
+`Python module <https://github.com/jcdulas/O_o_Model/blob/main/python/oo_model/__init__.py>`_ and
+`native bindings <https://github.com/jcdulas/O_o_Model/blob/main/python/bindings.cpp>`_ define the available calls.
 
 C++ entry points
 ----------------
