@@ -2,19 +2,20 @@
 
 #include "oor/base/errors/Errors.hpp"
 #include "oor/results/attach/ResultAttachment.hpp"
-#include "oor/results/core/ReadResults.hpp"
-#include "oor/results/archive/ArchiveResultFile.hpp"
-#include "oor/base/text/TextUtilities.hpp"
 
 #include <filesystem>
 
 namespace oor::api
 {
 
-std::shared_ptr<Results> Results::open(const std::string& path)
+std::shared_ptr<Results> Results::fromFile(std::shared_ptr<results::ResultFile> file,
+                                            std::function<std::shared_ptr<model::Model>()> embeddedModel)
 {
+    if (!file)
+        throw base::UsageError("a result set needs a source");
     std::shared_ptr<Results> opened(new Results());
-    opened->m_file = results::readResults(path);
+    opened->m_file = std::move(file);
+    opened->m_embeddedModel = std::move(embeddedModel);
     opened->m_tables = std::make_shared<results::ResultTables>(results::ResultTables::build(opened->m_file, {}));
     opened->m_list = opened->m_tables->all();
     opened->m_metadata = opened->m_file->metadata();
@@ -138,37 +139,14 @@ void Results::attach(const std::shared_ptr<Deck>& deck, bool strict)
 
 bool Results::hasModel() const
 {
-    const auto archive = std::dynamic_pointer_cast<results::ArchiveResultFile>(m_file);
-    return m_deck || (archive && archive->hasModel());
+    return m_deck || m_embeddedModel;
 }
 
 std::shared_ptr<Deck> Results::model()
 {
-    if (!m_deck)
-        if (const auto archive = std::dynamic_pointer_cast<results::ArchiveResultFile>(m_file);
-            archive && archive->hasModel())
-            attach(std::shared_ptr<Deck>(new Deck(archive->readModel())));
+    if (!m_deck && m_embeddedModel)
+        attach(Deck::fromModel(m_embeddedModel()));
     return m_deck;
-}
-
-results::ResultWriteReport Results::writeArchive(const std::string& path,
-                                                 const results::ArchiveWriteOptions& options) const
-{
-    auto settings = options;
-    if (!settings.model)
-    {
-        if (m_deck)
-            settings.model = m_deck->model();
-        else if (const auto archive = std::dynamic_pointer_cast<results::ArchiveResultFile>(m_file);
-                 archive && archive->hasModel())
-            settings.model = archive->readModel();
-    }
-    return results::writeArchive(base::pathFromUtf8(path), *m_tables, settings);
-}
-
-results::ResultWriteReport Results::writeXlsx(const std::string& path, const results::XlsxWriteOptions& options) const
-{
-    return results::writeXlsx(path, *m_tables, options);
 }
 
 query::ResultSet Results::resultSet() const

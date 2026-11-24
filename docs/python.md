@@ -42,6 +42,8 @@ owns a reference to the exported buffers. It can outlive the table or deck.
 `deck.copy()` gives a copy-on-write model. Use `set_card_value` on the copy to change a
 named field, or `with_design_point(ids, values)` to make a copy at a new design point.
 
+Build a deck with NumPy columns using the [in-memory construction API](model-construction.md#a-complete-model). See [file adapters](architecture.md#file-adapters) for a source build without HDF5.
+
 ## Build and publish
 
 Build with Python 3.10 or later, a C++20 compiler, CMake 3.25 or later, Ninja and

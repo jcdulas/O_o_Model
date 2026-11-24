@@ -21,6 +21,18 @@ option(OOR_TRACE_SLOTS "Trace the slots the card readers and writers use" OFF)
 # The time limit of each C++ test, in seconds.
 set(OOR_TEST_TIMEOUT 10 CACHE STRING "Time limit of each C++ test, in seconds")
 
+# File adapters shipped with the standard distribution. Empty builds an in-memory Reader.
+set(OOR_FORMATS "oos;ooh5;xlsx" CACHE STRING "File adapters to build (oos, ooh5, xlsx)")
+foreach(format IN LISTS OOR_FORMATS)
+    if(NOT format MATCHES "^(oos|ooh5|xlsx)$")
+        message(FATAL_ERROR "Unknown Reader file adapter: ${format}")
+    endif()
+endforeach()
+
+if("oos" IN_LIST OOR_FORMATS AND "ooh5" IN_LIST OOR_FORMATS AND "xlsx" IN_LIST OOR_FORMATS)
+    set(OOR_ALL_FORMATS ON)
+endif()
+
 include(OorWarnings)
 include(OorDependencies)
 

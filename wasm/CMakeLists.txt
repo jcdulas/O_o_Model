@@ -6,6 +6,9 @@
 #   package.json
 add_executable(oor_reader_core src/Bindings.cpp src/ModelEditingBindings.cpp src/NamedResultsBindings.cpp)
 target_link_libraries(oor_reader_core PRIVATE oor_api)
+if("ooh5" IN_LIST OOR_FORMATS)
+    target_compile_definitions(oor_reader_core PRIVATE OOR_WITH_OOH5)
+endif()
 set_target_properties(oor_reader_core PROPERTIES
     SUFFIX ".js"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/dist")

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "oor/base/threading/ProgressCounter.hpp"
-#include "oor/deck/records/ModelFileLexer.hpp"
+#include "oor/deck/records/ModelText.hpp"
 #include "oor/model/format/CardLayouts.hpp"
 
 #include <memory>

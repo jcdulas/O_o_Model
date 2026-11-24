@@ -1,7 +1,8 @@
 #pragma once
 
 #include "oor/model/core/Model.hpp"
-#include "oor/results/archive/ArchiveWriter.hpp"
+#include "oor/results/writers/ArchiveWriteOptions.hpp"
+#include "oor/results/writers/ResultWriteReport.hpp"
 
 #include <cstddef>
 #include <memory>
@@ -41,6 +42,8 @@ class Deck
 public:
     // An empty in-memory model; no virtual file or text parsing is needed.
     [[nodiscard]] static std::shared_ptr<Deck> createModel();
+    // Adopts a model made by an input adapter, keeping ownership with the deck.
+    [[nodiscard]] static std::shared_ptr<Deck> fromModel(std::shared_ptr<model::Model> model);
     // An independent model sharing column buffers until the first edit, preserving keys and source structure.
     [[nodiscard]] std::shared_ptr<Deck> copy() const;
     // Part handles share ownership of the root, so they remain valid after its JS handle is deleted.

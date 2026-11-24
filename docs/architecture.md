@@ -11,7 +11,7 @@ shows the WebAssembly transport.
 
 ![Two independent module memories exchange model table packages and result arrays through JavaScript.](images/reader-solver-boundary.svg)
 
-*The reader owns parsing, model queries and result storage. The solver owns finite element computations.*
+*Reader exposes model queries and in-memory results. File adapters handle persistence. Solver owns the finite element calculations.*
 
 The application loads each module independently. A query table becomes a byte package through `toPackage()`;
 the receiving module imports that package and checks its data contract. A C++ pointer stays in the memory that owns
@@ -21,10 +21,46 @@ The solver returns result arrays. The application may explicitly add them to the
 them to a model and use the same query and export APIs as for file-backed results. The
 [solver architecture guide](https://jcdulas.github.io/O_o_Solver/docs/architecture.html) follows the calculation side.
 
+## File adapters
+
+Applications can build and query a deck with `oor::core`. This CMake target has no dependency on the file
+adapters. The standard `oor::api` facade links the configured adapters and preserves content-based detection for
+`readModel`. The names and versions of the stored formats are independent of the solver's table contract.
+
+| CMake target | Public API | Responsibility |
+| --- | --- | --- |
+| `oor::core` | `oor/api/CardEdits.hpp`, `oor/api/ControlEdits.hpp`, `oor/api/Queries.hpp` | In-memory decks, defaults, references, controls, results and queries |
+| `oor::oos` | `oor/formats/oos.hpp` | Read text and includes, write text, report omitted data |
+| `oor::ooh5` | `oor/formats/ooh5.hpp`, `oor/results/archive/ArchiveWriter.hpp` | Read and write typed HDF5 archives, embedded models and result tables |
+| `oor::xlsx` | `oor/results/xlsx/XlsxWriter.hpp` | Export a result workbook |
+
+The default value of the CMake cache entry `OOR_FORMATS` is `oos;ooh5;xlsx`. To build just the core in a
+parent CMake project, configure with `-DOOR_FORMATS=`, use `add_subdirectory` for the Reader and link
+`oor::core`. Use `-DOOR_FORMATS=oos` for a text-only distribution. HDF5 is discovered only for `ooh5`.
+Format selection applies at build time to both language interfaces.
+With native tests enabled, `ctest --test-dir <build> -R "^reader[.]"` exercises the core and each selected model adapter
+as independently linked executables.
+
+**JavaScript / WebAssembly** — with an active Emscripten SDK:
+
+~~~sh
+emcmake cmake -S . -B build/wasm-memory -DOOR_FORMATS= -DOOR_BUILD_TESTS=OFF -DOOR_BUILD_WASM=ON
+cmake --build build/wasm-memory --target oor_reader_package
+~~~
+
+**Python / native C++** — from a checkout with the native toolchain:
+
+~~~sh
+python -m pip wheel . --no-deps -Ccmake.define.OOR_FORMATS= -Cbuild-dir=build/python-memory -w build/wheels-memory
+~~~
+
+Both builds expose the [model construction API](model-construction.md). The compatibility facade reports an error
+when an application requests a file operation whose adapter was omitted. Standard distributions include all adapters.
+
 ## The modules
 
-The library is a stack of static libraries. A module uses only the modules below it (`tools/check_layering.py`
-checks it), so each can be read and tested on its own.
+The table below describes the source directories. The CMake targets above assemble the file-specific
+implementations from these directories. The layering check keeps public includes pointing toward lower levels.
 
 | Module | Namespace | What it does | Start reading at |
 | --- | --- | --- | --- |

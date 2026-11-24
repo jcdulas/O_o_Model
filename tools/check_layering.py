@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-MODULE_ORDER = ["base", "io", "deck", "model", "results", "analysis", "query", "api"]
+MODULE_ORDER = ["base", "io", "deck", "model", "results", "analysis", "query", "api", "formats"]
 OS_HEADERS = {"windows.h", "unistd.h", "sys/mman.h", "sys/stat.h", "sys/types.h", "fcntl.h", "io.h", "direct.h",
               "psapi.h", "sys/resource.h", "pthread.h", "dlfcn.h"}
 HDF5_HEADERS = re.compile(r"^(hdf5|H5[A-Za-z0-9_]*)\.h$")

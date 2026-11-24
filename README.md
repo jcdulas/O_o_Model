@@ -1,6 +1,6 @@
 # O_o_Reader
 
-Read, edit and query finite element models in .oos and HDF5 .ooh5 format with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
+Build, edit and query finite element models in memory, or load them through the .oos and HDF5 .ooh5 file adapters, with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
 
 **[Sphinx documentation](https://jcdulas.github.io/O_o_Reader/)** ·
 [Model input reference](docs/reference/index.md) ·
@@ -54,7 +54,9 @@ Both scripts create `point.ooh5` in the current directory. The Node.js script co
 
 Model queries cover geometry, mesh quality, mass, loads and connections. The JavaScript results API also queries stresses, margins and section cuts. [Query and export guide](docs/wasm-api.md)
 
-The Reader also edits card fields and applies design points in both languages. JavaScript additionally supports constructing models from objects, combining models with result tables and exporting Excel workbooks. [Model construction](docs/model-construction.md) · [Archive format](docs/archive-format.md)
+Both interfaces construct models directly in memory, validate references, edit card fields and apply design points.
+The standard build includes the text, archive and workbook adapters. An application building from source can link
+only the in-memory core. [Model construction](docs/model-construction.md) · [Build profiles](docs/architecture.md#file-adapters) · [Archive format](docs/archive-format.md)
 
 ## Documentation
 
@@ -74,6 +76,7 @@ readable. See [choosing a format](docs/getting-started.md#choose-a-file-format) 
 | Folder | What |
 | --- | --- |
 | `include/oor/<module>/`, `src/<module>/` | the library, in modules that each use only the ones before them: `base` → `io` → `deck` → `model` → `results` → `analysis` → `query` → `api` |
+| `src/formats/`, `include/oor/formats/` | Independent file adapter targets and their public C++ interfaces |
 | `python/` | Native Python extension, public package and installed-wheel tests |
 | `wasm/` | the WebAssembly module: the embind interface (`src/Bindings.cpp`), the JavaScript wrapper (`js/`), its Node.js test (`test/`) |
 | `tests/cpp/<module>/` | the C++ tests (Catch2), run natively |
@@ -91,7 +94,7 @@ For the JavaScript distribution, use the WebAssembly build below. For a Python w
 
 ### Native (development and tests)
 
-Needs a C++20 compiler (GCC 12+ or Clang 16+), CMake 3.25+, Ninja and libhdf5 (on Windows: MSYS2 UCRT64 with
+The standard distribution needs a C++20 compiler (GCC 12+ or Clang 16+), CMake 3.25+, Ninja and libhdf5 (on Windows: MSYS2 UCRT64 with
 `mingw-w64-ucrt-x86_64-hdf5`).
 
 ```bash

@@ -1,5 +1,5 @@
 #include "oor/base/text/MessageNumber.hpp"
-#include "oor/model/core/ModelFileWriter.hpp"
+#include "oor/model/core/CardRecord.hpp"
 #include "oor/query/QueryErrors.hpp"
 #include "oor/query/named/TableBuilder.hpp"
 #include "oor/query/named/common/CardList.hpp"
@@ -347,14 +347,14 @@ public:
                     {
                         difference.change = "removed";
                         difference.id = left.ids[static_cast<std::size_t>(a)];
-                        difference.before = model::ModelFileWriter::cardToRecord(
+                        difference.before = model::cardRecord(
                             self, model::CardLocation{type, left.rows[static_cast<std::size_t>(a)]});
                     }
                     else
                     {
                         difference.change = "added";
                         difference.id = right.ids[static_cast<std::size_t>(b)];
-                        difference.after = model::ModelFileWriter::cardToRecord(
+                        difference.after = model::cardRecord(
                             *other, model::CardLocation{type, right.rows[static_cast<std::size_t>(b)]});
                     }
                     found.push_back(std::move(difference));
@@ -387,9 +387,9 @@ public:
                 {
                     // A card type with no registered fields: compared by its text.
                     const std::string before =
-                        model::ModelFileWriter::cardToRecord(self, model::CardLocation{type, leftRow});
+                        model::cardRecord(self, model::CardLocation{type, leftRow});
                     const std::string after =
-                        model::ModelFileWriter::cardToRecord(*other, model::CardLocation{type, rightRow});
+                        model::cardRecord(*other, model::CardLocation{type, rightRow});
                     if (before != after)
                     {
                         Difference difference;

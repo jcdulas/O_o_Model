@@ -17,7 +17,7 @@
           130
         ],
         "body": [
-          "Read .oos records",
+          "Build or import a model",
           "Build and query typed tables"
         ],
         "color": "blue",

@@ -4,7 +4,6 @@ add_library(oor_deck STATIC
     includes/IncludeBudget.cpp
     includes/IncludeTree.cpp
     raw/CardName.cpp
-    records/ModelFileLexer.cpp
     records/RecordText.cpp
     writer/FileCommit.cpp
     writer/StagedFiles.cpp)

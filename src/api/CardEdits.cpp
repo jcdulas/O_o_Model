@@ -4,11 +4,11 @@
 #include "oor/base/text/NumberFormatter.hpp"
 #include "oor/base/text/NumberParser.hpp"
 #include "oor/base/text/TextUtilities.hpp"
-#include "oor/deck/records/ModelFileLexer.hpp"
+#include "oor/deck/records/ModelText.hpp"
 #include "oor/deck/records/RecordText.hpp"
 #include "oor/model/core/CardRegistry.hpp"
 #include "oor/model/core/CardTable.hpp"
-#include "oor/model/core/ModelFileWriter.hpp"
+#include "oor/model/core/CardRecord.hpp"
 #include "oor/model/format/CardLayouts.hpp"
 #include "oor/model/format/FieldReader.hpp"
 #include "oor/model/format/LayoutSlots.hpp"
@@ -156,7 +156,7 @@ std::vector<deck::ModelItem> recordItems(const std::string& text)
         record.comments = std::exchange(comments, {});
         std::string problem;
         if (content.front() == '[' || !deck::RecordText::split(content, record.values, problem) ||
-            record.values.empty() || record.values.front() == deck::ModelFileLexer::INCLUDE_RECORD)
+            record.values.empty() || record.values.front() == deck::INCLUDE_RECORD)
             throw base::UsageError("an edit contains card records only, line " + std::to_string(number) +
                                    (problem.empty() ? std::string() : ": " + problem));
         records.push_back(std::move(record));
@@ -174,7 +174,7 @@ std::vector<std::string> fieldsOfText(const std::string& text)
 
 std::string cardText(const model::Model& model, CardLocation location)
 {
-    return model::ModelFileWriter::cardToRecord(model, location);
+    return model::cardRecord(model, location);
 }
 
 std::string recordText(const std::string& name, const std::vector<std::string>& fields)

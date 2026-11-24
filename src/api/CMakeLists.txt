@@ -1,5 +1,5 @@
-# The simple entry points of the library (Deck, Results, queries): what the WebAssembly module exposes to JavaScript.
-add_library(oor_api STATIC
+# In-memory deck, result and query API shared by all bindings and file adapters.
+add_library(oor_core STATIC
     Design.cpp
     Deck.cpp
     Results.cpp
@@ -9,7 +9,7 @@ add_library(oor_api STATIC
     ControlEdits.cpp
     QueryArgumentsJson.cpp
     CardTables.cpp)
-add_library(oor::api ALIAS oor_api)
-target_include_directories(oor_api PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(oor_api PUBLIC oor_query)
-oor_enable_warnings(oor_api)
+add_library(oor::core ALIAS oor_core)
+target_include_directories(oor_core PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(oor_core PUBLIC oor_query)
+oor_enable_warnings(oor_core)

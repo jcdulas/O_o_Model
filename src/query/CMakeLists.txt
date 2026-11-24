@@ -27,7 +27,6 @@ add_library(oor_query STATIC
     providers/columns/Columns_tables.cpp
     providers/columns/Columns_thermal.cpp
     providers/columns/RegisterCardColumns.cpp
-    table/Hdf5Export.cpp
     operators/ExecutionContext.cpp
     operators/ColumnOps.cpp
     operators/Expression.cpp

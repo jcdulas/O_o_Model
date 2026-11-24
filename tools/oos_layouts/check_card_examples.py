@@ -2,6 +2,7 @@
 
 Run after write_cards_doc.py --check with a native oo-reader from the same checkout.
 """
+import argparse
 import json
 import re
 from pathlib import Path
@@ -13,6 +14,9 @@ from card_reference import ROOT
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--archive", action="store_true", help="also round-trip each example through the .ooh5 adapter")
+    args = parser.parse_args()
     expected = set(json.loads((ROOT / "formats/oos-layouts.json").read_text(encoding="utf-8"))["cards"])
     checked = set()
     with TemporaryDirectory() as work:
@@ -33,10 +37,18 @@ def main():
                 restored.write_model(str(again))
                 if restored.card_counts != counts or saved.read_bytes() != again.read_bytes():
                     raise ValueError(f"{name}: canonical record changed on rereading")
+                if args.archive:
+                    archive = Path(work) / "record.ooh5"
+                    deck.write_archive(str(archive))
+                    restored = read_model(archive, strict=True)
+                    restored.write_model(str(again))
+                    if restored.card_counts != counts or saved.read_bytes() != again.read_bytes():
+                        raise ValueError(f"{name}: canonical record changed in archive round trip")
                 checked.add(name)
     if checked != expected:
         raise ValueError(f"Catalogue mismatch: {sorted(expected ^ checked)}")
-    print(f"{len(checked)} card examples passed strict reading and canonical round trips.")
+    formats = ".oos and .ooh5" if args.archive else ".oos"
+    print(f"{len(checked)} card examples passed strict reading and canonical round trips through {formats}.")
 
 
 if __name__ == "__main__":

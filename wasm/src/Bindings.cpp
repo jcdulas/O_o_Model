@@ -596,6 +596,7 @@ void writeQueryTables(const std::string& path, const val& tables, int compressio
     guarded(
         [&]
         {
+#ifdef OOR_WITH_OOH5
             std::vector<query::NamedQueryTable> named;
             const auto count = tables["length"].as<unsigned>();
             for (unsigned index = 0; index < count; ++index)
@@ -605,6 +606,12 @@ void writeQueryTables(const std::string& path, const val& tables, int compressio
                                                        item["table"].as<std::shared_ptr<QueryTable>>()->table});
             }
             query::writeQueryTables(path, named, compressionLevel);
+#else
+            (void)path;
+            (void)tables;
+            (void)compressionLevel;
+            throw base::UsageError("this Reader build does not include the ooh5 file adapter");
+#endif
         });
 }
 

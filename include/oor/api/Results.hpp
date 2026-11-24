@@ -1,13 +1,14 @@
 #pragma once
 
+#include <functional>
+
 #include "oor/api/Deck.hpp"
 #include "oor/query/results/ResultSets.hpp"
-#include "oor/results/archive/ArchiveWriter.hpp"
 #include "oor/results/core/MemoryResults.hpp"
 #include "oor/results/core/NamedResultBuilder.hpp"
 #include "oor/results/core/ResultFile.hpp"
 #include "oor/results/core/ResultTables.hpp"
-#include "oor/results/xlsx/XlsxWriter.hpp"
+#include "oor/results/writers/XlsxWriteOptions.hpp"
 
 #include <cstdint>
 #include <memory>
@@ -71,6 +72,9 @@ class Results
 {
 public:
     // Opens an archive by content. Model and result values are loaded only when requested.
+    // Build a queryable result set from an adapter-owned source. An embedded model is loaded on demand.
+    [[nodiscard]] static std::shared_ptr<Results> fromFile(std::shared_ptr<results::ResultFile> file,
+        std::function<std::shared_ptr<model::Model>()> embeddedModel = {});
     [[nodiscard]] static std::shared_ptr<Results> open(const std::string& path);
     // A result set of tables made in memory (a solver hands over its results): each input is checked against the result
     // catalogue (makeMemoryTable). `label` names the set. Throws UsageError with every problem of an input.
@@ -115,6 +119,7 @@ private:
     std::vector<std::shared_ptr<results::ResultTable>> m_list; // the tables in a stable order: the handles
     std::shared_ptr<results::ResultAttachment> m_attachment;
     std::shared_ptr<Deck> m_deck;
+    std::function<std::shared_ptr<model::Model>()> m_embeddedModel;
     results::ResultFileMetadata m_metadata;
 };
 

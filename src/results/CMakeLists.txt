@@ -4,7 +4,6 @@ add_library(oor_results STATIC
     core/ResultLayout.cpp
     core/ResultCatalogue.cpp
     core/ResultCatalogueData.cpp
-    core/ReadResults.cpp
     core/ResultKind.cpp
     core/ResultFilter.cpp
     core/ResultData.cpp
@@ -18,13 +17,7 @@ add_library(oor_results STATIC
     core/MatrixResults.cpp
     core/MemoryResults.cpp
     core/MemoryTableIndex.cpp
-    attach/ResultAttachment.cpp
-    # the HDF5 results archive (docs/archive-format.md)
-    archive/ArchiveResultFile.cpp
-    archive/ArchiveWriter.cpp
-    archive/ArchiveModel.cpp
-    # the Excel workbook of results (an output only)
-    xlsx/XlsxWriter.cpp)
+    attach/ResultAttachment.cpp)
 add_library(oor::results ALIAS oor_results)
 target_include_directories(oor_results PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(oor_results PUBLIC oor_model oor_io)

@@ -1,14 +1,8 @@
 #include "oor/api/Deck.hpp"
 
 #include "oor/base/errors/Errors.hpp"
-#include "oor/base/text/TextUtilities.hpp"
-#include "oor/deck/records/ModelFileLexer.hpp"
 #include "oor/model/core/CardRegistry.hpp"
-#include "oor/model/core/ModelFileReader.hpp"
-#include "oor/model/core/ModelFileWriter.hpp"
 #include "oor/model/references/ReferenceChecker.hpp"
-#include "oor/results/archive/ArchiveModel.hpp"
-#include "oor/results/archive/ArchiveResultFile.hpp"
 
 #include <map>
 
@@ -45,6 +39,13 @@ bool Deck::removeDocument(const std::string& name) const
 std::shared_ptr<Deck> Deck::createModel()
 {
     return std::shared_ptr<Deck>(new Deck(std::make_shared<model::Model>()));
+}
+
+std::shared_ptr<Deck> Deck::fromModel(std::shared_ptr<model::Model> model)
+{
+    if (!model)
+        throw base::UsageError("a deck needs a model");
+    return std::shared_ptr<Deck>(new Deck(std::move(model)));
 }
 
 std::shared_ptr<Deck> Deck::copy() const
@@ -131,60 +132,6 @@ DiagnosticText diagnosticText(const base::Diagnostic& diagnostic)
     text.message = diagnostic.message;
     text.location = diagnostic.location.toString();
     return text;
-}
-
-std::shared_ptr<Deck> Deck::readModel(const std::string& path, const DeckReadSettings& settings)
-{
-    model::ModelReadOptions options;
-    options.strict = settings.strict;
-    const auto file = base::pathFromUtf8(path);
-    auto model = results::ArchiveResultFile::isArchive(file)
-                     ? results::archive::readModel(file, options)
-                     : std::make_shared<model::Model>(model::ModelFileReader::read(file, options));
-    return std::shared_ptr<Deck>(new Deck(std::move(model)));
-}
-
-namespace
-{
-
-model::ModelFileWriteOptions modelFileOptionsOf(const DeckWriteSettings& settings)
-{
-    model::ModelFileWriteOptions options;
-    options.splitIncludes = settings.splitIncludes;
-    options.headerComment = settings.headerComment;
-    return options;
-}
-
-} // namespace
-
-std::vector<std::string> Deck::writeModel(const std::string& path, const DeckWriteSettings& settings) const
-{
-    model::ModelFileWriteReport report;
-    model::ModelFileWriter::write(*m_model, base::pathFromUtf8(path), modelFileOptionsOf(settings), &report);
-    std::vector<const model::Model*> models{m_model.get()};
-    for (std::size_t i = 0; i < models.size(); ++i)
-    {
-        for (const auto& [name, text] : models[i]->documents())
-        {
-            (void)text;
-            report.dropped.push_back("application document '" + name + "' is preserved only by native archives");
-        }
-        for (const auto& part : models[i]->parts()) models.push_back(part.get());
-    }
-    return report.dropped;
-}
-
-std::string Deck::toModelText(const DeckWriteSettings& settings) const
-{
-    return model::ModelFileWriter::toString(*m_model, modelFileOptionsOf(settings));
-}
-
-results::ResultWriteReport Deck::writeArchive(const std::string& path,
-                                              const results::ArchiveWriteOptions& options) const
-{
-    auto settings = options;
-    settings.model = m_model;
-    return results::writeArchive(base::pathFromUtf8(path), results::ResultTables{}, settings);
 }
 
 std::vector<std::pair<std::string, std::size_t>> Deck::cardCounts() const

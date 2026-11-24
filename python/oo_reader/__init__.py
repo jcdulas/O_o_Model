@@ -1,7 +1,7 @@
 """Read O_o models and expose their native tables through the Arrow C Data Interface."""
 from os import fsdecode
 
-from ._native import Deck, Diagnostic, Table, card_columns, read_model as _read_model
+from ._native import Deck, Diagnostic, Table, card_columns, create_model, read_model as _read_model
 
 
 def read_model(path, *, strict=True):
@@ -9,4 +9,4 @@ def read_model(path, *, strict=True):
     return _read_model(fsdecode(path), strict)
 
 
-__all__ = ["Deck", "Diagnostic", "Table", "card_columns", "read_model"]
+__all__ = ["Deck", "Diagnostic", "Table", "card_columns", "create_model", "read_model"]

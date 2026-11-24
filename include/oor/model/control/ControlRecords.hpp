@@ -1,7 +1,7 @@
 #pragma once
 
 #include "oor/base/diagnostics/DiagnosticSink.hpp"
-#include "oor/deck/records/ModelFileLexer.hpp"
+#include "oor/deck/records/ModelText.hpp"
 #include "oor/model/control/case_control/CaseControl.hpp"
 #include "oor/model/control/executive_control/ExecutiveControl.hpp"
 #include "oor/model/control/file_management/FileManagement.hpp"

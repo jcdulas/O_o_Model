@@ -43,47 +43,58 @@ deck.applyDefaults();
 const problems = deck.checkReferences();
 if (problems.length) throw new Error(problems.map((problem) => problem.message).join("\n"));
 console.log(loadCase.effective("SinglePointConstrSelection").value); // 7, inherited
-deck.writeArchive("/work/plate.ooh5");
-const bytes = oor.readFile("/work/plate.ooh5"); // bytes to download or store
-deck.writeModel("/work/plate.oos");
 deck.delete();
 ```
 
 **Python / native C++**
 
-For the same plate, create the model records in Python and load them through the public Reader API. The JavaScript builder above also accepts mutable object references and typed batches.
+The native Python builder accepts the same compact field order and NumPy columns for a homogeneous batch.
+This example requires a Reader built with the in-memory Python builder.
 
-```python
-from pathlib import Path
-from oo_reader import read_model
+~~~python
+import numpy as np
+from oo_reader import create_model
 
-plate = """[executive]
-SolutionSequence;101
-[case]
-TitleText;Plate built in memory
-SinglePointConstrSelection;7
-DisplacementOutput;All
-SubcaseStart;1
-StaticLoadSelection;10
-[model]
-Node;1;;0.;0.;0.
-Node;2;;1.;0.;0.
-Node;3;;1.;1.;0.
-Node;4;;0.;1.;0.
-ShellQuad4;1;1;1;2;3;4
-ShellProp;1;1;0.01
-IsoMat;1;70000.;;0.3
-SinglePointConstrList;7;123456;1;4
-PointForceLoad;10;2;0;100.;0.;0.;1.
-"""
-Path("plate.oos").write_text(plate, encoding="utf-8")
-deck = read_model("plate.oos")
-deck.write_archive("plate.ooh5")
-```
+deck = create_model()
+deck.set_solution("LinearStatics")
+deck.set_case_control([
+    {"name": "TitleText", "fields": ["Plate built in memory"]},
+    {"name": "SinglePointConstrSelection", "fields": ["7"]},
+    {"name": "DisplacementOutput", "fields": ["All", "PrintListing"]},
+    {"name": "SubcaseStart", "fields": ["1"]},
+    {"name": "StaticLoadSelection", "fields": ["10"]},
+])
+deck.add_card_batch("Node", {
+    "id": np.array([1, 2, 3, 4], dtype=np.int32),
+    "position1": np.array([0., 1., 1., 0.]),
+    "position2": np.array([0., 0., 1., 1.]),
+    "position3": 0.,
+})
+deck.add_card("ShellQuad4", [1, 1, 1, 2, 3, 4])
+deck.add_card("ShellProp", {"id": 1, "membraneMatId": 1, "thickness": 0.01})
+deck.add_card("IsoMat", [1, 70000., None, 0.3])
+deck.add_card("SinglePointConstrList", [7, 123456, 1, 4])
+deck.add_card("PointForceLoad", [10, 2, 0, 100., 0., 0., 1.])
+deck.apply_defaults()
+problems = deck.check_references()
+if problems:
+    raise ValueError(problems[0].message)
+~~~
+
+In either language, pass the deck directly to the Solver. To persist it with the archive adapter, call
+`deck.writeArchive("plate.ooh5")` in JavaScript or `deck.write_archive("plate.ooh5")` in Python.
 
 A load case selects the set ID of load cards, rather than owning copies of those cards. Multiple load cases can
 select the same set. `LoadCombination` combines sets through its `terms` group (`termScaleFactor`, `loadSetId`).
 Results can later be attached and saved with the model; see [the archive guide](archive-format.md).
+
+Python accepts a sequence in compact field order for any card, or a mapping of fixed field names to values.
+An explicit `form` selects the named layout. Represent a blank with `None`. For repeats, nested sections and
+other variable-length input, supply the full positional sequence. `add_cards` accepts a list of dictionaries
+with `type` and `fields` and returns the created references together, including records that expand into
+multiple entities. `add_card_batch` accepts one-dimensional numeric NumPy arrays, sequences, and scalar columns
+to broadcast. Set `count` for a batch consisting entirely of scalars. Column lengths must agree.
+The returned `ids` and `keys` arrays include each created entity.
 
 ## Cards, schemas and identity
 

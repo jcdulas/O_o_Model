@@ -12,6 +12,15 @@ For a runnable example, start with :doc:`getting-started`. The module guides exp
    * - Operation
      - JavaScript / WebAssembly
      - Python / native C++
+   * - Create an empty model
+     - ``reader.createModel()``
+     - ``oo_reader.create_model()``
+   * - Add a homogeneous batch
+     - ``deck.addCardBatch(type, columns)``
+     - ``deck.add_card_batch(type, columns)``
+   * - Validate references
+     - ``deck.checkReferences()``
+     - ``deck.check_references()``
    * - Read a deck
      - ``reader.readModel(path)``
      - ``oo_reader.read_model(path)``
@@ -38,6 +47,11 @@ Python
 
 Import ``read_model(path, *, strict=True)`` from ``oo_reader``. It returns a ``Deck``.
 
+* Create a deck with ``create_model()``, select the solution with ``deck.set_solution(name)`` and set the case
+  commands with ``deck.set_case_control(records)``. Each record provides a name and a sequence of string fields.
+* Insert a card with ``deck.add_card(type, fields, *, form="", comment=None)`` or insert several types atomically with
+  ``deck.add_cards(records)``. Insert scalar or NumPy columns with ``deck.add_card_batch(type, columns, *, count=None, form="")``.
+  Call ``deck.apply_defaults()`` and ``deck.check_references()`` before handing the model to a solver.
 * Inspect ``deck.card_counts``, ``deck.diagnostics`` and ``deck.card_types(group)``.
 * Select columns with ``deck.card_table(name, columns)`` or run ``deck.query(name, **arguments)``.
   Both return a ``Table`` with ``columns``, a row count via ``len(table)`` and an Arrow capsule.
@@ -110,6 +124,9 @@ The ``Deck`` and ``Results`` facade above also exposes these operations to appli
 
 ArchiveWriter.hpp
 ~~~~~~~~~~~~~~~~~
+
+.. literalinclude:: ../include/oor/results/writers/ArchiveWriteOptions.hpp
+   :language: cpp
 
 .. literalinclude:: ../include/oor/results/archive/ArchiveWriter.hpp
    :language: cpp

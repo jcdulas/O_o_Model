@@ -91,6 +91,7 @@ editorial descriptions in `tools/oos_layouts/reference/`. It reports missing pur
 Run `python tools/oos_layouts/write_cards_doc.py --check` to check that the committed pages match their sources.
 With the native `oo-reader` Python package installed, run `python tools/oos_layouts/check_card_examples.py` to
 strict-read every published example and verify its typed card count and stable canonical representation.
+Add `--archive` to verify each example through the native HDF5 adapter as well.
 
 When changing archive storage, update [the format specification](archive-format.md), the
 [JavaScript archive workflow](wasm-api.md#a-model-and-results-in-one-archive), the

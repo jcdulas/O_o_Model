@@ -34,8 +34,7 @@ add_library(oor_model STATIC
     core/CardRegistry.cpp
     core/UnknownCardTable.cpp
     core/Model.cpp
-    core/ModelFileReader.cpp
-    core/ModelFileWriter.cpp
+    core/CardRecord.cpp
     references/PartScopes.cpp
     references/ReferenceChecker.cpp
     references/Renumbering.cpp

@@ -1,3 +1,4 @@
+#include "ModelBuilder.hpp"
 #include "oor/api/CardTables.hpp"
 #include "oor/api/CardEdits.hpp"
 #include "oor/api/Design.hpp"
@@ -74,7 +75,10 @@ PYBIND11_MODULE(_native, m)
         .def_readonly("message", &api::DiagnosticText::message)
         .def_readonly("code", &api::DiagnosticText::code)
         .def_readonly("location", &api::DiagnosticText::location);
-    py::class_<api::Deck, std::shared_ptr<api::Deck>>(m, "Deck")
+    auto deck = py::class_<api::Deck, std::shared_ptr<api::Deck>>(m, "Deck");
+    bindModelBuilder(deck);
+    m.def("create_model", &api::Deck::createModel);
+    deck
         .def("copy", &api::Deck::copy)
         .def("set_card_value", [](const api::Deck& d, const std::string& card, std::int32_t id,
                                   const std::string& field, py::object value) {

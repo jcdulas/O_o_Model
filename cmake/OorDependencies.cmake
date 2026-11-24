@@ -8,30 +8,39 @@
 
 include(FetchContent)
 
-if(EMSCRIPTEN)
-    set(OOR_HDF5_WASM_ROOT "$ENV{OOR_HDF5_WASM_ROOT}" CACHE PATH "Install folder of libhdf5 built with Emscripten")
-    if(NOT EXISTS "${OOR_HDF5_WASM_ROOT}/lib/libhdf5.a")
-        message(FATAL_ERROR "libhdf5.a not found under OOR_HDF5_WASM_ROOT='${OOR_HDF5_WASM_ROOT}'. "
-                            "Build it with scripts/build_hdf5_wasm.sh and pass -DOOR_HDF5_WASM_ROOT=<install folder>.")
+if("ooh5" IN_LIST OOR_FORMATS)
+    if(EMSCRIPTEN)
+        set(OOR_HDF5_WASM_ROOT "$ENV{OOR_HDF5_WASM_ROOT}" CACHE PATH "Install folder of libhdf5 built with Emscripten")
+        if(NOT EXISTS "${OOR_HDF5_WASM_ROOT}/lib/libhdf5.a")
+            message(FATAL_ERROR "libhdf5.a not found under OOR_HDF5_WASM_ROOT='${OOR_HDF5_WASM_ROOT}'. "
+                                "Build it with scripts/build_hdf5_wasm.sh and pass -DOOR_HDF5_WASM_ROOT=<install folder>.")
+        endif()
+        add_library(HDF5::HDF5 STATIC IMPORTED GLOBAL)
+        set_target_properties(HDF5::HDF5 PROPERTIES
+            IMPORTED_LOCATION "${OOR_HDF5_WASM_ROOT}/lib/libhdf5.a"
+            INTERFACE_INCLUDE_DIRECTORIES "${OOR_HDF5_WASM_ROOT}/include"
+            INTERFACE_COMPILE_OPTIONS "-sUSE_ZLIB=1"
+            INTERFACE_LINK_OPTIONS "-sUSE_ZLIB=1")
+    else()
+        find_package(HDF5 REQUIRED COMPONENTS C)
     endif()
-    add_library(HDF5::HDF5 STATIC IMPORTED GLOBAL)
-    set_target_properties(HDF5::HDF5 PROPERTIES
-        IMPORTED_LOCATION "${OOR_HDF5_WASM_ROOT}/lib/libhdf5.a"
-        INTERFACE_INCLUDE_DIRECTORIES "${OOR_HDF5_WASM_ROOT}/include"
-        INTERFACE_COMPILE_OPTIONS "-sUSE_ZLIB=1"
-        INTERFACE_LINK_OPTIONS "-sUSE_ZLIB=1")
-    # zlib from the Emscripten ports (built for the memory model of the build: wasm64 here)
-    add_library(ZLIB::ZLIB INTERFACE IMPORTED GLOBAL)
-    set_target_properties(ZLIB::ZLIB PROPERTIES
-        INTERFACE_COMPILE_OPTIONS "-sUSE_ZLIB=1"
-        INTERFACE_LINK_OPTIONS "-sUSE_ZLIB=1")
-else()
-    find_package(HDF5 REQUIRED COMPONENTS C)
-    find_package(ZLIB REQUIRED)
+endif()
+if("xlsx" IN_LIST OOR_FORMATS OR "ooh5" IN_LIST OOR_FORMATS)
+    if(EMSCRIPTEN)
+        # zlib from the Emscripten ports (built for the memory model of the build: wasm64 here)
+        add_library(ZLIB::ZLIB INTERFACE IMPORTED GLOBAL)
+        set_target_properties(ZLIB::ZLIB PROPERTIES
+            INTERFACE_COMPILE_OPTIONS "-sUSE_ZLIB=1"
+            INTERFACE_LINK_OPTIONS "-sUSE_ZLIB=1")
+    else()
+        find_package(ZLIB REQUIRED)
+    endif()
+endif()
+if(NOT EMSCRIPTEN)
     find_package(Threads REQUIRED)
 endif()
 
-if(OOR_BUILD_TESTS AND NOT EMSCRIPTEN)
+if(OOR_BUILD_TESTS AND OOR_ALL_FORMATS AND NOT EMSCRIPTEN)
     set(CATCH_INSTALL_DOCS OFF CACHE BOOL "" FORCE)
     set(CATCH_INSTALL_EXTRAS OFF CACHE BOOL "" FORCE)
     FetchContent_Declare(
