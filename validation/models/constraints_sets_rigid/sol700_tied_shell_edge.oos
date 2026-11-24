@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: shell edge tied to a shell surface and a moving
+# O_o_Model test model: shell edge tied to a shell surface and a moving
 # coordinate system (SOL 700)
 #
 # Covers:
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: RCONN shell edge tie and CORD3R (SOL 700)
+TitleText;O_o_Model test model: RCONN shell edge tie and CORD3R (SOL 700)
 BulkEcho;None
 StepEndTime;0.001
 NonlinearTimeStepSelection;1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: externally evaluated spline (read only, SOL 144)
+# O_o_Model test model: externally evaluated spline (read only, SOL 144)
 #
 # Covers:
 #   - cards: SPLINEX AELISTC
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;144
 [case]
-TitleText;O_o_Reader test model: externally evaluated spline
+TitleText;O_o_Model test model: externally evaluated spline
 BulkEcho;None
 SinglePointConstrSelection;1
 TrimSelection;1

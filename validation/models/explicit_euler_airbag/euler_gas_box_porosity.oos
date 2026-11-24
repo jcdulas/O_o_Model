@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: Euler gas in a closed box with porosity (SOL 700)
+# O_o_Model test model: Euler gas in a closed box with porosity (SOL 700)
 #
 # Covers:
 #   - cards: MESH BIAS PEULER1 MATDEUL EOSGAM TICEUL1 TICREG SPHERE CYLINDR
@@ -8,7 +8,7 @@
 #     COHFRIC EULFOR
 #   - solution: SOL 700 (explicit transient: an ideal gas in a single-material
 #     Euler mesh, coupled to a closed shell box)
-#   - outputs: none that O_o_Reader decodes (the explicit solver writes its
+#   - outputs: none that O_o_Model decodes (the explicit solver writes its
 #     own result files)
 # Run notes:
 #   - needs the explicit solver of SOL 700 in the installation (SOL 700 spawns
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: Euler gas in a closed box (SOL 700)
+TitleText;O_o_Model test model: Euler gas in a closed box (SOL 700)
 BulkEcho;None
 StepEndTime;0.001
 NonlinearTimeStepSelection;1

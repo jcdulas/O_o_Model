@@ -2,39 +2,44 @@
 
 The `oo-model` distribution exposes the C++ Model in the CPython process.
 Install it with `python -m pip install oo-model` or build from a source checkout with `python -m pip install .`.
-The standard import name is `oo_model`. Place `wing.oos` in the working directory and extract the WASM package as described in [Getting started](getting-started.md).
+The standard import name is `oo_model`. Extract the matching WASM distribution as described in [Getting started](getting-started.md).
+
+## Build and query a model in memory
+
+Create a node at (1, 2, 3) and count the rows in the node table. Both examples print `1`.
 
 **JavaScript / WebAssembly**
 
 ```javascript
-import { readFile, writeFile } from "node:fs/promises";
 import { loadOoModel } from "./model/index.js";
-const reader = await loadOoModel();
-reader.writeFile("/work/wing.oos", await readFile("wing.oos", "utf8"));
-const deck = reader.readModel("/work/wing.oos");
-const nodes = reader.cardTable(deck, "nodes", ["id", "xyzGlobal"]);
-const materials = reader.runQuery("materialsTable", { deck });
+
+const api = await loadOoModel();
+const deck = api.createModel();
 try {
-  console.log(deck.cardCounts(), nodes.rowCount(), materials.rowCount());
-  deck.writeArchive("/work/wing.ooh5");
-  await writeFile("wing.ooh5", reader.readFile("/work/wing.ooh5"));
+  deck.addCard({ type: "Node", fields: [1, null, 1, 2, 3] });
+  const nodes = api.runQuery("nodesTable", { deck });
+  try {
+    console.log(nodes.rowCount());
+  } finally {
+    nodes.delete();
+  }
 } finally {
-  materials.delete(); nodes.delete(); deck.delete();
+  deck.delete();
 }
 ```
 
 **Python / native C++**
 
 ```python
-from oo_model import read_model
+from oo_model import create_model
 
-deck = read_model("wing.oos")           # also accepts a native .ooh5 archive
-counts = deck.card_counts
-nodes = deck.card_table("nodes", ["id", "xyzGlobal"])
-materials = deck.query("materialsTable")
-print(counts, len(nodes), len(materials))
-deck.write_archive("wing.ooh5")
+deck = create_model()
+deck.add_card("Node", [1, None, 1., 2., 3.])
+nodes = deck.query("nodesTable")
+print(len(nodes))
 ```
+
+WASM handles own native allocations and expose `delete()`. Python manages those lifetimes and exposes query tables through the Arrow C Data Interface.
 
 Tables implement the Arrow PyCapsule interface. Pass them directly to the native Solver
 or, with the optional PyArrow package, call `pyarrow.record_batch(nodes)`. The consumer

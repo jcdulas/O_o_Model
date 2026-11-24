@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: a stiffener glued edge-on to a panel (SOL 101)
+# O_o_Model validation deck: a stiffener glued edge-on to a panel (SOL 101)
 #
 # Validates:
 #   - which grid points of a stiffener whose edge lies on the mid surface of a
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: a stiffener glued edge-on to a panel
+TitleText;O_o_Model validation: a stiffener glued edge-on to a panel
 BulkEcho;Sorted
 NonlinearOutputParams;PunchGlueEquations
 ContactSelection;1

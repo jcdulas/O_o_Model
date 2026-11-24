@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: plane strain block between rigid NURBS curves (SOL 400)
+# O_o_Model test model: plane strain block between rigid NURBS curves (SOL 400)
 #
 # Covers:
 #   - cards: BCNURB2 (grid and coordinate forms), BCSURF (FACE, GRID and
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: 2D rigid NURBS contact (SOL 400)
+TitleText;O_o_Model test model: 2D rigid NURBS contact (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

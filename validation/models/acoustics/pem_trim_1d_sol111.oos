@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: layered 1D analytical trim between plate and cavity
+# O_o_Model test model: layered 1D analytical trim between plate and cavity
 #
 # Covers:
 #   - cards: ACPMCP1, TCOMPG, TRMCPL (TRMSUR and INTERF; with PLTSURF,
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;111
 [case]
-TitleText;O_o_Reader test model: 1D analytical trim (SOL 111)
+TitleText;O_o_Model test model: 1D analytical trim (SOL 111)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;21

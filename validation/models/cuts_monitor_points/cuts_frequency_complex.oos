@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: complex section cuts and MONPNT3 (SOL 108)
+# O_o_Model validation deck: complex section cuts and MONPNT3 (SOL 108)
 #
 # Validates:
 #   - complex grid point forces and MPC forces through the same connections,

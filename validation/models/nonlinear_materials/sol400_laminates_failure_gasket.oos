@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: laminates with failure data and a gasket (SOL 400)
+# O_o_Model test model: laminates with failure data and a gasket (SOL 400)
 #
 # Covers:
 #   - cards: PCOMPG PCOMPF MATF MATTF MATS8 MATCB PCOMPLS MATG MATTG (with
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: laminates with failure data and a gasket
+TitleText;O_o_Model test model: laminates with failure data and a gasket
 BulkEcho;None
 SinglePointConstrSelection;1
 TemperatureSelection;1;InitialTemperature

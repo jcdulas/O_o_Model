@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: load combinations of a PAA solve step, LOADCLID
+# O_o_Model test model: load combinations of a PAA solve step, LOADCLID
 # LOADCNAM LOADCSUB (read only)
 #
 # Covers:
@@ -10,7 +10,7 @@
 #   - solution: SOL 101 (the solution of a PAA SOLVE step)
 #   - outputs: none (not run)
 # Run notes:
-#   - read and written by O_o_Reader only: these entries act in the COMBINE
+#   - read and written by O_o_Model only: these entries act in the COMBINE
 #     and SOLVE steps of a Part Assembly Analysis, which read the part
 #     databases of earlier GENERATE runs; the format reference does not
 #     give the file management of those runs
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: PAA load combinations
+TitleText;O_o_Model test model: PAA load combinations
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

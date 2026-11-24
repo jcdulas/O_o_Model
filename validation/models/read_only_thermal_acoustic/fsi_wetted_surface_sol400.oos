@@ -1,13 +1,13 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: wetted surface of a coupled fluid (read only)
+# O_o_Model test model: wetted surface of a coupled fluid (read only)
 #
 # Covers:
 #   - cards: WETELME, WETELMG, WETSURF, WETLOAD
 #   - solution: SOL 400 (nonlinear transient, external fluid loads)
 #   - outputs: none brought back (read-only deck)
 # Run notes:
-#   - read and written by O_o_Reader only: the fluid loads on the wetted
+#   - read and written by O_o_Model only: the fluid loads on the wetted
 #     surface come from an external flow code through the coupling service
 #     "fsisvc" (CONNECT SERVICE), which this project does not have
 #   - a clamped steel plate, 100 x 100 x 1 mm, 2 x 2 CQUAD4; two wetted
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: wetted surface (SOL 400)
+TitleText;O_o_Model test model: wetted surface (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 SubcaseStart;1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: detonation of explosives in air (SOL 700)
+# O_o_Model test model: detonation of explosives in air (SOL 700)
 #
 # Covers:
 #   - cards: EOSJWL DETSPH EOSIG EOSMG PMINC EOSNA EOSGAM FLOWDEF MESH PEULER1
@@ -8,7 +8,7 @@
 #   - solution: SOL 700 (explicit transient: a TNT charge detonates in a
 #     multi-material Euler mesh, its blast reaches an LX-17 charge, a copper
 #     plate and a pocket of propellant gas)
-#   - outputs: none that O_o_Reader decodes (the explicit solver writes its
+#   - outputs: none that O_o_Model decodes (the explicit solver writes its
 #     own result files)
 # Run notes:
 #   - needs the explicit solver of SOL 700 in the installation (SOL 700 spawns
@@ -23,7 +23,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: detonation of explosives in air (SOL 700)
+TitleText;O_o_Model test model: detonation of explosives in air (SOL 700)
 BulkEcho;None
 StepEndTime;5.E-5
 NonlinearTimeStepSelection;1

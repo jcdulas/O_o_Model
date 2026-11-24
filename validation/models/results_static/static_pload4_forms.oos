@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: PLOAD4 forms and their resultants
+# O_o_Model validation deck: PLOAD4 forms and their resultants
 #
 # Validates:
 #   - the applied loads (OLOAD) and the SPC forces of each PLOAD4 form:
@@ -11,7 +11,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: PLOAD4 forms
+TitleText;O_o_Model validation: PLOAD4 forms
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

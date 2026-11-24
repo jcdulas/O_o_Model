@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: single-step transfer path analysis in a frequency response (SOL 111)
+# O_o_Model test model: single-step transfer path analysis in a frequency response (SOL 111)
 #
 # Covers:
 #   - cards: TPADEFN (with BEGIN ACTIVE, BEGIN PASSIVE and the Case Control
@@ -22,7 +22,7 @@
 # ============================================================================
 SolutionSequence;111
 [case]
-TitleText;O_o_Reader test model: single-step transfer path analysis
+TitleText;O_o_Model test model: single-step transfer path analysis
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 EigenMethodSelection;1

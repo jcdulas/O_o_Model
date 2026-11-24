@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: crack tips, seam weld, line interface
+# O_o_Model test model: crack tips, seam weld, line interface
 #
 # Covers:
 #   - cards: CRAC2D, PRAC2D, CRAC3D, PRAC3D, CSEAM, PSEAM, CINTC, GMBNDC (with
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: crack tips, seam weld, line interface
+TitleText;O_o_Model test model: crack tips, seam weld, line interface
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

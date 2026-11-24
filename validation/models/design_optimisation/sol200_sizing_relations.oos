@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: sizing optimisation with equation, material, connectivity and load relations (SOL 200)
+# O_o_Model test model: sizing optimisation with equation, material, connectivity and load relations (SOL 200)
 #
 # Covers:
 #   - cards: DVPREL2 DVMREL1 DVCREL1 DVLREL1 DTABLE DTABLE2 DLINK DCONADD DDVAL
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader test model: sizing relations
+TitleText;O_o_Model test model: sizing relations
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;10

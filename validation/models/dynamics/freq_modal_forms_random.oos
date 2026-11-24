@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: modal frequency response: FREQ3/4/5, random, RCROSS
+# O_o_Model test model: modal frequency response: FREQ3/4/5, random, RCROSS
 #
 # Covers:
 #   - cards: FREQ3, FREQ4, FREQ5, RANDT1, RCROSS, RVDOF, RVDOF1
@@ -22,7 +22,7 @@
 # ============================================================================
 SolutionSequence;111
 [case]
-TitleText;O_o_Reader test model: modal frequency forms and random
+TitleText;O_o_Model test model: modal frequency forms and random
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

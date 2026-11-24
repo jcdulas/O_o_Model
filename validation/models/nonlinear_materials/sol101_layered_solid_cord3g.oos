@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: solid composites in a linear static run (SOL 101)
+# O_o_Model test model: solid composites in a linear static run (SOL 101)
 #
 # Covers:
 #   - cards: TABLE3D PCOMPLS MATF MATORT (with CORD3G MAT9 PSOLID CHEXA)
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: solid composites (SOL 101)
+TitleText;O_o_Model test model: solid composites (SOL 101)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

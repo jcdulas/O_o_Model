@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: BOLT1 pretension, two input forms (SOL 400)
+# O_o_Model test model: BOLT1 pretension, two input forms (SOL 400)
 #
 # Covers:
 #   - cards: BOLT1 (FORM 0 with a list of elements, FORM 1 with SET3 lists)
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: BOLT1 pretension (SOL 400)
+TitleText;O_o_Model test model: BOLT1 pretension (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

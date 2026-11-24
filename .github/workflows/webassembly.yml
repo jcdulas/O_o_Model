@@ -108,7 +108,7 @@ jobs:
   release:
     name: Publish the package as releases
     # Two kinds of release. One follows the main branch (wasm-latest, a pre-release): its tag moves to the commit built
-    # and its archive is replaced. One is kept for each version of wasm/package.json (v0.2.0, ...): it is made by the
+    # and its archive is replaced. One is kept for each version of wasm/package.json (v0.2.1, ...): it is made by the
     # first build of that version and never changed afterwards, and the newest is the latest release of the repository.
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: package
@@ -161,9 +161,6 @@ jobs:
             gh release create "$BRANCH_TAG" "$ARCHIVE" --target "$GITHUB_SHA" --title "$BRANCH_TITLE" \
               --notes-file branch-notes.md --prerelease --repo "$GITHUB_REPOSITORY"
           fi
-          # Keep existing wasm-latest clients on the same tested build.
-          cp "$ARCHIVE" O_o_Reader-wasm.zip
-          gh release upload "$BRANCH_TAG" O_o_Reader-wasm.zip --clobber --repo "$GITHUB_REPOSITORY"
           echo '## Releases' >> "$GITHUB_STEP_SUMMARY"
           echo "[$ARCHIVE of the main branch]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/download/$BRANCH_TAG/$ARCHIVE) is published." >> "$GITHUB_STEP_SUMMARY"
       - name: Keep the release of a new version

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: glued shells with thickness, ZOFFS and BIAS (SOL 101)
+# O_o_Model validation deck: glued shells with thickness, ZOFFS and BIAS (SOL 101)
 #
 # Validates:
 #   - the grid points the solver glues between shells and the face, the local

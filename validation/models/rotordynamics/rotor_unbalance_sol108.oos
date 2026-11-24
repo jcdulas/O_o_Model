@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: synchronous unbalance response (SOL 108)
+# O_o_Model test model: synchronous unbalance response (SOL 108)
 #
 # Covers:
 #   - cards: UNBALNC, ROTHYBD (with HYBDAMP), RSPINR, RGYRO
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: unbalance response
+TitleText;O_o_Model test model: unbalance response
 BulkEcho;None
 SinglePointConstrSelection;1
 RotordynamicSelection;200

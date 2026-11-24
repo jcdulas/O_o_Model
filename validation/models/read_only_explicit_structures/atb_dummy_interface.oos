@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: SOL 700 ATB dummy interface (read-only)
+# O_o_Model test model: SOL 700 ATB dummy interface (read-only)
 #
 # Covers:
 #   - cards: ATBSEG ATBJNT ATBACC RELEX DYPARAM (ATBAOUT, ATBHOUT, ATBTOUT)
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;700;129
 [case]
-TitleText;O_o_Reader test model: SOL 700 ATB dummy interface (read-only)
+TitleText;O_o_Model test model: SOL 700 ATB dummy interface (read-only)
 BulkEcho;None
 NonlinearTimeStepSelection;1
 StepEndTime;0.1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: extra points as actuator states coupled to a beam
+# O_o_Model test model: extra points as actuator states coupled to a beam
 # by transfer functions (SOL 108)
 #
 # Covers:
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: extra points and transfer functions
+TitleText;O_o_Model test model: extra points and transfer functions
 BulkEcho;None
 SinglePointConstrSelection;1
 TransferFunctionSelection;1

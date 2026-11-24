@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: nonlinear 3D bushing load, continuation (SOL 128)
+# O_o_Model test model: nonlinear 3D bushing load, continuation (SOL 128)
 #
 # Covers:
 #   - cards: NLBSH3D, LBSH3DG, NLFREQC, NHRMPRM, NLHARM

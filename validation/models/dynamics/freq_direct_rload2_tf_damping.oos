@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: direct frequency response, RLOAD2 forms, TF, damping
+# O_o_Model test model: direct frequency response, RLOAD2 forms, TF, damping
 #
 # Covers:
 #   - cards: FREQ, FREQ2, DLOAD, RLOAD2, DELAY, DPHASE, TABLED2, TABLED3,
@@ -23,7 +23,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: direct frequency response, RLOAD2 forms
+TitleText;O_o_Model test model: direct frequency response, RLOAD2 forms
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;20

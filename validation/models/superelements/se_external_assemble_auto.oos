@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: external superelement from an OP4 file, AUTO boundary search (SOL 101)
+# O_o_Model validation deck: external superelement from an OP4 file, AUTO boundary search (SOL 101)
 #
 # Validates:
 #   - the automatic boundary search for an external superelement (SEBULK
@@ -15,7 +15,7 @@
 FileAssignment;INPUTT4='../op4_matrices/op4_extseout_sparse_binary.op4';FileUnit=27;FileForm=Unformatted
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: external superelement assembly
+TitleText;O_o_Model validation: external superelement assembly
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

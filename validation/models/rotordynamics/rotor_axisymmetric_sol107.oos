@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric harmonic rotor (ROTORAX)
+# O_o_Model test model: axisymmetric harmonic rotor (ROTORAX)
 #
 # Covers:
 #   - cards: ROTORAX
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;107
 [case]
-TitleText;O_o_Reader test model: axisymmetric harmonic rotor
+TitleText;O_o_Model test model: axisymmetric harmonic rotor
 BulkEcho;None
 ComplexEigenMethodSelection;40
 RotordynamicSelection;600

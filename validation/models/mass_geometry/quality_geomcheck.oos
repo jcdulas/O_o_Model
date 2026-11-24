@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: element geometry checks of distorted quadrilaterals (SOL 101)
+# O_o_Model validation deck: element geometry checks of distorted quadrilaterals (SOL 101)
 #
 # Validates:
 #   - the solver's taper and warping measures of CQUAD4, CQUADR, CQUAD8 and CSHEAR
@@ -15,7 +15,7 @@ GeometryCheck;QuadTaperLimit=0.001;QuadWarpLimit=0.0001;QuadSkewLimit=89.0;QuadM
 GeometryCheck;MessageKind=INFORM;MessageLimit=1000
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: geometry checks
+TitleText;O_o_Model validation: geometry checks
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

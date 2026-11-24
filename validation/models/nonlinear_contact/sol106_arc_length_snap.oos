@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: snap-through of a shallow two-bar truss (SOL 106)
+# O_o_Model test model: snap-through of a shallow two-bar truss (SOL 106)
 #
 # Covers:
 #   - cards: NLPCI
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;106
 [case]
-TitleText;O_o_Reader test model: arc-length snap-through (SOL 106)
+TitleText;O_o_Model test model: arc-length snap-through (SOL 106)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

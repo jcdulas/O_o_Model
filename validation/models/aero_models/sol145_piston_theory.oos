@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: piston theory flutter (SOL 145)
+# O_o_Model test model: piston theory flutter (SOL 145)
 #
 # Covers:
 #   - cards: CAERO5 PAERO5 MKAERO2 SPLINE6
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;145
 [case]
-TitleText;O_o_Reader test model: piston theory flutter
+TitleText;O_o_Model test model: piston theory flutter
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

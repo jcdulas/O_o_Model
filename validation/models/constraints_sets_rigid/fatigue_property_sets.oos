@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: pseudo-static fatigue on elements chosen by
+# O_o_Model test model: pseudo-static fatigue on elements chosen by
 # property set and excluded by element set (SOL 101)
 #
 # Covers:
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: fatigue element sets by property
+TitleText;O_o_Model test model: fatigue element sets by property
 BulkEcho;None
 FatigueOutput;1
 SinglePointConstrSelection;1

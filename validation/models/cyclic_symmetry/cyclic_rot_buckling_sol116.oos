@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rotational cyclic symmetry, buckling of a disk
+# O_o_Model test model: rotational cyclic symmetry, buckling of a disk
 #
 # Covers:
 #   - cards: LOADCYH (harmonic 0), CYSYM (ROT), CYJOIN (with CORD2C,
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;116
 [case]
-TitleText;O_o_Reader test model: cyclic symmetry buckling
+TitleText;O_o_Model test model: cyclic symmetry buckling
 BulkEcho;None
 SinglePointConstrSelection;1
 HarmonicsSelection;All

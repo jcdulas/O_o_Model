@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rotational cyclic symmetry, frequency response
+# O_o_Model test model: rotational cyclic symmetry, frequency response
 #
 # Covers:
 #   - cards: LOADCYN (dynamic load), CYSYM (ROT), CYJOIN (with CORD2C,
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;118
 [case]
-TitleText;O_o_Reader test model: cyclic symmetry frequency response
+TitleText;O_o_Model test model: cyclic symmetry frequency response
 BulkEcho;None
 SinglePointConstrSelection;1
 HarmonicsSelection;All

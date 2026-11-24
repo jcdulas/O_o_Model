@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: external design response (SOL 200, read-only)
+# O_o_Model test model: external design response (SOL 200, read-only)
 #
 # Covers:
 #   - cards: DRESP3
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader test model: external response (read-only)
+TitleText;O_o_Model test model: external response (read-only)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

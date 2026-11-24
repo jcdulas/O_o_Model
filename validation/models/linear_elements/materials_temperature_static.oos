@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: anisotropic and temperature-dependent materials
+# O_o_Model test model: anisotropic and temperature-dependent materials
 #
 # Covers:
 #   - cards: MAT2, MAT3, MAT9, MATT1, MATT2, MATT3, MATT8, MATT9, TABLEM1,

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: water tank with hydrostatic preset (SOL 700)
+# O_o_Model test model: water tank with hydrostatic preset (SOL 700)
 #
 # Covers:
 #   - cards: PEULER1 EOSPOL PMINC HYDSTAT PORHYDS EULFOR1 EULFREG COUPLE
@@ -8,7 +8,7 @@
 #   - solution: SOL 700 (explicit transient: water and air in a multi-material
 #     Euler mesh, coupled to a closed steel tank; gravity, an opening to the
 #     sea, a sideways acceleration of the water)
-#   - outputs: none that O_o_Reader decodes (the explicit solver writes its
+#   - outputs: none that O_o_Model decodes (the explicit solver writes its
 #     own result files)
 # Run notes:
 #   - needs the explicit solver of SOL 700 in the installation (SOL 700 spawns

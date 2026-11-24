@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: a poroelastic trim layer on a plate (SOL 108)
+# O_o_Model test model: a poroelastic trim layer on a plate (SOL 108)
 #
 # Covers:
 #   - cards: MATPE1 MATF1 (with MAT1 MAT10 TABLEM1 SET1 PSOLID with
@@ -13,7 +13,7 @@
 #     (no TRIMGRP, so TRIMGRP = NONE): the run reads the trim Bulk Data and
 #     solves the plate alone. Coupling it needs an ACPEMCP in the main Bulk
 #     Data (TID 101, SGLUED 1) and TRIMGRP = ALL, and the PEM functions of
-#     the solver at run time; O_o_Reader refuses that ACPEMCP today (its
+#     the solver at run time; O_o_Model refuses that ACPEMCP today (its
 #     SET1 lives in the trim Bulk Data, as the format reference asks)
 # Written for this project, to exercise the reader.
 # How to run it, what to bring back: validation/models/README.md.

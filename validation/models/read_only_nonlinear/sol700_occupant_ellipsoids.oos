@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: contact with occupant ellipsoids (read-only)
+# O_o_Model test model: contact with occupant ellipsoids (read-only)
 #
 # Covers:
 #   - cards: BCELIPS
@@ -10,13 +10,13 @@
 #   - READ-ONLY: the ellipsoids that BCELIPS names (HEAD, CHEST) belong to an
 #     ATB occupant model that SOL 700 reads from an ATB input file at run
 #     time; that file is not part of a deck, so the run would stop.
-#     O_o_Reader reads, checks and writes the deck; it is not run
+#     O_o_Model reads, checks and writes the deck; it is not run
 # Written for this project, to exercise the reader.
 # How to run it, what to bring back: validation/models/README.md.
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: contact with ATB ellipsoids (read-only)
+TitleText;O_o_Model test model: contact with ATB ellipsoids (read-only)
 BulkEcho;None
 SinglePointConstrSelection;1
 NonlinearTimeStepSelection;1

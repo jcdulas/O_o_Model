@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: glued double cantilever beam with a crack (SOL 400)
+# O_o_Model test model: glued double cantilever beam with a crack (SOL 400)
 #
 # Covers:
 #   - cards: VCCT, UNGLUE
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: VCCT and UNGLUE on a DCB (SOL 400)
+TitleText;O_o_Model test model: VCCT and UNGLUE on a DCB (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: quadratic solids, lumped mass and default
+# O_o_Model validation deck: quadratic solids, lumped mass and default
 # integration (SOL 101)
 #
 # Validates:

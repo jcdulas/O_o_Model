@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: part superelements: boundary search options (SOL 101)
+# O_o_Model validation deck: part superelements: boundary search options (SOL 101)
 #
 # Validates:
 #   - SEBNDRY, SEEXCLD, SECONCT with LOC = NO, two SEBULK TOLs met at one
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: part superelement boundary search
+TitleText;O_o_Model validation: part superelement boundary search
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

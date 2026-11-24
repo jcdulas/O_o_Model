@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric harmonic disc tied to a beam shaft by
+# O_o_Model test model: axisymmetric harmonic disc tied to a beam shaft by
 # RBAX3D (SOL 103)
 #
 # Covers:
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: harmonic disc on a shaft (RBAX3D)
+TitleText;O_o_Model test model: harmonic disc on a shaft (RBAX3D)
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;1

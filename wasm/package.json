@@ -1,7 +1,7 @@
 {
   "name": "oo-model",
-  "version": "0.2.0",
-  "description": "Build, edit and query finite element models in memory. Exchange files through the OOS and OOH5 adapters. JavaScript/WebAssembly interface to the O_o C++ library, also available for Python.",
+  "version": "0.2.1",
+  "description": "Build, edit and query finite element models in memory. JavaScript/WebAssembly interface to the O_o C++ library, also available for Python.",
   "license": "MIT",
   "type": "module",
   "main": "index.js",

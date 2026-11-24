@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rotor on two-dimensional bearings
+# O_o_Model test model: rotor on two-dimensional bearings
 #
 # Covers:
 #   - cards: CBUSH2D, PBUSH2D, PBSH2DT (with ROTORG, RSPINR, RGYRO, CBEAM,
@@ -22,7 +22,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: rotor on two-dimensional bearings
+TitleText;O_o_Model test model: rotor on two-dimensional bearings
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DynamicLoadSelection;50

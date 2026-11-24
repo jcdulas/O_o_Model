@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: random vibration fatigue from a time history (TIM2PSD)
+# O_o_Model test model: random vibration fatigue from a time history (TIM2PSD)
 #
 # Covers:
 #   - cards: TIM2PSD
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;111
 [case]
-TitleText;O_o_Reader test model: vibration fatigue, TIM2PSD
+TitleText;O_o_Model test model: vibration fatigue, TIM2PSD
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

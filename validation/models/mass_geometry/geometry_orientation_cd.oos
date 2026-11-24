@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: bar and beam orientation vectors in curvilinear displacement systems (SOL 101)
+# O_o_Model validation deck: bar and beam orientation vectors in curvilinear displacement systems (SOL 101)
 #
 # Validates:
 #   - the element frame of a CBAR and a CBEAM whose orientation vector is

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: SOL 700 hinged flap, discrete elements
+# O_o_Model test model: SOL 700 hinged flap, discrete elements
 #
 # Covers:
 #   - cards: RBJOINT CELAS1D CELAS2D CDAMP1D CDAMP2D PSPRMAT PVISC1 PBELT
@@ -26,7 +26,7 @@
 # ============================================================================
 SolutionSequence;700;129
 [case]
-TitleText;O_o_Reader test model: SOL 700 hinged flap and discrete elements
+TitleText;O_o_Model test model: SOL 700 hinged flap and discrete elements
 BulkEcho;None
 SinglePointConstrSelection;1
 NonlinearTimeStepSelection;1

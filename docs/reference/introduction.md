@@ -1,6 +1,6 @@
 # Introduction
 
-A text model (`.oos`) answers three questions. The `[executive]` section identifies the analysis. The `[case]` section selects loads and constraints and requests results. The `[model]` section defines the entities those selections refer to. The Model can inspect this input and save it as a native HDF5 model archive (`.ooh5`). O_o_Solver consumes the model tables to perform an analysis.
+This reference describes the model records and their fields. Applications can build the same entities through the [in-memory API](../model-construction.md). The examples below show the OOS adapter’s text representation. Its executive, case and model sections select an analysis, define load cases and describe entities. O_o_Solver receives the resulting tables through its API.
 
 ## A rod in tension
 

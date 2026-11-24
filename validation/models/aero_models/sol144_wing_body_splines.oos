@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: wing with a tip tank body, beam splines (SOL 144)
+# O_o_Model test model: wing with a tip tank body, beam splines (SOL 144)
 #
 # Covers:
 #   - cards: CAERO2 PAERO2 SPLINE2 SPLINE3 SPLINE5
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;144
 [case]
-TitleText;O_o_Reader test model: wing and tip tank, beam splines
+TitleText;O_o_Model test model: wing and tip tank, beam splines
 BulkEcho;None
 SinglePointConstrSelection;1
 TrimSelection;1

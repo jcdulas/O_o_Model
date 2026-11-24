@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: frequency-dependent damper and fastener
+# O_o_Model test model: frequency-dependent damper and fastener
 #
 # Covers:
 #   - cards: PDAMPT, PFASTT (with CDAMP1, PDAMP, CFAST, PFAST, CELAS2, CONM2,
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: frequency-dependent damper and fastener
+TitleText;O_o_Model test model: frequency-dependent damper and fastener
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DynamicLoadSelection;40

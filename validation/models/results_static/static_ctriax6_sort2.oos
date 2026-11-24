@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric CTRIAX6, SORT2
+# O_o_Model test model: axisymmetric CTRIAX6, SORT2
 #
 # Covers:
 #   - solution: SOL 101 (linear statics), two subcases, of the axisymmetric
@@ -12,7 +12,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: CTRIAX6 statics, SORT2
+TitleText;O_o_Model test model: CTRIAX6 statics, SORT2
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly;SortByTime

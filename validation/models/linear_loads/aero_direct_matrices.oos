@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: aerodynamic direct matrix input, DMI DMIJ DMIK
+# O_o_Model test model: aerodynamic direct matrix input, DMI DMIJ DMIK
 # (SOL 144)
 #
 # Covers:

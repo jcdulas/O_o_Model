@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: shape optimization with an auxiliary boundary model
+# O_o_Model test model: shape optimization with an auxiliary boundary model
 # held by its boundary grid points (SOL 200)
 #
 # Covers:
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader test model: auxiliary boundary model with BNDGRID
+TitleText;O_o_Model test model: auxiliary boundary model with BNDGRID
 BulkEcho;None
 DesignObjectiveSelection;21;MinimumObjective
 SubcaseDesignConstrSelection;31

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric solids, cohesive interface and shell
+# O_o_Model test model: axisymmetric solids, cohesive interface and shell
 #
 # Covers:
 #   - cards: CQUADX, CTRIAX, CIFQDX, CAXISYM, PAXISYM (with PSHLN2, PCOHE,
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: axisymmetric elements (SOL 400)
+TitleText;O_o_Model test model: axisymmetric elements (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 SubcaseStart;1

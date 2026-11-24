@@ -34,7 +34,7 @@ The archive is designed for a web viewer that opens a file once and then shows o
 /                                attributes (fixed-length UTF-8 strings):
                                    format          "oor-results-archive"
                                    format_version  "4"
-                                   producer        "oor_reader 0.2.0"
+                                   producer        "oor_reader 0.2.1"
                                    created_at      "2026-11-05T10:00:00Z"
                                    title, subtitle, label
 /model/                          optional native model, described below
@@ -233,6 +233,64 @@ int main()
 For a streaming write, pass the same options to `beginArchive`, push existing `ResultTables` or individual tables,
 then call `finish`. The model is serialized at session creation. See the [API declarations](api.rst)
 and the [JavaScript guide](wasm-api.md#a-model-and-results-in-one-archive) for the application interfaces.
+
+## Save and reopen a model with results
+
+Save this example as `archive-model.mjs` in the repository root with the extracted Model in `model/`:
+
+**JavaScript / WebAssembly**
+
+~~~javascript
+import { writeFile } from "node:fs/promises";
+import { loadOoModel } from "./model/index.js";
+
+const oor = await loadOoModel();
+const deck = oor.createModel();
+deck.addCard({ type: "Node", fields: [1, null, 0, 0, 0] });
+const results = oor.createResults([
+  { kind: "displacements", subcase: 1, ids: [1], values: new Float64Array([0.1, 0, 0, 0, 0, 0]) },
+]);
+
+try {
+  results.attach(deck, false);
+  results.writeArchive("/work/point.ooh5");
+  await writeFile("point.ooh5", oor.readFile("/work/point.ooh5"));
+  const archive = oor.openResults("/work/point.ooh5"); // result index only; model values stay unread
+  const restored = archive.model();                  // loads the model and attaches it for queries
+  try {
+    console.log("Nodes:", restored.cardCounts().Node);
+    console.log("Displacement:", archive.read(0).values[0]);
+    restored.writeModel("/work/export.oos");
+    console.log(oor.readFile("/work/export.oos", { encoding: "utf8" }));
+  } finally {
+    restored.delete();
+    archive.delete();
+  }
+} finally {
+  results.delete();
+  deck.delete();
+}
+~~~
+
+**Python / native C++**
+
+Open the combined archive written to disk by the JavaScript example. Python can retrieve its model and export its records; the result-index API shown above belongs to JavaScript.
+
+```python
+from oo_model import read_model
+
+restored = read_model("point.ooh5")
+print(restored.card_counts["Node"])  # 1
+restored.write_model("export.oos")
+```
+
+Run it with `node archive-model.mjs`. `oor.readFile("/work/point.ooh5")` returns the archive bytes for downloading or
+writing to host storage. `oor.readModel("/work/point.ooh5")` can load the model independently of its results.
+
+For a model alone, call `deck.writeArchive`. For results alone, write a result set with no attached model.
+`archive.hasModel()` checks whether a model is available; `archive.model()` returns `null` when absent, whereas
+`oor.readModel` raises an error for an archive without a model. See [archive versions](#versions):
+new writes use version 4, and version 3 result archives remain readable.
 
 ## Result tables
 

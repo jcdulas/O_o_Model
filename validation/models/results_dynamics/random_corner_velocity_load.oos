@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: random response at the corners, velocities, loads
+# O_o_Model test model: random response at the corners, velocities, loads
 #
 # Covers:
 #   - solution: SOL 111 (modal frequency response) with a random analysis
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;111
 [case]
-TitleText;O_o_Reader test model: random response at the corners
+TitleText;O_o_Model test model: random response at the corners
 BulkEcho;None
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

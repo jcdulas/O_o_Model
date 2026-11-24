@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: adaptive mesh refinement of a plate
+# O_o_Model test model: adaptive mesh refinement of a plate
 #
 # Covers:
 #   - cards: HADAPTL, HADACRI
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: adaptive mesh refinement (SOL 101)
+TitleText;O_o_Model test model: adaptive mesh refinement (SOL 101)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

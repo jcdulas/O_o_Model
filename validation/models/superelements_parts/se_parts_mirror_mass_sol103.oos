@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: part superelements, mirror image and mass combinations
+# O_o_Model test model: part superelements, mirror image and mass combinations
 #
 # Covers:
 #   - cards: SEMPLN, SELABEL, SENQSET, MASSSET (with SEBULK MIRROR, POINT,
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: part superelements, mirror and mass sets
+TitleText;O_o_Model test model: part superelements, mirror and mass sets
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;1

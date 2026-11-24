@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric acoustic cavity with radial slots
+# O_o_Model test model: axisymmetric acoustic cavity with radial slots
 #
 # Covers:
 #   - cards: AXSLOT, GRIDF, GRIDS, CAXIF2, CAXIF3, CAXIF4, CSLOT3, CSLOT4,
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: cavity with slots (SOL 103)
+TitleText;O_o_Model test model: cavity with slots (SOL 103)
 BulkEcho;None
 EigenMethodSelection;1
 DisplacementOutput;All;PlotOnly

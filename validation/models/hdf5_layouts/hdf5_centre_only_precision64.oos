@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: HDF5 layout: double precision, deflate (SOL 101)
+# O_o_Model validation deck: HDF5 layout: double precision, deflate (SOL 101)
 #
 # Validates:
 #   - the CQUAD4 tables at the centre only (STRESS/STRAIN/FORCE(CENTER):
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: HDF5 layouts (double precision, deflate)
+TitleText;O_o_Model validation: HDF5 layouts (double precision, deflate)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

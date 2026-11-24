@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: advanced solids, initial stress and plastic strain
+# O_o_Model test model: advanced solids, initial stress and plastic strain
 #
 # Covers:
 #   - cards: PSLDN1, PLSOLID, ISTRESS, IPSTRAIN

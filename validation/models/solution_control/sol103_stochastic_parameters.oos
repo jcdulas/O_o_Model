@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: randomised model parameters (SOL 103)
+# O_o_Model test model: randomised model parameters (SOL 103)
 #
 # Covers:
 #   - cards: STOCHAS
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: randomised parameters
+TitleText;O_o_Model test model: randomised parameters
 BulkEcho;Sorted
 StochasticSelection;10
 SinglePointConstrSelection;1

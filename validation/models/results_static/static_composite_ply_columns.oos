@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: ply columns, failure indices and strength ratios of laminates
+# O_o_Model validation deck: ply columns, failure indices and strength ratios of laminates
 #
 # Validates:
 #   - the last column of a ply table under STRESS(VONMISES) and under

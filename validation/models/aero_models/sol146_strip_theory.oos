@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: strip theory frequency response (SOL 146)
+# O_o_Model test model: strip theory frequency response (SOL 146)
 #
 # Covers:
 #   - cards: CAERO4 PAERO4 MKAERO2 SPLINE7
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;146
 [case]
-TitleText;O_o_Reader test model: strip theory frequency response
+TitleText;O_o_Model test model: strip theory frequency response
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: lumped heat capacity in transient heat transfer
+# O_o_Model test model: lumped heat capacity in transient heat transfer
 #
 # Covers:
 #   - cards: CDAMP5, PDAMP5 (with MAT4, PROD, CROD, QVOL, TLOAD1, TABLED1,

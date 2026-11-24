@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: external superelement matrices on an OP4 file (dense text)
+# O_o_Model validation deck: external superelement matrices on an OP4 file (dense text)
 #
 # Validates:
 #   - the OP4 file the solver writes with EXTSEOUT MATOP4 = -25 (non-sparse form,
@@ -17,7 +17,7 @@
 FileAssignment;OUTPUT4='op4_extseout_dense_text.op4';FileUnit=25;FileForm=Formatted
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader validation: external superelement on OP4 (formatted)
+TitleText;O_o_Model validation: external superelement on OP4 (formatted)
 BulkEcho;Sorted
 EigenMethodSelection;1
 ExternalSuperelementOutput;;Stiffness;Mass;Damping;Loads;AssemblyBulk;EXTID=100;MATOP4=-25

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: random gust response with a von Karman spectrum
+# O_o_Model test model: random gust response with a von Karman spectrum
 #
 # Covers:
 #   - cards: TABRNDG
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;146
 [case]
-TitleText;O_o_Reader test model: random gust (TABRNDG)
+TitleText;O_o_Model test model: random gust (TABRNDG)
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

@@ -1345,7 +1345,7 @@ Attaches user-supplied descriptive metadata to analysis results.
 **Example record**
 
 ~~~text
-ResultMetadata;plate_metadata;O_o_Reader test model of the solution control cards;units mm N t s and an aluminium plate 2 mm thick
+ResultMetadata;plate_metadata;O_o_Model test model of the solution control cards;units mm N t s and an aluminium plate 2 mm thick
 ~~~
 
 [Model containing this record](../../../validation/models/solution_control/sol101_echo_metadata_hdf5.oos)

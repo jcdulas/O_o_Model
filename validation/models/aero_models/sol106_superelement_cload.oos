@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: upstream superelement load combination (SOL 106)
+# O_o_Model test model: upstream superelement load combination (SOL 106)
 #
 # Covers:
 #   - cards: CLOAD
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;106
 [case]
-TitleText;O_o_Reader test model: superelement load combination
+TitleText;O_o_Model test model: superelement load combination
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

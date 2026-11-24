@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: fluid-structure coupling between modules
+# O_o_Model test model: fluid-structure coupling between modules
 #
 # Covers:
 #   - cards: MDFSET, MDSSET (with MDBULK, ACMODL, MAT10, PSOLID PFLUID and
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: fluid-structure sets of modules
+TitleText;O_o_Model test model: fluid-structure sets of modules
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;1

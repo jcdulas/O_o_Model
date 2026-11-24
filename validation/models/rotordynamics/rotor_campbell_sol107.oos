@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: Campbell diagram of two rotors (SOL 107)
+# O_o_Model test model: Campbell diagram of two rotors (SOL 107)
 #
 # Covers:
 #   - cards: ROTORG, RSPINR, RGYRO, REFROT, CAMPBLL
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;107
 [case]
-TitleText;O_o_Reader test model: Campbell diagram of two rotors
+TitleText;O_o_Model test model: Campbell diagram of two rotors
 BulkEcho;None
 SinglePointConstrSelection;1
 ComplexEigenMethodSelection;40

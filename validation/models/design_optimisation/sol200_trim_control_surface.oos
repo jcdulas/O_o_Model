@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: control surface setting as a design variable (SOL 200)
+# O_o_Model test model: control surface setting as a design variable (SOL 200)
 #
 # Covers:
 #   - cards: DVPSURF
@@ -13,7 +13,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader test model: designed control surface setting
+TitleText;O_o_Model test model: designed control surface setting
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DesignObjectiveSelection;31;MinimumObjective

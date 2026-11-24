@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: contact generated automatically across two modules
+# O_o_Model test model: contact generated automatically across two modules
 #
 # Covers:
 #   - cards: MDBCPAR, MDBCATP (with MDBULK, BEGIN MODULE and the Case
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: automatic contact across modules
+TitleText;O_o_Model test model: automatic contact across modules
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

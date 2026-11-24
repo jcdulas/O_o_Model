@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: direct complex modes with poles (EIGP)
+# O_o_Model test model: direct complex modes with poles (EIGP)
 #
 # Covers:
 #   - cards: EIGP
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;107
 [case]
-TitleText;O_o_Reader test model: complex modes with poles
+TitleText;O_o_Model test model: complex modes with poles
 BulkEcho;None
 SinglePointConstrSelection;1
 ComplexEigenMethodSelection;40

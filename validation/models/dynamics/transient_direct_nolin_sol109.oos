@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: direct transient: TLOAD2, TIC, NOLIN1 to NOLIN4
+# O_o_Model test model: direct transient: TLOAD2, TIC, NOLIN1 to NOLIN4
 #
 # Covers:
 #   - cards: TLOAD2, TIC, NOLIN1, NOLIN2, NOLIN3, NOLIN4
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;109
 [case]
-TitleText;O_o_Reader test model: direct transient, nonlinear loads
+TitleText;O_o_Model test model: direct transient, nonlinear loads
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;50

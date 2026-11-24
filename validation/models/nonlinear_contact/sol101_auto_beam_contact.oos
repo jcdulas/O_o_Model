@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: automatic beam-to-beam contact (SOL 101)
+# O_o_Model test model: automatic beam-to-beam contact (SOL 101)
 #
 # Covers:
 #   - cards: BCAUTOP, BCBMRAD, NLSTEP (SOL 101 LCNT form)
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: automatic beam contact (SOL 101)
+TitleText;O_o_Model test model: automatic beam contact (SOL 101)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

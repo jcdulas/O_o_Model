@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric conical shell, static
+# O_o_Model test model: axisymmetric conical shell, static
 #
 # Covers:
 #   - cards: AXIC, RINGAX, CCONEAX, PCONEAX, POINTAX, SECTAX, FORCEAX, MOMAX,
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: axisymmetric conical shell, static
+TitleText;O_o_Model test model: axisymmetric conical shell, static
 BulkEcho;Sorted
 HarmonicsSelection;All
 SinglePointConstrSelection;1

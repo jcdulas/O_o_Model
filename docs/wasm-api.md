@@ -19,14 +19,14 @@ it refuses to compile the module).
 import { loadOoModel } from "./model/index.js";
 
 const oor = await loadOoModel();
-console.log(oor.version()); // "0.2.0"
+console.log(oor.version()); // "0.2.1"
 ```
 
 **Python / native C++**
 
 ```python
 from importlib.metadata import version
-from oo_model import read_model
+from oo_model import create_model
 
 print(version("oo-model"))
 ```
@@ -45,9 +45,9 @@ Install the native package with `python -m pip install oo-model`. The Python imp
 
 The module is single-threaded: run it in a web worker to keep the page responsive on large files.
 
-## Files
+## Optional file adapters
 
-The library reads and writes files in an in-memory file system. Put the input files in it, and take the output files
+For applications that import or persist files, the adapters use the WASM in-memory file system. Put the input files in it, and take the output files
 out of it:
 
 **JavaScript / WebAssembly**
@@ -65,6 +65,7 @@ oor.removeFile("/work/run.ooh5");               // free the memory of a file you
 
 ```python
 from pathlib import Path
+from oo_model import read_model
 
 deck = read_model("plate.oos")
 archive_bytes = Path("run.ooh5").read_bytes()
@@ -259,7 +260,7 @@ tables. Unsupported model control data always raises an error rather than being 
 and their source metadata are embedded; files merely referenced by other card or control values remain references.
 
 The [native model specification](archive-format.md#native-model) describes typed columns, sparse fields, constants,
-source precision and pending defaults. The [getting-started example](getting-started.md#save-and-reopen-a-model-with-results)
+source precision and pending defaults. The [archive adapter example](archive-format.md#save-and-reopen-a-model-with-results)
 is a complete runnable program. The archive, native model and table-package versions are separate contracts.
 
 ### Results made by a program

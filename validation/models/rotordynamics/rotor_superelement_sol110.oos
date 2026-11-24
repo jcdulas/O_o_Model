@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rotor in a part superelement (SOL 110)
+# O_o_Model test model: rotor in a part superelement (SOL 110)
 #
 # Covers:
 #   - cards: ROTORSE, REFRTSE, ROTORG, RSPINR, RGYRO, EIGR
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;110
 [case]
-TitleText;O_o_Reader test model: rotor in a part superelement
+TitleText;O_o_Model test model: rotor in a part superelement
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

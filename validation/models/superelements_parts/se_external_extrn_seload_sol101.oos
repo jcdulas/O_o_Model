@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: external superelement joined by EXTRN, loaded by SELOAD
+# O_o_Model test model: external superelement joined by EXTRN, loaded by SELOAD
 #
 # Covers:
 #   - cards: EXTRN, SELOAD, MPCY (with SEBULK EXTOP4, BEGIN SUPER)
@@ -18,7 +18,7 @@
 FileAssignment;INPUTT4='../op4_matrices/op4_extseout_sparse_binary.op4';FileUnit=27;FileForm=Unformatted
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: external superelement, EXTRN and SELOAD
+TitleText;O_o_Model test model: external superelement, EXTRN and SELOAD
 BulkEcho;None
 SinglePointConstrSelection;1
 MultiPointConstrSelection;70

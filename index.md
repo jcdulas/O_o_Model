@@ -1,8 +1,8 @@
 # O_o_Model documentation
 
-Build, edit and query finite element models in memory, and exchange files through the OOS and OOH5 adapters with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
+Build, edit and query finite element models through the O_o_Model API in JavaScript (WebAssembly) or Python (native C++). Applications supply cards and analysis controls in memory. O_o_Solver consumes the resulting model tables through its API.
 
-**[Published documentation](https://jcdulas.github.io/O_o_Model/)** · [JavaScript / WASM releases](https://github.com/jcdulas/O_o_Model/releases) · [Native Python wheels](https://pypi.org/project/oo-model/0.2.0/)
+**[Published documentation](https://jcdulas.github.io/O_o_Model/)** · [JavaScript / WASM releases](https://github.com/jcdulas/O_o_Model/releases) · [Native Python wheels](https://pypi.org/project/oo-model/0.2.1/)
 
 ## Start here
 
@@ -28,10 +28,10 @@ Build, edit and query finite element models in memory, and exchange files throug
 
 | Project | Responsibility |
 | --- | --- |
-| [O_o_Model](https://github.com/jcdulas/O_o_Model/blob/main/index.md) | Model records, native model/results archives and model queries |
-| [O_o_Solver](https://github.com/jcdulas/O_o_Solver/blob/main/index.md) | Finite element analyses from reader tables |
+| [O_o_Model](https://github.com/jcdulas/O_o_Model/blob/main/index.md) | Model construction, editing, validation and typed queries |
+| [O_o_Solver](https://github.com/jcdulas/O_o_Solver/blob/main/index.md) | Model snapshots, finite element analyses and result arrays |
 
-The reader and solver have public documentation sites and exchange model data through typed table packages.
+JavaScript transfers typed table packages between the two WASM memories. Python passes Arrow buffers within the same process. The Solver returns arrays of results to the caller.
 
 ~~~{toctree}
 :hidden:

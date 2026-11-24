@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: free-free beam with support degrees of freedom
+# O_o_Model test model: free-free beam with support degrees of freedom
 # (SOL 103)
 #
 # Covers:
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: free-free beam with SUPORT and SUPORT1
+TitleText;O_o_Model test model: free-free beam with SUPORT and SUPORT1
 BulkEcho;None
 EigenMethodSelection;1
 FreeBodySupportSelection;5

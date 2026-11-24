@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: aerodynamic spline on a grid point list made from
+# O_o_Model test model: aerodynamic spline on a grid point list made from
 # an aerodynamic macro element (SOL 144)
 #
 # Covers:
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;144
 [case]
-TitleText;O_o_Reader test model: spline on a SET2 grid point list
+TitleText;O_o_Model test model: spline on a SET2 grid point list
 BulkEcho;None
 SinglePointConstrSelection;1
 TrimSelection;1

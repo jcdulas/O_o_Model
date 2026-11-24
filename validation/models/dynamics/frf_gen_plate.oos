@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: FRF generation of component 10, the plate
+# O_o_Model test model: FRF generation of component 10, the plate
 #
 # Covers:
 #   - cards: FRFXIT
@@ -23,7 +23,7 @@
 FileAssignment;RESULTS='frf_gen_plate_frf.data';FileUnit=25;FileForm=Unformatted
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: FRF generation, plate component
+TitleText;O_o_Model test model: FRF generation, plate component
 BulkEcho;None
 SinglePointConstrSelection;1
 FreqSetSelection;41

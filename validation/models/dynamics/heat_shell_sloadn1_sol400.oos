@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: heat shell with top and bottom power inputs (SLOADN1)
+# O_o_Model test model: heat shell with top and bottom power inputs (SLOADN1)
 #
 # Covers:
 #   - cards: SLOADN1
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: heat shell power inputs
+TitleText;O_o_Model test model: heat shell power inputs
 BulkEcho;None
 SubcaseStart;1
 StepStart;1

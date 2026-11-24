@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: external response across part superelements (read only)
+# O_o_Model test model: external response across part superelements (read only)
 #
 # Covers:
 #   - cards: SEDRSP3 (with the parts, SEDLINK and SEDRSP2 of
@@ -10,13 +10,13 @@
 # Run notes:
 #   - read only: SEDRSP3 evaluates its response with a user-supplied
 #     external routine (the DRESP3 server group USRWT), which a deck cannot
-#     bring; the deck is read and written by O_o_Reader, not run by the solver
+#     bring; the deck is read and written by O_o_Model, not run by the solver
 # Written for this project, to exercise the reader.
 # How to run it, what to bring back: validation/models/README.md.
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader test model: external response of part superelements
+TitleText;O_o_Model test model: external response of part superelements
 BulkEcho;None
 SinglePointConstrSelection;1
 DesignObjectiveSelection;100;MinimumObjective

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: design of two part superelements linked across parts
+# O_o_Model test model: design of two part superelements linked across parts
 #
 # Covers:
 #   - cards: SEDLINK, SEDRSP2 (with DESVAR, DVPREL1, DRESP1 in the parts,
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader test model: design of part superelements
+TitleText;O_o_Model test model: design of part superelements
 BulkEcho;None
 SinglePointConstrSelection;1
 DesignObjectiveSelection;100;MinimumObjective

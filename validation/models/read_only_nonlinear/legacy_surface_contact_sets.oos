@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: legacy surface contact sets (read-only)
+# O_o_Model test model: legacy surface contact sets (read-only)
 #
 # Covers:
 #   - cards: BCTSET, BCTPARM, BCTPARA, BCTADD
@@ -10,14 +10,14 @@
 # Run notes:
 #   - READ-ONLY: the four entries are not in the format
 #     reference (they are entries of another implementation, with the BCSET
-#     case command); the solver would stop on them. O_o_Reader
+#     case command); the solver would stop on them. O_o_Model
 #     reads, checks and writes them; this deck is not run
 # Written for this project, to exercise the reader.
 # How to run it, what to bring back: validation/models/README.md.
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: legacy surface contact sets (read-only)
+TitleText;O_o_Model test model: legacy surface contact sets (read-only)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

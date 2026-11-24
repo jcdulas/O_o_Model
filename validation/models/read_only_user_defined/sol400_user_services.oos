@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: user subroutines and user defined services (SOL 400, read-only)
+# O_o_Model test model: user subroutines and user defined services (SOL 400, read-only)
 #
 # Covers:
 #   - cards: MATUDS MATUSR MATTUSR UDSESV BCONUDS ELEMUDS GENUDS
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: user services (read-only)
+TitleText;O_o_Model test model: user services (read-only)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 ContactSelection;21

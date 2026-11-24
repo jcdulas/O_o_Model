@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: hydroelastic axisymmetric fluid in a tank
+# O_o_Model test model: hydroelastic axisymmetric fluid in a tank
 #
 # Covers:
 #   - cards: AXIF, RINGFL, CFLUID2, CFLUID3, CFLUID4, FSLIST, BDYLIST,
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: hydroelastic tank (SOL 103)
+TitleText;O_o_Model test model: hydroelastic tank (SOL 103)
 BulkEcho;None
 AxisymmetricBoundary;Fluid
 HarmonicsSelection;All

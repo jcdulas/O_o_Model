@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: segment-to-segment beam contact (SOL 400)
+# O_o_Model test model: segment-to-segment beam contact (SOL 400)
 #
 # Covers:
 #   - cards: BCPFLG, BCSCAP, NLADAPT
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: segment-to-segment beam contact (SOL 400)
+TitleText;O_o_Model test model: segment-to-segment beam contact (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

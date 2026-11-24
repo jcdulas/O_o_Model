@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: initial top and bottom temperatures of heat shells,
+# O_o_Model test model: initial top and bottom temperatures of heat shells,
 # TEMPN1 (SOL 400)
 #
 # Covers:
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: TEMPN1 on heat shells
+TitleText;O_o_Model test model: TEMPN1 on heat shells
 BulkEcho;Sorted
 SubcaseStart;1
 LabelText;steady conduction between the two ends of a strip

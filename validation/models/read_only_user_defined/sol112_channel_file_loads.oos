@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: load histories read from a channel data file (SOL 112, read-only)
+# O_o_Model test model: load histories read from a channel data file (SOL 112, read-only)
 #
 # Covers:
 #   - cards: TABLRPC (with the UDNAME of its file)
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;112
 [case]
-TitleText;O_o_Reader test model: channel file loads (read-only)
+TitleText;O_o_Model test model: channel file loads (read-only)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 EigenMethodSelection;1

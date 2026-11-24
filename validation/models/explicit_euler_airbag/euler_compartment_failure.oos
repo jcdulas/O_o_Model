@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: two compartments with failing walls (SOL 700)
+# O_o_Model test model: two compartments with failing walls (SOL 700)
 #
 # Covers:
 #   - cards: COUP1FL COUPINT COUPLE MESH PEULER1 MATDEUL EOSGAM TICEUL1 TICREG
@@ -8,7 +8,7 @@
 #   - solution: SOL 700 (explicit transient: a gas explosion in one of two
 #     steel compartments, each with its own multi-material Euler mesh; the
 #     walls may fail and open the compartments to each other and to the air)
-#   - outputs: none that O_o_Reader decodes (the explicit solver writes its
+#   - outputs: none that O_o_Model decodes (the explicit solver writes its
 #     own result files)
 # Run notes:
 #   - COUP1FL and COUPINT act with DYPARAM,FASTCOUP,,FAIL, which needs a

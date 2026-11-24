@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: frequency dependent materials (SOL 108)
+# O_o_Model test model: frequency dependent materials (SOL 108)
 #
 # Covers:
 #   - cards: MAT1F MAT2F MAT8F MAT9F PCOMPFQ (with MAT1 MAT2 MAT8 MAT9 PSHELL
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: frequency dependent materials (SOL 108)
+TitleText;O_o_Model test model: frequency dependent materials (SOL 108)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;1

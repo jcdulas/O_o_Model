@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: hyperelastic plane strain CQUAD8 and CTRIA6 (SOL 106)
+# O_o_Model validation deck: hyperelastic plane strain CQUAD8 and CTRIA6 (SOL 106)
 #
 # Validates:
 #   - the columns of the hyperelastic element tables (finite deformation) of

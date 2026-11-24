@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: relative enforced motion between steps and an RBE3
+# O_o_Model test model: relative enforced motion between steps and an RBE3
 # on coincident grid points with Lagrange rigid elements (SOL 400)
 #
 # Covers:
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: SPCR and GMOVR3 (SOL 400)
+TitleText;O_o_Model test model: SPCR and GMOVR3 (SOL 400)
 BulkEcho;None
 RigidElemMethod;Lagrange
 SubcaseStart;1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: HDF5 input datasets of EIGC regions and TSTEPNL (SOL 107)
+# O_o_Model validation deck: HDF5 input datasets of EIGC regions and TSTEPNL (SOL 107)
 #
 # Validates:
 #   - how the solver writes an EIGC with search regions and ND0, a fully given
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;107
 [case]
-TitleText;O_o_Reader validation: HDF5 input datasets (EIGC, TSTEPNL)
+TitleText;O_o_Model validation: HDF5 input datasets (EIGC, TSTEPNL)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

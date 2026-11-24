@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: shell results in the material system, PARAM,OMID,BOTH (SOL 101)
+# O_o_Model validation deck: shell results in the material system, PARAM,OMID,BOTH (SOL 101)
 #
 # Validates:
 #   - the stresses, strains and forces of CQUAD4, CTRIA3, CTRIAR and CQUAD8
@@ -12,7 +12,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: shell results with PARAM,OMID,BOTH
+TitleText;O_o_Model validation: shell results with PARAM,OMID,BOTH
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

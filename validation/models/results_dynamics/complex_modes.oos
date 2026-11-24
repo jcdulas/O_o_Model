@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: complex modes (SOL 107)
+# O_o_Model validation deck: complex modes (SOL 107)
 #
 # Validates:
 #   - complex eigenvalues (CLAMA, SUMMARY/EIGENVALUE_CPLX) and complex
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;107
 [case]
-TitleText;O_o_Reader validation: complex modes
+TitleText;O_o_Model validation: complex modes
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

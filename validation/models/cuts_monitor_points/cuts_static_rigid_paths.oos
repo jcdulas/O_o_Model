@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: section cuts across rigid elements, MPC equations and springs; MONPNT3 (SOL 101)
+# O_o_Model validation deck: section cuts across rigid elements, MPC equations and springs; MONPNT3 (SOL 101)
 #
 # Validates:
 #   - the grid point forces (with multiPointConstrForce rows) and MPC forces at a cut
@@ -17,7 +17,7 @@
 FileAssignment;RESULTS='cuts_static_monitor.data';FileUnit=40;FileForm=Unformatted
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: section cuts and MONPNT3 (statics)
+TitleText;O_o_Model validation: section cuts and MONPNT3 (statics)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

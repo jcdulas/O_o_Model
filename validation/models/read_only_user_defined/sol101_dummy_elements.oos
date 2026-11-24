@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: user-written dummy elements (SOL 101, read-only)
+# O_o_Model test model: user-written dummy elements (SOL 101, read-only)
 #
 # Covers:
 #   - cards: ADUM1 ADUM2 ADUM3 ADUM4 ADUM5 ADUM6 ADUM7 ADUM8 ADUM9 CDUM1
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: dummy elements (read-only)
+TitleText;O_o_Model test model: dummy elements (read-only)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

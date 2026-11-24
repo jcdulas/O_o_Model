@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: SOL 700 Euler bar, metal models
+# O_o_Model test model: SOL 700 Euler bar, metal models
 #
 # Covers:
 #   - cards: YLDJC YLDSG YLDTM YLDZA YLDRPL SHREL SHRPOL FAILJC FAILMPS
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;700;129
 [case]
-TitleText;O_o_Reader test model: SOL 700 Euler metal yield models
+TitleText;O_o_Model test model: SOL 700 Euler metal yield models
 BulkEcho;None
 NonlinearTimeStepSelection;1
 StepEndTime;1.E-4

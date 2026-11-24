@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: shells glued edge to edge (SOL 101)
+# O_o_Model validation deck: shells glued edge to edge (SOL 101)
 #
 # Validates:
 #   - the grid points the solver glues between two coplanar plates side by side, each

@@ -1,12 +1,12 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: cards the 2024.1 format reference does not describe (read only)
+# O_o_Model test model: cards the 2024.1 format reference does not describe (read only)
 #
 # Covers:
 #   - cards: PLOTEL3, PLOTEL4, CGEN, GMSPC, MAT11, MATT11 (with CQUAD4, CHEXA,
 #     PSHELL, PSOLID, MAT1, TABLEM1)
 #   - solution: SOL 101 (written as a static deck; not run)
-#   - outputs: none: the deck is read and written by O_o_Reader only
+#   - outputs: none: the deck is read and written by O_o_Model only
 # Run notes:
 #   - read only: no entry of the format reference describes these six
 #     cards (PLOTEL3, PLOTEL4 and CGEN are typed from other decks and the solver
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: cards outside the 2024.1 QRG (read only)
+TitleText;O_o_Model test model: cards outside the 2024.1 QRG (read only)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

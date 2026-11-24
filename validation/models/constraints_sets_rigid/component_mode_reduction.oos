@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: component mode reduction of the residual structure
+# O_o_Model test model: component mode reduction of the residual structure
 # with every degree-of-freedom set entry, and user sets (SOL 103)
 #
 # Covers:
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: component mode reduction and DOF sets
+TitleText;O_o_Model test model: component mode reduction and DOF sets
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: plate radiating through acoustic infinite elements
+# O_o_Model test model: plate radiating through acoustic infinite elements
 #
 # Covers:
 #   - cards: CACINF3, CACINF4, PACINF, ACIFPRM
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: infinite elements (SOL 108)
+TitleText;O_o_Model test model: infinite elements (SOL 108)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;21

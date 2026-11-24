@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: brake squeal of a disk sector and two pads (SOL 400)
+# O_o_Model test model: brake squeal of a disk sector and two pads (SOL 400)
 #
 # Covers:
 #   - cards: BSQUEAL, BRKSYS, BRKPROP, MOTION (ROTAT and TRANS)
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: brake squeal (SOL 400)
+TitleText;O_o_Model test model: brake squeal (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

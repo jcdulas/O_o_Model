@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: transient gust response with monitor points (SOL 146)
+# O_o_Model validation deck: transient gust response with monitor points (SOL 146)
 #
 # Validates:
 #   - the transient monitor point loads (MONITOR, AEMONPT, the TOL steps, the
@@ -14,7 +14,7 @@
 FileAssignment;RESULTS='sol146_monitor.data';FileUnit=40;FileForm=Unformatted
 SolutionSequence;146
 [case]
-TitleText;O_o_Reader validation: transient gust, monitor points
+TitleText;O_o_Model validation: transient gust, monitor points
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 EigenMethodSelection;71

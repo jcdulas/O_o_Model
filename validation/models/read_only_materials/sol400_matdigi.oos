@@ -1,13 +1,13 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: a material of an external micromechanics program (SOL 400, read-only)
+# O_o_Model test model: a material of an external micromechanics program (SOL 400, read-only)
 #
 # Covers:
 #   - cards: MATDIGI (with UDNAME UDSESV PSOLID CHEXA NLSTEP)
 #   - solution: SOL 400 (nonlinear static)
 #   - outputs: none (read-only deck)
 # Run notes:
-#   - read-only: read and written by O_o_Reader, not run. A MATDIGI run
+#   - read-only: read and written by O_o_Model, not run. A MATDIGI run
 #     needs the material file named by the UDNAME (made with the
 #     external micromechanics program, which this project does not author) and the
 #     licence of that program
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: a material of an external micromechanics program (read-only)
+TitleText;O_o_Model test model: a material of an external micromechanics program (read-only)
 BulkEcho;None
 SinglePointConstrSelection;1
 SubcaseStart;1

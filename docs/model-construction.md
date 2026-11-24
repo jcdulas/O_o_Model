@@ -1,12 +1,6 @@
 # Constructing and editing models
 
-An application can attach versioned text documents to a model with `deck.setDocument(name, text)`, list them with
-`documentNames()`, read with `document(name)` and remove with `removeDocument(name)`. A copied deck owns its document
-edits; `.ooh5` stores documents in each model part. The `.oos` writer reports documents it cannot represent.
-
-`oor.createModel()` creates an empty C++ model directly in WebAssembly memory. Cards, analysis controls and load cases
-can be supplied as JavaScript objects, without a virtual input file. These methods also work on imported models.
-See [the API reference](api.rst) for the declarations.
+Create an empty deck with `api.createModel()` in JavaScript or `create_model()` in Python. Add cards, analysis controls and loads directly, then validate their references. The same editing API accepts a deck supplied by an adapter. See the [API reference](api.rst).
 
 ## A complete model
 
@@ -272,3 +266,6 @@ It constructs 200,000 nodes from typed columns, edits 1,000 scattered nodes, che
 compacts the model. It reports one warm sample for each operation; compare runs on the same runtime and machine.
 
 These interfaces leave data contract 75, archive format 4 and native model schema 1 unchanged.
+
+
+Applications can also attach named text documents with `deck.setDocument(name, text)`. Use `documentNames()` to list them, `document(name)` to read them and `removeDocument(name)` to remove them. A copied deck owns its edits. The OOH5 adapter persists these per model part. The OOS adapter reports documents that its text format cannot represent.

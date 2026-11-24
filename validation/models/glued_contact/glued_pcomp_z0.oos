@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: glued shells on a laminate offset by Z0 (SOL 101)
+# O_o_Model validation deck: glued shells on a laminate offset by Z0 (SOL 101)
 #
 # Validates:
 #   - whether the solver's glued contact places the skins of a PCOMP on its plies:

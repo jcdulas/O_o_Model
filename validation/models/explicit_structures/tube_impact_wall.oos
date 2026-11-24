@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: SOL 700 crash tube on a rigid wall
+# O_o_Model test model: SOL 700 crash tube on a rigid wall
 #
 # Covers:
 #   - cards: PSHELL1 PCOMPA HGSUPPR WALL BJOIN BCMATL TODYNA ENDDYNA DYPARAM
@@ -26,7 +26,7 @@
 # ============================================================================
 SolutionSequence;700;129
 [case]
-TitleText;O_o_Reader test model: SOL 700 crash tube on a rigid wall
+TitleText;O_o_Model test model: SOL 700 crash tube on a rigid wall
 BulkEcho;None
 InitialConditionSelection;1
 ContactSelection;1
@@ -47,7 +47,7 @@ ExplicitParam;InitialStep;1.E-7
 ExplicitParam;MinStepSize;1.E-9
 # Direct text of the explicit solver: SOL 700 passes the entries between TODYNA and ENDDYNA
 # to that solver as they are (here its own MAT1, MID E G NU RHO, that no
-# property uses); O_o_Reader keeps them as text.
+# property uses); O_o_Model keeps them as text.
 ExplicitTextStart
 MAT1;99;210000.;;0.3;7.85E-9
 ExplicitTextEnd

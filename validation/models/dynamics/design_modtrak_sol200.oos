@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: design optimisation of the plate with mode tracking
+# O_o_Model test model: design optimisation of the plate with mode tracking
 #
 # Covers:
 #   - cards: MODTRAK
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader test model: mode tracking in SOL 200
+TitleText;O_o_Model test model: mode tracking in SOL 200
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

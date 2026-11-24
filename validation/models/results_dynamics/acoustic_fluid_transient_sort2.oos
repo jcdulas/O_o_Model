@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: fluid elements, direct transient response, SORT2
+# O_o_Model test model: fluid elements, direct transient response, SORT2
 #
 # Covers:
 #   - solution: SOL 109 (direct transient response) of the coupled
@@ -12,7 +12,7 @@
 # ============================================================================
 SolutionSequence;109
 [case]
-TitleText;O_o_Reader test model: fluid elements, transient SORT2
+TitleText;O_o_Model test model: fluid elements, transient SORT2
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;51

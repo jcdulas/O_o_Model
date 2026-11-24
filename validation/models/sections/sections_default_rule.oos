@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: beam library sections under the solver's default finite element formulation (SOL 101)
+# O_o_Model validation deck: beam library sections under the solver's default finite element formulation (SOL 101)
 #
 # Validates:
 #   - the PBAR and PBEAM the solver writes in the EPT table of the result data for every
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: beam library sections
+TitleText;O_o_Model validation: beam library sections
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

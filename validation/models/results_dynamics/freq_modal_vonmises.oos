@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: modal frequency response with von Mises output (SOL 111)
+# O_o_Model validation deck: modal frequency response with von Mises output (SOL 111)
 #
 # Validates:
 #   - the von Mises tables of a frequency response (OESVM1, OSTRVM1, OESVM1C,

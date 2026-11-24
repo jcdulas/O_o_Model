@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: explicit initial conditions: TIC3 and TICEL
+# O_o_Model test model: explicit initial conditions: TIC3 and TICEL
 #
 # Covers:
 #   - cards: TIC3, TICEL
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: explicit initial conditions
+TitleText;O_o_Model test model: explicit initial conditions
 BulkEcho;None
 NonlinearTimeStepSelection;1
 InitialConditionSelection;81

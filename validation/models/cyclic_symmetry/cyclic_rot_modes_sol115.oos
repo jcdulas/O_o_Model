@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rotational cyclic symmetry, modes of a free hub disk
+# O_o_Model test model: rotational cyclic symmetry, modes of a free hub disk
 #
 # Covers:
 #   - cards: CYSUP, CYSYM (ROT), CYJOIN, CYAX (with CORD2C, CBAR, CQUAD4,
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;115
 [case]
-TitleText;O_o_Reader test model: cyclic symmetry modes
+TitleText;O_o_Model test model: cyclic symmetry modes
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;1

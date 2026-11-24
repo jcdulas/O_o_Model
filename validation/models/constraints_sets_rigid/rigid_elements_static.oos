@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rigid elements, constraint sets and rigid element
+# O_o_Model test model: rigid elements, constraint sets and rigid element
 # selection (SOL 101)
 #
 # Covers:
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: rigid elements and constraint sets
+TitleText;O_o_Model test model: rigid elements and constraint sets
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

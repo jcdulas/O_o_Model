@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: Bulk Data echo control, metadata and HDF5 output settings (SOL 101)
+# O_o_Model test model: Bulk Data echo control, metadata and HDF5 output settings (SOL 101)
 #
 # Covers:
 #   - cards: ECHOON ECHOOFF METADATA H5OUT HDF5DA UDNAME (with BEGIN MODULE
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: echo control, metadata, HDF5 settings
+TitleText;O_o_Model test model: echo control, metadata, HDF5 settings
 BulkEcho;Unsorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1
@@ -45,7 +45,7 @@ UserFileName;101;module1-dedicated.h5
 # 0 is searched by position.
 ModuleBulkOptions;1;;;Automatic
 # Free text that travels with the model to the result data.
-ResultMetadata;plate_metadata;O_o_Reader test model of the solution control cards;units mm N t s and an aluminium plate 2 mm thick
+ResultMetadata;plate_metadata;O_o_Model test model of the solution control cards;units mm N t s and an aluminium plate 2 mm thick
 # The mesh is not echoed: echo off before it, on again after it.
 EchoOffMarker
 IsoMat;1;7.E+4;;0.33;2.7E-9

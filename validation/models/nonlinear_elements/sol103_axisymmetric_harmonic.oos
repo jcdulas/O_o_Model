@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: modes of an axisymmetric harmonic disk
+# O_o_Model test model: modes of an axisymmetric harmonic disk
 #
 # Covers:
 #   - cards: PAXSYMH (linear harmonic CQUADX and CTRIAX)
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: axisymmetric harmonic disk (SOL 103)
+TitleText;O_o_Model test model: axisymmetric harmonic disk (SOL 103)
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: nonlinear transient with large displacements
+# O_o_Model test model: nonlinear transient with large displacements
 #
 # Covers:
 #   - cards: TLOAD2, TIC (in a nonlinear transient)
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;129
 [case]
-TitleText;O_o_Reader test model: nonlinear transient
+TitleText;O_o_Model test model: nonlinear transient
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;51

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: contact tractions and bolt results (SOL 400)
+# O_o_Model validation deck: contact tractions and bolt results (SOL 400)
 #
 # Validates:
 #   - the contact forces and tractions of a touching contact (BCONTACT,
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader validation: contact and bolt (SOL 400)
+TitleText;O_o_Model validation: contact and bolt (SOL 400)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 ContactSelection;21

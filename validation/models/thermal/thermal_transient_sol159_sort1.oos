@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: transient heat transfer (SOL 159), SORT1
+# O_o_Model test model: transient heat transfer (SOL 159), SORT1
 #
 # Covers:
 #   - solution: SOL 159 (transient heat transfer) of the shared model of
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;159
 [case]
-TitleText;O_o_Reader test model: transient heat transfer (SORT1)
+TitleText;O_o_Model test model: transient heat transfer (SORT1)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;51

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: radiation enclosures and boundary heat loads
+# O_o_Model test model: radiation enclosures and boundary heat loads
 #
 # Covers:
 #   - cards: RADCAV, RADSET, VIEW, VIEW3D, RADLST, RADMTX, RADM, RADMT,
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;153
 [case]
-TitleText;O_o_Reader test model: radiation enclosures (SOL 153)
+TitleText;O_o_Model test model: radiation enclosures (SOL 153)
 BulkEcho;None
 SinglePointConstrSelection;3
 StaticLoadSelection;1

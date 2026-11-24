@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: general element, masses, non-structural mass
+# O_o_Model test model: general element, masses, non-structural mass
 #
 # Covers:
 #   - cards: GENEL, CONM1, CMASS3, NSM, NSM1, NSML, NSML1, NSMADD, PLOTEL,

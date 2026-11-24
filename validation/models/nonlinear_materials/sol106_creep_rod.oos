@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: creep of a rod from an empirical creep law (SOL 106)
+# O_o_Model test model: creep of a rod from an empirical creep law (SOL 106)
 #
 # Covers:
 #   - cards: CREEP (with MAT1 CROD PROD NLPARM)
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;106
 [case]
-TitleText;O_o_Reader test model: creep of a rod (SOL 106)
+TitleText;O_o_Model test model: creep of a rod (SOL 106)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: transient run-up with an unbalance (SOL 109)
+# O_o_Model test model: transient run-up with an unbalance (SOL 109)
 #
 # Covers:
 #   - cards: RSPINT, UNBALNC (transient form, with output extra points)
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;109
 [case]
-TitleText;O_o_Reader test model: transient run-up
+TitleText;O_o_Model test model: transient run-up
 BulkEcho;None
 SinglePointConstrSelection;1
 RotordynamicSelection;400

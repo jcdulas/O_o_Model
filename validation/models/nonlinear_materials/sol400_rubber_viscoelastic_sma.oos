@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rubber, viscoelastic and shape memory solids (SOL 400)
+# O_o_Model test model: rubber, viscoelastic and shape memory solids (SOL 400)
 #
 # Covers:
 #   - cards: MATHE MATTHE MATVE MATTVE MATSMA (with MAT1 TABLEM1 TEMPD NLSTEP)

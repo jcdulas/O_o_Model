@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric conical shell, free modes
+# O_o_Model test model: axisymmetric conical shell, free modes
 #
 # Covers:
 #   - cards: SUPAX (with AXIC, RINGAX, CCONEAX, PCONEAX, MAT1, EIGRL)
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: axisymmetric conical shell, free modes
+TitleText;O_o_Model test model: axisymmetric conical shell, free modes
 BulkEcho;Sorted
 HarmonicsSelection;All
 EigenMethodSelection;1

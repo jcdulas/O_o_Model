@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: pseudo-static stress-life fatigue with a duty cycle (SOL 101)
+# O_o_Model test model: pseudo-static stress-life fatigue with a duty cycle (SOL 101)
 #
 # Covers:
 #   - cards: FTGDEF FTGPARM FTGLOAD FTGEVNT FTGSEQ MATFTG PFTG TABLFTG
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: stress-life fatigue, duty cycle
+TitleText;O_o_Model test model: stress-life fatigue, duty cycle
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 FatigueOutput;10;PrintListing;PlotOnly

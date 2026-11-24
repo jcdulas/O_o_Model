@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: buckling of the plate under edge compression (EIGB)
+# O_o_Model test model: buckling of the plate under edge compression (EIGB)
 #
 # Covers:
 #   - cards: EIGB
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;105
 [case]
-TitleText;O_o_Reader test model: buckling with EIGB
+TitleText;O_o_Model test model: buckling with EIGB
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

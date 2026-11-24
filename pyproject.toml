@@ -4,8 +4,8 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "oo-model"
-version = "0.2.0"
-description = "Build, edit and query finite element models in memory. Exchange files through the OOS and OOH5 adapters. Native Python interface to the O_o C++ library, also available for JavaScript/WebAssembly."
+version = "0.2.1"
+description = "Build, edit and query finite element models in memory. Native Python interface to the O_o C++ library, also available for JavaScript/WebAssembly."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]

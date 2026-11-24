@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: plate with a porous trim under a perforated facing
+# O_o_Model test model: plate with a porous trim under a perforated facing
 #
 # Covers:
 #   - cards: PSHLPF (with a trim component: BEGIN BULK TRMC, MATPE1, ACPEMCP,

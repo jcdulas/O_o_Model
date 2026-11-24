@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: non-linear element tables of SOL 106
+# O_o_Model test model: non-linear element tables of SOL 106
 #
 # Covers:
 #   - cards: MAT1 with MATS1 (elastic-plastic, von Mises, isotropic
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;106
 [case]
-TitleText;O_o_Reader test model: SOL 106 non-linear element tables
+TitleText;O_o_Model test model: SOL 106 non-linear element tables
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

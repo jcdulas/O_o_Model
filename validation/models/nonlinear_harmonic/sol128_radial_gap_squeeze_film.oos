@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: radial gap and squeeze film damper (SOL 128)
+# O_o_Model test model: radial gap and squeeze film damper (SOL 128)
 #
 # Covers:
 #   - cards: NLHARM, NLFREQ, NLFREQ1, NHRMPRM, NLRGAP, NLRSFD

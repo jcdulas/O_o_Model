@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: solid stresses in their material systems (PSOLID CORDM) (SOL 101)
+# O_o_Model validation deck: solid stresses in their material systems (PSOLID CORDM) (SOL 101)
 #
 # Validates:
 #   - the stresses and strains of identical CHEXA and CTETRA blocks under the
@@ -13,7 +13,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: solid stresses in material systems
+TitleText;O_o_Model validation: solid stresses in material systems
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

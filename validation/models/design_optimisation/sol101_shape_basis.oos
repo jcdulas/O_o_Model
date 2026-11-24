@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: shape basis vectors for DVSHAP (SOL 101)
+# O_o_Model test model: shape basis vectors for DVSHAP (SOL 101)
 #
 # Covers:
 #   - cards: PLOAD2 FORCE SPC1, the auxiliary loads and supports whose
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: shape basis vectors
+TitleText;O_o_Model test model: shape basis vectors
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: glued contact between two modules, by a contact table
+# O_o_Model test model: glued contact between two modules, by a contact table
 #
 # Covers:
 #   - cards: MDBCNCT, MDBCTB1 (with MDBULK, BCONPRG, BEGIN MODULE and, in
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: contact table across modules
+TitleText;O_o_Model test model: contact table across modules
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

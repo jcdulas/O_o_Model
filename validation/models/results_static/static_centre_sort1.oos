@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: static element tables at the centres, SORT1
+# O_o_Model test model: static element tables at the centres, SORT1
 #
 # Covers:
 #   - solution: SOL 101 (linear statics) of the shared element model of
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: statics at the centres, SORT1
+TitleText;O_o_Model test model: statics at the centres, SORT1
 BulkEcho;None
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

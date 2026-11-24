@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: explicit spring-mass oscillators
+# O_o_Model test model: explicit spring-mass oscillators
 #
 # Covers:
 #   - cards: PELAS1, CSPR (with CELAS1D and PSPRMAT)
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: explicit springs (SOL 700)
+TitleText;O_o_Model test model: explicit springs (SOL 700)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;2

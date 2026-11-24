@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: CFAST piercing points near a fold between non-coplanar shells (SOL 101)
+# O_o_Model validation deck: CFAST piercing points near a fold between non-coplanar shells (SOL 101)
 #
 # Validates:
 #   - which element a CFAST located near the fold between two shells that are
@@ -12,7 +12,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: fastener piercing points near a fold
+TitleText;O_o_Model validation: fastener piercing points near a fold
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

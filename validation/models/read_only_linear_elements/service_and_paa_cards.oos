@@ -1,11 +1,11 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: ROMAC bearing service and PAA grid (read only)
+# O_o_Model test model: ROMAC bearing service and PAA grid (read only)
 #
 # Covers:
 #   - cards: THPAD, GRIDA (with ELEMUDS, CBUSH2D, PBUSH2D, CELAS2)
 #   - solution: SOL 101 (written as a static deck; not run)
-#   - outputs: none: the deck is read and written by O_o_Reader only
+#   - outputs: none: the deck is read and written by O_o_Model only
 # Run notes:
 #   - read only: THPAD only works through ROMAC's THPAD user-defined service
 #     (CONNECT SERVICE in the FMS, a service library from the University of

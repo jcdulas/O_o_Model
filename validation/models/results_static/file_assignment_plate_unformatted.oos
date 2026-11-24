@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation model: unformatted file-assignment metadata
+# O_o_Model validation model: unformatted file-assignment metadata
 #
 # Exercises native executive records with a file unit and form, case selections,
 # and a plate under a tip load. The named external file is retained as metadata.

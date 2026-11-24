@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: Monte-Carlo simulation of a modal frequency
+# O_o_Model test model: Monte-Carlo simulation of a modal frequency
 # response (SOL 111)
 #
 # Covers:
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;111
 [case]
-TitleText;O_o_Reader test model: Monte-Carlo modal frequency response
+TitleText;O_o_Model test model: Monte-Carlo modal frequency response
 BulkEcho;None
 MonteCarloSelection;1;NSAMPLE=4;SEED=7
 SinglePointConstrSelection;1

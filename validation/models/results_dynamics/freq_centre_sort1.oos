@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: direct frequency response, centre and ply output
+# O_o_Model test model: direct frequency response, centre and ply output
 #
 # Covers:
 #   - solution: SOL 108 (direct frequency response) of the shared element
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: direct frequency response at the centres
+TitleText;O_o_Model test model: direct frequency response at the centres
 BulkEcho;None
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: transient heat transfer (SOL 159), SORT2
+# O_o_Model validation deck: transient heat transfer (SOL 159), SORT2
 #
 # Validates:
 #   - the SORT2 heat flux tables of every conduction element of the model and
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;159
 [case]
-TitleText;O_o_Reader validation: transient heat transfer (SORT2)
+TitleText;O_o_Model validation: transient heat transfer (SORT2)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DynamicLoadSelection;51

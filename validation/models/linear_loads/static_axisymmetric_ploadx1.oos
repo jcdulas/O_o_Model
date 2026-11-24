@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: pressure on an axisymmetric ring, PLOADX1 (SOL 101)
+# O_o_Model test model: pressure on an axisymmetric ring, PLOADX1 (SOL 101)
 #
 # Covers:
 #   - cards: PLOADX1 (on CTRIAX6, constant and linearly varying traction,
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: PLOADX1 on CTRIAX6
+TitleText;O_o_Model test model: PLOADX1 on CTRIAX6
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

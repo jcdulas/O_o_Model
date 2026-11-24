@@ -1,12 +1,12 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: deflagration in a closed propellant chamber (SOL 700)
+# O_o_Model test model: deflagration in a closed propellant chamber (SOL 700)
 #
 # Covers:
 #   - cards: PEULER EOSDEF MATDEUL MESH
 #   - solution: SOL 700 (explicit transient: the hot gas of a burning
 #     propellant in a closed single-material Euler chamber)
-#   - outputs: none that O_o_Reader decodes (the explicit solver writes its
+#   - outputs: none that O_o_Model decodes (the explicit solver writes its
 #     own result files)
 # Run notes:
 #   - needs the explicit solver of SOL 700 in the installation (SOL 700 spawns

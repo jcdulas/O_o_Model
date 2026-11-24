@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: mechanism shapes (statics)
+# O_o_Model validation deck: mechanism shapes (statics)
 #
 # Validates:
 #   - how the solver writes the potential mechanism shapes in the result data and the HDF5
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: mechanism shapes
+TitleText;O_o_Model validation: mechanism shapes
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

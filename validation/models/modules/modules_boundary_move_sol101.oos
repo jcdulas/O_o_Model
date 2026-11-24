@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: modules found, connected, copied, moved and mirrored
+# O_o_Model test model: modules found, connected, copied, moved and mirrored
 #
 # Covers:
 #   - cards: MDBULK, MDBNDRY, MDEXCLD, MDCONCT, MDLABEL, MDLOC, MDMPLN,
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: module search and positioning
+TitleText;O_o_Model test model: module search and positioning
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

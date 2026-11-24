@@ -1,13 +1,13 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: a layered solid property PCOMPS of another implementation (read-only)
+# O_o_Model test model: a layered solid property PCOMPS of another implementation (read-only)
 #
 # Covers:
 #   - cards: PCOMPS (with MAT1 CHEXA)
 #   - solution: SOL 101 (linear static, the form of that implementation)
 #   - outputs: none (read-only deck)
 # Run notes:
-#   - read-only: read and written by O_o_Reader, not run. PCOMPS is an entry
+#   - read-only: read and written by O_o_Model, not run. PCOMPS is an entry
 #     of another implementation: the format reference has no page for
 #     it (the solver models layered solids with PCOMPLS)
 # Written for this project, to exercise the reader.
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: PCOMPS (read-only)
+TitleText;O_o_Model test model: PCOMPS (read-only)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

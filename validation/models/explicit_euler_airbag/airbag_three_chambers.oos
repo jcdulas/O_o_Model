@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: air bag of three chambers (SOL 700)
+# O_o_Model test model: air bag of three chambers (SOL 700)
 #
 # Covers:
 #   - cards: GBAG GBAGCOU ABINFL INFLTR INFLHB INFLCG INFLTNK INFLGAS INFLFRC
@@ -9,7 +9,7 @@
 #   - solution: SOL 700 (explicit transient: two Eulerian air bag chambers,
 #     each with its own Euler mesh, and a uniform pressure chamber; a
 #     fluid-filled bottle beside them)
-#   - outputs: none that O_o_Reader decodes (the explicit solver writes its
+#   - outputs: none that O_o_Model decodes (the explicit solver writes its
 #     own result files)
 # Run notes:
 #   - needs the explicit solver of SOL 700 in the installation (SOL 700 spawns
@@ -22,7 +22,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: air bag of three chambers (SOL 700)
+TitleText;O_o_Model test model: air bag of three chambers (SOL 700)
 BulkEcho;None
 StepEndTime;0.005
 NonlinearTimeStepSelection;1

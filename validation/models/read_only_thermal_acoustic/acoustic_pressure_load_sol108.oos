@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: acoustic pressure load of an acoustic program (read only)
+# O_o_Model test model: acoustic pressure load of an acoustic program (read only)
 #
 # Covers:
 #   - cards: ACLOAD
@@ -8,7 +8,7 @@
 #     of acoustics/plate_cavity_model.inc)
 #   - outputs: none brought back (read-only deck)
 # Run notes:
-#   - read and written by O_o_Reader only: the load matrices come from two
+#   - read and written by O_o_Model only: the load matrices come from two
 #     files exported by an acoustic program (mapped data on unit 41, property matrices
 #     on unit 42) that this project does not have
 # Written for this project, to exercise the reader.
@@ -18,7 +18,7 @@ FileAssignment;INPUTT2='acoustic_pressure.f70';FileUnit=41
 FileAssignment;INPUTT4='acoustic_pressure.op4';FileUnit=42
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: external acoustic pressure load (SOL 108)
+TitleText;O_o_Model test model: external acoustic pressure load (SOL 108)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;21

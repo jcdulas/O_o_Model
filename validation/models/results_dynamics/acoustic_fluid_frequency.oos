@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: fluid element results, complex (frequency response) (SOL 108)
+# O_o_Model validation deck: fluid element results, complex (frequency response) (SOL 108)
 #
 # Validates:
 #   - the element tables of the fluid elements CHEXA, CPENTA, CTETRA and

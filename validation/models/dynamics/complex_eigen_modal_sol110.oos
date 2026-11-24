@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: modal complex modes with EIGR real modes
+# O_o_Model test model: modal complex modes with EIGR real modes
 #
 # Covers:
 #   - cards: EIGR
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;110
 [case]
-TitleText;O_o_Reader test model: modal complex modes
+TitleText;O_o_Model test model: modal complex modes
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

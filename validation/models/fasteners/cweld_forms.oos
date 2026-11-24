@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: CWELD connection forms on linear and quadratic shells (SOL 101)
+# O_o_Model validation deck: CWELD connection forms on linear and quadratic shells (SOL 101)
 #
 # Validates:
 #   - the piercing points (generated grid points) for each CWELD form (GEOM1
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: CWELD forms
+TitleText;O_o_Model validation: CWELD forms
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

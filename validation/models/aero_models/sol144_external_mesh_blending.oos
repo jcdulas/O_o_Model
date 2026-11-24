@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: external aero mesh, blended splines (SOL 144)
+# O_o_Model test model: external aero mesh, blended splines (SOL 144)
 #
 # Covers:
 #   - cards: AEGRID AEQUAD4 AETRIA3 AESCALE SPLINE6 SPLINE7 SPLINRB SPBLND1
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;144
 [case]
-TitleText;O_o_Reader test model: external aero mesh, blended splines
+TitleText;O_o_Model test model: external aero mesh, blended splines
 BulkEcho;None
 SinglePointConstrSelection;1
 TrimSelection;1

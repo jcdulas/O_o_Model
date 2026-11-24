@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: supersonic Mach box flutter (SOL 145)
+# O_o_Model test model: supersonic Mach box flutter (SOL 145)
 #
 # Covers:
 #   - cards: CAERO3 PAERO3 MKAERO2 SPLINE4
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;145
 [case]
-TitleText;O_o_Reader test model: Mach box flutter
+TitleText;O_o_Model test model: Mach box flutter
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;71

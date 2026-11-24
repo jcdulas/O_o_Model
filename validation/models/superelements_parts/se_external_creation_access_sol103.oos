@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: external superelement creation with an access point
+# O_o_Model test model: external superelement creation with an access point
 #
 # Covers:
 #   - cards: ACCSSPT, BNDFIX, BNDFIX1, BNDFREE, BNDFRE1 (with ASET1, QSET1,
@@ -18,7 +18,7 @@
 FileAssignment;OUTPUT4='se_ext_access.op4';FileUnit=27;FileForm=Unformatted
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: external superelement creation
+TitleText;O_o_Model test model: external superelement creation
 BulkEcho;None
 EigenMethodSelection;1
 ExternalSuperelementOutput;;Stiffness;Mass;Loads;AssemblyBulk;ExternalBulk;EXTID=200;MATOP4=27

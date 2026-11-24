@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: coordinate systems from grid points, grid defaults,
+# O_o_Model test model: coordinate systems from grid points, grid defaults,
 # shell normals and monitor point sums (SOL 101)
 #
 # Covers:
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: coordinate systems and monitor point sums
+TitleText;O_o_Model test model: coordinate systems and monitor point sums
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

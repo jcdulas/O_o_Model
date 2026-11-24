@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: trimmed material matrices of an acoustic program (read only, SOL 108)
+# O_o_Model test model: trimmed material matrices of an acoustic program (read only, SOL 108)
 #
 # Covers:
 #   - cards: ACTRIM
@@ -20,7 +20,7 @@ FileAssignment;INPUTT2='trim_floor.f70';FileUnit=31
 FileAssignment;INPUTT4='trim_floor.op4';FileUnit=32
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: trimmed material matrices
+TitleText;O_o_Model test model: trimmed material matrices
 BulkEcho;None
 TrimmedMaterialSelection;Floor
 SinglePointConstrSelection;1

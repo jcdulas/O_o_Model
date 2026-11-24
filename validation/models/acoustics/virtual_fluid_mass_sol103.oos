@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: open tank with virtual fluid mass
+# O_o_Model test model: open tank with virtual fluid mass
 #
 # Covers:
 #   - cards: MFLUID, ELIST
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: virtual fluid mass (SOL 103)
+TitleText;O_o_Model test model: virtual fluid mass (SOL 103)
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;1

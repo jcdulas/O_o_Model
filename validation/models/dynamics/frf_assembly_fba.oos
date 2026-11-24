@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: FRF based assembly of the plate and the struts
+# O_o_Model test model: FRF based assembly of the plate and the struts
 #
 # Covers:
 #   - cards: FRFCOMP, FRFCONN, FRFFLEX, FRFRELS, FRFSPC1, FBALOAD, FBADLAY,
@@ -24,7 +24,7 @@ FileAssignment;INPUTT2='frf_gen_plate_frf.data';FileUnit=25
 FileAssignment;INPUTT2='frf_gen_strut_frf.data';FileUnit=26
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: FRF based assembly
+TitleText;O_o_Model test model: FRF based assembly
 BulkEcho;None
 SinglePointConstrSelection;300
 DynamicLoadSelection;400

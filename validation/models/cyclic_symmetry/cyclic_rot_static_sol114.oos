@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rotational cyclic symmetry, statics of a hub disk
+# O_o_Model test model: rotational cyclic symmetry, statics of a hub disk
 #
 # Covers:
 #   - cards: CYSYM (ROT), CYJOIN, CYAX, LOADCYN, LOADCYH (with CORD2C, CBAR,
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;114
 [case]
-TitleText;O_o_Reader test model: cyclic symmetry statics
+TitleText;O_o_Model test model: cyclic symmetry statics
 BulkEcho;None
 SinglePointConstrSelection;1
 HarmonicsSelection;All

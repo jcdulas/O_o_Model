@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: poroelastic trim component between plate and cavity
+# O_o_Model test model: poroelastic trim component between plate and cavity
 #
 # Covers:
 #   - cards: ACPEMCP, TRMCPL (with MATPE1, PSOLID PORO in a BEGIN BULK TRMC
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;111
 [case]
-TitleText;O_o_Reader test model: 3D poroelastic trim (SOL 111)
+TitleText;O_o_Model test model: 3D poroelastic trim (SOL 111)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;21

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: acoustic absorbers, barriers and panels
+# O_o_Model test model: acoustic absorbers, barriers and panels
 #
 # Covers:
 #   - cards: ACMODL, CHACAB, PACABS, CHACBR, PACBAR, CAABSF, PAABSF, MAT10F,
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader test model: absorbers and barriers (SOL 108)
+TitleText;O_o_Model test model: absorbers and barriers (SOL 108)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;21

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric cyclic model under an azimuth table load
+# O_o_Model test model: axisymmetric cyclic model under an azimuth table load
 #
 # Covers:
 #   - cards: LOADCYT, CYSYM (AXI), CYJOIN (with the T2 normal) (with CORD2C,
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;114
 [case]
-TitleText;O_o_Reader test model: axisymmetric cyclic table load
+TitleText;O_o_Model test model: axisymmetric cyclic table load
 BulkEcho;None
 SinglePointConstrSelection;1
 HarmonicsSelection;All

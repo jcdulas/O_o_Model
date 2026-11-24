@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: list superelements with component mode synthesis sets
+# O_o_Model test model: list superelements with component mode synthesis sets
 #
 # Covers:
 #   - cards: SEBSET, SEBSET1, SECSET, SECSET1, SEQSET, SEQSET1, SESUP, SEUSET,
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: list superelements, component mode sets
+TitleText;O_o_Model test model: list superelements, component mode sets
 BulkEcho;None
 SinglePointConstrSelection;1
 EigenMethodSelection;1

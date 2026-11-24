@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: SOL 700 material extensions MAT1A and MAT8A
+# O_o_Model test model: SOL 700 material extensions MAT1A and MAT8A
 # (read-only)
 #
 # Covers:
@@ -8,7 +8,7 @@
 #   - solution: SOL 700 (explicit nonlinear transient)
 #   - outputs: none (read-only deck)
 # Run notes:
-#   - read-only: read and written by O_o_Reader, not run. The format reference pages of
+#   - read-only: read and written by O_o_Model, not run. The format reference pages of
 #     MAT1A and MAT8A say SOL 700 only, and neither entry is in the 2024.1
 #     table of Bulk Data entries available in SOL 700 (Executive Control
 #     SOL 700,ID), run by an explicit solver of its own
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: MAT1A and MAT8A (read-only)
+TitleText;O_o_Model test model: MAT1A and MAT8A (read-only)
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: CONCTL override and iterative solver (SOL 101)
+# O_o_Model test model: CONCTL override and iterative solver (SOL 101)
 #
 # Covers:
 #   - cards: CONCTL, ITER
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: CONCTL and ITER (SOL 101)
+TitleText;O_o_Model test model: CONCTL and ITER (SOL 101)
 BulkEcho;None
 SinglePointConstrSelection;1
 StaticLoadSelection;1

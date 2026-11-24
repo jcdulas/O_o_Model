@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: HDF5 layout: the version's defaults (SOL 101)
+# O_o_Model validation deck: HDF5 layout: the version's defaults (SOL 101)
 #
 # Validates:
 #   - the HDF5 file the owner's the solver version writes with MDLPRM,HDF5,1 and no
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: HDF5 layouts (the version's defaults)
+TitleText;O_o_Model validation: HDF5 layouts (the version's defaults)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

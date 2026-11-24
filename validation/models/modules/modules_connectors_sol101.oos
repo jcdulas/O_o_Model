@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: modules joined by the connectors across modules
+# O_o_Model test model: modules joined by the connectors across modules
 #
 # Covers:
 #   - cards: MDRBE2, MDRBE3, MDRROD, MDRJNT, MDMPC, MDBUSH, MDFAST, MDSEAM,
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: connectors across modules
+TitleText;O_o_Model test model: connectors across modules
 BulkEcho;None
 SinglePointConstrSelection;1
 MultiPointConstrSelection;10

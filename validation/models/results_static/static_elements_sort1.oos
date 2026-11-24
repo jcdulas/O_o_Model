@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: static element tables, SORT1
+# O_o_Model validation deck: static element tables, SORT1
 #
 # Validates:
 #   - the real SORT1 element tables of every family of the shared model:
@@ -37,7 +37,7 @@ SolutionSequence;101
 [case]
 # The OUTPUT(POST) surfaces and volumes of the grid point stresses (GPSTRESS, GPSTRAIN, STRFIELD, GPSDCON, ELSDCON)
 SetDefinition;90;21;22
-TitleText;O_o_Reader validation: static element tables (SORT1)
+TitleText;O_o_Model validation: static element tables (SORT1)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

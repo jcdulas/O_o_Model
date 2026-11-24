@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: fluid elements, magnitude/phase and random tables
+# O_o_Model test model: fluid elements, magnitude/phase and random tables
 #
 # Covers:
 #   - solution: SOL 108 (direct frequency response) of the coupled

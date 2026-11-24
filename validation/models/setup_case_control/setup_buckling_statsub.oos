@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: buckling with STATSUB, preload and buckling load (SOL 105)
+# O_o_Model validation deck: buckling with STATSUB, preload and buckling load (SOL 105)
 #
 # Validates:
 #   - the static subcase the solver uses for the differential stiffness:
@@ -11,7 +11,7 @@
 # ============================================================================
 SolutionSequence;105
 [case]
-TitleText;O_o_Reader validation: buckling with STATSUB
+TitleText;O_o_Model validation: buckling with STATSUB
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

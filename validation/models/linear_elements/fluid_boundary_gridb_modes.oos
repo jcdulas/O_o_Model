@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: shell panel on axisymmetric fluid boundary points
+# O_o_Model test model: shell panel on axisymmetric fluid boundary points
 #
 # Covers:
 #   - cards: GRIDB (with AXIF, RINGFL, BDYLIST, CORD2C, CQUAD4, PSHELL, EIGRL)

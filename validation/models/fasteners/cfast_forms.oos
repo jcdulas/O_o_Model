@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: CFAST forms (SOL 101)
+# O_o_Model validation deck: CFAST forms (SOL 101)
 #
 # Validates:
 #   - the piercing points (generated grid points) of CFAST ELEM located by GS,
@@ -15,7 +15,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader validation: CFAST forms
+TitleText;O_o_Model validation: CFAST forms
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

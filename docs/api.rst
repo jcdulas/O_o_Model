@@ -21,13 +21,13 @@ For a runnable example, start with :doc:`getting-started`. The module guides exp
    * - Validate references
      - ``deck.checkReferences()``
      - ``deck.check_references()``
-   * - Read a deck
+   * - Read a deck with a file adapter
      - ``reader.readModel(path)``
      - ``oo_model.read_model(path)``
    * - Count node rows
      - ``query.rowCount()``
      - ``len(table)``
-   * - Save a model
+   * - Save a model with the archive adapter
      - ``deck.writeArchive(path)``
      - ``deck.write_archive(path)``
 
@@ -37,6 +37,7 @@ JavaScript and TypeScript
 Load the built package from ``build/wasm/dist/index.js``. The declarations below describe its public interface.
 
 .. literalinclude:: ../wasm/js/index.d.ts
+   :end-before: // Compatibility exports
    :language: typescript
    :linenos:
 
@@ -45,7 +46,7 @@ Load the built package from ``build/wasm/dist/index.js``. The declarations below
 Python
 ------
 
-Import ``read_model(path, *, strict=True)`` from ``oo_model``. It returns a ``Deck``.
+Call ``oo_model.create_model()`` to construct an in-memory ``Deck``. The optional file adapters also expose ``read_model(path, *, strict=True)``.
 
 * Create a deck with ``create_model()``, select the solution with ``deck.set_solution(name)`` and set the case
   commands with ``deck.set_case_control(records)``. Each record provides a name and a sequence of string fields.

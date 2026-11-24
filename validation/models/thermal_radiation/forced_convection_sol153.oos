@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: forced and tabulated free convection
+# O_o_Model test model: forced and tabulated free convection
 #
 # Covers:
 #   - cards: CONVM, PCONVM, TABLEHT, TABLEH1, MAT5, MATT4, MATT5, TEMPBC
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;153
 [case]
-TitleText;O_o_Reader test model: forced convection (SOL 153)
+TitleText;O_o_Model test model: forced convection (SOL 153)
 BulkEcho;None
 SinglePointConstrSelection;3
 NonlinearStaticParamsSelection;1

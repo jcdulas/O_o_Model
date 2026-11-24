@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric CTRIAX6, modal frequency von Mises
+# O_o_Model test model: axisymmetric CTRIAX6, modal frequency von Mises
 #
 # Covers:
 #   - solution: SOL 111 (modal frequency response) of the axisymmetric ring of

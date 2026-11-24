@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: user subroutines of the explicit solver (SOL 700, read-only)
+# O_o_Model test model: user subroutines of the explicit solver (SOL 700, read-only)
 #
 # Covers:
 #   - cards: COMPUDS EOSUDS SHRUDS YLDUDS FAILUDS FLOWUDS PORUDS FORCUDS
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: SOL 700 user services (read-only)
+TitleText;O_o_Model test model: SOL 700 user services (read-only)
 BulkEcho;None
 StepEndTime;0.001
 NonlinearTimeStepSelection;1

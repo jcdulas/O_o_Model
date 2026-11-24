@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: rigid tools pressing a block (SOL 400)
+# O_o_Model test model: rigid tools pressing a block (SOL 400)
 #
 # Covers:
 #   - cards: BCRIGID, BCRGSRF, BCPATCH, BCBZIER, BCNURBS, BCTRIM, BCBDPRP,
@@ -21,7 +21,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: rigid tools pressing a block (SOL 400)
+TitleText;O_o_Model test model: rigid tools pressing a block (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 DeactivatedElemsSelection;7

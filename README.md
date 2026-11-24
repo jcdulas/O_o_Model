@@ -1,6 +1,6 @@
 # O_o_Model
 
-Build, edit and query finite element models in memory, or load them through the .oos and HDF5 .ooh5 file adapters, with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
+Build, edit and query finite element models through the O_o_Model API in JavaScript (WebAssembly) or Python (native C++). Applications supply cards and analysis controls in memory. O_o_Solver consumes the resulting model tables through its API.
 
 **[Sphinx documentation](https://jcdulas.github.io/O_o_Model/)** ·
 [Model input reference](docs/reference/index.md) ·
@@ -11,31 +11,29 @@ Build, edit and query finite element models in memory, or load them through the 
 
 | Interface | Install |
 | --- | --- |
-| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/wasm-latest/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
-| Python / native C++ | Install the [native wheel](https://pypi.org/project/oo-model/0.2.0/) with `python -m pip install oo-model`. For source builds, see the [native build requirements](docs/python.md#build-and-publish). |
+| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.1/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
+| Python / native C++ | Install the [native wheel](https://pypi.org/project/oo-model/0.2.1/) with `python -m pip install oo-model==0.2.1`. For source builds, see the [native build requirements](docs/python.md#build-and-publish). |
 
-Previously published as `O_o_Reader`. The current JavaScript package exports `loadOoModel` and retains `loadOorReader` as an alias. The native wheel exposes `oo_model` and supports the former `oo_reader` import in a fresh environment. The [0.2.0 PyPI release](https://pypi.org/project/oo-reader/0.2.0/) and the [original WASM archive](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.0/O_o_Reader-wasm.zip) use the former names.
+## Build and query a model in memory
 
-## Read, query and save a model
-
-Create a model with one node at (1, 2, 3), count its nodes and write a model-only HDF5 archive. Save the JavaScript example as `example.mjs` and run `node example.mjs`, or save the Python example as `example.py` and run `python example.py`.
+Create a node at (1, 2, 3) and count the rows in the node table. Both examples print `1`.
 
 **JavaScript / WebAssembly**
 
 ```javascript
-import { writeFile } from "node:fs/promises";
 import { loadOoModel } from "./model/index.js";
 
-const reader = await loadOoModel();
-reader.writeFile("/work/point.oos", "[model]\nNode;1;;1.;2.;3.\n");
-const deck = reader.readModel("/work/point.oos");
-const nodes = reader.runQuery("nodesTable", { deck });
+const api = await loadOoModel();
+const deck = api.createModel();
 try {
-  console.log(nodes.rowCount()); // 1
-  deck.writeArchive("/work/point.ooh5");
-  await writeFile("point.ooh5", reader.readFile("/work/point.ooh5"));
+  deck.addCard({ type: "Node", fields: [1, null, 1, 2, 3] });
+  const nodes = api.runQuery("nodesTable", { deck });
+  try {
+    console.log(nodes.rowCount());
+  } finally {
+    nodes.delete();
+  }
 } finally {
-  nodes.delete();
   deck.delete();
 }
 ```
@@ -43,22 +41,17 @@ try {
 **Python / native C++**
 
 ```python
-from pathlib import Path
-from oo_model import read_model
+from oo_model import create_model
 
-Path("point.oos").write_text("[model]\nNode;1;;1.;2.;3.\n", encoding="utf-8")
-deck = read_model("point.oos")
-print(len(deck.query("nodesTable")))  # 1
-deck.write_archive("point.ooh5")
+deck = create_model()
+deck.add_card("Node", [1, None, 1., 2., 3.])
+nodes = deck.query("nodesTable")
+print(len(nodes))
 ```
 
-Both scripts create `point.ooh5` in the current directory. The Node.js script copies the archive from WASM memory to disk; Python writes the host file directly.
+WASM handles own native allocations and expose `delete()`. Python manages those lifetimes and exposes query tables through the Arrow C Data Interface.
 
-Model queries cover geometry, mesh quality, mass, loads and connections. The JavaScript results API also queries stresses, margins and section cuts. [Query and export guide](docs/wasm-api.md)
-
-Both interfaces construct models directly in memory, validate references, edit card fields and apply design points.
-The standard build includes the text, archive and workbook adapters. An application building from source can link
-only the in-memory core. [Model construction](docs/model-construction.md) · [Build profiles](docs/architecture.md#file-adapters) · [Archive format](docs/archive-format.md)
+For batches of nodes or elements, pass typed JavaScript arrays or NumPy columns. See the [construction guide](docs/model-construction.md) for load cases, validation and editing. Applications that need persistence can use the [OOS adapter](https://github.com/jcdulas/O_o_OOS) for text models or the [OOH5 adapter](https://github.com/jcdulas/O_o_OOH5) for HDF5 archives. The standard packages include both adapters. [Build profiles](docs/architecture.md#file-adapters)
 
 ## Documentation
 
@@ -124,7 +117,7 @@ Each WebAssembly test checks its own duration against the same one-second limit.
 The `WebAssembly` workflow builds the package on every push to `main` that changes the sources, runs these tests and
 publishes it as `O_o_Model-wasm.zip` in two [releases](https://github.com/jcdulas/O_o_Model/releases):
 `wasm-latest`, a pre-release that follows the branch, and one release kept for each version of `wasm/package.json`
-(`v0.2.0`, ...), made by the first build of that version and not changed afterwards; the newest of these is the
+(`v0.2.1`, ...), made by the first build of that version and not changed afterwards; the newest of these is the
 latest release of the repository. Raise the version in `wasm/package.json` to keep a new one. Each run also keeps the
 package 90 days as its `O_o_Model-wasm` artifact.
 

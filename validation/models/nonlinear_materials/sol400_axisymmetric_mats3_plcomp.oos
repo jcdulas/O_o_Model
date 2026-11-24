@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: axisymmetric orthotropic and laminated rings (SOL 400)
+# O_o_Model test model: axisymmetric orthotropic and laminated rings (SOL 400)
 #
 # Covers:
 #   - cards: MATS3 PLCOMP (with MAT3 MAT1 TABL3D0 PLPLANE PSHLN2 CQUADX

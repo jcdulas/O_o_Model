@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: steady heat transfer (SOL 153)
+# O_o_Model validation deck: steady heat transfer (SOL 153)
 #
 # Validates:
 #   - the temperatures, the heat flux tables (gradients and fluxes) of CROD,
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;153
 [case]
-TitleText;O_o_Reader validation: steady heat transfer
+TitleText;O_o_Model validation: steady heat transfer
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

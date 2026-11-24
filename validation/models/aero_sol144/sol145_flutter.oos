@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: flutter (SOL 145, PK method)
+# O_o_Model validation deck: flutter (SOL 145, PK method)
 #
 # Validates:
 #   - the flutter summary (OVG) and the flutter eigenvectors in the result data and in
@@ -10,7 +10,7 @@
 # ============================================================================
 SolutionSequence;145
 [case]
-TitleText;O_o_Reader validation: flutter
+TitleText;O_o_Model validation: flutter
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 EigenMethodSelection;71

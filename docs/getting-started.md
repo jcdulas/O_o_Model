@@ -1,36 +1,36 @@
 # Getting started
 
-Read, edit and query finite element models in .oos and HDF5 .ooh5 format with the same C++20 library from **JavaScript (WebAssembly)** or **Python (native C++)**.
+Build, edit and query finite element models through the O_o_Model API in JavaScript (WebAssembly) or Python (native C++). Applications supply cards and analysis controls in memory. O_o_Solver consumes the resulting model tables through its API.
 
 (build-requirements)=
 ## Install the packages
 
 | Interface | Install |
 | --- | --- |
-| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/wasm-latest/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
-| Python / native C++ | Install the [native wheel](https://pypi.org/project/oo-model/0.2.0/) with `python -m pip install oo-model`. For source builds, see the [native build requirements](python.md#build-and-publish). |
+| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.1/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
+| Python / native C++ | Install the [native wheel](https://pypi.org/project/oo-model/0.2.1/) with `python -m pip install oo-model==0.2.1`. For source builds, see the [native build requirements](python.md#build-and-publish). |
 
 (read-and-query-a-model)=
-## Read, query and save a model
+## Build and query a model in memory
 
-Create a model with one node at (1, 2, 3), count its nodes and write a model-only HDF5 archive. Save the JavaScript example as `example.mjs` and run `node example.mjs`, or save the Python example as `example.py` and run `python example.py`.
+Create a node at (1, 2, 3) and count the rows in the node table. Both examples print `1`.
 
 **JavaScript / WebAssembly**
 
 ```javascript
-import { writeFile } from "node:fs/promises";
 import { loadOoModel } from "./model/index.js";
 
-const reader = await loadOoModel();
-reader.writeFile("/work/point.oos", "[model]\nNode;1;;1.;2.;3.\n");
-const deck = reader.readModel("/work/point.oos");
-const nodes = reader.runQuery("nodesTable", { deck });
+const api = await loadOoModel();
+const deck = api.createModel();
 try {
-  console.log(nodes.rowCount()); // 1
-  deck.writeArchive("/work/point.ooh5");
-  await writeFile("point.ooh5", reader.readFile("/work/point.ooh5"));
+  deck.addCard({ type: "Node", fields: [1, null, 1, 2, 3] });
+  const nodes = api.runQuery("nodesTable", { deck });
+  try {
+    console.log(nodes.rowCount());
+  } finally {
+    nodes.delete();
+  }
 } finally {
-  nodes.delete();
   deck.delete();
 }
 ```
@@ -38,16 +38,19 @@ try {
 **Python / native C++**
 
 ```python
-from pathlib import Path
-from oo_model import read_model
+from oo_model import create_model
 
-Path("point.oos").write_text("[model]\nNode;1;;1.;2.;3.\n", encoding="utf-8")
-deck = read_model("point.oos")
-print(len(deck.query("nodesTable")))  # 1
-deck.write_archive("point.ooh5")
+deck = create_model()
+deck.add_card("Node", [1, None, 1., 2., 3.])
+nodes = deck.query("nodesTable")
+print(len(nodes))
 ```
 
-Both scripts create `point.ooh5` in the current directory. The Node.js script copies the archive from WASM memory to disk; Python writes the host file directly.
+WASM handles own native allocations and expose `delete()`. Python manages those lifetimes and exposes query tables through the Arrow C Data Interface.
+
+## Pass the deck to a solver
+
+With O_o_Solver installed, JavaScript calls `solver.modelFromReader(api, deck)` while the deck is alive. In Python, call `oo_solver.model_from_reader(deck)`. Both calls build a solver snapshot from the model tables. The [Solver tutorial](https://jcdulas.github.io/O_o_Solver/docs/getting-started.html) constructs a loaded rod and reads its displacement in both languages.
 
 ## Choose a file format
 
@@ -58,74 +61,7 @@ Both scripts create `point.ooh5` in the current directory. The Node.js script co
 | `.ooh5` result tables | `reader.openResults`, `results.writeArchive` | Read datasets with h5py as shown in the [archive guide](archive-format.md). |
 | Excel result workbook / HDF5 query export | `results.writeXlsx`, `reader.writeQueryTables` | The package exposes model query tables through Arrow. |
 
-## Save and reopen a model with results
-
-Save this example as `archive-model.mjs` in the repository root with the extracted Model in `reader/`:
-
-**JavaScript / WebAssembly**
-
-~~~javascript
-import { writeFile } from "node:fs/promises";
-import { loadOoModel } from "./model/index.js";
-
-const oor = await loadOoModel();
-oor.writeFile("/work/point.oos", "[model]\nNode;1;;0.;0.;0.\n");
-const deck = oor.readModel("/work/point.oos");
-const results = oor.createResults([
-  { kind: "displacements", subcase: 1, ids: [1], values: new Float64Array([0.1, 0, 0, 0, 0, 0]) },
-]);
-
-try {
-  results.attach(deck, false);
-  results.writeArchive("/work/point.ooh5");
-  await writeFile("point.ooh5", oor.readFile("/work/point.ooh5"));
-  const archive = oor.openResults("/work/point.ooh5"); // result index only; model values stay unread
-  const restored = archive.model();                  // loads the model and attaches it for queries
-  try {
-    console.log("Nodes:", restored.cardCounts().Node);
-    console.log("Displacement:", archive.read(0).values[0]);
-    restored.writeModel("/work/export.oos");
-    console.log(oor.readFile("/work/export.oos", { encoding: "utf8" }));
-  } finally {
-    restored.delete();
-    archive.delete();
-  }
-} finally {
-  results.delete();
-  deck.delete();
-}
-~~~
-
-**Python / native C++**
-
-Open the combined archive written to disk by the JavaScript example. Python can retrieve its model and export its records; the result-index API shown above belongs to JavaScript.
-
-```python
-from oo_model import read_model
-
-restored = read_model("point.ooh5")
-print(restored.card_counts["Node"])  # 1
-restored.write_model("export.oos")
-```
-
-Run it with `node archive-model.mjs`. `oor.readFile("/work/point.ooh5")` returns the archive bytes for downloading or
-writing to host storage. `oor.readModel("/work/point.ooh5")` can load the model independently of its results.
-
-For a model alone, call `deck.writeArchive`. For results alone, write a result set with no attached model.
-`archive.hasModel()` checks whether a model is available; `archive.model()` returns `null` when absent, whereas
-`oor.readModel` raises an error for an archive without a model. See [archive versions](archive-format.md#versions):
-new writes use version 4, and version 3 result archives remain readable.
-
-## Model conventions
-
-- A record occupies one physical line, with semicolons between values.
-- Card names, field names and vocabulary words use their exact neutral spelling.
-- Quote values containing semicolons or quotes; double an embedded quote.
-- Use `Include` records for model includes. Put every required file in the WASM file system for JavaScript or beside the host model at its declared relative path for Python.
-- Inspect diagnostics before using a model. The C++ facade also offers strict read settings.
-
-See the [format specification](model-format.md) and the [card catalogue](model-format-cards.md) for the ordered values,
-defaults, alternatives and repeated groups of each card.
+For optional file exchange, the standard distribution includes the [OOS text adapter](https://github.com/jcdulas/O_o_OOS) and the [OOH5 archive adapter](https://github.com/jcdulas/O_o_OOH5). The [format specification](model-format.md) describes the text syntax. The [archive guide](archive-format.md) covers persistence of model and result tables.
 
 ## Continue
 

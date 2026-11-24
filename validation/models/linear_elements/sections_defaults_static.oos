@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: bar and beam defaults, sections, distributions
+# O_o_Model test model: bar and beam defaults, sections, distributions
 #
 # Covers:
 #   - cards: BAROR, BEAMOR, PBRSECT, PBMSECT, PBCOMP, PDISTB, PDISTBM (with
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: bar and beam defaults, arbitrary sections
+TitleText;O_o_Model test model: bar and beam defaults, arbitrary sections
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

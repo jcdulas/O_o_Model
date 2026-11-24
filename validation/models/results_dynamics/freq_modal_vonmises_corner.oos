@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: modal frequency response, von Mises at the corners
+# O_o_Model test model: modal frequency response, von Mises at the corners
 #
 # Covers:
 #   - solution: SOL 111 (modal frequency response) of the shared element

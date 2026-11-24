@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: flow boundaries of an Euler channel (SOL 700)
+# O_o_Model test model: flow boundaries of an Euler channel (SOL 700)
 #
 # Covers:
 #   - cards: FLOW FLOWT FLOWC FLOWDEF MESH PEULER1 MATDEUL EOSGAM EOSPOL
@@ -8,7 +8,7 @@
 #   - solution: SOL 700 (explicit transient: water and air in a multi-material
 #     Euler channel with no structure; inflow, outflow, cyclic side
 #     boundaries)
-#   - outputs: none that O_o_Reader decodes (the explicit solver writes its
+#   - outputs: none that O_o_Model decodes (the explicit solver writes its
 #     own result files)
 # Run notes:
 #   - DLOAD = 1 selects FLOW 1, FLOWT 2 and FLOWC 3 and 4 through TLOAD1

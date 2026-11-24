@@ -18,7 +18,7 @@ The native model archive schema and its compatibility rules are described in
 [docs/archive-format.md](../../docs/archive-format.md). Keep validation models as readable `.oos` sources; archive
 tests generate their binary fixtures in temporary directories.
 
-To run a supported model, load its `.oos` records with O_o_Reader and pass its typed table packages to O_o_Solver.
+To run a supported model, load its `.oos` records with O_o_Model and pass its typed table packages to O_o_Solver.
 
 Rules for a model added here:
 

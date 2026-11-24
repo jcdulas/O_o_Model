@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: user controllers, schedule, divergence (SOL 144)
+# O_o_Model test model: user controllers, schedule, divergence (SOL 144)
 #
 # Covers:
 #   - cards: AEPARM UXVEC AEPRESS AEDW AEFORCE TRIM2 AELINK CSSCHD AESURFS
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;144
 [case]
-TitleText;O_o_Reader test model: user controllers and divergence
+TitleText;O_o_Model test model: user controllers and divergence
 BulkEcho;None
 SinglePointConstrSelection;1
 DisplacementOutput;All;PlotOnly

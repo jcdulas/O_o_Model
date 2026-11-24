@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: external tire model selection (SOL 103, read-only)
+# O_o_Model test model: external tire model selection (SOL 103, read-only)
 #
 # Covers:
 #   - cards: TIRE
@@ -17,7 +17,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader test model: tire selection (read-only)
+TitleText;O_o_Model test model: tire selection (read-only)
 BulkEcho;Sorted
 TireSelectionRequest;100
 EigenMethodSelection;1

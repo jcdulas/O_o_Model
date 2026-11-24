@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: direct frequency response (SOL 108), SORT2
+# O_o_Model validation deck: direct frequency response (SOL 108), SORT2
 #
 # Validates:
 #   - the complex SORT2 tables, real/imaginary (subcase 1) and magnitude/phase
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;108
 [case]
-TitleText;O_o_Reader validation: direct frequency response (SORT2)
+TitleText;O_o_Model validation: direct frequency response (SORT2)
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

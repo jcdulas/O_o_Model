@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: imperfect strip heated in time, IMPGEOM and TTEMP
+# O_o_Model test model: imperfect strip heated in time, IMPGEOM and TTEMP
 # (SOL 400)
 #
 # Covers:
@@ -21,7 +21,7 @@ FileAssignment;IMPFIN='imperfection_bow.impf';FileUnit=31
 FileAssignment;IMPFIN='imperfection_crown.impf';FileUnit=32
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: imperfect heated strip
+TitleText;O_o_Model test model: imperfect heated strip
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 ImperfectionSelection;5

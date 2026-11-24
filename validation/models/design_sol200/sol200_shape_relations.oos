@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: optimisation with shape, material and connectivity relations (SOL 200)
+# O_o_Model validation deck: optimisation with shape, material and connectivity relations (SOL 200)
 #
 # Validates:
 #   - a moved shape (DVGRID) and the positions the solver writes at each cycle (the
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader validation: optimisation with shape and relations
+TitleText;O_o_Model validation: optimisation with shape and relations
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: thermostat-controlled heater, transient
+# O_o_Model test model: thermostat-controlled heater, transient
 #
 # Covers:
 #   - cards: CONTRLT, TEMPBC (TYPE = TRAN), QBDY3 with a control point
@@ -19,7 +19,7 @@
 # ============================================================================
 SolutionSequence;159
 [case]
-TitleText;O_o_Reader test model: thermostat (SOL 159)
+TitleText;O_o_Model test model: thermostat (SOL 159)
 BulkEcho;None
 DynamicLoadSelection;50
 NonlinearTimeStepSelection;1

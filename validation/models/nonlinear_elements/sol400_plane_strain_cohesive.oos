@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: plane strain blocks bonded by cohesive elements
+# O_o_Model test model: plane strain blocks bonded by cohesive elements
 #
 # Covers:
 #   - cards: PSHLN2, CIFQUAD, PCOHE, MCOHE, CQUAD
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;400
 [case]
-TitleText;O_o_Reader test model: plane strain cohesive interface (SOL 400)
+TitleText;O_o_Model test model: plane strain cohesive interface (SOL 400)
 BulkEcho;None
 SinglePointConstrSelection;1
 SubcaseStart;1

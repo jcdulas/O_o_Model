@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: random response (SOL 111 with RANDPS)
+# O_o_Model validation deck: random response (SOL 111 with RANDPS)
 #
 # Validates:
 #   - the PSD, autocorrelation, cumulative RMS, RMS and number of zero
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;111
 [case]
-TitleText;O_o_Reader validation: random response
+TitleText;O_o_Model validation: random response
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

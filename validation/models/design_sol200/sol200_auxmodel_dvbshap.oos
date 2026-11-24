@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: shape optimisation with an auxiliary model (SOL 200)
+# O_o_Model validation deck: shape optimisation with an auxiliary model (SOL 200)
 #
 # Validates:
 #   - the AUXCASE and AUXMODEL sections the solver reads, the boundary shape of the
@@ -12,7 +12,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader validation: auxiliary model for shape optimisation
+TitleText;O_o_Model validation: auxiliary model for shape optimisation
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DesignObjectiveSelection;21;MinimumObjective

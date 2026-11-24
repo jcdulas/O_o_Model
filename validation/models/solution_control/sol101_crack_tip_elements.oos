@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: crack tip elements declared by their dummy element attributes (SOL 101)
+# O_o_Model test model: crack tip elements declared by their dummy element attributes (SOL 101)
 #
 # Covers:
 #   - cards: ADUM8 ADUM9 (with the CRAC2D, PRAC2D, CRAC3D and PRAC3D they
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: crack tip elements, ADUM8 and ADUM9
+TitleText;O_o_Model test model: crack tip elements, ADUM8 and ADUM9
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

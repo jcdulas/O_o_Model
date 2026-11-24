@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: normal modes, effective mass, SORT2 eigenvectors (SOL 103)
+# O_o_Model validation deck: normal modes, effective mass, SORT2 eigenvectors (SOL 103)
 #
 # Validates:
 #   - the real eigenvectors in SORT2 (subcase 2) and SORT1 (subcase 1)
@@ -14,7 +14,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader validation: normal modes
+TitleText;O_o_Model validation: normal modes
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 MultiPointConstrSelection;50

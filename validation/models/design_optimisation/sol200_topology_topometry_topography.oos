@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: topology, topometry and topography in one run (SOL 200)
+# O_o_Model test model: topology, topometry and topography in one run (SOL 200)
 #
 # Covers:
 #   - cards: TOPVAR TOMVAR BEADVAR
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;200
 [case]
-TitleText;O_o_Reader test model: topology, topometry, topography
+TitleText;O_o_Model test model: topology, topometry, topography
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 StaticLoadSelection;1

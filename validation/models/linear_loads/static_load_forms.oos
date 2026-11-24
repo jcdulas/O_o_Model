@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: static load forms, one subcase each (SOL 101)
+# O_o_Model test model: static load forms, one subcase each (SOL 101)
 #
 # Covers:
 #   - cards: FORCE1 FORCE2 MOMENT1 MOMENT2 PLOAD PLOAD2 RFORCE ACCEL ACCEL1
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;101
 [case]
-TitleText;O_o_Reader test model: static load forms
+TitleText;O_o_Model test model: static load forms
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 DirectInputStiffnessMatrix;KSPR

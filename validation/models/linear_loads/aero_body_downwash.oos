@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: user downwash on a wing and on the interference
+# O_o_Model test model: user downwash on a wing and on the interference
 # elements of a body, DMIJ DMIJI (SOL 144)
 #
 # Covers:
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;144
 [case]
-TitleText;O_o_Reader test model: DMIJ and DMIJI downwash with a body
+TitleText;O_o_Model test model: DMIJ and DMIJI downwash with a body
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 TrimSelection;1

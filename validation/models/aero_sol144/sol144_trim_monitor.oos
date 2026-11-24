@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: static aeroelastic trim with monitor points (SOL 144)
+# O_o_Model validation deck: static aeroelastic trim with monitor points (SOL 144)
 #
 # Validates:
 #   - the trim variables, stability derivatives, hinge moments, aerodynamic
@@ -16,7 +16,7 @@
 FileAssignment;RESULTS='sol144_monitor.data';FileUnit=40;FileForm=Unformatted
 SolutionSequence;144
 [case]
-TitleText;O_o_Reader validation: static aeroelastic trim, monitor points
+TitleText;O_o_Model validation: static aeroelastic trim, monitor points
 BulkEcho;Sorted
 SinglePointConstrSelection;1
 TrimSelection;1

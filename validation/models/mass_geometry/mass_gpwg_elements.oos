@@ -1,6 +1,6 @@
 [executive]
 # ============================================================================
-# O_o_Reader validation deck: element masses and the grid point weight (SOL 103)
+# O_o_Model validation deck: element masses and the grid point weight (SOL 103)
 #
 # Validates:
 #   - the solver's grid point weight (OGPWG and the listing print) and element summary
@@ -16,7 +16,7 @@
 # ============================================================================
 SolutionSequence;103
 [case]
-TitleText;O_o_Reader validation: element masses and grid point weight
+TitleText;O_o_Model validation: element masses and grid point weight
 BulkEcho;Sorted
 EigenMethodSelection;1
 ElemSummaryOutput;All;Both

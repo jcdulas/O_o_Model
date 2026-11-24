@@ -1,13 +1,13 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: bulk viscosity, woven fabric and rigid material
+# O_o_Model test model: bulk viscosity, woven fabric and rigid material
 # (SOL 700)
 #
 # Covers:
 #   - cards: MATBV MATFAB MATRIG (with MAT1 PSOLID PSHELL1 TLOAD1 DAREA
 #     TABLED1 TSTEPNL)
 #   - solution: SOL 700 (explicit nonlinear transient, 1 ms)
-#   - outputs: none that O_o_Reader decodes (the explicit solver writes its
+#   - outputs: none that O_o_Model decodes (the explicit solver writes its
 #     own result files)
 # Run notes:
 #   - a steel block with bulk viscosity pushed on its top face, a fabric
@@ -20,7 +20,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: bulk viscosity, fabric and rigid material
+TitleText;O_o_Model test model: bulk viscosity, fabric and rigid material
 BulkEcho;None
 SinglePointConstrSelection;1
 DynamicLoadSelection;1

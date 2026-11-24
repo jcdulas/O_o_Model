@@ -1,12 +1,12 @@
 [executive]
 # ============================================================================
-# O_o_Reader test model: contact regions by box, segments, nodes (SOL 700)
+# O_o_Model test model: contact regions by box, segments, nodes (SOL 700)
 #
 # Covers:
 #   - cards: BCBOX (coordinate form), BCSEG, BCGRID (SOL 700 form)
 #   - solution: SOL 700 (explicit nonlinear transient, two blocks dropped on
 #     a fixed block)
-#   - outputs: none read by O_o_Reader (SOL 700 writes its own result files)
+#   - outputs: none read by O_o_Model (SOL 700 writes its own result files)
 # Run notes:
 #   - block B is a contact body by the box around it (BCBOX), block C by the
 #     cloud of its bottom grid points (BCGRID); both hit the top segments of
@@ -18,7 +18,7 @@
 # ============================================================================
 SolutionSequence;700;NonlinearTransient
 [case]
-TitleText;O_o_Reader test model: SOL 700 contact regions
+TitleText;O_o_Model test model: SOL 700 contact regions
 BulkEcho;None
 SinglePointConstrSelection;1
 InitialConditionSelection;1
