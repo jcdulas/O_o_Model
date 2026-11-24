@@ -1024,7 +1024,8 @@ add_library(oor_model STATIC
     cards/loads/timeTemperatureLoad/TimeTemperatureLoadTable.cpp
     cards/solution_control/transferPathSetup/TransferPathSetupTable.cpp)
 add_library(oor::model ALIAS oor_model)
-target_include_directories(oor_model PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(oor_model PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
 target_link_libraries(oor_model PUBLIC oor_deck)
 oor_enable_warnings(oor_model)
 # The instrumentation of the card layout generator (tools/oos_layouts): off in every normal build.

@@ -10,6 +10,7 @@ add_library(oor_core STATIC
     QueryArgumentsJson.cpp
     CardTables.cpp)
 add_library(oor::core ALIAS oor_core)
-target_include_directories(oor_core PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(oor_core PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
 target_link_libraries(oor_core PUBLIC oor_query)
 oor_enable_warnings(oor_core)

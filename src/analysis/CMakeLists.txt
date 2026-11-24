@@ -357,7 +357,8 @@ add_library(oor_analysis STATIC
     validation/superelement/TreeCycleCheck.cpp
     validation/superelement/TreeUpstreamTwiceCheck.cpp)
 add_library(oor::analysis ALIAS oor_analysis)
-target_include_directories(oor_analysis PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(oor_analysis PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
 target_include_directories(oor_analysis PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/geometry)
 target_link_libraries(oor_analysis PUBLIC oor_results)
 oor_enable_warnings(oor_analysis)

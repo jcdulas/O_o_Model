@@ -6,6 +6,20 @@ The TypeScript declarations and C++ headers below are included directly from the
 
 For a runnable example, start with :doc:`getting-started`. The module guides explain implementation details.
 
+Native C++20 with vcpkg
+-----------------------
+
+Configure the `O_o Git registry <https://github.com/jcdulas/O_o_vcpkg>`_ in your consumer manifest, add ``oo-model`` to its dependencies and link the installed target:
+
+.. code-block:: cmake
+
+   find_package(oo-model CONFIG REQUIRED)
+   target_link_libraries(my_application PRIVATE oor::core)
+
+Construct a model with ``oor::api::Deck::createModel()`` and insert typed cards with ``oor::api::insertCards``.
+The native core can run independently of file adapters.
+The `standalone rod example <https://github.com/jcdulas/O_o_vcpkg/tree/main/examples/rod>`_ builds and solves a model in memory.
+
 .. list-table::
    :header-rows: 1
 

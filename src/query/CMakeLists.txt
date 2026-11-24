@@ -305,6 +305,7 @@ add_library(oor_query STATIC
     named/results/r10_thermal_results/HeatBalanceCheck.cpp
     named/results/r10_thermal_results/RegisterR10Queries.cpp)
 add_library(oor::query ALIAS oor_query)
-target_include_directories(oor_query PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(oor_query PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
 target_link_libraries(oor_query PUBLIC oor_analysis)
 oor_enable_warnings(oor_query)

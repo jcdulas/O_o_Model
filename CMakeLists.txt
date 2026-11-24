@@ -46,6 +46,11 @@ if(EMSCRIPTEN)
     add_link_options(-sMEMORY64=1 -fwasm-exceptions)
 endif()
 
+if(MSVC)
+    add_compile_options(/utf-8 /bigobj)
+    add_compile_definitions(NOMINMAX)
+endif()
+
 add_subdirectory(src)
 
 option(OOR_BUILD_PYTHON "Build the native CPython extension" OFF)
@@ -63,4 +68,8 @@ if(OOR_BUILD_WASM)
         message(FATAL_ERROR "OOR_BUILD_WASM needs the Emscripten toolchain: configure with `emcmake cmake`.")
     endif()
     add_subdirectory(wasm)
+endif()
+
+if(PROJECT_IS_TOP_LEVEL AND NOT EMSCRIPTEN AND NOT OOR_BUILD_PYTHON)
+    include(cmake/InstallSdk.cmake)
 endif()

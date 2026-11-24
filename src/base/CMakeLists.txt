@@ -10,7 +10,8 @@ add_library(oor_base STATIC
     threading/ParallelFor.cpp
     threading/ThreadPool.cpp)
 add_library(oor::base ALIAS oor_base)
-target_include_directories(oor_base PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(oor_base PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
 # A native build runs its work on a thread pool; the WebAssembly build is single-threaded (a pool of zero workers).
 if(NOT EMSCRIPTEN)
     target_link_libraries(oor_base PUBLIC Threads::Threads)

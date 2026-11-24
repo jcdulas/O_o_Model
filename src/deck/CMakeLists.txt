@@ -8,6 +8,7 @@ add_library(oor_deck STATIC
     writer/FileCommit.cpp
     writer/StagedFiles.cpp)
 add_library(oor::deck ALIAS oor_deck)
-target_include_directories(oor_deck PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(oor_deck PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
 target_link_libraries(oor_deck PUBLIC oor_io)
 oor_enable_warnings(oor_deck)

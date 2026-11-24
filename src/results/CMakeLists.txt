@@ -19,6 +19,7 @@ add_library(oor_results STATIC
     core/MemoryTableIndex.cpp
     attach/ResultAttachment.cpp)
 add_library(oor::results ALIAS oor_results)
-target_include_directories(oor_results PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(oor_results PUBLIC
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
 target_link_libraries(oor_results PUBLIC oor_model oor_io)
 oor_enable_warnings(oor_results)
