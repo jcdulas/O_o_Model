@@ -34,6 +34,11 @@ adapters. The standard `oor::api` facade links the configured adapters and prese
 | `oor::ooh5` | `oor/formats/ooh5.hpp`, `oor/results/archive/ArchiveWriter.hpp` | Read and write typed HDF5 archives, embedded models and result tables |
 | `oor::xlsx` | `oor/results/xlsx/XlsxWriter.hpp` | Export a result workbook |
 
+The adapters live in [O_o_OOS](https://github.com/jcdulas/O_o_OOS) and [O_o_OOH5](https://github.com/jcdulas/O_o_OOH5).
+Reader fetches the selected revisions during CMake configuration. To use existing checkouts offline, set
+`FETCHCONTENT_SOURCE_DIR_OOR_OOS` and `FETCHCONTENT_SOURCE_DIR_OOR_OOH5` to their absolute paths.
+The memory-only build skips both downloads.
+
 The default value of the CMake cache entry `OOR_FORMATS` is `oos;ooh5;xlsx`. To build just the core in a
 parent CMake project, configure with `-DOOR_FORMATS=`, use `add_subdirectory` for the Reader and link
 `oor::core`. Use `-DOOR_FORMATS=oos` for a text-only distribution. HDF5 is discovered only for `ooh5`.
@@ -65,12 +70,12 @@ implementations from these directories. The layering check keeps public includes
 | Module | Namespace | What it does | Start reading at |
 | --- | --- | --- | --- |
 | `base` | `oor::base` | diagnostics, errors, IDs, number parsing and formatting, small math, a thread pool | `diagnostics/Diagnostic.hpp` |
-| `io` | `oor::io` | reading bytes, memory-mapped files, the HDF5 layer (the only code that includes libhdf5) | `hdf5/Hdf5Writer.hpp`, `hdf5/Hdf5Table.hpp` |
-| `deck` | `oor::deck` | model records, comments, Include files, source metadata and staged file writes | `records/ModelFileLexer.hpp` |
-| `model` | `oor::model` | the model: one typed table per card type (column storage), the control sections, reading and writing | `core/Model.hpp`, `core/ModelFileReader.hpp` |
-| `results` | `oor::results` | native model/results archives, lazy result tables, the result catalogue, the Excel workbook | `archive/ArchiveModel.hpp`, `core/ResultTable.hpp` |
+| `io` | `oor::io` | binary data and memory-mapped files | `files/MappedFile.hpp` |
+| `deck` | `oor::deck` | model records, comments, Include files, source metadata and staged file writes | `records/ModelText.hpp` |
+| `model` | `oor::model` | the model: one typed table per card type (column storage), control sections and typed card records | `core/Model.hpp`, `core/CardRecord.hpp` |
+| `results` | `oor::results` | in-memory and lazy result tables, result catalogue and workbook export | `core/ResultTable.hpp` |
 | `analysis` | `oor::analysis` | geometry, coordinate frames, mass, sections, laminates, mesh quality, adjacency, components, validation checks | `geometry/ElementGeometry.hpp` |
-| `query` | `oor::query` | the query engine (plans, columns, expressions), the named queries, CSV and HDF5 exports | `named/NamedQueryRegistry.hpp` |
+| `query` | `oor::query` | the query engine (plans, columns, expressions), named queries and CSV export | `named/NamedQueryRegistry.hpp` |
 | `api` | `oor::api` | the simple entry points used by the WebAssembly module: `Deck`, `Results`, `runQuery` | `Deck.hpp`, `Results.hpp`, `Queries.hpp` |
 
 The WebAssembly module (`wasm/src/Bindings.cpp`) only converts JavaScript values to the types of `oor::api` and back.
@@ -111,7 +116,7 @@ paths and writers.*
 - **`ResultCatalogue`** (`results/core/ResultCatalogue.hpp`, data in `ResultCatalogueData.cpp`) says which components a
   table of each kind and element type has. Every reader, writer and table made in memory uses it, so a ShellQuad4 stress
   table has the same columns whatever file it came from.
-- **The archive** (`results/archive/`): `ArchiveWriter.cpp` writes tables as they are pushed (a session), then the
+- **The archive** (O_o_OOH5, `src/results/archive/`): `ArchiveWriter.cpp` writes tables as they are pushed (a session), then the
   index; `ArchiveModel.cpp` writes optional native model columns at session creation. `ArchiveResultFile.cpp` reads the
   result index at once and table values step by step, when asked. The facade's `Results::model()` loads and attaches
   the embedded model separately and caches its deck. Writes include the attached model, or preserve the embedded one

@@ -122,26 +122,11 @@ The :doc:`archive-format` guide specifies archive version 4 and native model sch
 write a model with optional result tables, stream result tables into an archive, and load native model data independently.
 The ``Deck`` and ``Results`` facade above also exposes these operations to application code.
 
-ArchiveWriter.hpp
-~~~~~~~~~~~~~~~~~
+The C++ declarations for the archive adapter are maintained in its repository:
+
+* `ArchiveWriter.hpp <https://github.com/jcdulas/O_o_OOH5/blob/main/include/oor/results/archive/ArchiveWriter.hpp>`_
+* `ArchiveResultFile.hpp <https://github.com/jcdulas/O_o_OOH5/blob/main/include/oor/results/archive/ArchiveResultFile.hpp>`_
+* `ArchiveModel.hpp <https://github.com/jcdulas/O_o_OOH5/blob/main/include/oor/results/archive/ArchiveModel.hpp>`_
 
 .. literalinclude:: ../include/oor/results/writers/ArchiveWriteOptions.hpp
    :language: cpp
-
-.. literalinclude:: ../include/oor/results/archive/ArchiveWriter.hpp
-   :language: cpp
-   :linenos:
-
-ArchiveResultFile.hpp
-~~~~~~~~~~~~~~~~~~~~~
-
-.. literalinclude:: ../include/oor/results/archive/ArchiveResultFile.hpp
-   :language: cpp
-   :linenos:
-
-ArchiveModel.hpp
-~~~~~~~~~~~~~~~~
-
-.. literalinclude:: ../include/oor/results/archive/ArchiveModel.hpp
-   :language: cpp
-   :linenos:

@@ -18,17 +18,17 @@ Start with [README.md](README.md) and [docs/architecture.md](docs/architecture.m
 3. **Readable by an intermediate developer** (about five years of experience): plain C++, small functions, comments
    that say why, no clever template tricks where a loop does.
 4. **Layering** (`tools/check_layering.py`): `base` → `io` → `deck` → `model` → `results` → `analysis` → `query` →
-   `api`; a module uses only those before it. libhdf5 headers only in `src/io/hdf5`, operating-system headers only in
+   `api`; a module uses only those before it. libhdf5 headers belong to the O_o_OOH5 adapter, operating-system headers only in
    `src/base/platform`.
 5. **C++20 within what GCC 12 has**, `-Wall -Wextra -Wpedantic -Werror` natively. Names: types `CamelCase`, functions
    and variables `camelCase`, members `m_name`, constants `UPPER_CASE`; `.clang-format` (4 spaces, 120 columns).
 6. **WebAssembly is 64-bit (Memory64) and single-threaded**: every object, libhdf5 and zlib included, is built with
    `-sMEMORY64=1`; code that starts threads goes through `base::ThreadPool`, which has zero workers
    in the WebAssembly build.
-7. **File formats**: root archive names and version constants are declared in
+7. **File formats**: O_o_OOS owns text file I/O. O_o_OOH5 declares archive names and version constants in
    `include/oor/results/archive/ArchiveFormat.hpp`; the layout is specified in `docs/archive-format.md`.
    New archives use `FORMAT_VERSION` 4; the reader also accepts version 3 result archives.
-   Native model columns use `MODEL_VERSION` 1 and are implemented in `src/results/archive/ArchiveModel.cpp`, keeping
+   Native model columns use `MODEL_VERSION` 1 and are implemented in the O_o_OOH5 repository at `src/results/archive/ArchiveModel.cpp`, keeping
    the `model` module independent of archive storage. A change an earlier reader cannot read raises `FORMAT_VERSION`;
    a change to native model slots, kinds or their meaning also raises `MODEL_VERSION`. Update the specification, API
    guide and archive round-trip tests together. The Excel workbook (`src/results/xlsx/`) is an output only.

@@ -1,7 +1,11 @@
 #include "oor/api/Results.hpp"
 #include "oor/base/errors/Errors.hpp"
+#ifdef OOR_WITH_OOH5
 #include "oor/formats/ooh5.hpp"
+#endif
+#ifdef OOR_WITH_OOS
 #include "oor/formats/oos.hpp"
+#endif
 #ifdef OOR_WITH_XLSX
 #include "oor/results/xlsx/XlsxWriter.hpp"
 #endif

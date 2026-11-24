@@ -1,31 +1,7 @@
-# Third-party dependencies.
-#
-# - libhdf5 (BSD-style licence): from the system for a native build; for WebAssembly, a static libhdf5 built with
-#   Emscripten for 64-bit WebAssembly (scripts/build_hdf5_wasm.sh), found through OOR_HDF5_WASM_ROOT.
-# - zlib: the compression filter of HDF5 (deflate) and of the ZIP container of the Excel workbooks (src/io/zip).
-#   Emscripten provides it as a port (-sUSE_ZLIB=1).
-# - Catch2 v3.7.1 (Boost licence), fetched at a pinned version, for the native tests only.
-
+# Dependencies used by the in-tree workbook exporter and native tests.
 include(FetchContent)
 
-if("ooh5" IN_LIST OOR_FORMATS)
-    if(EMSCRIPTEN)
-        set(OOR_HDF5_WASM_ROOT "$ENV{OOR_HDF5_WASM_ROOT}" CACHE PATH "Install folder of libhdf5 built with Emscripten")
-        if(NOT EXISTS "${OOR_HDF5_WASM_ROOT}/lib/libhdf5.a")
-            message(FATAL_ERROR "libhdf5.a not found under OOR_HDF5_WASM_ROOT='${OOR_HDF5_WASM_ROOT}'. "
-                                "Build it with scripts/build_hdf5_wasm.sh and pass -DOOR_HDF5_WASM_ROOT=<install folder>.")
-        endif()
-        add_library(HDF5::HDF5 STATIC IMPORTED GLOBAL)
-        set_target_properties(HDF5::HDF5 PROPERTIES
-            IMPORTED_LOCATION "${OOR_HDF5_WASM_ROOT}/lib/libhdf5.a"
-            INTERFACE_INCLUDE_DIRECTORIES "${OOR_HDF5_WASM_ROOT}/include"
-            INTERFACE_COMPILE_OPTIONS "-sUSE_ZLIB=1"
-            INTERFACE_LINK_OPTIONS "-sUSE_ZLIB=1")
-    else()
-        find_package(HDF5 REQUIRED COMPONENTS C)
-    endif()
-endif()
-if("xlsx" IN_LIST OOR_FORMATS OR "ooh5" IN_LIST OOR_FORMATS)
+if("xlsx" IN_LIST OOR_FORMATS)
     if(EMSCRIPTEN)
         # zlib from the Emscripten ports (built for the memory model of the build: wasm64 here)
         add_library(ZLIB::ZLIB INTERFACE IMPORTED GLOBAL)

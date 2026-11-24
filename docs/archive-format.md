@@ -9,10 +9,10 @@ The conventional filename extension is `.ooh5`. Archives are recognized by their
 not alter the HDF5 layout or its versions. The archive version remains 4 and the native model schema remains 1.
 
 Root names and version constants are declared in
-[ArchiveFormat.hpp](../include/oor/results/archive/ArchiveFormat.hpp). Result tables are written by
-[ArchiveWriter.cpp](../src/results/archive/ArchiveWriter.cpp) and read by
-[ArchiveResultFile.cpp](../src/results/archive/ArchiveResultFile.cpp). Native model dataset paths and the column codec
-are implemented in [ArchiveModel.cpp](../src/results/archive/ArchiveModel.cpp).
+[ArchiveFormat.hpp](https://github.com/jcdulas/O_o_OOH5/blob/main/include/oor/results/archive/ArchiveFormat.hpp). Result tables are written by
+[ArchiveWriter.cpp](https://github.com/jcdulas/O_o_OOH5/blob/main/src/results/archive/ArchiveWriter.cpp) and read by
+[ArchiveResultFile.cpp](https://github.com/jcdulas/O_o_OOH5/blob/main/src/results/archive/ArchiveResultFile.cpp). Native model dataset paths and the column codec
+are implemented in [ArchiveModel.cpp](https://github.com/jcdulas/O_o_OOH5/blob/main/src/results/archive/ArchiveModel.cpp).
 
 ## Why this layout
 
@@ -375,7 +375,7 @@ change file size and loading cost.
 ## Query tables (custom outputs)
 
 The tables of the named queries (margins, envelopes, section cuts, any query) are written by
-`oor::query::writeQueryTables` ([Hdf5Export.hpp](../include/oor/query/table/Hdf5Export.hpp)) to an HDF5 file of
+`oor::query::writeQueryTables` ([Hdf5Export.hpp](https://github.com/jcdulas/O_o_OOH5/blob/main/include/oor/query/table/Hdf5Export.hpp)) to an HDF5 file of
 this layout:
 
 ```text

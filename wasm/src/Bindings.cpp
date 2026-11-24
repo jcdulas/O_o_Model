@@ -15,7 +15,9 @@
 #include "oor/api/Results.hpp"
 #include "oor/base/Version.hpp"
 #include "oor/base/errors/Errors.hpp"
+#ifdef OOR_WITH_OOH5
 #include "oor/query/table/Hdf5Export.hpp"
+#endif
 #include "oor/query/table/PlainColumn.hpp"
 #include "oor/query/table/TablePackage.hpp"
 

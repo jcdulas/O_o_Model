@@ -76,7 +76,7 @@ readable. See [choosing a format](docs/getting-started.md#choose-a-file-format) 
 | Folder | What |
 | --- | --- |
 | `include/oor/<module>/`, `src/<module>/` | the library, in modules that each use only the ones before them: `base` → `io` → `deck` → `model` → `results` → `analysis` → `query` → `api` |
-| `src/formats/`, `include/oor/formats/` | Independent file adapter targets and their public C++ interfaces |
+| `src/formats/` | Compatibility facade and pinned revisions of the external [OOS text adapter](https://github.com/jcdulas/O_o_OOS) and [OOH5 archive adapter](https://github.com/jcdulas/O_o_OOH5) |
 | `python/` | Native Python extension, public package and installed-wheel tests |
 | `wasm/` | the WebAssembly module: the embind interface (`src/Bindings.cpp`), the JavaScript wrapper (`js/`), its Node.js test (`test/`) |
 | `tests/cpp/<module>/` | the C++ tests (Catch2), run natively |
