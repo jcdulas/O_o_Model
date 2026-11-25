@@ -38,6 +38,9 @@ struct CardTableColumns
 // "loads", "points", "nodes", "coordinates", "constraints" (the other categories are not listed). Sorted by name.
 [[nodiscard]] std::vector<std::string> cardTypesOf(const Deck& deck, const std::string& category);
 
+// True when at least one live node uses a non-basic displacement frame.
+[[nodiscard]] bool hasDisplacementFrames(const Deck& deck);
+
 // For every grid point, in the rows of the "nodes" table, the rotation from its displacement system CD to the basic
 // system: 9 values per grid point, a 3 x 3 matrix row-major whose columns are the directions 1, 2, 3 of CD in the basic
 // system at the grid point (the identity for CD = 0).

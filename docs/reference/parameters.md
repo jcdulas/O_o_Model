@@ -29,12 +29,20 @@ try {
 }
 ~~~
 
-**Python / native C++**
+**Python**
 
 ~~~python
 table = deck.query("paramsTable", names=["WeightToMass"], withDefaults=False)
 print(len(table))  # 1
 ~~~
+
+**C++20**
+
+```cpp
+const auto args = oor::api::argumentsFromJson("paramsTable", R"({"names":["WeightToMass"],"withDefaults":false})");
+const auto table = oor::api::runQuery("paramsTable", deck, nullptr, args);
+std::cout << table->rowCount() << '\n';
+```
 
 ## Parameters by task
 

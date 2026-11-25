@@ -6,7 +6,7 @@ The standard import name is `oo_model`. Extract the matching WASM distribution a
 
 ## Build and query a model in memory
 
-Create a node at (1, 2, 3) and count the rows in the node table. Both examples print `1`.
+Create a node at (1, 2, 3) and count the rows in the node table. All three examples print `1`.
 
 **JavaScript / WebAssembly**
 
@@ -28,7 +28,7 @@ try {
 }
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 from oo_model import create_model
@@ -37,6 +37,25 @@ deck = create_model()
 deck.add_card("Node", [1, None, 1., 2., 3.])
 nodes = deck.query("nodesTable")
 print(len(nodes))
+```
+
+**C++20**
+
+```cpp
+#include <oor/api/CardEdits.hpp>
+#include <oor/api/Queries.hpp>
+#include <iostream>
+
+int main()
+{
+    using Field = oor::model::FieldValue;
+    const auto deck = oor::api::Deck::createModel();
+    const oor::api::CardInput node{"Node", {{Field::Kind::Integer, 1, 0., {}}, {},
+        {Field::Kind::Real, 0, 1., {}}, {Field::Kind::Real, 0, 2., {}}, {Field::Kind::Real, 0, 3., {}}}};
+    oor::api::insertCard(*deck, node);
+    const auto nodes = oor::api::runQuery("nodesTable", deck, nullptr, {});
+    std::cout << nodes->rowCount() << '\n';
+}
 ```
 
 WASM handles own native allocations and expose `delete()`. Python manages those lifetimes and exposes query tables through the Arrow C Data Interface.

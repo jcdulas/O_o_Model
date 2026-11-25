@@ -1,15 +1,14 @@
 #include "oor/api/CardTables.hpp"
 
 #include "oor/analysis/coordinates/CoordinateTransform.hpp"
+#include "oor/model/cards/nodes/node/NodeTable.hpp"
 #include "oor/model/core/CardRegistry.hpp"
 #include "oor/query/QueryErrors.hpp"
 #include "oor/query/operators/ExecutionContext.hpp"
 #include "oor/query/plan/Query.hpp"
 #include "oor/query/providers/ModelSource.hpp"
-#include "oor/query/table/PlainColumn.hpp"
 
 #include <algorithm>
-#include <cmath>
 #include <utility>
 
 namespace oor::api
@@ -81,15 +80,6 @@ std::shared_ptr<const query::QueryTable> runSelect(std::shared_ptr<query::ModelS
     return query::Query(std::move(source)).select(std::move(items)).run(context);
 }
 
-// The values of a numeric column of a table, flattened (a fixed-size list gives its values row after row).
-std::vector<double> numbersOf(const query::QueryTable& table, const std::string& name)
-{
-    const std::optional<std::size_t> index = table.find(name);
-    if (!index)
-        throw query::QueryError("the table has no column '" + name + "'");
-    return query::plainColumn(table, *index).numbers;
-}
-
 } // namespace
 
 CardTableColumns cardTableColumns(const std::string& source)
@@ -137,20 +127,33 @@ std::vector<std::string> cardTypesOf(const Deck& deck, const std::string& catego
     return names;
 }
 
+bool hasDisplacementFrames(const Deck& deck)
+{
+    const auto* nodes = deck.model()->findTable<model::NodeTable>();
+    if (!nodes)
+        return false;
+    const auto& rows = nodes->rows();
+    for (std::uint32_t i = 0; i < rows.rowCount(); ++i)
+        if (nodes->displacementFrameId(i) != 0 && rows.isAlive(i))
+            return true;
+    return false;
+}
+
 std::vector<double> displacementRotations(const Deck& deck)
 {
     // The grid points in the rows of the "nodes" table: their CD and their position in the basic system, from which
     // the directions of a curvilinear CD system are taken.
     const std::shared_ptr<const query::QueryTable> nodes =
         cardTable(deck, "nodes", {"displacementFrameId", "xyzGlobal"});
-    const std::vector<double> cds = numbersOf(*nodes, "displacementFrameId");
-    const std::vector<double> positions = numbersOf(*nodes, "xyzGlobal");
+    const auto& frames = nodes->column("displacementFrameId");
+    const auto cds = frames.as<std::int32_t>();
+    const auto positions = nodes->column("xyzGlobal").child()->as<double>();
     analysis::CoordinateTransform transform(*deck.model());
     std::vector<double> rotations(cds.size() * ROTATION_VALUES);
     for (std::size_t row = 0; row < cds.size(); ++row)
     {
         // A blank CD is the basic system.
-        const auto cd = std::isnan(cds[row]) ? base::EntityId{0} : static_cast<base::EntityId>(cds[row]);
+        const auto cd = frames.isNull(row) ? base::EntityId{0} : cds[row];
         const base::Vec3 position{positions[POSITION_VALUES * row], positions[POSITION_VALUES * row + 1],
                                   positions[POSITION_VALUES * row + 2]};
         const base::Mat3 rotation = transform.displacementRotation(cd, position);

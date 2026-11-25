@@ -424,6 +424,13 @@ export function installModelEditing(core) {
   prototype.addCard = function (card) {
     return this._insertCard(input(card));
   };
+  prototype.setNodePositions = function (ids, positions) {
+    if (!(ids instanceof Int32Array) || !(positions instanceof Float64Array))
+      throw new TypeError("expected Int32Array node IDs and Float64Array positions");
+    if (positions.length !== 3 * ids.length)
+      throw new RangeError("expected three position components per node ID");
+    this._setNodePositions(ids, positions);
+  };
   prototype.addCardBatch = function (type, columns, { count } = {}) {
     const layout = schema(type);
     object(columns, "batch columns");

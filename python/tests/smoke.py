@@ -40,6 +40,22 @@ def check_builder():
 
 
 memory_deck = check_builder()
+trial = memory_deck.copy()
+ids = np.array([3, 1], dtype=np.int32)
+xyz = np.array([[3., 4., 5.], [6., 7., 8.]])
+before = trial.versions
+for bad_ids, bad_xyz in ((ids.astype(np.int64), xyz), (ids, xyz.ravel()),
+                         (ids, xyz.astype(np.float32)), (ids, xyz[:, ::-1]),
+                         (np.array([3, 99], dtype=np.int32), xyz)):
+    try:
+        trial.set_node_positions(bad_ids, bad_xyz)
+    except (TypeError, ValueError, RuntimeError):
+        assert trial.versions == before
+    else:
+        raise AssertionError("invalid position batch accepted")
+trial.set_node_positions(ids, xyz)
+assert trial.versions[0] == before[0]
+assert trial.versions[1] != before[1]
 
 with tempfile.TemporaryDirectory() as directory:
     for name in ("mesh.oos", "mesh.ooh5"):

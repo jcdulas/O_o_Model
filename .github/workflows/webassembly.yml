@@ -14,6 +14,7 @@ on:
       - 'wasm/src/**'
       - 'wasm/js/**'
       - 'wasm/test/**'
+      - 'tests/clients/**'
       - 'wasm/CMakeLists.txt'
       - 'wasm/package.json'
       - 'scripts/build_wasm.sh'
@@ -23,21 +24,6 @@ on:
       # A tag targeting older workflow files may require extra permissions. Supersede that build on main.
       - '.github/workflows/**'
   pull_request:
-    paths:
-      - 'src/**'
-      - 'include/**'
-      - 'cmake/**'
-      - 'formats/**'
-      - 'wasm/src/**'
-      - 'wasm/js/**'
-      - 'wasm/test/**'
-      - 'wasm/CMakeLists.txt'
-      - 'wasm/package.json'
-      - 'scripts/build_wasm.sh'
-      - 'scripts/build_hdf5_wasm.sh'
-      - 'CMakeLists.txt'
-      - '!**/*.md'
-      - '.github/workflows/webassembly.yml'
   workflow_dispatch:
 
 permissions:
@@ -89,6 +75,14 @@ jobs:
         run: |
           source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
           "${EMSDK_NODE:-node}" --test wasm/test/*.test.mjs
+      - name: Verify the RBE3 client against Solver 0.2.2
+        run: |
+          curl --fail --location --retry 3 https://github.com/jcdulas/O_o_Solver/releases/download/v0.2.2/O_o_Solver-wasm.zip -o "$RUNNER_TEMP/solver.zip"
+          unzip -q "$RUNNER_TEMP/solver.zip" -d "$RUNNER_TEMP/solver"
+          curl --fail --location --retry 3 https://raw.githubusercontent.com/jcdulas/O_o_Solver/d9492507eb10fa050198ea66ad97542387c490d3/wasm/test/fixtures/trim-rbe3-wing.oos -o "$RUNNER_TEMP/wing.oos"
+          source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
+          "${EMSDK_NODE:-node}" tests/clients/rbe3.mjs build/wasm/dist/index.js "$RUNNER_TEMP/solver/index.js" "$RUNNER_TEMP/wing.oos" > build/wasm-rbe3.json
+          python3 tests/clients/check_rbe3.py build/wasm-rbe3.json
       - name: Archive the package
         id: archive
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

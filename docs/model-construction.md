@@ -40,7 +40,7 @@ console.log(loadCase.effective("SinglePointConstrSelection").value); // 7, inher
 deck.delete();
 ```
 
-**Python / native C++**
+**Python**
 
 The native Python builder accepts the same compact field order and NumPy columns for a homogeneous batch.
 This example requires a Model built with the in-memory Python builder.
@@ -75,7 +75,30 @@ if problems:
     raise ValueError(problems[0].message)
 ~~~
 
-In either language, pass the deck directly to the Solver. To persist it with the archive adapter, call
+**C++20**
+
+```cpp
+using Field = oor::model::FieldValue;
+auto id = [](int v) { return Field{Field::Kind::Integer, v, 0., {}}; };
+auto real = [](double v) { return Field{Field::Kind::Real, 0, v, {}}; };
+auto deck = oor::api::Deck::createModel();
+oor::api::setSolution(*deck, "LinearStatics");
+const oor::api::ControlRecord controls[] = {
+    {"TitleText", {"Plate built in memory"}}, {"SinglePointConstrSelection", {"7"}},
+    {"DisplacementOutput", {"All", "PrintListing"}}, {"SubcaseStart", {"1"}}, {"StaticLoadSelection", {"10"}}};
+oor::api::setCaseControl(*deck, controls);
+const oor::api::CardInput cards[] = {
+    {"Node", {id(1), {}, real(0), real(0), real(0)}}, {"Node", {id(2), {}, real(1), real(0), real(0)}},
+    {"Node", {id(3), {}, real(1), real(1), real(0)}}, {"Node", {id(4), {}, real(0), real(1), real(0)}},
+    {"ShellQuad4", {id(1), id(1), id(1), id(2), id(3), id(4)}}, {"ShellProp", {id(1), id(1), real(.01)}},
+    {"IsoMat", {id(1), real(70000), {}, real(.3)}}, {"SinglePointConstrList", {id(7), id(123456), id(1), id(4)}},
+    {"PointForceLoad", {id(10), id(2), id(0), real(100), real(0), real(0), real(1)}}};
+oor::api::insertCards(*deck, cards);
+deck->applyDefaults();
+for (const auto& issue : deck->checkReferences()) std::cerr << issue.message << '\n';
+```
+
+In all three languages, pass the deck directly to the Solver. To persist it with the archive adapter, call
 `deck.writeArchive("plate.ooh5")` in JavaScript or `deck.write_archive("plate.ooh5")` in Python.
 
 A load case selects the set ID of load cards, rather than owning copies of those cards. Multiple load cases can
@@ -124,9 +147,22 @@ const rigid = deck.addCard({ type: "RigidInterpolation", values: {
 } });
 ```
 
-**Python / native C++**
+**Python**
 
-Represent repeating groups in the `.oos` record before calling `read_model`. For an existing rigid interpolation, `deck.card_table("RigidInterpolation")` returns its stored columns.
+Use the compact layout for a repeating group and its thermal-expansion section.
+
+```python
+deck.add_card("RigidInterpolation", [50, 1, 123, 1, 1., 123, 2, 2, 3,
+                                     "ThermalExpansion", 1e-5, 20.])
+```
+
+**C++20**
+
+```cpp
+const Field thermal{Field::Kind::Text, 0, 0., "ThermalExpansion"};
+oor::api::insertCard(*deck, {"RigidInterpolation", {id(50), id(1), id(123), id(1), real(1),
+    id(123), id(2), id(2), id(3), thermal, real(1.e-5), real(20)}});
+```
 
 `addCards(definitions)` returns `{ type, id, key }` per created entity. Some records create multiple entities:
 `addCard(definition)` requires exactly one entity and returns its reference. Use `addCards` for expanding records. The existing text overload
@@ -147,12 +183,20 @@ deck.updateCard(force, { fields: [10, 3, 0, 250, 0, 0, 1] }); // complete replac
 deck.removeCardRef(force);
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 trial = deck.copy()
 trial.set_card_value("PointForceLoad", 10, "magnitude", 250)
 trial.write_model("trial.oos")
+```
+
+**C++20**
+
+```cpp
+auto trial = deck->copy();
+oor::api::setCardValue(*trial, "PointForceLoad", 10, "magnitude", "250");
+oor::formats::oos::write(*trial, "trial.oos");
 ```
 
 Python updates a named field by card type and ID. Stable keys, comments and card removal are JavaScript editing operations.
@@ -188,9 +232,26 @@ first.removeEntry(snapshot.entries[0].key);
 first.removeSection();             // also removes its steps/substeps
 ```
 
-**Python / native C++**
+**Python**
 
-Define subcases and steps in the `[case]` records before loading the file. Inspect the resolved data with `deck.query("subcasesTable")` and `deck.query("outputRequestsTable")`.
+The Python setter replaces the complete list of case records. This example creates subcase 3 with load set 10.
+
+```python
+deck.set_case_control([
+    {"name": "SubcaseStart", "fields": ["3"]},
+    {"name": "StaticLoadSelection", "fields": ["10"]},
+    {"name": "DisplacementOutput", "fields": ["All", "PrintListing"]},
+])
+```
+
+**C++20**
+
+```cpp
+const oor::api::ControlRecord commands[] = {{"StaticLoadSelection", {"10"}},
+                                             {"DisplacementOutput", {"All", "PrintListing"}}};
+const auto key = oor::api::addCaseSection(*deck, "subcase", 1, 0, commands);
+oor::api::renumberCaseSection(*deck, key, 3);
+```
 
 Section keys survive unrelated edits and renumbering. Removed sections and children throw on access. `sections()`
 returns the hierarchy, and `section(key)` retrieves a handle. `addSubcase(id, { kind })` also accepts combination,
@@ -219,9 +280,21 @@ deck.writeModel("/work/assembly.oos", { splitIncludes: true });
 part.delete();
 ```
 
-**Python / native C++**
+**Python**
 
-Place the declared Include files beside the main file at their relative paths and load the assembly with `read_model("assembly.oos")`. Interactive part creation and split-Include export are JavaScript builder operations.
+Part handles scope node IDs in the same way in each language.
+
+```python
+part = deck.add_part("SuperelementPart", 5)
+part.add_card("Node", [11, None, 99., 0., 0.])
+```
+
+**C++20**
+
+```cpp
+auto part = deck->addPart({.kind = "SuperelementPart", .id = 5});
+oor::api::insertCard(*part, {"Node", {id(11), {}, real(99), real(0), real(0)}});
+```
 
 `addInclude` appends a new relative `.oos` source and its cards. Its path must remain inside the model folder and
 must not already exist in the source tree. Existing include trees are imported with `readModel()`. Includes flatten
@@ -231,6 +304,46 @@ in `toModelText()` and embed in `writeArchive()`.
 model alive even when its JavaScript handle is deleted. Their card operations affect that part only. Create parts
 on the root. `ActivePart` and `PassivePart` are unnumbered (ID zero). Removing or reordering parts and moving existing
 cards between include sources are not exposed by this construction interface.
+
+## Edit node positions in one batch
+
+In a source build containing the batch API, use the same ID order for the positions. Each triple replaces a node's coordinates in its input frame (CP). For nodes in the basic frame (CP = 0), supply Cartesian XYZ directly. Duplicate IDs, missing nodes, incompatible dimensions and non-finite coordinates reject the whole batch. An empty batch leaves the model unchanged. A successful nonempty edit updates the content revision and preserves node IDs, connectivity, and existing table views.
+
+**JavaScript / WebAssembly**
+
+```js
+const trial = deck.copy();
+try {
+  trial.setNodePositions(Int32Array.of(2, 3), Float64Array.of(1.1, 0, 0, 1.1, 1, 0));
+  console.log(trial.nodes[2].xyz[0]); // 1.1
+} finally { trial.delete(); }
+```
+
+**Python**
+
+```python
+import numpy as np
+import pyarrow as pa
+
+trial = deck.copy()
+trial.set_node_positions(np.array([2, 3], dtype=np.int32),
+                         np.array([[1.1, 0, 0], [1.1, 1, 0]], dtype=np.float64))
+rows = pa.record_batch(trial.card_table("Node", ["id", "xyz"]))
+print(rows.column("xyz")[rows.column("id").to_pylist().index(2)].as_py()[0])  # 1.1
+```
+
+**C++20**
+
+```cpp
+auto trial = deck->copy();
+oor::api::setNodePositions(*trial, std::array{2, 3}, std::array{1.1, 0., 0., 1.1, 1., 0.});
+const auto nodes = oor::api::runQuery("nodesTable", trial, nullptr, {});
+std::cout << nodes->column("x").as<double>()[1]; // 1.1 for node 2 in the four-node example
+```
+
+Python accepts C-contiguous NumPy arrays of shape `(N,)` and `(N, 3)`, with native `int32` IDs and `float64` coordinates. JavaScript copies the two typed buffers into WASM once per call. The C++ entry point in `<oor/api/CardEdits.hpp>` accepts spans over caller-owned arrays.
+
+After an accepted geometry edit, build a new Solver snapshot or optimization problem from the edited deck. A retained point still represents its original geometry. The [RBE3 client regression and mesh benchmark](model-clients.md) exercise this contract.
 
 ## Performance, validation and lifetime
 

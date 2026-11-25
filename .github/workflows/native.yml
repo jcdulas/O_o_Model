@@ -1,0 +1,47 @@
+name: Native model and solver clients
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  clients:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jcdulas/O_o_Solver
+          ref: d9492507eb10fa050198ea66ad97542387c490d3
+          path: external/solver
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install build and client dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build libhdf5-dev zlib1g-dev
+          python -m pip install pybind11 pyarrow oo-solver==0.2.2
+      - name: Build the candidate Model and reference Solver
+        run: |
+          cmake -S tests/clients -B build/clients -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DSOLVER_SOURCE="$PWD/external/solver" -DOOR_BUILD_PYTHON=ON -DPython_EXECUTABLE="$(which python)"
+          cmake --build build/clients --parallel 3
+      - name: Run native tests and inspect module dependencies
+        run: |
+          ctest --test-dir build/clients/model --output-on-failure --no-tests=error
+          python tools/check_layering.py
+      - name: Verify the RBE3 edit with the C++ client and candidate Python extension
+        run: |
+          mkdir -p build/candidate/oo_model
+          cp python/oo_model/*.py build/clients/model/python/_native*.so build/candidate/oo_model/
+          export PYTHONPATH="$PWD/build/candidate"
+          fixture=external/solver/wasm/test/fixtures/trim-rbe3-wing.oos
+          python python/tests/smoke.py
+          python tests/clients/rbe3.py "$fixture" > build/python-rbe3.json
+          python tests/clients/check_rbe3.py build/python-rbe3.json
+          build/clients/rbe3 "$fixture" > build/cpp-rbe3.json
+          python tests/clients/check_rbe3.py build/cpp-rbe3.json

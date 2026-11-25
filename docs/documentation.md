@@ -3,7 +3,7 @@
 ## Read online
 
 The public site is **[O_o_Model documentation](https://jcdulas.github.io/O_o_Model/)**.
-Start with the [paired JavaScript and Python examples](getting-started.md) or look up an operation in the [API reference](api.rst).
+Start with the [JavaScript, Python and C++ examples](getting-started.md) or look up an operation in the [API reference](api.rst).
 The [architecture guide](architecture.md) explains the modules and data flow with diagrams.
 The [source index](../index.md) and the Markdown guides can also be read directly on GitHub.
 
@@ -38,6 +38,7 @@ python -m venv .venv-docs
 # Linux/macOS: source .venv-docs/bin/activate
 # PowerShell:  .\.venv-docs\Scripts\Activate.ps1
 python -m pip install -r docs/requirements.txt
+python docs/check_examples.py
 python docs/diagrams/render.py --check
 python -m sphinx -W --keep-going -b html -c docs -d build/docs/doctrees . build/docs/html
 python docs/check_html.py build/docs/html

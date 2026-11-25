@@ -1,9 +1,10 @@
 # O_o_Model
 
-Build, edit and query finite element models through the O_o_Model API in JavaScript (WebAssembly) or Python (native C++). Applications supply cards and analysis controls in memory. O_o_Solver consumes the resulting model tables through its API.
+Build, edit and query finite element models through the O_o_Model API in JavaScript (WebAssembly), Python or native C++20. Applications supply cards and analysis controls in memory. O_o_Solver consumes the resulting model tables through its API.
 
 **[Sphinx documentation](https://jcdulas.github.io/O_o_Model/)** ·
 [Model input reference](docs/reference/index.md) ·
+[Mesh edit benchmark and RBE3 regression](docs/model-clients.md) ·
 [Model construction](https://jcdulas.github.io/O_o_Model/docs/model-construction.html) ·
 [API reference](https://jcdulas.github.io/O_o_Model/docs/api.html)
 
@@ -12,12 +13,12 @@ Build, edit and query finite element models through the O_o_Model API in JavaScr
 | Interface | Install |
 | --- | --- |
 | JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.1/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
-| Python / native C++ | Install the [native wheel](https://pypi.org/project/oo-model/0.2.1/) with `python -m pip install oo-model==0.2.1`. For source builds, see the [native build requirements](docs/python.md#build-and-publish). |
+| Python | Install the [native wheel](https://pypi.org/project/oo-model/0.2.1/) with `python -m pip install oo-model==0.2.1`. For source builds, see the [native build requirements](docs/python.md#build-and-publish). |
 | C++20 / vcpkg | Add `oo-model` from the [O_o vcpkg registry](https://github.com/jcdulas/O_o_vcpkg) and link `oor::core`. [Native CMake example](https://github.com/jcdulas/O_o_vcpkg/tree/main/examples/rod) |
 
 ## Build and query a model in memory
 
-Create a node at (1, 2, 3) and count the rows in the node table. Both examples print `1`.
+Create a node at (1, 2, 3) and count the rows in the node table. All three examples print `1`.
 
 **JavaScript / WebAssembly**
 
@@ -39,7 +40,7 @@ try {
 }
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 from oo_model import create_model
@@ -50,13 +51,32 @@ nodes = deck.query("nodesTable")
 print(len(nodes))
 ```
 
+**C++20**
+
+```cpp
+#include <oor/api/CardEdits.hpp>
+#include <oor/api/Queries.hpp>
+#include <iostream>
+
+int main()
+{
+    using Field = oor::model::FieldValue;
+    const auto deck = oor::api::Deck::createModel();
+    const oor::api::CardInput node{"Node", {{Field::Kind::Integer, 1, 0., {}}, {},
+        {Field::Kind::Real, 0, 1., {}}, {Field::Kind::Real, 0, 2., {}}, {Field::Kind::Real, 0, 3., {}}}};
+    oor::api::insertCard(*deck, node);
+    const auto nodes = oor::api::runQuery("nodesTable", deck, nullptr, {});
+    std::cout << nodes->rowCount() << '\n';
+}
+```
+
 WASM handles own native allocations and expose `delete()`. Python manages those lifetimes and exposes query tables through the Arrow C Data Interface.
 
 For batches of nodes or elements, pass typed JavaScript arrays or NumPy columns. See the [construction guide](docs/model-construction.md) for load cases, validation and editing. Applications that need persistence can use the [OOS adapter](https://github.com/jcdulas/O_o_OOS) for text models or the [OOH5 adapter](https://github.com/jcdulas/O_o_OOH5) for HDF5 archives. The standard packages include both adapters. [Build profiles](docs/architecture.md#file-adapters)
 
 ## Documentation
 
-[Optimization with JavaScript and Python](docs/optimization.md): design interfaces, derivatives and accepted model updates.
+[Optimization with JavaScript, Python and C++](docs/optimization.md): design interfaces, derivatives and accepted model updates.
 
 **[Read Sphinx documentation](https://jcdulas.github.io/O_o_Model/)** · [Architecture with diagrams](docs/architecture.md) · [Documentation index](index.md)
 
@@ -77,7 +97,7 @@ readable. See [choosing a format](docs/getting-started.md#choose-a-file-format) 
 | `wasm/` | the WebAssembly module: the embind interface (`src/Bindings.cpp`), the JavaScript wrapper (`js/`), its Node.js test (`test/`) |
 | `tests/cpp/<module>/` | the C++ tests (Catch2), run natively |
 | `validation/models/` | model files written for the project, read by the tests |
-| `docs/` | the archive format, JavaScript and Python interfaces, and architecture |
+| `docs/` | the archive format, JavaScript, Python and C++ interfaces, and architecture |
 | `scripts/` | the build scripts |
 | `tools/` | the layering check and the generator of the card catalogue (`oos_layouts/`) |
 | `formats/` | the card layout catalogue of the model format (`oos-layouts.json`, [docs/model-format-cards.md](docs/model-format-cards.md)) |

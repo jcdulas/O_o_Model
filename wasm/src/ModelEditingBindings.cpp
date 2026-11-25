@@ -347,6 +347,13 @@ void bindModelEditing(emscripten::class_<api::Deck>& binding)
             })
         .function("_insertCards", &insertCards)
         .function("_insertCardBatch", &insertBatch)
+        .function("_setNodePositions", emscripten::optional_override([](api::Deck& deck, val ids, val xyz) {
+            guarded([&] {
+                const auto nodes = emscripten::convertJSArrayToNumberVector<std::int32_t>(ids);
+                const auto positions = emscripten::convertJSArrayToNumberVector<double>(xyz);
+                api::setNodePositions(deck, nodes, positions);
+            });
+        }))
         .function("_appendInclude", &appendInclude)
         .function(
             "_cardByKey",

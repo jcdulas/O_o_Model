@@ -195,7 +195,7 @@ model.writeArchive("/work/model-only.ooh5");
 model.writeModel("/work/export.oos");
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 from oo_model import read_model
@@ -272,7 +272,7 @@ try {
 }
 ~~~
 
-**Python / native C++**
+**Python**
 
 Open the combined archive written to disk by the JavaScript example. Python can retrieve its model and export its records; the result-index API shown above belongs to JavaScript.
 
@@ -282,6 +282,14 @@ from oo_model import read_model
 restored = read_model("point.ooh5")
 print(restored.card_counts["Node"])  # 1
 restored.write_model("export.oos")
+```
+
+**C++20**
+
+```cpp
+auto restored = oor::formats::ooh5::read("point.ooh5");
+std::cout << oor::api::cardTable(*restored, "Node", {"id"})->rowCount();
+oor::formats::oos::write(*restored, "export.oos");
 ```
 
 Run it with `node archive-model.mjs`. `oor.readFile("/work/point.ooh5")` returns the archive bytes for downloading or
@@ -361,8 +369,19 @@ with h5py.File("run.ooh5", "r") as archive:
             components = [c.decode() for c in archive[first]["components"][...]]
 ```
 
+**C++20**
+
+```cpp
+const auto archive = oor::api::Results::open("run.ooh5");
+for (const auto& entry : archive->tables()) std::cout << entry.index << ' ' << entry.kind << '\n';
+if (!archive->tables().empty()) {
+    const auto first = archive->read(archive->tables().front().index, {.stepIndices = {0}});
+    std::cout << first.shape.size();
+}
+```
+
 To read only the first coordinate field of a native `Node` table, decode its small descriptors and slice the real
-buffer. Both examples read coordinates in each node's position frame.
+buffer. All three examples read coordinates in each node's position frame.
 
 **JavaScript / WebAssembly**
 
@@ -408,6 +427,15 @@ with h5py.File("model.ooh5", "r") as archive:
         x = np.full(len(ids), np.nan)
         x[rows] = values
     print(list(zip(ids[:5], x[:5])))
+```
+
+**C++20**
+
+```cpp
+const auto deck = oor::formats::ooh5::read("model.ooh5");
+const auto nodes = oor::api::cardTable(*deck, "Node", {"position1"});
+const auto x = nodes->column("position1").as<double>();
+for (double value : x.first(std::min<std::size_t>(5, x.size()))) std::cout << value << '\n';
 ```
 
 These are coordinates in each node's position frame. Applying coordinate transformations requires the model's frame

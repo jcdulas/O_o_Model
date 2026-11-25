@@ -1,7 +1,7 @@
 API reference
 =============
 
-The table maps the most common operations across both packages. For Python signatures, see :ref:`native-python-api`.
+The table maps the most common operations across the three interfaces. For Python signatures, see :ref:`native-python-api`.
 The TypeScript declarations and C++ headers below are included directly from the source tree.
 
 For a runnable example, start with :doc:`getting-started`. The module guides explain implementation details.
@@ -25,25 +25,36 @@ The `standalone rod example <https://github.com/jcdulas/O_o_vcpkg/tree/main/exam
 
    * - Operation
      - JavaScript / WebAssembly
-     - Python / native C++
+     - Python
+     - C++20
    * - Create an empty model
      - ``reader.createModel()``
      - ``oo_model.create_model()``
+     - ``oor::api::Deck::createModel()``
    * - Add a homogeneous batch
      - ``deck.addCardBatch(type, columns)``
      - ``deck.add_card_batch(type, columns)``
+     - ``oor::api::insertCardBatch(*deck, type, count, row)``
    * - Validate references
      - ``deck.checkReferences()``
      - ``deck.check_references()``
+     - ``deck->checkReferences()``
    * - Read a deck with a file adapter
      - ``reader.readModel(path)``
      - ``oo_model.read_model(path)``
+     - ``oor::formats::oos::read(path)``
    * - Count node rows
      - ``query.rowCount()``
      - ``len(table)``
+     - ``query->rowCount()``
    * - Save a model with the archive adapter
      - ``deck.writeArchive(path)``
      - ``deck.write_archive(path)``
+     - ``oor::formats::ooh5::write(*deck, path)``
+   * - Edit node coordinates in a batch
+     - ``deck.setNodePositions(ids, xyz)``
+     - ``deck.set_node_positions(ids, xyz)``
+     - ``oor::api::setNodePositions(*deck, ids, xyz)``
 
 JavaScript and TypeScript
 -------------------------

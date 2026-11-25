@@ -23,7 +23,7 @@ try {
 }
 ~~~
 
-**Python / native C++** · Save as `inspect_model.py` and run `python inspect_model.py tie.oos`.
+**Python** · Save as `inspect_model.py` and run `python inspect_model.py tie.oos`.
 
 ~~~python
 import sys
@@ -34,6 +34,24 @@ print(deck.card_counts["Node"], deck.card_counts["Rod2"])  # 2 1
 deck.write_archive("tie.ooh5")
 ~~~
 
+**C++20**
+
+```cpp
+#include <oor/formats/oos.hpp>
+#include <oor/formats/ooh5.hpp>
+#include <iostream>
+
+int main(int argc, char** argv)
+{
+    if (argc != 2) return 2;
+    auto deck = oor::formats::ooh5::recognizes(argv[1]) ? oor::formats::ooh5::read(argv[1])
+                                                       : oor::formats::oos::read(argv[1], {.strict = true});
+    for (const auto& [type, count] : deck->cardCounts())
+        if (type == "Node" || type == "Rod2") std::cout << type << ' ' << count << '\n';
+    oor::formats::ooh5::write(*deck, "tie.ooh5");
+}
+```
+
 ## Input paths and working directory
 
 The Python reader opens the host path directly. In the JavaScript example the first path is on the host, while `/work/input.oos` belongs to the module. For a model split across files, stage the includes under the same relative directory layout in the module, or place the files beside the root model on the host for Python. [Includes and parts](../model-format.md#includes-and-parts)
@@ -42,7 +60,7 @@ The Python reader opens the host path directly. In the JavaScript example the fi
 
 | Setting | Where to supply it | Effect |
 | --- | --- | --- |
-| Input path | First argument of either example | Opens the supplied model |
+| Input path | First argument of each example | Opens the supplied model |
 | Output path | The archive-writing call and, for JavaScript, the host write | Chooses where to save the archive |
 | Strict reading | `{ strict: true }` or `strict=True` | Stops on a malformed known record and identifies its location |
 

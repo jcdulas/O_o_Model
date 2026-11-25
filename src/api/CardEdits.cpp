@@ -6,6 +6,7 @@
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/deck/records/ModelText.hpp"
 #include "oor/deck/records/RecordText.hpp"
+#include "oor/model/cards/nodes/node/NodeTable.hpp"
 #include "oor/model/core/CardRegistry.hpp"
 #include "oor/model/core/CardTable.hpp"
 #include "oor/model/core/CardRecord.hpp"
@@ -725,6 +726,46 @@ void replaceCard(const Deck& deck, const std::string& source, base::EntityId id,
 {
     model::Model& model = *deck.model();
     (void)readCards(model, text, locateOrThrow(model, source, id));
+}
+
+void setNodePositions(const Deck& deck, std::span<const base::EntityId> ids, std::span<const double> xyz)
+{
+    if (xyz.size() % 3 != 0 || xyz.size() / 3 != ids.size())
+        throw base::UsageError("expected three position components per node ID");
+    if (ids.empty())
+        return;
+
+    auto& model = *deck.model();
+    const auto* nodes = model.findTable<model::NodeTable>();
+    struct Edit
+    {
+        std::uint32_t row;
+        std::array<double, 3> position;
+    };
+    std::vector<Edit> edits;
+    edits.reserve(ids.size());
+    std::unordered_set<base::EntityId> seen;
+    seen.reserve(ids.size());
+    for (std::size_t i = 0; i < ids.size(); ++i)
+    {
+        const auto location = model.locate(base::IdSpace::Node, ids[i]);
+        if (!location || model.findTable(location->table) != nodes)
+            throw base::UsageError("unknown Node ID " + std::to_string(ids[i]));
+        if (!seen.insert(ids[i]).second)
+            throw base::UsageError("duplicate Node ID " + std::to_string(ids[i]));
+        const std::array position{xyz[3 * i], xyz[3 * i + 1], xyz[3 * i + 2]};
+        if (!std::all_of(position.begin(), position.end(), [](double x) { return std::isfinite(x); }))
+            throw base::UsageError("non-finite position for Node " + std::to_string(ids[i]));
+        edits.push_back({location->row, position});
+    }
+
+    auto& table = model.table<model::NodeTable>();
+    // Finish potentially allocating cache-log entries before writing. The column detaches once on its first change.
+    for (const auto& edit : edits)
+        table.changes().noteRow(edit.row);
+    for (const auto& edit : edits)
+        table.xyzColumn().set(edit.row, edit.position);
+    model.noteContentChange();
 }
 
 std::vector<AddedCard> addCards(const Deck& deck, const std::string& text)

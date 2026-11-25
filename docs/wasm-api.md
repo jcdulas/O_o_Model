@@ -1,6 +1,6 @@
-# Model operations in JavaScript and Python
+# Model operations in JavaScript, Python and C++
 
-Use [Getting started](getting-started.md) to install either distribution. Python imports `oo_model` from the native `oo-model` wheel. The JavaScript examples use `oor` for the loaded WASM module.
+Use [Getting started](getting-started.md) to install the package for your language. Python imports `oo_model` from the native `oo-model` wheel. The JavaScript examples use `oor` for the loaded WASM module. The C++ snippets use `oor::core` for in-memory operations. File examples also require their format adapter, and the combined results facade requires the adapter-enabled `oor::api` build.
 
 The package `oo-model` (built in `build/wasm/dist`) runs the whole library in a browser, a web worker or Node.js.
 It is a WebAssembly module (`oor_reader_core.wasm`, made by Emscripten) and a small JavaScript wrapper
@@ -22,13 +22,20 @@ const oor = await loadOoModel();
 console.log(oor.version()); // "0.2.1"
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 from importlib.metadata import version
 from oo_model import create_model
 
 print(version("oo-model"))
+```
+
+**C++20**
+
+```cpp
+#include <oor/base/Version.hpp>
+std::cout << oor::base::LIBRARY_VERSION;
 ```
 
 In a browser, serve `oor_reader_core.wasm` next to `oor_reader_core.js`, or tell Emscripten where it is:
@@ -39,9 +46,21 @@ In a browser, serve `oor_reader_core.wasm` next to `oor_reader_core.js`, or tell
 const oor = await loadOoModel({ locateFile: (file) => `/static/${file}` });
 ```
 
-**Python / native C++**
+**Python**
 
 Install the native package with `python -m pip install oo-model`. The Python importer loads its compiled extension from the environment.
+
+```python
+from oo_model import create_model
+
+deck = create_model()
+```
+
+**C++20**
+
+```cpp
+auto deck = oor::api::Deck::createModel(); // executable linked to oor::core
+```
 
 The module is single-threaded: run it in a web worker to keep the page responsive on large files.
 
@@ -61,7 +80,7 @@ const bytes = oor.readFile("/work/run.ooh5");   // Uint8Array, to download or up
 oor.removeFile("/work/run.ooh5");               // free the memory of a file you no longer need
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 from pathlib import Path
@@ -69,6 +88,14 @@ from oo_model import read_model
 
 deck = read_model("plate.oos")
 archive_bytes = Path("run.ooh5").read_bytes()
+```
+
+**C++20**
+
+```cpp
+auto deck = oor::formats::oos::read("plate.oos");
+std::ifstream archive("run.ooh5", std::ios::binary);
+std::vector<char> bytes{std::istreambuf_iterator<char>(archive), {}};
 ```
 
 ## Models
@@ -90,7 +117,7 @@ nativeDeck.delete();
 deck.delete();            // free the C++ object when done
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 deck = read_model("plate.oos", strict=False)
@@ -98,6 +125,16 @@ print(deck.card_counts, [d.message for d in deck.diagnostics])
 deck.write_model("out.oos")
 deck.write_archive("model.ooh5")
 restored = read_model("model.ooh5")
+```
+
+**C++20**
+
+```cpp
+auto deck = oor::formats::oos::read("plate.oos", {.strict = false});
+for (const auto& diagnostic : deck->diagnostics()) std::cerr << diagnostic.message << '\n';
+oor::formats::oos::write(*deck, "out.oos");
+oor::formats::ooh5::write(*deck, "model.ooh5");
+auto restored = oor::formats::ooh5::read("model.ooh5");
 ```
 
 Model records, diagnostics and JavaScript values use the same exact neutral names
@@ -126,7 +163,7 @@ deck.cardById("SinglePointConstrList", 7);           // any card type ("source")
 deck.nodes.ids();                   // [1, 2, 3, ...]
 ```
 
-**Python / native C++**
+**Python**
 
 Use the optional PyArrow package to inspect the same node by ID.
 
@@ -136,6 +173,14 @@ import pyarrow as pa
 nodes = pa.record_batch(deck.card_table("nodes", ["id", "xyzGlobal"]))
 row = nodes.column("id").to_pylist().index(11)
 print(nodes.column("xyzGlobal")[row].as_py())
+```
+
+**C++20**
+
+```cpp
+if (auto node = oor::api::findCard(*deck, "Node", 11, {"xyzGlobal"}))
+    for (const auto& [name, value] : node->values)
+        if (name == "xyzGlobal") for (auto x : value.numbers) std::cout << x << ' ';
 ```
 
 A card is `{ type, id, key, values, fields, text, comment }`; each named value is also a property of the card (`node.xyz` is
@@ -157,11 +202,18 @@ deck.addCards("Node;7;;3.;0.;0.\nShellQuad4;12;1;3;7;8;6");   // [{ type: "Node"
 deck.removeCard("elements", 12);
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 deck.set_card_value("Node", 11, "position1", 2.5)
 deck.set_card_value("ShellProp", 1, "thickness", 0.25)
+```
+
+**C++20**
+
+```cpp
+oor::api::setCardValue(*deck, "Node", 11, "position1", "2.5");
+oor::api::setCardValue(*deck, "ShellProp", 1, "thickness", "0.25");
 ```
 
 An edited card keeps its place in the deck, its comment and its link to attached results. Its new fields are checked as
@@ -193,9 +245,28 @@ results.writeArchive("/work/run.ooh5", { compressionLevel: 4, title: "PLATE" });
 results.writeXlsx("/work/run.xlsx", { title: "PLATE" });  // an Excel workbook, for people
 ```
 
-**Python / native C++**
+**Python**
 
-For result datasets, including slices by step, see the [h5py examples](archive-format.md). The native Model loads the model portion of a combined archive with `read_model("run.ooh5")`.
+For result datasets, including slices by step, see the [h5py examples](archive-format.md). Use h5py for the result values.
+
+```python
+import h5py
+
+with h5py.File("run.ooh5") as archive:
+    entry = archive["index/tables"][0]
+    first_step = archive[entry["group"].decode()]["values"][0]
+```
+
+**C++20**
+
+```cpp
+const auto results = oor::api::Results::open("run.ooh5");
+const auto tables = results->tables();
+if (!tables.empty()) {
+    const auto selection = results->read(tables.front().index, {.stepIndices = {0}, .components = {"t3"}, .ids = {5, 6}});
+    std::cout << selection.shape.size();
+}
+```
 
 `openResults` loads the result indexes, leaving model columns and result values unread. `model()` caches its deck;
 subsequent calls share that deck and its edits. `attach(deck, false)` selects an existing deck instead. `writeArchive`
@@ -230,12 +301,20 @@ if (archive.hasModel()) {
 archive.delete();
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 embedded = read_model("complete.ooh5")
 embedded.write_model("export.oos")
 embedded.write_archive("model-only.ooh5")
+```
+
+**C++20**
+
+```cpp
+auto embedded = oor::formats::ooh5::read("complete.ooh5");
+oor::formats::oos::write(*embedded, "export.oos");
+oor::formats::ooh5::write(*embedded, "model-only.ooh5");
 ```
 
 In the JavaScript example, `maxDisplacement` uses the attached results. Python Model queries operate on the model.
@@ -283,9 +362,31 @@ const results = oor.createResults([
 ], "my run");
 ```
 
-**Python / native C++**
+**Python**
 
-Constructing a Model results object and writing result workbooks are JavaScript operations. The Python Solver returns numerical tables as read-only NumPy arrays accessible via `model.run("statics")["nodal_tables"]`.
+A Python producer can represent the same two-step displacement field in NumPy. The Python Model binding exposes model tables; the in-memory results writer is available in JavaScript and C++.
+
+```python
+import numpy as np
+
+ids = np.array([1, 2, 3], dtype=np.int32)
+steps = np.array([0., 0.1])
+displacements = np.zeros((2, len(ids), 6), dtype=np.float32)
+```
+
+**C++20**
+
+```cpp
+std::vector<float> values(2 * 3 * 6);
+oor::results::MemoryTableInput table;
+table.kind = oor::results::ResultKind::Displacements;
+table.ids = {1, 2, 3};
+table.steps = {0., .1};
+table.analysisCode = 6;
+table.type = oor::results::ValueType::Float32;
+table.values = std::as_bytes(std::span(values));
+auto results = oor::api::Results::fromTables("my run", {table});
+```
 
 The members of a table are listed by `MemoryTable` in `index.d.ts`. Writing folders that do not exist yet are made.
 
@@ -326,7 +427,7 @@ oor.queryCatalogue();                       // every query, its description and 
 worst.toCsv();
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 import pyarrow as pa
@@ -334,6 +435,15 @@ import pyarrow as pa
 nodes = pa.record_batch(deck.query("nodesTable"))
 print(nodes.column("x").to_numpy())
 elements = deck.query("elementsTable", columns=["elementId", "type", "propId", "nodes"])
+```
+
+**C++20**
+
+```cpp
+auto nodes = oor::api::runQuery("nodesTable", deck, nullptr, {});
+for (double x : nodes->column("x").as<double>()) std::cout << x << '\n';
+auto args = oor::api::argumentsFromJson("elementsTable", R"({"columns":["elementId","type","propId","nodes"]})");
+auto elements = oor::api::runQuery("elementsTable", deck, nullptr, args);
 ```
 
 Arguments are plain JavaScript values: numbers, texts, arrays of IDs, objects for named sets
@@ -351,9 +461,24 @@ oor.writeQueryTables("/work/outputs.h5", [
 ]);
 ```
 
-**Python / native C++**
+**Python**
 
-The `oor-query-tables` writer is exposed by JavaScript. A Python consumer can retrieve the typed model rows with `deck.query("nodesTable")` and export them through its chosen Arrow consumer.
+JavaScript and C++ provide the query-table archive writer. For a custom Python output, the following writes the node x coordinates as a plain HDF5 dataset.
+
+```python
+import h5py
+import pyarrow as pa
+
+nodes = pa.record_batch(deck.query("nodesTable"))
+with h5py.File("outputs.h5", "w") as f:
+    f["nodes/x"] = nodes.column("x").to_numpy()
+```
+
+**C++20**
+
+```cpp
+oor::query::writeQueryTables("outputs.h5", {{"nodes", nodes}, {"worst_displacement", worst}});
+```
 
 The layout of that file is in [archive-format.md](archive-format.md#query-tables-custom-outputs).
 
@@ -375,7 +500,7 @@ oor.modelVersions(deck);                                 // { structure, content
 const bytes = quads.toPackage();                         // Uint8Array: the table with its exact Arrow layout
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 from oo_model import card_columns
@@ -383,6 +508,14 @@ from oo_model import card_columns
 stored, computed = card_columns("ShellQuad4")
 quads = deck.card_table("ShellQuad4", ["id", "propId", "nodes", "nodesRows"])
 rotations = deck.displacement_rotations()  # one row of nine values per node
+```
+
+**C++20**
+
+```cpp
+auto columns = oor::api::cardTableColumns("ShellQuad4");
+auto quads = oor::api::cardTable(*deck, "ShellQuad4", {"id", "propId", "nodes", "nodesRows"});
+auto rotations = oor::api::displacementRotations(*deck);
 ```
 
 `nodesRows` indexes the rows of `cardTable(deck, "nodes")`, and `propIdRow` the rows of the property's card table.
@@ -412,11 +545,18 @@ try {
 }
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 try:
     read_model("missing.ooh5")
 except RuntimeError as error:
     print(error)
+```
+
+**C++20**
+
+```cpp
+try { auto deck = oor::formats::ooh5::read("missing.ooh5"); }
+catch (const std::exception& error) { std::cerr << error.what() << '\n'; }
 ```

@@ -617,6 +617,23 @@ void writeQueryTables(const std::string& path, const val& tables, int compressio
         });
 }
 
+// Compact capability lookup for clients negotiating table transfers across WASM modules.
+val queryParameterNames()
+{
+    return guarded([&]
+    {
+        val catalogue = val::object();
+        for (const auto& description : api::queryCatalogue())
+        {
+            val names = val::array();
+            for (const auto& parameter : description.parameters)
+                names.call<void>("push", parameter.name);
+            catalogue.set(description.name, names);
+        }
+        return catalogue;
+    });
+}
+
 val queryCatalogue()
 {
     return guarded(
@@ -865,11 +882,13 @@ EMSCRIPTEN_BINDINGS(oor_reader)
 
     function("runQuery", &runQuery);
     function("queryCatalogue", &queryCatalogue);
+    function("queryParameterNames", &queryParameterNames);
     function("writeQueryTables", &writeQueryTables);
 
     function("cardTable", &cardTable);
     function("cardTableColumns", &cardTableColumns);
     function("cardTypesOf", &cardTypesOf);
+    function("hasDisplacementFrames", &api::hasDisplacementFrames);
     function("displacementRotations", &displacementRotations);
     function("modelVersions", &modelVersions);
     function("designVariables", &designVariables);

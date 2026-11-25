@@ -11,6 +11,24 @@ const { loadOoModel } = await import(
 );
 const oor = await loadOoModel();
 
+test("position batches preserve original geometry and reject invalid buffers atomically", () => {
+  const deck = oor.createModel();
+  try {
+    deck.addCardBatch("Node", { id: Int32Array.of(10, 20), position1: 1 });
+    const ids = Int32Array.of(20, 10);
+    const xyz = Float64Array.of(2, 3, 4, 5, 6, 7);
+    for (const [badIds, badXyz] of [[ids, xyz.subarray(1)], [[20, 10], xyz],
+        [ids, Float32Array.from(xyz)], [Int32Array.of(20, 99), xyz]]) {
+      const before = oor.modelVersions(deck);
+      assert.throws(() => deck.setNodePositions(badIds, badXyz));
+      assert.deepEqual(oor.modelVersions(deck), before);
+    }
+    deck.setNodePositions(ids, xyz);
+    assert.deepEqual(Array.from(deck.nodes[10].xyz), [5, 6, 7]);
+    assert.deepEqual(Array.from(deck.nodes[20].xyz), [2, 3, 4]);
+  } finally { deck.delete(); }
+});
+
 test("a complete model is built from objects, solved-input tables and archives keep its cases", () => {
   const deck = oor.createModel();
   deck.setSolution("LinearStatics");

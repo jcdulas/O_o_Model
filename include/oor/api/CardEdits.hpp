@@ -84,6 +84,10 @@ void setCardField(const Deck& deck, const std::string& source, base::EntityId id
 // UsageError, listing the named fields, when the card has no field of that name.
 void setCardValue(const Deck& deck, const std::string& source, base::EntityId id, const std::string& name,
                   const std::string& value);
+// Replace positions in each Node's input frame (CP). xyz is row-major, three finite values per unique ID.
+// The entire batch is validated before writing. Other card fields and previously exported buffers are preserved.
+void setNodePositions(const Deck& deck, std::span<const base::EntityId> ids, std::span<const double> xyz);
+
 // Gives the card all its fields at once (as CardView::fields).
 void setCardFields(const Deck& deck, const std::string& source, base::EntityId id,
                    const std::vector<std::string>& fields);

@@ -398,9 +398,23 @@ std::vector<NamedColumn> computeNodeCount(model::Model& model, const CardRows& c
 // --- positions of the grid points
 // -------------------------------------------------------------------------------------
 
-std::vector<NamedColumn> computePositions(model::Model& model, const CardRows& cards, ExecutionContext& context)
+std::vector<NamedColumn> computePositions(std::string_view requested, model::Model& model, const CardRows& cards,
+                                          ExecutionContext& context)
 {
     const std::uint16_t gridType = model::typeIndexOf<model::NodeTable>();
+    // In storage order, a single XYZ request can share the immutable triples directly.
+    // COW protects an exported table when the deck is edited later.
+    if (requested == "xyzGlobal" && cards.wholeTable && cards.single == gridType)
+    {
+        context.checkCancelled();
+        auto& nodes = model.table<model::NodeTable>();
+        computationCounters().positionCalls.fetch_add(1);
+        computationCounters().rowsComputed.fetch_add(cards.count());
+        if (!nodes.positionFrameIdColumn().isMaterialised())
+            return {{"xyzGlobal", QueryColumn::fixedListShared<double, 3>(nodes.xyzColumn().share())}};
+        const auto& cache = analysis::BasicPositionCache::of(model, context.pool());
+        return {{"xyzGlobal", QueryColumn::fixedListShared<double, 3>(cache.shareBuffer())}};
+    }
     // Only a grid point has a position: the cards of the other types of the node ID space (a scalar point) get a null.
     std::vector<TypeGroup> groups = groupByType(cards);
     groups.erase(
@@ -833,7 +847,7 @@ std::vector<NamedColumn> computeColumns(std::string_view column, model::Model& m
     case Family::ResolvedPoint:
         return computeResolvedPoint(column, model, cards, context);
     case Family::NodePosition:
-        return computePositions(model, cards, context);
+        return computePositions(column, model, cards, context);
     case Family::NodeCount:
         return computeNodeCount(model, cards, context);
     }

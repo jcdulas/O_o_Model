@@ -1,4 +1,5 @@
 #include "oor/api/CardEdits.hpp"
+#include "oor/api/CardTables.hpp"
 #include "oor/api/ControlEdits.hpp"
 #include "oor/api/Deck.hpp"
 #include "oor/api/Queries.hpp"
@@ -33,6 +34,66 @@ api::ControlRecord command(std::string name, std::string value)
     return {std::move(name), {std::move(value)}, {}};
 }
 } // namespace
+
+TEST_CASE("node position batches validate all rows and preserve existing geometry views", "[api][builder]")
+{
+    const auto original = api::Deck::createModel();
+    const auto first = api::insertCard(*original, node(11, 1));
+    api::insertCard(*original, node(22, 2));
+    const auto trial = original->copy();
+    const auto globalX = [](const auto& deck) { return api::runQuery("nodesTable", deck, nullptr, {}); };
+    const auto retained = globalX(trial);
+    const auto before = api::modelVersions(*trial);
+    const std::array xyz{3., 4., 5., 6., 7., 8.};
+    for (auto bad : {std::array{11, 99}, std::array{11, 11}})
+        CHECK_THROWS_AS(api::setNodePositions(*trial, bad, xyz), base::UsageError);
+    auto invalid = xyz;
+    invalid.back() = std::numeric_limits<double>::infinity();
+    CHECK_THROWS_AS(api::setNodePositions(*trial, std::array{22, 11}, invalid), base::UsageError);
+    CHECK_THROWS_AS(api::setNodePositions(*trial, std::array{11}, xyz), base::UsageError);
+    api::setNodePositions(*trial, {}, {});
+    CHECK(api::modelVersions(*trial).content == before.content);
+    CHECK(globalX(trial)->column("x").as<double>()[0] == 1.);
+    api::setNodePositions(*trial, std::array{22, 11}, xyz);
+    CHECK(globalX(trial)->column("x").as<double>()[0] == 6.);
+    CHECK(globalX(trial)->column("x").as<double>()[1] == 3.);
+    CHECK(retained->column("x").as<double>()[0] == 1.);
+    CHECK(globalX(original)->column("x").as<double>()[0] == 1.);
+    CHECK(api::findCardByKey(*trial, "Node", first.key)->id == 11);
+    CHECK(api::modelVersions(*trial).structure == before.structure);
+    CHECK(api::modelVersions(*trial).content != before.content);
+}
+
+TEST_CASE("snapshot coordinates respect node frames, row order and retained views", "[api][builder]")
+{
+    const auto deck = api::Deck::createModel();
+    CHECK_FALSE(api::hasDisplacementFrames(*deck));
+    CHECK(api::displacementRotations(*deck).empty());
+    api::insertCard(*deck, node(20, 1));
+    const auto positions = [&] { return api::cardTable(*deck, "nodes", {"id", "xyzGlobal"}); };
+    const auto basic = positions();
+    api::setNodePositions(*deck, std::array{20}, std::array{3., 4., 5.});
+    CHECK(basic->column("xyzGlobal").child()->as<double>()[0] == 1.);
+    api::addCards(*deck, "RectFrame2;7;;10.;0.;0.;10.;0.;1.;10.;1.;0.");
+    const auto local = api::addCards(*deck, "Node;30;7;2.;0.;0.;7").at(0);
+    CHECK(api::hasDisplacementFrames(*deck));
+    const auto transformed = positions();
+    CHECK(transformed->column("xyzGlobal").child()->as<double>()[4] == 2.);
+    api::setNodePositions(*deck, std::array{30}, std::array{4., 0., 0.});
+    api::insertCard(*deck, node(10, -1));
+    const auto sorted = positions();
+    CHECK(sorted->column("id").as<std::int32_t>()[2] == 30);
+    CHECK(sorted->column("xyzGlobal").child()->as<double>()[7] == 4.);
+    CHECK(transformed->column("xyzGlobal").child()->as<double>()[4] == 2.);
+    const auto rotations = api::displacementRotations(*deck);
+    REQUIRE(rotations.size() == 27);
+    CHECK(rotations[0] == 1.);
+    CHECK(rotations[18] == 0.);
+    CHECK(rotations[21] == 1.);
+    REQUIRE(api::removeCardByKey(*deck, "Node", local.key));
+    CHECK_FALSE(api::hasDisplacementFrames(*deck));
+    CHECK(sorted->column("xyzGlobal").child()->as<double>()[7] == 4.);
+}
 
 TEST_CASE("an empty model is constructed without a file and checks forward references explicitly", "[api][builder]")
 {

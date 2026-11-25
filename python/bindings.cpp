@@ -121,6 +121,7 @@ PYBIND11_MODULE(_native, m)
                                            result = table->column("text").textAt(i);
                                    return result;
                                })
+        .def_property_readonly("has_displacement_frames", &api::hasDisplacementFrames)
         .def("displacement_rotations",
              [](const api::Deck& d)
              {

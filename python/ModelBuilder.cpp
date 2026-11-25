@@ -275,6 +275,15 @@ void bindModelBuilder(py::class_<api::Deck, std::shared_ptr<api::Deck>>& deck)
             },
             py::arg("type"), py::arg("fields"), py::kw_only(), py::arg("form") = "", py::arg("comment") = py::none())
         .def("add_cards", &addCards)
+        .def("set_node_positions",
+             [](const api::Deck& d, py::array_t<std::int32_t, py::array::c_style> ids,
+                py::array_t<double, py::array::c_style> xyz)
+             {
+                 if (ids.ndim() != 1 || xyz.ndim() != 2 || xyz.shape(0) != ids.size() || xyz.shape(1) != 3)
+                     throw py::value_error("expected ids (N,) and positions (N, 3)");
+                 api::setNodePositions(d, {ids.data(), static_cast<std::size_t>(ids.size())},
+                                       {xyz.data(), static_cast<std::size_t>(xyz.size())});
+             }, py::arg("ids").noconvert(), py::arg("positions").noconvert())
         .def(
             "add_part",
             [](const api::Deck& d, const std::string& kind, std::int64_t id, std::int64_t massId, bool appends)

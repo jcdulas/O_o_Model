@@ -2,7 +2,7 @@
 
 The examples assume a loaded model named `deck`. In JavaScript, `oor` and `solver` are the loaded WASM modules. In Python, `deck` comes from `oo_model.read_model`. See [Getting started](getting-started.md) for package setup.
 
-Model supplies the model and design declarations to optimization loops written in JavaScript or Python. Solver computes the analyses,
+Model supplies the model and design declarations to optimization loops written in JavaScript, Python or C++. Solver computes the analyses,
 response derivatives, Jacobian products and supported Hessian products. See the
 [Solver optimization guide](https://jcdulas.github.io/O_o_Solver/docs/optimization.html) for the complete iteration API,
 matrix conventions, callbacks and derivative limits.
@@ -26,12 +26,22 @@ console.log(design.variables, design.problems, design.notApplied);
 const tables = oor.optimizationTables(deck);
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 deck.validate_design()
 variables = deck.query("designVariablesTable")
 print(len(variables), variables.columns)
+```
+
+**C++20**
+
+```cpp
+const auto design = oor::api::designModel(*deck);
+for (const auto& variable : design.variables())
+    std::cout << variable.id << '\n';
+for (const auto& problem : design.problems())
+    std::cerr << problem << '\n';
 ```
 
 `designVariables` returns ID, label, initial value, bounds, move limit and dependency flag for every variable.
@@ -66,7 +76,7 @@ try {
 }
 ```
 
-**Python / native C++**
+**Python**
 
 Declare response 101 and the objective in the input model for the Python example.
 
@@ -76,6 +86,15 @@ from oo_solver import optimization_from_reader
 problem = optimization_from_reader(deck)
 point = problem.evaluate(problem.initial_values)
 print(point.objective, point.gradients()["objective"])
+```
+
+**C++20**
+
+```cpp
+const auto problem = oos::api::prepareOptimization(deck);
+const auto point = problem->evaluate(problem->problem().initialValues());
+const auto values = point->optimizerValues();
+const auto gradients = point->gradients();
 ```
 
 The application imports both built modules. The deck must define the variables and relations used by this example.
@@ -94,12 +113,24 @@ const text = deck.toModelText();
 deck.writeArchive("/work/accepted-model.ooh5"); // save the accepted model as native columns
 ```
 
-**Python / native C++**
+**Python**
 
 ```python
 ids = [v["id"] for v in problem.variables]
 accepted = deck.with_design_point(ids, accepted_x)
 accepted.write_archive("accepted-model.ooh5")
+```
+
+**C++20**
+
+```cpp
+const auto& model = problem->problem().model();
+std::vector<std::int32_t> ids;
+for (const auto index : model.independentIndices())
+    ids.push_back(model.variables()[index].id);
+auto accepted = deck->copy();
+const auto update = oor::api::applyDesignPoint(*accepted, ids, acceptedX);
+oor::formats::ooh5::write(*accepted, "accepted-model.ooh5");
 ```
 
 Python returns a copy at the accepted point. The original deck remains available for another trial.

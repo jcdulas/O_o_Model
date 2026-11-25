@@ -130,6 +130,8 @@ export interface Deck {
   addCard(card: CardDefinition): AddedCard;
   addCards(cards: readonly CardDefinition[]): AddedCard[];
   // Fixed layouts only; scalar columns broadcast. Numeric typed arrays cross the boundary once per column.
+  /** Set XYZ in each node's input frame. Positions are flat, row-major triples. */
+  setNodePositions(ids: Int32Array, positions: Float64Array): void;
   addCardBatch(type: string, columns: Record<string, CardBatchColumn>, options?: { count?: number }): CardBatchResult;
   cardByKey(ref: CardRef, computed?: string[]): Card | undefined;
   updateCard(ref: CardRef, card: CardContent): void;
