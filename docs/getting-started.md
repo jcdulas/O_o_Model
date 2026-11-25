@@ -7,8 +7,8 @@ Build, edit and query finite element models through the O_o_Model API in JavaScr
 
 | Interface | Install |
 | --- | --- |
-| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.1/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
-| Python | Install the [native wheel](https://pypi.org/project/oo-model/0.2.1/) with `python -m pip install oo-model==0.2.1`. For source builds, see the [native build requirements](python.md#build-and-publish). |
+| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.3/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
+| Python | Install the [native wheel](https://pypi.org/project/oo-model/0.2.3/) with `python -m pip install oo-model==0.2.3`. For source builds, see the [native build requirements](python.md#build-and-publish). |
 | C++20 / vcpkg | Add `oo-model` from the [O_o registry](https://github.com/jcdulas/O_o_vcpkg) and link `oor::core`. |
 
 (read-and-query-a-model)=

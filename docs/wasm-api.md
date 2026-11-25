@@ -19,7 +19,7 @@ it refuses to compile the module).
 import { loadOoModel } from "./model/index.js";
 
 const oor = await loadOoModel();
-console.log(oor.version()); // "0.2.1"
+console.log(oor.version()); // "0.2.3"
 ```
 
 **Python**

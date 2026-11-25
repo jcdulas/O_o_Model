@@ -1,6 +1,6 @@
 # Model edits in external optimization loops
 
-The client checks exercise the public JavaScript, Python and C++ interfaces. The RBE3 check also runs against Solver 0.2.2. To reproduce the optimized snapshot timings, build both Model and Solver from the revisions containing the snapshot changes.
+The client checks exercise the public JavaScript, Python and C++ interfaces. The RBE3 check also runs against Solver 0.2.2. To reproduce the optimized snapshot timings, use Model 0.2.3 and Solver 0.2.3.
 
 ## RBE3 wing regression
 

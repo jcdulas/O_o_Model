@@ -2,7 +2,7 @@
 
 Build, edit and query finite element models through the O_o_Model API in JavaScript (WebAssembly), Python or C++20. Applications supply cards and analysis controls in memory. O_o_Solver consumes the resulting model tables through its API.
 
-**[Published documentation](https://jcdulas.github.io/O_o_Model/)** · [JavaScript / WASM releases](https://github.com/jcdulas/O_o_Model/releases) · [Native Python wheels](https://pypi.org/project/oo-model/0.2.1/)
+**[Published documentation](https://jcdulas.github.io/O_o_Model/)** · [JavaScript / WASM releases](https://github.com/jcdulas/O_o_Model/releases) · [Native Python wheels](https://pypi.org/project/oo-model/0.2.3/)
 
 ## Start here
 
