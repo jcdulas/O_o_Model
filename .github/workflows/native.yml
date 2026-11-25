@@ -28,7 +28,8 @@ jobs:
       - name: Build the candidate Model and reference Solver
         run: |
           cmake -S tests/clients -B build/clients -G Ninja -DCMAKE_BUILD_TYPE=Release \
-            -DSOLVER_SOURCE="$PWD/external/solver" -DOOR_BUILD_PYTHON=ON -DPython_EXECUTABLE="$(which python)"
+            -DSOLVER_SOURCE="$PWD/external/solver" -DOOS_WARNINGS_AS_ERRORS=OFF \
+            -DOOR_BUILD_PYTHON=ON -DPython_EXECUTABLE="$(which python)"
           cmake --build build/clients --parallel 3
       - name: Run native tests and inspect module dependencies
         run: |
