@@ -12,8 +12,8 @@ Build, edit and query finite element models through the O_o_Model API in JavaScr
 
 | Interface | Install |
 | --- | --- |
-| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.3/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
-| Python | Install the [native wheel](https://pypi.org/project/oo-model/0.2.3/) with `python -m pip install oo-model==0.2.3`. For source builds, see the [native build requirements](docs/python.md#build-and-publish). |
+| JavaScript / WebAssembly | Extract the [Model ZIP](https://github.com/jcdulas/O_o_Model/releases/download/v0.2.4/O_o_Model-wasm.zip) into `model/` next to your script. Use Node.js 24+ or a browser with Memory64 support. |
+| Python | Install the [native wheel](https://pypi.org/project/oo-model/0.2.4/) with `python -m pip install oo-model==0.2.4`. For source builds, see the [native build requirements](docs/python.md#build-and-publish). |
 | C++20 / vcpkg | Add `oo-model` from the [O_o vcpkg registry](https://github.com/jcdulas/O_o_vcpkg) and link `oor::core`. [Native CMake example](https://github.com/jcdulas/O_o_vcpkg/tree/main/examples/rod) |
 
 ## Build and query a model in memory
@@ -138,7 +138,7 @@ Each WebAssembly test checks its own duration against the same one-second limit.
 The `WebAssembly` workflow builds the package on every push to `main` that changes the sources, runs these tests and
 publishes it as `O_o_Model-wasm.zip` in two [releases](https://github.com/jcdulas/O_o_Model/releases):
 `wasm-latest`, a pre-release that follows the branch, and one release kept for each version of `wasm/package.json`
-(`v0.2.3`, ...), made by the first build of that version and not changed afterwards; the newest of these is the
+(`v0.2.4`, ...), made by the first build of that version and not changed afterwards; the newest of these is the
 latest release of the repository. Raise the version in `wasm/package.json` to keep a new one. Each run also keeps the
 package 90 days as its `O_o_Model-wasm` artifact.
 
