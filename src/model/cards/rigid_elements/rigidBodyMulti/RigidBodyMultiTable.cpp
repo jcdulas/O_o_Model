@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/rigid_elements/ComponentSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <string>
 #include <variant>
@@ -76,7 +77,8 @@ std::optional<RigidBodyMultiCard> RigidBodyMultiFormat::read(FieldReader& reader
         const std::string componentName = "independentComponents" + number;
         DofPair pair;
         pair.node = reader.requiredInteger(field, nodeName.c_str());
-        pair.components = base::sortedDigits(reader.requiredInteger(field + 1, componentName.c_str()));
+        pair.components =
+            sortedDigitSet(reader, reader.requiredInteger(field + 1, componentName.c_str()), componentName.c_str());
         card.independent.push_back(pair);
     }
     for (std::size_t index = 0; dependentField(markerField, index) <= last && !reader.failed(); ++index)
@@ -109,7 +111,8 @@ std::optional<RigidBodyMultiCard> RigidBodyMultiFormat::read(FieldReader& reader
         const std::string componentName = "dependentComponents" + number;
         DofPair pair;
         pair.node = reader.requiredInteger(field, nodeName.c_str());
-        pair.components = base::sortedDigits(reader.requiredInteger(field + 1, componentName.c_str()));
+        pair.components =
+            sortedDigitSet(reader, reader.requiredInteger(field + 1, componentName.c_str()), componentName.c_str());
         card.dependent.push_back(pair);
     }
     if (!reader.failed())

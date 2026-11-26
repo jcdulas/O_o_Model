@@ -45,62 +45,76 @@ const std::vector<QualityCheck>& allQualityChecks()
     return CHECKS;
 }
 
+namespace
+{
+
+// True when the two texts are the same but for the case of their letters.
+bool sameIgnoringCase(std::string_view left, std::string_view right) noexcept
+{
+    const auto sameLetter = [](unsigned char first, unsigned char second)
+    { return std::tolower(first) == std::tolower(second); };
+    return std::equal(left.begin(), left.end(), right.begin(), right.end(), sameLetter);
+}
+
+} // namespace
+
 bool GeometryCheckThresholds::set(std::string_view keyword, double value) noexcept
 {
-    const std::string_view key = keyword;
-    if (key == "QuadSkewLimit")
+    // The neutral keywords, whatever the case of their letters.
+    const auto is = [keyword](std::string_view name) { return sameIgnoringCase(keyword, name); };
+    if (is("QuadSkewLimit"))
         q4Skew = value;
-    else if (key == "QuadTaperLimit")
+    else if (is("QuadTaperLimit"))
         q4Taper = value;
-    else if (key == "QuadWarpLimit")
+    else if (is("QuadWarpLimit"))
         q4Warp = value;
-    else if (key == "QuadMinAngle")
+    else if (is("QuadMinAngle"))
         q4Iamin = value;
-    else if (key == "QuadMaxAngle")
+    else if (is("QuadMaxAngle"))
         q4Iamax = value;
-    else if (key == "TriangleMinAngle")
+    else if (is("TriangleMinAngle"))
         t3Skew = value;
-    else if (key == "TriangleMaxAngle")
+    else if (is("TriangleMaxAngle"))
         t3Iamax = value;
-    else if (key == "TetrahedronAspectRatioLimit")
+    else if (is("TetrahedronAspectRatioLimit"))
         tetAr = value;
-    else if (key == "TetrahedronEdgePointLengthRatioLimit")
+    else if (is("TetrahedronEdgePointLengthRatioLimit"))
         tetEplr = value;
-    else if (key == "TetrahedronEdgePointAngleLimit")
+    else if (is("TetrahedronEdgePointAngleLimit"))
         tetEpia = value;
-    else if (key == "TetrahedronJacobianLimit")
+    else if (is("TetrahedronJacobianLimit"))
         tetDetj = value;
-    else if (key == "TetrahedronGlobalJacobianLimit")
+    else if (is("TetrahedronGlobalJacobianLimit"))
         tetDetg = value;
-    else if (key == "HexahedronAspectRatioLimit")
+    else if (is("HexahedronAspectRatioLimit"))
         hexAr = value;
-    else if (key == "HexahedronEdgePointLengthRatioLimit")
+    else if (is("HexahedronEdgePointLengthRatioLimit"))
         hexEplr = value;
-    else if (key == "HexahedronEdgePointAngleLimit")
+    else if (is("HexahedronEdgePointAngleLimit"))
         hexEpia = value;
-    else if (key == "HexahedronJacobianLimit")
+    else if (is("HexahedronJacobianLimit"))
         hexDetj = value;
-    else if (key == "HexahedronWarpLimit")
+    else if (is("HexahedronWarpLimit"))
         hexWarp = value;
-    else if (key == "PentahedronAspectRatioLimit")
+    else if (is("PentahedronAspectRatioLimit"))
         penAr = value;
-    else if (key == "PentahedronEdgePointLengthRatioLimit")
+    else if (is("PentahedronEdgePointLengthRatioLimit"))
         penEplr = value;
-    else if (key == "PentahedronEdgePointAngleLimit")
+    else if (is("PentahedronEdgePointAngleLimit"))
         penEpia = value;
-    else if (key == "PentahedronJacobianLimit")
+    else if (is("PentahedronJacobianLimit"))
         penDetj = value;
-    else if (key == "PentahedronWarpLimit")
+    else if (is("PentahedronWarpLimit"))
         penWarp = value;
-    else if (key == "PyramidAspectRatioLimit")
+    else if (is("PyramidAspectRatioLimit"))
         pyrAr = value;
-    else if (key == "PyramidEdgePointLengthRatioLimit")
+    else if (is("PyramidEdgePointLengthRatioLimit"))
         pyrEplr = value;
-    else if (key == "PyramidEdgePointAngleLimit")
+    else if (is("PyramidEdgePointAngleLimit"))
         pyrEpia = value;
-    else if (key == "PyramidJacobianLimit")
+    else if (is("PyramidJacobianLimit"))
         pyrDetj = value;
-    else if (key == "PyramidWarpLimit")
+    else if (is("PyramidWarpLimit"))
         pyrWarp = value;
     else
         return false;
@@ -130,6 +144,8 @@ GeometryCheckThresholds GeometryCheckThresholds::fromModel(const model::Model& m
 
 namespace
 {
+
+constexpr double RIGHT_ANGLE = 90.0; // degrees
 
 // The checks of a solid: the aspect ratio, the position and angle of the mid-side nodes, the Jacobian, the warp of the
 // quadrilateral faces.
@@ -164,7 +180,9 @@ std::uint16_t GeometryCheckThresholds::failedChecks(ElementShape shape, const Qu
             failed |= bit(QualityCheck::MaxAngle);
         break;
     case ElementShape::Quadrilateral:
-        if (values.skew > q4Skew)
+        // The limit is the smallest angle allowed between the lines that join the middles of opposite sides;
+        // the skew is 90 degrees less that angle.
+        if (values.skew > RIGHT_ANGLE - q4Skew)
             failed |= bit(QualityCheck::Skew);
         if (values.taper > q4Taper)
             failed |= bit(QualityCheck::Taper);

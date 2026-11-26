@@ -29,6 +29,24 @@ constexpr double DEFAULT_TOLERANCE_FRACTION = 0.05;
 // The most cells one element may cover: the cell grows with the largest element so that it does not fill the index.
 constexpr double ELEMENT_SPAN_IN_CELLS = 16.0;
 constexpr std::size_t CHUNK_POINTS = 4096;
+// A solid holds a point "inside" only when Newton's method reached the point: at the natural coordinates found, the
+// element is at the point. The distance between the two (the residual) is then the rounding of the mapping, which is
+// allowed as the sum of two lengths of the model, so that the test is the same in any system of units:
+//   * RESIDUAL_FRACTION of the size of the element (1e-9, as INSIDE_TOLERANCE is for the natural coordinates);
+//   * COORDINATE_ROUNDING of the largest coordinate of the element, for an element far from the origin of the basic
+//     system (each term of the mapping is rounded to about 1e-16 of the coordinates).
+constexpr double RESIDUAL_FRACTION = 1e-9;
+constexpr double COORDINATE_ROUNDING = 1e-13;
+// The box of an element is widened by this fraction of its size before a point is tested against it, so that a point
+// "inside to rounding" (INSIDE_TOLERANCE of a natural unit, which is a few sizes of the element at most) passes.
+constexpr double BOX_ROUNDING_FRACTION = 1e-8;
+// How far a curved element reaches beyond the box of its grid points, for each unit of distance between a mid-side
+// point and the middle of its edge. With every mid-side point at the middle of its edge the element is the straight
+// one: a combination of its corners with positive weights, inside their box. A mid-side point moved by d from the
+// middle moves a point of the element by its shape function times d, and inside the element the mid-side functions
+// are positive and sum to 3 at most (hexahedron and pyramid: (1 - xi^2) + (1 - eta^2) + (1 - zeta^2); pentahedron 7/3,
+// quadrilateral 2, tetrahedron 3/2, triangle 4/3).
+constexpr double MID_SIDE_REACH = 3.0;
 
 // One element that can hold a point, ready to be asked: a shell as a shell element of the fastener piercing search, a
 // solid with its grid point positions.
@@ -40,8 +58,10 @@ struct Candidate
     detail::ShellElement shell;
     detail::SolidElement solid;
     std::array<base::EntityId, detail::MAX_SOLID_NODES> slotIds{};
+    // the box of its grid points, and how far the element may reach beyond it (curved edges; 0 for straight ones)
     Vec3 low;
     Vec3 high;
+    double reach = 0.0;
 };
 
 // What a point found in one candidate.
@@ -171,6 +191,10 @@ public:
              at != m_cells.end() && at->x == key.x && at->y == key.y && at->z == key.z; ++at)
         {
             const Candidate& candidate = m_candidates[at->candidate];
+            // a cell is several elements wide: most of its elements are too far from the point to hold it, which
+            // their boxes say without a projection or Newton's method
+            if (!mayHold(candidate, point))
+                continue;
             std::optional<Hit> hit = candidate.isShell ? onShell(candidate, point) : inSolid(candidate, point);
             if (!hit)
                 continue;
@@ -237,6 +261,29 @@ private:
         return static_cast<std::int64_t>(std::floor((value - m_origin[axis]) / m_cell));
     }
 
+    // False when the point is too far from the element to be in it or within the tolerance of it: outside the box of
+    // its grid points widened by the tolerance, by what a curved element reaches beyond its box and by the rounding
+    // of "inside". An element holds a point through a point of its own within the tolerance, which is in that box.
+    [[nodiscard]] bool mayHold(const Candidate& candidate, const Vec3& point) const noexcept
+    {
+        const double margin = m_tolerance + candidate.reach + BOX_ROUNDING_FRACTION * sizeOf(candidate);
+        for (std::size_t axis = 0; axis < 3; ++axis)
+        {
+            if (point[axis] < candidate.low[axis] - margin || point[axis] > candidate.high[axis] + margin)
+                return false;
+        }
+        return true;
+    }
+
+    // The largest residual of a location Newton's method reached (RESIDUAL_FRACTION, COORDINATE_ROUNDING).
+    static double reachedResidual(const Candidate& candidate) noexcept
+    {
+        double magnitude = 0.0;
+        for (std::size_t axis = 0; axis < 3; ++axis)
+            magnitude = std::max({magnitude, std::fabs(candidate.low[axis]), std::fabs(candidate.high[axis])});
+        return RESIDUAL_FRACTION * sizeOf(candidate) + COORDINATE_ROUNDING * magnitude;
+    }
+
     void add(model::CardLocation location)
     {
         const model::CardTable* table = m_model.findTable(location.table);
@@ -288,6 +335,13 @@ private:
             shell.points[slot] = *position;
             shell.presentNodes = static_cast<std::uint8_t>(shell.presentNodes | (1U << slot));
             placed.push_back(*position);
+            if (slot >= cornerCount)
+            {
+                // a mid-side point is on the edge from the corner of its rank to the next one (the corners come first)
+                const std::size_t edge = slot - cornerCount;
+                const Vec3 middle = (shell.points[edge] + shell.points[(edge + 1) % cornerCount]) * 0.5;
+                candidate.reach = std::max(candidate.reach, MID_SIDE_REACH * base::norm(*position - middle));
+            }
         }
         candidate.isShell = true;
         boxOf(placed, candidate);
@@ -318,6 +372,7 @@ private:
             solid.present |= 1U << slot;
             placed.push_back(*position);
         }
+        candidate.reach = MID_SIDE_REACH * detail::largestMidSideOffset(solid);
         boxOf(placed, candidate);
         return true;
     }
@@ -356,10 +411,16 @@ private:
     [[nodiscard]] std::optional<Hit> inSolid(const Candidate& candidate, const Vec3& point) const
     {
         const detail::SolidLocation found = detail::locateInSolid(candidate.solid, point);
-        if (found.outside > INSIDE_TOLERANCE && found.distance > m_tolerance)
+        const bool naturalInside = !(found.outside > INSIDE_TOLERANCE);
+        // Natural coordinates inside the element are a location only when the element is at the point there. They are
+        // not when Newton's method could not move (an element collapsed to no volume: a singular Jacobian) or did not
+        // converge: such an element would hold, at the distance 0, every point of the cells it is in.
+        if (naturalInside && !(found.residual <= reachedResidual(candidate)))
+            return std::nullopt;
+        if (!naturalInside && found.distance > m_tolerance)
             return std::nullopt;
         Hit hit;
-        hit.distance = found.outside > INSIDE_TOLERANCE ? found.distance : 0.0;
+        hit.distance = naturalInside ? 0.0 : found.distance;
         hit.natural = found.natural;
         const std::array<double, detail::MAX_SOLID_NODES> weights =
             detail::solidWeights(candidate.solid, found.natural);

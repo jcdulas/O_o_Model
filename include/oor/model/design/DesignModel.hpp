@@ -96,7 +96,8 @@ struct DesignRelation
     DesignField field;                // as the deck wrote it
     std::optional<double> lowerLimit; // PMIN, MPMIN, CPMIN as written
     double upperLimit = 1.0e20;       // PMAX, MPMAX, CPMAX
-    // Linear: the constant, the terms and PVAL (the first coefficient is the value the field has in the model).
+    // Linear: the constant, the terms and PropertyValue (the first coefficient is the value the field has in the
+    // model).
     double constant = 0.0;
     std::vector<DesignTerm> terms;
     bool fromProperty = false;
@@ -200,8 +201,8 @@ public:
     // an equation; none when no relation drives it.
     [[nodiscard]] std::optional<base::EntityId> variableDriving(DesignTargetKind kind, base::EntityId id) const;
 
-    // The index in variables() of a variable by ID or by label (the label is compared without regard to case; a label
-    // that two variables share is an error, DesignError).
+    // The index in variables() of a variable by ID or by label (the label is compared as it is written, upper and
+    // lower case being different letters; a label that two variables share is an error, DesignError).
     [[nodiscard]] std::optional<std::size_t> findVariable(base::EntityId id) const;
     [[nodiscard]] std::optional<std::size_t> findVariable(const std::string& label) const;
 
@@ -247,7 +248,7 @@ private:
     std::vector<std::string> m_problems;
     std::set<base::EntityId> m_used;
     std::map<base::EntityId, EquationSet> m_equations;
-    std::map<std::string, double> m_values;                // the DesignConstants constants, by upper case label
+    std::map<std::string, double> m_values;                // the DesignConstants constants, by label as written
     std::map<std::string, std::string> m_unavailable;      // the labels that have no value, and why
     std::map<std::string, FieldConstant> m_fieldConstants; // the DesignFieldConstants entries
     std::uint64_t m_contentVersion = 0;

@@ -33,7 +33,8 @@ struct FreeEdges
 
 // The free faces of the solids: the faces used by exactly one solid element, sorted by their corner nodes. `nodes[i]`
 // holds the corners of the face in the order that gives the outward normal (0 last for a triangle), as the owner
-// element lists them; `elements[i]` is the owner. A shell on the face does not make it a closed face.
+// element lists them; `elements[i]` is the owner. A shell on the face does not make it a closed face. A face on which
+// a collapsed solid names a grid point twice is listed with that grid point once (a triangle).
 struct FreeFaces
 {
     std::vector<std::array<base::EntityId, 4>> nodes;

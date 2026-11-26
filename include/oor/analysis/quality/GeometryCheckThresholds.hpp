@@ -39,25 +39,33 @@ inline constexpr std::size_t QUALITY_CHECK_COUNT = 10;
 [[nodiscard]] const std::vector<QualityCheck>& allQualityChecks();
 
 // clang-format off
-// The tolerances of the element geometry tests of the format reference GEOMCHECK statement. The defaults are the format's;
-// fromModel() gives the ones the deck's own GEOMCHECK statements change. A tolerance is named by the keyword of the
-// format reference (Q4_SKEW, TET_AR, ...).
+// The tolerances of the element geometry tests of the GeometryCheck statement (format reference GEOMCHECK). The
+// defaults are the format's; fromModel() gives the ones the deck's own GeometryCheck statements change. A tolerance is
+// named by its keyword in the model file (QuadSkewLimit, TetrahedronAspectRatioLimit, ...), whatever the case of its
+// letters.
 //
-// How each keyword is used (the format reference says which elements it applies to; here a Q4 keyword applies to every
-// quadrilateral shell and a T3 keyword to every triangle shell, the TET, PEN, HEX and PYR ones to the solids of that
-// shape):
+// How each keyword is used (the format reference says which elements it applies to; here a Quad keyword applies to
+// every quadrilateral shell and a Triangle keyword to every triangle shell, the ones of a solid shape to the solids of
+// that shape: Shape below is Tetrahedron, Pentahedron, Hexahedron or Pyramid). An element fails a test when:
 //
-//   Q4_SKEW      skew > tolerance                   Q4_TAPER   taper > tolerance          Q4_WARP    warp > tolerance
-//   Q4_IAMIN     minAngle < tolerance              Q4_IAMAX   maxAngle > tolerance
-//   T3_SKEW      minAngle < tolerance (the format reference defines the skew of a triangle as its smallest vertex angle)
-//   T3_IAMAX     maxAngle > tolerance
-//   x_AR         aspectRatio > tolerance           x_EPLR     edgePointLengthRatio > tolerance
-//   x_EPIA       edgePointAngle < tolerance
-//   x_DETJ       jacobianMin <= tolerance (TET_DETG too: the same value, taken at the corners and the centre)
-//   x_WARP       faceWarp < tolerance (HEX, PEN, PYR)
+//   QuadSkewLimit      skew > 90 - tolerance: the tolerance is the smallest angle allowed between the lines that join
+//                      the middles of opposite sides, and the skew of this library is 90 degrees less that angle
+//   QuadTaperLimit     taper > tolerance
+//   QuadWarpLimit      warp > tolerance
+//   QuadMinAngle       minAngle < tolerance
+//   QuadMaxAngle       maxAngle > tolerance
+//   TriangleMinAngle   minAngle < tolerance (the format reference tests the skew of a triangle, which it defines as
+//                      its smallest vertex angle)
+//   TriangleMaxAngle   maxAngle > tolerance
+//   ShapeAspectRatioLimit            aspectRatio > tolerance
+//   ShapeEdgePointLengthRatioLimit   edgePointLengthRatio > tolerance
+//   ShapeEdgePointAngleLimit         edgePointAngle < tolerance
+//   ShapeJacobianLimit               jacobianMin <= tolerance (TetrahedronGlobalJacobianLimit too: the same value,
+//                                    taken at the corners and the centre)
+//   ShapeWarpLimit                   faceWarp < tolerance (Hexahedron, Pentahedron, Pyramid)
 //
-// A metric that is NaN fails nothing. BAR_OFF and BEAM_OFF (bar offsets) and MSGLIMIT, MSGTYPE, SUMMARY, ADVNLELM,
-// NONE (what the solver prints) do not concern the quality of a mesh and are ignored.
+// A metric that is NaN fails nothing. The other parameters of the statement (the offsets of bars and beams, and what
+// the solver prints: MessageLimit, MessageKind, NoMessages, ...) do not concern the quality of a mesh and are ignored.
 // clang-format on
 struct GeometryCheckThresholds
 {
@@ -89,12 +97,12 @@ struct GeometryCheckThresholds
     double pyrDetj = 0.0;
     double pyrWarp = 0.707;
 
-    // Sets the tolerance a GEOMCHECK keyword names (case does not matter); false when the keyword is not one of the
-    // format's tolerances.
+    // Sets the tolerance a keyword names (QuadSkewLimit, ...; case does not matter); false when the keyword is not one
+    // of the tolerances above.
     bool set(std::string_view keyword, double value) noexcept;
 
-    // The defaults changed by the GEOMCHECK statements of the Executive Control of the model, in order (the last one
-    // that names a keyword counts). A tolerance that is not a number is ignored.
+    // The defaults changed by the GeometryCheck statements of the Executive Control of the model, in order (the last
+    // one that names a keyword counts). A tolerance that is not a number is ignored.
     [[nodiscard]] static GeometryCheckThresholds fromModel(const model::Model& model);
 
     // The checks the element fails, as the bits of QualityCheck, for an element of this shape with these metrics.

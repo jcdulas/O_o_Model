@@ -28,6 +28,9 @@ void setCaseControl(const Deck& deck, std::span<const ControlRecord> records);
 std::uint32_t addCaseSection(const Deck& deck, const std::string& kind, std::int64_t id, std::uint32_t parentKey,
                              std::span<const ControlRecord> commands = {});
 void renumberCaseSection(const Deck& deck, std::uint32_t key, std::int64_t id);
+// Removes a section with its steps and substeps. False, and nothing changes, for the global section, a section with
+// Include markers, and an auxiliary case that subcases still follow in its scope (remove them first). A plot or
+// curve-plot block written in the removed section stays in the model, at the end of the section that is then last.
 bool removeCaseSection(const Deck& deck, std::uint32_t key);
 // Upserts ordinary commands, output requests (name/options), sets (ID) and parameters (name), all or none.
 std::vector<std::uint32_t> setCaseCommands(const Deck& deck, std::uint32_t sectionKey,

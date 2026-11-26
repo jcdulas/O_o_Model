@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <algorithm>
 #include <variant>
@@ -52,7 +53,7 @@ void readGroups(FieldReader& reader, int from, int end, RigidInterpolationCard& 
         }
         RigidInterpolationGroup group;
         group.weight = reader.requiredReal(field, "weight");
-        group.components = base::sortedDigits(reader.requiredInteger(field + 1, "components"));
+        group.components = sortedDigitSet(reader, reader.requiredInteger(field + 1, "components"), "components");
         field += 2;
         while (field < end && !reader.failed())
         {
@@ -78,7 +79,8 @@ std::optional<RigidInterpolationCard> RigidInterpolationFormat::read(FieldReader
     RigidInterpolationCard card;
     card.id = reader.requiredInteger(1, "id");
     card.referenceNode = reader.requiredInteger(3, "referenceNode");
-    card.refComponents = base::sortedDigits(reader.requiredInteger(4, "referenceComponents"));
+    card.refComponents =
+        sortedDigitSet(reader, reader.requiredInteger(4, "referenceComponents"), "referenceComponents");
 
     const int last = reader.lastUsedField();
     const int umField = findKeyword(reader, FIRST_GROUP_FIELD, last, "DependentDofs");
@@ -109,7 +111,8 @@ std::optional<RigidInterpolationCard> RigidInterpolationFormat::read(FieldReader
             RigidInterpolationDependent dependent;
             dependent.node = reader.requiredInteger(field, "dependentNode");
             if (hasComponents)
-                dependent.components = base::sortedDigits(reader.requiredInteger(field + 1, "dependentComponents"));
+                dependent.components = sortedDigitSet(reader, reader.requiredInteger(field + 1, "dependentComponents"),
+                                                      "dependentComponents");
             else
                 reader.error("card.missing-field",
                              "a grid point after " + std::string("dependentMarker") + " needs its components " +

@@ -1,6 +1,7 @@
 #include "oor/model/cards/solution_control/residualVectorDofs1/ResidualVectorDofs1Table.hpp"
 
 #include "oor/base/text/DigitSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -15,7 +16,7 @@ constexpr int FIRST_POINT_FIELD = 2;
 std::optional<ResidualVectorDofs1Card> ResidualVectorDofs1Format::read(FieldReader& reader)
 {
     ResidualVectorDofs1Card card;
-    card.components = base::sortedDigits(reader.integer(1, "components", 0));
+    card.components = sortedDigitSet(reader, reader.integer(1, "components", 0), "components");
     card.nodes = readIdRuns(reader, FIRST_POINT_FIELD, "nodes");
     if (!reader.failed())
         reader.report(check(card));

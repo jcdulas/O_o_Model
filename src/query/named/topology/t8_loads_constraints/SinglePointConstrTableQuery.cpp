@@ -4,6 +4,7 @@
 #include "oor/model/cards/constraints/singlePointConstrList/SinglePointConstrListTable.hpp"
 #include "oor/model/cards/constraints/singlePointConstrUnion/SinglePointConstrUnionTable.hpp"
 #include "oor/model/cards/nodes/node/NodeTable.hpp"
+#include "oor/model/cards/nodes/scalarPoint/ScalarPointTable.hpp"
 #include "oor/model/control/case_control/CaseLineages.hpp"
 #include "oor/query/named/TableBuilder.hpp"
 #include "oor/query/named/common/SetSelection.hpp"
@@ -36,6 +37,23 @@ struct Row
 std::string digits(std::int32_t components)
 {
     return components != 0 ? std::to_string(components) : std::string();
+}
+
+// The IDs of the live points of a table of the node ID space (grid points, scalar points), increasing; none without a
+// table.
+template <typename TableT>
+std::vector<std::int32_t> livePointIds(const TableT* table)
+{
+    std::vector<std::int32_t> ids;
+    if (table == nullptr)
+        return ids;
+    for (std::uint32_t row = 0; row < table->rows().rowCount(); ++row)
+    {
+        if (table->rows().isAlive(row))
+            ids.push_back(table->idAtRow(row));
+    }
+    std::sort(ids.begin(), ids.end());
+    return ids;
 }
 
 // singlePointConstrTable: the single point constraints of the sets asked for, SinglePointConstrUnion expanded, with the
@@ -98,17 +116,16 @@ public:
                 // a set asked for may be a set of EnforcedMotionConstr cards
                 loadSets.insert(static_cast<base::EntityId>(id));
         }
-        // The grid points that exist, for the THRU ranges of SinglePointConstrList.
-        std::vector<std::int32_t> gridIds;
-        if (const model::NodeTable* grids = model.findTable<model::NodeTable>())
+        // The points that exist, for the THRU ranges of SinglePointConstrList: the grid points and the scalar points,
+        // which share the node ID space. A range names every point in it, of either kind.
+        const std::vector<std::int32_t> gridIds = livePointIds(model.findTable<model::NodeTable>());
+        const std::vector<std::int32_t> scalarIds = livePointIds(model.findTable<model::ScalarPointTable>());
+        const auto pointsOfRange = [](const std::vector<std::int32_t>& ids, const model::NodeRun& range, auto&& visit)
         {
-            for (std::uint32_t row = 0; row < grids->rows().rowCount(); ++row)
-            {
-                if (grids->rows().isAlive(row))
-                    gridIds.push_back(grids->idAtRow(row));
-            }
-            std::sort(gridIds.begin(), gridIds.end());
-        }
+            const auto first = std::lower_bound(ids.begin(), ids.end(), range.first);
+            for (auto at = first; at != ids.end() && *at <= range.last; ++at)
+                visit(*at);
+        };
 
         std::vector<Row> rows;
         const auto pushGroup = [&](Row base, std::int32_t node, std::int32_t components, double enforced)
@@ -154,9 +171,14 @@ public:
                             pushGroup(base, run1.first, card.components, NOT_A_NUMBER);
                         else
                         {
-                            const auto first = std::lower_bound(gridIds.begin(), gridIds.end(), run1.first);
-                            for (auto at = first; at != gridIds.end() && *at <= run1.last; ++at)
-                                pushGroup(base, *at, card.components, NOT_A_NUMBER);
+                            const auto push = [&](std::int32_t point)
+                            { pushGroup(base, point, card.components, NOT_A_NUMBER); };
+                            pointsOfRange(gridIds, run1, push);
+                            // A scalar point has one degree of freedom, named by a blank (or 0) component: a range
+                            // with the components of grid points (123456 over the whole model) does not reach the
+                            // scalar points that lie in it.
+                            if (card.components == 0)
+                                pointsOfRange(scalarIds, run1, push);
                         }
                     }
                 });
@@ -257,7 +279,8 @@ private:
             "the set "
             "of the card, card the card type: SinglePointConstr (an SPC), SinglePointConstrList (a "
             "SinglePointConstrList, a THRU range "
-            "gives the grid points of the model in it), EnforcedMotionConstr (an EnforcedMotionConstr, the enforced "
+            "gives the grid points of the model in it, and with blank components its scalar points), "
+            "EnforcedMotionConstr (an EnforcedMotionConstr, the enforced "
             "motions of the load sets asked for, LOAD combinations expanded: they count as loads) and gridPs (the PS "
             "field: the "
             "permanent constraints of the "

@@ -221,7 +221,7 @@ private:
             "`resizeFactor` is `1 / minRf`, the factor on the thickness that would bring the margin to zero if the "
             "internal "
             "loads did not change; `suggestedThickness` is the thickness of the zone (a shell of a ShellProp with a "
-            "MAT1) times it "
+            "IsoMat) times it "
             "and `suggestedMassChange` the mass of the judged elements times `resizeFactor - 1` (the mass follows "
             "the "
             "thickness of a shell and the area of a rod). It is a heuristic, marked approximate: it ignores the "

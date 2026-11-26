@@ -21,6 +21,8 @@ namespace
 {
 
 constexpr double NOT_A_NUMBER = std::numeric_limits<double>::quiet_NaN();
+// The first column of a shell strain table in the membrane-and-curvature layout (see CurvatureLayout).
+constexpr const char* CURVATURE_FLAG = "fiberCurvature";
 
 // The positions of the value fields in a flat (the order of stressFields() and strainFields()).
 enum Field : std::size_t
@@ -137,6 +139,71 @@ std::string joinReasons(const std::map<std::string, std::int64_t>& reasons)
     return text;
 }
 
+namespace
+{
+
+// The fields of a flat that are components of the tensor (the others are the fibre distance and the scalars made of
+// the components).
+bool isTensorComponent(Field field) noexcept
+{
+    return field == XX || field == YY || field == ZZ || field == XY || field == YZ || field == ZX;
+}
+
+// A shell strain table in the membrane-and-curvature layout (the solver's default: strains at the fibres are written
+// on request only). Each place of an element (its centre, a corner) has two rows: the membrane strains of the reference
+// plane, and the curvatures, which are not strains (1 / length). The first column, `fiberCurvature`, tells them apart:
+// 0 on the membrane row, -1 on the curvature row.
+//
+// The strain at a fibre follows from the two as the solver writes its own fibre strains:
+//
+//     e(z) = e_membrane - z * curvature
+//
+// z the distance of the fibre from the reference plane (Z1 and Z2 of the property; a blank one -t/2 or +t/2 of the
+// thickness at the place). The minus sign is the convention of the result tables: the curvature of the table is the one
+// conjugate to the moments of the force table (M = D * curvature), and a positive moment puts the fibre at positive z
+// in compression. Both rows hold engineering shears, so the relation is the same for exy.
+class CurvatureLayout
+{
+public:
+    CurvatureLayout(const results::ResultData& decoded, const TableValues& values, int flagComponent)
+    {
+        const std::size_t rows = values.rows();
+        m_isCurvature.assign(rows, 0);
+        m_curvatureRow.assign(rows, -1);
+        if (values.steps() == 0)
+            return;
+        const auto placeOf = [&](std::size_t row)
+        { return std::make_pair(decoded.ids[row], row < decoded.nodeIds.size() ? decoded.nodeIds[row] : 0); };
+        // the flag is a label of the row: the same at every step
+        std::map<std::pair<std::int32_t, std::int32_t>, std::size_t> curvatureOfPlace;
+        for (std::size_t row = 0; row < rows; ++row)
+        {
+            if (values.real(0, row, static_cast<std::size_t>(flagComponent)) == 0.0)
+                continue;
+            m_isCurvature[row] = 1;
+            curvatureOfPlace.emplace(placeOf(row), row);
+        }
+        for (std::size_t row = 0; row < rows; ++row)
+        {
+            if (m_isCurvature[row] != 0)
+                continue;
+            const auto found = curvatureOfPlace.find(placeOf(row));
+            if (found != curvatureOfPlace.end())
+                m_curvatureRow[row] = static_cast<std::int64_t>(found->second);
+        }
+    }
+
+    [[nodiscard]] bool isCurvatureRow(std::size_t row) const noexcept { return m_isCurvature[row] != 0; }
+    // The curvature row of the place of a membrane row, or -1 when the table has none.
+    [[nodiscard]] std::int64_t curvatureRowOf(std::size_t row) const noexcept { return m_curvatureRow[row]; }
+
+private:
+    std::vector<std::uint8_t> m_isCurvature;
+    std::vector<std::int64_t> m_curvatureRow;
+};
+
+} // namespace
+
 std::optional<ElementFlat> flattenStressTable(const ResultQueryContext& context, const TableRef& ref, bool strain,
                                               const ElementRequest& request)
 {
@@ -192,16 +259,37 @@ std::optional<ElementFlat> flattenStressTable(const ResultQueryContext& context,
         if (component >= 0)
             sources.emplace_back(entry.field, component);
     }
+    // Shell strains written as membrane strains and curvatures (the first column is the curvature flag, not a fibre
+    // distance): the rows are made by pushStrainsOfPlace below, a curvature is never read as a strain.
+    std::optional<CurvatureLayout> curvature;
+    std::optional<ElementModelFacts> fibreFacts;
+    if (strain && family == ElementFamily::Shell && values.component("fiberDistance") < 0)
+    {
+        const int flag = values.component(CURVATURE_FLAG);
+        if (flag >= 0)
+        {
+            curvature.emplace(*decoded, values, flag);
+            fibreFacts.emplace(context, ref.set);
+        }
+    }
     const std::string barPrefix = strain ? "e" : "s";
     int barEnds[2][4] = {{-1, -1, -1, -1}, {-1, -1, -1, -1}};
+    // The combined extremes of each end as the table stores them ([end][largest, smallest]; -1: not in the layout).
+    int barExtremes[2][2] = {{-1, -1}, {-1, -1}};
     int beamPoints[4] = {-1, -1, -1, -1};
     const int axialComponent = values.component("axial");
     if (family == ElementFamily::Bar)
+    {
         for (int point = 0; point < 4; ++point)
         {
             barEnds[0][point] = values.component(barPrefix + std::to_string(point + 1) + "a");
             barEnds[1][point] = values.component(barPrefix + std::to_string(point + 1) + "b");
         }
+        barExtremes[0][0] = values.component(barPrefix + "maxa");
+        barExtremes[0][1] = values.component(barPrefix + "mina");
+        barExtremes[1][0] = values.component(barPrefix + "maxb");
+        barExtremes[1][1] = values.component(barPrefix + "minb");
+    }
     if (family == ElementFamily::Beam)
     {
         const char* const names[4] = {"sxc", "sxd", "sxe", "sxf"};
@@ -243,6 +331,63 @@ std::optional<ElementFlat> flattenStressTable(const ResultQueryContext& context,
                 imaginary[field].push_back(im[field]);
         }
     };
+    // The rows of one place (the centre or a corner of an element) of a table in the membrane-and-curvature layout,
+    // made from its membrane row: the strains of the fibres Z1 and Z2 (layers 1 and 2) when the model gives the fibre
+    // distances, e(z) = e_membrane - z * curvature (CurvatureLayout), their scalars left to be computed from the
+    // components; else the membrane strain alone, at the reference plane (fibre distance 0), with the scalars the
+    // table stores for it. The curvature row gives no row of its own.
+    const auto pushStrainsOfPlace = [&](std::size_t stepIndex, std::size_t row, std::int32_t nodeId)
+    {
+        if (curvature->isCurvatureRow(row))
+            return;
+        const std::string where = nodeId == 0 ? "center" : "corner";
+        std::array<double, FieldCount> re;
+        std::array<double, FieldCount> im;
+        re.fill(NOT_A_NUMBER);
+        im.fill(NOT_A_NUMBER);
+        const std::int64_t curvatureRow = curvature->curvatureRowOf(row);
+        const ShellFibres fibres =
+            curvatureRow >= 0 ? fibreFacts->shellFibres(decoded->ids[row], nodeId) : ShellFibres{};
+        if (!fibres.ok)
+        {
+            if (!request.wantsLayer(decoded->layers[row]))
+                return;
+            for (const auto& [field, component] : sources)
+            {
+                re[field] = values.real(stepIndex, row, static_cast<std::size_t>(component));
+                if (complex)
+                    im[field] = values.imag(stepIndex, row, static_cast<std::size_t>(component));
+            }
+            re[FIBER] = 0.0;
+            if (complex)
+                im[FIBER] = 0.0;
+            push(stepIndex, row, nodeId, decoded->layers[row], where, re, im);
+            return;
+        }
+        const auto other = static_cast<std::size_t>(curvatureRow);
+        const double distances[2] = {fibres.z1, fibres.z2};
+        for (std::int32_t fibreLayer = 1; fibreLayer <= 2; ++fibreLayer)
+        {
+            if (!request.wantsLayer(fibreLayer))
+                continue;
+            const double z = distances[fibreLayer - 1];
+            re.fill(NOT_A_NUMBER);
+            im.fill(NOT_A_NUMBER);
+            re[FIBER] = z;
+            if (complex)
+                im[FIBER] = 0.0;
+            for (const auto& [field, component] : sources)
+            {
+                if (!isTensorComponent(field))
+                    continue;
+                const auto column = static_cast<std::size_t>(component);
+                re[field] = values.real(stepIndex, row, column) - z * values.real(stepIndex, other, column);
+                if (complex)
+                    im[field] = values.imag(stepIndex, row, column) - z * values.imag(stepIndex, other, column);
+            }
+            push(stepIndex, row, nodeId, fibreLayer, where, re, im);
+        }
+    };
     // at most a row for each row of the table at each step (a bar has two, its ends)
     const std::size_t expected = values.steps() * values.rows() * (family == ElementFamily::Bar ? 2 : 1);
     for (auto* vector : {&step, &eigenvalue, &position})
@@ -271,6 +416,12 @@ std::optional<ElementFlat> flattenStressTable(const ResultQueryContext& context,
                 if (request.location == "corners" && (!shellOrSolid || nodeId == 0))
                     continue;
             }
+            if (curvature)
+            {
+                if (wantsProperty(element))
+                    pushStrainsOfPlace(stepIndex, row, nodeId);
+                continue;
+            }
             const std::int32_t layerNumber = family == ElementFamily::Shell ? decoded->layers[row] : 0;
             if (family == ElementFamily::Shell && !request.wantsLayer(layerNumber))
                 continue;
@@ -282,6 +433,12 @@ std::optional<ElementFlat> flattenStressTable(const ResultQueryContext& context,
             im.fill(NOT_A_NUMBER);
             if (family == ElementFamily::Bar)
             {
+                // The values at the four recovery points of an end are its bending stresses (strains) alone: the
+                // combined extremes add the axial one, which is the same at every point. They are read from the table
+                // when it stores them (smaxa, smina, smaxb, sminb; emax..., emin... for the strains), else made here.
+                const double axial = axialComponent >= 0
+                                         ? values.real(stepIndex, row, static_cast<std::size_t>(axialComponent))
+                                         : NOT_A_NUMBER;
                 for (int end = 0; end < 2; ++end)
                 {
                     double largest = -std::numeric_limits<double>::infinity();
@@ -292,11 +449,14 @@ std::optional<ElementFlat> flattenStressTable(const ResultQueryContext& context,
                         largest = std::max(largest, value);
                         smallest = std::min(smallest, value);
                     }
+                    const int storedLargest = barExtremes[end][0];
+                    const int storedSmallest = barExtremes[end][1];
                     re.fill(NOT_A_NUMBER);
-                    re[P1] = largest;
-                    re[P2] = smallest;
-                    if (axialComponent >= 0)
-                        re[AXIAL] = values.real(stepIndex, row, static_cast<std::size_t>(axialComponent));
+                    re[P1] = storedLargest >= 0 ? values.real(stepIndex, row, static_cast<std::size_t>(storedLargest))
+                                                : axial + largest;
+                    re[P2] = storedSmallest >= 0 ? values.real(stepIndex, row, static_cast<std::size_t>(storedSmallest))
+                                                 : axial + smallest;
+                    re[AXIAL] = axial;
                     push(stepIndex, row, 0, 0, end == 0 ? "endA" : "endB", re, im);
                 }
                 continue;
@@ -1015,6 +1175,14 @@ std::optional<std::vector<DirectForceTable>> storedStressTables(const ResultQuer
         if (values.isComplex())
         {
             other.store(true); // refused by the block, as the providers' rows are
+            return;
+        }
+        // shell strains written as membrane strains and curvatures are not read as they are: the providers make the
+        // strains of the fibres of them (flattenStressTable)
+        if (strain && family == ElementFamily::Shell && values.component("fiberDistance") < 0 &&
+            values.component(CURVATURE_FLAG) >= 0)
+        {
+            other.store(true);
             return;
         }
         for (auto& end : table.source)

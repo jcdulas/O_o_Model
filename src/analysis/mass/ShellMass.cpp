@@ -92,7 +92,7 @@ struct ShellShape
         // MassCalculator::offsetMassOf). The Z0 of a CompProp or CompPropGlobal moves the plies, not the mass, whatever
         // OFFDEF: the solver uses ElemOffsetsOnly for Z0 whatever ModelParams says (format reference ModelParams
         // OffsetDefinition note, Z0 does not change the reference plane), and its grid point weight generator keeps the
-        // mass of a Z0 laminate on the grid point plane (the solver 2018.2, a public wing model with Z0 = 0).
+        // mass of a Z0 laminate on the grid point plane.
         const double height = offsetOf(table, row);
         if (context.massOnOffsets() && height != 0.0 && isDefined(geometry.normal))
             value.center = geometry.center + height * geometry.normal;

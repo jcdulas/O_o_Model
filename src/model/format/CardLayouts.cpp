@@ -1031,11 +1031,59 @@ const CardForm* slotsForm(const CardLayout& layout, const SlotView& view, std::s
     return nullptr;
 }
 
+// The slot text of a record value given for `field`, where the kind of a slot text is all the card reader has to tell
+// two fields apart: the fields of a group with a nested list and the items of that list (a real weight starts the next
+// repetition, an integer node goes on the list). The record says which field each value is for, the slots do not, so
+// the value is brought to the kind of its field here:
+//   - an integer given for a field that is only a real is that real, written with a decimal point ("1" gives "1.",
+//     "-3" gives "-3."): NumberParser then reads a real and no longer an integer, with the same significant digits;
+//   - a real given for a field that is only an integer has no meaning: false, with `problem` set.
+// A blank, a word and the value of a field of another kind (number, any, text) stay as they are: the card reader
+// checks them.
+bool textOfKind(const LayoutGroupField& field, const std::string& value, const std::string& card, std::string& text,
+                std::string& problem)
+{
+    text = value;
+    const SlotKind written = kindOfText(value);
+    if (field.kind == LayoutKind::Real && written == SlotKind::Integer)
+    {
+        text = std::string(base::trimAscii(value)) + '.';
+        if (kindOfText(text) == SlotKind::Real)
+            return true;
+        // Only an integer of some sixty digits (leading zeros) gets here: the parser reads no real that long.
+        problem = "the field " + field.name + " of a " + card + " takes a real: \"" + value + "\" is too long";
+        return false;
+    }
+    if (field.kind == LayoutKind::Integer && written == SlotKind::Real)
+    {
+        problem = "the field " + field.name + " of a " + card + " takes an integer, the record gives the real \"" +
+                  value + "\"";
+        return false;
+    }
+    return true;
+}
+
 // Places the repetitions of the groups of a layout one group after the other (next groups, nested lists). `next` is
 // the slot after the last one used, `placedAny` whether a group has a repetition.
 bool placeGroupsInTurn(const CardLayout& layout, std::span<const std::string> values, ValueCursor& cursor,
                        SlotFiller& filler, int& next, bool& placedAny, std::string& problem)
 {
+    // Puts the value of a field of `group` (of a repetition, or of an item of its nested list) in its slot. In a group
+    // with a nested list the value takes the kind of its field first (textOfKind); the other groups keep the text of
+    // the record, which their card reader checks at a place it knows.
+    const auto put = [&](const LayoutGroup& group, const LayoutGroupField& field, int slot, const std::string& value)
+    {
+        if (!group.list)
+        {
+            filler.put(slot, value);
+            return true;
+        }
+        std::string text;
+        if (!textOfKind(field, value, layout.card, text, problem))
+            return false;
+        filler.put(slot, text);
+        return true;
+    };
     std::map<std::string, std::string> known; // the values of the fields given so far, by name
     for (std::size_t index = 0; index < layout.fields.size() && index < values.size(); ++index)
         known[layout.fields[index].name] = values[index];
@@ -1079,7 +1127,8 @@ bool placeGroupsInTurn(const CardLayout& layout, std::span<const std::string> va
             for (const LayoutGroupField& field : group.fields)
             {
                 const std::string& value = cursor.next();
-                filler.put(base + field.offset, value);
+                if (!put(group, field, base + field.offset, value))
+                    return false;
                 if (repetition == 0)
                     known[field.name] = value;
             }
@@ -1100,7 +1149,10 @@ bool placeGroupsInTurn(const CardLayout& layout, std::span<const std::string> va
                 for (std::size_t item = 0; item < *items; ++item)
                 {
                     for (const LayoutGroupField& field : group.list->fields)
-                        filler.put(slot + field.offset, cursor.next());
+                    {
+                        if (!put(group, field, slot + field.offset, cursor.next()))
+                            return false;
+                    }
                     slot += static_cast<int>(group.list->fields.size());
                 }
             }

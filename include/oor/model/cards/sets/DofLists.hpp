@@ -40,8 +40,8 @@ struct IdRun
 // Through ranges. A range stays together within the internal slot mapping.
 int writeIdRuns(FieldWriter& writer, int first, const std::vector<IdRun>& runs, bool compress);
 
-// Which IDs a list accepts: positive ones (the points of the DOF sets), any but zero (IdListSet1: the ZONA decks list
-// negative IDs), or zero and above (TypedListSet3).
+// Which IDs a list accepts: positive ones (the points of the DOF sets), any but zero (IdListSet1: the decks of the
+// supersonic lifting-surface theory list negative IDs), or zero and above (TypedListSet3).
 enum class IdSign : std::uint8_t
 {
     Positive,

@@ -174,9 +174,9 @@ private:
         info.description =
             "The contact tables of the Bulk Data, for information (glued contact; the "
             "components use every table whatever the Case Control selects): one row per table and pair of contact "
-            "bodies (BCTABLE; ContactTable1 expanded to the pairs of its ContactPair, pairCard the BCONECT; a "
-            "ContactPair alone "
-            "when the deck has no BCTABL1; BCTSET; ContactSetUnion expanded to its BCTSET; "
+            "bodies (ContactTable; ContactTable1 expanded to the pairs of its ContactPair, pairCard the ContactPair; "
+            "a ContactPair alone "
+            "when the deck has no ContactTable1; ContactSet; ContactSetUnion expanded to its ContactSet; "
             "ContactSlideline), and "
             "subcases, the analysis subcases whose effective BCONTACT names the table's ID (none for a "
             "ContactSlideline, which "

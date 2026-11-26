@@ -4,6 +4,8 @@
 
 #include <cstdint>
 #include <set>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 // The degrees of freedom the constraint checks compare: which ones the rigid elements and the MPC equations make
@@ -54,13 +56,26 @@ struct DofLink
 };
 [[nodiscard]] std::vector<DofLink> rigidDofLinks(const model::Model& model);
 
-// The dependent degree of freedom (the first term) of every MultiPointConstr card of the sets.
-[[nodiscard]] std::vector<DofUse> mpcDependentDofs(const model::Model& model, const std::vector<base::EntityId>& sets);
+// The degrees of freedom of the cards of each constraint set, by the set ID of the cards. The cards are read once
+// for all the selections of the Case Control: a check then takes the sets of each selection with dofsOfSets().
+using DofUsesBySet = std::unordered_map<base::EntityId, std::vector<DofUse>>;
 
-// The degrees of freedom fixed by the SinglePointConstr and SinglePointConstrList cards of the sets, and by the PS
-// field of the grid points. The nodes of a SinglePointConstrList range are the grid points that exist in it (`nodes` is
-// the sorted list of the node IDs).
-[[nodiscard]] std::vector<DofUse> spcDofs(const model::Model& model, const std::vector<base::EntityId>& sets,
-                                          const std::vector<base::EntityId>& nodes);
+// The dependent degree of freedom (the first term) of every MultiPointConstr card, by set, in row order.
+[[nodiscard]] DofUsesBySet mpcDependentDofsBySet(const model::Model& model);
+
+// The degrees of freedom fixed by the SinglePointConstr then the SinglePointConstrList cards, by set, in row order.
+// Only the ones in `wanted` are kept (the dependent degrees of freedom a check compares them with): a
+// SinglePointConstrList over every grid point of a large model is then not six entries a grid point. The nodes of a
+// SinglePointConstrList range are the grid points that exist in it (`nodes` is the sorted list of the node IDs).
+[[nodiscard]] DofUsesBySet spcDofsBySet(const model::Model& model, const std::vector<base::EntityId>& nodes,
+                                        const std::unordered_set<std::uint64_t>& wanted);
+
+// The degrees of freedom fixed by the PS field of the grid points, among `wanted`. They belong to no set: they are
+// fixed whatever the Case Control selects.
+[[nodiscard]] std::vector<DofUse> permanentConstraintDofs(const model::Model& model,
+                                                          const std::unordered_set<std::uint64_t>& wanted);
+
+// The degrees of freedom of the sets of one selection (sorted set IDs), set after set.
+[[nodiscard]] std::vector<DofUse> dofsOfSets(const DofUsesBySet& bySet, const std::vector<base::EntityId>& sets);
 
 } // namespace oor::analysis

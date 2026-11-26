@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
 #include "oor/model/cards/materials/MaterialSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -22,7 +23,8 @@ std::optional<AxisymConeRingCard> AxisymConeRingFormat::read(FieldReader& reader
     requireBlankFields(reader, {2, 5, 6}, LAST_FIELD);
     card.radius = reader.requiredReal(3, "radius");
     card.zCoord = reader.requiredReal(4, "zCoord");
-    card.permanentConstraints = base::sortedDigits(reader.integer(7, "permanentConstraints", 0));
+    card.permanentConstraints =
+        sortedDigitSet(reader, reader.integer(7, "permanentConstraints", 0), "permanentConstraints");
     if (!reader.failed())
         reader.report(check(card));
     return card;

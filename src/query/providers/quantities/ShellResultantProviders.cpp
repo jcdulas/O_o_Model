@@ -60,7 +60,8 @@ public:
         if (outcome.rows == 0)
             outcome.reason = anyTable
                                  ? "the table has no row of the elements, subcases and steps asked for"
-                                 : "the result file has no force table of shells (output of FORCE was not requested)";
+                                 : "the result file has no force table of shells (the element force output was "
+                                   "not requested)";
         return outcome;
     }
 

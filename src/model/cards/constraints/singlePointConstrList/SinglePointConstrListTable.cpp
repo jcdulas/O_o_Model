@@ -1,8 +1,8 @@
 #include "oor/model/cards/constraints/singlePointConstrList/SinglePointConstrListTable.hpp"
 
-#include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/NumberParser.hpp"
 #include "oor/base/text/TextUtilities.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -53,7 +53,7 @@ std::optional<SinglePointConstrListCard> SinglePointConstrListFormat::read(Field
 {
     SinglePointConstrListCard card;
     card.id = reader.requiredInteger(1, "id");
-    card.components = base::sortedDigits(reader.requiredInteger(2, "components"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(2, "components"), "components");
     if (!reader.failed())
         reader.report(checkHeader(card));
     // Grid points from field 3 on. "Through" between two points makes a run. Blank fields (the padding of the

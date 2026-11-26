@@ -97,8 +97,8 @@ std::optional<BeamDistributedLoadCard> BeamDistributedLoadFormat::read(FieldRead
         reader.error("card.bad-value", std::string("scaleFactor") + " must be LE, FR, LEPR or FRPR", "scaleFactor");
     card.xCoord1 = reader.requiredReal(5, "xCoord1");
     card.pressure1 = reader.requiredReal(6, "pressure1");
-    // a blank X2 makes a concentrated load. A blank P2 stays blank (BeamDistributedLoadCard: the solver reads
-    // it as 0 for a distributed load).
+    // a blank X2 makes a concentrated load. A blank P2 stays blank (BeamDistributedLoadCard: it is taken as P1, a
+    // uniform load).
     card.xCoord2 = reader.real(7, "xCoord2", card.xCoord1);
     card.pressure2 = reader.optionalReal(8, "pressure2");
     if (!reader.failed())

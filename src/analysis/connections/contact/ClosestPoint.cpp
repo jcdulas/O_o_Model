@@ -20,6 +20,11 @@ base::Vec3 closestOnSegment(const base::Vec3& start, const base::Vec3& end, cons
 
 // The closest point of the triangle (a, b, c) by the regions of its Voronoi diagram (C. Ericson, Real-Time Collision
 // Detection, 5.1.5): a vertex, an edge or the inside.
+//
+// The fraction along an edge is divided by the squared length of that edge (d1 - d3 = |ab|^2, d2 - d6 = |ac|^2,
+// (d4 - d3) + (d5 - d6) = |bc|^2). An edge whose two corners coincide has no length: its region is skipped, which
+// leaves the point to the regions of the other edges (a triangle with a == b is the segment a-c), rather than
+// dividing zero by zero.
 base::Vec3 closestOnTriangle(const base::Vec3& a, const base::Vec3& b, const base::Vec3& c,
                              const base::Vec3& point) noexcept
 {
@@ -36,7 +41,7 @@ base::Vec3 closestOnTriangle(const base::Vec3& a, const base::Vec3& b, const bas
     if (d3 >= 0.0 && d4 <= d3)
         return b;
     const double vc = d1 * d4 - d3 * d2;
-    if (vc <= 0.0 && d1 >= 0.0 && d3 <= 0.0)
+    if (vc <= 0.0 && d1 >= 0.0 && d3 <= 0.0 && d1 - d3 > 0.0)
         return a + ab * (d1 / (d1 - d3));
     const base::Vec3 cp = point - c;
     const double d5 = base::dot(ab, cp);
@@ -44,11 +49,12 @@ base::Vec3 closestOnTriangle(const base::Vec3& a, const base::Vec3& b, const bas
     if (d6 >= 0.0 && d5 <= d6)
         return c;
     const double vb = d5 * d2 - d1 * d6;
-    if (vb <= 0.0 && d2 >= 0.0 && d6 <= 0.0)
+    if (vb <= 0.0 && d2 >= 0.0 && d6 <= 0.0 && d2 - d6 > 0.0)
         return a + ac * (d2 / (d2 - d6));
     const double va = d3 * d6 - d5 * d4;
-    if (va <= 0.0 && (d4 - d3) >= 0.0 && (d5 - d6) >= 0.0)
-        return b + (c - b) * ((d4 - d3) / ((d4 - d3) + (d5 - d6)));
+    const double alongBc = (d4 - d3) + (d5 - d6);
+    if (va <= 0.0 && (d4 - d3) >= 0.0 && (d5 - d6) >= 0.0 && alongBc > 0.0)
+        return b + (c - b) * ((d4 - d3) / alongBc);
     const double total = va + vb + vc;
     if (total <= 0.0) // a degenerate triangle: its longest side stands for it
         return closestOnSegment(a, b, point);

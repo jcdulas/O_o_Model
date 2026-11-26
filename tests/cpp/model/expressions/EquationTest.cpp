@@ -201,7 +201,7 @@ TEST_CASE("an equation that cannot be understood is a problem, not an exception"
     requireProblem("F(X)=X^2", "not part of an equation");
     requireProblem("F(X)=1.5E", "needs digits");
     requireProblem("F(X)=.", "next to digits");
-    requireProblem("F(AND)=AND", "DMAP logical operator");
+    requireProblem("F(AND)=AND", "reserved word (a logical operator)");
     requireProblem("F(X)=X$", "not part of an equation");
     requireProblem("F(X)=" + std::string(500, '('), "nested");
     requireProblem("F(X)=" + std::string(32000, 'X'), "32 000");

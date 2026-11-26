@@ -87,6 +87,8 @@ BeamSection beamPropSection(const model::BeamPropCard& card)
     section.materialId = card.matId;
     section.nsmCenterA = {card.nsmCenterYA, card.nsmCenterZA};
     section.nsmCenterB = {card.nsmCenterYB, card.nsmCenterZB};
+    section.neutralAxisA = {card.neutralAxisYA, card.neutralAxisZA};
+    section.neutralAxisB = {card.neutralAxisYB, card.neutralAxisZB};
     for (const model::BeamPropStation& source : card.stations)
     {
         SectionProperties station;
@@ -128,6 +130,8 @@ BeamSection beamProp3Section(const model::BeamProp3Card& card)
     section.materialId = card.matId;
     section.nsmCenterA = card.stations[0].nsmCenter;
     section.nsmCenterB = card.stations[1].nsmCenter;
+    section.neutralAxisA = card.stations[0].neutralAxis;
+    section.neutralAxisB = card.stations[1].neutralAxis;
     // The three stations are end A, end B and the middle node C, at X/XB 0, 1 and one half.
     constexpr double POSITIONS[3] = {0.0, 1.0, 0.5};
     for (std::size_t index = 0; index < 3; ++index)
@@ -157,6 +161,8 @@ BeamSection beamLumpedAreaPropSection(const model::BeamLumpedAreaPropCard& card)
     section.materialId = card.matId;
     section.nsmCenterA = {card.nsmCenterY, card.nsmCenterZ};
     section.nsmCenterB = {card.nsmCenterY, card.nsmCenterZ};
+    section.neutralAxisA = {card.neutralAxisY, card.neutralAxisZ};
+    section.neutralAxisB = {card.neutralAxisY, card.neutralAxisZ};
     SectionProperties station;
     station.area = card.area;
     station.i1 = card.bendingInertia1;

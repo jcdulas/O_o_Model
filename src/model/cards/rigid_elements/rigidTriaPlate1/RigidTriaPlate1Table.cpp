@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/rigid_elements/ComponentSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -14,8 +15,8 @@ std::optional<RigidTriaPlate1Card> RigidTriaPlate1Format::read(FieldReader& read
     card.nodes[1] = reader.requiredInteger(3, "nodeB");
     card.nodes[2] = reader.requiredInteger(4, "nodeC");
     // A blank CMB or CMC is 123456: the point moves with GA as a rigid body.
-    card.components[0] = base::sortedDigits(reader.integer(5, "componentsAtB", components::ALL));
-    card.components[1] = base::sortedDigits(reader.integer(6, "componentsAtC", components::ALL));
+    card.components[0] = sortedDigitSet(reader, reader.integer(5, "componentsAtB", components::ALL), "componentsAtB");
+    card.components[1] = sortedDigitSet(reader, reader.integer(6, "componentsAtC", components::ALL), "componentsAtC");
     card.alphaCoefficient = reader.real(7, "alphaCoefficient", 0.0);
     card.referenceTemperature = reader.real(8, "referenceTemperature", 0.0);
     if (!reader.failed())

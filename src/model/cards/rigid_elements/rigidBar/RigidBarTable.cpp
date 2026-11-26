@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/rigid_elements/ComponentSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -25,10 +26,12 @@ std::optional<RigidBarCard> RigidBarFormat::read(FieldReader& reader)
     card.id = reader.requiredInteger(1, "id");
     card.nodeA = reader.requiredInteger(2, "nodeA");
     card.nodeB = reader.requiredInteger(3, "nodeB");
-    card.independentComponentsA = base::sortedDigits(reader.integer(4, "independentComponentsA", 0));
-    card.independentComponentsB = base::sortedDigits(reader.integer(5, "independentComponentsB", 0));
-    card.componentsAtA = base::sortedDigits(reader.integer(6, "componentsAtA", 0));
-    card.componentsAtB = base::sortedDigits(reader.integer(7, "componentsAtB", 0));
+    card.independentComponentsA =
+        sortedDigitSet(reader, reader.integer(4, "independentComponentsA", 0), "independentComponentsA");
+    card.independentComponentsB =
+        sortedDigitSet(reader, reader.integer(5, "independentComponentsB", 0), "independentComponentsB");
+    card.componentsAtA = sortedDigitSet(reader, reader.integer(6, "componentsAtA", 0), "componentsAtA");
+    card.componentsAtB = sortedDigitSet(reader, reader.integer(7, "componentsAtB", 0), "componentsAtB");
     card.alphaCoefficient = reader.real(8, "alphaCoefficient", 0.0);
     card.referenceTemperature = reader.real(9, "referenceTemperature", 0.0);
     if (!reader.failed())

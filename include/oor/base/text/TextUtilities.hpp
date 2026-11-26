@@ -9,7 +9,7 @@
 namespace oor::base
 {
 
-// Small locale-independent text helpers. Everything here is ASCII only: Nastran decks are ASCII, and a locale
+// Small locale-independent text helpers. Everything here is ASCII only: model files are ASCII, and a locale
 // dependent toupper() would make results differ between machines.
 
 [[nodiscard]] constexpr bool isAsciiSpace(char character) noexcept

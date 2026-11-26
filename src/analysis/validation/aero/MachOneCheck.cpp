@@ -14,8 +14,8 @@ namespace
 {
 
 // A Mach number of exactly 1.0 on an AeroMachFreqTable1 or AeroMachFreqPairs2 is not supported, except together with an
-// AeroStripPanel4 (strip theory): the Doublet-Lattice theory is for Mach numbers below 1.0 and the ZONA51 theory above
-// it.
+// AeroStripPanel4 (strip theory): the Doublet-Lattice theory is for Mach numbers below 1.0 and the supersonic
+// lifting-surface theory above it.
 class MachOneCheck final : public ValidationCheck
 {
 public:

@@ -170,6 +170,13 @@ QueryInfo stressTableInfo(bool strain)
         "gave it. With `layout=\"native\"` the table has the columns of the result file for the one element type "
         "`types` "
         "names. Complex results give each value as `_re`, `_im` or `_mag`, `_phase`.";
+    if (strain)
+        info.description +=
+            " A shell strain table written as membrane strains and curvatures (the layout whose first column is "
+            "`fiberCurvature`) gives the strains of the fibres Z1 and Z2, the membrane strain less the fibre distance "
+            "times the curvature, with the fibre distances of the model; without the model it gives the membrane "
+            "strain alone, at `fiberDistance` 0. A curvature is never listed as a strain (`layout=\"native\"` shows "
+            "the table as the file holds it).";
     info.parameters = {
         parameter("elementIds", ParameterKind::IdList, "None", "the elements to list"),
         parameter("types", ParameterKind::TextList, "None", "the element types (\"ShellQuad4\", ...)"),

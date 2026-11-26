@@ -167,11 +167,10 @@ StoredFrameInfo StoredFrames::describe(const model::Model& model, const results:
                                        const results::ResultTable& table, const results::DecodeContext& context)
 {
     const results::ResultTableMeta& meta = table.meta();
-    if (meta.derivation.rfind("inFrame(", 0) == 0)
-        return describeWithoutModel(table);
-    // a table made in memory says its frame (a program that makes results knows it); only a frame it leaves unsaid is
-    // the model's to find
-    if (meta.origin == "memory" && meta.storedFrame != StoredFrame::Unknown)
+    // a table that a frame change made says its frame, and so does a table made in memory (a program that makes
+    // results knows it); only a frame it leaves unsaid is the model's to find. The frames of the entities
+    // (EntityFrames.cpp) take the same test, so that they turn the values from the frame reported here.
+    if (detail::tableSaysItsFrame(meta))
         return describeWithoutModel(table);
     const FrameFamily family = FrameConventionTable::familyOf(meta);
     switch (family)

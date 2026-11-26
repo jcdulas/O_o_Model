@@ -67,6 +67,13 @@ std::optional<base::EntityId> solidCordm(const model::Model& model, base::Entity
     return table->card(location->row).matFrameId;
 }
 
+bool tableSaysItsFrame(const results::ResultTableMeta& meta)
+{
+    const bool madeByFrameChange = meta.derivation.rfind("inFrame(", 0) == 0;
+    const bool declaredInMemory = meta.origin == "memory" && meta.storedFrame != results::StoredFrame::Unknown;
+    return madeByFrameChange || declaredInMemory;
+}
+
 std::vector<std::int32_t> elementIdsOf(const results::ResultTable& table, const results::DecodeContext& context)
 {
     std::shared_ptr<const results::ResultData> data;

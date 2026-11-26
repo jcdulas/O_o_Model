@@ -20,7 +20,7 @@ struct ParseStop
     std::size_t position = 1;
 };
 
-// The DMAP logical operators cannot be the name of a variable.
+// The words of the logical operators are reserved: they cannot be the name of a variable.
 bool isReservedName(const std::string& name) noexcept
 {
     return name == "NOT" || name == "AND" || name == "OR" || name == "XOR" || name == "XQV";
@@ -120,14 +120,15 @@ private:
         advance();
     }
 
-    // A name that a variable may have: not one of the DMAP logical operators.
+    // A name that a variable may have: not one of the reserved words of the logical operators.
     std::string takeName(const char* what)
     {
         if (peek().kind != TokenKind::Name)
             fail(std::string("expected ") + what + ", not " + describe(peek()), peek().position);
         const Token token = advance();
         if (isReservedName(token.text))
-            fail("\"" + token.text + "\" is a DMAP logical operator and cannot be the name of a variable",
+            fail("\"" + token.text +
+                     "\" is a reserved word (a logical operator) and cannot be the name of a variable",
                  token.position);
         return token.text;
     }
@@ -201,7 +202,10 @@ private:
         return makeNode(std::move(node));
     }
 
-    // Nesting is limited so that a hostile text of parentheses or exponents cannot exhaust the stack.
+    // Nesting is limited so that a hostile text of parentheses or exponents cannot exhaust the stack. A long chain of
+    // operators (A+B+C+..., A*B*C*...) is not nesting: it is a tree as deep as it is long, but the loops below build it
+    // and the code that walks the tree (the evaluator, the printer, the program builder) follows the left operands of
+    // a chain in a loop too, so only what this limit counts costs stack.
     static constexpr int MAX_DEPTH = 200;
 
     class DepthGuard

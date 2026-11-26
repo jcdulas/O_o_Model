@@ -20,8 +20,10 @@ void registerCompatibilityChecks(CheckRegistry& registry)
     addStructuralMaterialThermalCheck(registry);
     addThermalConductivityMissingCheck(registry);
     addIsoMatPoissonCheck(registry);
+    addIsoMatDerivedPoissonCheck(registry);
     addIsoMatModulusCheck(registry);
     addIsoMatShearModulusCheck(registry);
+    addIsoMatBlankShearModulusCheck(registry);
     addOrthoMat2DPoissonCheck(registry);
     addShellThicknessCheck(registry);
     addPlyThicknessCheck(registry);

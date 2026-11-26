@@ -8,7 +8,10 @@
 #include "oor/model/control/executive_control/SolutionSequences.hpp"
 #include "oor/model/control/statement/StatementDefinition.hpp"
 
+#include <algorithm>
+#include <array>
 #include <optional>
+#include <string_view>
 #include <utility>
 
 namespace oor::model
@@ -241,6 +244,32 @@ private:
 
 // ------------------------------------------------------------------------------------------------ case reading
 
+// The kinds of block an OutputBlock record opens, as its field names them: the structure plotter, the postprocessing
+// requests and the X-Y plotter. CurveOutput is the other word of the X-Y block: its entry has the kind CurvePlot and
+// keeps the word in its options, so that it is written back as it was read.
+constexpr std::string_view CURVE_PLOT_BLOCK = "CurvePlot";
+constexpr std::string_view CURVE_OUTPUT_BLOCK = "CurveOutput";
+constexpr std::array<std::string_view, 4> OUTPUT_BLOCK_KINDS = {"Plot", "Postprocessing", CURVE_PLOT_BLOCK,
+                                                                CURVE_OUTPUT_BLOCK};
+
+bool isOutputBlockKind(std::string_view word) noexcept
+{
+    return std::find(OUTPUT_BLOCK_KINDS.begin(), OUTPUT_BLOCK_KINDS.end(), word) != OUTPUT_BLOCK_KINDS.end();
+}
+
+// "Plot, Postprocessing, CurvePlot or CurveOutput", for the messages.
+std::string outputBlockKindsText()
+{
+    std::string text;
+    for (std::size_t index = 0; index < OUTPUT_BLOCK_KINDS.size(); ++index)
+    {
+        if (index > 0)
+            text += index + 1 == OUTPUT_BLOCK_KINDS.size() ? " or " : ", ";
+        text += OUTPUT_BLOCK_KINDS[index];
+    }
+    return text;
+}
+
 class CaseRecordReader
 {
 public:
@@ -303,6 +332,13 @@ private:
 
     void addEntry(CaseEntry entry) { current().entries.push_back(std::move(entry)); }
 
+    // Leaves the substep the records were going to, if any: the current section is then a step or a top-level section.
+    void closeSubsteps()
+    {
+        while (!m_path.empty() && current().kind == SubcaseKind::Substep)
+            m_path.pop_back();
+    }
+
     void problem(const deck::ModelItem& item, const std::string& message)
     {
         m_sink.error(
@@ -349,10 +385,13 @@ private:
         section.header = std::move(entry);
         if (section.kind == SubcaseKind::Step || section.kind == SubcaseKind::Substep)
         {
-            if (section.kind == SubcaseKind::Step && !m_path.empty())
+            // A step is a child of the subcase: it closes the step and the substeps before it. A substep is a child of
+            // the step it follows, or of the subcase when no step is open (Subcase.hpp): it closes only the substep
+            // before it, so that the substeps written one after the other are siblings.
+            if (section.kind == SubcaseKind::Step)
                 m_path.clear();
-            if (section.kind == SubcaseKind::Substep && m_path.size() > 1)
-                m_path.pop_back();
+            else
+                closeSubsteps();
             Subcase& parent = current();
             parent.children.push_back(std::move(section));
             m_path.push_back(parent.children.size() - 1);
@@ -397,8 +436,10 @@ private:
         case CommandShape::BlockHeader:
             entry.options.assign(fields.empty() ? fields.begin() : fields.begin() + 1, fields.end());
             entry.variant = definition.blockKind;
-            if (entry.variant.empty() && !entry.options.empty())
-                entry.variant = entry.options.front() == "CurveOutput" ? "CurvePlot" : entry.options.front();
+            // OutputBlock with no field at all opens no block (a divider line a deck may hold): it stays a plain
+            // command. With fields, the kind of the block is read from them. SetsBlock says its kind itself.
+            if (entry.variant.empty() && !fields.empty() && !readBlockKind(entry, value, message))
+                return std::nullopt;
             entry.kind = entry.variant.empty() ? EntryKind::Command : EntryKind::OutputBlock;
             return entry;
         case CommandShape::SetDefinition:
@@ -437,6 +478,28 @@ private:
             return std::nullopt;
         entry.value = *parsed;
         return entry;
+    }
+
+    // OutputBlock;;block-kind: the kind is the first option, after the empty value field. A header with its kind in
+    // the value field, or with a word that is no kind, is refused: read as a plain command it would be written back
+    // without that word, and the plot commands after it would no longer be a block.
+    static bool readBlockKind(CaseEntry& entry, const std::string& value, std::string& message)
+    {
+        const std::string kind = entry.options.empty() ? std::string{} : entry.options.front();
+        if (kind.empty())
+        {
+            message = "the kind of the block (" + outputBlockKindsText() +
+                      ") is missing: it is the field after the empty value field, as in OutputBlock;;Plot" +
+                      (value.empty() ? std::string{} : ", not the value \"" + value + "\"");
+            return false;
+        }
+        if (!isOutputBlockKind(kind))
+        {
+            message = "\"" + kind + "\" is not a kind of output block (" + outputBlockKindsText() + ")";
+            return false;
+        }
+        entry.variant = kind == CURVE_OUTPUT_BLOCK ? std::string(CURVE_PLOT_BLOCK) : kind;
+        return true;
     }
 
     // SubcaseParameter;name;value: the value is an integer, a real, two reals (a complex value), a word or a text.

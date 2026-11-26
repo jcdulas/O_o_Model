@@ -41,14 +41,17 @@ public:
         // Nothing to judge in a model with no card at all (a deck whose Bulk Data is in a file not read).
         if (model.cardCount() == 0)
             return;
-        // Cards the library does not read, that carry constraints (the ring and point of an axisymmetric model, the
-        // boundary sets of a modal synthesis): the check cannot tell what they fix.
+        // Cards that carry constraints, or that describe the boundary of the model by sets the check does not follow
+        // (the boundary sets of a modal synthesis, the exclusions from the automatic constraints), and that the library
+        // keeps as text because it could not read them (tolerant mode): the check cannot tell what they fix. A card
+        // kept as text has the name the deck gives it, which is the neutral name of its type.
         for (const model::Model* each : context.allModels())
         {
             for (const std::string& name : unknownCardNames(*each))
             {
-                if (isOneOf(name,
-                            {"RINGAX", "POINTAX", "BNDFIX", "BNDFIX1", "BNDFREE", "BNDFREE1", "SPCOFF", "SPCOFF1"}))
+                if (isConstraintCard(name) ||
+                    isOneOf(name, {"FixedBoundaryDofs", "FixedBoundaryDofs1", "FreeBoundaryDofs", "FreeBoundaryDofs1",
+                                   "AutoConstrExclusion", "AutoConstrExclusionList"}))
                     return;
             }
         }
@@ -62,10 +65,7 @@ public:
                 const model::CardTable* table = each->findTable(type);
                 if (table == nullptr || table->rows().aliveCount() == 0)
                     continue;
-                if (isOneOf(registry.entry(type).info.name,
-                            {"SinglePointConstr", "SinglePointConstrList", "EnforcedMotionConstr", "FreeBodySupport",
-                             "FreeBodySupportSet", "GeomSinglePointConstr", "SinglePointConstrAxisym", "AxisymConeRing",
-                             "AxisymConePoint"}))
+                if (isConstraintCard(registry.entry(type).info.name))
                     return;
             }
             forEachCard<model::NodeTable>(*each, [&](const model::NodeCard& grid, model::CardLocation)
@@ -78,6 +78,16 @@ public:
                                      " field: the stiffness matrix is singular",
                                  "add " + std::string("SinglePointConstr") + " cards, or " + std::string("Parameter") +
                                      "," + std::string("InertiaRelief") + ",-1 for inertia relief");
+    }
+
+private:
+    // True for the card types that constrain the model (or support it, or hold the constraints of a conical shell):
+    // one card of these is enough for the check to say nothing.
+    static bool isConstraintCard(std::string_view name) noexcept
+    {
+        return isOneOf(name, {"SinglePointConstr", "SinglePointConstrList", "EnforcedMotionConstr", "FreeBodySupport",
+                              "FreeBodySupportSet", "GeomSinglePointConstr", "SinglePointConstrAxisym",
+                              "AxisymConeRing", "AxisymConePoint"});
     }
 };
 

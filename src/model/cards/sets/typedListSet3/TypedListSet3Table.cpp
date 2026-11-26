@@ -124,8 +124,9 @@ void TypedListSet3Table::visitReferences(std::uint32_t row, ReferenceVisitor& vi
         visitIdRuns(m_runs, row, visitor, "ids", ReferenceTarget::Element, ReferenceTarget::ElementInRange);
         break;
     case TypedListSet3Kind::Property:
-        // There is no target for the end of a range of properties: they are not looked at.
-        visitIdRuns(m_runs, row, visitor, "ids", ReferenceTarget::Property, ReferenceTarget::Other);
+        // A single ID is expected to exist; a range stands for the properties that exist between its ends, which
+        // follow a renumbering of the properties and may name nothing.
+        visitIdRuns(m_runs, row, visitor, "ids", ReferenceTarget::Property, ReferenceTarget::PropertyInRange);
         break;
     case TypedListSet3Kind::Point:
     case TypedListSet3Kind::Module:

@@ -4,6 +4,7 @@
 #include "oor/base/text/NumberParser.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <bit>
 #include <cmath>
@@ -153,7 +154,7 @@ MonitorSumBody readMonitorSumTerms(FieldReader& reader, int firstLine, std::uint
                 reader.error("card.missing-field", newAxesLabel + " has no " + nameLabel + " to sum", TERM_NAME);
                 break;
             }
-            blockAxes = base::sortedDigits(reader.requiredInteger(newAxesField, newAxesName));
+            blockAxes = sortedDigitSet(reader, reader.requiredInteger(newAxesField, newAxesName), newAxesName);
             inBlock = true;
             blockHasTerms = false;
             if (typeOnLine)
@@ -203,8 +204,9 @@ MonitorSumBody readMonitorSumTerms(FieldReader& reader, int firstLine, std::uint
             term.name = std::string(reader.text(nameField));
             // A blank AXES is the components of the NEWAXISj, kept resolved so that editing the NEWAXISj
             // does not move it.
-            term.axes = reader.isBlank(axesField) ? blockAxes
-                                                  : base::sortedDigits(reader.requiredInteger(axesField, AXES_NAME));
+            term.axes = reader.isBlank(axesField)
+                            ? blockAxes
+                            : sortedDigitSet(reader, reader.requiredInteger(axesField, AXES_NAME), AXES_NAME);
             term.coefficient = reader.real(coefficientField, COEFFICIENT_NAME, 1.0);
             body.terms.push_back(std::move(term));
             blockHasTerms = true;

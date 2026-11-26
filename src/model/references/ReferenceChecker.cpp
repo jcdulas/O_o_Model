@@ -3,9 +3,11 @@
 #include "oor/model/cards/aero/AeroBoxRanges.hpp"
 #include "oor/model/cards/aero/aeroQuad4/AeroQuad4Table.hpp"
 #include "oor/model/cards/aero/aeroTria3/AeroTria3Table.hpp"
+#include "oor/model/cards/sets/idListSet1/IdListSet1Table.hpp"
 #include "oor/model/cards/superelements/SuperelementIds.hpp"
 #include "oor/model/cards/superelements/superelementExternalBoundary/SuperelementExternalBoundaryTable.hpp"
 #include "oor/model/references/PartScopes.hpp"
+#include "oor/model/references/SetMemberUses.hpp"
 
 #include <algorithm>
 #include <functional>
@@ -13,6 +15,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 
 namespace oor::model
 {
@@ -425,6 +428,7 @@ public:
         m_cardType = std::string(type);
         m_name = std::string(type);
         m_where = m_name + " " + std::to_string(id);
+        m_note.clear();
     }
     // Where the next references are, when it is not a card: "SUBCASE 3".
     void setScope(SubcaseKind kind, std::int64_t number)
@@ -432,7 +436,11 @@ public:
         m_cardType.clear();
         m_name = subcaseLabel(kind);
         m_where = number == 0 ? "the " + m_name + " section" : m_name + " " + std::to_string(number);
+        m_note.clear();
     }
+    // Words added at the end of the next diagnostics, until the next setCard or setScope: why the ID is looked up
+    // (the member of a set is a grid point or an element only because of the card that names the set).
+    void setNote(std::string note) { m_note = std::move(note); }
     [[nodiscard]] std::size_t unresolved() const noexcept { return m_unresolved; }
     // The fields of the references reported, by their names in the code, in the order of the diagnostics.
     [[nodiscard]] const std::vector<std::string>& reportedFields() const noexcept { return m_reportedFields; }
@@ -449,6 +457,21 @@ public:
         const Model& holder = m_model.superelementModel(superelement);
         check(&holder == &m_model ? m_own : m_others.of(holder), field, target, id, true, superelement);
         return id;
+    }
+
+    // A reference of the Case Control to an ID that any model of the deck may have: the Case Control is in the
+    // residual structure and selects in the parts too (the members of a SET of grid points or elements).
+    void visitInDeck(std::string_view field, ReferenceTarget target, base::EntityId id)
+    {
+        const Model& root = m_model.root();
+        if (&root != &m_model && m_others.of(root).exists(target, id))
+            return;
+        for (const std::unique_ptr<Model>& part : root.parts())
+        {
+            if (part.get() != &m_model && m_others.of(*part).exists(target, id))
+                return;
+        }
+        check(m_own, field, target, id, false, 0);
     }
 
     base::EntityId visitInPart(std::string_view field, ReferenceTarget target, base::EntityId id,
@@ -479,7 +502,7 @@ private:
         m_reportedFields.emplace_back(field);
         m_sink.report(base::Diagnostic{m_severity, m_code,
                                        "field " + label + " of " + m_where + " refers to " + std::to_string(id) +
-                                           superelementNote(scoped, superelement) + ", which does not exist",
+                                           superelementNote(scoped, superelement) + ", which does not exist" + m_note,
                                        base::SourceLocation{"", 0, m_name, label}});
     }
 
@@ -500,9 +523,80 @@ private:
     std::string m_cardType; // empty for a scope of the Case Control
     std::string m_name;
     std::string m_where;
+    std::string m_note; // setNote
     std::size_t m_unresolved = 0;
     std::vector<std::string> m_reportedFields;
 };
+
+// " (the set lists grid points for nodeSetId of AeroSurfaceSpline1 60)": why a member of a set is looked up as it is.
+std::string setMemberNote(const SetMemberUse& use)
+{
+    return " (the set lists " + std::string(setMemberWords(use.kind())) + " for " + use.user() + ")";
+}
+
+// Reports the members of the IdListSet1 cards that name nothing, for the sets whose users say what they list
+// (bulkSetUses): a member written alone must exist, the ends of a range may name nothing (the format skips the gaps).
+// A set named both as a set of grid points and as a set of elements is not judged: a member that one meaning finds
+// may be missing for the other, and the two cannot be told apart. A negative member is not an ID (the card keeps the
+// ones some decks write).
+void checkBulkSetMembers(Model& model, Checker& checker)
+{
+    const BulkSetUses uses = bulkSetUses(model);
+    const IdListSet1Table* table = model.findTable<IdListSet1Table>();
+    if (uses.empty() || table == nullptr)
+        return;
+    for (std::uint32_t row = 0; row < table->rows().rowCount(); ++row)
+    {
+        if (!table->rows().isAlive(row))
+            continue;
+        const auto use = uses.find(table->idAt(row));
+        if (use == uses.end())
+            continue;
+        const std::optional<SetMemberTargets> targets = targetsOfSetMembers(use->second.kind());
+        if (!targets)
+            continue;
+        checker.setCard(IdListSet1Table::NAME, table->idAt(row));
+        checker.setNote(setMemberNote(use->second));
+        for (const IdRun& run : table->card(row).ids)
+        {
+            if (run.first == run.last && run.first > 0)
+                checker.visit("ids", targets->single, run.first);
+        }
+    }
+}
+
+// The same for the SETs of the Case Control that an output request names (caseSetUses): the members written alone
+// (singleMembers) must each be a grid point or an element of a model of the deck. Each SET is judged once, whatever
+// the number of requests that name it.
+void checkCaseSetMembers(const Model& model, Checker& checker)
+{
+    const CaseControl& caseControl = model.control().caseControl;
+    const CaseSetUses uses = caseSetUses(caseControl);
+    if (uses.empty())
+        return;
+    forEachCaseSection(caseControl,
+                       [&](const Subcase& section)
+                       {
+                           for (const CaseEntry& entry : section.entries)
+                           {
+                               const auto use = entry.kind == EntryKind::Set ? uses.find(entry.key) : uses.end();
+                               if (use == uses.end())
+                                   continue;
+                               const std::optional<SetMemberTargets> targets =
+                                   targetsOfSetMembers(use->second.kind());
+                               if (!targets)
+                                   continue;
+                               checker.setScope(section.kind, section.id);
+                               checker.setNote(setMemberNote(use->second));
+                               for (const std::int64_t member : singleMembers(entry.set))
+                               {
+                                   const std::optional<base::EntityId> id = base::toEntityId(member);
+                                   if (member > 0 && id)
+                                       checker.visitInDeck(use->second.set, targets->single, *id);
+                               }
+                           }
+                       });
+}
 
 // Hands every non-blank reference field to a callback, with whether it resolves.
 class Scanner final : public ReferenceVisitor
@@ -1201,10 +1295,16 @@ std::size_t ReferenceChecker::check(Model& model, base::DiagnosticSink& sink)
             table->visitReferences(row, checker);
         }
     }
-    // The Case Control commands that name a set of cards (SPC, LOAD, METHOD, ...).
+    // The members of the sets, which the set cards do not visit: what they list is said by the cards that name them.
+    checkBulkSetMembers(model, checker);
+    // The Case Control commands that name a set of cards (SPC, LOAD, METHOD, ...), the parameters that hold the ID of
+    // a card, then the members of the SETs of grid points or elements.
     Checker caseChecker(model, sink, base::Severity::Warning, "model.unresolved-case-control-reference");
-    model.control().caseControl.visitReferences(
-        caseChecker, [&caseChecker](SubcaseKind kind, std::int64_t number) { caseChecker.setScope(kind, number); });
+    const CaseControl::ScopeCallback onScope = [&caseChecker](SubcaseKind kind, std::int64_t number)
+    { caseChecker.setScope(kind, number); };
+    model.control().caseControl.visitReferences(caseChecker, onScope);
+    visitCaseParameterReferences(model.control().caseControl, caseChecker, onScope);
+    checkCaseSetMembers(model, caseChecker);
     return checker.unresolved() + caseChecker.unresolved();
 }
 
@@ -1230,9 +1330,12 @@ void ReferenceChecker::scan(const Model& model, const std::function<void(const R
     }
     // The Case Control as it is: the non-const control() of the model would clone the sections a copy shares, and
     // change its control version (a visit that writes no ID changes nothing).
-    const_cast<CaseControl&>(model.control().caseControl)
-        .visitReferences(scanner,
-                         [&scanner](SubcaseKind kind, std::int64_t number) { scanner.setScope(kind, number); });
+    CaseControl& caseControl = const_cast<CaseControl&>(model.control().caseControl);
+    const CaseControl::ScopeCallback onScope = [&scanner](SubcaseKind kind, std::int64_t number)
+    { scanner.setScope(kind, number); };
+    caseControl.visitReferences(scanner, onScope);
+    // The parameters of the Case Control that hold the ID of a card, as the Parameter cards show theirs.
+    visitCaseParameterReferences(caseControl, scanner, onScope);
 }
 
 } // namespace oor::model

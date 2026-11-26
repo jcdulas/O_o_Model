@@ -63,8 +63,8 @@ private:
         info.name = "designVariablesTable";
         info.family = "T9";
         info.description =
-            "The design variables (DESVAR cards): label, initial value (`value`, XINIT), bounds (`lower` XLB, `upper` "
-            "XUB), "
+            "The design variables (DesignVar cards): label, initial value (`value`, XINIT), bounds (`lower` XLB, "
+            "`upper` XUB), "
             "`delta` (the fraction the variable may change in one design cycle: DELXV of the card, else DELX of the "
             "DesignOptimParams, 0.5 without one) and whether the initial value is within the bounds. `value`, `lower` "
             "and "

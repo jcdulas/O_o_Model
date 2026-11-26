@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <string>
 
@@ -25,7 +26,7 @@ std::optional<UserDofSet1Card> UserDofSet1Format::read(FieldReader& reader)
         reader.error("card.missing-field", "a " + std::string(reader.cardName()) + " card needs a set name", "setName");
         return card;
     }
-    card.components = base::sortedDigits(reader.integer(2, "components", 0));
+    card.components = sortedDigitSet(reader, reader.integer(2, "components", 0), "components");
     card.nodes = readIdRuns(reader, FIRST_POINT_FIELD, "nodes");
     if (!reader.failed())
         reader.report(check(card));

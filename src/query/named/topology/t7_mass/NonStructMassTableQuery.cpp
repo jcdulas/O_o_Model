@@ -41,16 +41,37 @@ bool isAreaType(const std::string& type)
            type == "ConicalShellProp" || type == "CrackTipProp2D";
 }
 
+// The property cards a TYPE stands for: the card of that name, and the ones that count as it.
+std::vector<std::string> cardsCountedAs(const std::string& type)
+{
+    if (type == "ShellProp")
+        return {"ShellProp", "CompProp", "CompPropGlobal"};
+    if (type == "BarProp")
+        return {"BarProp", "BarShapeProp"};
+    if (type == "BeamProp")
+        return {"BeamProp", "BeamShapeProp", "BeamLumpedAreaProp"};
+    return {type};
+}
+
+// The property card a card of TYPE `type` names with the property ID `id`: the card of that ID when it is of the type
+// or counts as it (a CompProp for ShellProp), by its name; else `type` itself, which the property of no element is
+// then (a property ID is the ID of one card, of whatever type). A reader of the table that knows the property card of
+// each element keeps the elements of that card: an ID alone would also reach the elements of a card of another type.
+std::string propertyCardNamed(const model::Model& model, const std::string& type, std::int32_t id)
+{
+    const auto entity = base::toEntityId(id);
+    const auto location = entity ? model.locate(base::IdSpace::Property, *entity) : std::nullopt;
+    if (!location)
+        return type;
+    const std::vector<std::string> names = cardsCountedAs(type);
+    const std::string_view found = typeName(location->table);
+    return std::find(names.begin(), names.end(), found) != names.end() ? std::string(found) : type;
+}
+
 // The properties a TYPE and ALL stand for: the cards of that type, and the ones that count as it.
 std::vector<std::int32_t> propertiesOfType(const model::Model& model, const std::string& type)
 {
-    std::vector<std::string> names{type};
-    if (type == "ShellProp")
-        names = {"ShellProp", "CompProp", "CompPropGlobal"};
-    else if (type == "BarProp")
-        names = {"BarProp", "BarShapeProp"};
-    else if (type == "BeamProp")
-        names = {"BeamProp", "BeamShapeProp", "BeamLumpedAreaProp"};
+    const std::vector<std::string> names = cardsCountedAs(type);
     std::vector<std::int32_t> ids;
     for (const std::uint16_t cardType : typesInSpace(model::CardCategory::Property, base::IdSpace::Property))
     {
@@ -155,13 +176,15 @@ public:
         std::vector<std::string> kind;
         std::vector<double> value;
         std::vector<double> mass;
+        PropertyCards propertyCards;
         for (const base::EntityId set : sets)
         {
             // A NonStructMassUnion takes precedence over cards of the same ID: the set is the sets it adds.
             std::vector<base::EntityId> members;
             expandSet(model, set, 0, members);
             for (const base::EntityId member : members)
-                appendRows(model, measures, set, member, sid, card, targetType, targetId, kind, value, mass);
+                appendRows(model, measures, set, member, sid, card, targetType, targetId, kind, value, mass,
+                           propertyCards);
         }
         TableBuilder builder;
         builder.int32("setId", std::move(sid));
@@ -171,14 +194,24 @@ public:
         builder.dictionary("kind", kind);
         builder.real("value", std::move(value));
         builder.real("mass", std::move(mass));
+        builder.dictionary("propertyType", propertyCards.names, std::move(propertyCards.isGiven));
         return builder.finish();
     }
 
 private:
+    // The column propertyType while it is built: the property card of each row (propertyCardNamed), null for a row
+    // whose target is an element.
+    struct PropertyCards
+    {
+        std::vector<std::string> names;
+        std::vector<std::uint8_t> isGiven;
+    };
+
     static void appendRows(const model::Model& model, const Measures& measures, base::EntityId asked,
                            base::EntityId member, std::vector<std::int32_t>& sid, std::vector<std::string>& card,
                            std::vector<std::string>& targetType, std::vector<std::int32_t>& targetId,
-                           std::vector<std::string>& kind, std::vector<double>& value, std::vector<double>& mass)
+                           std::vector<std::string>& kind, std::vector<double>& value, std::vector<double>& mass,
+                           PropertyCards& propertyCards)
     {
         const auto measureOf = [&](const Target& target, const std::string& type, bool& perArea) -> double
         {
@@ -208,6 +241,10 @@ private:
                 card.emplace_back(name);
                 targetType.emplace_back(targets[index].isElement ? "element" : "property");
                 targetId.push_back(targets[index].id);
+                const bool isProperty = !targets[index].isElement;
+                propertyCards.names.push_back(isProperty ? propertyCardNamed(model, type, targets[index].id)
+                                                         : std::string());
+                propertyCards.isGiven.push_back(isProperty ? 1 : 0);
                 kind.emplace_back(lumped ? "lumped" : (area[index] ? "perArea" : "perLength"));
                 const double given = values[index];
                 value.push_back(given);
@@ -313,7 +350,7 @@ private:
         info.name = "nonStructMassTable";
         info.family = "T7";
         info.description =
-            "The non-structural mass cards (NonStructMass, NonStructMass1, NonStructMassLumped, NSML1; "
+            "The non-structural mass cards (NonStructMass, NonStructMass1, NonStructMassLumped, NonStructMassLumped1; "
             "NonStructMassUnion expanded) of the sets asked for, one row "
             "for each "
             "property or element they name: the kind (perArea for shells, perLength for rods, bars and beams, lumped "
@@ -325,7 +362,10 @@ private:
             "between the targets in proportion "
             "to "
             "their area or length). setId is the set asked for. ALL stands for every property of the type (or every "
-            "element).";
+            "element). propertyType is the property card a property target is: the card of that ID when it is of the "
+            "type the card names or counts as it (a CompProp or CompPropGlobal for ShellProp, a BarShapeProp for "
+            "BarProp, a BeamShapeProp or BeamLumpedAreaProp for BeamProp), else the type named, which no element then "
+            "has; null for an element target.";
         info.parameters = {
             parameter("setIds", ParameterKind::IdList, "None", "the NSM sets to list (default: every set)")};
         info.defaultSort = "setId (then the order of the cards)";
@@ -336,7 +376,8 @@ private:
             .int32("targetId")
             .dictionary("kind")
             .real("value")
-            .real("mass");
+            .real("mass")
+            .dictionary("propertyType");
         info.columnSets.push_back(columns.build());
         return info;
     }

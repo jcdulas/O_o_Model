@@ -3,6 +3,7 @@
 #include "oor/base/text/NumberParser.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/parameters/ParameterCatalogue.hpp"
+#include "oor/model/references/ParameterReferences.hpp"
 
 namespace oor::model
 {
@@ -120,6 +121,21 @@ void ParameterTable::store(std::uint32_t row, const ParameterCard& card)
     m_realValue.set(row, card.realValue);
     m_imaginaryValue.set(row, card.imaginaryValue);
     m_textValue.set(row, card.textValue);
+}
+
+void ParameterTable::visitReferences(std::uint32_t row, ReferenceVisitor& visitor)
+{
+    // Only a positive integer is an ID: zero and the negative values are options of these parameters (-1 is the
+    // default of WeightReferenceNode: no weight table), and a word or a real names nothing.
+    if (static_cast<ParameterKind>(m_kind.get(row)) != ParameterKind::Integer)
+        return;
+    const base::EntityId id = m_integerValue.get(row);
+    const ParameterReference* known = findParameterReference(m_name.get(row));
+    if (id <= 0 || known == nullptr)
+        return;
+    const base::EntityId updated = visitor.visit("value1", known->target, id);
+    if (updated != id)
+        m_integerValue.set(row, updated);
 }
 
 void ParameterTable::keepRows(const std::vector<std::uint32_t>& rows)

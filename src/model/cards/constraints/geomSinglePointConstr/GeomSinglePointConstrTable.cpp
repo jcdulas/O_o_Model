@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <string>
 
@@ -12,7 +13,7 @@ std::optional<GeomSinglePointConstrCard> GeomSinglePointConstrFormat::read(Field
 {
     GeomSinglePointConstrCard card;
     card.id = reader.requiredInteger(1, "id");
-    card.components = base::sortedDigits(reader.requiredInteger(2, "components"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(2, "components"), "components");
     card.entityType = std::string(reader.text(3));
     if (card.entityType.empty())
     {

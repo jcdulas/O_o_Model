@@ -67,7 +67,9 @@ inline constexpr int LINE_SLOTS = 8;
 // of a term): its fields follow each other, one item after the other, right after the fields of the repetition. A
 // record gives the number of its items, then their fields. In the slots, an item goes on until a value fits the first
 // field of the group better than the first field of the list (a real weight after integer nodes): the kinds of the two
-// fields tell them apart.
+// fields tell them apart. So toSlots writes the values of such a group with the kind of their field: an integer given
+// for a real field (a weight written 1) goes to its slot as that real (1.), and a real given for an integer field (a
+// node written 2.) is refused; otherwise the card reader would take the weight for one more node.
 struct LayoutNestedList
 {
     std::string name;
@@ -187,7 +189,9 @@ struct CardLayout
     std::string note; // a remark for the card catalogue
 
     // The slot texts of a record's values (the values after the card name): slots[i] is slot i + 1, blank where no
-    // value goes. False, with `problem` set, when the record does not fit (too many values, two alternatives given).
+    // value goes. A value goes to its slot as the record writes it, except in a group with a nested list, where it
+    // takes the kind of its field (LayoutNestedList). False, with `problem` set, when the record does not fit (too
+    // many values, two alternatives given, a real given for an integer field of a group with a nested list).
     [[nodiscard]] bool toSlots(std::span<const std::string> values, std::vector<std::string>& slots,
                                std::string& problem) const;
 

@@ -127,7 +127,11 @@ public:
     [[nodiscard]] virtual DesignFieldLookup find(const Model& model, std::uint32_t row,
                                                  const DesignField& field) const = 0;
 
-    // The value of the field the model holds.
+    // The value of the field the model holds. NaN when the field holds no number that the card alone can give (a
+    // blank corner thickness of a shell element, which stands for the thickness of its property); infinity when a
+    // blank means that (the transverse shear moduli of an OrthoMat2D). A relation cannot take its PropertyValue
+    // coefficient from either, and a DesignFieldConstants constant cannot read a NaN; a relation that gives the field
+    // a value writes it all the same.
     [[nodiscard]] virtual double read(const Model& model, std::uint32_t row, const DesignFieldFacts& facts) const = 0;
 
     // The contract column of the field on the card in `row`.

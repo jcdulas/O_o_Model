@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/rigid_elements/ComponentSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -37,9 +38,10 @@ std::optional<RigidTriaPlateCard> RigidTriaPlateFormat::read(FieldReader& reader
         card.nodes[static_cast<std::size_t>(index)] =
             reader.requiredInteger(FIRST_NODE_FIELD + index, NODE_NAMES[index]);
         card.independent[static_cast<std::size_t>(index)] =
-            base::sortedDigits(reader.integer(FIRST_INDEPENDENT_FIELD + index, INDEPENDENT_NAMES[index], 0));
-        card.dependent[static_cast<std::size_t>(index)] =
-            base::sortedDigits(reader.integer(FIRST_DEPENDENT_FIELD + index, DEPENDENT_NAMES[index], 0));
+            sortedDigitSet(reader, reader.integer(FIRST_INDEPENDENT_FIELD + index, INDEPENDENT_NAMES[index], 0),
+                           INDEPENDENT_NAMES[index]);
+        card.dependent[static_cast<std::size_t>(index)] = sortedDigitSet(
+            reader, reader.integer(FIRST_DEPENDENT_FIELD + index, DEPENDENT_NAMES[index], 0), DEPENDENT_NAMES[index]);
     }
     card.alphaCoefficient = reader.real(ALPHA_FIELD, "alphaCoefficient", 0.0);
     card.referenceTemperature = reader.real(REFERENCE_TEMPERATURE_FIELD, "referenceTemperature", 0.0);

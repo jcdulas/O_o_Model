@@ -20,7 +20,7 @@ struct CardLocation
     [[nodiscard]] bool operator==(const CardLocation&) const noexcept = default;
 };
 
-// Nastran ID -> location, for one ID space (all elements, all properties, ...).
+// Entity ID -> location, for one ID space (all elements, all properties, ...).
 //
 // Two forms. While the IDs are dense (they span at most DENSE_SPREAD times their number, plus DENSE_SLACK), the index
 // is an array of locations indexed by the ID minus the lowest one: a lookup is one bounds check and one load, and IDs

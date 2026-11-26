@@ -3,11 +3,12 @@
 #include "oor/base/Version.hpp"
 #include "oor/base/errors/Errors.hpp"
 #include "oor/base/text/Json.hpp"
+#include "oor/base/text/TextUtilities.hpp"
 #include "oor/io/zip/Zip.hpp"
 
 #include <algorithm>
-#include <cctype>
 #include <cmath>
+#include <cstdint>
 #include <ctime>
 #include <fstream>
 #include <set>
@@ -34,20 +35,88 @@ constexpr int STYLE_PLAIN = 0;
 constexpr int STYLE_HEADER = 1;
 constexpr int STYLE_TITLE = 2;
 constexpr int STYLE_LINK = 3;
-constexpr std::size_t SHEET_NAME_LIMIT = 31; // Excel refuses longer sheet names
+// What a sheet of the workbook format holds: its rows, its columns, and the length of its name, which the format
+// counts in UTF-16 code units (a character outside the basic plane counts for two).
+constexpr std::size_t SHEET_ROW_LIMIT = 1'048'576;
+constexpr std::size_t SHEET_COLUMN_LIMIT = 16'384;
+constexpr std::size_t SHEET_NAME_LIMIT = 31;
+// U+FFFD, written in place of bytes that are not a character.
+constexpr std::string_view REPLACEMENT_CHARACTER = "\xEF\xBF\xBD";
 
 constexpr const char* XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
 constexpr const char* MAIN_NAMESPACE = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 constexpr const char* RELATIONSHIP_NAMESPACE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
 
-// A text for XML content or attributes: the five characters XML gives a meaning to are escaped, and the control
-// characters XML 1.0 does not allow are dropped.
+// The number of bytes of the UTF-8 character that starts at text[at], or 0 when the bytes there are not a character
+// XML allows: a stray continuation byte, a sequence cut short or longer than its code point needs, a surrogate, a code
+// point above U+10FFFF, U+FFFE or U+FFFF (Unicode Standard, table 3-7, "Well-Formed UTF-8 Byte Sequences").
+std::size_t utf8CharacterLength(std::string_view text, std::size_t at)
+{
+    const auto byteAt = [&](std::size_t index) { return static_cast<unsigned char>(text[index]); };
+    const unsigned char lead = byteAt(at);
+    if (lead < 0x80)
+        return 1;
+    std::size_t length = 0;
+    std::uint32_t code = 0;
+    if (lead >= 0xC2 && lead <= 0xDF)
+    {
+        length = 2;
+        code = lead & 0x1FU;
+    }
+    else if (lead >= 0xE0 && lead <= 0xEF)
+    {
+        length = 3;
+        code = lead & 0x0FU;
+    }
+    else if (lead >= 0xF0 && lead <= 0xF4)
+    {
+        length = 4;
+        code = lead & 0x07U;
+    }
+    else
+    {
+        return 0;
+    }
+    if (at + length > text.size())
+        return 0;
+    for (std::size_t index = 1; index < length; ++index)
+    {
+        const unsigned char next = byteAt(at + index);
+        if ((next & 0xC0U) != 0x80U)
+            return 0;
+        code = (code << 6U) | (next & 0x3FU);
+    }
+    const bool overlong = (length == 3 && code < 0x800U) || (length == 4 && code < 0x10000U);
+    const bool surrogate = code >= 0xD800U && code <= 0xDFFFU;
+    const bool notACharacter = code == 0xFFFEU || code == 0xFFFFU;
+    if (overlong || surrogate || notACharacter || code > 0x10FFFFU)
+        return 0;
+    return length;
+}
+
+// A text for XML content or attributes: the five characters XML gives a meaning to are escaped, the control
+// characters XML 1.0 does not allow are dropped, and bytes that are not UTF-8 (a title read from a file in another
+// encoding) become U+FFFD, so that the part is always well-formed.
 std::string xmlEscaped(std::string_view text)
 {
     std::string escaped;
     escaped.reserve(text.size());
-    for (const char character : text)
+    for (std::size_t at = 0; at < text.size();)
     {
+        const std::size_t length = utf8CharacterLength(text, at);
+        if (length == 0)
+        {
+            escaped += REPLACEMENT_CHARACTER;
+            ++at;
+            continue;
+        }
+        if (length > 1)
+        {
+            escaped += text.substr(at, length);
+            at += length;
+            continue;
+        }
+        const char character = text[at++];
         switch (character)
         {
         case '&':
@@ -191,8 +260,12 @@ public:
             for (std::size_t column = 0; column < m_widths.size(); ++column)
             {
                 const double width = std::min(60.0, std::max(9.0, static_cast<double>(m_widths[column]) + 2.0));
+                // std::to_string of a double follows the locale of the program (a decimal comma is not a number of
+                // the format): the width is written as the cells are.
+                std::string widthText;
+                base::appendJsonNumber(widthText, width);
                 out += "<col min=\"" + std::to_string(column + 1) + "\" max=\"" + std::to_string(column + 1) +
-                       "\" width=\"" + std::to_string(width) + "\" customWidth=\"1\"/>";
+                       "\" width=\"" + widthText + "\" customWidth=\"1\"/>";
             }
             out += "</cols>";
         }
@@ -254,30 +327,78 @@ private:
     bool m_rowOpen = false;
 };
 
-// The names of the sheets: Excel wants them unique (ignoring case), at most 31 characters, without : \ / ? * [ ].
+// The names of the sheets: Excel wants them unique (ignoring case), at most 31 characters, without : \ / ? * [ ],
+// and neither starting nor ending with an apostrophe.
 class SheetNames
 {
 public:
     std::string make(const std::string& wanted)
     {
-        std::string base;
-        for (const char character : wanted)
-            base += std::string_view(":\\/?*[]").find(character) == std::string_view::npos ? character : '_';
+        std::string base = cleaned(wanted);
         if (base.empty())
             base = "Sheet";
         for (int number = 1;; ++number)
         {
             const std::string suffix = number == 1 ? std::string() : " (" + std::to_string(number) + ")";
-            const std::string name = base.substr(0, SHEET_NAME_LIMIT - suffix.size()) + suffix;
-            std::string key;
-            for (const char character : name)
-                key += static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
-            if (m_taken.insert(key).second)
+            std::string name = cutToLength(base, SHEET_NAME_LIMIT - suffix.size()) + suffix;
+            if (name.front() == '\'')
+                name.front() = '_';
+            if (name.back() == '\'')
+                name.back() = '_';
+            // ASCII letters only, whatever the locale of the program: the names of the tables are ASCII.
+            if (m_taken.insert(base::toUpperAscii(name)).second)
                 return name;
         }
     }
 
 private:
+    // The text as UTF-8 without what a sheet name cannot have: a forbidden or control character becomes '_', bytes
+    // that are not a character become U+FFFD.
+    static std::string cleaned(std::string_view wanted)
+    {
+        std::string text;
+        for (std::size_t at = 0; at < wanted.size();)
+        {
+            const std::size_t length = utf8CharacterLength(wanted, at);
+            if (length == 0)
+            {
+                text += REPLACEMENT_CHARACTER;
+                ++at;
+            }
+            else if (length == 1)
+            {
+                const char character = wanted[at++];
+                const bool refused = std::string_view(":\\/?*[]").find(character) != std::string_view::npos ||
+                                     static_cast<unsigned char>(character) < 0x20;
+                text += refused ? '_' : character;
+            }
+            else
+            {
+                text += wanted.substr(at, length);
+                at += length;
+            }
+        }
+        return text;
+    }
+
+    // The longest start of `text` (valid UTF-8) of at most `limit` UTF-16 code units, cut between two characters:
+    // a cut by bytes could fall inside a character and leave a name that is not a text.
+    static std::string cutToLength(const std::string& text, std::size_t limit)
+    {
+        std::size_t units = 0;
+        std::size_t at = 0;
+        while (at < text.size())
+        {
+            const std::size_t length = utf8CharacterLength(text, at);
+            const std::size_t characterUnits = length == 4 ? 2 : 1; // beyond the basic plane: a surrogate pair
+            if (units + characterUnits > limit)
+                break;
+            units += characterUnits;
+            at += length;
+        }
+        return text.substr(0, at);
+    }
+
     std::set<std::string> m_taken;
 };
 
@@ -526,6 +647,10 @@ public:
         if (options.maxRowsPerSheet < 20)
             throw base::UsageError("xlsx: maxRowsPerSheet is " + std::to_string(options.maxRowsPerSheet) +
                                    "; a sheet needs room for its header and some rows (at least 20)");
+        if (options.maxRowsPerSheet > SHEET_ROW_LIMIT)
+            throw base::UsageError("xlsx: maxRowsPerSheet is " + std::to_string(options.maxRowsPerSheet) +
+                                   "; a sheet of the format holds at most " + std::to_string(SHEET_ROW_LIMIT) +
+                                   " rows");
         m_names.make("Index"); // reserved for the index sheet
     }
 
@@ -542,6 +667,16 @@ public:
             return;
         }
         const RowLabels labels = rowLabelsOf(meta, *data);
+        const std::size_t columns = labels.count() + data->componentCount * (isComplexType(data->type) ? 2 : 1);
+        if (columns > SHEET_COLUMN_LIMIT)
+        {
+            m_report.skipped.push_back(
+                SkippedTable{std::string(resultKindName(meta.kind)), container, meta.subcase,
+                             std::string(write_reasons::NO_FILE_LAYOUT),
+                             "a line of the table has " + std::to_string(columns) + " columns, a sheet holds " +
+                                 std::to_string(SHEET_COLUMN_LIMIT)});
+            return;
+        }
         const std::size_t headerRows = 8; // the most rows the header block takes (writeTableHeader)
         const std::size_t perSheet = m_options.maxRowsPerSheet - headerRows;
         const std::size_t total = data->stepCount * data->rowCount;
@@ -587,46 +722,51 @@ public:
     {
         const NamedResultMeta& meta = named.meta();
         const std::shared_ptr<const NamedResultData> data = named.data();
-        SheetBuilder sheet(m_names.make(meta.kind + " " + meta.name));
-        sheet.newRow();
-        sheet.text(meta.kind + " " + meta.name + ", subcase " + std::to_string(meta.subcase), STYLE_TITLE);
-        sheet.newRow();
-        sheet.link("Back to the index", "Index");
+        // The lines of the result are counted first: the names of its sheets say whether it has several.
+        std::size_t lines = meta.attributes.size();
+        for (const ResultArray& array : data->arrays)
+            lines += BLOCK_HEADER_LINES + arrayLayoutOf(array).rows;
+        for (const ResultText& text : data->texts)
+            lines += BLOCK_HEADER_LINES + text.size();
+        NamedSheets sheets(m_names, meta, lines, m_options.maxRowsPerSheet);
+
         for (const auto& [key, value] : meta.attributes)
         {
-            sheet.newRow();
+            SheetBuilder& sheet = sheets.line();
             sheet.text(key, STYLE_HEADER);
             sheet.text(value);
         }
         for (const ResultArray& array : data->arrays)
-            writeArray(sheet, array);
+            writeArray(sheets, array);
         for (const ResultText& text : data->texts)
         {
-            sheet.newRow();
-            sheet.newRow();
-            sheet.text(text.name, STYLE_HEADER);
+            sheets.line();
+            sheets.line().text(text.name, STYLE_HEADER);
             for (std::size_t row = 0; row < text.size(); ++row)
-            {
-                sheet.newRow();
-                sheet.text(text.at(row));
-            }
+                sheets.line().text(text.at(row));
         }
-        IndexLine index;
-        index.sheet = sheet.name();
-        index.kind = meta.kind;
-        index.elementType = meta.name;
-        index.subcase = meta.subcase;
-        index.analysis = std::string(analysisTypeName(meta.analysisCode));
-        index.tableName = meta.tableName;
-        m_index.push_back(std::move(index));
 
+        std::string firstSheet;
+        for (SheetBuilder& sheet : sheets.take())
+        {
+            if (firstSheet.empty())
+                firstSheet = sheet.name();
+            IndexLine index;
+            index.sheet = sheet.name();
+            index.kind = meta.kind;
+            index.elementType = meta.name;
+            index.subcase = meta.subcase;
+            index.analysis = std::string(analysisTypeName(meta.analysisCode));
+            index.tableName = meta.tableName;
+            m_index.push_back(std::move(index));
+            m_sheets.push_back(std::move(sheet));
+        }
         WrittenTable written;
         written.kind = meta.kind;
         written.container = meta.name;
         written.subcase = meta.subcase;
-        written.fileTable = sheet.name();
+        written.fileTable = firstSheet;
         m_report.written.push_back(std::move(written));
-        m_sheets.push_back(std::move(sheet));
     }
 
     // The bytes of the .xlsx file.
@@ -652,21 +792,103 @@ public:
     }
 
 private:
-    // An array of a named result: a grid for a two-dimensional one, a column for the others.
-    static void writeArray(SheetBuilder& sheet, const ResultArray& array)
+    // The lines before the values of an array or of a list of texts of a named result: a blank line, then its name.
+    static constexpr std::size_t BLOCK_HEADER_LINES = 2;
+    // The rows at the top of every sheet of a named result: what it is, and the link back to the index.
+    static constexpr std::size_t NAMED_HEADER_ROWS = 2;
+
+    // The sheets of one named result, filled line by line: a line that does not fit the current sheet opens the next
+    // one, so that no sheet has more rows than XlsxWriteOptions::maxRowsPerSheet (as the sheets of a table).
+    class NamedSheets
     {
-        sheet.newRow();
-        sheet.newRow();
-        std::string shape;
-        for (const std::size_t extent : array.shape)
-            shape += (shape.empty() ? "" : " x ") + std::to_string(extent);
-        sheet.text(array.name, STYLE_HEADER);
-        sheet.text(shape.empty() ? std::string("a number") : shape);
-        sheet.text(array.description);
+    public:
+        NamedSheets(SheetNames& names, const NamedResultMeta& meta, std::size_t lines, std::size_t maxRowsPerSheet)
+            : m_names(names), m_meta(meta), m_perSheet(maxRowsPerSheet - NAMED_HEADER_ROWS),
+              m_parts(std::max<std::size_t>(1, (lines + m_perSheet - 1) / m_perSheet))
+        {
+            open(); // a result without a line still has its sheet
+        }
+
+        // Starts the next line of the result and gives the sheet it is in. The reference is good until the next call.
+        SheetBuilder& line()
+        {
+            if (m_linesInSheet == m_perSheet)
+                open();
+            ++m_linesInSheet;
+            m_sheets.back().newRow();
+            return m_sheets.back();
+        }
+
+        [[nodiscard]] std::vector<SheetBuilder> take() { return std::move(m_sheets); }
+
+    private:
+        void open()
+        {
+            const std::string title = m_meta.kind + " " + m_meta.name;
+            const std::size_t part = m_sheets.size() + 1;
+            m_sheets.emplace_back(m_names.make(m_parts == 1 ? title : title + " " + std::to_string(part)));
+            SheetBuilder& sheet = m_sheets.back();
+            sheet.newRow();
+            std::string heading = title + ", subcase " + std::to_string(m_meta.subcase);
+            if (m_parts > 1)
+                heading += " (part " + std::to_string(part) + " of " + std::to_string(m_parts) + ")";
+            sheet.text(heading, STYLE_TITLE);
+            sheet.newRow();
+            sheet.link("Back to the index", "Index");
+            m_linesInSheet = 0;
+        }
+
+        SheetNames& m_names;
+        const NamedResultMeta& m_meta;
+        std::size_t m_perSheet;
+        std::size_t m_parts;
+        std::size_t m_linesInSheet = 0;
+        std::vector<SheetBuilder> m_sheets;
+    };
+
+    // How an array of a named result is laid out: a grid for a two-dimensional one whose lines fit the columns of a
+    // sheet, one value a line (in the order of the array) for the others.
+    struct ArrayLayout
+    {
+        std::size_t rows = 0;
+        std::size_t columns = 1;
+        bool isUnfolded = false; // two-dimensional, but wider than a sheet
+    };
+
+    static ArrayLayout arrayLayoutOf(const ResultArray& array)
+    {
+        const bool complex = array.type == ArrayType::Complex64 || array.type == ArrayType::Complex128;
+        const std::size_t cellsPerValue = complex ? 2 : 1;
+        ArrayLayout layout;
+        layout.columns = array.shape.size() == 2 ? array.shape[1] : 1;
+        if (layout.columns > SHEET_COLUMN_LIMIT / cellsPerValue)
+        {
+            layout.columns = 1;
+            layout.isUnfolded = true;
+        }
+        layout.rows = layout.columns == 0 ? 0 : array.valueCount() / layout.columns;
+        return layout;
+    }
+
+    // An array of a named result: a grid for a two-dimensional one, a column for the others.
+    static void writeArray(NamedSheets& sheets, const ResultArray& array)
+    {
+        const ArrayLayout layout = arrayLayoutOf(array);
+        sheets.line();
+        {
+            std::string shape;
+            for (const std::size_t extent : array.shape)
+                shape += (shape.empty() ? "" : " x ") + std::to_string(extent);
+            SheetBuilder& sheet = sheets.line();
+            sheet.text(array.name, STYLE_HEADER);
+            sheet.text(shape.empty() ? std::string("a number") : shape);
+            sheet.text(array.description);
+            if (layout.isUnfolded)
+                sheet.text("one value a line, row after row: a row of the array is wider than a sheet");
+        }
 
         const bool complex = array.type == ArrayType::Complex64 || array.type == ArrayType::Complex128;
         const std::size_t parts = complex ? 2 : 1;
-        const std::size_t count = array.valueCount();
         const auto valueAt = [&](std::size_t index) -> double
         {
             switch (array.type)
@@ -684,14 +906,12 @@ private:
             }
             return 0.0;
         };
-        const std::size_t columns = array.shape.size() == 2 ? array.shape[1] : 1;
-        const std::size_t rows = columns == 0 ? 0 : count / columns;
-        for (std::size_t row = 0; row < rows; ++row)
+        for (std::size_t row = 0; row < layout.rows; ++row)
         {
-            sheet.newRow();
-            for (std::size_t column = 0; column < columns; ++column)
+            SheetBuilder& sheet = sheets.line();
+            for (std::size_t column = 0; column < layout.columns; ++column)
                 for (std::size_t part = 0; part < parts; ++part)
-                    sheet.number(valueAt((row * columns + column) * parts + part));
+                    sheet.number(valueAt((row * layout.columns + column) * parts + part));
         }
     }
 
@@ -909,15 +1129,15 @@ ResultWriteReport writeXlsx(const std::filesystem::path& path, const ResultTable
     {
         std::ofstream stream(temporary, std::ios::binary);
         if (!stream)
-            throw base::IoError("cannot write " + temporary.string());
+            throw base::IoError("cannot write " + base::pathToUtf8(temporary));
         stream.write(bytes.data(), static_cast<std::streamsize>(bytes.size()));
         if (!stream)
-            throw base::IoError("cannot write " + temporary.string());
+            throw base::IoError("cannot write " + base::pathToUtf8(temporary));
     }
     std::error_code ignored;
     std::filesystem::remove(path, ignored);
     std::filesystem::rename(temporary, path);
-    report.path = path.string();
+    report.path = base::pathToUtf8(path); // text that leaves the library is UTF-8 (TextUtilities.hpp)
     return report;
 }
 

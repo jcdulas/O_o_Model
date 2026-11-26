@@ -48,7 +48,7 @@ private:
             "The reserve factor `rf` and the margin of safety `ms` (`rf - 1`) of each element, for each subcase and "
             "step, by a "
             "criterion, at the place of the element where it is the most critical (`layer`, `location`). `vonMises`, "
-            "`maxPrincipal` (against the tension allowable ST of the MAT1) and `minPrincipal` (against the "
+            "`maxPrincipal` (against the tension allowable ST of the IsoMat) and `minPrincipal` (against the "
             "compression "
             "allowable SC) judge the stress of the shells, solids and rods; `rf = allowable / (factor * stress)`. "
             "`composite` "

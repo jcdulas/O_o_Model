@@ -152,7 +152,7 @@ private:
                              "' is not attached to a model");
         const model::DesignModel design = model::DesignModel::read(*model);
         if (design.variables().empty())
-            throw QueryError("massHistory: the model has no design variables (DESVAR) to apply the cycles to");
+            throw QueryError("massHistory: the model has no design variables (DesignVar cards) to apply the cycles to");
         const CardList elements = listCards(*model, typesOfCategory(model::CardCategory::Element));
         base::ThreadPool* pool = context.exec().pool();
         std::shared_ptr<const analysis::ComponentModel> components;

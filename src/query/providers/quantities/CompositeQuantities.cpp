@@ -350,7 +350,8 @@ PlyIndex plyFailureIndex(PlyTheory theory, double s1, double s2, double t12, con
         double a = s1;
         double b = s2;
         double c = t12;
-        double xt = m.xt, xc = m.xc, yt = m.yt, yc = m.yc, ss = m.s;
+        // a blank compression allowable is the tension one (the rule of the card, as the quadratic theories below)
+        double xt = m.xt, xc = m.xc > 0.0 ? m.xc : m.xt, yt = m.yt, yc = m.yc > 0.0 ? m.yc : m.yt, ss = m.s;
         if (theory == PlyTheory::MaxStrain)
         {
             // the strains of the lamina, and the allowables as strains
@@ -390,9 +391,14 @@ PlyIndex plyFailureIndex(PlyTheory theory, double s1, double s2, double t12, con
     const double yc = m.yc > 0.0 ? m.yc : m.yt;
     if (theory == PlyTheory::Hill)
     {
+        // The allowable of each term by the sign of what it multiplies: X by the sign of s1, Y by that of s2, and the
+        // X of the interaction term by the sign of the product s1 s2 (tension when both have the same sign). The
+        // solver writes its failure index table by this rule; the index recomputed here must be the same number.
         const double x = s1 >= 0.0 ? m.xt : xc;
         const double y = s2 >= 0.0 ? m.yt : yc;
-        result.quadratic = (s1 / x) * (s1 / x) - s1 * s2 / (x * x) + (s2 / y) * (s2 / y) + (t12 / m.s) * (t12 / m.s);
+        const double xProduct = s1 * s2 >= 0.0 ? m.xt : xc;
+        result.quadratic = (s1 / x) * (s1 / x) - s1 * s2 / (xProduct * xProduct) + (s2 / y) * (s2 / y) +
+                           (t12 / m.s) * (t12 / m.s);
         result.linear = 0.0;
     }
     else if (theory == PlyTheory::Hoffman)
@@ -405,7 +411,9 @@ PlyIndex plyFailureIndex(PlyTheory theory, double s1, double s2, double t12, con
         const double f11 = 1.0 / (m.xt * xc);
         const double f22 = 1.0 / (m.yt * yc);
         const double f66 = 1.0 / (m.s * m.s);
-        const double f12 = m.f12 * std::sqrt(f11 * f22);
+        // F12 as the card gives it (an interaction term in 1 / stress^2, 0 when blank), not a fraction of
+        // sqrt(F11 F22): the term is 2 F12 s1 s2, as the solver writes its failure index table.
+        const double f12 = m.f12;
         result.quadratic = f11 * s1 * s1 + f22 * s2 * s2 + f66 * t12 * t12 + 2.0 * f12 * s1 * s2;
         result.linear = (1.0 / m.xt - 1.0 / xc) * s1 + (1.0 / m.yt - 1.0 / yc) * s2;
     }

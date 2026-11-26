@@ -5,6 +5,7 @@
 #include "oor/model/cards/materials/MaterialSupport.hpp"
 #include "oor/model/cards/nodes/ModuleConnectionSupport.hpp"
 #include "oor/model/cards/rigid_elements/ComponentSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -25,7 +26,7 @@ std::optional<ModuleRigidJointCard> ModuleRigidJointFormat::read(FieldReader& re
     card.moduleIdB = reader.integer(4, "moduleIdB", 0);
     card.nodeB = reader.requiredInteger(5, "nodeB");
     // A blank CB is 123456: GB moves with GA as a rigid body.
-    card.componentsB = base::sortedDigits(reader.integer(6, "componentsB", components::ALL));
+    card.componentsB = sortedDigitSet(reader, reader.integer(6, "componentsB", components::ALL), "componentsB");
     requireBlankFields(reader, {}, LAST_FIELD);
     if (!reader.failed())
         reader.report(check(card));

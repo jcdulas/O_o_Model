@@ -123,6 +123,9 @@ public:
     [[nodiscard]] std::vector<NamedColumn> fetch(std::string_view name, const RowSelection& rows,
                                                  ExecutionContext& context) const override;
     [[nodiscard]] RowOrigin originOf(const RowSelection& rows) const override;
+    // The contract version of the table: a query on a table (`columns`, `sort` and `limit` of a named query) gives a
+    // table of the same contract, so that its package still says which contract its columns follow.
+    [[nodiscard]] int contractVersion() const override { return m_table->contractVersion(); }
 
     [[nodiscard]] const std::shared_ptr<const QueryTable>& table() const noexcept { return m_table; }
 

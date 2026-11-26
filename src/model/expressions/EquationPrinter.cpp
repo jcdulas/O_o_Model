@@ -1,6 +1,8 @@
 #include "oor/model/expressions/EquationSet.hpp"
 
+#include <cstdint>
 #include <string>
+#include <vector>
 
 namespace oor::model
 {
@@ -76,24 +78,58 @@ public:
         case ExpressionKind::Binary:
             break;
         }
-        const int precedence = precedenceOf(node.op);
-        if (precedence < parentPrecedence)
-            return "(" + print(index, 0, true) + ")";
-        switch (node.op)
-        {
-        case BinaryOperator::Add:
-        case BinaryOperator::Subtract:
-            return print(node.first, SUM, atStart) + symbolOf(node.op) + print(node.second, SUM + 1, false);
-        case BinaryOperator::Multiply:
-        case BinaryOperator::Divide:
-            return print(node.first, PRODUCT, false) + symbolOf(node.op) + print(node.second, PRODUCT + 1, false);
-        case BinaryOperator::Power:
-            break;
-        }
-        return print(node.first, POWER + 1, false) + "**" + print(node.second, POWER, false);
+        return printChain(index, parentPrecedence, atStart);
     }
 
 private:
+    // One Binary node of a chain of left operands, and whether its text goes in parentheses.
+    struct ChainLink
+    {
+        std::int32_t node = -1;
+        bool inParentheses = false;
+    };
+
+    // The text of a Binary node. A+B+C+D is the tree ((A+B)+C)+D, as deep as the text is long, and a sum may have
+    // thousands of terms: the left operands are walked in a loop, because a recursion over them would exhaust the
+    // stack. Going down, each operator says where its left operand is written: a sum keeps `atStart` and asks for SUM,
+    // a product asks for PRODUCT, a power for more than POWER (A**B**C groups from the right, so a power on the left
+    // needs parentheses); an operator that binds less tightly than its place asks opens a parenthesis, which starts an
+    // expression. Coming back up, each operator writes its symbol, its right operand (one level tighter for a sum and a
+    // product, which group from the left) and its closing parenthesis.
+    [[nodiscard]] std::string printChain(std::int32_t top, int parentPrecedence, bool atStart) const
+    {
+        std::vector<ChainLink> chain; // the Binary nodes from `top` down the left operands
+        std::string text;
+        std::int32_t bottom = top;
+        while (m_set.node(bottom).kind == ExpressionKind::Binary)
+        {
+            const ExpressionNode& node = m_set.node(bottom);
+            const int precedence = precedenceOf(node.op);
+            const bool inParentheses = precedence < parentPrecedence;
+            if (inParentheses)
+            {
+                text += "(";
+                atStart = true;
+            }
+            chain.push_back(ChainLink{bottom, inParentheses});
+            // The place of the left operand.
+            parentPrecedence = precedence == POWER ? POWER + 1 : precedence;
+            atStart = atStart && precedence == SUM;
+            bottom = node.first;
+        }
+        text += print(bottom, parentPrecedence, atStart);
+        for (auto link = chain.rbegin(); link != chain.rend(); ++link)
+        {
+            const ExpressionNode& node = m_set.node(link->node);
+            const int precedence = precedenceOf(node.op);
+            text += symbolOf(node.op);
+            text += print(node.second, precedence == POWER ? POWER : precedence + 1, false);
+            if (link->inParentheses)
+                text += ")";
+        }
+        return text;
+    }
+
     [[nodiscard]] std::string printCall(const ExpressionNode& node) const
     {
         std::string text = node.text + "(";

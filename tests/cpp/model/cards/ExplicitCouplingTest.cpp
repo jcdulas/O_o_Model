@@ -147,9 +147,11 @@ TEST_CASE("an EulerLagrangeCoupling names the cards of its coupling, and each re
           "[model][cards][explicit]")
 {
     const std::string coupling = "EulerLagrangeCoupling;1;10;;;;3;4;;;99;;;;;11;;;8;;;5";
+    // The set 11 is the SET1ID of the coupling: it lists elements, which the reference check looks up one by one, so
+    // it names the one element of the deck (SURFACE_ELEMENT).
     Model model = readBulk(
         "ContactElemSurface;10;1\n"
-        "IdListSet1;11;1;2;3\n"
+        "IdListSet1;11;1\n"
         "CouplingOptions;50;4;10\n"
         "GasBagLeakage;60;3;10;GasBagVentHole;9\n"
         "GasBagVentHole;9;;;1.E+5;1.;2.E+5\n"

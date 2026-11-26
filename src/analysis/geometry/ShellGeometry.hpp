@@ -30,8 +30,9 @@ struct ShellInput
     // The element x axis along G1-G2 (in the plane of the normal) instead of the bisector of the diagonals, and no
     // material axes: the shear panel (ShearPanel4, format reference Figure 9-65).
     bool shearPanel = false;
-    // An axisymmetric element is a ring: its volume is the area times the length of the circle its centre describes
-    // around the axis (the z axis of the basic system, grid points in the x-z plane).
+    // An axisymmetric element is a ring: its volume is 2 pi times the integral of the radius over its cross-section,
+    // the area times the length of the circle the centroid of the area describes around the axis (the z axis of the
+    // basic system, grid points in the x-z plane).
     bool axisymmetric = false;
 };
 

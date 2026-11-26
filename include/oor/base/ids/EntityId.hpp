@@ -7,8 +7,8 @@
 namespace oor::base
 {
 
-// A Nastran identifier (grid, element, property, set, ...). 32-bit signed, in memory and in every exported table. An ID
-// above MAX_ENTITY_ID in a file is a read error, never a silent truncation.
+// An identifier of the model format (grid, element, property, set, ...). 32-bit signed, in memory and in every
+// exported table. An ID above MAX_ENTITY_ID in a file is a read error, never a silent truncation.
 using EntityId = std::int32_t;
 
 inline constexpr EntityId MAX_ENTITY_ID = std::numeric_limits<EntityId>::max();

@@ -10,8 +10,8 @@
 #     design cycle, the design tables (DESTAB, HISADD, DBCOPT, R1TABRG,
 #     DSCMCOL)
 # Run notes:
-#   - DTABLE2 needs system cell 444 set to 1: the NASTRAN statement of the
-#     first line does it
+#   - DTABLE2 needs system cell 444 set to 1: a system-cell statement ahead
+#     of the executive section does it
 #   - the plate thickness factor is a discrete variable (DDVAL): the last
 #     cycle is a discrete design
 # Written for this project, to exercise the reader.

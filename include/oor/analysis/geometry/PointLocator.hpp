@@ -35,7 +35,8 @@ struct LocatedPoint
 //     search, on the bilinear or the quadratic surface through its corners and mid-side points), at its distance from
 //     that surface;
 //   * a solid holds a point inside it (Newton's method on its isoparametric mapping, the mid-side points included), or
-//     within the distance of it;
+//     within the distance of it; a solid collapsed to no volume, in which the method cannot find where a point is,
+//     holds none;
 //   * among the elements that hold a point, the nearest one, then the lowest element ID (a point on a shared edge or
 //     face gets one element, the same every time).
 // `tolerance`: the largest distance (nothing: 5 % of the median size of the elements). The elements are indexed in

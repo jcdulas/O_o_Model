@@ -634,7 +634,15 @@ TEST_CASE("a FatigueDefinition reads the sections of both formats, the ELSET wit
 TEST_CASE("a FatigueDefinition names its properties and its sets, and the references follow their renumbering",
           "[model][cards][fatigue]")
 {
+    // The sets 14, 15 and 30 list elements and the set 21 the grid points of a seam line: the reference check looks up
+    // each member, so the deck has the elements 1, 2, 3 and 5 and the grid point 4 (any element does: a point mass
+    // needs no property).
     Model model = readBulk(
+        "Node;4\n"
+        "PointMassInertia;1;4;;1.\n"
+        "PointMassInertia;2;4;;1.\n"
+        "PointMassInertia;3;4;;1.\n"
+        "PointMassInertia;5;4;;1.\n"
         "IdListSet1;14;1;2\n"
         "IdListSet1;15;3\n"
         "IdListSet1;21;4\n"

@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
 #include "oor/model/cards/materials/MaterialSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <array>
 #include <string_view>
@@ -50,7 +51,8 @@ std::optional<AeroRigidSplineCard> AeroRigidSplineFormat::read(FieldReader& read
             continue; // padding
         DofPair pair;
         pair.node = reader.requiredInteger(field, GRID_NAMES[index]);
-        pair.components = base::sortedDigits(reader.requiredInteger(field + 1, COMPONENT_NAMES[index]));
+        pair.components =
+            sortedDigitSet(reader, reader.requiredInteger(field + 1, COMPONENT_NAMES[index]), COMPONENT_NAMES[index]);
         card.dofs.push_back(pair);
     }
     requireBlankFields(reader, {}, LAST_FIELD);

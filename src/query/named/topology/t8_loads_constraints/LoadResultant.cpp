@@ -430,7 +430,7 @@ private:
             "the coordinate system `frame`. It adds the concentrated forces and moments, the pressures "
             "(PointsPressureLoad, ShellPressureLoad "
             "and "
-            "FacePressureLoad on shells, along the normal or the direction CID, N1 to N3 of a PLOAD4; FacePressureLoad "
+            "FacePressureLoad on shells, along the normal or the direction CID, N1 to N3 of the card; FacePressureLoad "
             "on the face of a "
             "solid, "
             "inward; each integrated over the face, a FacePressureLoad on a warped ShellQuad4 or ShellQuad4Drilling "

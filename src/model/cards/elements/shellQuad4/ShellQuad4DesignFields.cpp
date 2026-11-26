@@ -4,6 +4,8 @@
 #include "oor/model/design/DesignFieldNames.hpp"
 #include "oor/model/design/TableDesignFields.hpp"
 
+#include <limits>
+
 namespace oor::model
 {
 
@@ -32,9 +34,16 @@ DesignFieldLookup findField(const ShellQuad4Card&, const DesignField& field)
     return DesignFieldLookup::refused(refusalOfField("ShellQuad4", field, DESIGNABLE));
 }
 
+// A blank corner thickness is kept as NO_THICKNESS, which is a mark and not a thickness: the element then has the
+// thickness of its property, which these functions do not see. It reads as NaN, the "no value" of DesignableCard::read,
+// so that the mark never becomes the coefficient of a PropertyValue relation or the constant of an equation (both are
+// refused with a message); a relation that gives the corner a thickness writes it as before.
 double readField(const ShellQuad4Card& card, const DesignFieldFacts& facts)
 {
-    return facts.kind == Offset ? card.offset : card.cornerThickness[static_cast<std::size_t>(facts.index)];
+    if (facts.kind == Offset)
+        return card.offset;
+    const double thickness = card.cornerThickness[static_cast<std::size_t>(facts.index)];
+    return thickness == ShellQuad4Card::NO_THICKNESS ? std::numeric_limits<double>::quiet_NaN() : thickness;
 }
 
 void writeFields(ShellQuad4Card& card, std::span<const DesignFieldValue> values)

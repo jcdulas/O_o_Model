@@ -8,9 +8,10 @@ namespace oor::analysis
 namespace
 {
 
-// An output request that selects a SET with members, listed one by one, that are not in the model: grid points for
-// DISPLACEMENT, SPCFORCES, ..., elements for STRESS, FORCE, ... The solver skips the missing ones; a request whose set
-// has none left outputs nothing. The IDs of a THRU range are not judged (a range may have gaps).
+// An output request that selects a SET with members, listed one by one, that are not in the model (the residual
+// structure or any of its parts): grid points for DISPLACEMENT, SPCFORCES, ..., elements for STRESS, FORCE, ... The
+// solver skips the missing ones; a request whose set has none left outputs nothing. The IDs of a THRU range are not
+// judged (a range may have gaps).
 class CaseSetMemberMissingCheck final : public ValidationCheck
 {
 public:
@@ -26,9 +27,18 @@ public:
 
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
-        const model::Model& model = context.root();
-        const model::CaseControl& caseControl = model.control().caseControl;
+        const model::CaseControl& caseControl = context.root().control().caseControl;
         const model::CaseLineages lineages(caseControl);
+        // The Case Control applies to every part: a member that only a superelement part defines exists.
+        const auto exists = [&context](base::IdSpace space, base::EntityId id)
+        {
+            for (const model::Model* each : context.allModels())
+            {
+                if (each->locate(space, id))
+                    return true;
+            }
+            return false;
+        };
         forEachSection(
             caseControl,
             [&](const model::Subcase& section)
@@ -53,10 +63,9 @@ public:
                             continue;
                         const std::int64_t id = std::stoll(item);
                         const auto entityId = base::toEntityId(id);
-                        const bool found =
-                            entityId &&
-                            model.locate(target == RequestTarget::Nodes ? base::IdSpace::Node : base::IdSpace::Element,
-                                         *entityId);
+                        const bool found = entityId && exists(target == RequestTarget::Nodes ? base::IdSpace::Node
+                                                                                             : base::IdSpace::Element,
+                                                              *entityId);
                         if (!found && missing++ == 0)
                             first = item;
                     }

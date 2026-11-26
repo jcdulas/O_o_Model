@@ -70,7 +70,8 @@ struct AeroPanelBoxes
 // 4 along the x axis of the aerodynamic coordinate system (the ACSID of the AeroUnsteadyParams card, else of the
 // AeroStaticParams card, else the basic system). The division points are the equal fractions of NSPAN and NCHORD, or
 // the values of the AeroFactorList LSPAN and LCHORD, used as they are (the first and last need not be 0 and 1). Throws
-// GeometryError when there is no such panel or a division list is missing or has fewer than two points, and
+// GeometryError when there is no such panel, a division list is missing or has fewer than two points, the panel has
+// more than a million boxes (a mistyped count) or its last box ID would be above the largest ID, and
 // CoordinateSystemError when a coordinate system cannot be resolved.
 [[nodiscard]] AeroPanelBoxes aeroPanelBoxes(const model::Model& model, base::EntityId eid);
 

@@ -357,24 +357,24 @@ void bindModelEditing(emscripten::class_<api::Deck>& binding)
         .function("_appendInclude", &appendInclude)
         .function(
             "_cardByKey",
-            +[](api::Deck& deck, const std::string& type, std::uint32_t key, const val& computed)
+            +[](api::Deck& deck, const std::string& type, double key, const val& computed)
             {
                 return guarded(
                     [&]
                     {
-                        const auto found = api::findCardByKey(deck, type, key, vectorOf<std::string>(computed));
+                        const auto found = api::findCardByKey(deck, type, keyOf(key), vectorOf<std::string>(computed));
                         return found ? cardObject(*found) : val::null();
                     });
             })
         .function(
-            "_updateCard", +[](api::Deck& deck, const std::string& type, std::uint32_t key, const val& input)
-                           { guarded([&] { api::updateCardByKey(deck, type, key, cardInput(input)); }); })
+            "_updateCard", +[](api::Deck& deck, const std::string& type, double key, const val& input)
+                           { guarded([&] { api::updateCardByKey(deck, type, keyOf(key), cardInput(input)); }); })
         .function(
-            "_removeCard", +[](api::Deck& deck, const std::string& type, std::uint32_t key)
-                           { return guarded([&] { return api::removeCardByKey(deck, type, key); }); })
+            "_removeCard", +[](api::Deck& deck, const std::string& type, double key)
+                           { return guarded([&] { return api::removeCardByKey(deck, type, keyOf(key)); }); })
         .function(
             "_setCardValues",
-            +[](api::Deck& deck, const std::string& type, std::uint32_t key, const val& values)
+            +[](api::Deck& deck, const std::string& type, double key, const val& values)
             {
                 guarded(
                     [&]
@@ -383,17 +383,18 @@ void bindModelEditing(emscripten::class_<api::Deck>& binding)
                         const auto names = vectorOf<std::string>(val::global("Object").call<val>("keys", values));
                         for (const auto& name : names)
                             input.emplace_back(name, scalar(values[name]));
-                        api::setCardValuesByKey(deck, type, key, input);
+                        api::setCardValuesByKey(deck, type, keyOf(key), input);
                     });
             })
         .function(
             "_setCardValueByKey",
-            +[](api::Deck& deck, const std::string& type, std::uint32_t key, const std::string& name,
-                const std::string& value) { guarded([&] { api::setCardValueByKey(deck, type, key, name, value); }); })
+            +[](api::Deck& deck, const std::string& type, double key, const std::string& name,
+                const std::string& value)
+            { guarded([&] { api::setCardValueByKey(deck, type, keyOf(key), name, value); }); })
         .function(
             "_setCardComment",
-            +[](api::Deck& deck, const std::string& type, std::uint32_t key, const std::string& comment)
-            { guarded([&] { api::setCardCommentByKey(deck, type, key, comment); }); })
+            +[](api::Deck& deck, const std::string& type, double key, const std::string& comment)
+            { guarded([&] { api::setCardCommentByKey(deck, type, keyOf(key), comment); }); })
         .function(
             "applyDefaults", +[](api::Deck& deck) { guarded([&] { deck.applyDefaults(); }); })
         .function(
@@ -465,46 +466,48 @@ void bindModelEditing(emscripten::class_<api::Deck>& binding)
             "_caseGlobalKey",
             +[](api::Deck& deck) { return std::as_const(*deck.model()).control().caseControl.global().key; })
         .function(
-            "_caseSection", +[](api::Deck& deck, std::uint32_t key)
-                            { return guarded([&] { return caseSectionObject(api::caseSection(deck, key)); }); })
+            "_caseSection", +[](api::Deck& deck, double key)
+                            { return guarded([&] { return caseSectionObject(api::caseSection(deck, keyOf(key))); }); })
         .function(
             "_addCaseSection",
-            +[](api::Deck& deck, const std::string& kind, double id, std::uint32_t parent, const val& records)
+            +[](api::Deck& deck, const std::string& kind, double id, double parent, const val& records)
             {
                 return guarded(
                     [&]
                     {
-                        return api::addCaseSection(deck, kind, positiveId(id, kind == "auxiliaryCase"), parent,
+                        return api::addCaseSection(deck, kind, positiveId(id, kind == "auxiliaryCase"), keyOf(parent),
                                                    controlRecords(records));
                     });
             })
         .function(
             "_setCaseCommands",
-            +[](api::Deck& deck, std::uint32_t key, const val& records)
+            +[](api::Deck& deck, double key, const val& records)
             {
                 return guarded(
                     [&]
                     {
-                        const auto keys = api::setCaseCommands(deck, key, controlRecords(records));
+                        const auto keys = api::setCaseCommands(deck, keyOf(key), controlRecords(records));
                         return typedArray("Uint32Array", keys.data(), keys.size());
                     });
             })
         .function(
-            "_removeCaseEntry", +[](api::Deck& deck, std::uint32_t key)
-                                { return guarded([&] { return api::removeCaseEntry(deck, key); }); })
+            "_removeCaseEntry", +[](api::Deck& deck, double key)
+                                { return guarded([&] { return api::removeCaseEntry(deck, keyOf(key)); }); })
         .function(
-            "_removeCaseSection", +[](api::Deck& deck, std::uint32_t key)
-                                  { return guarded([&] { return api::removeCaseSection(deck, key); }); })
+            "_removeCaseSection", +[](api::Deck& deck, double key)
+                                  { return guarded([&] { return api::removeCaseSection(deck, keyOf(key)); }); })
         .function(
-            "_renumberCaseSection", +[](api::Deck& deck, std::uint32_t key, double id)
-                                    { guarded([&] { api::renumberCaseSection(deck, key, positiveId(id)); }); })
+            "_renumberCaseSection",
+            +[](api::Deck& deck, double key, double id)
+            { guarded([&] { api::renumberCaseSection(deck, keyOf(key), positiveId(id)); }); })
         .function(
             "_effectiveCaseCommand",
-            +[](api::Deck& deck, std::uint32_t key, const std::string& name, const std::string& variant)
+            +[](api::Deck& deck, double sectionKey, const std::string& name, const std::string& variant)
             {
                 return guarded(
                     [&]
                     {
+                        const std::uint32_t key = keyOf(sectionKey);
                         (void)api::caseSection(deck, key);
                         const auto* entry =
                             std::as_const(*deck.model()).control().caseControl.effectiveCommand(key, name, variant);
@@ -513,11 +516,12 @@ void bindModelEditing(emscripten::class_<api::Deck>& binding)
             })
         .function(
             "_effectiveCaseOutputs",
-            +[](api::Deck& deck, std::uint32_t key, const std::string& name)
+            +[](api::Deck& deck, double sectionKey, const std::string& name)
             {
                 return guarded(
                     [&]
                     {
+                        const std::uint32_t key = keyOf(sectionKey);
                         (void)api::caseSection(deck, key);
                         val result = val::array();
                         for (const auto* entry :

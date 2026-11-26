@@ -40,8 +40,9 @@ public:
             if (!thresholds.set(keyword, value))
                 throw QueryError(
                     "qualityTable: '" + keyword +
-                    "' is not a GEOMCHECK tolerance (Q4_SKEW, Q4_TAPER, Q4_WARP, Q4_IAMIN, Q4_IAMAX, T3_SKEW, "
-                    "T3_IAMAX, TET_AR, HEX_WARP, ...)");
+                    "' is not a GeometryCheck tolerance (QuadSkewLimit, QuadTaperLimit, QuadWarpLimit, QuadMinAngle, "
+                    "QuadMaxAngle, TriangleMinAngle, TriangleMaxAngle, TetrahedronAspectRatioLimit, "
+                    "HexahedronWarpLimit, ...)");
         }
         const CardList list = listCards(model, types, run.arguments.ids("elementIds"));
         const std::size_t count = list.size();
@@ -167,19 +168,19 @@ private:
         info.description =
             "The quality metrics of each shell and solid (aspect ratio, skew, warp, taper, the smallest and largest "
             "interior "
-            "angle, the Jacobian ratio) with a verdict: failed, and failedChecks, the names of the GEOMCHECK tests "
+            "angle, the Jacobian ratio) with a verdict: failed, and failedChecks, the names of the GeometryCheck tests "
             "the element "
             "fails (aspectRatio, skew, warp, taper, minAngle, maxAngle, jacobian, edgePointLengthRatio, "
             "edgePointAngle, faceWarp). A metric that does not apply to the element is null. `thresholds` is a dict "
             "of "
-            "GEOMCHECK keywords (Q4_SKEW, Q4_TAPER, Q4_WARP, Q4_IAMIN, Q4_IAMAX, T3_SKEW, T3_IAMAX, TET_AR, HEX_WARP "
-            "...) to "
-            "limits; the others take the format reference defaults, changed by the deck's own GEOMCHECK statements. "
-            "The 14 metrics "
+            "GeometryCheck keywords (QuadSkewLimit, QuadTaperLimit, QuadWarpLimit, QuadMinAngle, QuadMaxAngle, "
+            "TriangleMinAngle, TriangleMaxAngle, TetrahedronAspectRatioLimit, HexahedronWarpLimit ...; case does not "
+            "matter) to limits; the others take the format reference defaults, changed by the deck's own "
+            "GeometryCheck statements. The 14 metrics "
             "themselves are the computed columns of `model.query(\"elements\")`.";
         info.parameters = {parameter("elementIds", ParameterKind::IdList, "None", "keep these elements"),
                            parameter("types", ParameterKind::TextList, "None", "keep these card types"),
-                           parameter("thresholds", ParameterKind::Thresholds, "None", "GEOMCHECK keyword -> limit"),
+                           parameter("thresholds", ParameterKind::Thresholds, "None", "GeometryCheck keyword -> limit"),
                            parameter("onlyFailed", ParameterKind::Bool, "False", "keep the elements that fail a test")};
         info.defaultSort = "elementId";
         ColumnListBuilder columns;

@@ -83,7 +83,8 @@ void IdListSet1Table::keepRows(const std::vector<std::uint32_t>& rows)
 
 void IdListSet1Table::visitReferences(std::uint32_t, ReferenceVisitor&)
 {
-    // The IDs are grid points or elements, as the cards that use the set decide: none of them is a reference.
+    // The IDs are grid points or elements, as the cards that use the set decide: the card cannot visit them with a
+    // target. Renumbering and ReferenceChecker handle them from the uses of the set (references/SetMemberUses.hpp).
 }
 
 } // namespace oor::model

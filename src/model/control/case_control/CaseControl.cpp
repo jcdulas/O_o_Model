@@ -531,11 +531,63 @@ Subcase& CaseControl::addChild(std::uint32_t parentKey, SubcaseKind kind, std::i
     return parent->children.back();
 }
 
+namespace
+{
+
+// The line of a structure plotter or X-Y plot block: these blocks follow every subcase and belong to none (addSubcase
+// moves them to the new last subcase), unlike a postprocessing block, which is part of the section it is written in.
+bool isPlotBlockLine(const CaseEntry& entry) noexcept
+{
+    return entry.kind == EntryKind::OutputBlock && (entry.variant == "Plot" || entry.variant == "CurvePlot");
+}
+
+// Takes the plot blocks (each block line with the entries of its block) out of a section and of its steps, in file
+// order.
+void takePlotBlocks(Subcase& section, std::vector<CaseEntry>& taken)
+{
+    std::size_t index = 0;
+    while (index < section.entries.size())
+    {
+        if (!isPlotBlockLine(section.entries[index]))
+        {
+            ++index;
+            continue;
+        }
+        const auto first = section.entries.begin() + static_cast<std::ptrdiff_t>(index);
+        const auto last =
+            section.entries.begin() + static_cast<std::ptrdiff_t>(CaseControl::blockExtent(section, index).last);
+        taken.insert(taken.end(), std::make_move_iterator(first), std::make_move_iterator(last));
+        section.entries.erase(first, last); // the entry after the block is now at `index`
+    }
+    for (Subcase& child : section.children)
+        takePlotBlocks(child, taken);
+}
+
+// True when the top-level section after the one with this key is not an AUXCASE section: for an AUXCASE section, a
+// subcase of its auxiliary model.
+bool isFollowedBySubcase(const std::vector<Subcase>& segments, std::uint32_t key)
+{
+    const auto section =
+        std::find_if(segments.begin(), segments.end(), [key](const Subcase& item) { return item.key == key; });
+    if (section == segments.end() || std::next(section) == segments.end())
+        return false;
+    return std::next(section)->kind != SubcaseKind::AuxiliaryCase;
+}
+
+} // namespace
+
 bool CaseControl::removeSubcase(std::uint32_t key)
 {
     Subcase* target = findSubcase(key);
     if (target == nullptr || target->kind == SubcaseKind::Global || holdsIncludes(*target))
         return false;
+    // Without their AUXCASE section the subcases of an auxiliary model would join the sections before it: they would
+    // inherit the commands of another model, and two subcases of one scope could have the same number.
+    if (target->kind == SubcaseKind::AuxiliaryCase && isFollowedBySubcase(m_segments, key))
+        return false;
+    // The plot blocks are not part of the section they are written in: they stay in the model.
+    std::vector<CaseEntry> plotBlocks;
+    takePlotBlocks(*target, plotBlocks);
     Subcase* parent = nullptr;
     for (Subcase& segment : m_segments)
     {
@@ -544,6 +596,15 @@ bool CaseControl::removeSubcase(std::uint32_t key)
     }
     std::vector<Subcase>& list = parent != nullptr ? parent->children : m_segments;
     list.erase(std::find_if(list.begin(), list.end(), [key](const Subcase& item) { return item.key == key; }));
+    if (!plotBlocks.empty())
+    {
+        // At the end of the file, as addBlock places them: in the section that is now last, or in its last step.
+        Subcase* last = &m_segments.back();
+        while (!last->children.empty())
+            last = &last->children.back();
+        last->entries.insert(last->entries.end(), std::make_move_iterator(plotBlocks.begin()),
+                             std::make_move_iterator(plotBlocks.end()));
+    }
     return true;
 }
 

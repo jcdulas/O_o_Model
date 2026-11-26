@@ -1,6 +1,7 @@
 #include "oor/model/cards/rigid_elements/rigidSpline/RigidSplineTable.hpp"
 
 #include "oor/base/text/DigitSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <cmath>
 #include <string>
@@ -40,7 +41,8 @@ std::optional<RigidSplineCard> RigidSplineFormat::read(FieldReader& reader)
         DofPair point;
         point.node = reader.requiredInteger(field, pointName.c_str());
         if (index > 0)
-            point.components = base::sortedDigits(reader.integer(field + 1, componentName.c_str(), 0));
+            point.components =
+                sortedDigitSet(reader, reader.integer(field + 1, componentName.c_str(), 0), componentName.c_str());
         card.points.push_back(point);
     }
     // the last field of the card is a point, not a components field.

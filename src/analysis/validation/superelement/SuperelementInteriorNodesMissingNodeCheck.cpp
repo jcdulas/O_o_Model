@@ -15,8 +15,9 @@ constexpr std::size_t MAX_NAMED = 5;
 // A grid point or scalar point named by a SuperelementInteriorNodes that no card of the main Bulk Data defines. The
 // format reference does not make it an error: the point is simply not in the superelement, which is
 // rarely what the list meant. The points inside a THRU range are not looked at, a range may skip IDs. A deck that holds
-// grid cards the library does not read (GRIDG, a Node with an ID that does not fit 32 bits) may define the point there,
-// so it is left alone: the names of the unread cards are deck keywords.
+// point cards the library could not read and keeps as text (a Node with an ID that does not fit 32 bits) may define
+// the point there, so it is left alone. A card kept as text has the name the deck gives it, which is the neutral name
+// of its type: the check looks for the names of the card types that define points (Node, ScalarPoint, ...).
 class SuperelementInteriorNodesMissingNodeCheck final : public ValidationCheck
 {
 public:
@@ -56,11 +57,17 @@ public:
     }
 
 private:
+    // True when a card kept as text is of a type whose IDs are point IDs (the node ID space of the registry).
     static bool readsPointsAsText(const model::Model& model)
     {
-        const std::set<std::string> unread = unknownCardNames(model);
-        return unread.contains("GRID") || unread.contains("GRIDG") || unread.contains("GRIDB") ||
-               unread.contains("SPOINT");
+        const model::CardRegistry& registry = model::CardRegistry::instance();
+        for (const std::string& name : unknownCardNames(model))
+        {
+            const std::optional<std::uint16_t> type = registry.typeIndexOf(name);
+            if (type && registry.entry(*type).info.idSpace == base::IdSpace::Node)
+                return true;
+        }
+        return false;
     }
 };
 

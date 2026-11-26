@@ -24,11 +24,23 @@ bool hasCards(const model::Model& model)
     return table != nullptr && table->rows().aliveCount() > 0;
 }
 
+// True for the name of a card that fixes a temperature or ties the model to an ambient one (the cards
+// hasTemperatureBoundary looks for). A record the library could not read is kept as text under the card name the deck
+// writes, so these are the names to look for among the unread cards.
+bool isBoundaryCardName(std::string_view name) noexcept
+{
+    return name == model::SinglePointConstrTable::NAME || name == model::SinglePointConstrListTable::NAME ||
+           name == model::SinglePointConstrUnionTable::NAME || name == model::EnforcedMotionConstrTable::NAME ||
+           name == model::GeomSinglePointConstrTable::NAME || name == model::TemperatureBoundaryTable::NAME ||
+           name == model::FreeConvectionTable::NAME || name == model::ForcedConvectionTable::NAME ||
+           name == model::RadiationToSpaceTable::NAME;
+}
+
 // True when the model holds something that fixes a temperature or ties the model to an ambient one: a
 // SinglePointConstr, SinglePointConstrList, SinglePointConstrUnion or EnforcedMotionConstr (a temperature constraint on
 // a grid point), a PS field on a grid point, a TemperatureBoundary, a convection (FreeConvection, ForcedConvection) or
-// a radiation to space (RadiationToSpace), a GeomSinglePointConstr, or a card the library keeps as text that is a
-// boundary condition of the p-version elements (GMBC): the check cannot tell what it fixes.
+// a radiation to space (RadiationToSpace), a GeomSinglePointConstr, or one of those cards kept as text: the check
+// cannot tell what it fixes.
 bool hasTemperatureBoundary(const model::Model& model)
 {
     if (hasCards<model::SinglePointConstrTable>(model) || hasCards<model::SinglePointConstrListTable>(model) ||
@@ -44,7 +56,7 @@ bool hasTemperatureBoundary(const model::Model& model)
         return true;
     for (const std::string& name : unknownCardNames(model))
     {
-        if (name == "GMBC")
+        if (isBoundaryCardName(name))
             return true;
     }
     return false;

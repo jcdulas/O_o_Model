@@ -1,7 +1,7 @@
 #include "oor/model/cards/nodes/nodeDefaults/NodeDefaultsTable.hpp"
 
-#include "oor/base/text/DigitSets.hpp"
 #include "oor/model/core/Model.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -38,7 +38,8 @@ std::optional<NodeDefaultsCard> NodeDefaultsFormat::read(FieldReader& reader)
     }
     card.positionFrameId = reader.integer(2, "positionFrameId", 0);
     card.displacementFrameId = reader.integer(6, "displacementFrameId", 0);
-    card.permanentConstraints = base::sortedDigits(reader.integer(7, "permanentConstraints", 0));
+    card.permanentConstraints =
+        sortedDigitSet(reader, reader.integer(7, "permanentConstraints", 0), "permanentConstraints");
     card.superelementId = reader.integer(8, "superelementId", 0);
     if (!reader.failed())
         reader.report(check(card));

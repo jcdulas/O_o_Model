@@ -517,6 +517,11 @@ DisplayMesh buildDisplayMesh(const model::Model& model, const DisplayMeshOptions
             }
             slots.clear();
             ElementTopology::slotsOf(*table, type, row, slots);
+            // A bush and a gap are drawn from GA to GB, the first two grid points of their cards. The third one of a
+            // Bushing and of a Gap2 is the orientation node G0: it gives a direction and is not an end of the element.
+            constexpr std::size_t END_NODES = 2;
+            if ((kind == BUSH || kind == GAP) && slots.size() > END_NODES)
+                slots.resize(END_NODES);
             std::vector<std::pair<base::Vec3, std::int64_t>> points;
             for (const base::EntityId node : slots)
             {

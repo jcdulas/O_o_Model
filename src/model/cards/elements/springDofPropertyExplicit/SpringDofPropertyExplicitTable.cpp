@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/materials/MaterialSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -20,9 +21,9 @@ std::optional<SpringDofPropertyExplicitCard> SpringDofPropertyExplicitFormat::re
     card.id = reader.requiredInteger(1, "id");
     card.propId = reader.integer(2, "propId", card.id); // format reference: PID defaults to EID
     card.node1 = reader.integer(3, "node1", 0);         // blank: grounded
-    card.components1 = base::sortedDigits(reader.integer(4, "components1", 0));
+    card.components1 = sortedDigitSet(reader, reader.integer(4, "components1", 0), "components1");
     card.node2 = reader.integer(5, "node2", 0);
-    card.components2 = base::sortedDigits(reader.integer(6, "components2", 0));
+    card.components2 = sortedDigitSet(reader, reader.integer(6, "components2", 0), "components2");
     // The format reference leaves fields 7 and 8 empty: CORD and FOLLOW are the fields of the continuation line.
     requireBlankFields(reader, {7, 8}, FIELD_FOLLOW);
     card.frameId = reader.integer(FIELD_FRAME_ID, "frameId", 0);

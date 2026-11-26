@@ -19,6 +19,12 @@ namespace oor::analysis
 namespace
 {
 
+// The most boxes a panel is cut into: along the span, along the chord, and in all. The panels of the lifting surface
+// methods have some thousands of boxes at most, so a larger count is a mistyped field. It is refused as a problem of
+// the panel before any array is sized with it: an allocation that fails is not an error of the geometry, and it would
+// end the list of the panels of a model instead of leaving one panel out.
+constexpr std::int64_t MAX_PANEL_BOXES = 1'000'000;
+
 // What the boxes of a panel are made from, whichever card it comes from.
 struct PanelDefinition
 {
@@ -72,6 +78,10 @@ std::vector<double> divisionPoints(const model::Model& model, const PanelDefinit
     std::vector<double> points;
     if (count > 0)
     {
+        if (count > MAX_PANEL_BOXES)
+            throw GeometryError(describe(model, panel) + ": " + std::to_string(count) + " " + what +
+                                " divisions are more than the " + std::to_string(MAX_PANEL_BOXES) +
+                                " boxes a panel may have");
         points.reserve(static_cast<std::size_t>(count) + 1);
         for (std::int32_t index = 0; index <= count; ++index)
             points.push_back(static_cast<double>(index) / count);
@@ -91,6 +101,23 @@ std::vector<double> divisionPoints(const model::Model& model, const PanelDefinit
     return points;
 }
 
+// Refuses a panel that has more boxes than MAX_PANEL_BOXES, or whose last box would have an ID that is not an entity
+// ID. The boxes are numbered from the ID of the panel: the last one is `eid + boxes - 1`, counted here in 64 bits
+// because the sum of two 32-bit numbers may not fit in 32 bits.
+void requireBoxRange(const model::Model& model, const PanelDefinition& panel, std::int64_t spanBoxes,
+                     std::int64_t chordBoxes)
+{
+    const std::int64_t count = spanBoxes * chordBoxes;
+    if (count > MAX_PANEL_BOXES)
+        throw GeometryError(describe(model, panel) + ": " + std::to_string(spanBoxes) + " span divisions times " +
+                            std::to_string(chordBoxes) + " chord divisions are more than the " +
+                            std::to_string(MAX_PANEL_BOXES) + " boxes a panel may have");
+    const std::int64_t lastId = static_cast<std::int64_t>(panel.eid) + count - 1;
+    if (lastId > base::MAX_ENTITY_ID)
+        throw GeometryError(describe(model, panel) + ": the ID of its last box, " + std::to_string(lastId) +
+                            ", is above the largest ID, " + std::to_string(base::MAX_ENTITY_ID));
+}
+
 base::Vec3 vectorOf(const std::array<double, 3>& values) noexcept
 {
     return base::Vec3{values[0], values[1], values[2]};
@@ -103,6 +130,8 @@ AeroPanelBoxes makeBoxes(const model::Model& model, const PanelDefinition& panel
         panel.kind == AeroPanelKind::AeroLiftingPanel1
             ? divisionPoints(model, panel, panel.chordCount, panel.chordList, "chord")
             : std::vector<double>{0.0, 1.0};
+    requireBoxRange(model, panel, static_cast<std::int64_t>(spanPoints.size()) - 1,
+                    static_cast<std::int64_t>(chordPoints.size()) - 1);
 
     // The four corners of the panel in the basic system: the leading edge points go through their system, the trailing
     // edge ones are behind them along the x axis of the aerodynamic system.

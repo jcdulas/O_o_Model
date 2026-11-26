@@ -8,8 +8,8 @@
 namespace oor::model
 {
 
-// One AeroLiftingPanel1 card: an aerodynamic macro element (a panel of Doublet-Lattice or ZONA51 boxes) given by two
-// leading edge points and the chords at them.
+// One AeroLiftingPanel1 card: an aerodynamic macro element (a panel of boxes of the Doublet-Lattice method or of the
+// supersonic lifting-surface theory) given by two leading edge points and the chords at them.
 //
 // Card layout: AeroLiftingPanel1  EID  PID  CP  NSPAN  NCHORD  LSPAN  LCHORD  IGID
 //                                X1   Y1   Z1  X12    X4      Y4     Z4  X43

@@ -44,14 +44,25 @@ struct SolidElement
 // The weight of each slot at a natural point (0 for a slot with no grid point).
 [[nodiscard]] std::array<double, MAX_SOLID_NODES> solidWeights(const SolidElement& element, const base::Vec3& natural);
 
+// The largest distance of a mid-side point from the middle of its edge (0 for an element that has no mid-side point):
+// how far the edges of the element are from straight.
+[[nodiscard]] double largestMidSideOffset(const SolidElement& element);
+
 // Where a point is in an element: its natural coordinates (found by Newton's method on the mapping), how far outside
 // the element they are (0 inside, in natural units), and the distance from the point to the element: 0 inside, else to
 // the point of the element at the natural coordinates brought back inside.
+//
+// `residual` is the distance from the point to where the mapping puts the natural coordinates. It is the rounding of
+// the mapping when Newton's method reached the point, and a length of the size of the model when it did not: an
+// element collapsed to no volume has a singular Jacobian and leaves the method where it started, a point far from
+// the element leaves it held at its bound. Natural coordinates "inside" (`outside` 0, `distance` 0) say that the
+// point is in the element only with a residual that small: the caller checks it against the size of the element.
 struct SolidLocation
 {
     base::Vec3 natural;
     double outside = 0.0;
     double distance = 0.0;
+    double residual = 0.0;
 };
 
 [[nodiscard]] SolidLocation locateInSolid(const SolidElement& element, const base::Vec3& point);

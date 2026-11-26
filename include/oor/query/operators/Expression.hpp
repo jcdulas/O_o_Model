@@ -53,18 +53,27 @@ struct Literal
 
 // An expression over the columns of a table: the condition of a `where`, or the formula of a computed column.
 //
-//   text         area > 2.0 and pid in (1, 2) and not (type == 'ShellQuad4' or t <= 0.5)
-//   values       numbers (1, 2.5, 1e-3), texts ('ShellQuad4' or "ShellQuad4"), true, false, null, and the names of
-//   columns arithmetic   + - * / % ** and unary minus, with the usual precedence (** binds tighter than unary minus on
-//   its left) comparison   == != < <= > >= (a single = means ==, <> means !=) logic and, or, not (words, any case); a
-//                          comparison is above `not`, `not` above `and`, `and` above `or` membership x in (1, 2, 3) x
-//                          not in
-//   ('A', 'B')    (lists of constants only) null         x is null    x is not null functions    abs(x)  sqrt(x)
-//   isnull(x)  isnan(x)
+// Text: area > 2.0 and pid in (1, 2) and not (type == 'ShellQuad4' or t <= 0.5)
+//
+// Values: numbers (1, 2.5, 1e-3), texts ('ShellQuad4' or "ShellQuad4"), true, false, and the names of columns.
+//
+// Arithmetic: + - * / % ** and unary minus, with the usual precedence (** binds tighter than unary minus on its left).
+//
+// Comparison: == != < <= > >= (a single = means ==, <> means !=).
+//
+// Logic: and, or, not (words, any case); a comparison is above `not`, `not` above `and`, `and` above `or`.
+//
+// Membership: x in (1, 2, 3), x not in ('A', 'B'); lists of constants only (numbers, texts, true, false, null).
+//
+// Null: x is null, x is not null. The word `null` is not a value to compute or compare with (`x == null` is refused,
+// with the message that says to write `x is null`); it may stand in a list.
+//
+// Functions: abs(x), sqrt(x), isnull(x), isnan(x).
 //
 // A missing value (null) makes an arithmetic result or a comparison null; and/or follow the three-valued logic (false
-// and null is false, true or null is true); a condition keeps the rows where it is true. A NaN is a number: any
-// comparison of it is false except !=.
+// and null is false, true or null is true); a condition keeps the rows where it is true. A list that holds a null
+// follows the same logic: a value found in it is in the list, a value not found gives a null (`x not in (1, null)`
+// keeps no row). A NaN is a number: any comparison of it is false except !=.
 //
 // An Expression is a value (cheap to copy): the parse is shared.
 class Expression
@@ -74,7 +83,8 @@ public:
 
     // Parses `text`. Throws QueryError naming the position when it does not parse.
     [[nodiscard]] static Expression parse(std::string_view text);
-    // `column == value`, `column in (values)` (a null value gives `column is null`), built without text.
+    // `column == value` (a null value gives `column is null`) and `column in (values)` (a null among the values
+    // follows the logic of a list that holds a null, above), built without text.
     [[nodiscard]] static Expression equals(const std::string& column, const Literal& value);
     [[nodiscard]] static Expression isIn(const std::string& column, const std::vector<Literal>& values);
     // All of `parts` must hold.

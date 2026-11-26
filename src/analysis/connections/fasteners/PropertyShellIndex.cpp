@@ -121,14 +121,6 @@ std::optional<HostedPoint> PropertyShellIndex::nearestInside(const base::Vec3& p
         }
         return best;
     }
-    const std::int64_t ci = cellOf(point.x, 0);
-    const std::int64_t cj = cellOf(point.y, 1);
-    const std::int64_t ck = cellOf(point.z, 2);
-    // The rings of cells around the cell of the point, from the first that meets the grid to the last that does.
-    const auto reach = [&](std::int64_t cell) { return std::max(std::abs(cell), std::abs(cell - m_extent)); };
-    const auto before = [&](std::int64_t cell) { return std::max<std::int64_t>({0, -cell, cell - m_extent}); };
-    const std::int64_t firstRing = std::max({before(ci), before(cj), before(ck)});
-    const std::int64_t lastRing = std::max({reach(ci), reach(cj), reach(ck)});
     std::vector<std::uint8_t> visited(m_elements.size(), 0);
     const auto tryElement = [&](std::size_t index)
     {
@@ -140,6 +132,44 @@ std::optional<HostedPoint> PropertyShellIndex::nearestInside(const base::Vec3& p
         if (projection.isInside(tolerance))
             keepNearer(best, m_elements[index], projection);
     };
+    const auto tryRemainingElements = [&]()
+    {
+        for (std::size_t index = 0; index < m_elements.size(); ++index)
+        {
+            if (visited[index] == 0)
+                tryElement(index);
+        }
+    };
+    // A point more than FAR_RINGS cells outside the grid (or whose coordinates are not numbers): the elements one by
+    // one. The rings between the point and the grid hold no element, and their number grows with the distance of the
+    // point, which may be more cells away than an integer holds.
+    if (isFarFromGrid(point))
+    {
+        tryRemainingElements();
+        return best;
+    }
+    const std::int64_t ci = cellOf(point.x, 0);
+    const std::int64_t cj = cellOf(point.y, 1);
+    const std::int64_t ck = cellOf(point.z, 2);
+    // The rings of cells around the cell of the point, from the first that meets the grid to the last that does.
+    const auto reach = [&](std::int64_t cell) { return std::max(std::abs(cell), std::abs(cell - m_extent)); };
+    const auto before = [&](std::int64_t cell) { return std::max<std::int64_t>({0, -cell, cell - m_extent}); };
+    const std::int64_t firstRing = std::max({before(ci), before(cj), before(ck)});
+    const std::int64_t lastRing = std::max({reach(ci), reach(cj), reach(ck)});
+    const auto tryCell = [&](std::int64_t i, std::int64_t j, std::int64_t k)
+    {
+        const auto cell = m_cells.find(keyOf(i, j, k));
+        if (cell == m_cells.end())
+            return;
+        for (const std::uint32_t index : cell->second)
+        {
+            if (visited[index] == 0)
+                tryElement(index);
+        }
+    };
+    // The cells of the grid run from 0 to m_extent along each axis: the part of a ring outside them is empty.
+    const auto firstInGrid = [](std::int64_t cell) { return std::max<std::int64_t>(cell, 0); };
+    const auto lastInGrid = [&](std::int64_t cell) { return std::min(cell, m_extent); };
     for (std::int64_t ring = firstRing; ring <= lastRing; ++ring)
     {
         // An element not met yet lies outside the cube of cells of the rings before: at least (ring - 1) cells away.
@@ -149,30 +179,44 @@ std::optional<HostedPoint> PropertyShellIndex::nearestInside(const base::Vec3& p
         {
             // A point far from the elements it projects on (or on none): the remaining elements one by one, which
             // costs less than the rings of empty cells.
-            for (std::size_t index = 0; index < m_elements.size(); ++index)
-            {
-                if (visited[index] == 0)
-                    tryElement(index);
-            }
+            tryRemainingElements();
             break;
         }
-        for (std::int64_t i = ci - ring; i <= ci + ring; ++i)
-            for (std::int64_t j = cj - ring; j <= cj + ring; ++j)
-                for (std::int64_t k = ck - ring; k <= ck + ring; ++k)
+        // Only the cells of the ring, the surface of a cube of cells, are walked (in increasing i, j, k): a column
+        // (i, j) on a side of the cube is in the ring over its whole height, any other one at its two ends only.
+        for (std::int64_t i = firstInGrid(ci - ring); i <= lastInGrid(ci + ring); ++i)
+        {
+            for (std::int64_t j = firstInGrid(cj - ring); j <= lastInGrid(cj + ring); ++j)
+            {
+                if (std::abs(i - ci) == ring || std::abs(j - cj) == ring)
                 {
-                    if (std::max({std::abs(i - ci), std::abs(j - cj), std::abs(k - ck)}) != ring)
-                        continue;
-                    const auto cell = m_cells.find(keyOf(i, j, k));
-                    if (cell == m_cells.end())
-                        continue;
-                    for (const std::uint32_t index : cell->second)
-                    {
-                        if (visited[index] == 0)
-                            tryElement(index);
-                    }
+                    for (std::int64_t k = firstInGrid(ck - ring); k <= lastInGrid(ck + ring); ++k)
+                        tryCell(i, j, k);
+                    continue;
                 }
+                for (const std::int64_t k : {ck - ring, ck + ring})
+                {
+                    if (k >= 0 && k <= m_extent)
+                        tryCell(i, j, k);
+                }
+            }
+        }
     }
     return best;
+}
+
+bool PropertyShellIndex::isFarFromGrid(const base::Vec3& point) const noexcept
+{
+    const double far = static_cast<double>(FAR_RINGS);
+    const double extent = static_cast<double>(m_extent);
+    for (std::size_t axis = 0; axis < 3; ++axis)
+    {
+        const double cell = (point[axis] - m_origin[axis]) / m_cell;
+        // written so that a coordinate that is not a number counts as far
+        if (!(cell >= -far && cell <= extent + far))
+            return true;
+    }
+    return false;
 }
 
 } // namespace oor::analysis::detail

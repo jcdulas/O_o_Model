@@ -460,8 +460,12 @@ TEST_CASE("a HydrostaticLoad names the sets of its elements, grid points and con
           "point",
           "[model][cards][hydros]")
 {
+    // The set 3201 lists the elements of the interface and the set 3202 their grid points: the reference check looks
+    // up each member, so the deck has the elements 1 and 2 (any element does: a point mass needs no property) beside
+    // the grid points 10 and 11.
     Model model =
         readBulk(POINTS_TEXT +
+                 "PointMassInertia;1;1;;1.\nPointMassInertia;2;2;;1.\n"
                  "RectFrame2;3301\nIdListSet1;3201;1;2\nIdListSet1;3202;10;11\nIdListSet1;3401;1\nIdListSet1;3402;2\n"
                  "HydrostaticLoad;3101;4.5;0.375;12.5;3201;;1;;3301;;62.5;3401\n"
                  "HydrostaticLoad;3102;;0.375;;3201;3202;;;-10;;;3402\n"

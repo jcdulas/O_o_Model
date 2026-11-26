@@ -5,9 +5,11 @@
 #include "oor/model/cards/nodes/node/NodeTable.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdint>
 #include <limits>
+#include <span>
 #include <vector>
 
 namespace oor::analysis
@@ -19,8 +21,9 @@ namespace
 // A grid point at (within the tolerance of) the position of another grid point with a lower ID, in the basic system.
 // Opt-in: a deck may have coincident points on purpose (the two sides of a connection), and the check has a price.
 //
-// The points are put in a grid of cubes of side 4 x tolerance, shifted from the origin by 0.382 of a side. A point and
-// a neighbour closer than the tolerance are in the same cube, or in cubes that touch through faces the point is within
+// The points are put in a grid of cubes of side 4 x tolerance (more when the tolerance is zero or tiny against the
+// coordinates: see `side` in run()), shifted from the origin by 0.382 of a side. A point and a neighbour closer than
+// the tolerance are in the same cube, or in cubes that touch through faces the point is within
 // the tolerance of: on each axis one face at most (the cube is wider than twice the tolerance), and none for a point
 // farther than that from both (half the points on each axis, for random coordinates; every point of a mesh on round
 // coordinates, which the shift puts inside its cubes). So a point looks at its own cube and at no more than seven
@@ -47,7 +50,9 @@ public:
         const model::NodeTable* grids = model.findTable<model::NodeTable>();
         if (grids == nullptr || grids->rows().aliveCount() < 2)
             return;
-        const double tolerance = std::max(context.options().coincidentTolerance, std::numeric_limits<double>::min());
+        // A tolerance that is zero, negative or not a number finds the grid points at the same position.
+        const double asked = context.options().coincidentTolerance;
+        const double tolerance = asked > 0.0 ? asked : 0.0;
         const BasicPositionCache* cache = nullptr;
         try
         {
@@ -64,10 +69,25 @@ public:
             std::uint64_t cell;
             std::uint32_t row;
         };
-        const double side = 4.0 * tolerance;
+        // The side of the cubes: 4 x tolerance, and never less than SMALLEST_SIDE_RATIO of the largest coordinate. With
+        // a tolerance of zero, or tiny against the coordinates, 4 x tolerance alone would give cube numbers beyond what
+        // a 64-bit integer holds, and the conversion of such a number is undefined. Larger cubes only hold more
+        // candidates: the distance test below is the one that decides.
+        const double reach = largestCoordinate(*grids, positions);
+        double side = std::max(4.0 * tolerance, SMALLEST_SIDE_RATIO * reach);
+        if (!(side > 0.0))
+            side = 1.0; // every point is at the origin and the tolerance is zero: one cube, of any size
         const double shift = 0.381966 * side; // no fraction of a round number of sides
-        // The cube of a coordinate on its axis, and how far into it the coordinate is.
-        const auto cubeOf = [&](double value) { return static_cast<std::int64_t>(std::floor((value + shift) / side)); };
+        // How close to a face of its cube a point must be to look into the next cube: the tolerance, and the round-off
+        // of the place of the point in its cube (which matters when the tolerance is itself at that level).
+        const double margin = tolerance + ROUND_OFF_RATIO * reach;
+        // The cube of a coordinate on its axis. A coordinate that is not a number is in no cube of its own (0): it is
+        // within the tolerance of nothing.
+        const auto cubeOf = [&](double value)
+        {
+            const double cube = std::floor((value + shift) / side);
+            return std::isfinite(cube) ? static_cast<std::int64_t>(cube) : std::int64_t{0};
+        };
         std::vector<Point> points;
         points.reserve(grids->rows().aliveCount());
         for (std::uint32_t row = 0; row < grids->rows().rowCount(); ++row)
@@ -138,9 +158,9 @@ public:
                     own[axis] = cubeOf(p[axis]);
                     const double local = p[axis] + shift - static_cast<double>(own[axis]) * side;
                     other[axis] = own[axis];
-                    if (local <= tolerance)
+                    if (local <= margin)
                         other[axis] = own[axis] - 1;
-                    else if (side - local <= tolerance)
+                    else if (side - local <= margin)
                         other[axis] = own[axis] + 1;
                     if (other[axis] != own[axis])
                         near |= 1U << axis;
@@ -194,6 +214,29 @@ public:
     }
 
 private:
+    // The smallest side of a cube, as a fraction of the largest coordinate of the model: the number of a cube on an
+    // axis then stays below 1e12 or so, far inside a 64-bit integer, whatever the tolerance.
+    static constexpr double SMALLEST_SIDE_RATIO = 1.0e-12;
+    // The round-off of a coordinate as a fraction of the largest one: a few units in the last place of a double.
+    static constexpr double ROUND_OFF_RATIO = 4.0 * std::numeric_limits<double>::epsilon();
+
+    // The largest absolute value of a coordinate of a live grid point (0 when none is a finite number).
+    static double largestCoordinate(const model::NodeTable& grids, std::span<const std::array<double, 3>> positions)
+    {
+        double largest = 0.0;
+        for (std::uint32_t row = 0; row < grids.rows().rowCount(); ++row)
+        {
+            if (!grids.rows().isAlive(row))
+                continue;
+            for (const double value : positions[row])
+            {
+                if (std::isfinite(value))
+                    largest = std::max(largest, std::abs(value));
+            }
+        }
+        return largest;
+    }
+
     // The cell coordinates of a point packed in 63 bits (21 each): a collision of far cubes only adds candidates, which
     // the distance test then refuses.
     static std::uint64_t pack(std::int64_t x, std::int64_t y, std::int64_t z) noexcept

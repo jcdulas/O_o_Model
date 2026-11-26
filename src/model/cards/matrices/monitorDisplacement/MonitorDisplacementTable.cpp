@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/matrices/MonitorPointFields.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <cmath>
 
@@ -19,7 +20,7 @@ std::optional<MonitorDisplacementCard> MonitorDisplacementFormat::read(FieldRead
     MonitorDisplacementCard card;
     card.name = std::string(reader.text(1));
     card.label = reader.spanText(2, 8);
-    card.outputAxes = base::sortedDigits(reader.requiredInteger(9, "outputAxes"));
+    card.outputAxes = sortedDigitSet(reader, reader.requiredInteger(9, "outputAxes"), "outputAxes");
     card.component = std::string(reader.text(10));
     card.positionFrameId = reader.integer(11, "positionFrameId", 0);
     card.xCoord = reader.real(12, "xCoord", 0.0);
@@ -27,8 +28,9 @@ std::optional<MonitorDisplacementCard> MonitorDisplacementFormat::read(FieldRead
     card.zCoord = reader.real(14, "zCoord", 0.0);
     card.displacementFrameId =
         reader.integer(15, "displacementFrameId", card.positionFrameId); // the format reference: the system of CP
-    card.sampledComponents = base::sortedDigits(
-        reader.integer(16, "sampledComponents", MonitorDisplacementCard::DEFAULT_SAMPLED_COMPONENTS));
+    card.sampledComponents = sortedDigitSet(
+        reader, reader.integer(16, "sampledComponents", MonitorDisplacementCard::DEFAULT_SAMPLED_COMPONENTS),
+        "sampledComponents");
     if (reader.lastUsedField() > 16)
         reader.error("card.bad-value",
                      "a " + std::string(reader.cardName()) + " has no field beyond " + std::string("sampledComponents"),

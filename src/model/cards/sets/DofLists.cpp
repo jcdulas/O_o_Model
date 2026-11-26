@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <iterator>
 #include <string>
@@ -209,7 +210,8 @@ std::vector<DofPair> readDofPairs(FieldReader& reader, const DofPairLayout& layo
         const std::string componentName = "components" + number;
         DofPair pair;
         pair.node = reader.requiredInteger(field, idName.c_str());
-        pair.components = base::sortedDigits(reader.integer(field + 1, componentName.c_str(), 0));
+        pair.components =
+            sortedDigitSet(reader, reader.integer(field + 1, componentName.c_str(), 0), componentName.c_str());
         pairs.push_back(pair);
     }
     return pairs;

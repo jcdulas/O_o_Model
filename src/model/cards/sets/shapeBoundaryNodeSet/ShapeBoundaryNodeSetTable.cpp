@@ -1,6 +1,7 @@
 #include "oor/model/cards/sets/shapeBoundaryNodeSet/ShapeBoundaryNodeSetTable.hpp"
 
 #include "oor/base/text/DigitSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -15,7 +16,7 @@ constexpr int FIRST_POINT_FIELD = 2;
 std::optional<ShapeBoundaryNodeSetCard> ShapeBoundaryNodeSetFormat::read(FieldReader& reader)
 {
     ShapeBoundaryNodeSetCard card;
-    card.components = base::sortedDigits(reader.requiredInteger(1, "components"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(1, "components"), "components");
     card.nodes = readIdRuns(reader, FIRST_POINT_FIELD, "nodes");
     if (!reader.failed())
         reader.report(check(card));

@@ -48,10 +48,10 @@ struct AeroTrim2Variable
 //
 // The Case Control TRIM selects the card by its SID, which is unique among all the AeroTrim and AeroTrim2 cards:
 // the two types share the category AeroTrimSet and a check between cards reports a SID that both have. MACH is not
-// negative and not 1.0 (Doublet-Lattice below 1.0, ZONA51 above it), Q is positive. AEQR is 1.0 for the elastic trim
-// (blank), 0.0 for the rigid trim; values between have no physical meaning but are allowed. The labels name a variable
-// by its LABEL, not by its ID, so a renumbering does not touch them; they are kept as written and compared without
-// regard to the case. A variable may be given once.
+// negative and not 1.0 (Doublet-Lattice below 1.0, the supersonic lifting-surface theory above it), Q is positive.
+// AEQR is 1.0 for the elastic trim (blank), 0.0 for the rigid trim; values between have no physical meaning but are
+// allowed. The labels name a variable by its LABEL, not by its ID, so a renumbering does not touch them; they are kept
+// as written and compared without regard to the case. A variable may be given once.
 struct AeroTrim2Card
 {
     base::EntityId id = 0;

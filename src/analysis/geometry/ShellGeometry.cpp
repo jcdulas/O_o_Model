@@ -1,6 +1,7 @@
 #include "ShellGeometry.hpp"
 
 #include <cmath>
+#include <initializer_list>
 #include <numbers>
 
 namespace oor::analysis::detail
@@ -36,6 +37,51 @@ base::Mat3 materialFrameOf(const Evaluation& evaluation, const ShellInput& input
     return frameFromXAndZ(x, z);
 }
 
+// The integral of the radius over the cross-section of an axisymmetric element, r dA: the first moment of its area
+// about the axis. The radius is the x coordinate of the basic system (the axis is its z axis). It is signed: a
+// cross-section on the negative side of x gives a negative moment, and the caller takes the absolute value.
+//
+// Triangle: the mean of the corners is the centroid of the area, so the moment is `center.x * area`, exactly.
+//
+// Quadrilateral: the mean of the corners is the centroid of a parallelogram only, so the moment is integrated on the
+// bilinear map p(xi, eta) = sum of N_i p_i, with N_i = (1 + xi xi_i) (1 + eta eta_i) / 4 and (xi, eta) in [-1, 1]^2:
+//
+//   moment = integral of r(xi, eta) * ((dp/dxi x dp/deta) . n) dxi deta
+//   dp/dxi  = ((p2 - p1) (1 - eta) + (p3 - p4) (1 + eta)) / 4
+//   dp/deta = ((p4 - p1) (1 - xi)  + (p3 - p2) (1 + xi))  / 4
+//
+// `n` is the unit normal of the element (of the cross product of its diagonals): the area element is the one whose
+// integral is the area of the element, half that cross product. An axisymmetric element is plane; were it warped, this
+// is the area element of its projection on the mean plane, as for the area. r and the area element are each of degree
+// 1 in xi and in eta, their product of degree 2 in each: the 2 x 2 Gauss rule (points -1/sqrt(3) and +1/sqrt(3),
+// weights 1) integrates it exactly.
+double radiusMoment(const ShellInput& input, const base::Vec3& center, const base::Vec3& normal, double area)
+{
+    constexpr std::size_t QUADRILATERAL_CORNERS = 4;
+    // A quadrilateral without area has no normal to project on: its moment is 0, which the product gives too.
+    if (input.corners.size() != QUADRILATERAL_CORNERS || !isFinite(normal))
+        return center.x * area;
+    const base::Vec3& first = input.corners[0];
+    const base::Vec3& second = input.corners[1];
+    const base::Vec3& third = input.corners[2];
+    const base::Vec3& fourth = input.corners[3];
+    const double gaussPoint = 1.0 / std::numbers::sqrt3;
+    double moment = 0.0;
+    for (const double xi : {-gaussPoint, gaussPoint})
+    {
+        for (const double eta : {-gaussPoint, gaussPoint})
+        {
+            const base::Vec3 alongXi = ((second - first) * (1.0 - eta) + (third - fourth) * (1.0 + eta)) / 4.0;
+            const base::Vec3 alongEta = ((fourth - first) * (1.0 - xi) + (third - second) * (1.0 + xi)) / 4.0;
+            const double radius = ((1.0 - xi) * (1.0 - eta) * first.x + (1.0 + xi) * (1.0 - eta) * second.x +
+                                   (1.0 + xi) * (1.0 + eta) * third.x + (1.0 - xi) * (1.0 + eta) * fourth.x) /
+                                  4.0;
+            moment += radius * dot(cross(alongXi, alongEta), normal); // the weights of the rule are 1
+        }
+    }
+    return moment;
+}
+
 // What the triangle and the quadrilateral have in common once the area vector, the centre and the element x axis are
 // known.
 void finishShell(const Evaluation& evaluation, const ShellInput& input, const base::Vec3& areaVector,
@@ -56,8 +102,10 @@ void finishShell(const Evaluation& evaluation, const ShellInput& input, const ba
             values.thickness = thickness;
         if (evaluation.wants(Quantity::Volume))
         {
+            // a ring: 2 pi times the integral of the radius over the cross-section (Pappus: the area times the length
+            // of the circle its centroid describes, the centroid of the area and not the mean of the corners)
             if (input.axisymmetric)
-                values.volume = 2.0 * std::numbers::pi * std::fabs(center.x) * area;
+                values.volume = 2.0 * std::numbers::pi * std::fabs(radiusMoment(input, center, normal, area));
             else if (input.hasThickness)
                 values.volume = area * thickness;
         }

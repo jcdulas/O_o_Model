@@ -1,6 +1,9 @@
 #include "oor/model/design/DesignUpdate.hpp"
 
 #include "oor/model/cards/nodes/node/NodeTable.hpp"
+#include "oor/model/cards/optimisation/designElemRelation1/DesignElemRelation1Table.hpp"
+#include "oor/model/cards/optimisation/designMatRelation1/DesignMatRelation1Table.hpp"
+#include "oor/model/cards/optimisation/designPropRelation1/DesignPropRelation1Table.hpp"
 #include "oor/model/cards/optimisation/designVar/DesignVarTable.hpp"
 #include "oor/model/design/DesignErrors.hpp"
 
@@ -18,9 +21,13 @@ namespace
 
 constexpr std::size_t PROBLEMS_SHOWN = 8;
 
-// A value the relation reproduces to rounding is the same value.
+// A value the relation reproduces to rounding is the same value. A field that holds no finite value (the infinity of
+// a blank transverse shear modulus, the NaN of a blank corner thickness) is the same only as itself: the tolerance is
+// relative, and relative to infinity every number would pass for the same, so such a field would never be written.
 bool sameToRounding(double left, double right)
 {
+    if (!std::isfinite(left) || !std::isfinite(right))
+        return left == right;
     const double scale = std::max(std::fabs(left), std::fabs(right));
     return std::fabs(left - right) <= 4.0 * std::numeric_limits<double>::epsilon() * scale;
 }
@@ -54,7 +61,34 @@ struct PlannedWrite
     std::uint32_t row = 0;
     std::size_t relation = 0;
     DesignFieldValue value;
+    bool freezesCoefficient = false; // the relation says PropertyValue: see freezePropertyValue
 };
+
+// Gives the relation card in `row` the number its PropertyValue word stood for, as an ordinary first coefficient.
+template <typename TableT>
+void freezeFirstCoefficient(Model& model, std::uint32_t row, double coefficient)
+{
+    TableT& table = model.table<TableT>();
+    auto card = table.card(row);
+    card.terms.front().coefficient = coefficient;
+    card.fromProperty = false;
+    table.store(row, card);
+}
+
+// PropertyValue makes the first coefficient of a relation "the value the field holds", and the field is about to
+// change. Left as it is, the card would take the new value as its coefficient: the deck saved at the design point
+// would give other fields than the ones it holds (the variable would count twice), and the same point applied again
+// would move the field again. So the card of a relation whose field is written receives the coefficient that was
+// used, the value the field held before; a relation whose field stays as it is keeps its word.
+void freezePropertyValue(Model& model, const DesignRelation& relation, double coefficient)
+{
+    if (relation.cardType == typeIndexOf<DesignPropRelation1Table>())
+        freezeFirstCoefficient<DesignPropRelation1Table>(model, relation.row, coefficient);
+    else if (relation.cardType == typeIndexOf<DesignMatRelation1Table>())
+        freezeFirstCoefficient<DesignMatRelation1Table>(model, relation.row, coefficient);
+    else if (relation.cardType == typeIndexOf<DesignElemRelation1Table>())
+        freezeFirstCoefficient<DesignElemRelation1Table>(model, relation.row, coefficient);
+}
 
 } // namespace
 
@@ -133,6 +167,7 @@ DesignUpdate applyDesign(Model& model, const DesignModel& design, const DesignPo
         change.limit = value.limit;
         change.changed = !sameToRounding(value.current, value.value);
         change.after = change.changed ? value.value : value.current;
+        change.coefficientFrozen = change.changed && relation.fromProperty && !relation.terms.empty();
         update.fields.push_back(change);
         if (!change.changed)
             continue;
@@ -142,6 +177,7 @@ DesignUpdate applyDesign(Model& model, const DesignModel& design, const DesignPo
         write.row = relation.target->row;
         write.relation = index;
         write.value = {&relation.facts, value.value};
+        write.freezesCoefficient = change.coefficientFrozen;
         writes.push_back(write);
     }
     std::stable_sort(writes.begin(), writes.end(), [](const PlannedWrite& left, const PlannedWrite& right)
@@ -175,6 +211,12 @@ DesignUpdate applyDesign(Model& model, const DesignModel& design, const DesignPo
                 values.push_back(writes[last++].value);
             relations[writes[first].relation].fields->write(model, writes[first].row, values);
             first = last;
+        }
+        // The coefficient is the value the field held when the relations were evaluated, before any write.
+        for (const PlannedWrite& write : writes)
+        {
+            if (write.freezesCoefficient)
+                freezePropertyValue(model, relations[write.relation], evaluation.relations[write.relation].current);
         }
         if (!shape.moves.empty())
         {

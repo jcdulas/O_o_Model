@@ -17,10 +17,13 @@
 // has the integral of that along the beam, the section varying linearly between the stations (the trapezoid over X/XB).
 // The mass of a CurvedBeam2 needs the length of the arc, which the geometry does not compute: it is NaN.
 //
-// The structural mass is at the centroid of its distribution along the beam (the middle of the beam for a uniform one).
-// The non-structural mass of a BeamProp, BeamProp3 or BeamLumpedAreaProp is at its own centre of gravity, which the
-// property gives as (y, z) in the element system at the two ends: the element has then the two masses as one body at
-// their common centre with the inertia that comes from their distance.
+// The structural mass is at the centroid of its distribution along the beam (the middle of the beam for a uniform one),
+// on the neutral axis: the element x axis is the line of the shear centres, and a BeamProp, BeamProp3 or
+// BeamLumpedAreaProp gives the neutral axis (the centroid of the section) as (y, z) in the element system at the two
+// ends. The solver integrates the structural mass there too. The non-structural mass of those properties is at its own
+// centre of gravity, given the same way: the element has then the two masses as one body at their common centre with
+// the inertia that comes from their distance. The rotary inertia of the section itself (and the NSI of a BeamProp) is
+// not counted: an element is a point mass here.
 //
 // The offsets (WA, WB; WC of a Beam3) place that mass by ModelParams OffsetDefinition (MassCalculator::offsetMassOf):
 // between the offset ends under LoadRecoveryOffsets and ElemOffsetZ; under ElemOffsetsOnly, the solver's default, at
@@ -75,12 +78,21 @@ void beamMass(const BeamSection& section, double density, const ElementValues& g
             return geometry.center;
         return geometry.center + (fraction - 0.5) * length * axis;
     };
-    const base::Vec3 structuralCenter = along(area.centroid);
-    base::Vec3 nonStructuralCenter = along(nsm.centroid);
-    const double ey = section.nsmCenterA[0] + nsm.centroid * (section.nsmCenterB[0] - section.nsmCenterA[0]);
-    const double ez = section.nsmCenterA[1] + nsm.centroid * (section.nsmCenterB[1] - section.nsmCenterA[1]);
-    if ((ey != 0.0 || ez != 0.0) && isDefined(geometry.frame.column(1)))
-        nonStructuralCenter = nonStructuralCenter + ey * geometry.frame.column(1) + ez * geometry.frame.column(2);
+    // A point of the beam off its axis: (y, z) in the element system, given at the two ends and linear between them,
+    // taken where the mass it places has its centre along the beam (exact for a mass per length times a linear offset).
+    const auto offAxis = [&](const base::Vec3& onAxis, const std::array<double, 2>& endA,
+                             const std::array<double, 2>& endB, double fraction)
+    {
+        const double y = endA[0] + fraction * (endB[0] - endA[0]);
+        const double z = endA[1] + fraction * (endB[1] - endA[1]);
+        if ((y == 0.0 && z == 0.0) || !isDefined(geometry.frame.column(1)))
+            return onAxis;
+        return onAxis + y * geometry.frame.column(1) + z * geometry.frame.column(2);
+    };
+    const base::Vec3 structuralCenter =
+        offAxis(along(area.centroid), section.neutralAxisA, section.neutralAxisB, area.centroid);
+    const base::Vec3 nonStructuralCenter =
+        offAxis(along(nsm.centroid), section.nsmCenterA, section.nsmCenterB, nsm.centroid);
 
     const double total = value.structural + value.nonStructural;
     if (!(total != 0.0) || !isDefined(structuralCenter) || !isDefined(nonStructuralCenter))

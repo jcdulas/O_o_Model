@@ -9,7 +9,8 @@ namespace oor::model
 void ControlStatementList::replaceWith(const ControlStatementList& other)
 {
     m_entries = other.m_entries;
-    m_nextKey = 1;
+    // The key counter goes on: a key is never given twice, so a handle to a statement this list held finds nothing
+    // instead of another statement.
     for (ControlStatement& statement : m_entries)
         statement.key = newKey();
 }

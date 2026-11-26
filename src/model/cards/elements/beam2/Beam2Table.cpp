@@ -1,10 +1,10 @@
 #include "oor/model/cards/elements/beam2/Beam2Table.hpp"
 
-#include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/elements/BarOffsetKinds.hpp"
 #include "oor/model/cards/elements/beam2Defaults/Beam2DefaultsTable.hpp"
 #include "oor/model/core/Model.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <variant>
 
@@ -61,8 +61,8 @@ std::optional<Beam2Card> Beam2Format::read(FieldReader& reader)
     }
     if (const std::string_view offsetKind = reader.text(8); !offsetKind.empty())
         card.offsetKind = std::string(offsetKind);
-    card.pinFlagsA = base::sortedDigits(reader.integer(9, "pinFlagsA", 0));
-    card.pinFlagsB = base::sortedDigits(reader.integer(10, "pinFlagsB", 0));
+    card.pinFlagsA = sortedDigitSet(reader, reader.integer(9, "pinFlagsA", 0), "pinFlagsA");
+    card.pinFlagsB = sortedDigitSet(reader, reader.integer(10, "pinFlagsB", 0), "pinFlagsB");
     for (int index = 0; index < 3; ++index)
     {
         static constexpr const char* NAMES_A[3] = {"offset1A", "offset2A", "offset3A"};

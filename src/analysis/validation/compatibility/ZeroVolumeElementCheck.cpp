@@ -21,7 +21,7 @@ public:
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
         const ElementMeasures& measures = context.measures();
-        const double limit = 1.0e-15 * measures.scale * measures.scale * measures.scale;
+        const double limit = measures.collapsedVolume();
         for (const ElementMeasure& measure : measures.elements)
         {
             if (std::isfinite(measure.volume) && measure.volume <= limit)

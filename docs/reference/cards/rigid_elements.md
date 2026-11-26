@@ -240,6 +240,8 @@ A rigid body whose independent degrees of freedom are the six of one grid point 
 | ---: | --- | --- | --- | --- |
 | 1 | `dependentNode` | `number` | — | Identifier addressing node data. |
 
+*Note*: the list may end with the thermal expansion coefficient, or with that coefficient then the reference temperature: reals, written with a decimal point or an exponent, where a node is an integer.
+
 **Model diagnostics**
 
 The following messages identify invalid input for the applicable field or form.

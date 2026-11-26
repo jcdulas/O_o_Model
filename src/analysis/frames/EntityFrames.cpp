@@ -139,7 +139,9 @@ EntitySet& noteTargetIsStored(EntitySet& set)
     return set;
 }
 
-EntitySet computeEntityFrames(const model::Model& model, const results::ResultAttachment& attachment, bool derived,
+// `declared`: the table says its frame itself (tableSaysItsFrame), so `stored` is that frame and not one found in the
+// model.
+EntitySet computeEntityFrames(const model::Model& model, const results::ResultAttachment& attachment, bool declared,
                               FrameFamily family, const StoredFrameInfo& stored, const std::optional<FrameRole>& target,
                               const std::vector<std::int32_t>& unique, base::ThreadPool* pool)
 {
@@ -270,7 +272,12 @@ EntitySet computeEntityFrames(const model::Model& model, const results::ResultAt
         }
     };
 
-    if (solid && !derived)
+    // A solid whose frame the model gave (StoredFrames::describe read the properties) has the material system of its
+    // own property, which may differ from one element to the next. A table that says its frame itself (a frame change
+    // made it, or a program declared it) is in that one frame whatever the properties say, as for the other families;
+    // only a declared Mixed frame, which names no frame but "the system of each property", goes by the properties too.
+    const bool byProperty = solid && (!declared || stored.kind == StoredFrame::Mixed);
+    if (byProperty)
     {
         // the material system of a solid is the CORDM of its property: 0 the basic system, a rectangular system its own
         const SystemDefinitions definitions = readSystemDefinitions(model);
@@ -321,8 +328,9 @@ namespace oor::analysis
 
 struct FrameCache::Impl
 {
-    // what the frames of an entity depend on besides its ID: the family of the table, whether a frame change made it,
-    // its stored frame and the frame of the change
+    // what the frames of an entity depend on besides its ID: the family of the table, whether the table says its frame
+    // itself (a solid is then in that frame, else in the system of its property: two sets that must not be mixed), its
+    // stored frame and the frame of the change
     using Key = std::tuple<std::uint8_t, bool, std::uint8_t, std::int32_t, bool, std::uint8_t, std::int32_t>;
     struct Entry
     {
@@ -358,7 +366,7 @@ namespace
 
 // The frames of `unique` from the frames the cache holds of each entity, the missing ones computed and kept in it.
 EntitySet cachedFrames(FrameCache::Impl& impl, const FrameCache::Impl::Key& key, const model::Model& model,
-                       const results::ResultAttachment& attachment, bool derived, FrameFamily family,
+                       const results::ResultAttachment& attachment, bool declared, FrameFamily family,
                        const StoredFrameInfo& stored, const std::optional<FrameRole>& target,
                        const std::vector<std::int32_t>& unique, base::ThreadPool* pool)
 {
@@ -375,7 +383,7 @@ EntitySet cachedFrames(FrameCache::Impl& impl, const FrameCache::Impl::Key& key,
     if (!missing.empty())
     {
         const EntitySet computed =
-            computeEntityFrames(model, attachment, derived, family, stored, target, missing, pool);
+            computeEntityFrames(model, attachment, declared, family, stored, target, missing, pool);
         const std::lock_guard<std::mutex> lock(impl.mutex);
         auto& known = impl.entries[key];
         for (std::size_t index = 0; index < missing.size(); ++index)
@@ -414,8 +422,10 @@ EntityFrames buildEntityFrames(const model::Model& model, const results::ResultA
                                base::ThreadPool* pool, FrameCache* cache, bool rowsWhenTargetIsStored)
 {
     EntityFrames out;
-    // a table that a frame change made says its frame itself; the others have the frame the model gives them
-    const bool derived = table.meta().derivation.rfind("inFrame(", 0) == 0;
+    // a table that a frame change made says its frame itself, and so does a table made in memory that declares one:
+    // `stored` is then that frame (StoredFrames::describe takes the same test); the others have the frame the model
+    // gives them
+    const bool declared = tableSaysItsFrame(table.meta());
     const bool needsTarget = target.has_value();
 
     // the entities: the distinct grid points or elements of the rows (mostly in order already)
@@ -429,13 +439,13 @@ EntityFrames buildEntityFrames(const model::Model& model, const results::ResultA
     std::shared_ptr<const EntitySet> frames;
     if (cache == nullptr)
     {
-        EntitySet computed = computeEntityFrames(model, attachment, derived, family, stored, target, unique, pool);
+        EntitySet computed = computeEntityFrames(model, attachment, declared, family, stored, target, unique, pool);
         frames = std::make_shared<const EntitySet>(std::move(noteTargetIsStored(computed)));
     }
     else
     {
         const FrameCache::Impl::Key key{static_cast<std::uint8_t>(family),
-                                        derived,
+                                        declared,
                                         static_cast<std::uint8_t>(stored.kind),
                                         stored.system,
                                         needsTarget,
@@ -457,7 +467,7 @@ EntityFrames buildEntityFrames(const model::Model& model, const results::ResultA
             if (!frames)
             {
                 EntitySet computed =
-                    cachedFrames(impl, key, model, attachment, derived, family, stored, target, unique, pool);
+                    cachedFrames(impl, key, model, attachment, declared, family, stored, target, unique, pool);
                 frames = std::make_shared<const EntitySet>(std::move(noteTargetIsStored(computed)));
                 const std::lock_guard<std::mutex> lock(impl.mutex);
                 impl.lastSets[key] = {unique, frames};

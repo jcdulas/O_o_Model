@@ -4,9 +4,12 @@
 #include "oor/analysis/coordinates/BasicPositionCache.hpp"
 #include "oor/analysis/geometry/ElementGeometry.hpp"
 #include "oor/base/errors/Errors.hpp"
+#include "oor/model/cards/nodes/node/NodeTable.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <span>
 
 namespace oor::analysis
 {
@@ -130,20 +133,30 @@ void measureChunk(const model::Model& model, std::uint16_t type, Kind kind, cons
     }
 }
 
+// The diagonal of the bounding box of the grid points; 0 for a model without grid points.
 double modelScale(const model::Model& model)
 {
     const BasicPositionCache& cache = BasicPositionCache::of(model);
-    if (cache.positions().empty())
+    const model::NodeTable* grids = model.findTable<model::NodeTable>();
+    if (grids == nullptr)
         return 0.0;
-    std::array<double, 3> low = cache.positions().front();
-    std::array<double, 3> high = low;
-    for (const std::array<double, 3>& point : cache.positions())
+    const std::span<const std::array<double, 3>> positions = cache.positions();
+    const std::size_t rowCount = std::min<std::size_t>(positions.size(), grids->rows().rowCount());
+    std::array<double, 3> low{};
+    std::array<double, 3> high{};
+    bool any = false;
+    for (std::size_t row = 0; row < rowCount; ++row)
     {
+        // The row of a deleted grid point still holds a position, which is no longer a point of the model.
+        if (!grids->rows().isAlive(static_cast<std::uint32_t>(row)))
+            continue;
+        const std::array<double, 3>& point = positions[row];
         for (std::size_t axis = 0; axis < 3; ++axis)
         {
-            low[axis] = std::min(low[axis], point[axis]);
-            high[axis] = std::max(high[axis], point[axis]);
+            low[axis] = any ? std::min(low[axis], point[axis]) : point[axis];
+            high[axis] = any ? std::max(high[axis], point[axis]) : point[axis];
         }
+        any = true;
     }
     return std::sqrt((high[0] - low[0]) * (high[0] - low[0]) + (high[1] - low[1]) * (high[1] - low[1]) +
                      (high[2] - low[2]) * (high[2] - low[2]));

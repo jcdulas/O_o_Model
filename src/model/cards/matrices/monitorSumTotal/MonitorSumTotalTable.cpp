@@ -4,6 +4,7 @@
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
 #include "oor/model/cards/matrices/MonitorPointFields.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <cmath>
 
@@ -32,7 +33,7 @@ std::optional<MonitorSumTotalCard> MonitorSumTotalFormat::read(FieldReader& read
     MonitorSumTotalCard card;
     card.entryName = std::string(reader.text(1));
     card.label = reader.spanText(2, 8);
-    card.outputAxes = base::sortedDigits(reader.requiredInteger(AXES_FIELD, "outputAxes"));
+    card.outputAxes = sortedDigitSet(reader, reader.requiredInteger(AXES_FIELD, "outputAxes"), "outputAxes");
     card.positionFrameId = reader.integer(POSITION_FRAME_FIELD, "positionFrameId", 0);
     card.xCoord = reader.real(X_FIELD, "xCoord", 0.0);
     card.yCoord = reader.real(Y_FIELD, "yCoord", 0.0);

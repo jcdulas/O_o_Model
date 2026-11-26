@@ -28,8 +28,9 @@ struct AeroTrimVariable
 // an AeroController by their LABEL (not by their ID), so a renumbering does not touch them, and are compared without
 // regard to the case.
 //
-// MACH is not negative and not 1.0 (the Doublet-Lattice theory below 1.0, ZONA51 above it), Q is positive. AEQR is 1.0
-// for the elastic trim (blank), 0.0 for the rigid trim; the values between have no physical meaning but are allowed.
+// MACH is not negative and not 1.0 (the Doublet-Lattice theory below 1.0, the supersonic lifting-surface theory above
+// it), Q is positive. AEQR is 1.0 for the elastic trim (blank), 0.0 for the rigid trim; the values between have no
+// physical meaning but are allowed.
 struct AeroTrimCard
 {
     base::EntityId id = 0;

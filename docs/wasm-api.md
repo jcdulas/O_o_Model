@@ -400,8 +400,10 @@ pressure, force, trim and stability-derivative outputs. Named payloads survive `
 `writeXlsx` writes an index sheet (every table, with a link to its sheet) and one sheet per table: what the table is,
 then a line per step and row with its labels (step, ID, grid point, layer, ...) and a column per component (two for a
 complex value: real and imaginary parts), under a frozen header line with filters. A table longer than a sheet
-(1,048,576 rows) goes on in the next sheets. The workbook is an output for people: the archive is the format to
-exchange results.
+(1,048,576 rows) goes on in the next sheets, a named result as well as a result table. An array wider than a sheet
+(16,384 columns) is written one value a line; a result table with more columns than a sheet is listed in `skipped`.
+Texts that are not valid UTF-8 are replaced, and a sheet name is cut between two characters. The workbook is an
+output for people: the archive is the format to exchange results.
 
 Both writers return a report: `{ finished, bytes, written: [...], skipped: [{ kind, container, reason, message }] }`.
 A table a format cannot hold is listed in `skipped`, never dropped silently.
@@ -533,7 +535,10 @@ shows accepted-point persistence and restoration.
 
 ## Errors
 
-Every error of the library is thrown as a JavaScript `Error` whose message says what went wrong:
+Every error of the library is thrown as a JavaScript `Error` whose message says what went wrong. A number given
+where the library takes a whole number (a card ID, a key, a field number from 1, the position of a table or of a
+named result from 0) is checked before use: a fraction or a value outside its range throws, it is never rounded to
+another card or table.
 
 **JavaScript / WebAssembly**
 

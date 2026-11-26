@@ -26,6 +26,7 @@
 #include "oor/model/design/DesignModel.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <set>
 
 namespace oor::model
@@ -160,7 +161,7 @@ private:
             if (!dependent)
             {
                 problem("DesignVarLink " + std::to_string(link.id) + " makes the design variable " +
-                        std::to_string(link.dependent) + " depend on others, and no DESVAR defines it");
+                        std::to_string(link.dependent) + " depend on others, and no DesignVar defines it");
                 continue;
             }
             DesignVariable& variable = m_design.m_variables[*dependent];
@@ -177,7 +178,7 @@ private:
             {
                 if (!m_design.findVariable(term.designVarId))
                     problem("DesignVarLink " + std::to_string(link.id) + " names the design variable " +
-                            std::to_string(term.designVarId) + ", which no DESVAR defines");
+                            std::to_string(term.designVarId) + ", which no DesignVar defines");
             }
         }
     }
@@ -708,7 +709,12 @@ std::optional<double> DesignModel::constant(const Model& model, const std::strin
     const DesignFieldLookup lookup = fields->find(model, location->row, DesignField{entry.field});
     if (!lookup.facts)
         return fail("the " + fieldConstantsCard + " constant " + label + ": " + lookup.problem);
-    return fields->read(model, location->row, *lookup.facts);
+    const double value = fields->read(model, location->row, *lookup.facts);
+    // NaN is how a card says that the field holds no number (a blank corner thickness of a shell element).
+    if (std::isnan(value))
+        return fail("the " + fieldConstantsCard + " constant " + label + " reads " + std::string(entry.cardName) + " " +
+                    std::to_string(entry.id) + " " + lookup.facts->name + ", which is blank on that card");
+    return value;
 }
 
 } // namespace oor::model

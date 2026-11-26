@@ -552,43 +552,122 @@ std::vector<base::EntityId> expandedConstraintSet(const model::Model& model, std
     return std::vector<base::EntityId>(leaves.begin(), leaves.end());
 }
 
-std::vector<std::vector<base::EntityId>> constraintSelections(const model::Model& model, std::string_view command)
+namespace
 {
-    const bool isSpc = command == model::SINGLE_POINT_CONSTR_SELECTION;
-    const model::CaseControl& caseControl = model.control().caseControl;
-    const model::CaseLineages lineages(caseControl);
-    std::set<std::vector<base::EntityId>> selections;
-    bool named = false;
+
+// What the analysis subcases choose with one constraint command.
+struct CommandChoices
+{
+    bool named = false; // a subcase has the command, its own or inherited
+    // For each analysis subcase, in their order: the sets the command selects there (expanded, sorted); nothing for a
+    // subcase without the command, or with one that does not name a set.
+    std::vector<std::optional<std::vector<base::EntityId>>> bySubcase;
+};
+
+// `caseControl` is the one of the deck; the union cards that expand a selection are the ones of `model`.
+CommandChoices choicesOf(const model::CaseControl& caseControl, const model::CaseLineages& lineages,
+                         const model::Model& model, std::string_view command)
+{
+    CommandChoices choices;
     for (const model::Subcase* subcase : analysisSubcases(caseControl))
     {
+        choices.bySubcase.emplace_back();
         const std::optional<std::int64_t> value = effectiveInteger(lineages, *subcase, command);
         if (!value)
             continue;
-        named = true;
-        const auto id = base::toEntityId(*value);
-        if (!id)
-            continue;
-        selections.insert(expandedConstraintSet(model, command, *id));
+        choices.named = true;
+        if (const std::optional<base::EntityId> id = base::toEntityId(*value))
+            choices.bySubcase.back() = expandedConstraintSet(model, command, *id);
     }
-    if (!named)
+    return choices;
+}
+
+// Every set ID a constraint command could name in the model: the ones of the Bulk Data cards of the command and the
+// ones of the union cards that combine them.
+std::set<base::EntityId> constraintSetIds(const model::Model& model, std::string_view command)
+{
+    std::set<base::EntityId> ids;
+    if (command == model::SINGLE_POINT_CONSTR_SELECTION)
     {
-        // No command anywhere: the model is judged on every set it has.
-        std::set<base::EntityId> every;
-        if (isSpc)
+        forEachCard<model::SinglePointConstrTable>(
+            model, [&](const model::SinglePointConstrCard& card, model::CardLocation) { ids.insert(card.id); });
+        forEachCard<model::SinglePointConstrListTable>(
+            model, [&](const model::SinglePointConstrListCard& card, model::CardLocation) { ids.insert(card.id); });
+        forEachCard<model::SinglePointConstrUnionTable>(
+            model, [&](const model::SinglePointConstrUnionCard& card, model::CardLocation) { ids.insert(card.id); });
+    }
+    else
+    {
+        forEachCard<model::MultiPointConstrTable>(
+            model, [&](const model::MultiPointConstrCard& card, model::CardLocation) { ids.insert(card.id); });
+        forEachCard<model::MultiPointConstrUnionTable>(
+            model, [&](const model::MultiPointConstrUnionCard& card, model::CardLocation) { ids.insert(card.id); });
+    }
+    return ids;
+}
+
+} // namespace
+
+std::vector<std::vector<base::EntityId>> constraintSelections(const model::Model& root, const model::Model& model,
+                                                              std::string_view command)
+{
+    const model::CaseControl& caseControl = root.control().caseControl;
+    const model::CaseLineages lineages(caseControl);
+    const CommandChoices choices = choicesOf(caseControl, lineages, model, command);
+    std::set<std::vector<base::EntityId>> selections;
+    if (choices.named)
+    {
+        for (const std::optional<std::vector<base::EntityId>>& sets : choices.bySubcase)
         {
-            forEachCard<model::SinglePointConstrTable>(
-                model, [&](const model::SinglePointConstrCard& card, model::CardLocation) { every.insert(card.id); });
-            forEachCard<model::SinglePointConstrListTable>(model, [&](const model::SinglePointConstrListCard& card,
-                                                                      model::CardLocation) { every.insert(card.id); });
+            if (sets)
+                selections.insert(*sets);
         }
-        else
-        {
-            forEachCard<model::MultiPointConstrTable>(
-                model, [&](const model::MultiPointConstrCard& card, model::CardLocation) { every.insert(card.id); });
-        }
-        selections.insert(std::vector<base::EntityId>(every.begin(), every.end()));
+    }
+    else
+    {
+        // No command anywhere: nothing says which sets go together, so each set ID is judged alone (a union with the
+        // sets it combines). All the sets in one selection would report two alternative sets as if they were active
+        // at the same time.
+        for (const base::EntityId id : constraintSetIds(model, command))
+            selections.insert(expandedConstraintSet(model, command, id));
     }
     return std::vector<std::vector<base::EntityId>>(selections.begin(), selections.end());
+}
+
+std::vector<ConstraintCombination> constraintCombinations(const model::Model& root, const model::Model& model)
+{
+    const model::CaseControl& caseControl = root.control().caseControl;
+    const model::CaseLineages lineages(caseControl);
+    const CommandChoices spc = choicesOf(caseControl, lineages, model, model::SINGLE_POINT_CONSTR_SELECTION);
+    const CommandChoices mpc = choicesOf(caseControl, lineages, model, model::MULTI_POINT_CONSTR_SELECTION);
+    // (multipoint sets, single point sets): the order of the pairs is the order of the result.
+    std::set<std::pair<std::vector<base::EntityId>, std::vector<base::EntityId>>> pairs;
+    if (mpc.named)
+    {
+        // What each subcase selects with the two commands; a subcase without SPC has no single point constraint set
+        // (and when no subcase names SPC, none is active).
+        for (std::size_t index = 0; index < mpc.bySubcase.size(); ++index)
+        {
+            if (mpc.bySubcase[index])
+                pairs.emplace(*mpc.bySubcase[index], spc.bySubcase[index].value_or(std::vector<base::EntityId>{}));
+        }
+    }
+    else if (!spc.named)
+    {
+        // Neither command anywhere: every set of one with every set of the other (see the header for why all the sets
+        // together give the clashes of every pair of one set of each).
+        const std::set<base::EntityId> mpcIds = constraintSetIds(model, model::MULTI_POINT_CONSTR_SELECTION);
+        const std::set<base::EntityId> spcIds = constraintSetIds(model, model::SINGLE_POINT_CONSTR_SELECTION);
+        if (!mpcIds.empty())
+            pairs.emplace(std::vector<base::EntityId>(mpcIds.begin(), mpcIds.end()),
+                          std::vector<base::EntityId>(spcIds.begin(), spcIds.end()));
+    }
+    // Else only SPC is named: no multipoint constraint set is active, nothing to combine.
+    std::vector<ConstraintCombination> combinations;
+    combinations.reserve(pairs.size());
+    for (const auto& [mpcSets, spcSets] : pairs)
+        combinations.push_back(ConstraintCombination{mpcSets, spcSets});
+    return combinations;
 }
 
 } // namespace oor::analysis

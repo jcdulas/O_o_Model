@@ -3,7 +3,8 @@
 #include "oor/analysis/validation/engine/CheckRegistry.hpp"
 
 // Family 3: element, property and material compatibility. Every check is one class in one file of
-// src/analysis/validation/compatibility/, with the function that adds it to the registry.
+// src/analysis/validation/compatibility/, with the function that adds it to the registry (the warning about a value
+// derived from blank fields is a second class in the file of the error about the value given).
 
 namespace oor::analysis
 {
@@ -23,8 +24,10 @@ void addHeatMaterialStructuralCheck(CheckRegistry& registry);
 void addStructuralMaterialThermalCheck(CheckRegistry& registry);
 void addThermalConductivityMissingCheck(CheckRegistry& registry);
 void addIsoMatPoissonCheck(CheckRegistry& registry);
+void addIsoMatDerivedPoissonCheck(CheckRegistry& registry); // in IsoMatPoissonCheck.cpp
 void addIsoMatModulusCheck(CheckRegistry& registry);
 void addIsoMatShearModulusCheck(CheckRegistry& registry);
+void addIsoMatBlankShearModulusCheck(CheckRegistry& registry); // in IsoMatShearModulusCheck.cpp
 void addOrthoMat2DPoissonCheck(CheckRegistry& registry);
 void addShellThicknessCheck(CheckRegistry& registry);
 void addPlyThicknessCheck(CheckRegistry& registry);

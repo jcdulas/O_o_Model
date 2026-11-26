@@ -163,8 +163,8 @@ SuperelementCatalogue::SuperelementCatalogue(const model::Model& model) : m_resi
         if (entry.type == SuperelementType::Secondary && csuper != csupers.end())
             entry.imageOf = std::abs(csuper->second.primarySuperelementId);
         // An image has the points of its primary, even when it has a BEGIN SUPER section of its own for its loads
-        // (public see101nd: SE 1 is the MIRROR of SE 7 and its section holds a ShellPressureLoad on the points 71 and
-        // 72 of 7).
+        // (a superelement that is the MIRROR of another may hold, in its section, a ShellPressureLoad on points of its
+        // primary).
         if (entry.imageOf != 0)
             entry.idModel = &residual.superelementModel(entry.imageOf);
         else if (entry.part != nullptr)

@@ -1,14 +1,19 @@
 #include "oor/model/references/Renumbering.hpp"
 
 #include "oor/model/cards/aero/AeroBoxRanges.hpp"
+#include "oor/model/cards/sets/DofLists.hpp"
+#include "oor/model/cards/sets/idListSet1/IdListSet1Table.hpp"
 #include "oor/model/cards/superelements/SuperelementIds.hpp"
 #include "oor/model/references/PartScopes.hpp"
 #include "oor/model/references/ReferenceChecker.hpp"
+#include "oor/model/references/SetMemberUses.hpp"
 
 #include <algorithm>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 namespace oor::model
@@ -939,7 +944,24 @@ std::optional<base::EntityId> signedMapping(RenumberSpace space, const IdMapping
     return mapping(id);
 }
 
-// The IDs in use in the space and the ID each gets. Throws when a new ID is not valid or two IDs would become the same.
+// The new ID of an ID that no card of the space has (a dangling reference, a member of a set that names nothing): what
+// the mapping makes of it. A mapping may refuse an ID (IdMapping; Renumbering::offset does when the shifted ID is not
+// a valid one): the ID of a card stops the renumbering, but a number that names nothing has nothing to follow, so it
+// stays as it is.
+std::optional<base::EntityId> mappedWithoutCard(RenumberSpace space, const IdMapping& mapping, base::EntityId id)
+{
+    try
+    {
+        return signedMapping(space, mapping, id);
+    }
+    catch (const base::UsageError&)
+    {
+        return std::nullopt;
+    }
+}
+
+// The IDs in use in the space and the ID each gets. Throws when a new ID is not valid (the mapping refuses the ID of a
+// card, or gives it zero or another sign) or two IDs would become the same.
 std::unordered_map<base::EntityId, base::EntityId> planNewIds(const Model& model, RenumberSpace space,
                                                               const IdMapping& mapping)
 {
@@ -1023,10 +1045,155 @@ private:
     std::function<std::optional<base::EntityId>(base::EntityId)> m_newIdOf;
 };
 
+// The sets whose members are IDs of the renumbered space: a set is a plain list of IDs, and only the cards and the
+// output requests that name it say whether they are grid points or elements (SetMemberUses.hpp).
+struct SetMemberPlan
+{
+    // What an ID of the renumbered space is in a set; Unknown for a space that no set lists (no set follows).
+    SetMemberKind kind = SetMemberKind::Unknown;
+    std::unordered_set<base::EntityId> bulkSets; // the set IDs of the IdListSet1 cards whose members follow
+    std::unordered_set<std::uint32_t> caseSets;  // the keys of the Case Control SET entries whose members follow
+};
+
+// What an ID of the space is in a set of grid points or of elements; Unknown for the other spaces.
+SetMemberKind memberKindOf(RenumberSpace space) noexcept
+{
+    if (space == RenumberSpace::Node)
+        return SetMemberKind::Node;
+    if (space == RenumberSpace::Element)
+        return SetMemberKind::Element;
+    return SetMemberKind::Unknown;
+}
+
+// A set that one user names as a set of grid points and another as a set of elements cannot follow a renumbering of
+// either: its members would have to be renumbered for one user and kept for the other.
+void requireOneMeaning(const SetMemberUse& use, SetMemberKind renumbered)
+{
+    if (use.kind() != SetMemberKind::Conflict)
+        return;
+    throw base::UsageError("cannot renumber the " + std::string(setMemberWords(renumbered)) + ": " + use.set +
+                           " is named as a set of grid points (" + use.nodeUser + ") and as a set of elements (" +
+                           use.elementUser + "), so its members cannot follow");
+}
+
+// Finds the sets of `model` whose members follow a renumbering of `space`, before anything is changed. Throws
+// UsageError for a set that is named both ways (requireOneMeaning). A set that no known user names is not in the plan:
+// its members stay as they are.
+SetMemberPlan planSetMembers(Model& model, RenumberSpace space)
+{
+    SetMemberPlan plan;
+    plan.kind = memberKindOf(space);
+    if (plan.kind == SetMemberKind::Unknown)
+        return plan;
+    for (const auto& [setId, use] : bulkSetUses(model))
+    {
+        requireOneMeaning(use, plan.kind);
+        if (use.kind() == plan.kind)
+            plan.bulkSets.insert(setId);
+    }
+    for (const auto& [entryKey, use] : caseSetUses(std::as_const(model).control().caseControl))
+    {
+        requireOneMeaning(use, plan.kind);
+        if (use.kind() == plan.kind)
+            plan.caseSets.insert(entryKey);
+    }
+    return plan;
+}
+
+// Rewrites the members of the IdListSet1 cards of the plan: a member written alone and the two ends of a range, each
+// as the reference of its kind (the IDs between the ends of a range keep their numbers, as in every list of the Bulk
+// Data). The rewriter leaves a negative or zero number alone.
+void rewriteBulkSetMembers(Model& model, const SetMemberPlan& plan, Rewriter& rewriter)
+{
+    const std::optional<SetMemberTargets> targets = targetsOfSetMembers(plan.kind);
+    auto* table = static_cast<IdListSet1Table*>(model.findTable(typeIndexOf<IdListSet1Table>()));
+    if (!targets || table == nullptr || plan.bulkSets.empty())
+        return;
+    for (std::uint32_t row = 0; row < table->rows().rowCount(); ++row)
+    {
+        if (table->rows().isAlive(row) && plan.bulkSets.contains(table->idAt(row)))
+            visitIdRuns(table->runsColumn(), row, rewriter, "ids", targets->single, targets->range);
+    }
+}
+
+// True when a model of the deck other than `model` has a card with this ID in the ID space.
+bool isIdOfAnotherModel(const Model& model, base::IdSpace space, base::EntityId id)
+{
+    const Model& root = model.root();
+    if (&root != &model && root.locate(space, id))
+        return true;
+    for (const std::unique_ptr<Model>& part : root.parts())
+    {
+        if (part.get() != &model && part->locate(space, id))
+            return true;
+    }
+    return false;
+}
+
+// Rewrites the members of the Case Control SETs of the plan. A SET is stored expanded (every ID of a range is a
+// member), so each member is renumbered on its own:
+//  - the ID of a card of the model: its new ID;
+//  - an ID that only another model of the deck has (the Case Control selects in the parts too): unchanged, it is not
+//    one of this renumbering;
+//  - an ID that names nothing (a gap of a range): what the mapping makes of it, so that a range moved by an offset
+//    stays a range. When the mapping leaves it alone and a card now has that number, the member is dropped: it named
+//    nothing, and kept it would select a card the set never listed.
+// A member is listed once, where it first appears, and the original text of the entry is dropped when it changes.
+void rewriteCaseSetMembers(Model& model, RenumberSpace space, const IdMapping& mapping,
+                           const std::unordered_map<base::EntityId, base::EntityId>& newIds, const SetMemberPlan& plan)
+{
+    const std::optional<base::IdSpace> idSpace = idSpaceOf(space);
+    if (plan.caseSets.empty() || !idSpace)
+        return;
+    std::unordered_set<base::EntityId> taken; // the IDs the cards of the space have after the renumbering
+    for (const auto& [old, updated] : newIds)
+        taken.insert(updated);
+
+    // The member after the renumbering; nothing for a member that is dropped.
+    const auto renumbered = [&](std::int64_t member) -> std::optional<std::int64_t>
+    {
+        const std::optional<base::EntityId> id = base::toEntityId(member);
+        if (member <= 0 || !id)
+            return member; // not an ID
+        if (const auto found = newIds.find(*id); found != newIds.end())
+            return found->second;
+        if (isIdOfAnotherModel(model, *idSpace, *id))
+            return member;
+        if (const std::optional<base::EntityId> mapped = mappedWithoutCard(space, mapping, *id))
+            return *mapped;
+        if (taken.contains(*id))
+            return std::nullopt;
+        return member;
+    };
+
+    forEachCaseSection(model.control().caseControl,
+                       [&](Subcase& section)
+                       {
+                           for (CaseEntry& entry : section.entries)
+                           {
+                               if (entry.kind != EntryKind::Set || !plan.caseSets.contains(entry.key))
+                                   continue;
+                               std::vector<std::int64_t> members;
+                               std::unordered_set<std::int64_t> seen;
+                               for (const std::int64_t member : entry.set.integers)
+                               {
+                                   const std::optional<std::int64_t> updated = renumbered(member);
+                                   if (updated && seen.insert(*updated).second)
+                                       members.push_back(*updated);
+                               }
+                               // A set cannot be written with no member: one whose members all named nothing stays.
+                               if (members.empty() || members == entry.set.integers)
+                                   continue;
+                               entry.set.integers = std::move(members);
+                               entry.original.clear();
+                           }
+                       });
+}
+
 // Gives the cards of the space their new IDs in `model` and rewrites the references of its cards and of its Case
-// Control to them. Returns the number of cards whose ID changed.
+// Control to them, and the members of the sets of `sets`. Returns the number of cards whose ID changed.
 std::size_t rewriteModel(Model& model, RenumberSpace space, const IdMapping& mapping,
-                         const std::unordered_map<base::EntityId, base::EntityId>& newIds)
+                         const std::unordered_map<base::EntityId, base::EntityId>& newIds, const SetMemberPlan& sets)
 {
     const CardRegistry& registry = CardRegistry::instance();
 
@@ -1126,7 +1293,7 @@ std::size_t rewriteModel(Model& model, RenumberSpace space, const IdMapping& map
     {
         if (const auto found = newIds.find(id); found != newIds.end())
             return found->second;
-        return signedMapping(space, mapping, id);
+        return mappedWithoutCard(space, mapping, id);
     };
     Rewriter rewriter(model, space, newIdOf, std::move(ownSets), std::move(otherSets), std::move(ownEither),
                       std::move(otherEither), boxes ? &*boxes : nullptr);
@@ -1141,8 +1308,14 @@ std::size_t rewriteModel(Model& model, RenumberSpace space, const IdMapping& map
                 table->visitReferences(row, rewriter);
         }
     }
-    // The Case Control commands that hold a set ID (SPC, LOAD, METHOD, ...) follow the cards.
+    // The members of the sets that list IDs of the space (the IdListSet1 cards do not visit them: they cannot tell
+    // what they list).
+    rewriteBulkSetMembers(model, sets, rewriter);
+    // The Case Control commands that hold a set ID (SPC, LOAD, METHOD, ...) follow the cards, and so do the parameters
+    // that hold the ID of a card and the members of the SETs of grid points or elements.
     model.control().caseControl.visitReferences(rewriter);
+    visitCaseParameterReferences(model.control().caseControl, rewriter);
+    rewriteCaseSetMembers(model, space, mapping, newIds, sets);
     model.reindex();
     model.noteContentChange();
     // Node and element IDs are what the connectivity tables of the analysis layer are built from.
@@ -1155,7 +1328,9 @@ std::size_t renumberOne(Model& model, RenumberSpace space, const IdMapping& mapp
 {
     const std::unordered_map<base::EntityId, base::EntityId> newIds = planNewIds(model, space, mapping);
     requireDistinct(newIds);
-    const std::size_t changed = rewriteModel(model, space, mapping, newIds);
+    // The sets whose members follow are found, and a set that cannot follow is refused, before anything changes.
+    const SetMemberPlan sets = planSetMembers(model, space);
+    const std::size_t changed = rewriteModel(model, space, mapping, newIds, sets);
 
     // What the residual structure names in this part follows (the residual structure itself has already been
     // rewritten when it is the model renumbered).
@@ -1165,7 +1340,7 @@ std::size_t renumberOne(Model& model, RenumberSpace space, const IdMapping& mapp
         {
             if (const auto found = newIds.find(id); found != newIds.end())
                 return found->second;
-            return signedMapping(space, mapping, id);
+            return mappedWithoutCard(space, mapping, id);
         };
         PartReferenceRewriter rewriter(*owner, model, space, newIdOf);
         const CardRegistry& registry = CardRegistry::instance();
@@ -1220,10 +1395,12 @@ std::size_t renumberSuperelements(Model& root, const IdMapping& mapping)
     }
     requireDistinct(newIds);
 
-    std::size_t changed = rewriteModel(root, RenumberSpace::Superelement, mapping, newIds);
+    // No set lists superelement numbers as grid points or elements: no set member follows.
+    const SetMemberPlan noSets;
+    std::size_t changed = rewriteModel(root, RenumberSpace::Superelement, mapping, newIds, noSets);
     for (const std::unique_ptr<Model>& part : root.parts())
     {
-        changed += rewriteModel(*part, RenumberSpace::Superelement, mapping, newIds);
+        changed += rewriteModel(*part, RenumberSpace::Superelement, mapping, newIds, noSets);
         const PartInfo& info = *part->partInfo();
         if (info.kind == "SuperelementPart")
         {
@@ -1277,10 +1454,35 @@ MappingFactory Renumbering::offset(base::EntityId offset)
         return [offset](base::EntityId id) -> std::optional<base::EntityId>
         {
             const std::int64_t shifted = static_cast<std::int64_t>(id) + offset;
-            return base::toEntityId(shifted);
+            const std::optional<base::EntityId> updated = base::toEntityId(shifted);
+            // "Nothing" would mean that the ID stays: the ID of a card must not silently keep its number while the
+            // others move, so the mapping refuses it (IdMapping).
+            if (!updated)
+                throw base::UsageError("renumbering ID " + std::to_string(id) + " with the offset " +
+                                       std::to_string(offset) + " gives " + std::to_string(shifted) +
+                                       ", which is not a valid ID (the largest is " +
+                                       std::to_string(base::MAX_ENTITY_ID) + ")");
+            return updated;
         };
     };
 }
+
+namespace
+{
+
+// The ID that a consecutive numbering has reached. A number that is not a valid ID is refused: cut to the largest ID
+// it would give two cards the same ID, or one card an ID that is not `start` plus a number of steps.
+base::EntityId consecutiveId(std::int64_t value)
+{
+    const std::optional<base::EntityId> id = base::toEntityId(value);
+    if (!id)
+        throw base::UsageError("the consecutive numbering reaches " + std::to_string(value) +
+                               ", which is not a valid ID (the largest is " + std::to_string(base::MAX_ENTITY_ID) +
+                               ")");
+    return *id;
+}
+
+} // namespace
 
 MappingFactory Renumbering::consecutive(RenumberSpace space, base::EntityId start, base::EntityId step)
 {
@@ -1294,8 +1496,7 @@ MappingFactory Renumbering::consecutive(RenumberSpace space, base::EntityId star
             const SuperelementIds defined(model);
             for (const base::EntityId id : defined.sorted())
             {
-                numbered->emplace(id,
-                                  static_cast<base::EntityId>(std::min<std::int64_t>(following, base::MAX_ENTITY_ID)));
+                numbered->emplace(id, consecutiveId(following));
                 following += step;
             }
             return [numbered](base::EntityId id) -> std::optional<base::EntityId>
@@ -1336,10 +1537,10 @@ MappingFactory Renumbering::consecutive(RenumberSpace space, base::EntityId star
         std::int64_t next = start;
         for (const Entry& entry : entries)
         {
-            if (assigned
-                    ->emplace(entry.id, static_cast<base::EntityId>(std::min<std::int64_t>(next, base::MAX_ENTITY_ID)))
-                    .second)
-                next += step;
+            if (assigned->contains(entry.id))
+                continue; // an ID that several cards have (a set ID) is numbered once
+            assigned->emplace(entry.id, consecutiveId(next));
+            next += step;
         }
         return [assigned](base::EntityId id) -> std::optional<base::EntityId>
         {

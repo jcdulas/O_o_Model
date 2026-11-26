@@ -16,9 +16,9 @@ namespace oor::model
 // or, with ranges: IdListSet1  SID  ID1  "THRU"  ID2  ID3  "THRU"  ID4 ...
 // or:             IdListSet1  SID  "SKIN"
 // The list is kept as written: single IDs and THRU ranges, in order. With SKIN the card has no list (the set is the
-// skin of the fluid-structure boundary). The format reference says the IDs are positive; the ZONA decks of
-// the public data list negative ones, which are kept (zero is refused). Several cards may have the same SID: they are
-// one set.
+// skin of the fluid-structure boundary). The format reference says the IDs are positive; decks of the public data that
+// use the supersonic lifting-surface theory list negative ones, which are kept (zero is refused). Several cards may
+// have the same SID: they are one set.
 struct IdListSet1Card
 {
     base::EntityId id = 0;

@@ -27,7 +27,8 @@ struct DesignApplyOptions
     // and reported, instead of refusing the whole design point.
     bool skipUnapplicable = false;
     // Also gives the DesignVar cards the values as their initial value (XINIT), the dependent ones included, so that
-    // the deck written afterwards starts from the design point.
+    // the deck written afterwards starts from the design point: its relations give, at its initial values, the fields
+    // it holds. Without it the fields are at the design point and the initial values are not.
     bool setInitialValues = false;
 };
 
@@ -40,6 +41,9 @@ struct DesignFieldChange
     double after = 0.0;       // what the model holds now (the limit when the value was clipped)
     DesignLimitHit limit = DesignLimitHit::None;
     bool changed = false; // false when the field holds the value to rounding (it was not written)
+    // True when the card of the relation was changed too: its first coefficient was the word PropertyValue and is now
+    // `before`, the value the field held (see applyDesign).
+    bool coefficientFrozen = false;
 };
 
 // A grid point that the DesignNodeMove cards move.
@@ -83,6 +87,12 @@ struct DesignUpdate
 // Everything that can fail is decided before the first write, and a failure while writing puts the model back as it
 // was. A field whose new value equals the old one to rounding is not written, so a design point that reproduces the
 // model leaves it, and its content version, as they were.
+//
+// A linear relation whose first coefficient is the word PropertyValue takes it from the value its field holds. When
+// the design point changes that field, the card of the relation receives the value the field held as a number in
+// place of the word (`coefficientFrozen` in the report): the relation stays the function it was, so the model gives
+// the same fields when its design is read and evaluated again at the same point, and applying the point a second time
+// changes nothing. The word stays on a relation whose field is not written.
 //
 // Two relations that drive the same field of the same card are an error. DesignShapeBasis, DesignBoundaryShape and
 // DesignTopologyRegion are not applied (DesignModel::notApplied); the DesignNodeMove cards are applied when `shape`

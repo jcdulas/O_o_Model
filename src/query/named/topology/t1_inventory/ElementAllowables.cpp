@@ -83,7 +83,7 @@ double given(double value)
 // elementAllowables: the allowables the margins use for each element (and ply), resolved without results (the
 // building blocks for the plugin packages; a companion package). The rules are those of `margins` and come
 // from the same functions (MaterialAllowables.hpp): the caller's allowables by element, property, material or for all,
-// else the MAT1 field (ST in tension, SC in compression), the OrthoMat2D of each ply (the failure index is limited to
+// else the IsoMat field (ST in tension, SC in compression), the OrthoMat2D of each ply (the failure index is limited to
 // 1), the caller's pair (Ta, Sa) for a fastener.
 class ElementAllowablesQuery final : public QueryBase
 {
@@ -256,8 +256,8 @@ private:
         info.family = "T1";
         info.description =
             "The allowables the margins use for each element (and ply), without results (what margins "
-            "divides by, for a caller who forms its own): criterion \"vonMises\" or \"maxPrincipal\" (the MAT1 ST), "
-            "\"minPrincipal\" (the MAT1 SC), \"composite\" (one row per ply: the allowables of its OrthoMat2D, the "
+            "divides by, for a caller who forms its own): criterion \"vonMises\" or \"maxPrincipal\" (the IsoMat ST), "
+            "\"minPrincipal\" (the IsoMat SC), \"composite\" (one row per ply: the allowables of its OrthoMat2D, the "
             "failure "
             "index limited to 1), \"bond\" (one row per ply: the bonding index limited to 1, when the laminate has an "
             "SB, given in `sb`), \"fastener\" (the pair Ta, Sa the caller gives). allowables: as in margins, by "

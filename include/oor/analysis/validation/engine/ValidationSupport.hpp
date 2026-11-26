@@ -89,7 +89,9 @@ template <typename TableT>
 // The PARAM of this name (the last one when it is given twice), nothing when the model has none.
 [[nodiscard]] std::optional<model::ParameterCard> findParameter(const model::Model& model, std::string_view name);
 
-// The names of the cards of the model that the library keeps as text (it does not read them), upper case.
+// The names of the cards of the model that the library keeps as text: a card it does not know, or a card of a type it
+// knows that could not be read (tolerant mode). Each name is as the deck writes it, so a card that could not be read
+// has the neutral name of its type ("Node").
 [[nodiscard]] std::set<std::string> unknownCardNames(const model::Model& model);
 // True when the deck is a heat transfer analysis (APP HEAT): the structural rules about constraints do not apply.
 [[nodiscard]] bool isHeatTransfer(const model::Model& root);
@@ -127,7 +129,9 @@ template <typename TableT>
                                        std::string_view command);
 
 // The solution sequences by kind, for the checks that depend on the type of analysis.
-[[nodiscard]] bool isStaticSolution(std::int64_t sol) noexcept;  // 101, 106, 153, 400 (static subcases), 144, 153
+// 101 (statics), 105 (buckling, which starts with a static solution), 106 (nonlinear statics) and 144 (static
+// aeroelasticity); no other sequence, whatever its subcases are.
+[[nodiscard]] bool isStaticSolution(std::int64_t sol) noexcept;
 [[nodiscard]] bool isDynamicSolution(std::int64_t sol) noexcept; // normal modes and the dynamic response sequences
 
 // The sets that the constraint set `id` stands for: itself and, through the SinglePointConstrUnion (command
@@ -140,10 +144,45 @@ template <typename TableT>
 // model::MULTI_POINT_CONSTR_SELECTION (`command`), one selection for each distinct choice of the analysis subcases: the
 // sets of the card IDs the command names, each expanded through the SinglePointConstrUnion or MultiPointConstrUnion
 // that combines them (the leaf IDs and the combining ID, sorted). A subcase without the command makes no selection.
-// When no subcase has the command (a deck read without Case Control, or a model made in memory) the one selection is
-// every set of the Bulk Data cards of that command (SinglePointConstr and SinglePointConstrList cards, or
-// MultiPointConstr cards).
-[[nodiscard]] std::vector<std::vector<base::EntityId>> constraintSelections(const model::Model& model,
+//
+// `root` is the residual structure, which holds the Case Control of the deck, and `model` the model whose cards are
+// judged, the residual structure or a part: the Case Control applies to every part (a part has none of its own), and
+// the union cards that expand a selection are the ones of `model`.
+//
+// When no subcase has the command (a deck read without Case Control, or a model made in memory) nothing says which
+// sets are used together, so each set ID the command could name makes a selection of its own: the ID of the Bulk Data
+// cards of that command (SinglePointConstr and SinglePointConstrList cards, or MultiPointConstr cards) and the ID of
+// each union card, with the sets it combines. Two sets that no union combines are alternatives and are never judged
+// together.
+[[nodiscard]] std::vector<std::vector<base::EntityId>> constraintSelections(const model::Model& root,
+                                                                            const model::Model& model,
                                                                             std::string_view command);
+
+// The multipoint and the single point constraint sets that are active together in an analysis, each expanded and sorted
+// as a selection of constraintSelections. Empty `spcSets`: no single point constraint set is selected with these
+// multipoint sets (the permanent constraints of the grid points still apply).
+struct ConstraintCombination
+{
+    std::vector<base::EntityId> mpcSets;
+    std::vector<base::EntityId> spcSets;
+};
+
+// The combinations of multipoint and single point constraint sets the Case Control of `root` makes for the cards of
+// `model` (as in constraintSelections), without repeat, sorted by `mpcSets` then `spcSets`. A combination is what ONE
+// analysis subcase selects with the two commands: the sets of two subcases are never active together. A subcase that
+// selects no multipoint constraint set makes no combination (it has no dependent term for a single point constraint to
+// meet).
+//
+// When a command is named by no subcase:
+//   * neither command is named (a deck read without Case Control, a model made in memory): one combination of every
+//     multipoint constraint set with every single point constraint set. A Case Control could select any one set of each
+//     command, so a single point constraint of any set on the dependent term of any multipoint constraint is a clash
+//     that some pair of sets has; taking all the sets together finds exactly these clashes.
+//   * only one command is named: the Case Control is taken at its word, the sets of the other command are in the
+//     Bulk Data and not used. With multipoint constraints only, each of their selections is a combination with no
+//     single point constraint set; with single point constraints only there is no active multipoint constraint, and
+//     no combination.
+[[nodiscard]] std::vector<ConstraintCombination> constraintCombinations(const model::Model& root,
+                                                                        const model::Model& model);
 
 } // namespace oor::analysis

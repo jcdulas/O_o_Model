@@ -130,8 +130,10 @@ Each card definition supplies `type` and either `fields` or `values`:
 | `comment` | Optional comment text, without leading `#` characters. |
 
 Scalars are finite numbers, strings or `null` for blanks. `{ real: 1 }` gives an integral number real semantics where
-the distinction matters. Named `real` fields already do this automatically. Integer inputs must be safe JavaScript
-integers; card readers also check their identifier ranges. Literal strings need no delimiter escaping.
+the distinction matters. Named `real` fields already do this automatically. Compact `fields` do it for a group that
+ends with a list of its own, such as the terms of a `RigidInterpolation`: an integral weight is a weight, and a real
+given for one of its nodes is refused. Integer inputs must be safe JavaScript integers; card readers also check their
+identifier ranges. Literal strings need no delimiter escaping.
 
 Groups are arrays of objects; a one-field group also accepts scalar items. Counts and section markers come from
 the catalogue. Fixed-count groups require their declared number of items. An explicit form must agree with its
@@ -266,7 +268,9 @@ are inherited unless overridden. Own output requests override the inherited requ
 headers and specialized commands. Records have the `[case]` names and field order, without delimiters or bracketed
 section lines. `caseControl.records()` reads that representation. Replacement is atomic and assigns fresh keys:
 obtain all case handles, including `global`, again afterwards. Removing an imported section with Include markers
-is refused to preserve its source structure.
+is refused to preserve its source structure. Removing an auxiliary case is refused too (`removeSection()` returns
+`false`) while subcases follow it in its scope: remove them first. A `Plot` or `CurvePlot` output block written in a
+removed section stays in the model, at the end of the section that is then last.
 
 ## Includes and parts
 
@@ -361,6 +365,10 @@ After an accepted geometry edit, build a new Solver snapshot or optimization pro
   them and rebuilds indexes without changing keys. Compact after sustained editing, not after every field.
 - Forward references are allowed during construction. Call `applyDefaults()` after default cards are assembled,
   then `checkReferences()` when the model is ready. It returns fresh diagnostics separately from read diagnostics.
+  The members of a set are checked too, where a card field or an output request says what the set lists (grid
+  points or elements): a member written alone that names nothing is reported, the end of a range is not, and a
+  renumbering follows those members. A set that nothing uses is left alone. A set that one user reads as grid points
+  and another as elements is not checked, and a renumbering of either kind is refused, naming the two users.
   Existing named validation queries provide analysis-specific checks.
 - `oor.modelVersions(deck)` exposes `structure`, `content` and `control` counters for cache invalidation. Query large
   collections through `cardTable` or named queries instead of fetching individual snapshots in a loop.

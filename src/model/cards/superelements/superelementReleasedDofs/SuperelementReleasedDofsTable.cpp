@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/superelements/SuperelementSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -18,7 +19,7 @@ std::optional<SuperelementReleasedDofsCard> SuperelementReleasedDofsFormat::read
 {
     SuperelementReleasedDofsCard card;
     card.superelementId = reader.requiredInteger(1, "superelementId");
-    card.components = base::sortedDigits(reader.requiredInteger(2, "components"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(2, "components"), "components");
     if ((reader.text(FIRST_POINT_FIELD) == "All"))
     {
         card.all = true;

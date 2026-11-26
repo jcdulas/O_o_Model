@@ -4,6 +4,7 @@
 #include <map>
 #include <numbers>
 #include <utility>
+#include <vector>
 
 namespace oor::model
 {
@@ -116,9 +117,7 @@ private:
             push(EquationOpcode::Negate, 0, 0.0, node.position);
             return;
         case ExpressionKind::Binary:
-            emit(node.first);
-            emit(node.second);
-            push(opcodeOf(node.op), 0, 0.0, node.position);
+            emitChain(index);
             return;
         case ExpressionKind::Call:
             break;
@@ -126,6 +125,28 @@ private:
         for (const std::int32_t argument : node.arguments)
             emit(argument);
         push(EquationOpcode::Call, static_cast<std::int32_t>(node.arguments.size()), 0.0, node.position, node.function);
+    }
+
+    // The instructions of a Binary node. A+B+C+D is the tree ((A+B)+C)+D, as deep as the text is long, and a sum may
+    // have thousands of terms: the left operands are walked in a loop, because a recursion over them would exhaust the
+    // stack. The instructions come in the order the recursion would give them (post-order): the innermost left
+    // operand, then for each operator from the bottom up its right operand and the operator.
+    void emitChain(std::int32_t top)
+    {
+        std::vector<std::int32_t> chain; // the Binary nodes from `top` down the left operands
+        std::int32_t bottom = top;
+        while (m_equations.node(bottom).kind == ExpressionKind::Binary)
+        {
+            chain.push_back(bottom);
+            bottom = m_equations.node(bottom).first;
+        }
+        emit(bottom);
+        for (auto link = chain.rbegin(); link != chain.rend(); ++link)
+        {
+            const ExpressionNode& node = m_equations.node(*link);
+            emit(node.second);
+            push(opcodeOf(node.op), 0, 0.0, node.position);
+        }
     }
 
     // A name is the variable of the latest equation that gave it, else an argument; the parser accepted it, so the one

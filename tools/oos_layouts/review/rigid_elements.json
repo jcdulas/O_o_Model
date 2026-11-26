@@ -60,7 +60,7 @@
     {"name": "dependentComponents", "slot": 3, "kind": "integer"}
   ], "group": {"name": "dependentNodes", "firstSlot": 4, "period": 1, "fields": [
     {"name": "dependentNode", "offset": 0, "kind": "number"}
-  ]}},
+  ]}, "note": "the list may end with the thermal expansion coefficient, or with that coefficient then the reference temperature: reals, written with a decimal point or an exponent, where a node is an integer"},
   "RigidInterpolation": {"fields": [
     {"name": "id", "slot": 1, "kind": "integer"},
     {"name": "referenceNode", "slot": 3, "kind": "integer"},

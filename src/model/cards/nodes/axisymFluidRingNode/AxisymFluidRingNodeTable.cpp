@@ -1,6 +1,6 @@
 #include "oor/model/cards/nodes/axisymFluidRingNode/AxisymFluidRingNodeTable.hpp"
 
-#include "oor/base/text/DigitSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -33,7 +33,8 @@ std::optional<AxisymFluidRingNodeCard> AxisymFluidRingNodeFormat::read(FieldRead
     // Fields 2, 3 and 5 are ignored.
     card.phiAngle = reader.requiredReal(4, "phiAngle");
     card.displacementFrameId = reader.integer(6, "displacementFrameId", 0);
-    card.permanentConstraints = base::sortedDigits(reader.integer(7, "permanentConstraints", 0));
+    card.permanentConstraints =
+        sortedDigitSet(reader, reader.integer(7, "permanentConstraints", 0), "permanentConstraints");
     card.fluidPointId = reader.requiredInteger(8, "fluidPointId");
     if (!reader.failed())
         reader.report(check(card));

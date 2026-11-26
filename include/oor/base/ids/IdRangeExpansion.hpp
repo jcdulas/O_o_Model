@@ -3,6 +3,7 @@
 #include "oor/base/errors/Errors.hpp"
 
 #include <cstdint>
+#include <limits>
 #include <string>
 
 namespace oor::base
@@ -15,14 +16,16 @@ namespace oor::base
 inline constexpr std::int64_t MAX_EXPANDED_IDS = 10'000'000;
 
 // The number of IDs of the range from `first` to `last` by `by` (either direction; `by` of the sign that goes from
-// `first` to `last`, 0 read as 1), computed without overflow for any 64-bit ends.
+// `first` to `last`, 0 read as 1), computed without overflow for any 64-bit ends: the one range whose count does not
+// fit (the whole 64-bit span by 1, 2^64 IDs) gives the largest value instead of wrapping to 0.
 [[nodiscard]] constexpr std::uint64_t idRangeCount(std::int64_t first, std::int64_t last, std::int64_t by = 1) noexcept
 {
     const std::uint64_t span = first <= last ? static_cast<std::uint64_t>(last) - static_cast<std::uint64_t>(first)
                                              : static_cast<std::uint64_t>(first) - static_cast<std::uint64_t>(last);
     const std::uint64_t step =
         by == 0 ? 1 : (by > 0 ? static_cast<std::uint64_t>(by) : 0 - static_cast<std::uint64_t>(by));
-    return span / step + 1;
+    const std::uint64_t intervals = span / step;
+    return intervals == std::numeric_limits<std::uint64_t>::max() ? intervals : intervals + 1;
 }
 
 // Throws LimitExceededError when `count` IDs (of all the ranges of `what`) are more than MAX_EXPANDED_IDS.

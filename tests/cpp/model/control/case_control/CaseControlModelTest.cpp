@@ -145,15 +145,18 @@ TEST_CASE("a failed renumbering leaves the Case Control as it was", "[control][m
 TEST_CASE("the reference check reports Case Control commands that name a set that does not exist", "[control][model]")
 {
     Model model = readModelText(DECK);
+    // Every command names a set that exists. SET 5, which the displacement request of subcase 2 names, lists the grid
+    // point 9, which the deck does not have (1 Through 4 is a range, whose IDs may name nothing): one warning.
     base::DiagnosticSink clean;
-    REQUIRE(ReferenceChecker::check(model, clean) == 0);
+    REQUIRE(ReferenceChecker::check(model, clean) == 1);
+    REQUIRE(clean.diagnostics()[0].message.find("SetDefinition 5") != std::string::npos);
 
     const CommandDefinition& spc = *CommandCatalogue::instance().findByName("SinglePointConstrSelection");
     CaseControl& control = model.control().caseControl;
     control.setCommand(control.segments()[1], spc, "", {}, CaseValue::ofInteger(77));
     base::DiagnosticSink sink;
-    REQUIRE(ReferenceChecker::check(model, sink) == 1);
-    REQUIRE(sink.diagnostics().size() == 1);
+    REQUIRE(ReferenceChecker::check(model, sink) == 2);
+    REQUIRE(sink.diagnostics().size() == 2); // the command, then the member of the SET
     REQUIRE(sink.diagnostics()[0].severity == base::Severity::Warning);
     REQUIRE(sink.diagnostics()[0].code == "model.unresolved-case-control-reference");
     REQUIRE(sink.diagnostics()[0].message.find("SinglePointConstrSelection of SubcaseStart 1 refers to 77") !=

@@ -647,7 +647,13 @@ private:
             take();
             return makeNode(std::move(node));
         }
-        if (lower == "and" || lower == "or" || lower == "not" || lower == "in" || lower == "is" || lower == "null")
+        if (lower == "null")
+        {
+            // `x == null` would be null for every row: the question is asked with `is`
+            --m_next;
+            fail("null is not a value to compute or compare with: write 'x is null' or 'x is not null'");
+        }
+        if (lower == "and" || lower == "or" || lower == "not" || lower == "in" || lower == "is")
         {
             --m_next;
             fail("expected a value, found the word '" + token.text + "'");

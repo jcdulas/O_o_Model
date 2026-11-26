@@ -4,6 +4,7 @@
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
 #include "oor/model/cards/materials/MaterialSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <string_view>
 
@@ -116,7 +117,8 @@ std::optional<RigidBodySearchedCard> RigidBodySearchedFormat::read(FieldReader& 
     card.referenceTemperature = reader.real(5, "referenceTemperature", 0.0);
     card.radius = reader.requiredReal(6, "radius");
     card.dependentComponents =
-        base::sortedDigits(reader.integer(7, "dependentComponents", RigidBodySearchedCard::DEFAULT_COMPONENTS));
+        sortedDigitSet(reader, reader.integer(7, "dependentComponents", RigidBodySearchedCard::DEFAULT_COMPONENTS),
+                       "dependentComponents");
     card.alphaCoefficient = reader.real(8, "alphaCoefficient", 0.0);
     card.xStation = reader.optionalReal(FIRST_COORDINATE_FIELD, "xStation");
     card.yStation = reader.optionalReal(FIRST_COORDINATE_FIELD + 1, "yStation");

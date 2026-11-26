@@ -747,7 +747,8 @@ std::optional<SurfaceHit> ContactSurface::meet(const ContactSurface& from, std::
             if (zone.throughSkins)
                 floor -= pointHalf;
         }
-        if (gap > zone.outside || gap < floor)
+        // A gap that is not a number (a face without extent) compares false with both limits: it is no meeting.
+        if (!std::isfinite(gap) || gap > zone.outside || gap < floor)
             return;
         const Candidate candidate{std::abs(gap), alignmentOf(face, direction), face.eid, faceIndex};
         if (!best || isBetter(candidate, bestCandidate))

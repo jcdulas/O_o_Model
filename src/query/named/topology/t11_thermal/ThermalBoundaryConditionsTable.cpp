@@ -272,7 +272,7 @@ private:
             "SinglePointConstrList) on "
             "the component 1 (fixed temperatures, listed when the deck is a heat transfer analysis, APP HEAT; a "
             "SinglePointConstrList "
-            "holds the temperature at zero), NodeTemperatureLoad (a TEMP, kind initial when a TEMPERATURE(INITIAL) "
+            "holds the temperature at zero), NodeTemperatureLoad (kind initial when a TEMPERATURE(INITIAL) "
             "command selects its set, else fixed: a temperature the load sets) and DefaultTemperatureLoad (a "
             "DefaultTemperatureLoad, "
             "kind default, no grid point: the temperature of every point the set does not give). setIds "

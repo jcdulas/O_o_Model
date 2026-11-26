@@ -48,11 +48,10 @@ val readNamed(const api::Results& source, double index)
     return guarded(
         [&]
         {
-            if (!std::isfinite(index) || index < 0 || index >= double(source.named().size()) ||
-                std::floor(index) != index)
-                throw base::UsageError("named result index is out of range");
-            const auto data = source.readNamed(static_cast<std::size_t>(index));
-            auto result = metaObject(source.named()[static_cast<std::size_t>(index)]);
+            // Results::readNamed refuses a position beyond the list.
+            const std::size_t position = listIndexOf(index, "a named result index");
+            const auto data = source.readNamed(position);
+            auto result = metaObject(source.named()[position]);
             auto arrays = val::object();
             for (const auto& array : data->arrays)
             {

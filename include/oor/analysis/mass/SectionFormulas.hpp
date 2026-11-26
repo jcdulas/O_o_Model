@@ -75,6 +75,12 @@ struct BeamSection
     // the others).
     std::array<double, 2> nsmCenterA = {0.0, 0.0};
     std::array<double, 2> nsmCenterB = {0.0, 0.0};
+    // Where the neutral axis is, as (y, z) in the element system (whose x axis is the line of the shear centres), at
+    // the two ends: N1A, N2A and N1B, N2B of a BeamProp, N1 and N2 of a BeamLumpedAreaProp, NY and NZ of the ends of a
+    // BeamProp3 (zero for the others). The neutral axis goes through the centroid of the section: the structural mass
+    // of the beam is on it, as in the mass matrix of the solver.
+    std::array<double, 2> neutralAxisA = {0.0, 0.0};
+    std::array<double, 2> neutralAxisB = {0.0, 0.0};
 
     // The average of `area` over the length of the element, the section varying linearly between the stations
     // (the rule of the BeamProp: the trapezoid over X/XB). NaN when a station has no area.

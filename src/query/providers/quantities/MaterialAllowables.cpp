@@ -83,18 +83,19 @@ std::optional<double> CallerAllowables::find(std::int32_t eid, std::int32_t pid,
 
 double isoMatAllowable(const model::Model& model, std::int32_t mid, bool compression, std::string& source)
 {
-    source = compression ? "MAT1.SC" : "MAT1.ST";
+    source = compression ? "IsoMat.compressionAllowable" : "IsoMat.tensionAllowable";
     const auto location = model.locate(base::IdSpace::Material, mid);
     if (!location || location->table != model::typeIndexOf<model::IsoMatTable>())
     {
-        source = "no MAT1 material (the allowable is not read)";
+        source = "no IsoMat material (the allowable is not read)";
         return NOT_A_NUMBER;
     }
     const model::IsoMatCard card =
         static_cast<const model::IsoMatTable&>(*model.findTable(location->table)).card(location->row);
     const double value = compression ? card.compressionAllowable : card.tensionAllowable;
     if (!(value > 0.0))
-        source = "MAT1 " + std::to_string(mid) + " has no " + (compression ? "SC" : "ST");
+        source = "IsoMat " + std::to_string(mid) + " has no " +
+                 (compression ? "compressionAllowable" : "tensionAllowable");
     return value > 0.0 ? value : NOT_A_NUMBER;
 }
 
@@ -126,7 +127,8 @@ std::optional<PlyMaterial> orthoMat2DAllowables(const model::Model& model, std::
     value.e2 = card.youngsModulus2;
     value.nu12 = card.poissonRatio12;
     value.g12 = card.shearModulus12;
-    value.strainAllowables = card.strainAllowables != 0.0;
+    // 1.0 says that the allowables are strains (the card's rule, which the solver reads the same way)
+    value.strainAllowables = card.strainAllowables == 1.0;
     value.hashin = card.hashinUnidirectional;
     return value;
 }

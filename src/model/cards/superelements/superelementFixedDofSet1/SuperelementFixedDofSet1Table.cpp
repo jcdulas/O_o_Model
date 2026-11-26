@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/superelements/SuperelementSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -17,7 +18,7 @@ std::optional<SuperelementFixedDofSet1Card> SuperelementFixedDofSet1Format::read
 {
     SuperelementFixedDofSet1Card card;
     card.superelementId = reader.requiredInteger(1, "superelementId");
-    card.components = base::sortedDigits(reader.integer(2, "components", 0));
+    card.components = sortedDigitSet(reader, reader.integer(2, "components", 0), "components");
     card.points = readIdRuns(reader, FIRST_POINT_FIELD, "nodes");
     if (!reader.failed())
         reader.report(check(card));

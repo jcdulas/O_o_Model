@@ -121,14 +121,23 @@ struct ReferenceUse
 // does not exist, each as an error with the card name and the field.
 struct ReferenceChecker
 {
-    // Returns the number of unresolved references found.
+    // Returns the number of unresolved references found: those of the cards (errors, `model.unresolved-reference`),
+    // then those of the Case Control (warnings, `model.unresolved-case-control-reference`).
+    //
+    // The members of a set are looked at too, when a user of the set says what it lists (SetMemberUses.hpp): the
+    // members of an IdListSet1 that a card field names as a set of grid points or of elements (reported on the
+    // IdListSet1, field `ids`), and the members of a Case Control SET that an output request names (reported on the
+    // section that defines the SET; a member that any model of the deck has exists). Only a member written alone is
+    // judged: the IDs of a range may name nothing. A set that no such user names, or that is named both ways, is not
+    // judged. `scan` and `unresolvedAt` do not look at the members of the sets.
     static std::size_t check(Model& model, base::DiagnosticSink& sink);
 
     // Calls `callback` for every non-blank reference field of every live card, in table then row order, then for the
-    // commands of the Case Control, each with whether its target exists. Nothing is changed in the model (it takes the
-    // model as const: the visit gives back every ID as found). A card table may still write the IDs back into its
-    // columns (the same values, and a column buffer shared with a copy of the model is then cloned), so a scan must not
-    // run while other threads read the model: scan a copy (`Model::copy()` is cheap and shares the buffers).
+    // commands of the Case Control (and its parameters that hold the ID of a card), each with whether its target
+    // exists. Nothing is changed in the model (it takes the model as const: the visit gives back every ID as found). A
+    // card table may still write the IDs back into its columns (the same values, and a column buffer shared with a
+    // copy of the model is then cloned), so a scan must not run while other threads read the model: scan a copy
+    // (`Model::copy()` is cheap and shares the buffers).
     static void scan(const Model& model, const std::function<void(const ReferenceUse&)>& callback);
 };
 

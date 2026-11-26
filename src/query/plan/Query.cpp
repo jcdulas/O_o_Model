@@ -194,10 +194,13 @@ void runJoin(QueryFrame& frame, const JoinStep& step, ExecutionContext& context)
     {
         std::vector<std::uint32_t> positions;
         std::vector<std::int32_t> indexes;
+        std::vector<std::uint8_t> hasIndex; // 0 for the row a left join keeps of a row that holds no ID
+        bool anyWithoutId = false;
         const std::size_t rows = frame.rowCount();
         for (std::size_t row = 0; row < rows; ++row)
         {
             std::int64_t place = 0; // the position of the ID in the node list of the card, from 1
+            const std::size_t before = keys.size();
             for (const QueryColumn* column : keyColumns)
             {
                 if (column->isNull(row))
@@ -215,14 +218,32 @@ void runJoin(QueryFrame& frame, const JoinStep& step, ExecutionContext& context)
                     positions.push_back(static_cast<std::uint32_t>(row));
                     keys.push_back(value);
                     indexes.push_back(static_cast<std::int32_t>(place));
+                    hasIndex.push_back(1);
                 }
+            }
+            // A left join keeps every row: a row that holds no ID (a blank reference, an empty list) stays once, with
+            // no match, so that its joined columns and its position are null. An inner join drops it.
+            if (keys.size() == before && step.how == JoinKind::Left)
+            {
+                positions.push_back(static_cast<std::uint32_t>(row));
+                keys.push_back(NO_KEY);
+                indexes.push_back(0);
+                hasIndex.push_back(0);
+                anyWithoutId = true;
             }
         }
         frame.narrow(positions);
         positionName = prefixedName(prefix.empty() ? targetName : prefix, "position");
         if (frame.has(*positionName))
             throw QueryError("join: the query already has a column called '" + *positionName + "'");
-        frame.addValue(*positionName, QueryColumn::primitive(std::move(indexes)), ColumnOrigin::Derived, {}, true);
+        QueryColumn placeColumn = QueryColumn::primitive(std::move(indexes));
+        if (anyWithoutId)
+        {
+            std::int64_t nullCount = 0;
+            ColumnBuffer bits = validityFromFlags(hasIndex, nullCount);
+            placeColumn = placeColumn.withValidity(std::move(bits), nullCount);
+        }
+        frame.addValue(*positionName, std::move(placeColumn), ColumnOrigin::Derived, {}, true);
     }
     else
     {

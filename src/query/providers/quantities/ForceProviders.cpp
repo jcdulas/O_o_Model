@@ -137,8 +137,8 @@ public:
         if (outcome.rows == 0)
             outcome.reason = !problem.empty() ? problem
                              : anyTable ? "the table has no row of the elements, subcases and steps asked for"
-                                        : "the result file has no force table of these elements (output of FORCE was "
-                                          "not requested)";
+                                        : "the result file has no force table of these elements (the element "
+                                          "force output was not requested)";
         return outcome;
     }
 

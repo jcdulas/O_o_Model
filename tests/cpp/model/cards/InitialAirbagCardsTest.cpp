@@ -204,12 +204,16 @@ TEST_CASE("an InitialVelocityField refuses a value that is not in its layout", "
 TEST_CASE("an InitialElemValues gives pairs of a variable and a value from field 3 on any number of lines",
           "[model][cards][ticel]")
 {
+    // The sets list the elements that take the initial values: the reference check looks up each member, so the deck
+    // has the elements 1 and 2 (any element does: a point mass needs no property).
     Model model = readBulk(
         "IdListSet1;40;1;2\n"
         "IdListSet1;41;1;2\n"
         "IdListSet1;42;1;2\n"
         "Node;1\n"
         "Node;2\n"
+        "PointMassInertia;1;1;;1.\n"
+        "PointMassInertia;2;2;;1.\n"
         "InitialElemValues;3;40;Density;920.;SpecificInternalEnergy;2.8E+5\n"
         "InitialElemValues;4;41;VelocityX;1.;VelocityY;2.;VelocityZ;3.;Density;1.E+3;SpecificInternalEnergy;2.5E+5;"
         "ArtificialViscosity;0.5;Divergence;0.;VoidFraction;0.1;MaterialFraction;0.9;MomentumX;1."
@@ -380,7 +384,8 @@ namespace
 {
 
 // An EulerRegionProp with its EulerInitialRegions, the five regions of a group (one of each type, the SPHERE with a
-// material and an InitialConditionValues) and everything the regions name.
+// material and an InitialConditionValues) and everything the regions name. The set 403 of the region of elements lists
+// the element 1 of SURFACE_ELEMENT, which the decks add: the reference check looks up each member of such a set.
 const std::string REGIONS_TEXT =
     "EulerRegionProp;100;;300\n"
     "EulerInitialRegions;300;200\n"
@@ -394,7 +399,7 @@ const std::string REGIONS_TEXT =
     "CylinderShape;404;0.;0.;0.;0.;0.;1.;0.5\n"
     "ContactElemSurface;402;1\n"
     "ContactElemSurface;60;1\n"
-    "IdListSet1;403;1;2\n"
+    "IdListSet1;403;1\n"
     "EulerMat;25;1.E+3;1\n"
     "GammaLawStateEquation;1;1.4\n"
     "InitialConditionValues;3;;Density;1.E+3";

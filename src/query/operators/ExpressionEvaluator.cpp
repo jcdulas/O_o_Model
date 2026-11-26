@@ -531,6 +531,20 @@ private:
         out.valid = operand.valid;
         const std::size_t length = operand.scalar ? 1 : count;
         out.bools.assign(length, 0);
+        // A list that holds a null cannot say that a value is not in it (the null stands for a value that is not
+        // known): a value found is in the list, a value not found gives a null, as its comparison with a null does. So
+        // `x not in (1, null)` keeps no row, and neither does `not (x in (1, null))`.
+        const bool listHasNull = std::any_of(node.list.begin(), node.list.end(), [](const Literal& literal)
+                                             { return literal.kind == Literal::Kind::Null; });
+        const auto put = [&](std::size_t index, bool found)
+        {
+            out.bools[index] = found != node.negated ? 1 : 0;
+            if (found || !listHasNull)
+                return;
+            if (out.valid.empty())
+                out.valid.assign(length, 1);
+            out.valid[index] = 0;
+        };
         if (operand.type == ValueType::Text)
         {
             std::vector<std::string_view> wanted;
@@ -542,8 +556,7 @@ private:
             std::sort(wanted.begin(), wanted.end());
             for (std::size_t index = 0; index < length; ++index)
             {
-                const bool found = std::binary_search(wanted.begin(), wanted.end(), operand.texts[index]);
-                out.bools[index] = found != node.negated ? 1 : 0;
+                put(index, std::binary_search(wanted.begin(), wanted.end(), operand.texts[index]));
             }
             return out;
         }
@@ -564,8 +577,7 @@ private:
             const IntOperand values(operand, count);
             for (std::size_t index = 0; index < length; ++index)
             {
-                const bool found = std::binary_search(wanted.begin(), wanted.end(), values.data[index * values.stride]);
-                out.bools[index] = found != node.negated ? 1 : 0;
+                put(index, std::binary_search(wanted.begin(), wanted.end(), values.data[index * values.stride]));
             }
             return out;
         }
@@ -583,8 +595,7 @@ private:
         for (std::size_t index = 0; index < length; ++index)
         {
             const double value = values.data[index * values.stride];
-            const bool found = std::find(wanted.begin(), wanted.end(), value) != wanted.end();
-            out.bools[index] = found != node.negated ? 1 : 0;
+            put(index, std::find(wanted.begin(), wanted.end(), value) != wanted.end());
         }
         return out;
     }

@@ -9,7 +9,7 @@ namespace oor::base
 {
 
 // Internal identity of a card, given when it is created, unique in a model, never reused and never changed, whatever
-// happens to its Nastran ID (renumbering, ID reuse after deletion). Handles hold a CardKey.
+// happens to its model ID (renumbering, ID reuse after deletion). Handles hold a CardKey.
 struct CardKey
 {
     static constexpr std::uint32_t INVALID_VALUE = std::numeric_limits<std::uint32_t>::max();

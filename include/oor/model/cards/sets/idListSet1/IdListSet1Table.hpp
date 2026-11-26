@@ -23,8 +23,9 @@ struct IdListSet1Format
 
 // All the IdListSet1 cards, in the category Set. The ID is a set ID shared by the cards that have it (IdSpace::Group);
 // the ReferenceTarget::Set of other cards resolves to it. The IDs of every card are one column of (first, last) runs.
-// The members are grid points or elements, which the card cannot tell: they are not references and a renumbering leaves
-// them alone.
+// The members are grid points or elements, which the card cannot tell, so it visits none of them. The renumbering and
+// the reference check find what a set lists from the cards that name it (references/SetMemberUses.hpp) and follow or
+// look up its members there; the members of a set that no known user names are left alone.
 class IdListSet1Table final : public TypedTable<IdListSet1Table, IdListSet1Card>
 {
 public:

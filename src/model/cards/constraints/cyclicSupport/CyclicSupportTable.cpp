@@ -1,6 +1,7 @@
 #include "oor/model/cards/constraints/cyclicSupport/CyclicSupportTable.hpp"
 
 #include "oor/base/text/DigitSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <string>
 
@@ -11,7 +12,7 @@ std::optional<CyclicSupportCard> CyclicSupportFormat::read(FieldReader& reader)
 {
     CyclicSupportCard card;
     card.nodeId = reader.requiredInteger(1, "nodeId");
-    card.components = base::sortedDigits(reader.requiredInteger(2, "components"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(2, "components"), "components");
     if (reader.lastUsedField() > 2)
         reader.error("card.bad-value",
                      "a " + std::string(reader.cardName()) + " has two fields, " + std::string("nodeId") + " and " +

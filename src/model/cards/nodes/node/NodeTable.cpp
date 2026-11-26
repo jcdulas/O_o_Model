@@ -1,8 +1,8 @@
 #include "oor/model/cards/nodes/node/NodeTable.hpp"
 
-#include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/nodes/nodeDefaults/NodeDefaultsTable.hpp"
 #include "oor/model/core/Model.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -37,7 +37,8 @@ std::optional<NodeCard> NodeFormat::read(FieldReader& reader)
     card.xyz.y = reader.real(4, "position2", 0.0);
     card.xyz.z = reader.real(5, "position3", 0.0);
     card.displacementFrameId = reader.integer(6, "displacementFrameId", 0);
-    card.permanentConstraints = base::sortedDigits(reader.integer(7, "permanentConstraints", 0));
+    card.permanentConstraints =
+        sortedDigitSet(reader, reader.integer(7, "permanentConstraints", 0), "permanentConstraints");
     card.superelementId = reader.integer(8, "superelementId", 0);
     // Which of the optional fields were blank (a NodeDefaults gives them a default); zero is not blank.
     if (reader.isBlank(2))

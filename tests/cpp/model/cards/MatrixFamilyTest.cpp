@@ -420,7 +420,13 @@ TEST_CASE("a repeated MonitorElemLoad2 or MonitorNodeForceSum3 name is reported,
 
 TEST_CASE("a monitor point refers to its systems, set and element", "[model][monitor]")
 {
+    // The set 5 lists the grid points and the set 6 the elements of the MonitorNodeForceSum3: the reference check looks
+    // up each member, so the deck has the grid points 1 and 2 and the element 10 (any element does: a point mass needs
+    // no property).
     Model model = readModelText(
+        "Node;1;;0.;0.;0.\n"
+        "Node;2;;1.;0.;0.\n"
+        "PointMassInertia;10;1;;1.\n"
         "RectFrame2;7;;0.;0.;0.;0.;0.;1.;1.;0.;0.\n"
         "IdListSet1;5;1;2\n"
         "IdListSet1;6;10\n"

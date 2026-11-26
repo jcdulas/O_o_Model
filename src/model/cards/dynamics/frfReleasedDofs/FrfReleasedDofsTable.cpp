@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <array>
 
@@ -23,7 +24,7 @@ std::optional<FrfReleasedDofsCard> FrfReleasedDofsFormat::read(FieldReader& read
 {
     FrfReleasedDofsCard card;
     card.id = reader.requiredInteger(1, "id");
-    card.components = base::sortedDigits(reader.requiredInteger(2, "components"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(2, "components"), "components");
     for (std::size_t group = 0; group < card.points.size(); ++group)
         card.points[group] =
             readFrfComponentPoint(reader, FIRST_GROUP_FIELD + 2 * static_cast<int>(group), GROUP_NAMES[group]);

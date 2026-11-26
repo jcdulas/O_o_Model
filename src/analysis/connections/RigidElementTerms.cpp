@@ -106,8 +106,12 @@ std::vector<RigidTerm> RigidElementTerms::of(const model::Model& cards, model::C
         const RigidSplineCard card = tableOf<RigidSplineTable>(cards).card(location.row);
         for (std::size_t index = 0; index < card.points.size(); ++index)
         {
+            // The two ends are independent, and so is a point between them whose components field is blank (0): all
+            // six of its components are independent. A point with components has those dependent.
             const bool end = index == 0 || index + 1 == card.points.size();
-            add(end, card.points[index].node, end ? ALL_COMPONENTS : card.points[index].components);
+            const bool independent = end || card.points[index].components == 0;
+            add(independent, card.points[index].node,
+                independent ? ALL_COMPONENTS : card.points[index].components);
         }
     }
     else if (type == typeIndexOf<RigidJointTable>())

@@ -151,7 +151,7 @@ QueryColumn CardColumns::typeColumn(const CardRows& rows) const
     std::vector<std::int32_t> indices(count, 0);
     bool anyMissing = false;
     std::vector<std::uint8_t> present(count, 1);
-    // A card kept as text is named as the deck names it (`CQUAD9`, never `UNKNOWN`): its name
+    // A card kept as text is named as the deck names it (never `UNKNOWN`): its name
     // joins the dictionary after the names of the card types.
     const auto* unknown = !m_types.empty() && m_types.front() == model::CardRegistry::UNKNOWN_TYPE
                               ? static_cast<const model::UnknownCardTable*>(m_model->findTable(m_types.front()))

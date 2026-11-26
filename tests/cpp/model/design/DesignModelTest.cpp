@@ -402,7 +402,7 @@ TEST_CASE(
     REQUIRE_THAT(problem(1), ContainsSubstring("BarProp has no field named area(EndB)"));
     REQUIRE(design.relations()[1].applicable);
     REQUIRE(design.relations()[2].applicable); // field 9 is the NSM
-    REQUIRE_THAT(problem(4), ContainsSubstring("no station at X/XB = 1.0"));
+    REQUIRE_THAT(problem(4), ContainsSubstring("no station at stationRatio 1.0"));
     REQUIRE_THAT(problem(5), ContainsSubstring("BeamShapeProp has no field named sectionGroup"));
     REQUIRE_THAT(problem(6), ContainsSubstring("cannot design the fields of a BushProp"));
     REQUIRE_THAT(problem(7), ContainsSubstring("ShellProp has no field named membraneMatId"));

@@ -29,7 +29,7 @@ const std::vector<SolutionSequence>& SolutionSequences::all() noexcept
         {159, "NonlinearTransientHeat", "NonlinearTransientHeatNumber"},
         {200, "DesignOptimization", "DesignOptimizationNumber"},
         {400, "GeneralNonlinear", "GeneralNonlinearNumber"},
-        {700, "NonlinearTransient", "ExplicitNonlinearNumber"}};
+        {700, "ExplicitNonlinear", "ExplicitNonlinearNumber"}};
     return SEQUENCES;
 }
 

@@ -35,6 +35,8 @@ private:
         base::Vec3 high;
     };
     [[nodiscard]] std::int64_t cellOf(double value, std::size_t axis) const noexcept;
+    // True when `point` lies more than FAR_RINGS cells outside the grid along an axis: no ring of cells is searched.
+    [[nodiscard]] bool isFarFromGrid(const base::Vec3& point) const noexcept;
     [[nodiscard]] static std::uint64_t keyOf(std::int64_t i, std::int64_t j, std::int64_t k) noexcept;
 
     std::vector<ShellElement> m_elements; // by element ID

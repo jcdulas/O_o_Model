@@ -197,15 +197,17 @@ private:
         info.name = "dofSetsTable";
         info.family = "T8";
         info.description =
-            "The points and components of the degree-of-freedom set cards, one row for each (card, point): ASET, "
+            "The points and components of the degree-of-freedom set cards, one row for each (card, point): "
+            "AnalysisDofSet, "
             "FixedBoundaryDofSet, FreeBoundaryDofSet, GeneralizedDofSet, OmittedDofSet, FreeBodySupport and UserDofSet "
             "give their (point, components) pairs, AnalysisDofSet1, FixedBoundaryDofSet1, FreeBoundaryDofSet1, "
             "GeneralizedDofSet1, OmittedDofSet1 and UserDofSet1 their components for each point of the list (a THRU "
             "range gives the grid and "
-            "scalar points of the model in it), SUPORT1 its pairs with its set ID in setId. dof is the components as "
+            "scalar points of the model in it), FreeBodySupportSet its pairs with its set ID in setId. dof is the "
+            "components as "
             "text (0 for a scalar point); setName the SNAME of a UserDofSet or UserDofSet1 (null for the others); "
             "subcases, for "
-            "a FreeBodySupportSet, the subcases whose Case Control SUPORT1 command selects its set (null for the other "
+            "a FreeBodySupportSet, the subcases whose Case Control selects its set (null for the other "
             "cards: "
             "FreeBodySupport applies to every subcase). cards keeps these card types (FreeBodySupport, ...). In the "
             "order of the card types above, "

@@ -34,7 +34,8 @@ enum class JoinKind : std::uint8_t
 // on       the columns of the query that hold the references (IDs). Several columns are read as one, the first one with
 // a
 //          value counting. Empty: the default of the source for the target. A list column (the nodes of an element)
-//          gives one row for each value in the list: the rows of the query are repeated
+//          gives one row for each value in the list: the rows of the query are repeated. A row that holds no ID (a
+//          blank reference, an empty list) stays once in a left join, its joined columns and its position null
 // prefix   put in front of the names of the joined columns; by default none ("node" for a node: nodeX), and a name that
 // is
 //          already taken gets the name of the target in front instead

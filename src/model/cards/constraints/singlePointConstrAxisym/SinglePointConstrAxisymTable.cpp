@@ -1,6 +1,7 @@
 #include "oor/model/cards/constraints/singlePointConstrAxisym/SinglePointConstrAxisymTable.hpp"
 
 #include "oor/base/text/DigitSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -11,7 +12,7 @@ std::optional<SinglePointConstrAxisymCard> SinglePointConstrAxisymFormat::read(F
     card.id = reader.requiredInteger(1, "id");
     card.ringId = reader.requiredInteger(2, "ringId");
     card.harmonic = reader.requiredInteger(3, "harmonicId");
-    card.components = base::sortedDigits(reader.requiredInteger(4, "components"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(4, "components"), "components");
     card.enforced = reader.requiredReal(5, "enforcedValue");
     if (!reader.failed())
         reader.report(check(card));

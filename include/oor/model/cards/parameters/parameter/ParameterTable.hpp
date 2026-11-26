@@ -19,7 +19,9 @@ struct ParameterFormat
     static void write(const ParameterCard& card, FieldWriter& writer);
 };
 
-// All the Parameter cards. A parameter has no ID: it is found by name.
+// All the Parameter cards. A parameter has no ID: it is found by name. The value of the few parameters that hold the
+// ID of a card (ParameterReferences.hpp: WeightReferenceNode, AcousticInfinitePropId) is a reference when it is a
+// positive integer.
 class ParameterTable final : public TypedTable<ParameterTable, ParameterCard>
 {
 public:
@@ -35,7 +37,7 @@ public:
 
     [[nodiscard]] base::EntityId idAtRow(std::uint32_t) const { return 0; }
     void setIdAtRow(std::uint32_t, base::EntityId) {}
-    void visitReferences(std::uint32_t, ReferenceVisitor&) override {}
+    void visitReferences(std::uint32_t row, ReferenceVisitor& visitor) override;
 
     [[nodiscard]] Column<std::string>& nameColumn() noexcept { return m_name; }
     [[nodiscard]] Column<std::uint8_t>& kindColumn() noexcept { return m_kind; }

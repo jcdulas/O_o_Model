@@ -73,6 +73,14 @@ ManualConnections::ManualConnections(const SuperelementCatalogue& catalogue,
                                          " do not have the same length");
                     continue;
                 }
+                // a range longer than the bound of THRU expansions is left out, named
+                if (countA > base::MAX_EXPANDED_IDS)
+                {
+                    m_problems.push_back(connectionText(residual, card) + ": " + std::to_string(pair.a.first) +
+                                         " THRU " + std::to_string(pair.a.last) + " names more than " +
+                                         std::to_string(base::MAX_EXPANDED_IDS) + " points: left out");
+                    continue;
+                }
                 for (std::int64_t offset = 0; offset < countA; ++offset)
                 {
                     const SuperelementPoint upstream{card.superelementIdA,

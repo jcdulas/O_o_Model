@@ -8,6 +8,7 @@
 #include <numbers>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace oor::model
 {
@@ -151,11 +152,35 @@ private:
         case ExpressionKind::Negate:
             return negate(evaluate(node.first));
         case ExpressionKind::Binary:
-            return binary(node.op, evaluate(node.first), evaluate(node.second));
+            return evaluateChain(index);
         case ExpressionKind::Call:
             break;
         }
         return call(node);
+    }
+
+    // The value of a Binary node. A+B+C+D is the tree ((A+B)+C)+D, as deep as the text is long, and a sum may have
+    // thousands of terms: the left operands are walked in a loop, because a recursion over them would exhaust the
+    // stack. The operations are done in the order the recursion would do them, the innermost left operand first and
+    // then each operator from the bottom up with its right operand, so the value is the same to the last bit. What is
+    // left to the recursion goes down the levels of the grammar (a product in a sum, a signed factor in a product) and
+    // through parentheses, exponents and the arguments of functions, whose nesting the parser limits.
+    [[nodiscard]] Operand evaluateChain(std::int32_t top) const
+    {
+        std::vector<std::int32_t> chain; // the Binary nodes from `top` down the left operands
+        std::int32_t bottom = top;
+        while (m_set.node(bottom).kind == ExpressionKind::Binary)
+        {
+            chain.push_back(bottom);
+            bottom = m_set.node(bottom).first;
+        }
+        Operand value = evaluate(bottom);
+        for (auto link = chain.rbegin(); link != chain.rend(); ++link)
+        {
+            const ExpressionNode& node = m_set.node(*link);
+            value = binary(node.op, value, evaluate(node.second));
+        }
+        return value;
     }
 
     [[nodiscard]] Operand variable(const std::string& name) const

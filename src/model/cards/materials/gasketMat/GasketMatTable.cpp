@@ -23,6 +23,17 @@ constexpr const char* UNLOADING_NAMES[GasketMatCard::UNLOADING_TABLES] = {
     "unloadingTableId1", "unloadingTableId2", "unloadingTableId3", "unloadingTableId4", "unloadingTableId5",
     "unloadingTableId6", "unloadingTableId7", "unloadingTableId8", "unloadingTableId9", "unloadingTableId10"};
 
+// Shows a table field that may be blank to the visitor: a TableStress1 when it holds an ID, nothing when it is 0.
+void visitOptionalTable(ReferenceVisitor& visitor, const char* name, std::uint32_t row, Column<base::EntityId>& column)
+{
+    const base::EntityId id = column.get(row);
+    if (id == 0)
+        return;
+    const base::EntityId updated = visitor.visit(name, ReferenceTarget::StressTable, id);
+    if (updated != id)
+        column.set(row, updated);
+}
+
 } // namespace
 
 std::optional<GasketMatCard> GasketMatFormat::read(FieldReader& reader)
@@ -190,6 +201,12 @@ void GasketMatTable::visitReferences(std::uint32_t row, ReferenceVisitor& visito
     }
     if (unloading != before)
         m_unloadingTableIds.set(row, unloading);
+    // The tables of the yield pressure, the tensile modulus, the transverse shear modulus and the initial gap are
+    // TableStress1 tables too; a blank one (0) names nothing.
+    visitOptionalTable(visitor, "yieldPressureTableId", row, m_yieldPressureTableId);
+    visitOptionalTable(visitor, "tensileModulusTableId", row, m_tensileModulusTableId);
+    visitOptionalTable(visitor, "transverseShearModulusTableId", row, m_transverseShearModulusTableId);
+    visitOptionalTable(visitor, "initialGapTableId", row, m_initialGapTableId);
 }
 
 } // namespace oor::model

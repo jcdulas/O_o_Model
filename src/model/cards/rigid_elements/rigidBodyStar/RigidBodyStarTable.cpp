@@ -1,6 +1,7 @@
 #include "oor/model/cards/rigid_elements/rigidBodyStar/RigidBodyStarTable.hpp"
 
 #include "oor/base/text/DigitSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <variant>
 
@@ -26,7 +27,7 @@ std::optional<RigidBodyStarCard> RigidBodyStarFormat::read(FieldReader& reader)
     RigidBodyStarCard card;
     card.id = reader.requiredInteger(1, "id");
     card.independent = reader.requiredInteger(2, "independentNode");
-    card.components = base::sortedDigits(reader.requiredInteger(3, "dependentComponents"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(3, "dependentComponents"), "dependentComponents");
 
     // After the last grid point there may be ALPHA, or ALPHA and TREF: the reals at the end of the card. A blank
     // before a final real is a blank ALPHA.

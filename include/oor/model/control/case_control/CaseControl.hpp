@@ -77,10 +77,12 @@ public:
         Subcase* subcase = nullptr;
         std::size_t index = 0;
     };
-    // The section and position of the entry with this key (the header of a section included).
+    // The section and position of the entry with this key, among the `entries` of the sections. The header of a
+    // section is not one of them and is not found here: it is reached through its section (findSubcase).
     [[nodiscard]] std::optional<EntryLocation> findEntry(std::uint32_t entryKey) noexcept;
     [[nodiscard]] const CaseEntry* findEntry(std::uint32_t entryKey) const noexcept;
-    // The section that holds the entry with this key (the header of a section included); null when there is none.
+    // The section that holds the entry with this key in its `entries` (a header is not found, as for findEntry); null
+    // when there is none.
     [[nodiscard]] const Subcase* ownerOfEntry(std::uint32_t entryKey) const noexcept;
 
     // The last own command with this name and variant (a command repeated in a subcase: the last one counts).
@@ -141,7 +143,11 @@ public:
     Subcase& addAuxiliaryCase();
     // A new step (or substep) at the end of the subcase or step `parentKey`.
     Subcase& addChild(std::uint32_t parentKey, SubcaseKind kind, std::int64_t id);
-    // Removes a subcase or a step. Returns false (and changes nothing) when it holds INCLUDE markers.
+    // Removes a subcase or a step, with its steps and substeps. Returns false (and changes nothing) for the global
+    // section, for a section that holds INCLUDE markers, and for an AUXCASE section while a subcase of its auxiliary
+    // model follows it (those subcases would join the sections before it: remove them first). The OUTPUT(PLOT) and
+    // OUTPUT(XYPLOT) blocks written in the removed section are not removed: they move, with their keys, to the end of
+    // the section that is then last in the file (its last step or substep), where addBlock puts a new one.
     bool removeSubcase(std::uint32_t key);
     // Changes the number of a subcase, step or substep.
     void setNumber(Subcase& subcase, std::int64_t id);

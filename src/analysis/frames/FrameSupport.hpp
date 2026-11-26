@@ -37,6 +37,12 @@ namespace oor::analysis::detail
 // The CORDM of the SolidProp with this ID; nullopt when the property is not a SolidProp or does not exist.
 [[nodiscard]] std::optional<base::EntityId> solidCordm(const model::Model& model, base::EntityId pid);
 
+// True when the table says the frame of its values itself, so that the model is not asked for it: a table a frame
+// change made (its derivation starts with "inFrame("), and a table made in memory that declares a frame (a program
+// that makes results knows it). StoredFrames::describe and the frames of the entities must agree on this: the frame
+// the first reports is the frame the second turns the values from.
+[[nodiscard]] bool tableSaysItsFrame(const results::ResultTableMeta& meta);
+
 // The element IDs of the rows of a table, one step and one component decoded (what the rows have in common).
 [[nodiscard]] std::vector<std::int32_t> elementIdsOf(const results::ResultTable& table,
                                                      const results::DecodeContext& context);

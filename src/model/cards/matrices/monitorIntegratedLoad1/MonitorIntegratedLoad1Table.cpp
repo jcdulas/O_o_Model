@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/matrices/MonitorPointFields.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <cmath>
 
@@ -14,7 +15,7 @@ std::optional<MonitorIntegratedLoad1Card> MonitorIntegratedLoad1Format::read(Fie
     MonitorIntegratedLoad1Card card;
     card.name = std::string(reader.text(1));
     card.label = reader.spanText(2, 8);
-    card.outputAxes = base::sortedDigits(reader.requiredInteger(9, "outputAxes"));
+    card.outputAxes = sortedDigitSet(reader, reader.requiredInteger(9, "outputAxes"), "outputAxes");
     card.component = std::string(reader.text(10));
     card.positionFrameId = reader.integer(11, "positionFrameId", 0);
     card.xCoord = reader.real(12, "xCoord", 0.0);

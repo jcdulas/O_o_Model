@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
 #include "oor/model/cards/nodes/ModuleConnectionSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <variant>
 
@@ -30,7 +31,7 @@ std::optional<ModuleRigidBodyStarCard> ModuleRigidBodyStarFormat::read(FieldRead
     card.id = reader.requiredInteger(1, "id");
     card.independentModuleId = reader.integer(2, "independentModuleId", 0);
     card.independentNode = reader.requiredInteger(3, "independentNode");
-    card.components = base::sortedDigits(reader.requiredInteger(4, "dependentComponents"));
+    card.components = sortedDigitSet(reader, reader.requiredInteger(4, "dependentComponents"), "dependentComponents");
 
     // After the last pair there may be ALPHA, or ALPHA and TREF: the reals at the end of the card, the same rule as the
     // RigidBodyStar. A blank before a final real is a blank ALPHA.

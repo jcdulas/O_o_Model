@@ -56,7 +56,7 @@ public:
                 values[0].push_back(data.xCoord1);
                 values[1].push_back(data.pressure1);
                 values[2].push_back(data.xCoord2);
-                values[3].push_back(data.effectiveP2()); // a blank P2 as the solver reads it (BeamDistributedLoadCard)
+                values[3].push_back(data.effectiveP2()); // a blank P2 is P1: a uniform load (BeamDistributedLoadCard)
                 scale.push_back(load.scale);
                 concentrated.push_back(data.isConcentrated() ? 1 : 0);
             }
@@ -89,7 +89,8 @@ private:
             "system, E at "
             "the end the element system), the scale type (LE, FR, LEPR, FRPR), the positions x1 and x2 and the loads "
             "p1 and "
-            "p2 as the solver reads them (a concentrated load has x2 = x1; a blank P2 of a distributed load is 0), "
+            "p2 as the loads are made with them (a concentrated load has x2 = x1; a blank P2 is P1, a uniform "
+            "load), "
             "`scale`, the product of the LOAD factors, and isConcentrated (X2 blank or "
             "equal "
             "to X1: a load P1 at X1). "

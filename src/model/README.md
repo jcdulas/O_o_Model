@@ -12,6 +12,11 @@ The model: cards, column storage, containers, handles, editing, control sections
   `FileManagement`, `ControlStatement`, `StatementParameter`, the statement definitions, the reader and the writer.
 - The design model is in `design/` (`DesignModel`, `applyDesign`, and the registry of the card types a design relation can drive,
   `DesignableCards.cpp`; the functions of each card type are next to the card, `<Card>DesignFields.cpp`).
+- References between cards are in `references/`: `ReferenceVisitor` (the fields of a card that name another card),
+  `ReferenceChecker` and `Renumbering`, `SetMemberUses` (what the members of a set are, from the fields and output
+  requests that name the set) and `ParameterReferences` (the parameters whose value is the ID of a card).
+- A set of digits written as one integer (components, pin flags) is read by `format/DigitSetField.hpp`, which
+  reports a repeated digit or a zero among other digits before sorting.
 - The model file (`.oos`): `core/ModelFileReader.hpp` and `core/ModelFileWriter.hpp`; the card layouts that map the
   fields of a record to the slots a card reader reads, `format/CardLayouts.hpp` (the catalogue
   `formats/oos-layouts.json`, compiled in; made by `tools/oos_layouts/`, listed in `docs/model-format-cards.md`); the

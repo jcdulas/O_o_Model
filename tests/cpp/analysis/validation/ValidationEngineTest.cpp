@@ -23,7 +23,8 @@ namespace
 {
 
 // A deck with a finding in several families: a reference that does not resolve, a zero load, a material that is not
-// stable, a Case Control command that selects a set that does not exist, and a rigid element loop.
+// stable (a Poisson's ratio above 0.5), a Case Control command that selects a set that does not exist, and a rigid
+// element loop.
 const char* const MIXED_DECK = R"([executive]
 SolutionSequence;101
 [case]
@@ -32,7 +33,7 @@ StaticLoadSelection;77
 SubcaseStart;1
 DisplacementOutput;All
 [model]
-IsoMat;1;2.1E+5;;0.5;7.8E-9
+IsoMat;1;2.1E+5;;0.6;7.8E-9
 ShellProp;1;1;0.1;1
 Node;1;;0.;0.;0.
 Node;2;;1.;0.;0.

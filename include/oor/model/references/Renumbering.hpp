@@ -191,7 +191,9 @@ enum class RenumberSpace
     MetadataGroup                           // the ABSTIDs of MetadataGroup
 };
 
-// The new ID of an old one; nothing leaves it unchanged.
+// The new ID of an old one; nothing leaves it unchanged. A mapping may refuse an ID it cannot renumber by throwing
+// base::UsageError: the renumbering then fails when a card has that ID (nothing is changed), and a reference to that
+// ID that names no card stays as it is.
 using IdMapping = std::function<std::optional<base::EntityId>(base::EntityId)>;
 // Makes the mapping for one model (the residual structure or a part): the mapping of a renumbering "from 1000, in file
 // order" depends on the model it is applied to.
@@ -206,6 +208,14 @@ struct Renumbering
     // is changed and DuplicateIdError or UsageError is thrown. Returns the number of cards whose ID changed. A THRU
     // range keeps its end points renumbered (it stays correct for an offset or any increasing mapping).
     //
+    // The members of a set follow a renumbering of the nodes or of the elements when a user of the set says what it
+    // lists (SetMemberUses.hpp): an IdListSet1 that a card field names as a set of grid points or of elements, a SET
+    // of the Case Control that an output request names (DisplacementOutput: grid points, StressOutput: elements). A
+    // set that no such user names is left as it is. A set named both as a set of grid points and as a set of elements
+    // cannot follow either renumbering: UsageError is thrown, with the set and its two users, and nothing is changed.
+    // The Case Control of a deck is in its residual structure: a member of one of its SETs that only a part has is
+    // left alone by a renumbering of the residual structure, and a renumbering of the part does not reach it.
+    //
     // A part is renumbered on its own too (`apply` on the part): what the residual structure names in it (the grid
     // points of a SuperelementConnection, SuperelementBoundarySearch or SuperelementExcludedNodes, the design variables
     // of a SuperelementDesignLink: ReferenceVisitor::visitInSuperelement) follows, and nothing else changes. The
@@ -215,9 +225,11 @@ struct Renumbering
     static std::size_t apply(Model& model, RenumberSpace space, const MappingFactory& factory,
                              bool includeParts = false);
 
-    // The mapping that adds `offset` to every ID.
+    // The mapping that adds `offset` to every ID. It refuses (base::UsageError, see IdMapping) an ID that the offset
+    // takes out of the range of the IDs: a card with such an ID makes the renumbering fail, with nothing changed.
     [[nodiscard]] static MappingFactory offset(base::EntityId offset);
-    // The mapping that gives the IDs of the space, in file order, `start`, `start + step`, ...
+    // The mapping that gives the IDs of the space, in file order, `start`, `start + step`, ... Making it for a model
+    // throws base::UsageError when the numbering passes the largest ID (the renumbering fails, nothing is changed).
     [[nodiscard]] static MappingFactory consecutive(RenumberSpace space, base::EntityId start, base::EntityId step);
     // A mapping given as a function (for a dictionary or a callable).
     [[nodiscard]] static MappingFactory fromFunction(IdMapping mapping);

@@ -66,14 +66,31 @@ bool listedIn(const std::vector<model::IdRun>& runs, base::EntityId id) noexcept
                        { return id >= run.first && id <= std::max(run.first, run.last); });
 }
 
-// The digits 1 to 6 that a component number does not hold ("123456" less the released ones).
-std::string remainingComponents(std::int32_t released)
+constexpr int COMPONENT_COUNT = 6;
+
+// The components a component number names (its digits 1 to 6), as a mask: the bit d - 1 for the digit d. Several
+// cards may release components of one point; their masks are united, which their numbers cannot be.
+unsigned componentMask(std::int32_t components) noexcept
+{
+    unsigned mask = 0;
+    for (std::int32_t rest = components; rest > 0; rest /= 10)
+    {
+        const int digit = rest % 10;
+        if (digit >= 1 && digit <= COMPONENT_COUNT)
+            mask |= 1U << (digit - 1);
+    }
+    return mask;
+}
+
+// The digits 1 to 6 that a mask of released components does not hold ("123456" less the released ones; nothing when
+// the six are released).
+std::string remainingComponents(unsigned released)
 {
     std::string kept;
-    for (char digit = '1'; digit <= '6'; ++digit)
+    for (int digit = 1; digit <= COMPONENT_COUNT; ++digit)
     {
-        if (std::to_string(released).find(digit) == std::string::npos)
-            kept.push_back(digit);
+        if ((released & (1U << (digit - 1))) == 0)
+            kept.push_back(static_cast<char>('0' + digit));
     }
     return kept;
 }
@@ -223,14 +240,14 @@ ListSuperelementPartition::ListSuperelementPartition(const SuperelementCatalogue
             continue;
         }
         // format reference SuperelementReleasedDofs: the components C of the listed exterior grid points (or of all of
-        // them) are not connected.
-        std::int32_t released = 0;
+        // them) are not connected. A point several cards name is released of the components of all of them.
+        unsigned released = 0;
         for (const model::SuperelementReleasedDofsCard& release : releases)
         {
             if (release.superelementId == point.seid && (release.all || listedIn(release.points, point.nid)))
-                released = released * 10 + release.components;
+                released |= componentMask(release.components);
         }
-        m_dofs[point] = released == 0 ? std::string("123456") : remainingComponents(released);
+        m_dofs[point] = remainingComponents(released);
     }
 }
 

@@ -13,7 +13,8 @@ enum class ReferenceTarget
 {
     Node,        // a Node, or any other point of the node ID space (a scalar point is one)
     NodeInRange, // a node ID in a THRU range: renumbered like a node, but allowed not to exist (the solver skips the
-                 // gaps)
+                 // gaps); also the grid point of the WeightReferenceNode parameter, which may name no grid point
+                 // (ParameterReferences.hpp)
     // a field that takes a grid point or a scalar point (SpringDofProperty G1, Beam2 SA): renumbered like a node; it
     // may name a scalar point that no ScalarPoint defines (the format reference lets a scalar element define its scalar
     // points by naming them), so it is allowed not to exist

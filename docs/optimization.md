@@ -142,9 +142,16 @@ Omitted independent variables keep their initial value. Linked variables are com
 The operation reads the current design, evaluates relations and supported shape moves, then writes the point atomically.
 A validation failure leaves the model unchanged. It refuses unsupported declarations and field limit violations by
 default. Optional `limits: "clip" | "ignore"` changes the field limit policy; variable bounds remain checked.
+A linear relation that gives no finite number, and a `PropertyValue` relation on a field that holds no finite value
+(a blank transverse shear modulus, a blank corner thickness of a shell element), cannot be applied whatever `limits`
+says.
 
 `setInitialValues` defaults to true: the design variable cards are saved at the accepted point. Shape initial values
 and grid coordinates remain consistent, so applying the same point again does not repeat a shape move.
+A linear relation whose first coefficient is `PropertyValue` takes that coefficient from the field it drives. When the
+point changes that field, the relation card receives the value the field held before as an explicit coefficient in
+place of the word: the saved deck gives the same fields at its saved initial values, and applying the same point again
+changes nothing. A `PropertyValue` relation whose field is not written keeps the word.
 The report includes each field's before, requested and after values, clipping status and changed flag.
 
 To save the accepted model with its result tables, attach it to the result set and call `results.writeArchive`.

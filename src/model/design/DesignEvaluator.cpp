@@ -105,7 +105,7 @@ DesignEvaluation DesignModel::evaluate(const Model& model, const DesignPoint& po
     };
 
     // The linear relations, in one pass: C0 + the sum of the coefficient times the variable, the first coefficient
-    // being the value the field holds when the card says PVAL.
+    // being the value the field holds when the card says PropertyValue.
     std::map<base::EntityId, std::vector<std::size_t>> byEquation;
     for (std::size_t index = 0; index < m_relations.size(); ++index)
     {
@@ -118,6 +118,16 @@ DesignEvaluation DesignModel::evaluate(const Model& model, const DesignPoint& po
             byEquation[relation.equationId].push_back(index);
             continue;
         }
+        const std::string name = relation.card + " " + std::to_string(relation.id);
+        // PropertyValue needs a number to start from. A field that holds none (a blank corner thickness of a shell
+        // element reads as NaN, a blank transverse shear modulus as infinity) cannot give the coefficient.
+        if (relation.fromProperty && !std::isfinite(value.current))
+        {
+            value.problem = name + ": PropertyValue takes the first coefficient from the value of " +
+                            relation.targetLabel + " " + std::to_string(relation.targetId) + " " +
+                            relation.facts.name + ", and the model holds no finite value there";
+            continue;
+        }
         double sum = relation.constant;
         for (std::size_t term = 0; term < relation.terms.size(); ++term)
         {
@@ -126,6 +136,12 @@ DesignEvaluation DesignModel::evaluate(const Model& model, const DesignPoint& po
             sum += coefficient * result.variables[*findVariable(relation.terms[term].designVarId)];
         }
         value.requested = sum;
+        // The coefficients of the card are finite, so only a value of a variable that is not a number, or an overflow,
+        // leads here. Such a result is not a value outside the limits of the relation, which the caller may clip or
+        // let through: it is no value at all, and no card can hold it, so the relation has a problem whatever the
+        // limits are asked to do.
+        if (!std::isfinite(sum))
+            value.problem = name + ": the relation gives no finite number for these values";
     }
 
     // The equations: the relations that share a DesignEquation are evaluated together, each argument an array with one

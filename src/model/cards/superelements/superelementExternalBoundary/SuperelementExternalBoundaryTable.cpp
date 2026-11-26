@@ -3,6 +3,7 @@
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/superelements/SuperelementSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <algorithm>
 
@@ -47,7 +48,7 @@ std::optional<SuperelementExternalBoundaryCard> SuperelementExternalBoundaryForm
             }
             item.points.last = reader.requiredInteger(gidField(slot), "nodeId");
         }
-        item.components = base::sortedDigits(reader.integer(componentField(slot), "components", 0));
+        item.components = sortedDigitSet(reader, reader.integer(componentField(slot), "components", 0), "components");
         card.items.push_back(item);
     }
     if (!reader.failed())

@@ -99,7 +99,7 @@ const PanelRods& ShearPanelRodFacts::panel(std::int32_t resultEid)
         const double young = youngModulus(m_model->findTable<model::IsoMatTable>()->card(material->row));
         if (!(young > 0.0))
         {
-            rods.why = "the MAT1 " + std::to_string(pshear.matId) + " has no Young's modulus";
+            rods.why = "the IsoMat " + std::to_string(pshear.matId) + " has no Young's modulus";
             break;
         }
         if (!m_positionsTried)

@@ -19,15 +19,16 @@ struct ListedRun
     model::CardLocation where;
 };
 
-// A grid point that two SuperelementInteriorNodes lists name: a point is interior to one superelement only. The
-// lists are the runs as written, a THRU range included, so that a range over millions of points costs one
-// comparison. The finding is on the later card of the pair, with the first point they share.
+// A grid point that the SuperelementInteriorNodes lists of two superelements name: a point is interior to one
+// superelement only (a point that two lists of the same superelement name is not at fault). The lists are the runs as
+// written, a THRU range included, so that a range over millions of points costs one comparison. The finding is on the
+// later card of the pair, with the first point they share.
 class NodeInTwoCheck final : public ValidationCheck
 {
 public:
     static constexpr CheckInfo INFO{"superelement.node-in-two", base::Severity::Error, "superelement",
-                                    "A grid point is named by two superelement interior point lists; a point is "
-                                    "interior to one superelement only."};
+                                    "A grid point is named by the interior point lists of two superelements; a point "
+                                    "is interior to one superelement only."};
 
     [[nodiscard]] const CheckInfo& info() const noexcept override { return INFO; }
 
@@ -50,13 +51,14 @@ public:
         const ListedRun* reaching = nullptr;
         for (const ListedRun& run : runs)
         {
-            if (reaching != nullptr && run.first <= reaching->last)
+            // Two lists of the same superelement that share a point name it twice for that superelement: the point is
+            // still interior to one superelement only, which is what the rule asks.
+            if (reaching != nullptr && run.first <= reaching->last && run.seid != reaching->seid)
             {
-                const bool sameCard = run.where.table == reaching->where.table && run.where.row == reaching->where.row;
                 sink.reportCard(run.where, "nodes",
                                 "point " + std::to_string(run.first) + " is in the list of superelement " +
                                     std::to_string(run.seid) + " and in the list of superelement " +
-                                    std::to_string(reaching->seid) + (sameCard ? " (the same card)" : ""),
+                                    std::to_string(reaching->seid),
                                 "list a point in one " + std::string("SuperelementInteriorNodes") + " only");
             }
             if (reaching == nullptr || run.last > reaching->last)

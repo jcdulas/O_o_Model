@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -24,7 +25,7 @@ std::optional<FreeBoundaryDofs1Card> FreeBoundaryDofs1Format::read(FieldReader& 
     }
     else
     {
-        card.components = base::sortedDigits(reader.integer(1, "components", 0));
+        card.components = sortedDigitSet(reader, reader.integer(1, "components", 0), "components");
         card.nodes = readIdRuns(reader, FIRST_POINT_FIELD, "nodes");
     }
     if (!reader.failed())

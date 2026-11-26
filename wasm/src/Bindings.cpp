@@ -141,14 +141,17 @@ val deckDiagnostics(api::Deck& deck)
 
 // ------------------------------------------------------------------------------------------------- cards by ID
 
+// The ID of a card comes as a number of JavaScript and is checked before it is used (entityIdOf): a fraction or a
+// value beyond 32 bits is refused, never rounded to the ID of another card.
 // A named value of a card as a JavaScript value: a number, an array of numbers, a text, an array of texts or null.
 // deck.card(source, id, computed): { type, id, values: { name: value }, fields: [...], text, comment }, or null.
-val deckCard(api::Deck& deck, const std::string& source, int id, const val& computed)
+val deckCard(api::Deck& deck, const std::string& source, double id, const val& computed)
 {
     return guarded(
         [&]
         {
-            const std::optional<api::CardView> card = api::findCard(deck, source, id, vectorOf<std::string>(computed));
+            const std::optional<api::CardView> card =
+                api::findCard(deck, source, entityIdOf(id), vectorOf<std::string>(computed));
             if (!card)
                 return val::null();
             return cardObject(*card);
@@ -160,24 +163,24 @@ val deckCardIds(api::Deck& deck, const std::string& source)
     return guarded([&] { return int32Array(api::cardIds(deck, source)); });
 }
 
-val deckCardFields(api::Deck& deck, const std::string& source, int id)
+val deckCardFields(api::Deck& deck, const std::string& source, double id)
 {
-    return guarded([&] { return textArray(api::cardFields(deck, source, id)); });
+    return guarded([&] { return textArray(api::cardFields(deck, source, entityIdOf(id))); });
 }
 
-void deckSetCardField(api::Deck& deck, const std::string& source, int id, int field, const std::string& value)
+void deckSetCardField(api::Deck& deck, const std::string& source, double id, double field, const std::string& value)
 {
-    guarded([&] { api::setCardField(deck, source, id, field, value); });
+    guarded([&] { api::setCardField(deck, source, entityIdOf(id), fieldNumberOf(field), value); });
 }
 
-void deckSetCardFields(api::Deck& deck, const std::string& source, int id, const val& fields)
+void deckSetCardFields(api::Deck& deck, const std::string& source, double id, const val& fields)
 {
-    guarded([&] { api::setCardFields(deck, source, id, vectorOf<std::string>(fields)); });
+    guarded([&] { api::setCardFields(deck, source, entityIdOf(id), vectorOf<std::string>(fields)); });
 }
 
-void deckReplaceCard(api::Deck& deck, const std::string& source, int id, const std::string& text)
+void deckReplaceCard(api::Deck& deck, const std::string& source, double id, const std::string& text)
 {
-    guarded([&] { api::replaceCard(deck, source, id, text); });
+    guarded([&] { api::replaceCard(deck, source, entityIdOf(id), text); });
 }
 
 // deck.addCards(text): [{ type, id }] of the cards added.
@@ -200,13 +203,13 @@ val deckAddCards(api::Deck& deck, const std::string& text)
 }
 
 // deck.cardFieldNames(source, id): [{ field, name }] of the fields of the card that have a name.
-val deckCardFieldNames(api::Deck& deck, const std::string& source, int id)
+val deckCardFieldNames(api::Deck& deck, const std::string& source, double id)
 {
     return guarded(
         [&]
         {
             val names = val::array();
-            for (const auto& [field, name] : api::cardFieldNames(deck, source, id))
+            for (const auto& [field, name] : api::cardFieldNames(deck, source, entityIdOf(id)))
             {
                 val item = val::object();
                 item.set("field", field);
@@ -217,15 +220,15 @@ val deckCardFieldNames(api::Deck& deck, const std::string& source, int id)
         });
 }
 
-void deckSetCardValue(api::Deck& deck, const std::string& source, int id, const std::string& name,
+void deckSetCardValue(api::Deck& deck, const std::string& source, double id, const std::string& name,
                       const std::string& value)
 {
-    guarded([&] { api::setCardValue(deck, source, id, name, value); });
+    guarded([&] { api::setCardValue(deck, source, entityIdOf(id), name, value); });
 }
 
-bool deckRemoveCard(api::Deck& deck, const std::string& source, int id)
+bool deckRemoveCard(api::Deck& deck, const std::string& source, double id)
 {
-    return guarded([&] { return api::removeCard(deck, source, id); });
+    return guarded([&] { return api::removeCard(deck, source, entityIdOf(id)); });
 }
 
 // ------------------------------------------------------------------------------------------------- results
@@ -404,7 +407,7 @@ val resultsRead(api::Results& results, double index, const val& selection)
                 chosen.ids = vectorOf<std::int32_t>(selection["ids"]);
                 chosen.elementIds = vectorOf<std::int32_t>(selection["elementIds"]);
             }
-            const api::TableValues table = results.read(static_cast<std::size_t>(index), chosen);
+            const api::TableValues table = results.read(listIndexOf(index, "a result table index"), chosen);
             val object = val::object();
             val shape = val::array();
             for (const std::size_t extent : table.shape)

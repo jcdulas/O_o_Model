@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/rigid_elements/ComponentSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 namespace oor::model
 {
@@ -13,7 +14,7 @@ std::optional<RigidBar1Card> RigidBar1Format::read(FieldReader& reader)
     card.nodeA = reader.requiredInteger(2, "nodeA");
     card.nodeB = reader.requiredInteger(3, "nodeB");
     // A blank CB is 123456: GB moves with GA as a rigid body.
-    card.componentsB = base::sortedDigits(reader.integer(4, "componentsB", components::ALL));
+    card.componentsB = sortedDigitSet(reader, reader.integer(4, "componentsB", components::ALL), "componentsB");
     card.alphaCoefficient = reader.real(5, "alphaCoefficient", 0.0);
     card.referenceTemperature = reader.real(6, "referenceTemperature", 0.0);
     if (!reader.failed())

@@ -50,6 +50,7 @@ constexpr const char* STATION_NAMES[14] = {
     "area",          "bendingInertia1", "bendingInertia2", "productInertia12", "torsionConstant",
     "nonStructMass", "stressPointCy",   "stressPointCz",   "stressPointDy",    "stressPointDz",
     "stressPointEy", "stressPointEz",   "stressPointFy",   "stressPointFz"};
+constexpr int FIRST_STRESS_POINT = 6; // the index of stressPointCy in STATION_NAMES
 
 DesignFieldFacts stationFacts(int index, int station, const std::string& stationText)
 {
@@ -79,7 +80,7 @@ std::optional<std::size_t> endBStation(const BeamPropCard& card)
 std::string stationRefusal(const BeamPropCard& card, const StationName& station)
 {
     if (station.atEndB)
-        return "this BeamProp has no station at X/XB = 1.0, so there is no end B to design (it has " +
+        return "this BeamProp has no station at stationRatio 1.0, so there is no end B to design (it has " +
                std::to_string(card.stations.size()) + (card.stations.size() == 1 ? " station)" : " stations)");
     return "this BeamProp has no station " + std::to_string(station.intermediate) + " in record order (it has " +
            std::to_string(card.stations.size()) + " stations)";
@@ -94,6 +95,16 @@ std::optional<std::size_t> stationOf(const BeamPropCard& card, const StationName
         return endBStation(card);
     const std::size_t index = static_cast<std::size_t>(station.intermediate - 1);
     return index < card.stations.size() ? std::optional<std::size_t>(index) : std::nullopt;
+}
+
+// A station has stress points of its own only when its stressOutput is Yes: the card has no such fields at a station
+// that takes the points of end A or recovers no stress, and writes none there, so a value given to one would be lost
+// with the next model file.
+std::string stressPointRefusal(const BeamPropStation& station)
+{
+    const char* const output = station.stressOutput == BeamStressOutput::YesA ? "YesSameAsEndA" : "No";
+    return std::string("the stressOutput of this station of the BeamProp is ") + output +
+           ", so the station has no stress points of its own to design";
 }
 
 std::string stationText(const StationName& station)
@@ -117,6 +128,8 @@ DesignFieldLookup findByName(const BeamPropCard& card, const DesignField& field)
         const std::optional<std::size_t> found = stationOf(card, station);
         if (!found)
             return DesignFieldLookup::refused(field.name + ": " + stationRefusal(card, station));
+        if (index >= FIRST_STRESS_POINT && card.stations[*found].stressOutput != BeamStressOutput::Yes)
+            return DesignFieldLookup::refused(field.name + ": " + stressPointRefusal(card.stations[*found]));
         return DesignFieldLookup::found(stationFacts(index, static_cast<int>(*found), stationText(station)));
     }
     // The fields of the whole beam. K1, K2, S1 and S2 have no station; the others name end A or end B.

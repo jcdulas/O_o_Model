@@ -31,19 +31,24 @@ public:
         if (dependent.empty())
             return;
         std::set<std::pair<std::uint32_t, std::uint32_t>> reported;
-        for (const std::vector<base::EntityId>& sets :
-             constraintSelections(model, model::SINGLE_POINT_CONSTR_SELECTION))
+        // `fixed` holds dependent degrees of freedom only (the ones asked for): each is a clash.
+        const auto report = [&](const std::vector<DofUse>& fixed)
         {
-            for (const DofUse& use : spcDofs(model, sets, context.sortedNodeIds()))
+            for (const DofUse& use : fixed)
             {
-                if (!dependent.contains(use.key) || !reported.emplace(use.where.table, use.where.row).second)
+                if (!reported.emplace(use.where.table, use.where.row).second)
                     continue;
                 sink.reportCard(use.where, "",
                                 "degree of freedom " + std::to_string(componentOfDof(use.key)) + " of grid point " +
                                     std::to_string(nodeOfDof(use.key)) + " is dependent in a rigid element",
                                 "remove the constraint, or the dependency");
             }
-        }
+        };
+        report(permanentConstraintDofs(model, dependent));
+        const DofUsesBySet fixedBySet = spcDofsBySet(model, context.sortedNodeIds(), dependent);
+        for (const std::vector<base::EntityId>& sets :
+             constraintSelections(context.root(), model, model::SINGLE_POINT_CONSTR_SELECTION))
+            report(dofsOfSets(fixedBySet, sets));
     }
 };
 

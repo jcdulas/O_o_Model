@@ -274,6 +274,21 @@ Weights solidWeights(const SolidElement& element, const Vec3& natural)
     return weights;
 }
 
+double largestMidSideOffset(const SolidElement& element)
+{
+    double largest = 0.0;
+    const std::span<const Edge> edges = edgesOf(element.kind);
+    for (std::size_t edge = 0; edge < edges.size(); ++edge)
+    {
+        const std::size_t slot = element.cornerCount() + edge;
+        if (!element.hasNode(slot))
+            continue; // taken at the middle of its edge (solidWeights)
+        const Vec3 middle = (element.points[edges[edge].first] + element.points[edges[edge].second]) * 0.5;
+        largest = std::max(largest, base::norm(element.points[slot] - middle));
+    }
+    return largest;
+}
+
 SolidLocation locateInSolid(const SolidElement& element, const Vec3& point)
 {
     constexpr int MAX_ITERATIONS = 50;
@@ -290,13 +305,19 @@ SolidLocation locateInSolid(const SolidElement& element, const Vec3& point)
         Vec3 step;
         if (!solve(column({1, 0, 0}), column({0, 1, 0}), column({0, 0, 1}), residual, step))
             break;
-        at = {std::clamp(at.x + step.x, -BOUND, BOUND), std::clamp(at.y + step.y, -BOUND, BOUND),
-              std::clamp(at.z + step.z, -BOUND, BOUND)};
-        if (base::norm(step) < CONVERGED)
+        const Vec3 next = {std::clamp(at.x + step.x, -BOUND, BOUND), std::clamp(at.y + step.y, -BOUND, BOUND),
+                           std::clamp(at.z + step.z, -BOUND, BOUND)};
+        // The move the iterate made, not the step Newton's method asked for: a coordinate held at the bound does not
+        // move, and an iterate that is held there (a point far from the element) would be given the same step again
+        // until the last iteration.
+        const double moved = base::norm(next - at);
+        at = next;
+        if (moved < CONVERGED)
             break;
     }
     SolidLocation found;
     found.natural = at;
+    found.residual = base::norm(point - mapped(element, at));
     found.outside = outsideOf(element.kind, at);
     found.distance = found.outside > 0.0 ? base::norm(point - mapped(element, clampedInside(element.kind, at))) : 0.0;
     return found;

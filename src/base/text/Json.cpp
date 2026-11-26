@@ -237,11 +237,19 @@ private:
             ++end;
         if (end == m_at)
             fail("a value is expected");
-        const std::string number(m_text.substr(m_at, end - m_at));
-        char* stop = nullptr;
-        const double value = std::strtod(number.c_str(), &stop);
-        if (stop != number.c_str() + number.size())
-            fail("'" + number + "' is not a number");
+        const std::string_view number = m_text.substr(m_at, end - m_at);
+        // std::from_chars reads the number the same way whatever the locale of the program (strtod reads a decimal
+        // comma in some, and stops at the point). It takes no leading '+', which is accepted here as it was.
+        const char* first = number.data();
+        const char* const last = number.data() + number.size();
+        if (number.size() > 1 && *first == '+')
+            ++first;
+        double value = 0.0;
+        const std::from_chars_result result = std::from_chars(first, last, value);
+        if (result.ec == std::errc::result_out_of_range)
+            fail("'" + std::string(number) + "' is outside the range of a number");
+        if (result.ec != std::errc() || result.ptr != last)
+            fail("'" + std::string(number) + "' is not a number");
         m_at = end;
         return value;
     }

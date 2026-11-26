@@ -22,6 +22,15 @@ An integer has an optional sign and digits (`12`, `-3`). A real has a decimal po
 `-1.5e-3`, `7E2`), which distinguishes it from an integer where the two are alternatives. A name is exact and
 case-sensitive: `ShellProp`, `Through`, `Yes`, `All`. The card reference lists the accepted words.
 
+An integer written in a field that takes only a real is read as that real: `1` is `1.0`. This holds inside a repeated
+group that ends with a list of its own, such as the weight of a `RigidInterpolation` term followed by its nodes. Where
+one place takes an integer or a real with two meanings (two alternatives, or a field of kind `number`), the decimal
+point decides. A real written in a field that takes only an integer is an error.
+
+A set of digits written as one integer (the components of a degree-of-freedom list, pin flags, permanent
+constraints) is kept sorted: `321` is `123`. A digit given twice or a zero among other digits is an error on the
+field, never dropped: `1123` is not the set {1, 2, 3} and `10` is not the set {1}.
+
 Names and keyword values use the same neutral names as the code and API. Literal labels, identifiers, file paths,
 equations and other free text retain their contents. User labels are not interpreted as keyword values.
 

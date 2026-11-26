@@ -4,6 +4,7 @@
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
 #include "oor/model/cards/nodes/ModuleConnectionSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <algorithm>
 #include <string>
@@ -78,7 +79,7 @@ void readGroups(FieldReader& reader, int from, int end, ModuleRigidInterpolation
         }
         ModuleRigidInterpolationGroup group;
         group.weight = reader.requiredReal(field, "weight");
-        group.components = base::sortedDigits(reader.requiredInteger(field + 1, "components"));
+        group.components = sortedDigitSet(reader, reader.requiredInteger(field + 1, "components"), "components");
         field += 2;
         while (field < end && !reader.failed())
         {
@@ -152,7 +153,8 @@ void readDependents(FieldReader& reader, int umField, int end, ModuleRigidInterp
         ModuleRigidInterpolationDependent dependent;
         dependent.point.module = reader.integer(field, "dependentModuleId", 0);
         dependent.point.id = reader.requiredInteger(field + 1, "dependentNode");
-        dependent.components = base::sortedDigits(reader.requiredInteger(field + 2, "dependentComponents"));
+        dependent.components =
+            sortedDigitSet(reader, reader.requiredInteger(field + 2, "dependentComponents"), "dependentComponents");
         card.dependents.push_back(dependent);
     }
 }
@@ -165,7 +167,8 @@ std::optional<ModuleRigidInterpolationCard> ModuleRigidInterpolationFormat::read
     card.id = reader.requiredInteger(1, "id");
     card.referenceModuleId = reader.integer(2, "referenceModuleId", 0);
     card.referenceNode = reader.requiredInteger(3, "referenceNode");
-    card.referenceComponents = base::sortedDigits(reader.requiredInteger(4, "referenceComponents"));
+    card.referenceComponents =
+        sortedDigitSet(reader, reader.requiredInteger(4, "referenceComponents"), "referenceComponents");
 
     const int last = reader.lastUsedField();
     const int umField = findKeyword(reader, FIRST_GROUP_FIELD, last, "DependentDofs");

@@ -29,6 +29,21 @@ std::vector<std::uint8_t> typeMask(std::span<const std::uint16_t> ofTypes)
     return mask;
 }
 
+// The corners of an oriented face without the blank ones and without those that repeat an earlier corner, in their
+// order, with 0 last. Dropping a repeated corner keeps the way round of the face, so its normal.
+std::array<base::EntityId, 4> distinctCorners(const std::array<base::EntityId, 4>& face) noexcept
+{
+    std::array<base::EntityId, 4> distinct{};
+    std::size_t count = 0;
+    for (const base::EntityId node : face)
+    {
+        const auto kept = distinct.begin() + static_cast<std::ptrdiff_t>(count);
+        if (node != 0 && std::find(distinct.begin(), kept, node) == kept)
+            distinct[count++] = node;
+    }
+    return distinct;
+}
+
 // The tables a call needs, built once, and the lists one thread works with. A finder is made for each chunk of
 // elements: the tables are shared and read only, the scratch lists are its own.
 class NeighbourFinder
@@ -299,8 +314,11 @@ FreeFaces MeshAdjacency::freeFaces(const model::Model& model, base::ThreadPool* 
         ElementTopology::orientedFacesOf(ownerTable, owner.type, owner.row, oriented);
         std::array<base::EntityId, 4> face =
             key.nodes; // the sorted corners if no oriented face matches (it always does)
-        for (const auto& candidate : oriented)
+        for (const auto& listed : oriented)
         {
+            // The face table keys a face by its distinct corners (a quadrilateral face of a collapsed solid, which
+            // names a grid point twice, is a triangle there): the oriented face is compared, and given, likewise.
+            const std::array<base::EntityId, 4> candidate = distinctCorners(listed);
             // The key of the oriented face: its nonzero corners, increasing, with 0 last.
             std::array<base::EntityId, 4> sorted = candidate;
             for (base::EntityId& node : sorted)

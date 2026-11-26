@@ -237,7 +237,8 @@ TEST_CASE(
     REQUIRE(cardAt<BeamDistributedLoadTable>(model, 2).scaleFactor ==
             BarLoadScale::FR); // the words are not case sensitive
     card = cardAt<BeamDistributedLoadTable>(model, 3);
-    REQUIRE((card.xCoord2 == 2.5 && !card.pressure2 && card.effectiveP2() == 0.0)); // as the solver reads it
+    // a blank P2 is P1, also with X2 given: a uniform load from X1 to X2
+    REQUIRE((card.xCoord2 == 2.5 && !card.pressure2 && card.effectiveP2() == 1.0));
     // X2 depends on X1: always written; a blank P2 is written blank.
     REQUIRE(writeModelText(readBulk("BeamDistributedLoad;26;10;ForceX;ActualLength;1.;5."))
                 .find("BeamDistributedLoad;26;10;ForceX;ActualLength;1.;5.;1.\n") != std::string::npos);

@@ -304,7 +304,8 @@ PlyGradient derivatives(const std::string& theory, double s1, double s2, double 
         double a = s1;
         double b = s2;
         double c = t12;
-        double xt = m.xt, xc = m.xc, yt = m.yt, yc = m.yc, ss = m.s;
+        // a blank compression allowable is the tension one, as plyFailureIndex takes it
+        double xt = m.xt, xc = m.xc > 0.0 ? m.xc : m.xt, yt = m.yt, yc = m.yc > 0.0 ? m.yc : m.yt, ss = m.s;
         if (strain)
         {
             const double nu21 = m.nu12 * m.e2 / m.e1;
@@ -343,10 +344,13 @@ PlyGradient derivatives(const std::string& theory, double s1, double s2, double 
     Matrix hessQ{};
     if (theory == "hill")
     {
+        // plyFailureIndex differentiated: the interaction term takes its X by the sign of the product s1 s2
         const double x = s1 >= 0.0 ? m.xt : xc;
         const double y = s2 >= 0.0 ? m.yt : yc;
-        gradQ = {(2.0 * s1 - s2) / (x * x), -s1 / (x * x) + 2.0 * s2 / (y * y), 2.0 * t12 / (m.s * m.s)};
-        hessQ = {2.0 / (x * x), -1.0 / (x * x), 0.0, -1.0 / (x * x), 2.0 / (y * y), 0.0, 0.0, 0.0, 2.0 / (m.s * m.s)};
+        const double xProduct = s1 * s2 >= 0.0 ? m.xt : xc;
+        const double cross = 1.0 / (xProduct * xProduct);
+        gradQ = {2.0 * s1 / (x * x) - s2 * cross, -s1 * cross + 2.0 * s2 / (y * y), 2.0 * t12 / (m.s * m.s)};
+        hessQ = {2.0 / (x * x), -cross, 0.0, -cross, 2.0 / (y * y), 0.0, 0.0, 0.0, 2.0 / (m.s * m.s)};
     }
     else if (theory == "hoffman")
     {
@@ -360,7 +364,7 @@ PlyGradient derivatives(const std::string& theory, double s1, double s2, double 
         const double f11 = 1.0 / (m.xt * xc);
         const double f22 = 1.0 / (m.yt * yc);
         const double f66 = 1.0 / (m.s * m.s);
-        const double f12 = m.f12 * std::sqrt(f11 * f22);
+        const double f12 = m.f12; // as the card gives it: the term 2 F12 s1 s2 of plyFailureIndex
         gradQ = {2.0 * f11 * s1 + 2.0 * f12 * s2, 2.0 * f22 * s2 + 2.0 * f12 * s1, 2.0 * f66 * t12};
         gradL = {1.0 / m.xt - 1.0 / xc, 1.0 / m.yt - 1.0 / yc, 0.0};
         hessQ = {2.0 * f11, 2.0 * f12, 0.0, 2.0 * f12, 2.0 * f22, 0.0, 0.0, 0.0, 2.0 * f66};

@@ -1,6 +1,7 @@
 #include "ConstraintDofs.hpp"
 
 #include "oor/analysis/validation/constraints/ConstraintChecks.hpp"
+#include "oor/model/cards/rigid_elements/rigidRod/RigidRodTable.hpp"
 
 #include <algorithm>
 #include <set>
@@ -16,6 +17,15 @@ namespace
 // RigidBodyStar makes the translation of A depend on B, another makes B depend on A). The degrees of freedom are the
 // vertices of a graph, each link of a rigid element an edge from the dependent degree of freedom to an independent one;
 // a link inside a strongly connected set of more than one vertex (or from a vertex to itself) closes a loop.
+//
+// A loop made of RigidRod links alone is not reported. A rod is one equation, (uB - uA) . (xB - xA) = 0, between the
+// translations of its two ends: its dependent translation is linked to the other translations of its own grid point,
+// so two rods that meet at a grid point with their dependent components there (component 1 for one, 2 for the other)
+// link each to the other, and so do the three rods of a triangle, while their equations are independent and solved
+// together for the dependent translations (two rods in different directions give two equations for the two
+// components). Whether a set of rod equations is singular depends on the directions of the rods, which a graph of
+// degrees of freedom does not hold. A rod in a loop with another rigid element is still reported: a rod between two
+// grid points of one rigid body repeats what the body already imposes.
 class RigidLoopCheck final : public ValidationCheck
 {
 public:
@@ -44,14 +54,25 @@ public:
         std::vector<int> size(count, 0);
         for (const int id : component)
             ++size[static_cast<std::size_t>(id)];
+        // The strongly connected sets that hold a link of a rigid element other than a RigidRod: the ones judged (see
+        // the comment of the class for the loops of rods alone).
+        const std::uint16_t rodType = model::typeIndexOf<model::RigidRodTable>();
+        std::vector<char> judged(count, 0);
+        for (const DofLink& each : links)
+        {
+            const int dependentSet = component[static_cast<std::size_t>(vertex.at(each.dependent))];
+            const int independentSet = component[static_cast<std::size_t>(vertex.at(each.independent))];
+            if (dependentSet == independentSet && each.where.table != rodType)
+                judged[static_cast<std::size_t>(dependentSet)] = 1;
+        }
         std::set<std::pair<std::uint32_t, std::uint32_t>> reported;
         for (const DofLink& each : links)
         {
             const int from = vertex.at(each.dependent);
             const int to = vertex.at(each.independent);
-            const bool loops =
-                component[static_cast<std::size_t>(from)] == component[static_cast<std::size_t>(to)] &&
-                (from == to || size[static_cast<std::size_t>(component[static_cast<std::size_t>(from)])] > 1);
+            const auto set = static_cast<std::size_t>(component[static_cast<std::size_t>(from)]);
+            const bool loops = component[static_cast<std::size_t>(from)] == component[static_cast<std::size_t>(to)] &&
+                               (from == to || size[set] > 1) && judged[set] != 0;
             if (!loops || !reported.emplace(each.where.table, each.where.row).second)
                 continue;
             sink.reportCard(each.where, "",

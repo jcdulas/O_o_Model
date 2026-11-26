@@ -12,7 +12,9 @@ namespace
 {
 
 // The dependent degree of freedom of an MPC equation (its first term) that another equation of the same set, or a rigid
-// element, also makes dependent.
+// element, also makes dependent. "The same set" is one selection of the Case Control (constraintSelections): the sets a
+// subcase selects through a MultiPointConstrUnion are one set, two sets that no subcase and no union puts together are
+// alternatives.
 class MpcDependentTwiceCheck final : public ValidationCheck
 {
 public:
@@ -25,14 +27,18 @@ public:
     void run(const ValidationContext& context, FindingSink& sink) const override
     {
         const model::Model& model = context.model();
+        const DofUsesBySet dependentBySet = mpcDependentDofsBySet(model);
+        if (dependentBySet.empty())
+            return;
         std::unordered_set<std::uint64_t> rigid;
         for (const DofUse& use : rigidDependentDofs(model))
             rigid.insert(use.key);
         std::set<std::pair<std::uint32_t, std::uint32_t>> reported;
-        for (const std::vector<base::EntityId>& sets : constraintSelections(model, model::MULTI_POINT_CONSTR_SELECTION))
+        for (const std::vector<base::EntityId>& sets :
+             constraintSelections(context.root(), model, model::MULTI_POINT_CONSTR_SELECTION))
         {
             std::unordered_map<std::uint64_t, model::CardLocation> first;
-            for (const DofUse& use : mpcDependentDofs(model, sets))
+            for (const DofUse& use : dofsOfSets(dependentBySet, sets))
             {
                 const auto [position, inserted] = first.emplace(use.key, use.where);
                 const bool twice = !inserted && !(position->second == use.where);

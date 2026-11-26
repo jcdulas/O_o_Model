@@ -171,7 +171,7 @@ private:
         info.name = "temperatureTable";
         info.family = "T8";
         info.description =
-            "The temperatures of the sets asked for, card the card type: NodeTemperatureLoad (a TEMP, a row for each "
+            "The temperatures of the sets asked for, card the card type: NodeTemperatureLoad (a row for each "
             "grid point), DefaultTemperatureLoad (a DefaultTemperatureLoad, the default, target default with no ID), "
             "PlateTemperatureLoad (a PlateTemperatureLoad, a row for each element it names, a THRU run giving the "
             "elements of the "

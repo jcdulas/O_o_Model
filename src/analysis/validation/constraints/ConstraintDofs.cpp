@@ -12,6 +12,7 @@
 #include "oor/model/cards/rigid_elements/rigidRod/RigidRodTable.hpp"
 
 #include <algorithm>
+#include <cstddef>
 
 namespace oor::analysis
 {
@@ -194,55 +195,99 @@ std::vector<DofLink> rigidDofLinks(const model::Model& model)
     return links;
 }
 
-std::vector<DofUse> mpcDependentDofs(const model::Model& model, const std::vector<base::EntityId>& sets)
+DofUsesBySet mpcDependentDofsBySet(const model::Model& model)
 {
-    std::vector<DofUse> dofs;
+    DofUsesBySet bySet;
     forEachCard<model::MultiPointConstrTable>(
         model,
         [&](const model::MultiPointConstrCard& card, model::CardLocation where)
         {
-            if (!std::ranges::binary_search(sets, card.id) || card.terms.empty())
+            if (card.terms.empty())
                 return;
             const model::MultiPointConstrTerm& dependent = card.terms.front();
-            dofs.push_back(DofUse{dofKey(dependent.node, static_cast<unsigned>(dependent.component)), where});
+            bySet[card.id].push_back(DofUse{dofKey(dependent.node, static_cast<unsigned>(dependent.component)), where});
         });
-    return dofs;
+    return bySet;
 }
 
-std::vector<DofUse> spcDofs(const model::Model& model, const std::vector<base::EntityId>& sets,
-                            const std::vector<base::EntityId>& nodes)
+namespace
 {
-    std::vector<DofUse> dofs;
-    forEachCard<model::SinglePointConstrTable>(model,
-                                               [&](const model::SinglePointConstrCard& card, model::CardLocation where)
-                                               {
-                                                   if (!std::ranges::binary_search(sets, card.id))
-                                                       return;
-                                                   appendDofs(card.nodes[0], card.components[0], where, dofs);
-                                                   if (card.hasSecondGroup())
-                                                       appendDofs(card.nodes[1], card.components[1], where, dofs);
-                                               });
+
+// Adds the degrees of freedom a component number names at a node to `out`, the ones in `wanted` only.
+void appendWantedDofs(base::EntityId node, std::int32_t components, model::CardLocation where,
+                      const std::unordered_set<std::uint64_t>& wanted, std::vector<DofUse>& out)
+{
+    const auto first = static_cast<std::ptrdiff_t>(out.size());
+    appendDofs(node, components, where, out);
+    const auto unwanted = std::remove_if(out.begin() + first, out.end(),
+                                         [&wanted](const DofUse& use) { return !wanted.contains(use.key); });
+    out.erase(unwanted, out.end());
+}
+
+} // namespace
+
+DofUsesBySet spcDofsBySet(const model::Model& model, const std::vector<base::EntityId>& nodes,
+                          const std::unordered_set<std::uint64_t>& wanted)
+{
+    DofUsesBySet bySet;
+    // The degrees of freedom of one card, then put with its set: a card that fixes nothing wanted adds no set.
+    std::vector<DofUse> ofCard;
+    const auto keep = [&](base::EntityId set)
+    {
+        if (!ofCard.empty())
+        {
+            std::vector<DofUse>& ofSet = bySet[set];
+            ofSet.insert(ofSet.end(), ofCard.begin(), ofCard.end());
+            ofCard.clear();
+        }
+    };
+    forEachCard<model::SinglePointConstrTable>(
+        model,
+        [&](const model::SinglePointConstrCard& card, model::CardLocation where)
+        {
+            appendWantedDofs(card.nodes[0], card.components[0], where, wanted, ofCard);
+            if (card.hasSecondGroup())
+                appendWantedDofs(card.nodes[1], card.components[1], where, wanted, ofCard);
+            keep(card.id);
+        });
     forEachCard<model::SinglePointConstrListTable>(
         model,
         [&](const model::SinglePointConstrListCard& card, model::CardLocation where)
         {
-            if (!std::ranges::binary_search(sets, card.id))
-                return;
             for (const model::NodeRun& run : card.nodes)
             {
                 // The grid points that exist in the run: the run names the ends, and the gaps
                 // between are skipped.
                 auto position = std::ranges::lower_bound(nodes, run.first);
                 for (; position != nodes.end() && *position <= std::max(run.first, run.last); ++position)
-                    appendDofs(*position, card.components, where, dofs);
+                    appendWantedDofs(*position, card.components, where, wanted, ofCard);
             }
+            keep(card.id);
         });
+    return bySet;
+}
+
+std::vector<DofUse> permanentConstraintDofs(const model::Model& model, const std::unordered_set<std::uint64_t>& wanted)
+{
+    std::vector<DofUse> dofs;
     forEachCard<model::NodeTable>(model,
                                   [&](const model::NodeCard& card, model::CardLocation where)
                                   {
                                       if (card.permanentConstraints > 0)
-                                          appendDofs(card.id, card.permanentConstraints, where, dofs);
+                                          appendWantedDofs(card.id, card.permanentConstraints, where, wanted, dofs);
                                   });
+    return dofs;
+}
+
+std::vector<DofUse> dofsOfSets(const DofUsesBySet& bySet, const std::vector<base::EntityId>& sets)
+{
+    std::vector<DofUse> dofs;
+    for (const base::EntityId set : sets)
+    {
+        const auto found = bySet.find(set);
+        if (found != bySet.end())
+            dofs.insert(dofs.end(), found->second.begin(), found->second.end());
+    }
     return dofs;
 }
 

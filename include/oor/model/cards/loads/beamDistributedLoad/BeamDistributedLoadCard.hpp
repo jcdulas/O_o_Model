@@ -40,8 +40,9 @@ enum class BarLoadScale : std::uint8_t
 //
 // Card layout: BeamDistributedLoad  SID  EID  TYPE  SCALE  X1  P1  X2  P2
 // A blank X2 is X1 (blank X2 or X2 = X1 is a concentrated load P1 at X1): X2 is stored resolved and
-// always written. A blank P2 stays blank on the card (written back blank): the solver reads it as 0 when X2 differs
-// from X1, a load that falls linearly from P1 to 0; effectiveP2() is the value the solver uses.
+// always written. A blank P2 stays blank on the card (written back blank) and is taken as P1, also when X2 is given:
+// a uniform load P1 from X1 to X2. A load that falls linearly from P1 to nothing is written with P2 = 0.
+// effectiveP2() is the value the loads are made with.
 struct BeamDistributedLoadCard
 {
     base::EntityId id = 0;
@@ -54,14 +55,9 @@ struct BeamDistributedLoadCard
     std::optional<double> pressure2; // none: the field is blank
 
     [[nodiscard]] bool isConcentrated() const noexcept { return xCoord2 == xCoord1; }
-    // The P2 the solver loads with: the value given, else P1 for a concentrated load (where it plays no part) and 0 for
-    // a distributed one.
-    [[nodiscard]] double effectiveP2() const noexcept
-    {
-        if (pressure2)
-            return *pressure2;
-        return isConcentrated() ? pressure1 : 0.0;
-    }
+    // The P2 the loads are made with: the value given, else P1 (a uniform load; at a concentrated load P2 plays no
+    // part).
+    [[nodiscard]] double effectiveP2() const noexcept { return pressure2.value_or(pressure1); }
     [[nodiscard]] bool isFractional() const noexcept
     {
         return scaleFactor == BarLoadScale::FR || scaleFactor == BarLoadScale::FRPR;

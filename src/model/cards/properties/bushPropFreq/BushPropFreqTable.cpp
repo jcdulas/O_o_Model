@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/base/text/TextUtilities.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <string>
 
@@ -149,7 +150,7 @@ std::optional<BushPropFreqCard> BushPropFreqFormat::read(FieldReader& reader)
                                      "forceDeflectionRule");
                 }
                 card.fuseMode = reader.integer(start + 3, "fuseMode", 0);
-                card.direction = base::sortedDigits(reader.integer(start + 4, "direction", 0));
+                card.direction = sortedDigitSet(reader, reader.integer(start + 4, "direction", 0), "direction");
                 if (const std::string_view option = reader.text(start + 5); !option.empty())
                 {
                     bool found = false;

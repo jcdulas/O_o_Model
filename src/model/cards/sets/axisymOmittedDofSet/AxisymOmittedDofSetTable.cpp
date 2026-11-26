@@ -2,6 +2,7 @@
 
 #include "oor/base/text/DigitSets.hpp"
 #include "oor/model/cards/explicit/ExplicitSupport.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <string>
 
@@ -36,7 +37,7 @@ std::optional<AxisymOmittedDofSetCard> AxisymOmittedDofSetFormat::read(FieldRead
         AxisymOmittedDofSetDof dof;
         dof.ring = reader.requiredInteger(field, "ringId");
         dof.harmonic = reader.requiredInteger(field + 1, "harmonicId");
-        dof.components = base::sortedDigits(reader.requiredInteger(field + 2, "components"));
+        dof.components = sortedDigitSet(reader, reader.requiredInteger(field + 2, "components"), "components");
         card.dofs.push_back(dof);
     }
     if (!reader.failed())

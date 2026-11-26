@@ -4,6 +4,7 @@
 #include "oor/base/text/TextUtilities.hpp"
 #include "oor/model/cards/matrices/MonitorPointFields.hpp"
 #include "oor/model/core/Model.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <cmath>
 #include <set>
@@ -23,7 +24,7 @@ std::optional<MonitorNodeForceSum3Card> MonitorNodeForceSum3Format::read(FieldRe
     MonitorNodeForceSum3Card card;
     card.name = std::string(reader.text(1));
     card.label = reader.spanText(2, 8);
-    card.outputAxes = base::sortedDigits(reader.requiredInteger(9, "outputAxes"));
+    card.outputAxes = sortedDigitSet(reader, reader.requiredInteger(9, "outputAxes"), "outputAxes");
     card.nodeSetId = reader.requiredInteger(10, "nodeSetId");
     card.elementSet = reader.integer(11, "elementSetId", 0);
     card.positionFrameId = reader.integer(12, "positionFrameId", 0);

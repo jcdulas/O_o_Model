@@ -1,6 +1,7 @@
 #include "oor/model/cards/constraints/enforcedMotionConstr/EnforcedMotionConstrTable.hpp"
 
 #include "oor/base/text/DigitSets.hpp"
+#include "oor/model/format/DigitSetField.hpp"
 
 #include <string>
 
@@ -12,13 +13,13 @@ std::optional<EnforcedMotionConstrCard> EnforcedMotionConstrFormat::read(FieldRe
     EnforcedMotionConstrCard card;
     card.id = reader.requiredInteger(1, "id");
     card.nodes[0] = reader.requiredInteger(2, "node1");
-    card.components[0] = base::sortedDigits(reader.integer(3, "components1", 0));
+    card.components[0] = sortedDigitSet(reader, reader.integer(3, "components1", 0), "components1");
     card.enforced[0] = reader.real(4, "enforcedValue1", 0.0);
     // The second group is there when any of its fields is.
     if (!reader.isBlank(5) || !reader.isBlank(6) || !reader.isBlank(7))
     {
         card.nodes[1] = reader.requiredInteger(5, "node2");
-        card.components[1] = base::sortedDigits(reader.integer(6, "components2", 0));
+        card.components[1] = sortedDigitSet(reader, reader.integer(6, "components2", 0), "components2");
         card.enforced[1] = reader.real(7, "enforcedValue2", 0.0);
     }
     if (!reader.failed())

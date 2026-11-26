@@ -25,7 +25,8 @@ struct ValidationOptions
     std::vector<std::string> ignore;
     // The findings below this severity are dropped.
     base::Severity minSeverity = base::Severity::Warning;
-    // geometry.coincident: grid points closer than this distance (in the units of the deck) coincide.
+    // geometry.coincident: grid points closer than this distance (in the units of the deck) coincide. Zero, a negative
+    // value or a value that is not a number: only the grid points at the same position coincide.
     double coincidentTolerance = 1.0e-6;
     const base::CancellationToken* token = nullptr;
 };

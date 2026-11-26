@@ -38,6 +38,7 @@ add_library(oor_model STATIC
     references/PartScopes.cpp
     references/ReferenceChecker.cpp
     references/Renumbering.cpp
+    references/SetMemberUses.cpp
     parameters/ParameterCatalogue.cpp
     parameters/ParameterCatalogueData.cpp
     parameters/ParameterValues.cpp

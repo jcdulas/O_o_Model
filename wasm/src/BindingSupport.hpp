@@ -1,10 +1,15 @@
 #pragma once
 #include "oor/api/CardEdits.hpp"
+#include "oor/base/errors/Errors.hpp"
 
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
 
+#include <cmath>
+#include <cstdint>
 #include <exception>
+#include <limits>
+#include <string>
 #include <vector>
 
 namespace oor::wasm
@@ -27,6 +32,47 @@ auto guarded(Work work) -> decltype(work())
         val::global("Error").new_(std::string("unknown C++ error")).throw_();
     }
     __builtin_unreachable();
+}
+
+// A whole number given by JavaScript, checked before it is narrowed: a number of JavaScript is a double, and the
+// conversion of the interface to an integer drops a fraction without a word (the card 1.9 would be the card 1, the
+// table -1 the table 0). Throws UsageError saying what `what` must be; call it inside guarded().
+inline double wholeNumber(double value, double lowest, double highest, const char* what)
+{
+    if (!std::isfinite(value) || std::floor(value) != value || value < lowest || value > highest)
+        throw base::UsageError(std::string(what) + " must be a whole number from " +
+                               std::to_string(static_cast<std::int64_t>(lowest)) + " to " +
+                               std::to_string(static_cast<std::int64_t>(highest)));
+    return value;
+}
+
+// The largest whole number a number of JavaScript holds exactly (2^53 - 1).
+inline constexpr double MAX_SAFE_INTEGER = 9007199254740991.0;
+
+// The ID of a card (any 32-bit integer: an ID no card has is simply not found).
+inline base::EntityId entityIdOf(double value)
+{
+    return static_cast<base::EntityId>(wholeNumber(value, std::numeric_limits<base::EntityId>::min(),
+                                                   std::numeric_limits<base::EntityId>::max(), "a card ID"));
+}
+
+// The key of a card, of a Case Control section or of one of its entries.
+inline std::uint32_t keyOf(double value)
+{
+    return static_cast<std::uint32_t>(
+        wholeNumber(value, 0.0, std::numeric_limits<std::uint32_t>::max(), "a card or case key"));
+}
+
+// The number of a field of a card, from 1.
+inline int fieldNumberOf(double value)
+{
+    return static_cast<int>(wholeNumber(value, 1.0, std::numeric_limits<int>::max(), "a field number"));
+}
+
+// The position of a table or of a named result in its list, from 0.
+inline std::size_t listIndexOf(double value, const char* what)
+{
+    return static_cast<std::size_t>(wholeNumber(value, 0.0, MAX_SAFE_INTEGER, what));
 }
 
 // A member of a JavaScript options object, or `fallback` when the object or the member is missing.

@@ -161,6 +161,8 @@ export interface Deck {
   diagnostics(): Diagnostic[];
 
   // ---- cards by ID ("source": "nodes", "elements", "properties", "materials", "coordinates" or a card type)
+  // An ID, a key and a field number are whole numbers: a fraction, NaN or a value beyond 32 bits throws an Error and is
+  // never rounded to the ID of another card.
   readonly nodes: CardsById;      // each node also has xyzGlobal, its position in the basic system
   readonly elements: CardsById;
   readonly properties: CardsById;
@@ -274,6 +276,7 @@ export interface Results {
   };
   diagnostics(): Diagnostic[];
   tables(): TableDescription[];
+  // `index` is the position of the table in tables(), a whole number from 0: a negative or fractional one throws.
   read(index: number, selection?: TableSelection): TableValues;
   attach(deck: Deck, strict: boolean): void;
   hasModel(): boolean;

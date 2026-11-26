@@ -1,6 +1,5 @@
 #include "oor/model/control/case_control/CaseSet.hpp"
 
-#include "oor/base/ids/IdRangeExpansion.hpp"
 #include "oor/base/text/NumberFormatter.hpp"
 #include "oor/base/text/NumberParser.hpp"
 #include "oor/base/text/TextUtilities.hpp"
@@ -133,8 +132,12 @@ private:
                 problem = std::to_string(*low) + " Through " + std::to_string(high) + " is not an ascending range";
                 return false;
             }
-            const std::uint64_t count = base::idRangeCount(*low, high, step);
-            if (count > CaseSet::MAX_MEMBERS || m_members.size() + count > CaseSet::MAX_MEMBERS)
+            // The steps from the first ID to the last (the range ascends, so the unsigned difference is exact for any
+            // 64-bit ends), compared with the limit before the first ID is counted: a range over every 64-bit
+            // integer has 2^64 members, a count that wraps to 0 and would pass.
+            const std::uint64_t steps = (static_cast<std::uint64_t>(high) - static_cast<std::uint64_t>(*low)) /
+                                        static_cast<std::uint64_t>(step);
+            if (steps >= CaseSet::MAX_MEMBERS || m_members.size() + steps + 1 > CaseSet::MAX_MEMBERS)
             {
                 problem = "the set has more than " + std::to_string(CaseSet::MAX_MEMBERS) + " members";
                 return false;
@@ -317,7 +320,10 @@ std::vector<std::string> CaseSet::items() const
         while (first < integers.size())
         {
             std::size_t last = first;
-            while (last + 1 < integers.size() && integers[last + 1] == integers[last] + 1)
+            // A run goes on while the next member is the next integer; the largest integer has none (and adding 1
+            // to it would overflow).
+            while (last + 1 < integers.size() && integers[last] < std::numeric_limits<std::int64_t>::max() &&
+                   integers[last + 1] == integers[last] + 1)
                 ++last;
             if (last - first >= 2)
             {
