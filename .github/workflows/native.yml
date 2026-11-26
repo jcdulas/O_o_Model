@@ -23,13 +23,25 @@ jobs:
       - name: Install build and client dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ninja-build libhdf5-dev zlib1g-dev
+          sudo apt-get install -y ninja-build zlib1g-dev
           python -m pip install pybind11 pyarrow oo-solver==0.2.2
+      - name: Restore libhdf5
+        # The archive adapter needs HDF5 1.12 or later and the distribution packages 1.10: the library is built from
+        # its sources, the version of the Python wheels. It changes only with its build script.
+        id: hdf5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/hdf5
+          key: hdf5-linux-ubuntu-24.04-${{ hashFiles('scripts/build_hdf5_linux.sh') }}
+      - name: Build libhdf5
+        if: steps.hdf5.outputs.cache-hit != 'true'
+        run: bash scripts/build_hdf5_linux.sh "$RUNNER_TEMP/hdf5"
       - name: Build the candidate Model and reference Solver
         run: |
           cmake -S tests/clients -B build/clients -G Ninja -DCMAKE_BUILD_TYPE=Release \
             -DSOLVER_SOURCE="$PWD/external/solver" -DOOS_WARNINGS_AS_ERRORS=OFF \
-            -DOOR_BUILD_PYTHON=ON -DPython_EXECUTABLE="$(which python)"
+            -DOOR_BUILD_PYTHON=ON -DPython_EXECUTABLE="$(which python)" \
+            -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/hdf5"
           cmake --build build/clients --parallel 3
       - name: Run native tests and inspect module dependencies
         run: |
